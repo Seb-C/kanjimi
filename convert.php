@@ -1,10 +1,11 @@
 <?php
 
+@unlink('./out/Dictionary.db');
+$db = new PDO('sqlite:./out/Dictionary.db');
+
 $xml = new XMLReader();
 $xml->open('./xml/Dictionary.xml');
 
-@unlink('./out/Dictionary.db');
-$db = new PDO('sqlite:./out/Dictionary.db');
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 function sql($str, $params = []) {
     $params2 = [];
@@ -20,198 +21,209 @@ function lastId() {
     return $db->lastInsertId();
 }
 
-$db->exec("CREATE TABLE tags (
-    id INTEGER PRIMARY KEY,
-    tag TEXT,
-    description TEXT
-);");
+sql("CREATE TABLE tags (id INTEGER PRIMARY KEY, tag TEXT, description TEXT);");
 
 $tags = [];
 function getTag($node) {
+    global $tags;
     $child = $node->childNodes[0];
     if ($child instanceof DOMEntityReference) {
-        return $child->nodeName;
+        return $tags[$child->nodeName];
     } else {
-        return $node->nodeValue;
+        die('err');
     }
 }
-$addTag = function ($tag, $description) use ($tags) {
+function addTag ($tag, $description) {
+    global $tags;
     sql('INSERT INTO tags VALUES (null, :tag, :description)', compact('tag', 'description'));
     $tags[$tag] = lastId();
 };
 
-$addTag('MA', "martial arts term");
-$addTag('X', "rude or X-rated term (not displayed in educational software)");
-$addTag('abbr', "abbreviation");
-$addTag('adj-i', "adjective (keiyoushi)");
-$addTag('adj-ix', "adjective (keiyoushi) - yoi/ii class");
-$addTag('adj-na', "adjectival nouns or quasi-adjectives (keiyodoshi)");
-$addTag('adj-no', "nouns which may take the genitive case particle `no'");
-$addTag('adj-pn', "pre-noun adjectival (rentaishi)");
-$addTag('adj-t', "`taru' adjective");
-$addTag('adj-f', "noun or verb acting prenominally");
-$addTag('adv', "adverb (fukushi)");
-$addTag('adv-to', "adverb taking the `to' particle");
-$addTag('arch', "archaism");
-$addTag('ateji', "ateji (phonetic) reading");
-$addTag('aux', "auxiliary");
-$addTag('aux-v', "auxiliary verb");
-$addTag('aux-adj', "auxiliary adjective");
-$addTag('Buddh', "Buddhist term");
-$addTag('chem', "chemistry term");
-$addTag('chn', "children's language");
-$addTag('col', "colloquialism");
-$addTag('comp', "computer terminology");
-$addTag('conj', "conjunction");
-$addTag('cop-da', "copula");
-$addTag('ctr', "counter");
-$addTag('derog', "derogatory");
-$addTag('eK', "exclusively kanji");
-$addTag('ek', "exclusively kana");
-$addTag('exp', "expressions (phrases, clauses, etc.)");
-$addTag('fam', "familiar language");
-$addTag('fem', "female term or language");
-$addTag('food', "food term");
-$addTag('geom', "geometry term");
-$addTag('gikun', "gikun (meaning as reading) or jukujikun (special kanji reading)");
-$addTag('hon', "honorific or respectful (sonkeigo) language");
-$addTag('hum', "humble (kenjougo) language");
-$addTag('iK', "word containing irregular kanji usage");
-$addTag('id', "idiomatic expression");
-$addTag('ik', "word containing irregular kana usage");
-$addTag('int', "interjection (kandoushi)");
-$addTag('io', "irregular okurigana usage");
-$addTag('iv', "irregular verb");
-$addTag('ling', "linguistics terminology");
-$addTag('m-sl', "manga slang");
-$addTag('male', "male term or language");
-$addTag('male-sl', "male slang");
-$addTag('math', "mathematics");
-$addTag('mil', "military");
-$addTag('n', "noun (common) (futsuumeishi)");
-$addTag('n-adv', "adverbial noun (fukushitekimeishi)");
-$addTag('n-suf', "noun, used as a suffix");
-$addTag('n-pref', "noun, used as a prefix");
-$addTag('n-t', "noun (temporal) (jisoumeishi)");
-$addTag('num', "numeric");
-$addTag('oK', "word containing out-dated kanji");
-$addTag('obs', "obsolete term");
-$addTag('obsc', "obscure term");
-$addTag('ok', "out-dated or obsolete kana usage");
-$addTag('oik', "old or irregular kana form");
-$addTag('on-mim', "onomatopoeic or mimetic word");
-$addTag('pn', "pronoun");
-$addTag('poet', "poetical term");
-$addTag('pol', "polite (teineigo) language");
-$addTag('pref', "prefix");
-$addTag('proverb', "proverb");
-$addTag('prt', "particle");
-$addTag('physics', "physics terminology");
-$addTag('rare', "rare");
-$addTag('sens', "sensitive");
-$addTag('sl', "slang");
-$addTag('suf', "suffix");
-$addTag('uK', "word usually written using kanji alone");
-$addTag('uk', "word usually written using kana alone");
-$addTag('unc', "unclassified");
-$addTag('yoji', "yojijukugo");
-$addTag('v1', "Ichidan verb");
-$addTag('v1-s', "Ichidan verb - kureru special class");
-$addTag('v2a-s', "Nidan verb with 'u' ending (archaic)");
-$addTag('v4h', "Yodan verb with `hu/fu' ending (archaic)");
-$addTag('v4r', "Yodan verb with `ru' ending (archaic)");
-$addTag('v5aru', "Godan verb - -aru special class");
-$addTag('v5b', "Godan verb with `bu' ending");
-$addTag('v5g', "Godan verb with `gu' ending");
-$addTag('v5k', "Godan verb with `ku' ending");
-$addTag('v5k-s', "Godan verb - Iku/Yuku special class");
-$addTag('v5m', "Godan verb with `mu' ending");
-$addTag('v5n', "Godan verb with `nu' ending");
-$addTag('v5r', "Godan verb with `ru' ending");
-$addTag('v5r-i', "Godan verb with `ru' ending (irregular verb)");
-$addTag('v5s', "Godan verb with `su' ending");
-$addTag('v5t', "Godan verb with `tsu' ending");
-$addTag('v5u', "Godan verb with `u' ending");
-$addTag('v5u-s', "Godan verb with `u' ending (special class)");
-$addTag('v5uru', "Godan verb - Uru old class verb (old form of Eru)");
-$addTag('vz', "Ichidan verb - zuru verb (alternative form of -jiru verbs)");
-$addTag('vi', "intransitive verb");
-$addTag('vk', "Kuru verb - special class");
-$addTag('vn', "irregular nu verb");
-$addTag('vr', "irregular ru verb, plain form ends with -ri");
-$addTag('vs', "noun or participle which takes the aux. verb suru");
-$addTag('vs-c', "su verb - precursor to the modern suru");
-$addTag('vs-s', "suru verb - special class");
-$addTag('vs-i', "suru verb - irregular");
-$addTag('kyb', "Kyoto-ben");
-$addTag('osb', "Osaka-ben");
-$addTag('ksb', "Kansai-ben");
-$addTag('ktb', "Kantou-ben");
-$addTag('tsb', "Tosa-ben");
-$addTag('thb', "Touhoku-ben");
-$addTag('tsug', "Tsugaru-ben");
-$addTag('kyu', "Kyuushuu-ben");
-$addTag('rkb', "Ryuukyuu-ben");
-$addTag('nab', "Nagano-ben");
-$addTag('hob', "Hokkaido-ben");
-$addTag('vt', "transitive verb");
-$addTag('vulg', "vulgar expression or word");
-$addTag('adj-kari', "`kari' adjective (archaic)");
-$addTag('adj-ku', "`ku' adjective (archaic)");
-$addTag('adj-shiku', "`shiku' adjective (archaic)");
-$addTag('adj-nari', "archaic/formal form of na-adjective");
-$addTag('n-pr', "proper noun");
-$addTag('v-unspec', "verb unspecified");
-$addTag('v4k', "Yodan verb with `ku' ending (archaic)");
-$addTag('v4g', "Yodan verb with `gu' ending (archaic)");
-$addTag('v4s', "Yodan verb with `su' ending (archaic)");
-$addTag('v4t', "Yodan verb with `tsu' ending (archaic)");
-$addTag('v4n', "Yodan verb with `nu' ending (archaic)");
-$addTag('v4b', "Yodan verb with `bu' ending (archaic)");
-$addTag('v4m', "Yodan verb with `mu' ending (archaic)");
-$addTag('v2k-k', "Nidan verb (upper class) with `ku' ending (archaic)");
-$addTag('v2g-k', "Nidan verb (upper class) with `gu' ending (archaic)");
-$addTag('v2t-k', "Nidan verb (upper class) with `tsu' ending (archaic)");
-$addTag('v2d-k', "Nidan verb (upper class) with `dzu' ending (archaic)");
-$addTag('v2h-k', "Nidan verb (upper class) with `hu/fu' ending (archaic)");
-$addTag('v2b-k', "Nidan verb (upper class) with `bu' ending (archaic)");
-$addTag('v2m-k', "Nidan verb (upper class) with `mu' ending (archaic)");
-$addTag('v2y-k', "Nidan verb (upper class) with `yu' ending (archaic)");
-$addTag('v2r-k', "Nidan verb (upper class) with `ru' ending (archaic)");
-$addTag('v2k-s', "Nidan verb (lower class) with `ku' ending (archaic)");
-$addTag('v2g-s', "Nidan verb (lower class) with `gu' ending (archaic)");
-$addTag('v2s-s', "Nidan verb (lower class) with `su' ending (archaic)");
-$addTag('v2z-s', "Nidan verb (lower class) with `zu' ending (archaic)");
-$addTag('v2t-s', "Nidan verb (lower class) with `tsu' ending (archaic)");
-$addTag('v2d-s', "Nidan verb (lower class) with `dzu' ending (archaic)");
-$addTag('v2n-s', "Nidan verb (lower class) with `nu' ending (archaic)");
-$addTag('v2h-s', "Nidan verb (lower class) with `hu/fu' ending (archaic)");
-$addTag('v2b-s', "Nidan verb (lower class) with `bu' ending (archaic)");
-$addTag('v2m-s', "Nidan verb (lower class) with `mu' ending (archaic)");
-$addTag('v2y-s', "Nidan verb (lower class) with `yu' ending (archaic)");
-$addTag('v2r-s', "Nidan verb (lower class) with `ru' ending (archaic)");
-$addTag('v2w-s', "Nidan verb (lower class) with `u' ending and `we' conjugation (archaic)");
-$addTag('archit', "architecture term");
-$addTag('astron', "astronomy, etc. term");
-$addTag('baseb', "baseball term");
-$addTag('biol', "biology term");
-$addTag('bot', "botany term");
-$addTag('bus', "business term");
-$addTag('econ', "economics term");
-$addTag('engr', "engineering term");
-$addTag('finc', "finance term");
-$addTag('geol', "geology, etc. term");
-$addTag('law', "law, etc. term");
-$addTag('mahj', "mahjong term");
-$addTag('med', "medicine, etc. term");
-$addTag('music', "music term");
-$addTag('Shinto', "Shinto term");
-$addTag('shogi', "shogi term");
-$addTag('sports', "sports term");
-$addTag('sumo', "sumo term");
-$addTag('zool', "zoology term");
-$addTag('joc', "jocular, humorous term");
-$addTag('anat', "anatomical term");
+addTag('MA', "martial arts term");
+addTag('X', "rude or X-rated term (not displayed in educational software)");
+addTag('abbr', "abbreviation");
+addTag('adj-i', "adjective (keiyoushi)");
+addTag('adj-ix', "adjective (keiyoushi) - yoi/ii class");
+addTag('adj-na', "adjectival nouns or quasi-adjectives (keiyodoshi)");
+addTag('adj-no', "nouns which may take the genitive case particle `no'");
+addTag('adj-pn', "pre-noun adjectival (rentaishi)");
+addTag('adj-t', "`taru' adjective");
+addTag('adj-f', "noun or verb acting prenominally");
+addTag('adv', "adverb (fukushi)");
+addTag('adv-to', "adverb taking the `to' particle");
+addTag('arch', "archaism");
+addTag('ateji', "ateji (phonetic) reading");
+addTag('aux', "auxiliary");
+addTag('aux-v', "auxiliary verb");
+addTag('aux-adj', "auxiliary adjective");
+addTag('Buddh', "Buddhist term");
+addTag('chem', "chemistry term");
+addTag('chn', "children's language");
+addTag('col', "colloquialism");
+addTag('comp', "computer terminology");
+addTag('conj', "conjunction");
+addTag('cop-da', "copula");
+addTag('ctr', "counter");
+addTag('derog', "derogatory");
+addTag('eK', "exclusively kanji");
+addTag('ek', "exclusively kana");
+addTag('exp', "expressions (phrases, clauses, etc.)");
+addTag('fam', "familiar language");
+addTag('fem', "female term or language");
+addTag('food', "food term");
+addTag('geom', "geometry term");
+addTag('gikun', "gikun (meaning as reading) or jukujikun (special kanji reading)");
+addTag('hon', "honorific or respectful (sonkeigo) language");
+addTag('hum', "humble (kenjougo) language");
+addTag('iK', "word containing irregular kanji usage");
+addTag('id', "idiomatic expression");
+addTag('ik', "word containing irregular kana usage");
+addTag('int', "interjection (kandoushi)");
+addTag('io', "irregular okurigana usage");
+addTag('iv', "irregular verb");
+addTag('ling', "linguistics terminology");
+addTag('m-sl', "manga slang");
+addTag('male', "male term or language");
+addTag('male-sl', "male slang");
+addTag('math', "mathematics");
+addTag('mil', "military");
+addTag('n', "noun (common) (futsuumeishi)");
+addTag('n-adv', "adverbial noun (fukushitekimeishi)");
+addTag('n-suf', "noun, used as a suffix");
+addTag('n-pref', "noun, used as a prefix");
+addTag('n-t', "noun (temporal) (jisoumeishi)");
+addTag('num', "numeric");
+addTag('oK', "word containing out-dated kanji");
+addTag('obs', "obsolete term");
+addTag('obsc', "obscure term");
+addTag('ok', "out-dated or obsolete kana usage");
+addTag('oik', "old or irregular kana form");
+addTag('on-mim', "onomatopoeic or mimetic word");
+addTag('pn', "pronoun");
+addTag('poet', "poetical term");
+addTag('pol', "polite (teineigo) language");
+addTag('pref', "prefix");
+addTag('proverb', "proverb");
+addTag('prt', "particle");
+addTag('physics', "physics terminology");
+addTag('rare', "rare");
+addTag('sens', "sensitive");
+addTag('sl', "slang");
+addTag('suf', "suffix");
+addTag('uK', "word usually written using kanji alone");
+addTag('uk', "word usually written using kana alone");
+addTag('unc', "unclassified");
+addTag('yoji', "yojijukugo");
+addTag('v1', "Ichidan verb");
+addTag('v1-s', "Ichidan verb - kureru special class");
+addTag('v2a-s', "Nidan verb with 'u' ending (archaic)");
+addTag('v4h', "Yodan verb with `hu/fu' ending (archaic)");
+addTag('v4r', "Yodan verb with `ru' ending (archaic)");
+addTag('v5aru', "Godan verb - -aru special class");
+addTag('v5b', "Godan verb with `bu' ending");
+addTag('v5g', "Godan verb with `gu' ending");
+addTag('v5k', "Godan verb with `ku' ending");
+addTag('v5k-s', "Godan verb - Iku/Yuku special class");
+addTag('v5m', "Godan verb with `mu' ending");
+addTag('v5n', "Godan verb with `nu' ending");
+addTag('v5r', "Godan verb with `ru' ending");
+addTag('v5r-i', "Godan verb with `ru' ending (irregular verb)");
+addTag('v5s', "Godan verb with `su' ending");
+addTag('v5t', "Godan verb with `tsu' ending");
+addTag('v5u', "Godan verb with `u' ending");
+addTag('v5u-s', "Godan verb with `u' ending (special class)");
+addTag('v5uru', "Godan verb - Uru old class verb (old form of Eru)");
+addTag('vz', "Ichidan verb - zuru verb (alternative form of -jiru verbs)");
+addTag('vi', "intransitive verb");
+addTag('vk', "Kuru verb - special class");
+addTag('vn', "irregular nu verb");
+addTag('vr', "irregular ru verb, plain form ends with -ri");
+addTag('vs', "noun or participle which takes the aux. verb suru");
+addTag('vs-c', "su verb - precursor to the modern suru");
+addTag('vs-s', "suru verb - special class");
+addTag('vs-i', "suru verb - irregular");
+addTag('kyb', "Kyoto-ben");
+addTag('osb', "Osaka-ben");
+addTag('ksb', "Kansai-ben");
+addTag('ktb', "Kantou-ben");
+addTag('tsb', "Tosa-ben");
+addTag('thb', "Touhoku-ben");
+addTag('tsug', "Tsugaru-ben");
+addTag('kyu', "Kyuushuu-ben");
+addTag('rkb', "Ryuukyuu-ben");
+addTag('nab', "Nagano-ben");
+addTag('hob', "Hokkaido-ben");
+addTag('vt', "transitive verb");
+addTag('vulg', "vulgar expression or word");
+addTag('adj-kari', "`kari' adjective (archaic)");
+addTag('adj-ku', "`ku' adjective (archaic)");
+addTag('adj-shiku', "`shiku' adjective (archaic)");
+addTag('adj-nari', "archaic/formal form of na-adjective");
+addTag('n-pr', "proper noun");
+addTag('v-unspec', "verb unspecified");
+addTag('v4k', "Yodan verb with `ku' ending (archaic)");
+addTag('v4g', "Yodan verb with `gu' ending (archaic)");
+addTag('v4s', "Yodan verb with `su' ending (archaic)");
+addTag('v4t', "Yodan verb with `tsu' ending (archaic)");
+addTag('v4n', "Yodan verb with `nu' ending (archaic)");
+addTag('v4b', "Yodan verb with `bu' ending (archaic)");
+addTag('v4m', "Yodan verb with `mu' ending (archaic)");
+addTag('v2k-k', "Nidan verb (upper class) with `ku' ending (archaic)");
+addTag('v2g-k', "Nidan verb (upper class) with `gu' ending (archaic)");
+addTag('v2t-k', "Nidan verb (upper class) with `tsu' ending (archaic)");
+addTag('v2d-k', "Nidan verb (upper class) with `dzu' ending (archaic)");
+addTag('v2h-k', "Nidan verb (upper class) with `hu/fu' ending (archaic)");
+addTag('v2b-k', "Nidan verb (upper class) with `bu' ending (archaic)");
+addTag('v2m-k', "Nidan verb (upper class) with `mu' ending (archaic)");
+addTag('v2y-k', "Nidan verb (upper class) with `yu' ending (archaic)");
+addTag('v2r-k', "Nidan verb (upper class) with `ru' ending (archaic)");
+addTag('v2k-s', "Nidan verb (lower class) with `ku' ending (archaic)");
+addTag('v2g-s', "Nidan verb (lower class) with `gu' ending (archaic)");
+addTag('v2s-s', "Nidan verb (lower class) with `su' ending (archaic)");
+addTag('v2z-s', "Nidan verb (lower class) with `zu' ending (archaic)");
+addTag('v2t-s', "Nidan verb (lower class) with `tsu' ending (archaic)");
+addTag('v2d-s', "Nidan verb (lower class) with `dzu' ending (archaic)");
+addTag('v2n-s', "Nidan verb (lower class) with `nu' ending (archaic)");
+addTag('v2h-s', "Nidan verb (lower class) with `hu/fu' ending (archaic)");
+addTag('v2b-s', "Nidan verb (lower class) with `bu' ending (archaic)");
+addTag('v2m-s', "Nidan verb (lower class) with `mu' ending (archaic)");
+addTag('v2y-s', "Nidan verb (lower class) with `yu' ending (archaic)");
+addTag('v2r-s', "Nidan verb (lower class) with `ru' ending (archaic)");
+addTag('v2w-s', "Nidan verb (lower class) with `u' ending and `we' conjugation (archaic)");
+addTag('archit', "architecture term");
+addTag('astron', "astronomy, etc. term");
+addTag('baseb', "baseball term");
+addTag('biol', "biology term");
+addTag('bot', "botany term");
+addTag('bus', "business term");
+addTag('econ', "economics term");
+addTag('engr', "engineering term");
+addTag('finc', "finance term");
+addTag('geol', "geology, etc. term");
+addTag('law', "law, etc. term");
+addTag('mahj', "mahjong term");
+addTag('med', "medicine, etc. term");
+addTag('music', "music term");
+addTag('Shinto', "Shinto term");
+addTag('shogi', "shogi term");
+addTag('sports', "sports term");
+addTag('sumo', "sumo term");
+addTag('zool', "zoology term");
+addTag('joc', "jocular, humorous term");
+addTag('anat', "anatomical term");
+
+// TODO finish inserting the required data
+// TODO set the proper types for columns
+// TODO add relationships between tables and check integrity
+// TODO add primary keys (doubles)
+// TODO clean some useless or non well-formatted data
+// TODO convert some strings in enums
+// TODO detect tags automatically from the DTD?
+
+sql("CREATE TABLE ref (ref INTEGER PRIMARY KEY);");
+sql("CREATE TABLE word (id INTEGER PRIMARY KEY, ref INTEGER, writing TEXT);");
+sql("CREATE TABLE word_tag (word_id INTEGER, tag_id INTEGER);");
+sql("CREATE TABLE word_frequency (word_id INTEGER, frequency TEXT);");
 
 // move to the first node
 while ($xml->read() && $xml->name !== 'entry');
@@ -219,31 +231,23 @@ while ($xml->read() && $xml->name !== 'entry');
 while($xml->name === 'entry') {
     $entry = $xml->expand();
 
-    $data = [
-        'id' => null,
-        'words' => [],
-        'readings' => [],
-        'meaning' => [],
-    ];
-
-    $data['id'] = $entry->getElementsByTagName('ent_seq')[0]->nodeValue;
+    $id = $entry->getElementsByTagName('ent_seq')[0]->nodeValue;
+    sql("INSERT INTO ref VALUES(:id);", compact('id'));
 
     foreach ($entry->getElementsByTagName('k_ele') as $k) {
-        $kData = [
-            'writing' => $k->getElementsByTagName('keb')[0]->nodeValue,
-            'tags' => [],
-            'frequency' => [],
-        ];
+        $writing = $k->getElementsByTagName('keb')[0]->nodeValue;
+        sql("INSERT INTO word VALUES(NULL, :id, :writing);", compact('id', 'writing'));
+        $word_id = lastId();
 
         foreach ($k->getElementsByTagName('ke_inf') as $x) {
-            $kData['tags'][] = getTag($x);
+            $tag_id = getTag($x);
+            sql("INSERT INTO word_tag VALUES(:word_id, :tag_id);", compact('word_id', 'tag_id'));
         }
 
         foreach ($k->getElementsByTagName('ke_pri') as $x) {
-            $kData['frequency'][] = $x->nodeValue;
+            $frequency = $x->nodeValue;
+            sql("INSERT INTO word_frequency VALUES(:word_id, :frequency);", compact('word_id', 'frequency'));
         }
-
-        $data['words'][] = $kData;
     }
 
     foreach ($entry->getElementsByTagName('r_ele') as $r) {
@@ -337,8 +341,6 @@ while($xml->name === 'entry') {
 
         $data['meaning'][] = $senseData;
     }
-
-//    echo json_encode($data, JSON_PRETTY_PRINT);
 
     $xml->next('entry');
 }

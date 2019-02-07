@@ -3,6 +3,29 @@
 $xml = new XMLReader();
 $xml->open('./xml/Dictionary.xml');
 
+@unlink('./out/Dictionary.db');
+$db = new PDO('sqlite:./out/Dictionary.db');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+function sql($str, $params = []) {
+    $params2 = [];
+    foreach ($params AS $k => $v) {
+        $params2[':'.$k] = $v;
+    }
+
+    global $db;
+    return $db->prepare($str)->execute($params2);
+}
+function lastId() {
+    global $db;
+    return $db->lastInsertId();
+}
+
+$db->exec("CREATE TABLE tags (
+    id INTEGER PRIMARY KEY,
+    tag TEXT,
+    description TEXT
+);");
+
 $tags = [];
 function getTag($node) {
     $child = $node->childNodes[0];
@@ -13,7 +36,8 @@ function getTag($node) {
     }
 }
 $addTag = function ($tag, $description) use ($tags) {
-    $tags[$tag] = $description; // TODO put in database + save id here
+    sql('INSERT INTO tags VALUES (null, :tag, :description)', compact('tag', 'description'));
+    $tags[$tag] = lastId();
 };
 
 $addTag('MA', "martial arts term");
@@ -197,15 +221,12 @@ while($xml->name === 'entry') {
 
     $data = [
         'id' => null,
-        'kanjis' => [],
+        'words' => [],
         'readings' => [],
-        'sense' => [],
+        'meaning' => [],
     ];
 
-    $entSeq = $entry->getElementsByTagName('ent_seq')[0];
-    if (!empty($entSeq)) {
-        $data['id'] = $entSeq->nodeValue;
-    }
+    $data['id'] = $entry->getElementsByTagName('ent_seq')[0]->nodeValue;
 
     foreach ($entry->getElementsByTagName('k_ele') as $k) {
         $kData = [
@@ -222,7 +243,7 @@ while($xml->name === 'entry') {
             $kData['frequency'][] = $x->nodeValue;
         }
 
-        $data['kanjis'][] = $kData;
+        $data['words'][] = $kData;
     }
 
     foreach ($entry->getElementsByTagName('r_ele') as $r) {
@@ -314,10 +335,10 @@ while($xml->name === 'entry') {
             ];
         }
 
-        $data['sense'][] = $senseData;
+        $data['meaning'][] = $senseData;
     }
 
-    echo json_encode($data, JSON_PRETTY_PRINT);
+//    echo json_encode($data, JSON_PRETTY_PRINT);
 
     $xml->next('entry');
 }

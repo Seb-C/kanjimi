@@ -39,6 +39,7 @@ function addTag ($tag, $description) {
     $tags[$tag] = lastId();
 };
 
+// TODO tag "quote" missing?
 addTag('MA', "martial arts term");
 addTag('X', "rude or X-rated term (not displayed in educational software)");
 addTag('abbr', "abbreviation");
@@ -212,7 +213,7 @@ addTag('zool', "zoology term");
 addTag('joc', "jocular, humorous term");
 addTag('anat', "anatomical term");
 
-// TODO finish inserting the required data
+// TODO db camel case
 // TODO set the proper types for columns
 // TODO add relationships between tables and check integrity
 // TODO add primary keys (doubles)
@@ -221,9 +222,30 @@ addTag('anat', "anatomical term");
 // TODO detect tags automatically from the DTD?
 
 sql("CREATE TABLE ref (ref INTEGER PRIMARY KEY);");
+
 sql("CREATE TABLE word (id INTEGER PRIMARY KEY, ref INTEGER, writing TEXT);");
 sql("CREATE TABLE word_tag (word_id INTEGER, tag_id INTEGER);");
-sql("CREATE TABLE word_frequency (word_id INTEGER, frequency TEXT);");
+sql("CREATE TABLE word_frequency (id INTEGER PRIMARY KEY, word_id INTEGER, frequency TEXT);");
+
+sql("CREATE TABLE reading (id INTEGER PRIMARY KEY, reading TEXT, trueReading INTEGER);");
+sql("CREATE TABLE reading_word (reading_id INTEGER, word_id INTEGER);");
+sql("CREATE TABLE reading_tag (reading_id INTEGER, tag_id INTEGER);");
+sql("CREATE TABLE reading_frequency (id INTEGER PRIMARY KEY, reading_id INTEGER, frequency TEXT);");
+
+sql("CREATE TABLE sense (id INTEGER PRIMARY KEY, info TEXT);");
+sql("CREATE TABLE sense_word (sense_id INTEGER, word_id INTEGER);");
+sql("CREATE TABLE sense_reading (sense_id INTEGER, reading_id INTEGER);");
+sql("CREATE TABLE sense_translation (id INTEGER PRIMARY KEY, sense_id INTEGER, value TEXT, lang TEXT, gender TEXT, type TEXT);");
+sql("CREATE TABLE sense_origin (id INTEGER PRIMARY KEY, sense_id INTEGER, value TEXT, lang TEXT, describes_fully TEXT, made_from_foreign_words TEXT);");
+
+// TODO this data is not suited to a database
+sql("CREATE TABLE sense_synonym (id INTEGER PRIMARY KEY, sense_id INTEGER, value TEXT);");
+sql("CREATE TABLE sense_anthonym (id INTEGER PRIMARY KEY, sense_id INTEGER, value TEXT);");
+
+sql("CREATE TABLE sense_tag (sense_id INTEGER, tag_id INTEGER);");
+sql("CREATE TABLE sense_tag_context (sense_id INTEGER, tag_id INTEGER);");
+sql("CREATE TABLE sense_tag_dialect (sense_id INTEGER, tag_id INTEGER);");
+sql("CREATE TABLE sense_tag_part_of_speech (sense_id INTEGER, tag_id INTEGER);");
 
 // move to the first node
 while ($xml->read() && $xml->name !== 'entry');
@@ -234,10 +256,12 @@ while($xml->name === 'entry') {
     $id = $entry->getElementsByTagName('ent_seq')[0]->nodeValue;
     sql("INSERT INTO ref VALUES(:id);", compact('id'));
 
+    $wordIds = [];
     foreach ($entry->getElementsByTagName('k_ele') as $k) {
         $writing = $k->getElementsByTagName('keb')[0]->nodeValue;
         sql("INSERT INTO word VALUES(NULL, :id, :writing);", compact('id', 'writing'));
         $word_id = lastId();
+        $wordIds[$writing] = $word_id;
 
         foreach ($k->getElementsByTagName('ke_inf') as $x) {
             $tag_id = getTag($x);
@@ -246,100 +270,95 @@ while($xml->name === 'entry') {
 
         foreach ($k->getElementsByTagName('ke_pri') as $x) {
             $frequency = $x->nodeValue;
-            sql("INSERT INTO word_frequency VALUES(:word_id, :frequency);", compact('word_id', 'frequency'));
+            sql("INSERT INTO word_frequency VALUES(NULL, :word_id, :frequency);", compact('word_id', 'frequency'));
         }
     }
 
+    $readingIds = [];
     foreach ($entry->getElementsByTagName('r_ele') as $r) {
-        $rData = [
-            'reading' => $r->getElementsByTagName('reb')[0]->nodeValue,
-            'not_true_reading' => null,
-            'applies_to_subset' => [],
-            'tags' => [],
-            'frequency' => [],
-        ];
-
-        $nok = $r->getElementsByTagName('re_nokanji');
-        if (count($nok) > 0) {
-            $rData['not_true_reading'] = $nok[0]->nodeValue;
-        }
+        $reading = $r->getElementsByTagName('reb')[0]->nodeValue;
+        $trueReading = count($r->getElementsByTagName('re_nokanji')) == 0;
+        sql("INSERT INTO reading VALUES(NULL, :reading, :trueReading);", compact('reading', 'trueReading'));
+        $reading_id = lastId();
+        $readingIds[$reading] = $reading_id;
 
         foreach ($r->getElementsByTagName('re_restr') as $x) {
-            $rData['applies_to_subset'][] = $x->nodeValue;
+            $word_id = $wordIds[$x->nodeValue];
+            sql("INSERT INTO reading_word VALUES(:reading_id, :word_id);", compact('reading_id', 'word_id'));
         }
 
         foreach ($r->getElementsByTagName('re_inf') as $x) {
-            $rData['tags'][] = getTag($x);
+            $tag_id = getTag($x);
+            sql("INSERT INTO reading_tag VALUES(:reading_id, :tag_id);", compact('reading_id', 'tag_id'));
         }
 
         foreach ($r->getElementsByTagName('re_pri') as $x) {
-            $rData['frequency'][] = $x->nodeValue;
+            $frequency = $x->nodeValue;
+            sql("INSERT INTO reading_frequency VALUES(NULL, :reading_id, :frequency);", compact('reading_id', 'frequency'));
         }
-
-        $data['readings'][] = $rData;
     }
 
     foreach ($entry->getElementsByTagName('sense') as $sense) {
-        $senseData = [
-            'applies_to_kanji' => [],
-            'applies_to_reading' => [],
-            'part_of_speech_tags' => [],
-            'synonym' => [],
-            'anthonym' => [],
-            'context_tags' => [],
-            'tags' => [],
-            'info' => null,
-            'foreign_origin' => [],
-            'dialect_tags' => [],
-            'translations' => [],
-        ];
+        $info = null;
+        $sInf = $sense->getElementsByTagName('s_inf');
+        if (count($sInf) > 0) $info = $sInf[0]->nodeValue;
+        sql("INSERT INTO sense VALUES(NULL, :info);", compact('info'));
+        $sense_id = lastId();
 
         foreach ($sense->getElementsByTagName('stagk') as $x) {
-            $senseData['applies_to_kanji'][] = $x->nodeValue;
+            $word_id = $x->nodeValue;
+            sql("INSERT INTO sense_word VALUES(:sense_id, :word_id);", compact('sense_id', 'word_id'));
         }
         foreach ($sense->getElementsByTagName('stagr') as $x) {
-            $senseData['applies_to_reading'][] = $x->nodeValue;
-        }
-        foreach ($sense->getElementsByTagName('pos') as $x) {
-            $senseData['part_of_speech_tags'][] = getTag($x);
-        }
-        foreach ($sense->getElementsByTagName('xref') as $x) {
-            $senseData['synonym'][] = $x->nodeValue;
-        }
-        foreach ($sense->getElementsByTagName('ant') as $x) {
-            $senseData['anthonym'][] = $x->nodeValue;
-        }
-        foreach ($sense->getElementsByTagName('field') as $x) {
-            $senseData['context_tags'][] = getTag($x);
-        }
-        foreach ($sense->getElementsByTagName('misc') as $x) {
-            $senseData['tags'][] = getTag($x);
-        }
-        $sInf = $sense->getElementsByTagName('s_inf');
-        if (count($sInf) > 0) {
-            $senseData['info'] = $sInf[0]->nodeValue;
-        }
-        foreach ($sense->getElementsByTagName('lsource') as $x) {
-            $senseData['foreign_origin'][] = [
-                'value' => $x->nodeValue,
-                'lang' => $x->getAttribute('xml:lang') ?? 'eng',
-                'describes_fully' => $x->getAttribute('ls_type') ?? 'full',
-                'made_from_foreign_words' => $x->getAttribute('ls_wasei'),
-            ];
-        }
-        foreach ($sense->getElementsByTagName('dial') as $x) {
-            $senseData['dialect_tags'][] = getTag($x);
-        }
-        foreach ($sense->getElementsByTagName('gloss') as $x) {
-            $senseData['translations'][] = [
-                'value' => $x->nodeValue,
-                'lang' => $x->getAttribute('xml:lang') ?? 'eng',
-                'gender' => $x->getAttribute('g_gend'),
-                'type' => $x->getAttribute('g_type'),
-            ];
+            $reading_id = $x->nodeValue;
+            sql("INSERT INTO sense_reading VALUES(:sense_id, :reading_id);", compact('sense_id', 'reading_id'));
         }
 
-        $data['meaning'][] = $senseData;
+        foreach ($sense->getElementsByTagName('pos') as $x) {
+            $tag_id = getTag($x);
+            sql("INSERT INTO sense_tag_part_of_speech VALUES(:sense_id, :tag_id);", compact('sense_id', 'tag_id'));
+        }
+        foreach ($sense->getElementsByTagName('field') as $x) {
+            $tag_id = getTag($x);
+            sql("INSERT INTO sense_tag_context VALUES(:sense_id, :tag_id);", compact('sense_id', 'tag_id'));
+        }
+        foreach ($sense->getElementsByTagName('misc') as $x) {
+            $tag_id = getTag($x);
+            sql("INSERT INTO sense_tag VALUES(:sense_id, :tag_id);", compact('sense_id', 'tag_id'));
+        }
+        foreach ($sense->getElementsByTagName('dial') as $x) {
+            $tag_id = getTag($x);
+            sql("INSERT INTO sense_tag_dialect VALUES(:sense_id, :tag_id);", compact('sense_id', 'tag_id'));
+        }
+
+        foreach ($sense->getElementsByTagName('xref') as $x) {
+            $value = $x->nodeValue;
+            sql("INSERT INTO sense_synonym VALUES(NULL, :sense_id, :value);", compact('sense_id', 'value'));
+        }
+        foreach ($sense->getElementsByTagName('ant') as $x) {
+            $value = $x->nodeValue;
+            sql("INSERT INTO sense_anthonym VALUES(NULL, :sense_id, :value);", compact('sense_id', 'value'));
+        }
+        foreach ($sense->getElementsByTagName('lsource') as $x) {
+            $value = $x->nodeValue;
+            $lang = $x->getAttribute('xml:lang') ?? 'eng';
+            $describes_fully = $x->getAttribute('ls_type') ?? 'full';
+            $made_from_foreign_words = $x->getAttribute('ls_wasei');
+            sql(
+                "INSERT INTO sense_origin VALUES(NULL, :sense_id, :value, :lang, :describes_fully, :made_from_foreign_words);",
+                compact('sense_id', 'value', 'lang', 'describes_fully', 'made_from_foreign_words')
+            );
+        }
+        foreach ($sense->getElementsByTagName('gloss') as $x) {
+            $value = $x->nodeValue;
+            $lang = $x->getAttribute('xml:lang') ?? 'eng';
+            $gender = $x->getAttribute('g_gend');
+            $type = $x->getAttribute('g_type');
+            sql(
+                "INSERT INTO sense_translation VALUES(NULL, :sense_id, :value, :lang, :gender, :type);",
+                compact('sense_id', 'value', 'lang', 'gender', 'type')
+            );
+        }
     }
 
     $xml->next('entry');

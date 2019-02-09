@@ -1,0 +1,6 @@
+[*.yml]
+indent_style = space
+indent_size = 4
+
+[*.php]
+indent_style = tab

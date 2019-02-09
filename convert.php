@@ -1,14 +1,10 @@
 <?php
 
-@unlink('./out/Dictionary.db');
-$db = new PDO('sqlite:./out/Dictionary.db');
+$db = new PDO('pgsql:host=localhost;port=5432;dbname=test;user=test;password=test');
+$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $xml = new XMLReader();
 $xml->open('./xml/Dictionary.xml');
-
-$db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-$db->exec('PRAGMA foreign_keys = ON;');
-$db->exec('PRAGMA encoding = "UTF-8";');
 
 function sql($str, $params = []) {
 	$params2 = [];
@@ -24,27 +20,32 @@ function lastId() {
 	return $db->lastInsertId();
 }
 
-sql("CREATE TABLE Tag (id INTEGER PRIMARY KEY NOT NULL, tag TEXT, description TEXT NOT NULL);");
+sql('DROP SCHEMA public CASCADE;');
+sql('CREATE SCHEMA public;');
+
+sql("CREATE TYPE SenseType AS ENUM('literal', 'figurative', 'explanation');");
+
+sql("CREATE TABLE Tag (id SERIAL PRIMARY KEY NOT NULL, tag TEXT, description TEXT NOT NULL);");
 sql("CREATE TABLE Ref (ref INTEGER PRIMARY KEY NOT NULL);");
 
-sql("CREATE TABLE Word (id INTEGER PRIMARY KEY NOT NULL, ref INTEGER NOT NULL, writing TEXT NOT NULL);");
+sql("CREATE TABLE Word (id SERIAL PRIMARY KEY NOT NULL, ref INTEGER NOT NULL, writing TEXT NOT NULL);");
 sql("CREATE TABLE WordTag (wordId INTEGER NOT NULL, tagId INTEGER NOT NULL, PRIMARY KEY (wordId, tagId));");
-sql("CREATE TABLE WordFrequency (id INTEGER PRIMARY KEY NOT NULL, wordId INTEGER NOT NULL, frequency TINYINT NOT NULL);");
+sql("CREATE TABLE WordFrequency (id SERIAL PRIMARY KEY NOT NULL, wordId INTEGER NOT NULL, frequency INTEGER NOT NULL);");
 
-sql("CREATE TABLE Reading (id INTEGER PRIMARY KEY NOT NULL, ref INTEGER NOT NULL, reading TEXT NOT NULL, trueReading BOOLEAN NOT NULL);");
+sql("CREATE TABLE Reading (id SERIAL PRIMARY KEY NOT NULL, ref INTEGER NOT NULL, reading TEXT NOT NULL, trueReading BOOLEAN NOT NULL);");
 sql("CREATE TABLE ReadingWord (readingId INTEGER NOT NULL, wordId INTEGER NOT NULL, PRIMARY KEY (readingId, wordId));");
 sql("CREATE TABLE ReadingTag (readingId INTEGER NOT NULL, tagId INTEGER NOT NULL, PRIMARY KEY (readingId, tagId));");
-sql("CREATE TABLE ReadingFrequency (id INTEGER PRIMARY KEY NOT NULL, readingId INTEGER NOT NULL, frequency TINYINT NOT NULL);");
+sql("CREATE TABLE ReadingFrequency (id SERIAL PRIMARY KEY NOT NULL, readingId INTEGER NOT NULL, frequency INTEGER NOT NULL);");
 
-sql("CREATE TABLE Sense (id INTEGER PRIMARY KEY NOT NULL, info TEXT NULL);");
+sql("CREATE TABLE Sense (id SERIAL PRIMARY KEY NOT NULL, info TEXT NULL);");
 sql("CREATE TABLE SenseWord (senseId INTEGER NOT NULL, wordId INTEGER NOT NULL, PRIMARY KEY (senseId, wordId));");
 sql("CREATE TABLE SenseReading (senseId INTEGER NOT NULL, readingId INTEGER NOT NULL, PRIMARY KEY (senseId, readingId));");
-sql("CREATE TABLE SenseTranslation (id INTEGER PRIMARY KEY NOT NULL, senseId INTEGER NOT NULL, value TEXT NOT NULL, lang TEXT NOT NULL, type ENUM('literal', 'figurative', 'explanation') NULL);");
-sql("CREATE TABLE SenseOrigin (id INTEGER PRIMARY KEY NOT NULL, senseId INTEGER NOT NULL, value TEXT NOT NULL, lang TEXT NOT NULL, describesFully BOOLEAN NOT NULL, madeFromForeignWords BOOLEAN NOT NULL);");
+sql("CREATE TABLE SenseTranslation (id SERIAL PRIMARY KEY NOT NULL, senseId INTEGER NOT NULL, value TEXT NOT NULL, lang TEXT NOT NULL, type SenseType NULL);");
+sql("CREATE TABLE SenseOrigin (id SERIAL PRIMARY KEY NOT NULL, senseId INTEGER NOT NULL, value TEXT NOT NULL, lang TEXT NOT NULL, describesFully BOOLEAN NOT NULL, madeFromForeignWords BOOLEAN NOT NULL);");
 
 // TODO this data is not suited to a database
-sql("CREATE TABLE SenseSynonym (id INTEGER PRIMARY KEY NOT NULL, senseId INTEGER NOT NULL, value TEXT NOT NULL);");
-sql("CREATE TABLE SenseAnthonym (id INTEGER PRIMARY KEY NOT NULL, senseId INTEGER NOT NULL, value TEXT NOT NULL);");
+sql("CREATE TABLE SenseSynonym (id SERIAL PRIMARY KEY NOT NULL, senseId INTEGER NOT NULL, value TEXT NOT NULL);");
+sql("CREATE TABLE SenseAnthonym (id SERIAL PRIMARY KEY NOT NULL, senseId INTEGER NOT NULL, value TEXT NOT NULL);");
 
 sql("CREATE TABLE SenseTag (senseId INTEGER NOT NULL, tagId INTEGER NOT NULL, PRIMARY KEY (senseId, tagId));");
 sql("CREATE TABLE SenseTagContext (senseId INTEGER NOT NULL, tagId INTEGER NOT NULL, PRIMARY KEY (senseId, tagId));");
@@ -72,7 +73,7 @@ function getTag($node) {
 }
 function addTag ($tag, $description) {
 	global $tags;
-	sql('INSERT INTO Tag VALUES (null, :tag, :description)', compact('tag', 'description'));
+	sql('INSERT INTO Tag VALUES (DEFAULT, :tag, :description)', compact('tag', 'description'));
 	$tags[$tag] = lastId();
 };
 
@@ -114,7 +115,7 @@ while($xml->name === 'entry') {
 	$wordIds = [];
 	foreach ($entry->getElementsByTagName('k_ele') as $k) {
 		$writing = $k->getElementsByTagName('keb')[0]->nodeValue;
-		sql("INSERT INTO Word VALUES(NULL, :id, :writing);", compact('id', 'writing'));
+		sql("INSERT INTO Word VALUES(DEFAULT, :id, :writing);", compact('id', 'writing'));
 		$wordId = lastId();
 		$wordIds[$writing] = $wordId;
 
@@ -126,15 +127,15 @@ while($xml->name === 'entry') {
 		foreach ($k->getElementsByTagName('ke_pri') as $x) {
 			$frequency = parseFrequency($x->nodeValue);
 			if ($frequency == null) continue;
-			sql("INSERT INTO WordFrequency VALUES(NULL, :wordId, :frequency);", compact('wordId', 'frequency'));
+			sql("INSERT INTO WordFrequency VALUES(DEFAULT, :wordId, :frequency);", compact('wordId', 'frequency'));
 		}
 	}
 
 	$readingIds = [];
 	foreach ($entry->getElementsByTagName('r_ele') as $r) {
 		$reading = $r->getElementsByTagName('reb')[0]->nodeValue;
-		$trueReading = count($r->getElementsByTagName('re_nokanji')) == 0;
-		sql("INSERT INTO Reading VALUES(NULL, :id, :reading, :trueReading);", compact('id', 'reading', 'trueReading'));
+		$trueReading = count($r->getElementsByTagName('re_nokanji')) == 0 ? 1 : 0;
+		sql("INSERT INTO Reading VALUES(DEFAULT, :id, :reading, :trueReading);", compact('id', 'reading', 'trueReading'));
 		$readingId = lastId();
 		$readingIds[$reading] = $readingId;
 
@@ -151,7 +152,7 @@ while($xml->name === 'entry') {
 		foreach ($r->getElementsByTagName('re_pri') as $x) {
 			$frequency = parseFrequency($x->nodeValue);
 			if ($frequency == null) continue;
-			sql("INSERT INTO ReadingFrequency VALUES(NULL, :readingId, :frequency);", compact('readingId', 'frequency'));
+			sql("INSERT INTO ReadingFrequency VALUES(DEFAULT, :readingId, :frequency);", compact('readingId', 'frequency'));
 		}
 	}
 
@@ -159,7 +160,7 @@ while($xml->name === 'entry') {
 		$info = null;
 		$sInf = $sense->getElementsByTagName('s_inf');
 		if (count($sInf) > 0) $info = $sInf[0]->nodeValue;
-		sql("INSERT INTO Sense VALUES(NULL, :info);", compact('info'));
+		sql("INSERT INTO Sense VALUES(DEFAULT, :info);", compact('info'));
 		$senseId = lastId();
 
 		foreach ($sense->getElementsByTagName('stagk') as $x) {
@@ -190,20 +191,20 @@ while($xml->name === 'entry') {
 
 		foreach ($sense->getElementsByTagName('xref') as $x) {
 			$value = $x->nodeValue;
-			sql("INSERT INTO SenseSynonym VALUES(NULL, :senseId, :value);", compact('senseId', 'value'));
+			sql("INSERT INTO SenseSynonym VALUES(DEFAULT, :senseId, :value);", compact('senseId', 'value'));
 		}
 		foreach ($sense->getElementsByTagName('ant') as $x) {
 			$value = $x->nodeValue;
-			sql("INSERT INTO SenseAnthonym VALUES(NULL, :senseId, :value);", compact('senseId', 'value'));
+			sql("INSERT INTO SenseAnthonym VALUES(DEFAULT, :senseId, :value);", compact('senseId', 'value'));
 		}
 		foreach ($sense->getElementsByTagName('lsource') as $x) {
 			$value = $x->nodeValue;
 			if (empty($value)) continue;
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
-			$describesFully = empty($x->getAttribute('ls_type')) || $x->getAttribute('ls_type') == 'full';
-			$madeFromForeignWords = $x->getAttribute('ls_wasei') == 'y';
+			$describesFully = empty($x->getAttribute('ls_type')) || $x->getAttribute('ls_type') == 'full' ? 1 : 0;
+			$madeFromForeignWords = $x->getAttribute('ls_wasei') == 'y' ? 1 : 0;
 			sql(
-				"INSERT INTO SenseOrigin VALUES(NULL, :senseId, :value, :lang, :describesFully, :madeFromForeignWords);",
+				"INSERT INTO SenseOrigin VALUES(DEFAULT, :senseId, :value, :lang, :describesFully, :madeFromForeignWords);",
 				compact('senseId', 'value', 'lang', 'describesFully', 'madeFromForeignWords')
 			);
 		}
@@ -212,7 +213,7 @@ while($xml->name === 'entry') {
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
 			$type = empty($x->getAttribute('g_type')) ? null : $translationTypes[$x->getAttribute('g_type')];
 			sql(
-				"INSERT INTO SenseTranslation VALUES(NULL, :senseId, :value, :lang, :type);",
+				"INSERT INTO SenseTranslation VALUES(DEFAULT, :senseId, :value, :lang, :type);",
 				compact('senseId', 'value', 'lang', 'type')
 			);
 		}

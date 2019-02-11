@@ -1,9 +1,7 @@
 <?php
 
-// TODO remove the tags and separate properly the corresponding data
-// TODO simplify database structure if possible
 // TODO reformat and organize synonyms and anthonyms
-
+// TODO check that all the new arrays and properties (bools) contains data
 // TODO Kanjis dictionary?
 // TODO names dictionary?
 
@@ -32,25 +30,51 @@ sql('CREATE SCHEMA public;');
 
 sql('CREATE TYPE "SenseType" AS ENUM(\'literal\', \'figurative\', \'explanation\');');
 
-sql('CREATE TABLE "Tag" ("id" SERIAL PRIMARY KEY NOT NULL, "tag" TEXT, "description" TEXT NOT NULL);');
+sql('CREATE TABLE "PartOfSpeech" ("tag" TEXT NOT NULL PRIMARY KEY, "description" TEXT NOT NULL);');
 
-sql('CREATE TABLE "Word" ("id" SERIAL PRIMARY KEY NOT NULL, "writing" TEXT NOT NULL, "frequency" INTEGER NULL);');
-sql('CREATE TABLE "WordTag" ("wordId" INTEGER NOT NULL REFERENCES "Word"("id"), "tagId" INTEGER NOT NULL REFERENCES "Tag"("id"), PRIMARY KEY ("wordId", "tagId"));');
+sql('CREATE TABLE "Word" ("id" SERIAL PRIMARY KEY NOT NULL, "writing" TEXT NOT NULL, "frequency" INTEGER NULL, "ateji" BOOLEAN NOT NULL, "irregularKanji" BOOLEAN NOT NULL, "irregularKana" BOOLEAN NOT NULL, "outDatedKanji" BOOLEAN NOT NULL);');
 
 sql('CREATE TABLE "Reading" ("id" SERIAL PRIMARY KEY NOT NULL, "reading" TEXT NOT NULL, "trueReading" BOOLEAN NOT NULL, "frequency" INTEGER NULL, "irregular" BOOLEAN NOT NULL, "outDated" BOOLEAN NOT NULL);');
 sql('CREATE TABLE "ReadingWord" ("readingId" INTEGER NOT NULL REFERENCES "Reading"("id"), "wordId" INTEGER NOT NULL REFERENCES "Word"("id"), PRIMARY KEY ("readingId", "wordId"));');
 
-sql('CREATE TABLE "Sense" ("id" SERIAL PRIMARY KEY NOT NULL, "info" TEXT NULL, "dialect" TEXT[] NOT NULL);');
+sql('CREATE TABLE "Sense" ("id" SERIAL PRIMARY KEY NOT NULL, "info" TEXT NULL, "dialect" TEXT[] NOT NULL, "context" TEXT[] NOT NULL, "type" TEXT[] NOT NULL, "partOfSpeech" TEXT[] NOT NULL);');
 sql('CREATE TABLE "SenseWord" ("senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "wordId" INTEGER NOT NULL REFERENCES "Word"("id"), PRIMARY KEY ("senseId", "wordId"));');
 sql('CREATE TABLE "SenseReading" ("senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "readingId" INTEGER NOT NULL REFERENCES "Reading"("id"), PRIMARY KEY ("senseId", "readingId"));');
-sql('CREATE TABLE "SenseTranslation" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "value" TEXT NOT NULL, "lang" TEXT NOT NULL, "type" "SenseType" NULL);');
-sql('CREATE TABLE "SenseOrigin" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "value" TEXT NOT NULL, "lang" TEXT NOT NULL, "describesFully" BOOLEAN NOT NULL, "madeFromForeignWords" BOOLEAN NOT NULL);');
+sql('CREATE TABLE "SenseTranslation" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "lang" TEXT NOT NULL, "translation" TEXT NOT NULL, "type" "SenseType" NULL);');
+sql('CREATE TABLE "SenseOrigin" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "lang" TEXT NOT NULL, "translation" TEXT NOT NULL, "describesFully" BOOLEAN NOT NULL, "madeFromForeignWords" BOOLEAN NOT NULL);');
 sql('CREATE TABLE "SenseSynonym" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "value" TEXT NOT NULL);');
 sql('CREATE TABLE "SenseAnthonym" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "value" TEXT NOT NULL);');
-sql('CREATE TABLE "SenseTag" ("senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "tagId" INTEGER NOT NULL REFERENCES "Tag"("id"), PRIMARY KEY ("senseId", "tagId"));');
-sql('CREATE TABLE "SenseTagContext" ("senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "tagId" INTEGER NOT NULL REFERENCES "Tag"("id"), PRIMARY KEY ("senseId", "tagId"));');
-sql('CREATE TABLE "SenseTagPartOfSpeech" ("senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "tagId" INTEGER NOT NULL REFERENCES "Tag"("id"), PRIMARY KEY ("senseId", "tagId"));');
 
+function parseTypeTag($string) {
+	return [
+		'abbr' => 'abbreviation',
+		'arch' => 'archaism',
+		'chn' => 'childish',
+		'col' => 'colloquialism',
+		'derog' => 'derogatory',
+		'fam' => 'familiar',
+		'fem' => 'feminine',
+		'hon' => 'sonkeigo',
+		'hum' => 'kenjougo',
+		'id' => 'idiomatic',
+		'm-sl' => 'manga-slang',
+		'male' => 'masculine',
+		'obs' => 'obsolete',
+		'obsc' => 'obscure',
+		'on-mim' => 'onomatopoeic',
+		'poet' => 'poetical',
+		'pol' => 'teineigo',
+		'proverb' => 'proverb',
+		'quote' => 'quotation',
+		'rare' => 'rare',
+		'sens' => 'sensitive',
+		'sl' => 'slang',
+		'uk' => 'kana-only',
+		'yoji' => 'yojijukugo',
+		'vulg' => 'vulgar',
+		'joc' => 'humorous',
+	][$string];
+}
 function parseFrequency($str) {
 	if (preg_match('/^nf([0-9]+)$/', $str, $matches)) {
 		return (int) $matches[1];
@@ -60,9 +84,7 @@ function parseFrequency($str) {
 	}
 }
 
-$tags = [];
-$tagValues = [];
-function getTagAlias($node) {
+function getTagFromNode($node) {
 	$child = $node->childNodes[0];
 	if ($child instanceof DOMEntityReference) {
 		return $child->nodeName;
@@ -70,30 +92,59 @@ function getTagAlias($node) {
 		die('err');
 	}
 }
-function getTag($node) {
-	global $tags;
-	return $tags[getTagAlias($node)];
+
+function parseContextTag($string) {
+	return [
+		'MA'      => 'martial arts',
+		'Buddh'   => 'Buddhist',
+		'chem'    => 'chemistry',
+		'comp'    => 'computer',
+		'food'    => 'food',
+		'geom'    => 'geometry',
+		'ling'    => 'linguistics',
+		'math'    => 'mathematics',
+		'mil'     => 'military',
+		'physics' => 'physics',
+		'archit'  => 'architecture',
+		'astron'  => 'astronomy',
+		'baseb'   => 'baseball',
+		'biol'    => 'biology',
+		'bot'     => 'botany',
+		'bus'     => 'business',
+		'econ'    => 'economics',
+		'engr'    => 'engineering',
+		'finc'    => 'finance',
+		'geol'    => 'geology',
+		'law'     => 'law',
+		'mahj'    => 'mahjong',
+		'med'     => 'medicine',
+		'music'   => 'music',
+		'Shinto'  => 'Shinto',
+		'shogi'   => 'shogi',
+		'sports'  => 'sports',
+		'sumo'    => 'sumo',
+		'zool'    => 'zoology',
+		'anat'    => 'anatomical',
+	][$string];
 }
-function getTagValue($node) {
-	global $tagValues;
-	return $tagValues[getTagAlias($node)];
-}
-function addTag ($tag, $description) {
-	global $tags, $tagValues;
-	sql('INSERT INTO "Tag" VALUES (DEFAULT, :tag, :description)', compact('tag', 'description'));
-	$tags[$tag] = lastId();
-	$tagValues[$tag] = $description;
-};
 
 while ($xml->read() && $xml->nodeType != XMLReader::DOC_TYPE);
 $doctype = $xml->readOuterXml();
 preg_match_all('/<!ENTITY ([^ ]+) "([^"]+)">/', $doctype, $matches);
 
-$db->beginTransaction();
+$tagValues = [];
 foreach ($matches[1] as $i => $tag) {
-	addTag($tag, $matches[2][$i]);
+	$tagValues[$tag] = $matches[2][$i];
 }
-$db->commit();
+
+$createdPos = [];
+function addPartOfSpeechIfNeeded($tag) {
+	global $createdPos, $tagValues;
+	if (!isset($createdPos[$tag])) {
+		$description = $createdPos[$tag] = $tagValues[$tag];
+		sql('INSERT INTO "PartOfSpeech" VALUES (:tag, :description)', compact('tag', 'description'));
+	}
+}
 
 $translationTypes = [
 	'lit' => 'literal',
@@ -121,14 +172,26 @@ while($xml->name === 'entry') {
 			if ($frequency == null || $newFrequency > $frequency) $frequency = $newFrequency;
 		}
 
-		sql('INSERT INTO "Word" VALUES(DEFAULT, :writing, :frequency);', compact('writing', 'frequency'));
+		$ateji = 0;
+		$irregularKanji = 0;
+		$irregularKana = 0;
+		$outDatedKanji = 0;
+		foreach ($k->getElementsByTagName('ke_inf') as $x) {
+			$tag = getTagFromNode($x);
+			if ($tag == 'ateji') {
+				$ateji = 1;
+			} elseif ($tag == 'ik' || $tag == 'io') {
+				$irregularKana = 1;
+			} elseif ($tag == 'iK') {
+				$irregularKanji = 1;
+			} elseif ($tag == 'oK') {
+				$outDatedKanji = 1;
+			}
+		}
+
+		sql('INSERT INTO "Word" VALUES(DEFAULT, :writing, :frequency, :ateji, :irregularKanji, :irregularKana, :outDatedKanji);', compact('writing', 'frequency', 'ateji', 'irregularKanji', 'irregularKana', 'outDatedKanji'));
 		$wordId = lastId();
 		$wordIds[$writing] = $wordId;
-
-		foreach ($k->getElementsByTagName('ke_inf') as $x) {
-			$tagId = getTag($x);
-			sql('INSERT INTO "WordTag" VALUES(:wordId, :tagId);', compact('wordId', 'tagId'));
-		}
 	}
 
 	$readingIds = [];
@@ -146,7 +209,7 @@ while($xml->name === 'entry') {
 		$irregular = 0;
 		$outDated = 0;
 		foreach ($r->getElementsByTagName('re_inf') as $x) {
-			$tag = getTagAlias($x);
+			$tag = getTagFromNode($x);
 			if ($tag == 'ok' || $tag == 'oik') {
 				$outDated = 1;
 			}
@@ -172,11 +235,29 @@ while($xml->name === 'entry') {
 
 		$dialect = [];
 		foreach ($sense->getElementsByTagName('dial') as $x) {
-			$dialect[] = preg_replace('/-ben$/', '', getTagValue($x));
+			$dialect[] = preg_replace('/-ben$/', '', $tagValues[getTagFromNode($x)]);
 		}
-		$dialectArray = empty($dialect) ? '{}' : "{'".implode("','", $dialect)."'}";
+		$dialectArray = empty($dialect) ? '{}' : '{"'.implode('","', $dialect).'"}';
 
-		sql('INSERT INTO "Sense" VALUES(DEFAULT, :info, '.$dialectArray.');', compact('info'));
+		$context = [];
+		foreach ($sense->getElementsByTagName('field') as $x) {
+			$context[] = parseContextTag(getTagFromNode($x));
+		}
+		$contextArray = empty($context) ? '{}' : '{"'.implode('","', $context).'"}';
+
+		$type = [];
+		foreach ($sense->getElementsByTagName('misc') as $x) {
+			$type[] = parseTypeTag(getTagFromNode($x));
+		}
+		$typeArray = empty($type) ? '{}' : '{"'.implode('","', $type).'"}';
+
+		$pos = [];
+		foreach ($sense->getElementsByTagName('pos') as $x) {
+			addPartOfSpeechIfNeeded($pos[] = getTagFromNode($x));
+		}
+		$posArray = empty($pos) ? '{}' : '{"'.implode('","', $pos).'"}';
+
+		sql('INSERT INTO "Sense" VALUES(DEFAULT, :info, \''.$dialectArray.'\', \''.$contextArray.'\', \''.$typeArray.'\', \''.$posArray.'\');', compact('info'));
 		$senseId = lastId();
 
 		foreach ($sense->getElementsByTagName('stagk') as $x) {
@@ -186,19 +267,6 @@ while($xml->name === 'entry') {
 		foreach ($sense->getElementsByTagName('stagr') as $x) {
 			$readingId = $readingIds[$x->nodeValue];
 			sql('INSERT INTO "SenseReading" VALUES(:senseId, :readingId);', compact('senseId', 'readingId'));
-		}
-
-		foreach ($sense->getElementsByTagName('pos') as $x) {
-			$tagId = getTag($x);
-			sql('INSERT INTO "SenseTagPartOfSpeech" VALUES(:senseId, :tagId);', compact('senseId', 'tagId'));
-		}
-		foreach ($sense->getElementsByTagName('field') as $x) {
-			$tagId = getTag($x);
-			sql('INSERT INTO "SenseTagContext" VALUES(:senseId, :tagId);', compact('senseId', 'tagId'));
-		}
-		foreach ($sense->getElementsByTagName('misc') as $x) {
-			$tagId = getTag($x);
-			sql('INSERT INTO "SenseTag" VALUES(:senseId, :tagId);', compact('senseId', 'tagId'));
 		}
 
 		foreach ($sense->getElementsByTagName('xref') as $x) {
@@ -216,17 +284,17 @@ while($xml->name === 'entry') {
 			$describesFully = empty($x->getAttribute('ls_type')) || $x->getAttribute('ls_type') == 'full' ? 1 : 0;
 			$madeFromForeignWords = $x->getAttribute('ls_wasei') == 'y' ? 1 : 0;
 			sql(
-				'INSERT INTO "SenseOrigin" VALUES(DEFAULT, :senseId, :value, :lang, :describesFully, :madeFromForeignWords);',
-				compact('senseId', 'value', 'lang', 'describesFully', 'madeFromForeignWords')
+				'INSERT INTO "SenseOrigin" VALUES(DEFAULT, :senseId, :lang, :translation, :describesFully, :madeFromForeignWords);',
+				compact('senseId', 'lang', 'translation', 'describesFully', 'madeFromForeignWords')
 			);
 		}
 		foreach ($sense->getElementsByTagName('gloss') as $x) {
-			$value = $x->nodeValue;
+			$translation = $x->nodeValue;
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
 			$type = empty($x->getAttribute('g_type')) ? null : $translationTypes[$x->getAttribute('g_type')];
 			sql(
-				'INSERT INTO "SenseTranslation" VALUES(DEFAULT, :senseId, :value, :lang, :type);',
-				compact('senseId', 'value', 'lang', 'type')
+				'INSERT INTO "SenseTranslation" VALUES(DEFAULT, :senseId, :lang, :translation, :type);',
+				compact('senseId', 'lang', 'translation', 'type')
 			);
 		}
 	}

@@ -1,8 +1,5 @@
 <?php
 
-// TODO 3 join tables: if no xml tags only, must insert everything
-// TODO end reformat and organize synonyms and anthonyms (cf TODO at the end of the file)
-// TODO rename some tables that should not be prefixed
 // TODO Kanjis dictionary?
 // TODO names dictionary?
 
@@ -41,10 +38,10 @@ sql('CREATE TABLE "ReadingWord" ("readingId" INTEGER NOT NULL REFERENCES "Readin
 sql('CREATE TABLE "Sense" ("id" SERIAL PRIMARY KEY NOT NULL, "info" TEXT NULL, "dialect" TEXT[] NOT NULL, "context" TEXT[] NOT NULL, "type" TEXT[] NOT NULL, "partOfSpeech" TEXT[] NOT NULL);');
 sql('CREATE TABLE "SenseWord" ("senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "wordId" INTEGER NOT NULL REFERENCES "Word"("id"), PRIMARY KEY ("senseId", "wordId"));');
 sql('CREATE TABLE "SenseReading" ("senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "readingId" INTEGER NOT NULL REFERENCES "Reading"("id"), PRIMARY KEY ("senseId", "readingId"));');
-sql('CREATE TABLE "SenseTranslation" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "lang" TEXT NOT NULL, "translation" TEXT NOT NULL, "type" "SenseType" NULL);');
-sql('CREATE TABLE "SenseOrigin" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "lang" TEXT NOT NULL, "translation" TEXT NOT NULL, "describesFully" BOOLEAN NOT NULL, "madeFromForeignWords" BOOLEAN NOT NULL);');
-sql('CREATE TABLE "SenseSynonym" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "word" TEXT NULL, "reading" TEXT NULL, "senseNumber" INT NULL);');
-sql('CREATE TABLE "SenseAnthonym" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "word" TEXT NULL, "reading" TEXT NULL, "senseNumber" INT NULL);');
+sql('CREATE TABLE "Translation" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "lang" TEXT NOT NULL, "translation" TEXT NOT NULL, "type" "SenseType" NULL);');
+sql('CREATE TABLE "Origin" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "lang" TEXT NOT NULL, "translation" TEXT NOT NULL, "describesFully" BOOLEAN NOT NULL, "madeFromForeignWords" BOOLEAN NOT NULL);');
+sql('CREATE TABLE "Synonym" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "word" TEXT NULL, "reading" TEXT NULL, "senseNumber" INT NULL);');
+sql('CREATE TABLE "Anthonym" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "word" TEXT NULL, "reading" TEXT NULL, "senseNumber" INT NULL);');
 
 function parseTypeTag($string) {
 	return [
@@ -223,9 +220,16 @@ while($xml->name === 'entry') {
 		$readingId = lastId();
 		$readingIds[$reading] = $readingId;
 
-		foreach ($r->getElementsByTagName('re_restr') as $x) {
-			$wordId = $wordIds[$x->nodeValue];
-			sql('INSERT INTO "ReadingWord" VALUES(:readingId, :wordId);', compact('readingId', 'wordId'));
+		$restr = $r->getElementsByTagName('re_restr');
+		if (count($restr) == 0) {
+			foreach ($wordIds AS $wordId) {
+				sql('INSERT INTO "ReadingWord" VALUES(:readingId, :wordId);', compact('readingId', 'wordId'));
+			}
+		} else {
+			foreach ($restr as $x) {
+				$wordId = $wordIds[$x->nodeValue];
+				sql('INSERT INTO "ReadingWord" VALUES(:readingId, :wordId);', compact('readingId', 'wordId'));
+			}
 		}
 	}
 
@@ -261,13 +265,28 @@ while($xml->name === 'entry') {
 		sql('INSERT INTO "Sense" VALUES(DEFAULT, :info, \''.$dialectArray.'\', \''.$contextArray.'\', \''.$typeArray.'\', \''.$posArray.'\');', compact('info'));
 		$senseId = lastId();
 
-		foreach ($sense->getElementsByTagName('stagk') as $x) {
-			$wordId = $wordIds[$x->nodeValue];
-			sql('INSERT INTO "SenseWord" VALUES(:senseId, :wordId);', compact('senseId', 'wordId'));
+		$stagk = $sense->getElementsByTagName('stagk');
+		if (count($stagk) == 0) {
+			foreach ($wordIds AS $wordId) {
+				sql('INSERT INTO "SenseWord" VALUES(:senseId, :wordId);', compact('senseId', 'wordId'));
+			}
+		} else {
+			foreach ($stagk as $x) {
+				$wordId = $wordIds[$x->nodeValue];
+				sql('INSERT INTO "SenseWord" VALUES(:senseId, :wordId);', compact('senseId', 'wordId'));
+			}
 		}
-		foreach ($sense->getElementsByTagName('stagr') as $x) {
-			$readingId = $readingIds[$x->nodeValue];
-			sql('INSERT INTO "SenseReading" VALUES(:senseId, :readingId);', compact('senseId', 'readingId'));
+
+		$stagr = $sense->getElementsByTagName('stagr');
+		if (count($stagr) == 0) {
+			foreach ($readingIds AS $readingId) {
+				sql('INSERT INTO "SenseReading" VALUES(:senseId, :readingId);', compact('senseId', 'readingId'));
+			}
+		} else {
+			foreach ($stagr as $x) {
+				$readingId = $readingIds[$x->nodeValue];
+				sql('INSERT INTO "SenseReading" VALUES(:senseId, :readingId);', compact('senseId', 'readingId'));
+			}
 		}
 
 		foreach ($sense->getElementsByTagName('xref') as $x) {
@@ -283,7 +302,7 @@ while($xml->name === 'entry') {
 				$word = $values[0];
 			}
 
-			sql('INSERT INTO "SenseSynonym" VALUES(DEFAULT, :senseId, :word, :reading, :senseNumber);', compact('senseId', 'word', 'reading', 'senseNumber'));
+			sql('INSERT INTO "Synonym" VALUES(DEFAULT, :senseId, :word, :reading, :senseNumber);', compact('senseId', 'word', 'reading', 'senseNumber'));
 		}
 		foreach ($sense->getElementsByTagName('ant') as $x) {
 			$word = $reading = $senseNumber = null;
@@ -298,7 +317,7 @@ while($xml->name === 'entry') {
 				$word = $values[0];
 			}
 
-			sql('INSERT INTO "SenseAnthonym" VALUES(DEFAULT, :senseId, :word, :reading, :senseNumber);', compact('senseId', 'word', 'reading', 'senseNumber'));
+			sql('INSERT INTO "Anthonym" VALUES(DEFAULT, :senseId, :word, :reading, :senseNumber);', compact('senseId', 'word', 'reading', 'senseNumber'));
 		}
 		foreach ($sense->getElementsByTagName('lsource') as $x) {
 			$value = $x->nodeValue;
@@ -307,7 +326,7 @@ while($xml->name === 'entry') {
 			$describesFully = empty($x->getAttribute('ls_type')) || $x->getAttribute('ls_type') == 'full' ? 1 : 0;
 			$madeFromForeignWords = $x->getAttribute('ls_wasei') == 'y' ? 1 : 0;
 			sql(
-				'INSERT INTO "SenseOrigin" VALUES(DEFAULT, :senseId, :lang, :translation, :describesFully, :madeFromForeignWords);',
+				'INSERT INTO "Origin" VALUES(DEFAULT, :senseId, :lang, :translation, :describesFully, :madeFromForeignWords);',
 				compact('senseId', 'lang', 'translation', 'describesFully', 'madeFromForeignWords')
 			);
 		}
@@ -316,7 +335,7 @@ while($xml->name === 'entry') {
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
 			$type = empty($x->getAttribute('g_type')) ? null : $translationTypes[$x->getAttribute('g_type')];
 			sql(
-				'INSERT INTO "SenseTranslation" VALUES(DEFAULT, :senseId, :lang, :translation, :type);',
+				'INSERT INTO "Translation" VALUES(DEFAULT, :senseId, :lang, :translation, :type);',
 				compact('senseId', 'lang', 'translation', 'type')
 			);
 		}
@@ -331,33 +350,193 @@ while($xml->name === 'entry') {
 }
 $db->commit();
 
-/*
-ALTER TABLE "SenseSynonym"
-	ADD "synonymWordId" INTEGER NULL REFERENCES "Word"("id"),
-	ADD "synonymReadingId" INTEGER NULL REFERENCES "Reading"("id"),
-	ADD "synonymSenseId" INTEGER NULL REFERENCES "Sense"("id");
 
--- Identifying word
-UPDATE "SenseSynonym" SET "synonymWordId" = "Word"."id"
-FROM "Word"
-WHERE "SenseSynonym"."word" = "Word"."word"
-AND "SenseSynonym"."word" IS NOT NULL;
+// SYNONYMS
 
--- Identifying reading
-UPDATE "SenseSynonym" SET "synonymReadingId" = "Reading"."id"
-FROM "Reading"
-WHERE "SenseSynonym"."reading" = "Reading"."reading"
-AND "SenseSynonym"."reading" IS NOT NULL;
+sql('
+	ALTER TABLE "Synonym"
+		ADD "synonymWordId" INTEGER NULL REFERENCES "Word"("id"),
+		ADD "synonymReadingId" INTEGER NULL REFERENCES "Reading"("id"),
+		ADD "synonymSenseId" INTEGER NULL REFERENCES "Sense"("id");
+');
 
--- Identifying reading if the word field contained a reading
-UPDATE "SenseSynonym" SET "synonymReadingId" = "Reading"."id"
-FROM "Reading"
-WHERE "SenseSynonym"."synonymWordId" IS NULL
-AND "SenseSynonym"."word" = "Reading"."reading"
-AND "SenseSynonym"."word" IS NOT NULL;
+// To optimize some queries
+sql('CREATE INDEX "Reading_reading" ON "Reading"(reading);');
 
-// TODO sense field id to fill from the given index
-// TODO drop old fields
-// TODO same for anthonyms
+// Identifying word
+sql('
+	UPDATE "Synonym" SET "synonymWordId" = "Word"."id"
+	FROM "Word"
+	WHERE "Synonym"."word" = "Word"."word"
+	AND "Synonym"."word" IS NOT NULL;
+');
 
-*/
+// Identifying reading
+sql('
+	UPDATE "Synonym" SET "synonymReadingId" = "Reading"."id"
+	FROM "Reading"
+	WHERE "Synonym"."reading" = "Reading"."reading"
+	AND "Synonym"."reading" IS NOT NULL;
+');
+
+// Identifying reading if the word field contained a reading
+sql('
+	CREATE TEMP TABLE "UniqueReading" AS
+	SELECT MIN("id") AS "id", "reading"
+	FROM "Reading"
+	GROUP BY "reading"
+	HAVING COUNT("id") = 1;
+');
+sql('
+	UPDATE "Synonym" SET "synonymReadingId" = "UniqueReading"."id"
+	FROM "UniqueReading"
+	WHERE "Synonym"."synonymWordId" IS NULL
+	AND "Synonym"."synonymReadingId" IS NULL
+	AND "Synonym"."word" = "UniqueReading"."reading"
+	AND "Synonym"."word" IS NOT NULL;
+');
+sql('DROP TABLE "UniqueReading";');
+
+// Calculating the matching sense from the given rank
+sql('
+	UPDATE "Synonym" SET "synonymSenseId" = "SenseIds"."senseId"
+	FROM (
+		SELECT "senseSynonymId", "senseId"
+		FROM (
+			SELECT DISTINCT
+				"Synonym"."id" AS "senseSynonymId",
+				"Synonym"."senseNumber",
+				COALESCE("SenseWord"."senseId", "SenseReading"."senseId") AS "senseId",
+				DENSE_RANK() OVER (
+					PARTITION BY "Synonym"."id"
+					ORDER BY COALESCE("SenseWord"."senseId", "SenseReading"."senseId") ASC
+				) AS "senseRank"
+			FROM "Synonym"
+			LEFT OUTER JOIN "SenseWord" ON (
+				"Synonym"."synonymWordId" = "SenseWord"."wordId"
+				AND "Synonym"."synonymWordId" IS NOT NULL
+			)
+			LEFT OUTER JOIN "SenseReading" ON (
+				"Synonym"."synonymReadingId" = "SenseReading"."readingId"
+				AND "Synonym"."synonymReadingId" IS NOT NULL
+			)
+			WHERE "Synonym"."senseNumber" IS NOT NULL
+		) AS "S"
+		WHERE "S"."senseNumber" = "S"."senseRank"
+	) AS "SenseIds"
+	WHERE "Synonym"."id" = "SenseIds"."senseSynonymId"
+');
+
+// Removing now useless columns
+sql('
+	ALTER TABLE "Synonym"
+		DROP COLUMN "word",
+		DROP COLUMN "reading",
+		DROP COLUMN "senseNumber";
+');
+
+// Removing unusable rows
+sql('
+	DELETE FROM "Synonym"
+	WHERE "synonymWordId" IS NULL
+	AND "synonymReadingId" IS NULL
+	AND "synonymSenseId" IS NULL
+');
+
+sql('DROP INDEX "Reading_reading";');
+
+
+// ANTHONYMS
+
+sql('
+	ALTER TABLE "Anthonym"
+		ADD "anthonymWordId" INTEGER NULL REFERENCES "Word"("id"),
+		ADD "anthonymReadingId" INTEGER NULL REFERENCES "Reading"("id"),
+		ADD "anthonymSenseId" INTEGER NULL REFERENCES "Sense"("id");
+');
+
+// To optimize some queries
+sql('CREATE INDEX "Reading_reading" ON "Reading"(reading);');
+
+// Identifying word
+sql('
+	UPDATE "Anthonym" SET "anthonymWordId" = "Word"."id"
+	FROM "Word"
+	WHERE "Anthonym"."word" = "Word"."word"
+	AND "Anthonym"."word" IS NOT NULL;
+');
+
+// Identifying reading
+sql('
+	UPDATE "Anthonym" SET "anthonymReadingId" = "Reading"."id"
+	FROM "Reading"
+	WHERE "Anthonym"."reading" = "Reading"."reading"
+	AND "Anthonym"."reading" IS NOT NULL;
+');
+
+// Identifying reading if the word field contained a reading
+sql('
+	CREATE TEMP TABLE "UniqueReading" AS
+	SELECT MIN("id") AS "id", "reading"
+	FROM "Reading"
+	GROUP BY "reading"
+	HAVING COUNT("id") = 1;
+');
+sql('
+	UPDATE "Anthonym" SET "anthonymReadingId" = "UniqueReading"."id"
+	FROM "UniqueReading"
+	WHERE "Anthonym"."anthonymWordId" IS NULL
+	AND "Anthonym"."anthonymReadingId" IS NULL
+	AND "Anthonym"."word" = "UniqueReading"."reading"
+	AND "Anthonym"."word" IS NOT NULL;
+');
+sql('DROP TABLE "UniqueReading";');
+
+// Calculating the matching sense from the given rank
+sql('
+	UPDATE "Anthonym" SET "anthonymSenseId" = "SenseIds"."senseId"
+	FROM (
+		SELECT "senseAnthonymId", "senseId"
+		FROM (
+			SELECT DISTINCT
+				"Anthonym"."id" AS "senseAnthonymId",
+				"Anthonym"."senseNumber",
+				COALESCE("SenseWord"."senseId", "SenseReading"."senseId") AS "senseId",
+				DENSE_RANK() OVER (
+					PARTITION BY "Anthonym"."id"
+					ORDER BY COALESCE("SenseWord"."senseId", "SenseReading"."senseId") ASC
+				) AS "senseRank"
+			FROM "Anthonym"
+			LEFT OUTER JOIN "SenseWord" ON (
+				"Anthonym"."anthonymWordId" = "SenseWord"."wordId"
+				AND "Anthonym"."anthonymWordId" IS NOT NULL
+			)
+			LEFT OUTER JOIN "SenseReading" ON (
+				"Anthonym"."anthonymReadingId" = "SenseReading"."readingId"
+				AND "Anthonym"."anthonymReadingId" IS NOT NULL
+			)
+			WHERE "Anthonym"."senseNumber" IS NOT NULL
+		) AS "S"
+		WHERE "S"."senseNumber" = "S"."senseRank"
+	) AS "SenseIds"
+	WHERE "Anthonym"."id" = "SenseIds"."senseAnthonymId"
+');
+
+// Removing now useless columns
+sql('
+	ALTER TABLE "Anthonym"
+		DROP COLUMN "word",
+		DROP COLUMN "reading",
+		DROP COLUMN "senseNumber";
+');
+
+// Removing unusable rows
+sql('
+	DELETE FROM "Anthonym"
+	WHERE "anthonymWordId" IS NULL
+	AND "anthonymReadingId" IS NULL
+	AND "anthonymSenseId" IS NULL
+');
+
+sql('DROP INDEX "Reading_reading";');
+

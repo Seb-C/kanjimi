@@ -1,8 +1,11 @@
 {
   "scripts": {
-      "start": "node --experimental-modules main.mjs"
+    "start": "node --experimental-modules main.mjs"
   },
   "dependencies": {
     "pg-promise": "^8.5.5"
+  },
+  "devDependencies": {
+    "typescript": "^3.3.3"
   }
 }

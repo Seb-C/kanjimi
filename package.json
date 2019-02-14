@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "node --experimental-modules main.mjs"
+    "start": "node --experimental-modules src/main.mjs"
   },
   "dependencies": {
     "pg-promise": "^8.5.5"

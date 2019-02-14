@@ -1,6 +1,9 @@
-[*.yml]
+[*.{yml,json}]
 indent_style = space
 indent_size = 2
 
 [*.php]
+indent_style = tab
+
+[*.{js,jsx,mjs,ts}]
 indent_style = tab

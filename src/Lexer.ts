@@ -1,26 +1,30 @@
 import { query } from './db'
+import { VerbForms } from './verbs'
+
+// TODO properly organize packages
+
+console.log(VerbForms)
 
 enum CharType {
 	KATAKANA,
 	HIRAGANA,
 	KANJI,
 	OTHER,
-	NONE,
 }
 
 class Token {
-	text: string = ""
-	type: CharType = CharType.NONE
+	text: string
+
+	constructor(text: string) {
+		this.text = text
+	}
 
 	extendWith(token: Token) {
 		this.text += token.text
 	}
-}
 
-// TODO tests
-export default class Lexer {
-	getCharType(char: string): CharType {
-		const code = char.charCodeAt(0)
+	getCharType(position: number): CharType {
+		const code = this.text.charCodeAt(position)
 
 		// TODO half width characters? full-width roman chars?
 		if (code >= 0x3041 && code <= 0x3096) {
@@ -34,17 +38,27 @@ export default class Lexer {
 		}
 	}
 
+	getLastCharType(): CharType {
+		return this.getCharType(this.text.length - 1)
+	}
+}
+
+// TODO tests
+export default class Lexer {
 	async tokenize (text: string): Promise<Token[]> {
-		console.log(await query.many('SELECT * FROM "Word" LIMIT 3'))
+		//console.log(await query.many('SELECT * FROM "Word" WHERE "word" LIKE \'申する%\''))
 		const tokens: Token[] = []
 
-		var lastToken = new Token()
+		var lastToken = new Token("")
 		for (let i = 0; i < text.length; i++) {
-			const token = new Token()
-			token.text = text[i]
-			token.type = this.getCharType(token.text) // TODO
+			const token = new Token(text[i])
 
-			if (lastToken.type === token.type) {
+			const currentType = token.getLastCharType()
+			const lastType = lastToken.getLastCharType()
+
+			if (lastType === currentType) {
+				lastToken.extendWith(token)
+			} else if (lastType == CharType.KANJI && currentType == CharType.HIRAGANA) {
 				lastToken.extendWith(token)
 			} else {
 				tokens.push(token)

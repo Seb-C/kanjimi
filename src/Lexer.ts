@@ -1,10 +1,7 @@
 import { query } from './db'
-import { VerbForms } from './verbs'
+import { VerbForms, VerbForm } from './verbs'
 
 // TODO properly organize packages
-
-console.log(VerbForms)
-
 enum CharType {
 	KATAKANA,
 	HIRAGANA,
@@ -13,14 +10,18 @@ enum CharType {
 }
 
 class Token {
-	text: string
+	protected text: string
 
 	constructor(text: string) {
 		this.text = text
 	}
 
-	extendWith(token: Token) {
-		this.text += token.text
+	getText() {
+		return this.text
+	}
+
+	append(text: string) {
+		this.text += text
 	}
 
 	getCharType(position: number): CharType {
@@ -43,31 +44,85 @@ class Token {
 	}
 }
 
+class VerbToken extends Token {
+	protected verb: string
+	protected conjugation: string
+
+	constructor(verb: string, conjugation: string) {
+		super('')
+		this.verb = verb
+		this.conjugation = conjugation
+		this.computeText()
+	}
+
+	private computeText() {
+		this.text = this.verb + this.conjugation
+	}
+
+	getVerbForm(): VerbForm[] {
+		return VerbForms.getForms(this.conjugation)
+	}
+
+	appendToConjugation (text: string) {
+		this.conjugation += text
+		this.computeText()
+	}
+
+	setVerb (verb: string) {
+		this.verb = verb
+		this.computeText()
+	}
+}
+
 // TODO tests
 export default class Lexer {
 	async tokenize (text: string): Promise<Token[]> {
 		//console.log(await query.many('SELECT * FROM "Word" WHERE "word" LIKE \'申する%\''))
+
 		const tokens: Token[] = []
-
-		var lastToken = new Token("")
 		for (let i = 0; i < text.length; i++) {
-			const token = new Token(text[i])
+			const currentToken = new Token(text[i])
+			const currentType = currentToken.getLastCharType()
 
-			const currentType = token.getLastCharType()
+			const lastToken = i == 0 ? new Token('') : tokens[tokens.length - 1]
 			const lastType = lastToken.getLastCharType()
 
 			if (lastType === currentType) {
-				lastToken.extendWith(token)
+				lastToken.append(currentToken.getText())
 			} else if (lastType == CharType.KANJI && currentType == CharType.HIRAGANA) {
-				lastToken.extendWith(token)
+				var verbToken = this.getTokenIfVerbConjugation(text, i)
+				if (verbToken !== null) {
+					i += verbToken.getText().length - 1
+					verbToken.setVerb(lastToken.getText())
+					tokens[tokens.length - 1] = verbToken
+				} else {
+					tokens.push(currentToken)
+				}
 			} else {
-				tokens.push(token)
-				lastToken = token
+				tokens.push(currentToken)
 			}
-
-			// TODO
 		}
 
 		return tokens
+	}
+
+	getTokenIfVerbConjugation(text: string, position: number): VerbToken|null {
+		const token = new VerbToken("", "")
+		for (var i = 0; (
+			i < VerbForms.getMaxConjugationLength()
+			&& i + position < text.length
+		); i++) {
+			token.appendToConjugation(text[position + i])
+
+			if (token.getLastCharType() != CharType.HIRAGANA) {
+				return null
+			}
+
+			if (VerbForms.hasForm(token.getText())) {
+				return token
+			}
+		}
+
+		return null
 	}
 }

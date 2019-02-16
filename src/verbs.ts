@@ -3,7 +3,7 @@
 
 // TODO adjectives? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
 
-enum VerbFormType { // rename to FormType
+enum VerbFormType {
 	CAUSATIVE,
 	CONDITIONAL,
 	IMPERATIVE,
@@ -29,8 +29,9 @@ export class VerbForm {
 	}
 }
 
-export const VerbForms = new class {
-	private possibeFormsByConjugation: { [conjugation: string]: VerbForm[] } = {}
+class VerbFormsClass {
+	readonly possibeFormsByConjugation: { [conjugation: string]: VerbForm[] } = {}
+	private maxConjugationLength: number = 0
 
 	addForm (form: VerbForm) {
 		if (!this.possibeFormsByConjugation.hasOwnProperty(form.conjugation)) {
@@ -38,8 +39,25 @@ export const VerbForms = new class {
 		}
 
 		this.possibeFormsByConjugation[form.conjugation].push(form)
+		if (form.conjugation.length > this.maxConjugationLength) {
+			this.maxConjugationLength = form.conjugation.length
+		}
+	}
+
+	hasForm(form: string): boolean {
+		return this.possibeFormsByConjugation.hasOwnProperty(form)
+	}
+
+	getForms(form: string): VerbForm[] {
+		return this.possibeFormsByConjugation[form] || []
+	}
+
+	getMaxConjugationLength(): number {
+		return this.maxConjugationLength
 	}
 }
+
+export const VerbForms = new VerbFormsClass()
 
 VerbForms.addForm(new VerbForm('いさせる', 'いる', VerbFormType.CAUSATIVE))
 VerbForms.addForm(new VerbForm('いた'    , 'いる', VerbFormType.TA))

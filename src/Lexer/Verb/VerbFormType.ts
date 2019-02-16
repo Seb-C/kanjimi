@@ -1,0 +1,15 @@
+enum VerbFormType {
+	CAUSATIVE,
+	CONDITIONAL,
+	IMPERATIVE,
+	NEGATIVE,
+	PASSIVE,
+	POLITE,
+	POTENTIAL,
+	PROHIBITIVE,
+	TA,
+	TE,
+	VOLITIONAL,
+}
+
+export default VerbFormType

@@ -1,33 +1,5 @@
-// TODO suru irregular?
-// TODO kuru irregular?
-
-// TODO adjectives? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
-
-enum VerbFormType {
-	CAUSATIVE,
-	CONDITIONAL,
-	IMPERATIVE,
-	NEGATIVE,
-	PASSIVE,
-	POLITE,
-	POTENTIAL,
-	PROHIBITIVE,
-	TA,
-	TE,
-	VOLITIONAL,
-}
-
-export class VerbForm {
-	readonly conjugation: string
-	readonly dictionaryForm: string
-	readonly type: VerbFormType
-
-	constructor (conjugation: string, dictionaryForm: string, type: VerbFormType) {
-		this.conjugation = conjugation
-		this.dictionaryForm = dictionaryForm
-		this.type = type
-	}
-}
+import VerbFormType from './VerbFormType'
+import VerbForm from './VerbForm'
 
 class VerbFormsClass {
 	readonly possibeFormsByConjugation: { [conjugation: string]: VerbForm[] } = {}
@@ -57,7 +29,8 @@ class VerbFormsClass {
 	}
 }
 
-export const VerbForms = new VerbFormsClass()
+const VerbForms = new VerbFormsClass()
+export default VerbForms
 
 VerbForms.addForm(new VerbForm('いさせる', 'いる', VerbFormType.CAUSATIVE))
 VerbForms.addForm(new VerbForm('いた'    , 'いる', VerbFormType.TA))

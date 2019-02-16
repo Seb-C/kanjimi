@@ -1,78 +1,11 @@
-import { query } from './db'
-import { VerbForms, VerbForm } from './verbs'
+import { query } from '../db' // TODO dependency injection?
+import VerbForms from './Verb/VerbForms'
+import VerbForm from './Verb/VerbForm'
+import Token from './Token/Token'
+import CharType from './CharType'
+import VerbToken from './Token/VerbToken'
 
-// TODO properly organize packages
-enum CharType {
-	KATAKANA,
-	HIRAGANA,
-	KANJI,
-	OTHER,
-}
-
-class Token {
-	protected text: string
-
-	constructor(text: string) {
-		this.text = text
-	}
-
-	getText() {
-		return this.text
-	}
-
-	append(text: string) {
-		this.text += text
-	}
-
-	getCharType(position: number): CharType {
-		const code = this.text.charCodeAt(position)
-
-		// TODO half width characters? full-width roman chars?
-		if (code >= 0x3041 && code <= 0x3096) {
-			return CharType.HIRAGANA
-		} else if (code >= 0x30A1 && code <= 0x30FA) {
-			return CharType.KATAKANA
-		} else if (code >= 0x4E00 && code <= 0x9FAF) {
-			return CharType.KANJI
-		} else {
-			return CharType.OTHER
-		}
-	}
-
-	getLastCharType(): CharType {
-		return this.getCharType(this.text.length - 1)
-	}
-}
-
-class VerbToken extends Token {
-	protected verb: string
-	protected conjugation: string
-
-	constructor(verb: string, conjugation: string) {
-		super('')
-		this.verb = verb
-		this.conjugation = conjugation
-		this.computeText()
-	}
-
-	private computeText() {
-		this.text = this.verb + this.conjugation
-	}
-
-	getVerbForm(): VerbForm[] {
-		return VerbForms.getForms(this.conjugation)
-	}
-
-	appendToConjugation (text: string) {
-		this.conjugation += text
-		this.computeText()
-	}
-
-	setVerb (verb: string) {
-		this.verb = verb
-		this.computeText()
-	}
-}
+// TODO adjectives? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
 
 // TODO tests
 export default class Lexer {

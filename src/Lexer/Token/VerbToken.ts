@@ -13,11 +13,19 @@ export default class VerbToken extends Token {
 		this.computeText()
 	}
 
+	getVerb() {
+		return this.verb
+	}
+
+	getConjugation() {
+		return this.conjugation
+	}
+
 	private computeText() {
 		this.text = this.verb + this.conjugation
 	}
 
-	getVerbForm(): VerbForm[] {
+	getDictionaryConjugationForms(): VerbForm[] {
 		return VerbForms.getForms(this.conjugation)
 	}
 

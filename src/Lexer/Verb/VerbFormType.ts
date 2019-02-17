@@ -12,4 +12,4 @@ enum VerbFormType {
 	VOLITIONAL,
 }
 
-export default VerbFormType
+export default VerbFormType;

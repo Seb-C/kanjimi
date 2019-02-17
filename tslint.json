@@ -1,0 +1,10 @@
+{
+    "defaultSeverity": "error",
+    "extends": "tslint-config-airbnb",
+    "rules": {
+      "indent": [true, "tabs", 1],
+      "ter-indent": [true, "tab"],
+      "no-else-after-return": [false],
+      "no-increment-decrement": [false]
+    }
+}

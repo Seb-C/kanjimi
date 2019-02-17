@@ -1,309 +1,309 @@
-import VerbFormType from './VerbFormType'
-import VerbForm from './VerbForm'
+import VerbFormType from './VerbFormType';
+import VerbForm from './VerbForm';
 
 class VerbFormsClass {
-	readonly possibeFormsByConjugation: { [conjugation: string]: VerbForm[] } = {}
-	private maxConjugationLength: number = 0
+	readonly possibeFormsByConjugation: { [conjugation: string]: VerbForm[] } = {};
+	private maxConjugationLength: number = 0;
 
 	addForm (form: VerbForm) {
 		if (!this.possibeFormsByConjugation.hasOwnProperty(form.conjugation)) {
-			this.possibeFormsByConjugation[form.conjugation] = []
+			this.possibeFormsByConjugation[form.conjugation] = [];
 		}
 
-		this.possibeFormsByConjugation[form.conjugation].push(form)
+		this.possibeFormsByConjugation[form.conjugation].push(form);
 		if (form.conjugation.length > this.maxConjugationLength) {
-			this.maxConjugationLength = form.conjugation.length
+			this.maxConjugationLength = form.conjugation.length;
 		}
 	}
 
 	hasForm(form: string): boolean {
-		return this.possibeFormsByConjugation.hasOwnProperty(form)
+		return this.possibeFormsByConjugation.hasOwnProperty(form);
 	}
 
 	getForms(form: string): VerbForm[] {
-		return this.possibeFormsByConjugation[form] || []
+		return this.possibeFormsByConjugation[form] || [];
 	}
 
 	getMaxConjugationLength(): number {
-		return this.maxConjugationLength
+		return this.maxConjugationLength;
 	}
 }
 
-const VerbForms = new VerbFormsClass()
-export default VerbForms
+const verbForms = new VerbFormsClass();
+export default verbForms;
 
-VerbForms.addForm(new VerbForm('いさせる', 'いる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('いた'    , 'いる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('いた'    , 'く'  , VerbFormType.TA))
-VerbForms.addForm(new VerbForm('いだ'    , 'ぐ'  , VerbFormType.TA))
-VerbForms.addForm(new VerbForm('いて'    , 'いる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('いて'    , 'く'  , VerbFormType.TE))
-VerbForms.addForm(new VerbForm('いで'    , 'ぐ'  , VerbFormType.TE))
-VerbForms.addForm(new VerbForm('いない'  , 'いる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('います'  , 'いる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('います'  , 'う'  , VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('いよう'  , 'いる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('いられる', 'いる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('いられる', 'いる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('いるな'  , 'いる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('いれば'  , 'いる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('いろ'    , 'いる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('うな'    , 'う'  , VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('え'      , 'う'  , VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('えさせる', 'える', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('えた'    , 'える', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('えて'    , 'える', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('えない'  , 'える', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('えば'    , 'う'  , VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('えます'  , 'える', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('えよう'  , 'える', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('えられる', 'える', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('えられる', 'える', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('える'    , 'う'  , VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('えるな'  , 'える', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('えれば'  , 'える', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('えろ'    , 'える', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('おう'    , 'う'  , VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('かせる'  , 'く'  , VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('かない'  , 'く'  , VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('かれる'  , 'く'  , VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('がせる'  , 'ぐ'  , VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('がない'  , 'ぐ'  , VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('がれる'  , 'ぐ'  , VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('きさせる', 'きる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('きた'    , 'きる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('きて'    , 'きる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('きない'  , 'きる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('きます'  , 'きる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('きます'  , 'く'  , VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('きよう'  , 'きる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('きられる', 'きる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('きられる', 'きる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('きるな'  , 'きる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('きれば'  , 'きる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('きろ'    , 'きる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('ぎます'  , 'ぐ'  , VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('くな'    , 'く'  , VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('ぐな'    , 'ぐ'  , VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('け'      , 'く'  , VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('けさせる', 'ける', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('けた'    , 'ける', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('けて'    , 'ける', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('けない'  , 'ける', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('けば'    , 'く'  , VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('けます'  , 'ける', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('けよう'  , 'ける', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('けられる', 'ける', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('けられる', 'ける', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('ける'    , 'く'  , VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('けるな'  , 'ける', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('ければ'  , 'ける', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('けろ'    , 'ける', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('げ'      , 'ぐ'  , VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('げば'    , 'ぐ'  , VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('げる'    , 'ぐ'  , VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('こう'    , 'く'  , VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('ごう'    , 'ぐ'  , VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('させる'  , 'す'  , VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('さない'  , 'す'  , VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('される'  , 'す'  , VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('しさせる', 'しる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('した'    , 'しる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('した'    , 'す'  , VerbFormType.TA))
-VerbForms.addForm(new VerbForm('して'    , 'しる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('して'    , 'す'  , VerbFormType.TE))
-VerbForms.addForm(new VerbForm('しない'  , 'しる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('します'  , 'しる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('します'  , 'す'  , VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('しよう'  , 'しる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('しられる', 'しる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('しられる', 'しる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('しるな'  , 'しる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('しれば'  , 'しる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('しろ'    , 'しる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('すな'    , 'す'  , VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('せ'      , 'す'  , VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('せさせる', 'せる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('せた'    , 'せる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('せて'    , 'せる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('せない'  , 'せる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('せば'    , 'す'  , VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('せます'  , 'せる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('せよう'  , 'せる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('せられる', 'せる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('せられる', 'せる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('せる'    , 'す'  , VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('せるな'  , 'せる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('せれば'  , 'せる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('せろ'    , 'せる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('そう'    , 'す'  , VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('たせる'  , 'つ'  , VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('たない'  , 'つ'  , VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('たれる'  , 'つ'  , VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('ちさせる', 'ちる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('ちた'    , 'ちる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('ちて'    , 'ちる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('ちない'  , 'ちる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('ちます'  , 'ちる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('ちます'  , 'つ'  , VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('ちよう'  , 'ちる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('ちられる', 'ちる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('ちられる', 'ちる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('ちるな'  , 'ちる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('ちれば'  , 'ちる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('ちろ'    , 'ちる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('った'    , 'う'  , VerbFormType.TA))
-VerbForms.addForm(new VerbForm('った'    , 'つ'  , VerbFormType.TA))
-VerbForms.addForm(new VerbForm('った'    , 'る'  , VerbFormType.TA))
-VerbForms.addForm(new VerbForm('って'    , 'う'  , VerbFormType.TE))
-VerbForms.addForm(new VerbForm('って'    , 'つ'  , VerbFormType.TE))
-VerbForms.addForm(new VerbForm('って'    , 'る'  , VerbFormType.TE))
-VerbForms.addForm(new VerbForm('つな'    , 'つ'  , VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('て'      , 'つ'  , VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('てさせる', 'てる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('てた'    , 'てる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('てて'    , 'てる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('てない'  , 'てる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('てば'    , 'つ'  , VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('てます'  , 'てる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('てよう'  , 'てる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('てられる', 'てる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('てられる', 'てる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('てる'    , 'つ'  , VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('てるな'  , 'てる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('てれば'  , 'てる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('てろ'    , 'てる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('とう'    , 'つ'  , VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('なせる'  , 'ぬ'  , VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('なない'  , 'ぬ'  , VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('なれる'  , 'ぬ'  , VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('にさせる', 'にる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('にた'    , 'にる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('にて'    , 'にる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('にない'  , 'にる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('にます'  , 'にる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('にます'  , 'ぬ'  , VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('によう'  , 'にる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('にられる', 'にる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('にられる', 'にる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('にるな'  , 'にる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('にれば'  , 'にる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('にろ'    , 'にる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('ぬな'    , 'ぬ'  , VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('ね'      , 'ぬ'  , VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('ねさせる', 'ねる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('ねた'    , 'ねる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('ねて'    , 'ねる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('ねない'  , 'ねる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('ねば'    , 'ぬ'  , VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('ねます'  , 'ねる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('ねよう'  , 'ねる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('ねられる', 'ねる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('ねられる', 'ねる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('ねる'    , 'ぬ'  , VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('ねるな'  , 'ねる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('ねれば'  , 'ねる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('ねろ'    , 'ねる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('のう'    , 'ぬ'  , VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('ばせる'  , 'ぶ'  , VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('ばない'  , 'ぶ'  , VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('ばれる'  , 'ぶ'  , VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('ひさせる', 'ひる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('ひた'    , 'ひる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('ひて'    , 'ひる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('ひない'  , 'ひる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('ひます'  , 'ひる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('ひよう'  , 'ひる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('ひられる', 'ひる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('ひられる', 'ひる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('ひるな'  , 'ひる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('ひれば'  , 'ひる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('ひろ'    , 'ひる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('びます'  , 'ぶ'  , VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('ぶな'    , 'ぶ'  , VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('へさせる', 'へる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('へた'    , 'へる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('へて'    , 'へる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('へない'  , 'へる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('へます'  , 'へる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('へよう'  , 'へる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('へられる', 'へる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('へられる', 'へる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('へるな'  , 'へる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('へれば'  , 'へる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('へろ'    , 'へる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('べ'      , 'ぶ'  , VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('べば'    , 'ぶ'  , VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('べる'    , 'ぶ'  , VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('ぼう'    , 'ぶ'  , VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('ませる'  , 'む'  , VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('まない'  , 'む'  , VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('まれる'  , 'む'  , VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('みさせる', 'みる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('みた'    , 'みる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('みて'    , 'みる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('みない'  , 'みる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('みます'  , 'みる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('みます'  , 'む'  , VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('みよう'  , 'みる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('みられる', 'みる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('みられる', 'みる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('みるな'  , 'みる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('みれば'  , 'みる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('みろ'    , 'みる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('むな'    , 'む'  , VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('め'      , 'む'  , VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('めさせる', 'める', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('めた'    , 'める', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('めて'    , 'める', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('めない'  , 'める', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('めば'    , 'む'  , VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('めます'  , 'める', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('めよう'  , 'める', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('められる', 'める', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('められる', 'める', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('める'    , 'む'  , VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('めるな'  , 'める', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('めれば'  , 'める', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('めろ'    , 'める', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('もう'    , 'む'  , VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('らせる'  , 'る'  , VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('らない'  , 'る'  , VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('られる'  , 'る'  , VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('りさせる', 'りる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('りた'    , 'りる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('りて'    , 'りる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('りない'  , 'りる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('ります'  , 'りる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('ります'  , 'る'  , VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('りよう'  , 'りる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('りられる', 'りる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('りられる', 'りる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('りるな'  , 'りる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('りれば'  , 'りる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('りろ'    , 'りる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('るな'    , 'る'  , VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('れ'      , 'る'  , VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('れさせる', 'れる', VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('れた'    , 'れる', VerbFormType.TA))
-VerbForms.addForm(new VerbForm('れて'    , 'れる', VerbFormType.TE))
-VerbForms.addForm(new VerbForm('れない'  , 'れる', VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('れば'    , 'る'  , VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('れます'  , 'れる', VerbFormType.POLITE))
-VerbForms.addForm(new VerbForm('れよう'  , 'れる', VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('れられる', 'れる', VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('れられる', 'れる', VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('れる'    , 'る'  , VerbFormType.POTENTIAL))
-VerbForms.addForm(new VerbForm('れるな'  , 'れる', VerbFormType.PROHIBITIVE))
-VerbForms.addForm(new VerbForm('れれば'  , 'れる', VerbFormType.CONDITIONAL))
-VerbForms.addForm(new VerbForm('れろ'    , 'れる', VerbFormType.IMPERATIVE))
-VerbForms.addForm(new VerbForm('ろう'    , 'る'  , VerbFormType.VOLITIONAL))
-VerbForms.addForm(new VerbForm('わせる'  , 'う'  , VerbFormType.CAUSATIVE))
-VerbForms.addForm(new VerbForm('わない'  , 'う'  , VerbFormType.NEGATIVE))
-VerbForms.addForm(new VerbForm('われる'  , 'う'  , VerbFormType.PASSIVE))
-VerbForms.addForm(new VerbForm('んだ'    , 'ぬ'  , VerbFormType.TA))
-VerbForms.addForm(new VerbForm('んだ'    , 'ぶ'  , VerbFormType.TA))
-VerbForms.addForm(new VerbForm('んだ'    , 'む'  , VerbFormType.TA))
-VerbForms.addForm(new VerbForm('んで'    , 'ぬ'  , VerbFormType.TE))
-VerbForms.addForm(new VerbForm('んで'    , 'ぶ'  , VerbFormType.TE))
-VerbForms.addForm(new VerbForm('んで'    , 'む'  , VerbFormType.TE))
+verbForms.addForm(new VerbForm('いさせる', 'いる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('いた'    , 'いる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('いた'    , 'く'  , VerbFormType.TA));
+verbForms.addForm(new VerbForm('いだ'    , 'ぐ'  , VerbFormType.TA));
+verbForms.addForm(new VerbForm('いて'    , 'いる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('いて'    , 'く'  , VerbFormType.TE));
+verbForms.addForm(new VerbForm('いで'    , 'ぐ'  , VerbFormType.TE));
+verbForms.addForm(new VerbForm('いない'  , 'いる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('います'  , 'いる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('います'  , 'う'  , VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('いよう'  , 'いる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('いられる', 'いる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('いられる', 'いる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('いるな'  , 'いる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('いれば'  , 'いる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('いろ'    , 'いる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('うな'    , 'う'  , VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('え'      , 'う'  , VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('えさせる', 'える', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('えた'    , 'える', VerbFormType.TA));
+verbForms.addForm(new VerbForm('えて'    , 'える', VerbFormType.TE));
+verbForms.addForm(new VerbForm('えない'  , 'える', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('えば'    , 'う'  , VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('えます'  , 'える', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('えよう'  , 'える', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('えられる', 'える', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('えられる', 'える', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('える'    , 'う'  , VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('えるな'  , 'える', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('えれば'  , 'える', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('えろ'    , 'える', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('おう'    , 'う'  , VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('かせる'  , 'く'  , VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('かない'  , 'く'  , VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('かれる'  , 'く'  , VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('がせる'  , 'ぐ'  , VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('がない'  , 'ぐ'  , VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('がれる'  , 'ぐ'  , VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('きさせる', 'きる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('きた'    , 'きる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('きて'    , 'きる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('きない'  , 'きる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('きます'  , 'きる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('きます'  , 'く'  , VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('きよう'  , 'きる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('きられる', 'きる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('きられる', 'きる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('きるな'  , 'きる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('きれば'  , 'きる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('きろ'    , 'きる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('ぎます'  , 'ぐ'  , VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('くな'    , 'く'  , VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('ぐな'    , 'ぐ'  , VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('け'      , 'く'  , VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('けさせる', 'ける', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('けた'    , 'ける', VerbFormType.TA));
+verbForms.addForm(new VerbForm('けて'    , 'ける', VerbFormType.TE));
+verbForms.addForm(new VerbForm('けない'  , 'ける', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('けば'    , 'く'  , VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('けます'  , 'ける', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('けよう'  , 'ける', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('けられる', 'ける', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('けられる', 'ける', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('ける'    , 'く'  , VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('けるな'  , 'ける', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('ければ'  , 'ける', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('けろ'    , 'ける', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('げ'      , 'ぐ'  , VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('げば'    , 'ぐ'  , VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('げる'    , 'ぐ'  , VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('こう'    , 'く'  , VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('ごう'    , 'ぐ'  , VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('させる'  , 'す'  , VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('さない'  , 'す'  , VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('される'  , 'す'  , VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('しさせる', 'しる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('した'    , 'しる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('した'    , 'す'  , VerbFormType.TA));
+verbForms.addForm(new VerbForm('して'    , 'しる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('して'    , 'す'  , VerbFormType.TE));
+verbForms.addForm(new VerbForm('しない'  , 'しる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('します'  , 'しる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('します'  , 'す'  , VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('しよう'  , 'しる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('しられる', 'しる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('しられる', 'しる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('しるな'  , 'しる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('しれば'  , 'しる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('しろ'    , 'しる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('すな'    , 'す'  , VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('せ'      , 'す'  , VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('せさせる', 'せる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('せた'    , 'せる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('せて'    , 'せる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('せない'  , 'せる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('せば'    , 'す'  , VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('せます'  , 'せる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('せよう'  , 'せる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('せられる', 'せる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('せられる', 'せる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('せる'    , 'す'  , VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('せるな'  , 'せる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('せれば'  , 'せる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('せろ'    , 'せる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('そう'    , 'す'  , VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('たせる'  , 'つ'  , VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('たない'  , 'つ'  , VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('たれる'  , 'つ'  , VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('ちさせる', 'ちる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('ちた'    , 'ちる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('ちて'    , 'ちる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('ちない'  , 'ちる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('ちます'  , 'ちる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('ちます'  , 'つ'  , VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('ちよう'  , 'ちる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('ちられる', 'ちる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('ちられる', 'ちる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('ちるな'  , 'ちる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('ちれば'  , 'ちる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('ちろ'    , 'ちる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('った'    , 'う'  , VerbFormType.TA));
+verbForms.addForm(new VerbForm('った'    , 'つ'  , VerbFormType.TA));
+verbForms.addForm(new VerbForm('った'    , 'る'  , VerbFormType.TA));
+verbForms.addForm(new VerbForm('って'    , 'う'  , VerbFormType.TE));
+verbForms.addForm(new VerbForm('って'    , 'つ'  , VerbFormType.TE));
+verbForms.addForm(new VerbForm('って'    , 'る'  , VerbFormType.TE));
+verbForms.addForm(new VerbForm('つな'    , 'つ'  , VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('て'      , 'つ'  , VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('てさせる', 'てる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('てた'    , 'てる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('てて'    , 'てる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('てない'  , 'てる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('てば'    , 'つ'  , VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('てます'  , 'てる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('てよう'  , 'てる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('てられる', 'てる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('てられる', 'てる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('てる'    , 'つ'  , VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('てるな'  , 'てる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('てれば'  , 'てる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('てろ'    , 'てる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('とう'    , 'つ'  , VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('なせる'  , 'ぬ'  , VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('なない'  , 'ぬ'  , VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('なれる'  , 'ぬ'  , VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('にさせる', 'にる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('にた'    , 'にる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('にて'    , 'にる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('にない'  , 'にる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('にます'  , 'にる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('にます'  , 'ぬ'  , VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('によう'  , 'にる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('にられる', 'にる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('にられる', 'にる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('にるな'  , 'にる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('にれば'  , 'にる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('にろ'    , 'にる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('ぬな'    , 'ぬ'  , VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('ね'      , 'ぬ'  , VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('ねさせる', 'ねる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('ねた'    , 'ねる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('ねて'    , 'ねる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('ねない'  , 'ねる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('ねば'    , 'ぬ'  , VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('ねます'  , 'ねる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('ねよう'  , 'ねる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('ねられる', 'ねる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('ねられる', 'ねる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('ねる'    , 'ぬ'  , VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('ねるな'  , 'ねる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('ねれば'  , 'ねる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('ねろ'    , 'ねる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('のう'    , 'ぬ'  , VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('ばせる'  , 'ぶ'  , VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('ばない'  , 'ぶ'  , VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('ばれる'  , 'ぶ'  , VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('ひさせる', 'ひる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('ひた'    , 'ひる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('ひて'    , 'ひる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('ひない'  , 'ひる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('ひます'  , 'ひる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('ひよう'  , 'ひる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('ひられる', 'ひる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('ひられる', 'ひる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('ひるな'  , 'ひる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('ひれば'  , 'ひる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('ひろ'    , 'ひる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('びます'  , 'ぶ'  , VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('ぶな'    , 'ぶ'  , VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('へさせる', 'へる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('へた'    , 'へる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('へて'    , 'へる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('へない'  , 'へる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('へます'  , 'へる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('へよう'  , 'へる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('へられる', 'へる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('へられる', 'へる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('へるな'  , 'へる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('へれば'  , 'へる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('へろ'    , 'へる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('べ'      , 'ぶ'  , VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('べば'    , 'ぶ'  , VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('べる'    , 'ぶ'  , VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('ぼう'    , 'ぶ'  , VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('ませる'  , 'む'  , VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('まない'  , 'む'  , VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('まれる'  , 'む'  , VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('みさせる', 'みる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('みた'    , 'みる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('みて'    , 'みる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('みない'  , 'みる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('みます'  , 'みる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('みます'  , 'む'  , VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('みよう'  , 'みる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('みられる', 'みる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('みられる', 'みる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('みるな'  , 'みる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('みれば'  , 'みる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('みろ'    , 'みる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('むな'    , 'む'  , VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('め'      , 'む'  , VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('めさせる', 'める', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('めた'    , 'める', VerbFormType.TA));
+verbForms.addForm(new VerbForm('めて'    , 'める', VerbFormType.TE));
+verbForms.addForm(new VerbForm('めない'  , 'める', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('めば'    , 'む'  , VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('めます'  , 'める', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('めよう'  , 'める', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('められる', 'める', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('められる', 'める', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('める'    , 'む'  , VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('めるな'  , 'める', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('めれば'  , 'める', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('めろ'    , 'める', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('もう'    , 'む'  , VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('らせる'  , 'る'  , VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('らない'  , 'る'  , VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('られる'  , 'る'  , VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('りさせる', 'りる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('りた'    , 'りる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('りて'    , 'りる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('りない'  , 'りる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('ります'  , 'りる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('ります'  , 'る'  , VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('りよう'  , 'りる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('りられる', 'りる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('りられる', 'りる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('りるな'  , 'りる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('りれば'  , 'りる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('りろ'    , 'りる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('るな'    , 'る'  , VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('れ'      , 'る'  , VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('れさせる', 'れる', VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('れた'    , 'れる', VerbFormType.TA));
+verbForms.addForm(new VerbForm('れて'    , 'れる', VerbFormType.TE));
+verbForms.addForm(new VerbForm('れない'  , 'れる', VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('れば'    , 'る'  , VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('れます'  , 'れる', VerbFormType.POLITE));
+verbForms.addForm(new VerbForm('れよう'  , 'れる', VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('れられる', 'れる', VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('れられる', 'れる', VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('れる'    , 'る'  , VerbFormType.POTENTIAL));
+verbForms.addForm(new VerbForm('れるな'  , 'れる', VerbFormType.PROHIBITIVE));
+verbForms.addForm(new VerbForm('れれば'  , 'れる', VerbFormType.CONDITIONAL));
+verbForms.addForm(new VerbForm('れろ'    , 'れる', VerbFormType.IMPERATIVE));
+verbForms.addForm(new VerbForm('ろう'    , 'る'  , VerbFormType.VOLITIONAL));
+verbForms.addForm(new VerbForm('わせる'  , 'う'  , VerbFormType.CAUSATIVE));
+verbForms.addForm(new VerbForm('わない'  , 'う'  , VerbFormType.NEGATIVE));
+verbForms.addForm(new VerbForm('われる'  , 'う'  , VerbFormType.PASSIVE));
+verbForms.addForm(new VerbForm('んだ'    , 'ぬ'  , VerbFormType.TA));
+verbForms.addForm(new VerbForm('んだ'    , 'ぶ'  , VerbFormType.TA));
+verbForms.addForm(new VerbForm('んだ'    , 'む'  , VerbFormType.TA));
+verbForms.addForm(new VerbForm('んで'    , 'ぬ'  , VerbFormType.TE));
+verbForms.addForm(new VerbForm('んで'    , 'ぶ'  , VerbFormType.TE));
+verbForms.addForm(new VerbForm('んで'    , 'む'  , VerbFormType.TE));

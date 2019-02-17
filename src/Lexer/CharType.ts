@@ -5,4 +5,4 @@ enum CharType {
 	OTHER,
 }
 
-export default CharType
+export default CharType;

@@ -1,18 +1,17 @@
-import { IMain, IDatabase, IBaseProtocol } from 'pg-promise';
-import * as pgPromise from 'pg-promise'
+import * as PgPromise from 'pg-promise';
 
-interface Query extends IBaseProtocol<null> {}
+interface Query extends PgPromise.IBaseProtocol<null> {}
 
-const db: IDatabase<null> = pgPromise()({
+const db: PgPromise.IDatabase<null> = PgPromise()({
 	host: 'localhost',
 	port: 5432,
 	database: 'test',
 	user: 'test',
 	password: 'test',
-})
+});
 
-export const query: Query = db
+export const query: Query = db;
 
 export const close = async () => {
 	return db.$pool.end();
-}
+};

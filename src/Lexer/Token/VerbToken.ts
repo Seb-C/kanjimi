@@ -1,41 +1,41 @@
-import Token from './Token'
-import VerbForms from '../Verb/VerbForms'
-import VerbForm from '../Verb/VerbForm'
+import Token from './Token';
+import VerbForms from '../Verb/VerbForms';
+import VerbForm from '../Verb/VerbForm';
 
 export default class VerbToken extends Token {
-	protected verb: string
-	protected conjugation: string
+	protected verb: string;
+	protected conjugation: string;
 
 	constructor(verb: string, conjugation: string) {
-		super('')
-		this.verb = verb
-		this.conjugation = conjugation
-		this.computeText()
+		super('');
+		this.verb = verb;
+		this.conjugation = conjugation;
+		this.computeText();
 	}
 
 	getVerb() {
-		return this.verb
+		return this.verb;
 	}
 
 	getConjugation() {
-		return this.conjugation
+		return this.conjugation;
 	}
 
 	private computeText() {
-		this.text = this.verb + this.conjugation
+		this.text = this.verb + this.conjugation;
 	}
 
 	getDictionaryConjugationForms(): VerbForm[] {
-		return VerbForms.getForms(this.conjugation)
+		return VerbForms.getForms(this.conjugation);
 	}
 
 	appendToConjugation (text: string) {
-		this.conjugation += text
-		this.computeText()
+		this.conjugation += text;
+		this.computeText();
 	}
 
 	setVerb (verb: string) {
-		this.verb = verb
-		this.computeText()
+		this.verb = verb;
+		this.computeText();
 	}
 }

@@ -11,6 +11,3 @@ export default class VerbForm {
 		this.type = type;
 	}
 }
-
-// TODO suru irregular?
-// TODO kuru irregular?

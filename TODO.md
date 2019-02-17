@@ -1,0 +1,10 @@
+- Export db as an SQL dump
+- Add a migration system
+- words with only reading and no kanji in database -> create the word entry
+- dependency injection?
+- particles
+- multi kanji sequences
+- suru irregular
+- kuru irregular
+- adjectives? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
+- half width characters? full-width roman chars?

@@ -5,9 +5,6 @@ import VerbToken from '../src/Lexer/Token/VerbToken';
 describe('Lexer', () => {
 	const lexer = new Lexer();
 	it('Basic sentence tokenization', async () => {
-		// TODO particles
-		// TODO multi kanji sequences
-
 		const result = await lexer.tokenize('私はセバスティアンと申します。');
 		expect(result.length).toBe(6);
 		expect(result[0].getText()).toBe('私');

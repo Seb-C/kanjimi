@@ -1,13 +1,10 @@
-import { query } from '../db'; // TODO dependency injection?
+import { query } from '../db';
 import VerbForms from './Verb/VerbForms';
 import VerbForm from './Verb/VerbForm';
 import Token from './Token/Token';
 import CharType from './CharType';
 import VerbToken from './Token/VerbToken';
 
-// TODO adjectives? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
-
-// TODO tests
 export default class Lexer {
 	async tokenize (text: string): Promise<Token[]> {
 		// console.log(await query.many('SELECT * FROM "Word" WHERE "word" LIKE \'申する%\''))

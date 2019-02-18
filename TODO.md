@@ -1,12 +1,12 @@
-- Finish implementing the migration system for up
-- words with only reading and no kanji in database -> create the word entry
-- linter : filter console.log
-- linter : filter linter disable comments
-- implement down migrations
-- dependency injection?
+Priority:
 - particles
 - multi kanji sequences
+
+Average:
 - suru irregular
 - kuru irregular
-- adjectives? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
+- adjectives conjugation? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
+
+Later:
 - half width characters? full-width roman chars?
+- implement down migrations

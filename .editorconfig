@@ -5,5 +5,8 @@ indent_size = 2
 [*.php]
 indent_style = tab
 
+[*.sql]
+indent_style = tab
+
 [*.{js,jsx,mjs,ts}]
 indent_style = tab

@@ -1,6 +1,8 @@
-- Export db as an SQL dump
-- Add a migration system
+- Finish implementing the migration system for up
 - words with only reading and no kanji in database -> create the word entry
+- linter : filter console.log
+- linter : filter linter disable comments
+- implement down migrations
 - dependency injection?
 - particles
 - multi kanji sequences

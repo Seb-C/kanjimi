@@ -1,5 +1,9 @@
 Priority:
-- particles
+- separate getCharType from the token (or 1 token type per char type?)
+- todo test getchartype
+- punctuation token?
+- "other" token?
+- particles and punctuation -> add more sentences and tests to check if it works
 - multi kanji sequences
 
 Average:

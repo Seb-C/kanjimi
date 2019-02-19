@@ -1,6 +1,8 @@
 import 'jasmine';
 import Lexer from '../src/Lexer';
 import VerbToken from '../src/Lexer/Token/VerbToken';
+import ParticleToken from '../src/Lexer/Token/ParticleToken';
+import PunctuationToken from '../src/Lexer/Token/PunctuationToken';
 
 describe('Lexer', () => {
 	const lexer = new Lexer();
@@ -14,10 +16,16 @@ describe('Lexer', () => {
 		expect(result[4].getText()).toBe('申します');
 		expect(result[5].getText()).toBe('。');
 	});
-	it('Verb recognition', async () => {
+	it('Token types recognition', async () => {
+		const result = await lexer.tokenize('私はセバスティアンと申します。');
+		expect(result[1] instanceof ParticleToken).toBe(true);
+		expect(result[3] instanceof ParticleToken).toBe(true);
+		expect(result[4] instanceof VerbToken).toBe(true);
+		expect(result[5] instanceof PunctuationToken).toBe(true);
+	});
+	it('Verb parts', async () => {
 		const result = await lexer.tokenize('私はセバスティアンと申します。');
 		const verb = <VerbToken>result[4];
-		expect(verb instanceof VerbToken).toBe(true);
 		expect(verb.getConjugation()).toBe('します');
 		expect(verb.getVerb()).toBe('申');
 		expect(verb.getDictionaryConjugationForms().map(v => v.dictionaryForm)).toContain('す');

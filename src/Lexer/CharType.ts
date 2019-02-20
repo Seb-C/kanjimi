@@ -14,9 +14,9 @@ namespace CharType {
 			return CharType.HIRAGANA;
 		} else if (code >= 0x30A1 && code <= 0x30FA) {
 			return CharType.KATAKANA;
-		} else if (code >= 0x4E00 && code <= 0x9FAF) {
+		} else if ((code >= 0x4E00 && code <= 0x9FAF) || code === 0x3005) {
 			return CharType.KANJI;
-		} else if (code >= 0x3001 && code <= 0x303D || code === 0x30FB) {
+		} else if ((code >= 0x3001 && code <= 0x303D) || code === 0x30FB) {
 			return CharType.PUNCTUATION;
 		} else {
 			return CharType.OTHER;

@@ -1,5 +1,4 @@
 Priority:
-- todo test getchartype
 - TODO cut the lexer loop in unitary functions
 - particles and punctuation -> add more sentences and tests to check if it works
 - multi kanji sequences

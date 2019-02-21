@@ -1,7 +1,6 @@
 Priority:
-- TODO cut the lexer loop in unitary functions
 - particles and punctuation -> add more sentences and tests to check if it works
-- multi kanji sequences
+- multi kanji sequences -> need dictionary + mock for the tests?
 
 Average:
 - suru irregular

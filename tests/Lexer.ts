@@ -1,11 +1,13 @@
 import 'jasmine';
 import Lexer from '../src/Lexer';
+import Dictionary from '../src/Dictionary';
 import VerbToken from '../src/Lexer/Token/VerbToken';
 import ParticleToken from '../src/Lexer/Token/ParticleToken';
 import PunctuationToken from '../src/Lexer/Token/PunctuationToken';
 
 describe('Lexer', () => {
-	const lexer = new Lexer();
+	const dictionary = new Dictionary();
+	const lexer = new Lexer(dictionary);
 	it('Basic sentence tokenization', async () => {
 		const result = await lexer.tokenize('私はセバスティアンと申します。');
 		expect(result.length).toBe(6);

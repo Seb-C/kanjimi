@@ -1,4 +1,3 @@
-import { query } from '../db';
 import VerbForms from './Verb/VerbForms';
 import VerbForm from './Verb/VerbForm';
 import Token from './Token/Token';
@@ -6,11 +5,17 @@ import CharType from './CharType';
 import VerbToken from './Token/VerbToken';
 import ParticleToken from './Token/ParticleToken';
 import PunctuationToken from './Token/PunctuationToken';
+import Dictionary from '../Dictionary';
 
 export default class Lexer {
+	protected dictionary: Dictionary;
 	protected text: string;
 	protected tokens: Token[];
 	protected currentIndex: number;
+
+	constructor(dictionary: Dictionary) {
+		this.dictionary = dictionary;
+	}
 
 	async tokenize (text: string): Promise<Token[]> {
 		this.text = text;

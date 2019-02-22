@@ -1,6 +1,6 @@
 import * as PgPromise from 'pg-promise';
 
-interface Query extends PgPromise.IBaseProtocol<null> {}
+export interface Query extends PgPromise.IBaseProtocol<null> {}
 
 const db: PgPromise.IDatabase<null> = PgPromise()({
 	host: 'localhost',

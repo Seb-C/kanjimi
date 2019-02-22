@@ -1,6 +1,10 @@
 Priority:
 - particles and punctuation -> add more sentences and tests to check if it works
-- multi kanji sequences -> need dictionary + mock for the tests?
+- words from dictionary
+     -> mock for the tests?
+     -> add tests for this class
+- multi token words
+- multi kanji sequences
 
 Average:
 - suru irregular

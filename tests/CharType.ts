@@ -15,7 +15,7 @@ describe('CharType', () => {
 		Array.from(
 			'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾ'
 			+ 'タダチヂツヅテデトドナニヌネノハバパヒビピフブプ'
-			+ 'ヘベペホボポマミムメモャヤュユョヨラリルレロワヲン',
+			+ 'ヘベペホボポマミムメモャヤュユョヨラリルレロワヲンー',
 		).forEach(char => (
 			expect(CharType.of(char)).toBe(CharType.KATAKANA)
 		));

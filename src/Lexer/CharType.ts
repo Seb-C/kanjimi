@@ -12,7 +12,7 @@ namespace CharType {
 
 		if (code >= 0x3041 && code <= 0x3096) {
 			return CharType.HIRAGANA;
-		} else if (code >= 0x30A1 && code <= 0x30FA) {
+		} else if (code >= 0x30A1 && code <= 0x30FA || code === 0x30FC) {
 			return CharType.KATAKANA;
 		} else if ((code >= 0x4E00 && code <= 0x9FAF) || code === 0x3005) {
 			return CharType.KANJI;

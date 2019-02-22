@@ -22,7 +22,7 @@ export default class Lexer {
 			const lastCharType = CharType.of(lastToken.getLastChar());
 			const currentCharType = CharType.of(currentToken.getLastChar());
 
-			if (lastCharType === currentCharType) {
+			if (lastCharType === currentCharType || lastToken.getText() === '') {
 				lastToken.append(currentToken.getText());
 				continue;
 			}
@@ -37,25 +37,43 @@ export default class Lexer {
 				}
 			}
 
-			if (ParticleToken.isParticle(currentToken.getText())) {
-				currentToken = new ParticleToken(currentToken.getText());
-			}
-			if (currentCharType === CharType.PUNCTUATION) {
-				currentToken = new PunctuationToken(currentToken.getText());
-			}
+			currentToken = this.refineToken(currentToken);
 
 			this.tokens.push(currentToken);
+		}
+
+		const lastToken = this.getLastToken();
+		if (lastToken !== null) {
+			this.tokens[this.tokens.length - 1] = this.refineToken(lastToken);
 		}
 
 		return this.tokens;
 	}
 
+	protected refineToken(token: Token): Token {
+		const charType = CharType.of(token.getLastChar());
+
+		if (ParticleToken.isParticle(token.getText())) {
+			return new ParticleToken(token.getText());
+		}
+		if (charType === CharType.PUNCTUATION) {
+			return new PunctuationToken(token.getText());
+		}
+
+		return token;
+	}
+
+	protected getLastToken(): Token|null {
+		return this.tokens[this.tokens.length - 1] || null;
+	}
+
 	protected getLastIncompleteToken(): Token {
-		let lastToken = this.currentIndex === 0 ? new Token('') : this.tokens[this.tokens.length - 1];
-		if (lastToken.constructor !== Token) {
+		let lastToken = this.getLastToken();
+		if (lastToken === null || lastToken.constructor !== Token) {
 			// Considering that the last token was recognized as complete
 			// In that case, we start a new one to be sure that it will always be different
 			lastToken = new Token('');
+			this.tokens.push(lastToken);
 		}
 
 		return lastToken;

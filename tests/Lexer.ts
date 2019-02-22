@@ -30,4 +30,12 @@ describe('Lexer', () => {
 		expect(verb.getVerb()).toBe('申');
 		expect(verb.getDictionaryConjugationForms().map(v => v.dictionaryForm)).toContain('す');
 	});
+	it('More test sentences', async () => {
+		const result = await lexer.tokenize(
+			'TypeScript はマイクロソフトによって開発され、'
+			+ 'メンテナンスされているフリーでオープンソース'
+			+ 'のプログラミング言語である。',
+		);
+		console.log(result);
+	});
 });

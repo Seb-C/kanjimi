@@ -1,10 +1,11 @@
 Priority:
-- particles and punctuation -> add more sentences and tests to check if it works
+- TODO finish refactoring Database class
 - words from dictionary
      -> mock for the tests?
      -> add tests for this class
 - multi token words
 - multi kanji sequences
+- decomment last random test sentences
 
 Average:
 - suru irregular

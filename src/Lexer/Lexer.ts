@@ -18,7 +18,7 @@ export default class Lexer {
 	}
 
 	async tokenize (text: string): Promise<Token[]> {
-		this.text = text;
+		this.text = text.trim();
 		this.tokens = [];
 
 		for (this.currentIndex = 0; this.currentIndex < this.text.length; this.currentIndex++) {

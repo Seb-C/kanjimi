@@ -1,4 +1,4 @@
-import { close, query } from './db';
+import Database from './Database';
 import Lexer from './Lexer';
 import * as fs from 'fs';
 
@@ -32,6 +32,8 @@ const getMigrationScript = (type: MigrationType, migration: string): Promise<str
 		});
 	});
 };
+
+const db = new Database();
 
 const runMigration = async (type: MigrationType, migration: string): Promise<void> => {
 	console.log(`Starting migration "${migration}"`);
@@ -67,4 +69,4 @@ const runMigration = async (type: MigrationType, migration: string): Promise<voi
 	await Promise.all(migrationsToDo.map(
 		migration => runMigration(MigrationType.UP, migration),
 	));
-})().then(close);
+})().then(() => db.close());

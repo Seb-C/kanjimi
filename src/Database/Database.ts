@@ -1,5 +1,7 @@
 import * as PgPromise from 'pg-promise';
 
+type Buildable<T> = (new (params?: T) => T);
+
 export default class Database {
 	private db;
 	constructor() {
@@ -13,8 +15,30 @@ export default class Database {
 		});
 	}
 
-	query<T>(sql: string, params: object): Promise<T> {
-
+	async exec(sql: string, params: object): Promise<void> {
+		console.log('done');
+		// TODO
+	}
+	async get<T>(sql: string, params: object, resultClass: Buildable<T>): Promise<T|null> {
+		return new resultClass();
+		// TODO
+	}
+	async array<T>(sql: string, params: object, resultClass: Buildable<T>): Promise<T[]> {
+		return [new resultClass()];
+		// TODO
+	}
+	async iterate<T>(
+		sql: string,
+		params: object,
+		resultClass: Buildable<T>,
+		callback: ((t: T) => Promise<void>),
+	): Promise<void[]> {
+		return Promise.all([
+			await callback(new resultClass()),
+			await callback(new resultClass()),
+			await callback(new resultClass()),
+		]);
+		// TODO
 	}
 
 	async close () {
@@ -23,10 +47,5 @@ export default class Database {
 }
 
 /*
- * {@link Database#none none},
- * {@link Database#one one},
- * {@link Database#oneOrNone oneOrNone},
- * {@link Database#many many},
- * {@link Database#manyOrNone manyOrNone},
 TODO sql transactions instead of method
 */

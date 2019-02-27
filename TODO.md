@@ -1,11 +1,11 @@
 Priority:
-- TODO finish refactoring Database class
 - words from dictionary
      -> mock for the tests?
      -> add tests for this class
 - multi token words
 - multi kanji sequences
 - decomment last random test sentences
+- add support for transactions in Database and fix migrations
 
 Average:
 - suru irregular

@@ -1,11 +1,14 @@
 import * as PgPromise from 'pg-promise';
+import * as QueryStream from 'pg-query-stream';
 
 type Buildable<T> = (new (params?: T) => T);
 
+type Params = { [key: string]: any; };
+
 export default class Database {
-	private db;
+	private db: PgPromise.IDatabase<void>;
+
 	constructor() {
-		super();
 		this.db = PgPromise()({
 			host     :  'localhost',
 			port     :  5432,
@@ -15,37 +18,55 @@ export default class Database {
 		});
 	}
 
-	async exec(sql: string, params: object): Promise<void> {
-		console.log('done');
-		// TODO
+	async exec(sql: string, params: Params = {}): Promise<void> {
+		await this.db.none(sql, params);
 	}
-	async get<T>(sql: string, params: object, resultClass: Buildable<T>): Promise<T|null> {
-		return new resultClass();
-		// TODO
+
+	async get<T>(resultClass: Buildable<T>, sql: string, params: Params = {}): Promise<T|null> {
+		const result = await this.db.oneOrNone(sql, params);
+		if (!result) {
+			return null;
+		} else {
+			return new resultClass(result);
+		}
 	}
-	async array<T>(sql: string, params: object, resultClass: Buildable<T>): Promise<T[]> {
-		return [new resultClass()];
-		// TODO
+
+	async array<T>(resultClass: Buildable<T>, sql: string, params: Params = {}): Promise<T[]> {
+		return (await this.db.manyOrNone(sql, params)).map(
+			row => new resultClass(row),
+		);
 	}
+
 	async iterate<T>(
-		sql: string,
-		params: object,
 		resultClass: Buildable<T>,
 		callback: ((t: T) => Promise<void>),
-	): Promise<void[]> {
-		return Promise.all([
-			await callback(new resultClass()),
-			await callback(new resultClass()),
-			await callback(new resultClass()),
-		]);
-		// TODO
+		sql: string,
+		params: Params = {},
+	): Promise<void> {
+
+		// Transforming named params by index...
+		let newSql = sql;
+		const newParams: any[] = [];
+		Object.keys(params).forEach((key: string, i: number) => {
+			newSql = newSql.replace(
+				new RegExp(`\\$\\{${key}\\}`, 'g'),
+				`\$${i + 1}`,
+			);
+			newParams.push(params[key]);
+		});
+
+		const queryStream = new QueryStream(newSql, newParams);
+		let chain = Promise.resolve();
+		await this.db.stream(queryStream, (stream) => {
+			stream.on('data', (row: T) => {
+				chain = chain.then(() => callback(row));
+			});
+		});
+
+		return chain;
 	}
 
 	async close () {
-		return db.$pool.end();
+		return this.db.$pool.end();
 	}
 }
-
-/*
-TODO sql transactions instead of method
-*/

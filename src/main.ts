@@ -3,5 +3,5 @@ import Lexer from './Lexer';
 
 (async () => {
 	const lexer = new Lexer();
-	console.log(await lexer.tokenize('私はセバスティアンと申します。'));
+	console.log(lexer.tokenize('私はセバスティアンと申します。'));
 })().then(close);

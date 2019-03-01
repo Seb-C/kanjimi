@@ -5,6 +5,7 @@ import CharType from './CharType';
 import VerbToken from './Token/VerbToken';
 import ParticleToken from './Token/ParticleToken';
 import PunctuationToken from './Token/PunctuationToken';
+import WordToken from './Token/WordToken';
 import Dictionary from '../Dictionary';
 
 export default class Lexer {
@@ -17,15 +18,26 @@ export default class Lexer {
 		this.dictionary = dictionary;
 	}
 
-	async tokenize (text: string): Promise<Token[]> {
+	tokenize (text: string): Token[] {
 		this.text = text.trim();
 		this.tokens = [];
 
 		for (this.currentIndex = 0; this.currentIndex < this.text.length; this.currentIndex++) {
 			let currentToken = new Token(this.text[this.currentIndex]);
-			const lastToken = this.getLastIncompleteToken();
-			const lastCharType = CharType.of(lastToken.getLastChar());
 			const currentCharType = CharType.of(currentToken.getLastChar());
+
+			let lastToken = this.getLastToken();
+			if (lastToken === null || this.isTokenComplete(lastToken)) {
+				if (lastToken !== null) {
+					this.setLastToken(this.refineToken(lastToken));
+				}
+
+				// Considering that the last token was recognized as complete
+				// In that case, we start a new one to be sure that it will always be different
+				lastToken = new Token('');
+				this.tokens.push(lastToken);
+			}
+			const lastCharType = CharType.of(lastToken.getLastChar());
 
 			if (lastCharType === currentCharType || lastToken.getText() === '') {
 				lastToken.append(currentToken.getText());
@@ -57,12 +69,16 @@ export default class Lexer {
 
 	protected refineToken(token: Token): Token {
 		const charType = CharType.of(token.getLastChar());
+		const text = token.getText();
 
-		if (ParticleToken.isParticle(token.getText())) {
-			return new ParticleToken(token.getText());
+		if (ParticleToken.isParticle(text)) {
+			return new ParticleToken(text);
 		}
 		if (charType === CharType.PUNCTUATION) {
-			return new PunctuationToken(token.getText());
+			return new PunctuationToken(text);
+		}
+		if (this.dictionary.has(text)) {
+			return new WordToken(text, this.dictionary.get(text));
 		}
 
 		return token;
@@ -72,16 +88,12 @@ export default class Lexer {
 		return this.tokens[this.tokens.length - 1] || null;
 	}
 
-	protected getLastIncompleteToken(): Token {
-		let lastToken = this.getLastToken();
-		if (lastToken === null || lastToken.constructor !== Token) {
-			// Considering that the last token was recognized as complete
-			// In that case, we start a new one to be sure that it will always be different
-			lastToken = new Token('');
-			this.tokens.push(lastToken);
-		}
+	protected setLastToken(token: Token): void {
+		this.tokens[this.tokens.length - 1] = token;
+	}
 
-		return lastToken;
+	protected isTokenComplete(token: Token): boolean {
+		return token.constructor !== Token;
 	}
 
 	protected getTokenIfVerbConjugation(position: number): VerbToken|null {

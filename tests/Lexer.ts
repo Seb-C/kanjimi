@@ -1,15 +1,21 @@
 import 'jasmine';
 import Lexer from '../src/Lexer';
 import Dictionary from '../src/Dictionary';
+import Word from '../src/Dictionary/Word';
 import VerbToken from '../src/Lexer/Token/VerbToken';
 import ParticleToken from '../src/Lexer/Token/ParticleToken';
 import PunctuationToken from '../src/Lexer/Token/PunctuationToken';
 
 describe('Lexer', () => {
 	const dictionary = new Dictionary();
+	dictionary.mock([
+		new Word({ id: 1, word: '私' }),
+		new Word({ id: 2, word: '申す' }),
+	]);
 	const lexer = new Lexer(dictionary);
+
 	it('Basic sentence tokenization', async () => {
-		const result = await lexer.tokenize('私はセバスティアンと申します。');
+		const result = lexer.tokenize('私はセバスティアンと申します。');
 		expect(result.length).toBe(6);
 		expect(result[0].getText()).toBe('私');
 		expect(result[1].getText()).toBe('は');
@@ -19,27 +25,32 @@ describe('Lexer', () => {
 		expect(result[5].getText()).toBe('。');
 	});
 	it('Token types recognition', async () => {
-		const result = await lexer.tokenize('私はセバスティアンと申します。');
+		const result = lexer.tokenize('私はセバスティアンと申します。');
 		expect(result[1] instanceof ParticleToken).toBe(true);
 		expect(result[3] instanceof ParticleToken).toBe(true);
 		expect(result[4] instanceof VerbToken).toBe(true);
 		expect(result[5] instanceof PunctuationToken).toBe(true);
 	});
 	it('Verb parts', async () => {
-		const result = await lexer.tokenize('私はセバスティアンと申します。');
+		const result = lexer.tokenize('私はセバスティアンと申します。');
 		const verb = <VerbToken>result[4];
 		expect(verb.getConjugation()).toBe('します');
 		expect(verb.getVerb()).toBe('申');
 		expect(verb.getDictionaryConjugationForms().map(v => v.dictionaryForm)).toContain('す');
 	});
+	it('Dictionary words', async () => {
+		const result = lexer.tokenize('私はセバスティアンと申します。');
+		console.log(result);
+		// TODO test two words in dictionary
+	});
 	it('More test sentences', async () => {
-		// console.log(await lexer.tokenize(
+		// console.log(lexer.tokenize(
 		// 	'TypeScript はマイクロソフトによって開発され、'
 		// 	+ 'メンテナンスされているフリーでオープンソース'
 		// 	+ 'のプログラミング言語である。',
 		// ));
 
-		// console.log(await lexer.tokenize(`
+		// console.log(lexer.tokenize(`
 		// 	「日本」という漢字による国号の表記は、日本列島が中国大陸から見て東の果て、
 		// 	つまり「日の本（ひのもと）」に位置することに由来するのではないかとされる[3]。
 		// 	近代の二つの憲法の表題は、「日本国憲法」および「大日本帝国憲法」であるが、

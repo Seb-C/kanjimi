@@ -25,7 +25,7 @@ export default class VerbToken extends Token {
 		this.text = this.verb + this.conjugation;
 	}
 
-	getDictionaryConjugationForms(): VerbForm[] {
+	getDictionaryConjugationForms(): ReadonlyArray<VerbForm> {
 		return VerbForms.getForms(this.conjugation);
 	}
 

@@ -20,8 +20,8 @@ class VerbFormsClass {
 		return this.possibeFormsByConjugation.hasOwnProperty(form);
 	}
 
-	getForms(form: string): VerbForm[] {
-		return this.possibeFormsByConjugation[form] || [];
+	getForms(form: string): ReadonlyArray<VerbForm> {
+		return <ReadonlyArray<VerbForm>>(this.possibeFormsByConjugation[form] || []);
 	}
 
 	getMaxConjugationLength(): number {

@@ -1,9 +1,8 @@
 export default class Word {
-	public id: number;
-	public word: string;
+	public readonly id: number;
+	public readonly word: string;
 
 	constructor(attributes: Word) {
-		super();
 		Object.assign(this, attributes);
 	}
 }

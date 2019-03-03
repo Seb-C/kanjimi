@@ -9,7 +9,7 @@ import PunctuationToken from '../src/Lexer/Token/PunctuationToken';
 
 describe('Lexer', () => {
 	const dictionary = new Dictionary();
-	dictionary.mock([
+	dictionary.loadFromArray([
 		new Word({ id: 1, word: '私' }),
 		new Word({ id: 2, word: '申す' }),
 	]);

@@ -20,14 +20,28 @@ export default class Dictionary {
 		return <ReadonlyArray<Word>>this.words[text];
 	}
 
-	// async loadFromDatabase(db: Database): Promise<void> {
-	// 	return db.stream('SELECT * FROM "Word" LIMIT 50', (s) => {
-	// 		console.log(s);
-	// 	});
-	// 	// TODO
-	// }
+	async loadFromDatabase(db: Database): Promise<void> {
+		const senses: {
+			[wordId: number]: Sense,
+		} = {};
+		await db.iterate(
+			Sense,
+			async (sense: Sense) => {
+				console.log(sense);
+			},
+			'SELECT * FROM "dictionary"."Sense" LIMIT 50',
+		);
 
-	mock(words: Word[]) {
+		await db.iterate(
+			Word,
+			async (word: Word) => {
+				console.log(word);
+			},
+			'SELECT * FROM "dictionary"."Word" LIMIT 50',
+		);
+	}
+
+	loadFromArray(words: Word[]) {
 		words.forEach(word => this.addWord(word));
 	}
 }

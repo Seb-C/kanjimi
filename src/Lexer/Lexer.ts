@@ -40,7 +40,6 @@ export default class Lexer {
 			}
 
 			const lastCharType = CharType.of(this.getLastChar(lastToken.text));
-
 			if (lastCharType === currentCharType || lastToken.text === '') {
 				this.setLastToken(new Token(lastToken.text + currentToken.text));
 				continue;

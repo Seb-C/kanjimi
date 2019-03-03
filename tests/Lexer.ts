@@ -2,6 +2,7 @@ import 'jasmine';
 import Lexer from '../src/Lexer';
 import Dictionary from '../src/Dictionary';
 import Word from '../src/Dictionary/Word';
+import WordToken from '../src/Lexer/Token/WordToken';
 import VerbToken from '../src/Lexer/Token/VerbToken';
 import ParticleToken from '../src/Lexer/Token/ParticleToken';
 import PunctuationToken from '../src/Lexer/Token/PunctuationToken';
@@ -26,6 +27,7 @@ describe('Lexer', () => {
 	});
 	it('Token types recognition', async () => {
 		const result = lexer.tokenize('私はセバスティアンと申します。');
+		expect(result[0] instanceof WordToken).toBe(true);
 		expect(result[1] instanceof ParticleToken).toBe(true);
 		expect(result[3] instanceof ParticleToken).toBe(true);
 		expect(result[4] instanceof VerbToken).toBe(true);
@@ -41,8 +43,10 @@ describe('Lexer', () => {
 	});
 	it('Dictionary words', async () => {
 		const result = lexer.tokenize('私はセバスティアンと申します。');
-		console.log(result);
-		// TODO test two words in dictionary
+		const word = <WordToken>result[0];
+		const verb = <VerbToken>result[4];
+		expect(word.words[0].id).toBe(1);
+		expect(verb.words[0].id).toBe(2);
 	});
 	it('More test sentences', async () => {
 		// console.log(lexer.tokenize(

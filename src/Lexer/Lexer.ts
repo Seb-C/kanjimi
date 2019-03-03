@@ -7,6 +7,7 @@ import ParticleToken from './Token/ParticleToken';
 import PunctuationToken from './Token/PunctuationToken';
 import WordToken from './Token/WordToken';
 import Dictionary from '../Dictionary';
+import Word from '../Dictionary/Word';
 
 export default class Lexer {
 	protected dictionary: Dictionary;
@@ -24,32 +25,32 @@ export default class Lexer {
 
 		for (this.currentIndex = 0; this.currentIndex < this.text.length; this.currentIndex++) {
 			let currentToken = new Token(this.text[this.currentIndex]);
-			const currentCharType = CharType.of(currentToken.getLastChar());
+			const currentCharType = CharType.of(this.getLastChar(currentToken.text));
 
 			let lastToken = this.getLastToken();
-			if (lastToken === null || this.isTokenComplete(lastToken)) {
-				if (lastToken !== null) {
-					this.setLastToken(this.refineToken(lastToken));
-				}
-
+			const lastTokenComplete = (lastToken !== null && this.isTokenComplete(lastToken));
+			if (lastToken !== null) {
+				this.setLastToken(this.refineToken(lastToken));
+			}
+			if (lastToken === null || lastTokenComplete) {
 				// Considering that the last token was recognized as complete
 				// In that case, we start a new one to be sure that it will always be different
 				lastToken = new Token('');
 				this.tokens.push(lastToken);
 			}
-			const lastCharType = CharType.of(lastToken.getLastChar());
 
-			if (lastCharType === currentCharType || lastToken.getText() === '') {
-				lastToken.append(currentToken.getText());
+			const lastCharType = CharType.of(this.getLastChar(lastToken.text));
+
+			if (lastCharType === currentCharType || lastToken.text === '') {
+				this.setLastToken(new Token(lastToken.text + currentToken.text));
 				continue;
 			}
 
 			if (lastCharType === CharType.KANJI && currentCharType === CharType.HIRAGANA) {
-				const verbToken = this.getTokenIfVerbConjugation(this.currentIndex);
+				const verbToken = this.getTokenIfVerbConjugation(lastToken.text, this.currentIndex);
 				if (verbToken !== null) {
-					this.currentIndex += verbToken.getText().length - 1;
-					verbToken.setVerb(lastToken.getText());
-					this.tokens[this.tokens.length - 1] = verbToken;
+					this.currentIndex += verbToken.conjugation.length - 1;
+					this.setLastToken(verbToken);
 					continue;
 				}
 			}
@@ -61,24 +62,23 @@ export default class Lexer {
 
 		const lastToken = this.getLastToken();
 		if (lastToken !== null) {
-			this.tokens[this.tokens.length - 1] = this.refineToken(lastToken);
+			this.setLastToken(this.refineToken(lastToken));
 		}
 
 		return this.tokens;
 	}
 
 	protected refineToken(token: Token): Token {
-		const charType = CharType.of(token.getLastChar());
-		const text = token.getText();
+		const charType = CharType.of(this.getLastChar(token.text));
 
-		if (ParticleToken.isParticle(text)) {
-			return new ParticleToken(text);
+		if (ParticleToken.isParticle(token.text)) {
+			return new ParticleToken(token.text);
 		}
 		if (charType === CharType.PUNCTUATION) {
-			return new PunctuationToken(text);
+			return new PunctuationToken(token.text);
 		}
-		if (this.dictionary.has(text)) {
-			return new WordToken(text, this.dictionary.get(text));
+		if (this.dictionary.has(token.text)) {
+			return new WordToken(token.text, this.dictionary.get(token.text));
 		}
 
 		return token;
@@ -96,23 +96,36 @@ export default class Lexer {
 		return token.constructor !== Token;
 	}
 
-	protected getTokenIfVerbConjugation(position: number): VerbToken|null {
-		const token = new VerbToken('', '');
+	protected getTokenIfVerbConjugation(verb: string, position: number): VerbToken|null {
+		let conjugation = '';
 		for (let i = 0; (
 			i < VerbForms.getMaxConjugationLength()
 			&& i + position < this.text.length
 		); i++) {
-			token.appendToConjugation(this.text[position + i]);
-
-			if (CharType.of(token.getLastChar()) !== CharType.HIRAGANA) {
+			if (CharType.of(this.text[position + i]) !== CharType.HIRAGANA) {
 				return null;
 			}
 
-			if (VerbForms.hasForm(token.getText())) {
-				return token;
+			conjugation += this.text[position + i];
+			if (VerbForms.hasForm(conjugation)) {
+				const words: Word[] = [];
+				const forms = VerbForms.getForms(conjugation);
+				forms.forEach((form: VerbForm) => {
+					words.push(...this.dictionary.get(verb + form.dictionaryForm));
+				});
+
+				return new VerbToken(verb, conjugation, forms, words);
 			}
 		}
 
 		return null;
+	}
+
+	getLastChar(text: string): string {
+		if (text.length === 0) {
+			return '';
+		}
+
+		return text[text.length - 1];
 	}
 }

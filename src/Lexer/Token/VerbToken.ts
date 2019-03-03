@@ -1,41 +1,22 @@
-import Token from './Token';
+import WordToken from './WordToken';
 import VerbForms from '../Verb/VerbForms';
 import VerbForm from '../Verb/VerbForm';
+import Word from '../../Dictionary/Word';
 
-export default class VerbToken extends Token {
-	protected verb: string;
-	protected conjugation: string;
+export default class VerbToken extends WordToken {
+	public readonly verb: string;
+	public readonly conjugation: string;
+	public readonly forms: ReadonlyArray<VerbForm>;
 
-	constructor(verb: string, conjugation: string) {
-		super('');
+	constructor(
+		verb: string,
+		conjugation: string,
+		forms: ReadonlyArray<VerbForm>,
+		words: ReadonlyArray<Word>,
+	) {
+		super(verb + conjugation, words);
 		this.verb = verb;
 		this.conjugation = conjugation;
-		this.computeText();
-	}
-
-	getVerb() {
-		return this.verb;
-	}
-
-	getConjugation() {
-		return this.conjugation;
-	}
-
-	private computeText() {
-		this.text = this.verb + this.conjugation;
-	}
-
-	getDictionaryConjugationForms(): ReadonlyArray<VerbForm> {
-		return VerbForms.getForms(this.conjugation);
-	}
-
-	appendToConjugation (text: string) {
-		this.conjugation += text;
-		this.computeText();
-	}
-
-	setVerb (verb: string) {
-		this.verb = verb;
-		this.computeText();
+		this.forms = forms;
 	}
 }

@@ -1,8 +1,12 @@
 import Database from '../Database';
 import Word from './Word';
+import Sense from './Sense';
+import PartOfSpeech from './PartOfSpeech';
 
 export default class Dictionary {
 	private words: { [key: string]: Word[] } = {};
+	private partsOfSpeech: { [tag: string]: PartOfSpeech } = {};
+	private senses: { [wordId: number]: Sense[] } = {};
 
 	private addWord(word: Word) {
 		if (typeof this.words[word.word] === 'undefined') {
@@ -20,17 +24,32 @@ export default class Dictionary {
 		return <ReadonlyArray<Word>>this.words[text];
 	}
 
-	async loadFromDatabase(db: Database): Promise<void> {
-		const senses: {
-			[wordId: number]: Sense,
-		} = {};
+	protected async loadPartsOfSpeechFromDatabase(db: Database): Promise<void> {
 		await db.iterate(
-			Sense,
-			async (sense: Sense) => {
-				console.log(sense);
+			PartOfSpeech,
+			async (pos: PartOfSpeech) => {
+				this.partsOfSpeech[pos.tag] = pos;
+			},
+			'SELECT * FROM "dictionary"."PartOfSpeech"',
+		);
+	}
+
+	protected async loadSensesFromDatabase(db: Database): Promise<void> {
+		await db.iterate(
+			Object,
+			async (sense: any) => {
+				console.log(new Sense(<Sense>{
+					...sense,
+					partOfSpeech: sense.partOfSpeech.map((tag: string) => this.partsOfSpeech[tag]),
+				}));
 			},
 			'SELECT * FROM "dictionary"."Sense" LIMIT 50',
 		);
+	}
+
+	async loadFromDatabase(db: Database): Promise<void> {
+		this.loadPartsOfSpeechFromDatabase(db);
+		this.loadSensesFromDatabase(db);
 
 		await db.iterate(
 			Word,

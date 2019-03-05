@@ -1,12 +1,15 @@
 import Database from '../Database';
 import Word from './Word';
 import Sense from './Sense';
+import Translation from './Translation';
 import PartOfSpeech from './PartOfSpeech';
 
 export default class Dictionary {
 	private words: { [key: string]: Word[] } = {};
 	private partsOfSpeech: { [tag: string]: PartOfSpeech } = {};
-	private senses: { [wordId: number]: Sense[] } = {};
+	private translations: { [senseId: number]: Translation[] } = {};
+	private senses: { [senseId: number]: Sense } = {};
+	private sensesByWordId: { [wordId: number]: Sense[] } = {};
 
 	private addWord(word: Word) {
 		if (typeof this.words[word.word] === 'undefined') {
@@ -34,30 +37,77 @@ export default class Dictionary {
 		);
 	}
 
+	protected async loadTranslationsFromDatabase(db: Database): Promise<void> {
+		await db.iterate(
+			Object,
+			async (translation: any) => {
+				if (typeof this.translations[translation.senseId] === 'undefined') {
+					this.translations[translation.senseId] = [];
+				}
+
+				this.translations[translation.senseId].push(
+					new Translation(<Translation>translation),
+				);
+			},
+			'SELECT * FROM "dictionary"."Translation"',
+		);
+	}
+
 	protected async loadSensesFromDatabase(db: Database): Promise<void> {
 		await db.iterate(
 			Object,
 			async (sense: any) => {
-				console.log(new Sense(<Sense>{
+				this.senses[sense.id] = new Sense(<Sense>{
 					...sense,
 					partOfSpeech: sense.partOfSpeech.map((tag: string) => this.partsOfSpeech[tag]),
+					translations: (this.translations[sense.id] || []),
+				});
+			},
+			'SELECT * FROM "dictionary"."Sense"',
+		);
+	}
+
+	protected async loadSenseWordLinkFromDatabase(db: Database): Promise<void> {
+		await db.iterate(
+			Object,
+			async (row: any) => {
+				if (typeof this.sensesByWordId[row.wordId] === 'undefined') {
+					this.sensesByWordId[row.wordId] = [];
+				}
+
+				if (typeof this.senses[row.senseId] !== 'undefined') {
+					this.sensesByWordId[row.wordId].push(this.senses[row.senseId]);
+				}
+			},
+			'SELECT * FROM "dictionary"."SenseWord"',
+		);
+	}
+
+	protected async loadWordsFromDatabase(db: Database): Promise<void> {
+		await db.iterate(
+			Object,
+			async (word: any) => {
+				if (typeof this.words[word.word] === 'undefined') {
+					this.words[word.word] = [];
+				}
+
+				this.words[word.word].push(new Word(<Word>{
+					...word,
+					senses: this.sensesByWordId[word.id],
 				}));
 			},
-			'SELECT * FROM "dictionary"."Sense" LIMIT 50',
+			'SELECT * FROM "dictionary"."Word"',
 		);
 	}
 
 	async loadFromDatabase(db: Database): Promise<void> {
-		this.loadPartsOfSpeechFromDatabase(db);
-		this.loadSensesFromDatabase(db);
-
-		await db.iterate(
-			Word,
-			async (word: Word) => {
-				console.log(word);
-			},
-			'SELECT * FROM "dictionary"."Word" LIMIT 50',
-		);
+		console.log('Loading dictionary...');
+		await this.loadPartsOfSpeechFromDatabase(db);
+		await this.loadTranslationsFromDatabase(db);
+		await this.loadSensesFromDatabase(db);
+		await this.loadSenseWordLinkFromDatabase(db);
+		await this.loadWordsFromDatabase(db);
+		console.log('Loaded dictionary.');
 	}
 
 	loadFromArray(words: Word[]) {

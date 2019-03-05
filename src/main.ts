@@ -10,7 +10,7 @@ import Database from './Database';
 
 	const lexer = new Lexer(dictionary);
 
-	console.log(lexer.tokenize('私はセバスティアンと申します。'));
+	console.dir(lexer.tokenize('私はセバスティアンと申します。'), { depth: null });
 
 	await db.close();
 })();

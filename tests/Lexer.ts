@@ -9,9 +9,17 @@ import PunctuationToken from '../src/Lexer/Token/PunctuationToken';
 
 describe('Lexer', () => {
 	const dictionary = new Dictionary();
+	const unusedWordFields = {
+		frequency: null,
+		ateji: false,
+		irregularKanji: false,
+		irregularKana: false,
+		outDatedKanji: false,
+		senses: [],
+	};
 	dictionary.loadFromArray([
-		new Word({ id: 1, word: '私' }),
-		new Word({ id: 2, word: '申す' }),
+		new Word({ id: 1, word: '私', ...unusedWordFields }),
+		new Word({ id: 2, word: '申す', ...unusedWordFields }),
 	]);
 	const lexer = new Lexer(dictionary);
 

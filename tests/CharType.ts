@@ -2,7 +2,7 @@ import 'jasmine';
 import CharType from '../src/Lexer/CharType';
 
 describe('CharType', () => {
-	it('Hiraganas', async () => {
+	it('Hiraganas', () => {
 		Array.from(
 			'あいうえおかがきぎくぐけげこごさざしじすずせぜそぞ'
 			+ 'ただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷ'
@@ -11,7 +11,7 @@ describe('CharType', () => {
 			expect(CharType.of(char)).toBe(CharType.HIRAGANA)
 		));
 	});
-	it('Katakanas', async () => {
+	it('Katakanas', () => {
 		Array.from(
 			'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾ'
 			+ 'タダチヂツヅテデトドナニヌネノハバパヒビピフブプ'
@@ -20,14 +20,14 @@ describe('CharType', () => {
 			expect(CharType.of(char)).toBe(CharType.KATAKANA)
 		));
 	});
-	it('Punctuation', async () => {
+	it('Punctuation', () => {
 		Array.from(
 			'、。〃〇〈〉《》「」『』【】〒〔〕〖〗〘〙〚〛〜〝〞〟〶〽',
 		).forEach(char => (
 			expect(CharType.of(char)).toBe(CharType.PUNCTUATION)
 		));
 	});
-	it('Kanji', async () => {
+	it('Kanji', () => {
 		Array.from(
 			'一二三四五六七八九十円百千万何日月明寺時'
 			+ '火水木金土今分週年曜大中小少多上下右左石'
@@ -36,7 +36,7 @@ describe('CharType', () => {
 			expect(CharType.of(char)).toBe(CharType.KANJI)
 		));
 	});
-	it('Others', async () => {
+	it('Others', () => {
 		Array.from(
 			'abcdefghijklmnopqrstuvwxyz'
 			+ 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',

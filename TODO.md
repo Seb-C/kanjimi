@@ -1,9 +1,9 @@
 Priority:
-- words from dictionary --> add part from db for real use
 - multi token words
-- multi kanji sequences
 - decomment last random test sentences
 - add support for transactions in Database and fix migrations
+- names
+- counters?
 
 Average:
 - suru irregular

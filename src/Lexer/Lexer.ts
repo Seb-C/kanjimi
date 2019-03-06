@@ -54,6 +54,15 @@ export default class Lexer {
 				}
 			}
 
+			if (
+				lastCharType === CharType.KANJI
+				&& currentCharType !== CharType.KANJI
+				&& !lastTokenComplete
+			) {
+				const result = this.splitMultiKanjisSequence(lastToken);
+				this.setLastToken(result);
+			}
+
 			currentToken = this.refineToken(currentToken);
 
 			this.tokens.push(currentToken);
@@ -61,7 +70,15 @@ export default class Lexer {
 
 		const lastToken = this.getLastToken();
 		if (lastToken !== null) {
-			this.setLastToken(this.refineToken(lastToken));
+			if (
+				CharType.of(this.getLastChar(lastToken.text)) === CharType.KANJI
+				&& !this.isTokenComplete(lastToken)
+			) {
+				const result = this.splitMultiKanjisSequence(lastToken);
+				this.setLastToken(result);
+			} else {
+				this.setLastToken(this.refineToken(lastToken));
+			}
 		}
 
 		return this.tokens;
@@ -77,18 +94,50 @@ export default class Lexer {
 			return new PunctuationToken(token.text);
 		}
 		if (this.dictionary.has(token.text)) {
+			// Simple dictionary lookup
 			return new WordToken(token.text, this.dictionary.get(token.text));
 		}
 
 		return token;
 	}
 
+	protected splitMultiKanjisSequence(token: Token): Token[] {
+		const tokens: Token[] = [];
+
+		let begin = 0;
+		while (begin < token.text.length) {
+			let length;
+			for (length = token.text.length - begin; length > 0; length--) {
+				const sub = token.text.substr(begin, length);
+				if (this.dictionary.has(sub)) {
+					tokens.push(new WordToken(sub, this.dictionary.get(sub)));
+					begin += sub.length;
+					break; // Inner for loop
+				}
+			}
+
+			if (length === 0) {
+				// Not found, creating a token with only one kanji
+				tokens.push(new Token(token.text[0]));
+				begin++;
+			}
+		}
+
+		return tokens;
+	}
+
 	protected getLastToken(): Token|null {
 		return this.tokens[this.tokens.length - 1] || null;
 	}
 
-	protected setLastToken(token: Token): void {
-		this.tokens[this.tokens.length - 1] = token;
+	protected setLastToken(token: Token|Token[]): void {
+		this.tokens.pop();
+
+		if (token instanceof Array) {
+			this.tokens.push(...token);
+		} else {
+			this.tokens.push(token);
+		}
 	}
 
 	protected isTokenComplete(token: Token): boolean {

@@ -4,12 +4,23 @@ import Sense from './Sense';
 import Translation from './Translation';
 import PartOfSpeech from './PartOfSpeech';
 
+let singleton: Dictionary;
+
 export default class Dictionary {
+	private loaded: boolean = false;
 	private words: { [key: string]: Word[] } = {};
 	private partsOfSpeech: { [tag: string]: PartOfSpeech } = {};
 	private translations: { [senseId: number]: Translation[] } = {};
 	private senses: { [senseId: number]: Sense } = {};
 	private sensesByWordId: { [wordId: number]: Sense[] } = {};
+
+	constructor() {
+		if (singleton) {
+			return singleton;
+		} else {
+			singleton = this;
+		}
+	}
 
 	private addWord(word: Word) {
 		if (typeof this.words[word.word] === 'undefined') {
@@ -101,12 +112,19 @@ export default class Dictionary {
 	}
 
 	async loadFromDatabase(db: Database): Promise<void> {
+		if (this.loaded) {
+			return;
+		}
+
+		// TODO not properly waited
+
 		console.log('Loading dictionary...');
 		await this.loadPartsOfSpeechFromDatabase(db);
 		await this.loadTranslationsFromDatabase(db);
 		await this.loadSensesFromDatabase(db);
 		await this.loadSenseWordLinkFromDatabase(db);
 		await this.loadWordsFromDatabase(db);
+		this.loaded = true;
 		console.log('Loaded dictionary.');
 	}
 

@@ -1,27 +1,23 @@
 import 'jasmine';
 import Lexer from '../src/Lexer';
 import Dictionary from '../src/Dictionary';
+import Database from '../src/Database';
 import Word from '../src/Dictionary/Word';
 import WordToken from '../src/Lexer/Token/WordToken';
 import VerbToken from '../src/Lexer/Token/VerbToken';
 import ParticleToken from '../src/Lexer/Token/ParticleToken';
 import PunctuationToken from '../src/Lexer/Token/PunctuationToken';
 
-describe('Lexer', () => {
-	const dictionary = new Dictionary();
-	const unusedWordFields = {
-		frequency: null,
-		ateji: false,
-		irregularKanji: false,
-		irregularKana: false,
-		outDatedKanji: false,
-		senses: [],
-	};
-	dictionary.loadFromArray([
-		new Word({ id: 1, word: '私', ...unusedWordFields }),
-		new Word({ id: 2, word: '申す', ...unusedWordFields }),
-	]);
-	const lexer = new Lexer(dictionary);
+jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
+
+let lexer: Lexer;
+describe('Lexer', async () => {
+	beforeEach(async () => {
+		const db = new Database();
+		const dictionary = new Dictionary();
+		await dictionary.loadFromDatabase(db);
+		lexer = new Lexer(dictionary);
+	});
 
 	it('Basic sentence tokenization', async () => {
 		const result = lexer.tokenize('私はセバスティアンと申します。');
@@ -53,8 +49,20 @@ describe('Lexer', () => {
 		const result = lexer.tokenize('私はセバスティアンと申します。');
 		const word = <WordToken>result[0];
 		const verb = <VerbToken>result[4];
-		expect(word.words[0].id).toBe(1);
-		expect(verb.words[0].id).toBe(2);
+		expect(word.words.length > 0).toBe(true);
+		expect(verb.words.length > 0).toBe(true);
+	});
+	it('Multi-token kanji sequences', async () => {
+		const result = lexer.tokenize('国立女性美術館と日本大帝国憲法と合衆国最高裁判所はたくさん感じがある言葉。');
+		expect(result[0].text).toBe('国立');
+		expect(result[1].text).toBe('女性美');
+		expect(result[2].text).toBe('術');
+		expect(result[3].text).toBe('館');
+		expect(result[5].text).toBe('日本');
+		expect(result[6].text).toBe('大帝');
+		expect(result[7].text).toBe('国憲法');
+		expect(result[9].text).toBe('合衆国');
+		expect(result[10].text).toBe('最高裁判所');
 	});
 	it('More test sentences', async () => {
 		// console.log(lexer.tokenize(

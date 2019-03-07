@@ -38,27 +38,31 @@ const db = new Database();
 const runMigration = async (type: MigrationType, migration: string): Promise<void> => {
 	console.log(`Starting migration "${migration}"`);
 	const migrationScript = await getMigrationScript(type, migration);
-	console.log(migrationScript);
-	await query.tx(transaction => transaction.batch([
-		transaction.none(migrationScript),
-		transaction.none('INSERT INTO "Migrations" VALUES (${name});', { name: migration }),
-	]));
+	await db.exec(
+		`
+			BEGIN;
+			${migrationScript}
+			INSERT INTO "Migrations" VALUES (\${name});
+			COMMIT;
+		`,
+		{ name: migration },
+	);
 	console.log(`Finished migration "${migration}"`);
 };
 
 (async () => {
-	await query.none(`
+	await db.exec(`
 		CREATE TABLE IF NOT EXISTS "Migrations" (
 			"name" TEXT PRIMARY KEY NOT NULL
 		);
 	`);
 
 	const migrations = (await getMigrations(MigrationType.UP)).sort();
-	const migrationsDone = (await query.manyOrNone(`
+	const migrationsDone = (await db.array(Object, `
 		SELECT "name"
 		FROM "Migrations"
 		ORDER BY "name";
-	`)).map(row => row.name);
+	`)).map((row: any) => row.name);
 
 	const migrationsToDo = migrations.filter((migration) => {
 		return !migrationsDone.some(

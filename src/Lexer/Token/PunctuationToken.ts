@@ -1,5 +1,5 @@
 import Token from './Token';
-import CharType from '../CharType';
+import CharType from '../../Misc/CharType';
 
 export default class PunctuationToken extends Token {
 	constructor(text: string) {

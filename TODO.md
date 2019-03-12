@@ -1,3 +1,4 @@
+- only absolute imports?
 - webpack: different typescript config for each (lib and type keys for example)
 - commands: single one to watch and build browser extension?
 - webpack: commonize as much config as possible

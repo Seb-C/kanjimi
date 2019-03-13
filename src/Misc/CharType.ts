@@ -22,6 +22,10 @@ namespace CharType {
 			return CharType.OTHER;
 		}
 	}
+
+	export function isJapanese(char: string): boolean {
+		return CharType.of(char) !== CharType.OTHER;
+	}
 }
 
 export default CharType;

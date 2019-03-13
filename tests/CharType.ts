@@ -44,4 +44,12 @@ describe('CharType', () => {
 			expect(CharType.of(char)).toBe(CharType.OTHER)
 		));
 	});
+	it('isJapanese method', () => {
+		Array.from('あア。時').forEach(char => (
+			expect(CharType.isJapanese(char)).toBe(true)
+		));
+		Array.from('aA.1').forEach(char => (
+			expect(CharType.isJapanese(char)).toBe(false)
+		));
+	});
 });

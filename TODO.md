@@ -8,6 +8,6 @@
 - counters?
 - multi token expressions?
 - names
-- half width characters? full-width roman chars?
+- half width characters? full-width roman chars and letters?
 - implement down migrations
 - decomment last random test sentences

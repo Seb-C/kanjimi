@@ -1,6 +1,6 @@
-- only absolute imports?
+- launch server and watcher in docker compose to avoir running anything else
+- server: implement route for testing (+ route specs before?)
 - webpack: different typescript config for each (lib and type keys for example)
-- commands: single one to watch and build browser extension?
 - webpack: commonize as much config as possible
 - suru irregular
 - kuru irregular
@@ -11,3 +11,4 @@
 - half width characters? full-width roman chars and letters?
 - implement down migrations
 - decomment last random test sentences
+- only absolute imports?

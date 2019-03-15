@@ -12,5 +12,14 @@ services:
       - "5432:5432"
     volumes:
       - database:/var/lib/postgresql/data
+  server:
+    image: node:11
+    restart: on-failure
+    working_dir: /app
+    command: npm run server:watch
+    ports:
+      - "3000:80"
+    volumes:
+      - $PWD:/app
 volumes:
   database:

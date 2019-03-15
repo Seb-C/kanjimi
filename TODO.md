@@ -1,4 +1,3 @@
-- launch server and watcher in docker compose to avoir running anything else
 - server: implement route for testing (+ route specs before?)
 - webpack: different typescript config for each (lib and type keys for example)
 - webpack: commonize as much config as possible

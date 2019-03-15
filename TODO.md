@@ -1,4 +1,5 @@
-- server: implement route for testing (+ route specs before?)
+- First queries should wait until the server is ready to answer (and server should listen immediately)
+- JSON response should be reparsed as the right objects? With JsonAPI?
 - webpack: different typescript config for each (lib and type keys for example)
 - webpack: commonize as much config as possible
 - suru irregular

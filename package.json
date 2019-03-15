@@ -12,6 +12,7 @@
   "dependencies": {
     "@types/express": "^4.16.1",
     "@types/pg-query-stream": "^1.0.2",
+    "body-parser": "^1.18.3",
     "express": "^4.16.4",
     "pg-promise": "^8.5.5",
     "pg-query-stream": "^2.0.0"

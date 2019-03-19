@@ -7,7 +7,7 @@
     "lint": "tslint './src/*.ts' './tests/*.ts'",
     "extension:browser": "web-ext --config=web-ext.js run",
     "extension:build": "webpack --watch",
-    "extension:watch": "webpack --watch & (npm run extension:browser) && fg"
+    "extension:watch": "webpack && (webpack --watch & (npm run extension:browser && fg))"
   },
   "dependencies": {
     "@types/express": "^4.16.1",

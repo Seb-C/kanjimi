@@ -32,4 +32,4 @@ const runServer = async (application: express.Application): Promise<void> => {
 	await runServer(server);
 
 	await db.close();
-})();
+})().catch(console.error)

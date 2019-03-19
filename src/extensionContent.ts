@@ -14,6 +14,11 @@ const walker = document.createTreeWalker(
 	document.body,
 	NodeFilter.SHOW_TEXT,
 );
+
+// Both array items should always match
+const nodes: Text[] = [];
+const texts: string[] = [];
+
 while (walker.nextNode()) {
 	const textNode: Text = <Text>walker.currentNode;
 	const text = textNode.data.trim();
@@ -25,6 +30,19 @@ while (walker.nextNode()) {
 		&& containerType !== 'noscript'
 		&& containsJapanese(text)
 	) {
-		console.log('myext', textNode);
+		nodes.push(textNode);
+		texts.push(text);
 	}
 }
+
+fetch('http://localhost:3000/tokenize', {
+	method: 'POST',
+	headers: {
+		'Content-Type': 'application/json',
+	},
+	body: JSON.stringify({
+		sentences: texts,
+	}),
+}).then((response) => {
+	console.log(response);
+}).catch(console.error);

@@ -18,18 +18,39 @@ const runServer = async (application: express.Application): Promise<void> => {
 (async () => {
 	const db = new Database();
 
-	const dictionary = new Dictionary();
-	await dictionary.loadFromDatabase(db);
+	const startupWaiters: Function[] = [];
+	let started = false;
+	const waitForStartupMiddleware = (
+		request: express.Request,
+		response: express.Response,
+		next: Function,
+	) => {
+		if (started) {
+			next();
+		} else {
+			startupWaiters.push(next);
+		}
+	};
 
+	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
 
 	const server = express();
 	server.use(bodyParser.json());
+	server.use(waitForStartupMiddleware);
 	server.post('/tokenize', (request: express.Request, response: express.Response) => {
 		const sentences: string[] = request.body.sentences;
 		response.json(sentences.map(text => lexer.tokenize(text)));
 	});
-	await runServer(server);
 
+	const serverClosed: Promise<void> = runServer(server);
+
+	await dictionary.loadFromDatabase(db);
+
+	// Ready, processing pending requests
+	started = true;
+	startupWaiters.forEach(f => f());
+
+	await serverClosed;
 	await db.close();
-})().catch(console.error)
+})().catch(console.error);

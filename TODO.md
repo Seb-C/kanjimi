@@ -1,6 +1,6 @@
-- First queries should wait until the server is ready to answer (and server should listen immediately)
 - conflict between webpack extension watcher and server restarting?
 - JSON response should be reparsed as the right objects? With JsonAPI?
+- Validate input via an express middleware?
 - webpack: different typescript config for each (lib and type keys for example)
 - webpack: commonize as much config as possible
 - suru irregular

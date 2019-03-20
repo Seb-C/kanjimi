@@ -8,5 +8,8 @@
       "matches": ["<all_urls>"],
       "js": ["content.build.js"]
     }
+  ],
+  "permissions": [
+    "*://localhost/*"
   ]
 }

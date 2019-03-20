@@ -15,7 +15,6 @@ const walker = document.createTreeWalker(
 	NodeFilter.SHOW_TEXT,
 );
 
-// Both array items should always match
 const nodes: Text[] = [];
 const texts: string[] = [];
 

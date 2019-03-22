@@ -40,8 +40,8 @@ fetch('http://localhost:3000/tokenize', {
 		'Content-Type': 'application/json',
 	},
 	body: JSON.stringify({
-		sentences: texts,
+		sentences: texts.slice(0, 50), // TODO
 	}),
-}).then((response) => {
-	console.log(response);
+}).then(response => response.json()).then((data) => {
+	console.log(data);
 }).catch(console.error);

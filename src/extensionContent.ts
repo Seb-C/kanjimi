@@ -1,4 +1,6 @@
 import CharType from './Misc/CharType';
+import Serializer from './Api/Serializer';
+import Token from './Lexer/Token/Token';
 
 const containsJapanese = (text: string) => {
 	for (let i = 0; i < text.length; i++) {
@@ -10,13 +12,11 @@ const containsJapanese = (text: string) => {
 	return false;
 };
 
+const serializer = new Serializer();
 const walker = document.createTreeWalker(
 	document.body,
 	NodeFilter.SHOW_TEXT,
 );
-
-const nodes: Text[] = [];
-const texts: string[] = [];
 
 while (walker.nextNode()) {
 	const textNode: Text = <Text>walker.currentNode;
@@ -29,19 +29,18 @@ while (walker.nextNode()) {
 		&& containerType !== 'noscript'
 		&& containsJapanese(text)
 	) {
-		nodes.push(textNode);
-		texts.push(text);
+		((textNode: Text, text: string) => {
+			fetch('http://localhost:3000/tokenize', {
+				method: 'POST',
+				headers: {
+					'Content-Type': 'application/json',
+				},
+				body: JSON.stringify({ sentence: text }),
+			}).then(response => response.json()).then((responseData) => {
+				const data = serializer.fromJsonApi<Token[]>(responseData);
+				console.log(data); // TODO
+			}).catch(console.error);
+		})(textNode, text);
+		break; // TODO test
 	}
 }
-
-fetch('http://localhost:3000/tokenize', {
-	method: 'POST',
-	headers: {
-		'Content-Type': 'application/json',
-	},
-	body: JSON.stringify({
-		sentences: texts.slice(0, 50), // TODO
-	}),
-}).then(response => response.json()).then((data) => {
-	console.log(data);
-}).catch(console.error);

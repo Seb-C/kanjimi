@@ -1,6 +1,7 @@
 import Lexer from './Lexer';
 import Dictionary from './Dictionary';
 import Database from './Database';
+import Serializer from './Api/Serializer';
 import express = require('express');
 import bodyParser = require('body-parser');
 
@@ -34,13 +35,16 @@ const runServer = async (application: express.Application): Promise<void> => {
 
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
+	const serializer = new Serializer();
 
 	const server = express();
 	server.use(bodyParser.json());
 	server.use(waitForStartupMiddleware);
 	server.post('/tokenize', (request: express.Request, response: express.Response) => {
 		const sentence: string = request.body.sentence;
-		response.json(lexer.tokenize(sentence));
+		const tokenized = lexer.tokenize(sentence);
+		const serialized = serializer.toJsonApi(tokenized);
+		response.json(serialized);
 	});
 
 	const serverClosed: Promise<void> = runServer(server);

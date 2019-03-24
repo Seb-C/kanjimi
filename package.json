@@ -3,7 +3,7 @@
     "server:start": "ts-node src/server.ts",
     "server:watch": "nodemon -e ts -w ./src -x npm run server:start",
     "migrate": "ts-node src/migrate.ts",
-    "test": "ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json",
+    "test": "DB_HOST=localhost ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json",
     "lint": "tslint './src/*.ts' './tests/*.ts'",
     "extension:browser": "web-ext --config=web-ext.js run",
     "extension:build": "webpack --watch",

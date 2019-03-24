@@ -19,7 +19,7 @@ export default class Database {
 		}
 
 		this.db = PgPromise()({
-			host     :  'database',
+			host     :  process.env.DB_HOST || 'database',
 			port     :  5432,
 			database :  'test',
 			user     :  'test',

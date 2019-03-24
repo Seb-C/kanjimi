@@ -39,8 +39,8 @@ const runServer = async (application: express.Application): Promise<void> => {
 	server.use(bodyParser.json());
 	server.use(waitForStartupMiddleware);
 	server.post('/tokenize', (request: express.Request, response: express.Response) => {
-		const sentences: string[] = request.body.sentences;
-		response.json(sentences.map(text => lexer.tokenize(text)));
+		const sentence: string = request.body.sentence;
+		response.json(lexer.tokenize(sentence));
 	});
 
 	const serverClosed: Promise<void> = runServer(server);

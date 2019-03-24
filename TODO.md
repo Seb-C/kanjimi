@@ -1,4 +1,3 @@
-- JSON response should be reparsed as the right objects? With JsonAPI?
 - Validate input via an express middleware?
 - webpack: different typescript config for each (lib and type keys for example)
 - webpack: commonize as much config as possible
@@ -12,3 +11,4 @@
 - implement down migrations
 - decomment last random test sentences
 - only absolute imports?
+- properly implement all the JSONApi spec (+ relationships)

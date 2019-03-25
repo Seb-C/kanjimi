@@ -20,6 +20,7 @@
   "devDependencies": {
     "@types/jasmine": "^3.3.9",
     "@types/node": "^11.9.3",
+    "element-visible": "^1.0.2",
     "jasmine": "^3.3.1",
     "nodemon": "^1.18.10",
     "ts-loader": "^5.3.3",

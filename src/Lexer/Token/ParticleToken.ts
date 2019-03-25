@@ -6,7 +6,7 @@ export default class ParticleToken extends Token {
 	}
 
 	constructor(text: string) {
-		if (!ParticleToken.isParticle(text)) {
+		if (typeof text === 'string' && !ParticleToken.isParticle(text)) {
 			throw new Error(`${text} is not a valid particle.`);
 		}
 		super(text);

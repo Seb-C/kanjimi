@@ -2,10 +2,12 @@ import CharType from './Misc/CharType';
 import Serializer from './Api/Serializer';
 import Token from './Lexer/Token/Token';
 import tokenize from './Api/tokenize';
+import { debounce } from 'ts-debounce';
 const elementVisible = require('element-visible');
 
 const containsJapanese = (text: string) => {
-	for (let i = 0; i < text.length; i++) {
+	// Note: arbitrarily limiting the number of characters for performance reason
+	for (let i = 0; i < text.length && i < 20; i++) {
 		if (CharType.isJapanese(text[i])) {
 			return true;
 		}
@@ -69,59 +71,76 @@ const convertNode = (node: Text, tokens: Token[]) => {
 const hasParentTag = (node: Node, tag: string): boolean => {
 	let cur: Node = node;
 
-	do {
-		if ((<Element>cur).tagName.toLowerCase() === tag) {
+	while (cur !== null) {
+		if (cur instanceof Element && (<Element>cur).tagName.toLowerCase() === tag) {
 			return true;
 		}
 
 		cur = <Node>cur.parentNode;
-	} while (cur !== null);
+	}
 
 	return false;
 };
 
-const getElementsToConvert = (): Text[] => {
+const getElementsToConvert = function* (): Iterable<Text> {
 	const walker = document.createTreeWalker(
 		document.body,
 		NodeFilter.SHOW_TEXT,
+		{ acceptNode: (node: Node): number => {
+			const text = (<Text>node).data.trim();
+			const containerType: string = (<Element>node.parentNode).tagName.toLowerCase();
+			if (
+				text.length > 0
+				&& containerType !== 'script'
+				&& containerType !== 'style'
+				&& containerType !== 'noscript'
+				&& containsJapanese(text)
+				&& elementVisible(node.parentNode, 0.1)
+				&& !hasParentTag(node, TAG_SENTENCE)
+			) {
+				return NodeFilter.FILTER_ACCEPT;
+			}
+
+			return NodeFilter.FILTER_SKIP;
+		}},
 	);
 
-	const elements: Text[] = [];
+	// Note: since the walker may stop working in case of dom changes,
+	// we need to move the cursor to the next element before yielding
+	// the current one.
+	walker.nextNode(); // First node is the body, we have to skip it
+	let previous = <Text>walker.currentNode;
 	while (walker.nextNode()) {
-		const textNode: Text = <Text>walker.currentNode;
-		const text = textNode.data.trim();
-		const containerType: string = (<Element>textNode.parentNode).tagName.toLowerCase();
-		if (
-			text.length > 0
-			&& containerType !== 'script'
-			&& containerType !== 'style'
-			&& containerType !== 'noscript'
-			&& containsJapanese(text)
-			&& elementVisible(textNode.parentNode)
-			&& !hasParentTag(textNode, TAG_SENTENCE)
-		) {
-			elements.push(textNode);
-		}
+		yield previous;
+		previous = <Text>walker.currentNode;
 	}
-
-	return elements;
+	if (previous !== null && previous instanceof Text) {
+		yield previous;
+	}
 };
 
+let processing = false;
 const convertVisibleElements = async () => {
-	const elements = getElementsToConvert();
-	for (let i = 0; i < elements.length; i++) {
+	if (processing) {
+		return;
+	}
+
+	processing = true;
+	for (const textNode of getElementsToConvert()) {
 		try {
-			const textNode = elements[i];
-			const text = textNode.data.trim();
-			const data = await tokenize(text);
+			const data = await tokenize(textNode.data.trim());
 			convertNode(textNode, data);
 		} catch (e) {
-			console.error(e);
+			console.error(e, textNode);
 		}
 	}
+	processing = false;
 };
 
 convertVisibleElements(); // Initializing
-// window.addEventListener('scroll', () => {
-// 	convertVisibleElements();
-// });
+window.addEventListener('scroll', debounce(
+	() => {
+		convertVisibleElements();
+	},
+	300,
+));

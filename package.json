@@ -5,7 +5,7 @@
     "migrate": "ts-node src/migrate.ts",
     "test": "DB_HOST=localhost ts-node node_modules/jasmine/bin/jasmine --config=jasmine.json",
     "lint": "tslint './src/*.ts' './tests/*.ts'",
-    "extension:browser": "web-ext --config=web-ext.js run",
+    "extension:browser": "web-ext --config=web-ext.js run --verbose",
     "extension:build": "webpack --watch",
     "extension:watch": "webpack && (webpack --watch & (npm run extension:browser && fg))"
   },

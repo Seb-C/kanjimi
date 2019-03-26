@@ -21,5 +21,16 @@ services:
       - "3000:80"
     volumes:
       - $PWD:/app
+  extension:
+    image: joenyland/nodejs-firefox-chrome
+    restart: always
+    working_dir: /app
+    command: npm run extension:watch
+    environment:
+      - DISPLAY=${DISPLAY_MAC}
+    volumes:
+      - $PWD:/app
+      - /tmp/.X11-unix:/tmp/.X11-unix
+      - $HOME/.Xauthority:/root/.Xauthority
 volumes:
   database:

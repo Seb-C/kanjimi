@@ -13,4 +13,8 @@ export default class Sense {
 	constructor(attributes: Sense) {
 		Object.assign(this, attributes);
 	}
+
+	public getBestTranslation(): Translation|null {
+		return this.translations[0] || null; // TODO
+	}
 }

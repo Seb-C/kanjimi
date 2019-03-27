@@ -18,15 +18,18 @@ const containsJapanese = (text: string) => {
 
 const TAG_SENTENCE = 'yometai-sentence';
 const TAG_TOKEN = 'yometai-token';
+const TAG_FURIGANA = 'yometai-furigana';
+const TAG_WORD = 'yometai-word';
+const TAG_TRANSLATION = 'yometai-translation';
 const style = document.createElement('style');
 style.textContent = `
 	${TAG_SENTENCE} {
         clear: both;
         margin-bottom: 30px;
-        display: block;
+        display: inline;
     }
 	${TAG_SENTENCE} > ${TAG_TOKEN} {
-        float: left;
+		display: inline-block;
         margin-bottom: 15px;
         height: 2rem;
         text-align: center;
@@ -36,8 +39,8 @@ style.textContent = `
         background: #DDDDDD;
     }
 
-	${TAG_SENTENCE} > ${TAG_TOKEN} .furigana,
-	${TAG_SENTENCE} > ${TAG_TOKEN} .meaning {
+	${TAG_SENTENCE} > ${TAG_TOKEN} ${TAG_FURIGANA},
+	${TAG_SENTENCE} > ${TAG_TOKEN} ${TAG_TRANSLATION} {
         font-size: 0.5rem;
         display: block;
     }
@@ -46,23 +49,29 @@ document.body.appendChild(style);
 
 customElements.define(TAG_SENTENCE, class extends HTMLElement {});
 customElements.define(TAG_TOKEN, class extends HTMLElement {});
+customElements.define(TAG_FURIGANA, class extends HTMLElement {});
+customElements.define(TAG_WORD, class extends HTMLElement {});
+customElements.define(TAG_TRANSLATION, class extends HTMLElement {});
 
 const convertNode = (node: Text, tokens: Token[]) => {
 	const container = document.createElement(TAG_SENTENCE);
 
 	tokens.map((token) => {
-		const span = document.createElement(TAG_TOKEN);
+		const tokenElement = document.createElement(TAG_TOKEN);
 
-		const furigana = 'xx';
-		const meaning = 'xx';
+		const tokenFurigana = document.createElement(TAG_FURIGANA);
+		tokenFurigana.innerText = token.getFurigana();
+		tokenElement.appendChild(tokenFurigana);
 
-		span.innerHTML = `
-			<span class="furigana">${furigana}</span>
-			${token.text}
-			<span class="meaning">${meaning}</span>
-		`;
+		const tokenWord = document.createElement(TAG_WORD);
+		tokenWord.innerText = token.text;
+		tokenElement.appendChild(tokenWord);
 
-		container.appendChild(span);
+		const tokenTranslation = document.createElement(TAG_TRANSLATION);
+		tokenTranslation.innerText = token.getTranslation();
+		tokenElement.appendChild(tokenTranslation);
+
+		container.appendChild(tokenElement);
 	});
 
 	(<Node>node.parentNode).replaceChild(container, node);

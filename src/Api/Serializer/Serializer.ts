@@ -67,21 +67,25 @@ export default class Serializer {
 			} else if (o instanceof Array) {
 				return (<[]>o).map(item => unserializeObject(item));
 			} else if (o instanceof Object) {
-				let attributes: any = {};
+				const attributes: any = {};
 
 				if (o.id) {
 					attributes.id = o.id;
 				}
 
 				if (o.attributes) {
-					attributes = { ...o.attributes };
+					for (const prop in o.attributes) {
+						if (o.attributes.hasOwnProperty(prop) && !(o.attributes[prop] instanceof Function)) {
+							attributes[prop] = unserializeObject(<any>o.attributes[prop]);
+						}
+					}
 				}
 
 				if (o.type) {
 					const typeClass = this.getClass(o.type);
 					if (typeClass) {
 						// @ts-ignore
-						return new (<T>typeClass)(attributes);
+						return Object.assign(new (<T>typeClass)(), attributes);
 					} else {
 						throw new Error(`Type not unserialize: ${o.type}`);
 					}

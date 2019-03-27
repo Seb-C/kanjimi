@@ -1,6 +1,7 @@
 import Database from '../Database';
 import Word from './Word';
 import Sense from './Sense';
+import Reading from './Reading';
 import Translation from './Translation';
 import PartOfSpeech from './PartOfSpeech';
 
@@ -13,6 +14,8 @@ export default class Dictionary {
 	private translations: { [senseId: number]: Translation[] } = {};
 	private senses: { [senseId: number]: Sense } = {};
 	private sensesByWordId: { [wordId: number]: Sense[] } = {};
+	private readings: { [readingId: number]: Reading } = {};
+	private readingsByWordId: { [wordId: number]: Reading[] } = {};
 
 	constructor() {
 		if (singleton) {
@@ -35,7 +38,7 @@ export default class Dictionary {
 	}
 
 	get (text: string): ReadonlyArray<Word> {
-		return <ReadonlyArray<Word>>this.words[text];
+		return <ReadonlyArray<Word>>(this.words[text] || []);
 	}
 
 	protected async loadPartsOfSpeechFromDatabase(db: Database): Promise<void> {
@@ -94,6 +97,32 @@ export default class Dictionary {
 		);
 	}
 
+	protected async loadReadingsFromDatabase(db: Database): Promise<void> {
+		await db.iterate(
+			Object,
+			async (reading: any) => {
+				this.readings[reading.id] = new Reading(<Reading>reading);
+			},
+			'SELECT * FROM "dictionary"."Reading"',
+		);
+	}
+
+	protected async loadReadingWordLinkFromDatabase(db: Database): Promise<void> {
+		await db.iterate(
+			Object,
+			async (row: any) => {
+				if (typeof this.readingsByWordId[row.wordId] === 'undefined') {
+					this.readingsByWordId[row.wordId] = [];
+				}
+
+				if (typeof this.readings[row.readingId] !== 'undefined') {
+					this.readingsByWordId[row.wordId].push(this.readings[row.readingId]);
+				}
+			},
+			'SELECT * FROM "dictionary"."ReadingWord"',
+		);
+	}
+
 	protected async loadWordsFromDatabase(db: Database): Promise<void> {
 		await db.iterate(
 			Object,
@@ -104,7 +133,8 @@ export default class Dictionary {
 
 				this.words[word.word].push(new Word(<Word>{
 					...word,
-					senses: this.sensesByWordId[word.id],
+					senses: this.sensesByWordId[word.id] || [],
+					readings: this.readingsByWordId[word.id] || [],
 				}));
 			},
 			'SELECT * FROM "dictionary"."Word"',
@@ -116,13 +146,13 @@ export default class Dictionary {
 			return;
 		}
 
-		// TODO not properly waited
-
 		console.log('Loading dictionary...');
 		await this.loadPartsOfSpeechFromDatabase(db);
 		await this.loadTranslationsFromDatabase(db);
 		await this.loadSensesFromDatabase(db);
 		await this.loadSenseWordLinkFromDatabase(db);
+		await this.loadReadingsFromDatabase(db);
+		await this.loadReadingWordLinkFromDatabase(db);
 		await this.loadWordsFromDatabase(db);
 		this.loaded = true;
 		console.log('Loaded dictionary.');

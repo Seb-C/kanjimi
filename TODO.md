@@ -1,4 +1,7 @@
-- Properly display + optimize everything when scrolling
+- Translation: limit the width, better add height instead
+- Show a loading indicator
+- Group HTTP queries?
+- Do not show reading for load words (katakana)
 - Validate input via an express middleware?
 - webpack: different typescript config for each (lib and type keys for example)
 - webpack: commonize as much config as possible

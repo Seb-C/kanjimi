@@ -28,6 +28,7 @@ style.textContent = `
         margin-bottom: 30px;
         display: inline;
     }
+
 	${TAG_SENTENCE} > ${TAG_TOKEN} {
 		display: inline-block;
         margin-bottom: 15px;
@@ -35,14 +36,11 @@ style.textContent = `
         text-align: center;
     }
 
-    ${TAG_SENTENCE} > ${TAG_TOKEN}:nth-child(odd) {
-        background: #DDDDDD;
-    }
-
 	${TAG_SENTENCE} > ${TAG_TOKEN} ${TAG_FURIGANA},
 	${TAG_SENTENCE} > ${TAG_TOKEN} ${TAG_TRANSLATION} {
         font-size: 0.5rem;
         display: block;
+		margin: 0 2px;
     }
 `;
 document.body.appendChild(style);
@@ -60,15 +58,15 @@ const convertNode = (node: Text, tokens: Token[]) => {
 		const tokenElement = document.createElement(TAG_TOKEN);
 
 		const tokenFurigana = document.createElement(TAG_FURIGANA);
-		tokenFurigana.innerText = token.getFurigana();
+		tokenFurigana.innerText = token.getFurigana() || '\xa0';
 		tokenElement.appendChild(tokenFurigana);
 
 		const tokenWord = document.createElement(TAG_WORD);
-		tokenWord.innerText = token.text;
+		tokenWord.innerText = token.text || '\xa0';
 		tokenElement.appendChild(tokenWord);
 
 		const tokenTranslation = document.createElement(TAG_TRANSLATION);
-		tokenTranslation.innerText = token.getTranslation();
+		tokenTranslation.innerText = token.getTranslation() || '\xa0';
 		tokenElement.appendChild(tokenTranslation);
 
 		container.appendChild(tokenElement);

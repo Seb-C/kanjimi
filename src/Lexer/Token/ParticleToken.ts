@@ -2,7 +2,7 @@ import Token from './Token';
 
 export default class ParticleToken extends Token {
 	static isParticle(text: string): boolean {
-		return ['か', 'が', 'で', 'と', 'な', 'に', 'の', 'は', 'へ', 'も', 'や', 'を'].includes(text);
+		return ['か', 'が', 'で', 'と', 'な', 'に', 'の', 'は', 'へ', 'も', 'や', 'を', 'お'].includes(text);
 	}
 
 	constructor(text: string) {

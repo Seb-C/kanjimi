@@ -1,7 +1,9 @@
-- Translation: limit the width, better add height instead
+- Translation: remove parenthesis to limit width
+- Optimize the algorithm
 - Show a loading indicator
 - Group HTTP queries?
 - Do not show reading for load words (katakana)
+- Add all data about a word as a tooltip
 - Validate input via an express middleware?
 - webpack: different typescript config for each (lib and type keys for example)
 - webpack: commonize as much config as possible

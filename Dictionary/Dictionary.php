@@ -139,10 +139,13 @@ while($xml->name === 'entry') {
 			if ($frequency == null || $newFrequency > $frequency) $frequency = $newFrequency;
 		}
 
-		$words[] = compact('word', 'frequency');
+		$words[] = [
+			'word' => $word,
+			'frequency' => $frequency,
+			'readings' => [],
+		];
 	}
 
-	$readings = [];
 	foreach ($entry->getElementsByTagName('r_ele') as $r) {
 		$reading = $r->getElementsByTagName('reb')[0]->nodeValue;
 
@@ -153,7 +156,9 @@ while($xml->name === 'entry') {
 			if ($frequency == null || $newFrequency > $frequency) $frequency = $newFrequency;
 		}
 
-		$readings[] = compact('reading', 'frequency');
+		foreach ($words as &$word) {
+			$word['readings'][] = compact('reading', 'frequency');
+		}
 	}
 
 	$senses = [];
@@ -170,6 +175,7 @@ while($xml->name === 'entry') {
 
 		$senses[] = compact('context', 'pos');
 
+		$appliesToWords = []; // TODO
 		$stagk = $sense->getElementsByTagName('stagk');
 		if (count($stagk) == 0) {
 			foreach ($wordIds AS $wordId) {

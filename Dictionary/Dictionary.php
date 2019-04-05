@@ -9,7 +9,7 @@ $db = new PDO('pgsql:host=localhost;port=5432;dbname=test;user=test;password=tes
 $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 $xml = new XMLReader();
-$xml->open('./xml/Dictionary.xml');
+$xml->open(__DIR__.'/xml/Dictionary.xml');
 
 function sql($str, $params = []) {
 	$params2 = [];
@@ -18,15 +18,15 @@ function sql($str, $params = []) {
 	}
 
 	global $db;
-	return $db->prepare($str)->execute($params2);
+	//return $db->prepare($str)->execute($params2); // TODO decomment
 }
 function lastId() {
 	global $db;
 	return $db->lastInsertId();
 }
 
-sql('DROP SCHEMA public CASCADE;');
-sql('CREATE SCHEMA public;');
+sql('DROP SCHEMA dictionary CASCADE;');
+sql('CREATE SCHEMA dictionary;');
 
 sql('CREATE TYPE "SenseType" AS ENUM(\'literal\', \'figurative\', \'explanation\');');
 
@@ -146,6 +146,14 @@ while($xml->name === 'entry') {
 		];
 	}
 
+	if (empty($words)) {
+		$words[] = [
+			'word' => null,
+			'frequency' => null,
+			'readings' => [],
+		];
+	}
+
 	foreach ($entry->getElementsByTagName('r_ele') as $r) {
 		$reading = $r->getElementsByTagName('reb')[0]->nodeValue;
 
@@ -156,12 +164,15 @@ while($xml->name === 'entry') {
 			if ($frequency == null || $newFrequency > $frequency) $frequency = $newFrequency;
 		}
 
-		foreach ($words as &$word) {
-			$word['readings'][] = compact('reading', 'frequency');
+		foreach ($words as $i => $word) {
+			$words[$i]['readings'][] = [
+				'reading' => $reading,
+				'frequency' => $frequency,
+				'senses' => [],
+			];
 		}
 	}
 
-	$senses = [];
 	foreach ($entry->getElementsByTagName('sense') as $sense) {
 		$context = [];
 		foreach ($sense->getElementsByTagName('field') as $x) {
@@ -173,52 +184,74 @@ while($xml->name === 'entry') {
 			addPartOfSpeechIfNeeded($pos[] = getTagFromNode($x));
 		}
 
-		$senses[] = compact('context', 'pos');
-
-		$appliesToWords = []; // TODO
-		$stagk = $sense->getElementsByTagName('stagk');
-		if (count($stagk) == 0) {
-			foreach ($wordIds AS $wordId) {
-				sql('INSERT INTO "SenseWord" VALUES(:senseId, :wordId);', compact('senseId', 'wordId'));
-			}
-		} else {
-			foreach ($stagk as $x) {
-				$wordId = $wordIds[$x->nodeValue];
-				sql('INSERT INTO "SenseWord" VALUES(:senseId, :wordId);', compact('senseId', 'wordId'));
-			}
-		}
-
-		$stagr = $sense->getElementsByTagName('stagr');
-		if (count($stagr) == 0) {
-			foreach ($readingIds AS $readingId) {
-				sql('INSERT INTO "SenseReading" VALUES(:senseId, :readingId);', compact('senseId', 'readingId'));
-			}
-		} else {
-			foreach ($stagr as $x) {
-				$readingId = $readingIds[$x->nodeValue];
-				sql('INSERT INTO "SenseReading" VALUES(:senseId, :readingId);', compact('senseId', 'readingId'));
-			}
-		}
-
+		$translations = [];
 		foreach ($sense->getElementsByTagName('lsource') as $x) {
 			$value = $x->nodeValue;
 			if (empty($value)) continue;
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
 			$describesFully = empty($x->getAttribute('ls_type')) || $x->getAttribute('ls_type') == 'full' ? 1 : 0;
 			$madeFromForeignWords = $x->getAttribute('ls_wasei') == 'y' ? 1 : 0;
-			sql(
-				'INSERT INTO "Translation" VALUES(DEFAULT, :senseId, :lang, :translation);',
-				compact('senseId', 'lang', 'translation', 'type')
-			);
+
+			$translations[] = compact('lang', 'translation', 'type');
 		}
 		foreach ($sense->getElementsByTagName('gloss') as $x) {
 			$translation = $x->nodeValue;
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
 			$type = empty($x->getAttribute('g_type')) ? null : $translationTypes[$x->getAttribute('g_type')];
-			sql(
-				'INSERT INTO "Translation" VALUES(DEFAULT, :senseId, :lang, :translation, :type);',
-				compact('senseId', 'lang', 'translation', 'type')
-			);
+			$translations[] = compact('lang', 'translation', 'type');
+		}
+
+		$senseArray = compact('context', 'pos', 'translations');
+
+		$stagk = $sense->getElementsByTagName('stagk');
+		if (count($stagk) == 0) {
+			foreach ($words AS $i => $word) {
+				foreach ($words[$i]['readings'] as $j => $reading) {
+					$words[$i]['readings'][$j]['senses'][] = $senseArray;
+				}
+			}
+		} else {
+			foreach ($stagk as $x) {
+				foreach ($words[$x->nodeValue]['readings'] as $i => $reading) {
+					$words[$x->nodeValue]['readings'][$i]['senses'][] = $senseArray;
+				}
+			}
+		}
+
+		$stagr = $sense->getElementsByTagName('stagr');
+		if (count($stagr) == 0) {
+			foreach ($words as $i => $word) {
+				foreach ($words[$i]['readings'] as $j => $reading) {
+					$words[$i]['readings'][$j]['senses'][] = $senseArray;
+				}
+			}
+		} else {
+			foreach ($stagr as $x) {
+				foreach ($words as $i => $word) {
+					$words[$i]['readings'][$x->nodeValue]['senses'][] = $senseArray;
+				}
+			}
+		}
+	}
+
+	foreach ($words as $word) {
+		foreach ($word['readings'] as $reading) {
+			foreach ($reading['senses'] as $sense) {
+				if ($word['frequency'] === null && $reading['frequency'] === null) {
+					$frequency = null;
+				} else {
+					$frequency = ((int) $word['frequency']) + ((int) $reading['frequency']);
+				}
+
+				print_r([
+					'word' => $word['word'] === null ? $reading['reading'] : $word['word'],
+					'reading' => $reading['reading'],
+					'frequency' => $frequency,
+					'context' => $sense['context'],
+					'pos' => $sense['pos'],
+					'translations' => $sense['translations'],
+				]);
+			}
 		}
 	}
 

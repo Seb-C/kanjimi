@@ -20,7 +20,8 @@ function sql($str, $params = []) {
 	}
 
 	global $db;
-	return $db->prepare($str)->execute($params2);
+	// Commented to avoid dropping the public schema by accident in case of future run (see below)
+	//return $db->prepare($str)->execute($params2);
 }
 function lastId() {
 	global $db;

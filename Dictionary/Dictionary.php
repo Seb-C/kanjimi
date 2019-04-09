@@ -1,8 +1,5 @@
 <?php
 
-// TODO Kanjis dictionary?
-// TODO names dictionary?
-
 // From: http://ftp.monash.edu/pub/nihongo/JMdict.gz
 
 $db = new PDO('pgsql:host=localhost;port=5432;dbname=test;user=test;password=test');
@@ -18,29 +15,12 @@ function sql($str, $params = []) {
 	}
 
 	global $db;
-	//return $db->prepare($str)->execute($params2); // TODO decomment
+	return $db->prepare($str)->execute($params2);
 }
 function lastId() {
 	global $db;
 	return $db->lastInsertId();
 }
-
-sql('DROP SCHEMA dictionary CASCADE;');
-sql('CREATE SCHEMA dictionary;');
-
-sql('CREATE TYPE "SenseType" AS ENUM(\'literal\', \'figurative\', \'explanation\');');
-
-sql('CREATE TABLE "PartOfSpeech" ("tag" TEXT NOT NULL PRIMARY KEY, "description" TEXT NOT NULL);');
-
-sql('CREATE TABLE "Word" ("id" SERIAL PRIMARY KEY NOT NULL, "word" TEXT NOT NULL, "frequency" INTEGER NULL);');
-
-sql('CREATE TABLE "Reading" ("id" SERIAL PRIMARY KEY NOT NULL, "reading" TEXT NOT NULL, "frequency" INTEGER NULL);');
-
-sql('CREATE TABLE "Sense" ("id" SERIAL PRIMARY KEY NOT NULL, "context" TEXT[] NOT NULL, "partOfSpeech" TEXT[] NOT NULL);');
-sql('CREATE TABLE "SenseWord" ("senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "wordId" INTEGER NOT NULL REFERENCES "Word"("id"), PRIMARY KEY ("senseId", "wordId"));');
-sql('CREATE TABLE "SenseReading" ("senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "readingId" INTEGER NOT NULL REFERENCES "Reading"("id"), PRIMARY KEY ("senseId", "readingId"));');
-
-sql('CREATE TABLE "Translation" ("id" SERIAL PRIMARY KEY NOT NULL, "senseId" INTEGER NOT NULL REFERENCES "Sense"("id"), "lang" TEXT NOT NULL, "translation" TEXT NOT NULL);');
 
 function parseFrequency($str) {
 	if (preg_match('/^nf([0-9]+)$/', $str, $matches)) {
@@ -104,20 +84,11 @@ foreach ($matches[1] as $i => $tag) {
 	$tagValues[$tag] = $matches[2][$i];
 }
 
-$createdPos = [];
 function addPartOfSpeechIfNeeded($tag) {
-	global $createdPos, $tagValues;
-	if (!isset($createdPos[$tag])) {
-		$description = $createdPos[$tag] = $tagValues[$tag];
-		sql('INSERT INTO "PartOfSpeech" VALUES (:tag, :description)', compact('tag', 'description'));
-	}
+	global $tagValues;
+	$description = $tagValues[$tag];
+	sql('INSERT INTO "PartOfSpeech" VALUES (:tag, :description) ON CONFLICT DO NOTHING', compact('tag', 'description'));
 }
-
-$translationTypes = [
-	'lit' => 'literal',
-	'fig' => 'figurative',
-	'expl' => 'explanation',
-];
 
 // move to the first node
 while ($xml->read() && $xml->name !== 'entry');
@@ -189,16 +160,13 @@ while($xml->name === 'entry') {
 			$value = $x->nodeValue;
 			if (empty($value)) continue;
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
-			$describesFully = empty($x->getAttribute('ls_type')) || $x->getAttribute('ls_type') == 'full' ? 1 : 0;
-			$madeFromForeignWords = $x->getAttribute('ls_wasei') == 'y' ? 1 : 0;
 
-			$translations[] = compact('lang', 'translation', 'type');
+			$translations[] = compact('lang', 'translation');
 		}
 		foreach ($sense->getElementsByTagName('gloss') as $x) {
 			$translation = $x->nodeValue;
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
-			$type = empty($x->getAttribute('g_type')) ? null : $translationTypes[$x->getAttribute('g_type')];
-			$translations[] = compact('lang', 'translation', 'type');
+			$translations[] = compact('lang', 'translation');
 		}
 
 		$senseArray = compact('context', 'pos', 'translations');
@@ -237,20 +205,35 @@ while($xml->name === 'entry') {
 	foreach ($words as $word) {
 		foreach ($word['readings'] as $reading) {
 			foreach ($reading['senses'] as $sense) {
-				if ($word['frequency'] === null && $reading['frequency'] === null) {
-					$frequency = null;
-				} else {
-					$frequency = ((int) $word['frequency']) + ((int) $reading['frequency']);
-				}
+				foreach ($sense['translations'] as $translation) {
+					if ($word['frequency'] === null && $reading['frequency'] === null) {
+						$frequency = null;
+					} else {
+						$frequency = ((int) $word['frequency']) + ((int) $reading['frequency']);
+					}
 
-				print_r([
-					'word' => $word['word'] === null ? $reading['reading'] : $word['word'],
-					'reading' => $reading['reading'],
-					'frequency' => $frequency,
-					'context' => $sense['context'],
-					'pos' => $sense['pos'],
-					'translations' => $sense['translations'],
-				]);
+					$contextArray = empty($sense['context']) ? '{}' : '{"'.implode('","', $sense['context']).'"}';
+					$posArray = empty($sense['pos']) ? '{}' : '{"'.implode('","', $sense['pos']).'"}';
+
+					sql('
+						INSERT INTO "Word" VALUES (
+							DEFAULT,
+							:word,
+							:reading,
+							:frequency,
+							\''.$contextArray.'\',
+							\''.$posArray.'\',
+							:translation,
+							:translationLang
+						) ON CONFLICT DO NOTHING
+					', [
+						'word'            => $word['word'] === null ? $reading['reading'] : $word['word'],
+						'reading'         => $reading['reading'],
+						'frequency'       => $frequency,
+						'translation'     => $translation['translation'],
+						'translationLang' => $translation['lang'],
+					]);
+				}
 			}
 		}
 	}

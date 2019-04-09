@@ -1,3 +1,4 @@
+- Finish modifying the dictionary + remove the old one manually
 - Translation: remove parenthesis to limit width
 - Optimize the algorithm
 - Show a loading indicator
@@ -9,6 +10,8 @@
 - webpack: commonize as much config as possible
 - suru irregular
 - kuru irregular
+- Kanjis dictionary?
+- names dictionary?
 - adjectives conjugation? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
 - counters?
 - multi token expressions?

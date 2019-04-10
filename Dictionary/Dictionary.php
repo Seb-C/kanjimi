@@ -22,15 +22,6 @@ function lastId() {
 	return $db->lastInsertId();
 }
 
-function parseFrequency($str) {
-	if (preg_match('/^nf([0-9]+)$/', $str, $matches)) {
-		return (int) $matches[1];
-	} else {
-		// Ignoring others as not very precise
-		return null;
-	}
-}
-
 function getTagFromNode($node) {
 	$child = $node->childNodes[0];
 	if ($child instanceof DOMEntityReference) {
@@ -40,40 +31,8 @@ function getTagFromNode($node) {
 	}
 }
 
-function parseContextTag($string) {
-	return [
-		'MA'      => 'martial arts',
-		'Buddh'   => 'Buddhist',
-		'chem'    => 'chemistry',
-		'comp'    => 'computer',
-		'food'    => 'food',
-		'geom'    => 'geometry',
-		'ling'    => 'linguistics',
-		'math'    => 'mathematics',
-		'mil'     => 'military',
-		'physics' => 'physics',
-		'archit'  => 'architecture',
-		'astron'  => 'astronomy',
-		'baseb'   => 'baseball',
-		'biol'    => 'biology',
-		'bot'     => 'botany',
-		'bus'     => 'business',
-		'econ'    => 'economics',
-		'engr'    => 'engineering',
-		'finc'    => 'finance',
-		'geol'    => 'geology',
-		'law'     => 'law',
-		'mahj'    => 'mahjong',
-		'med'     => 'medicine',
-		'music'   => 'music',
-		'Shinto'  => 'Shinto',
-		'shogi'   => 'shogi',
-		'sports'  => 'sports',
-		'sumo'    => 'sumo',
-		'zool'    => 'zoology',
-		'anat'    => 'anatomical',
-	][$string];
-}
+sql('TRUNCATE TABLE "Word";');
+sql('TRUNCATE TABLE "PartOfSpeech";');
 
 while ($xml->read() && $xml->nodeType != XMLReader::DOC_TYPE);
 $doctype = $xml->readOuterXml();
@@ -84,10 +43,14 @@ foreach ($matches[1] as $i => $tag) {
 	$tagValues[$tag] = $matches[2][$i];
 }
 
+$createdPos = [];
 function addPartOfSpeechIfNeeded($tag) {
-	global $tagValues;
+	global $tagValues, $createdPos;
 	$description = $tagValues[$tag];
-	sql('INSERT INTO "PartOfSpeech" VALUES (:tag, :description) ON CONFLICT DO NOTHING', compact('tag', 'description'));
+	if (!isset($createdPos[$tag])) {
+		$createdPos[$tag] = true;
+		sql('INSERT INTO "PartOfSpeech" VALUES (:tag, :description)', compact('tag', 'description'));
+	}
 }
 
 // move to the first node
@@ -103,16 +66,8 @@ while($xml->name === 'entry') {
 	foreach ($entry->getElementsByTagName('k_ele') as $k) {
 		$word = $k->getElementsByTagName('keb')[0]->nodeValue;
 
-		$frequency = null;
-		foreach ($k->getElementsByTagName('ke_pri') as $x) {
-			$newFrequency = parseFrequency($x->nodeValue);
-			if ($newFrequency == null) continue;
-			if ($frequency == null || $newFrequency > $frequency) $frequency = $newFrequency;
-		}
-
 		$words[] = [
 			'word' => $word,
-			'frequency' => $frequency,
 			'readings' => [],
 		];
 	}
@@ -120,7 +75,6 @@ while($xml->name === 'entry') {
 	if (empty($words)) {
 		$words[] = [
 			'word' => null,
-			'frequency' => null,
 			'readings' => [],
 		];
 	}
@@ -128,28 +82,30 @@ while($xml->name === 'entry') {
 	foreach ($entry->getElementsByTagName('r_ele') as $r) {
 		$reading = $r->getElementsByTagName('reb')[0]->nodeValue;
 
-		$frequency = null;
-		foreach ($r->getElementsByTagName('re_pri') as $x) {
-			$newFrequency = parseFrequency($x->nodeValue);
-			if ($newFrequency == null) continue;
-			if ($frequency == null || $newFrequency > $frequency) $frequency = $newFrequency;
-		}
-
-		foreach ($words as $i => $word) {
-			$words[$i]['readings'][] = [
-				'reading' => $reading,
-				'frequency' => $frequency,
-				'senses' => [],
-			];
+		$restr = $r->getElementsByTagName('re_restr');
+		if (count($restr) == 0) {
+			foreach ($words as $i => $word) {
+				$words[$i]['readings'][] = [
+					'reading' => $reading,
+					'senses' => [],
+				];
+			}
+		} else {
+			foreach ($restr as $x) {
+				foreach ($words as $i => $word) {
+					if ($word['word'] == $x->nodeValue) {
+						$words[$i]['readings'][] = [
+							'reading' => $reading,
+							'senses' => [],
+						];
+						break;
+					}
+				}
+			}
 		}
 	}
 
 	foreach ($entry->getElementsByTagName('sense') as $sense) {
-		$context = [];
-		foreach ($sense->getElementsByTagName('field') as $x) {
-			$context[] = parseContextTag(getTagFromNode($x));
-		}
-
 		$pos = [];
 		foreach ($sense->getElementsByTagName('pos') as $x) {
 			addPartOfSpeechIfNeeded($pos[] = getTagFromNode($x));
@@ -169,19 +125,29 @@ while($xml->name === 'entry') {
 			$translations[] = compact('lang', 'translation');
 		}
 
-		$senseArray = compact('context', 'pos', 'translations');
+		$senseArray = compact('pos', 'translations');
 
 		$stagk = $sense->getElementsByTagName('stagk');
 		if (count($stagk) == 0) {
-			foreach ($words AS $i => $word) {
+			foreach ($words as $i => $word) {
 				foreach ($words[$i]['readings'] as $j => $reading) {
 					$words[$i]['readings'][$j]['senses'][] = $senseArray;
 				}
 			}
 		} else {
 			foreach ($stagk as $x) {
-				foreach ($words[$x->nodeValue]['readings'] as $i => $reading) {
-					$words[$x->nodeValue]['readings'][$i]['senses'][] = $senseArray;
+				$wordIndex = null;
+				foreach ($words as $i => $word) {
+					if ($word['word'] == $x->nodeValue) {
+						$wordIndex = $i;
+						break;
+					}
+				}
+
+				if ($wordIndex !== null) {
+					foreach ($words[$wordIndex]['readings'] as $i => $reading) {
+						$words[$wordIndex]['readings'][$i]['senses'][] = $senseArray;
+					}
 				}
 			}
 		}
@@ -196,7 +162,17 @@ while($xml->name === 'entry') {
 		} else {
 			foreach ($stagr as $x) {
 				foreach ($words as $i => $word) {
-					$words[$i]['readings'][$x->nodeValue]['senses'][] = $senseArray;
+					$readingIndex = null;
+					foreach ($word['readings'] as $j => $reading) {
+						if ($reading['reading'] == $x->nodeValue) {
+							$readingIndex = $j;
+							break;
+						}
+					}
+
+					if ($readingIndex !== null) {
+						$words[$i]['readings'][$readingIndex]['senses'][] = $senseArray;
+					}
 				}
 			}
 		}
@@ -205,31 +181,21 @@ while($xml->name === 'entry') {
 	foreach ($words as $word) {
 		foreach ($word['readings'] as $reading) {
 			foreach ($reading['senses'] as $sense) {
+				$posArray = empty($sense['pos']) ? '{}' : '{"'.implode('","', $sense['pos']).'"}';
+
 				foreach ($sense['translations'] as $translation) {
-					if ($word['frequency'] === null && $reading['frequency'] === null) {
-						$frequency = null;
-					} else {
-						$frequency = ((int) $word['frequency']) + ((int) $reading['frequency']);
-					}
-
-					$contextArray = empty($sense['context']) ? '{}' : '{"'.implode('","', $sense['context']).'"}';
-					$posArray = empty($sense['pos']) ? '{}' : '{"'.implode('","', $sense['pos']).'"}';
-
 					sql('
 						INSERT INTO "Word" VALUES (
 							DEFAULT,
 							:word,
 							:reading,
-							:frequency,
-							\''.$contextArray.'\',
 							\''.$posArray.'\',
-							:translation,
-							:translationLang
-						) ON CONFLICT DO NOTHING
+							:translationLang,
+							:translation
+						);
 					', [
 						'word'            => $word['word'] === null ? $reading['reading'] : $word['word'],
 						'reading'         => $reading['reading'],
-						'frequency'       => $frequency,
 						'translation'     => $translation['translation'],
 						'translationLang' => $translation['lang'],
 					]);
@@ -238,7 +204,7 @@ while($xml->name === 'entry') {
 		}
 	}
 
-	if ($count % 50 == 0) {
+	if ($count % 10 == 0) {
 		$db->commit();
 		$db->beginTransaction();
 	}

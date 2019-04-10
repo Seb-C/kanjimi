@@ -1,4 +1,10 @@
-- Finish modifying the dictionary + remove the old one manually
+- Finish modifying the dictionary + models
+- remove the old one manually from computer
+- handle duplicates
+- convert language code
+- optimize storage for strings in pgsql?
+- remove id from table?
+
 - Translation: remove parenthesis to limit width
 - Optimize the algorithm
 - Show a loading indicator

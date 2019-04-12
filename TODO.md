@@ -1,4 +1,4 @@
-- Finish modifying the dictionary + models
+- Finish modifying the dictionary models
 - remove the old one manually from computer
 - handle duplicates
 - convert language code

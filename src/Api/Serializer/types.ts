@@ -1,10 +1,6 @@
 // Dictionary
 export { default as Word } from '../../Dictionary/Word';
 export { default as PartOfSpeech } from '../../Dictionary/PartOfSpeech';
-export { default as Sense } from '../../Dictionary/Sense';
-export { default as Reading } from '../../Dictionary/Reading';
-export { default as SenseType } from '../../Dictionary/SenseType';
-export { default as Translation } from '../../Dictionary/Translation';
 
 // Verbs
 export { default as VerbForm } from '../../Lexer/Verb/VerbForm';

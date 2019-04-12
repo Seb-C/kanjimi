@@ -113,10 +113,9 @@ while($xml->name === 'entry') {
 
 		$translations = [];
 		foreach ($sense->getElementsByTagName('lsource') as $x) {
-			$value = $x->nodeValue;
-			if (empty($value)) continue;
+			$translation = $x->nodeValue;
+			if (empty($translation)) continue;
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
-
 			$translations[] = compact('lang', 'translation');
 		}
 		foreach ($sense->getElementsByTagName('gloss') as $x) {

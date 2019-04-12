@@ -1,8 +1,5 @@
 import Token from './Token';
 import Word from '../../Dictionary/Word';
-import Sense from '../../Dictionary/Sense';
-import Reading from '../../Dictionary/Reading';
-import Translation from '../../Dictionary/Translation';
 
 export default class WordToken extends Token {
 	public readonly words: ReadonlyArray<Word>;
@@ -13,18 +10,19 @@ export default class WordToken extends Token {
 	}
 
 	private getBestWord(): Word|null {
-		let bestFrequency = -1;
-		let bestWord = null;
-
-		this.words.forEach((word) => {
-			const frequency = word.frequency || 0;
-			if (frequency > bestFrequency) {
-				bestWord = word;
-				bestFrequency = frequency;
+		// TODO depending on the user + better algorithm
+		for (const i = 0; i < this.words.length; i++) {
+			if (this.words[i].translationLang === 'fra') {
+				return this.words[i];
 			}
-		});
+		}
+		for (const i = 0; i < this.words.length; i++) {
+			if (this.words[i].translationLang === 'eng') {
+				return this.words[i];
+			}
+		}
 
-		return bestWord;
+		return this.words[0];
 	}
 
 	public getFurigana(): string {
@@ -33,12 +31,7 @@ export default class WordToken extends Token {
 			return '';
 		}
 
-		const reading = word.getBestReading();
-		if (reading === null) {
-			return '';
-		}
-
-		return reading.reading;
+		return word.reading;
 	}
 
 	public getTranslation(): string {
@@ -47,16 +40,6 @@ export default class WordToken extends Token {
 			return '';
 		}
 
-		const sense = word.getBestSense();
-		if (sense === null) {
-			return '';
-		}
-
-		const translation = sense.getBestTranslation();
-		if (translation === null) {
-			return '';
-		}
-
-		return translation.translation;
+		return word.translation;
 	}
 }

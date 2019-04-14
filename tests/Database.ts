@@ -1,5 +1,5 @@
 import 'jasmine';
-import Database from '../src/Database';
+import Database from 'Database/Database';
 
 const db = new Database();
 

@@ -1,5 +1,5 @@
-import Token from './Token';
-import Word from '../../Dictionary/Word';
+import Token from 'Lexer/Token/Token';
+import Word from 'Dictionary/Word';
 
 export default class WordToken extends Token {
 	public readonly words: ReadonlyArray<Word>;

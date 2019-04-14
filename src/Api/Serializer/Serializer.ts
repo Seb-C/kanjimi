@@ -1,4 +1,4 @@
-import * as types from './types';
+import * as types from 'Api/Serializer/types';
 
 export default class Serializer {
 	private readonly types: Readonly<{ [type: string]: Object }>;

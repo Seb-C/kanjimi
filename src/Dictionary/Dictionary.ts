@@ -1,6 +1,6 @@
-import Database from '../Database';
-import Word from './Word';
-import PartOfSpeech from './PartOfSpeech';
+import Database from 'Database/Database';
+import Word from 'Dictionary/Word';
+import PartOfSpeech from 'Dictionary/PartOfSpeech';
 
 let singleton: Dictionary;
 

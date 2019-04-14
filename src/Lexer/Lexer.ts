@@ -1,13 +1,13 @@
-import VerbForms from './Verb/VerbForms';
-import VerbForm from './Verb/VerbForm';
-import Token from './Token/Token';
-import CharType from '../Misc/CharType';
-import VerbToken from './Token/VerbToken';
-import ParticleToken from './Token/ParticleToken';
-import PunctuationToken from './Token/PunctuationToken';
-import WordToken from './Token/WordToken';
-import Dictionary from '../Dictionary';
-import Word from '../Dictionary/Word';
+import VerbForms from 'Lexer/Verb/VerbForms';
+import VerbForm from 'Lexer/Verb/VerbForm';
+import Token from 'Lexer/Token/Token';
+import CharType from 'Misc/CharType';
+import VerbToken from 'Lexer/Token/VerbToken';
+import ParticleToken from 'Lexer/Token/ParticleToken';
+import PunctuationToken from 'Lexer/Token/PunctuationToken';
+import WordToken from 'Lexer/Token/WordToken';
+import Dictionary from 'Dictionary/Dictionary';
+import Word from 'Dictionary/Word';
 
 export default class Lexer {
 	protected dictionary: Dictionary;

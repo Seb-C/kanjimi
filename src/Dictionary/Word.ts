@@ -1,4 +1,4 @@
-import PartOfSpeech from './PartOfSpeech';
+import PartOfSpeech from 'Dictionary/PartOfSpeech';
 
 export default class Word {
 	public readonly id: number;

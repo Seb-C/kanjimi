@@ -1,5 +1,5 @@
-import VerbFormType from './VerbFormType';
-import VerbForm from './VerbForm';
+import VerbFormType from 'Lexer/Verb/VerbFormType';
+import VerbForm from 'Lexer/Verb/VerbForm';
 
 class VerbFormsClass {
 	readonly possibeFormsByConjugation: { [conjugation: string]: VerbForm[] } = {};

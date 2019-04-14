@@ -1,4 +1,4 @@
-import Token from './Token';
+import Token from 'Lexer/Token/Token';
 
 export default class ParticleToken extends Token {
 	static isParticle(text: string): boolean {

@@ -1,4 +1,4 @@
-import VerbFormType from './VerbFormType';
+import VerbFormType from 'Lexer/Verb/VerbFormType';
 
 export default class VerbForm {
 	readonly conjugation: string;

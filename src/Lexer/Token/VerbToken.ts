@@ -1,7 +1,7 @@
-import WordToken from './WordToken';
-import VerbForms from '../Verb/VerbForms';
-import VerbForm from '../Verb/VerbForm';
-import Word from '../../Dictionary/Word';
+import WordToken from 'Lexer/Token/WordToken';
+import VerbForms from 'Lexer/Verb/VerbForms';
+import VerbForm from 'Lexer/Verb/VerbForm';
+import Word from 'Dictionary/Word';
 
 export default class VerbToken extends WordToken {
 	public readonly verb: string;

@@ -1,7 +1,7 @@
-import Lexer from './Lexer';
-import Dictionary from './Dictionary';
-import Database from './Database';
-import Serializer from './Api/Serializer';
+import Lexer from 'Lexer/Lexer';
+import Dictionary from 'Dictionary/Dictionary';
+import Database from 'Database/Database';
+import Serializer from 'Api/Serializer/Serializer';
 import express = require('express');
 import bodyParser = require('body-parser');
 

@@ -1,8 +1,8 @@
 import 'jasmine';
-import Serializer from '../../src/Api/Serializer';
-import Dictionary from '../../src/Dictionary';
-import Word from '../../src/Dictionary/Word';
-import Database from '../../src/Database';
+import Serializer from 'Api/Serializer/Serializer';
+import Dictionary from 'Dictionary/Dictionary';
+import Word from 'Dictionary/Word';
+import Database from 'Database/Database';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 

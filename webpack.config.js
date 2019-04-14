@@ -9,6 +9,10 @@ const webpack = require('webpack');
 // 	},
 // 	resolve: {
 // 		extensions: ['.ts', '.js', '.tsx', '.jsx'],
+//		modules: [
+//			path.resolve('./src'),
+//			path.resolve('./node_modules'),
+//		],
 // 	},
 // 	plugins: [
 // 		new webpack.IgnorePlugin(/^pg-native$/),
@@ -47,6 +51,10 @@ const extensionContent = {
 	mode: 'production',
 	resolve: {
 		extensions: ['.ts', '.js', '.tsx', '.jsx'],
+		modules: [
+			path.resolve('./src'),
+			path.resolve('./node_modules'),
+		],
 	},
 	module: {
 		rules: [

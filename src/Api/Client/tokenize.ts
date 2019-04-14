@@ -1,5 +1,5 @@
-import Token from '../Lexer/Token/Token';
-import Serializer from '../Api/Serializer';
+import Token from '../../Lexer/Token/Token';
+import Serializer from '../../Api/Serializer';
 
 const serializer = new Serializer();
 

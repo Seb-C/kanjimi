@@ -1,11 +1,7 @@
-- Finish modifying the dictionary models
-- remove the old one manually from computer
-- handle duplicates
 - convert language code
-- optimize storage for strings in pgsql?
-- remove id from table?
+- Filter languages in server instead of client (see TODO in WordToken)
+- test WordToken methods
 
-- Translation: remove parenthesis to limit width
 - Optimize the algorithm
 - Show a loading indicator
 - Group HTTP queries?

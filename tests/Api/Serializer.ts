@@ -10,9 +10,8 @@ describe('Api Serializer', () => {
 	it('All', async () => {
 		const serializer = new Serializer();
 		const db = new Database();
-		const dictionary = new Dictionary();
-		await dictionary.loadFromDatabase(db);
-		const word = dictionary.get('食べる')[0];
+		const dictionary = new Dictionary(db);
+		const word = (await dictionary.get('食べる'))[0];
 
 		const serialized: any = serializer.toJsonApi(word);
 		expect(serialized.data).toBeDefined();

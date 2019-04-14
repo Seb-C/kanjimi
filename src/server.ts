@@ -33,27 +33,26 @@ const runServer = async (application: express.Application): Promise<void> => {
 		}
 	};
 
-	const dictionary = new Dictionary();
+	const dictionary = new Dictionary(db);
 	const lexer = new Lexer(dictionary);
 	const serializer = new Serializer();
 
 	const server = express();
 	server.use(bodyParser.json());
 	server.use(waitForStartupMiddleware);
-	server.post('/tokenize', (request: express.Request, response: express.Response) => {
+	server.post('/tokenize', async (request: express.Request, response: express.Response) => {
 		const sentence: string = request.body.sentence;
-		const tokenized = lexer.tokenize(sentence);
+		const tokenized = await lexer.tokenize(sentence);
 		const serialized = serializer.toJsonApi(tokenized);
 		response.json(serialized);
 	});
 
 	const serverClosed: Promise<void> = runServer(server);
 
-	await dictionary.loadFromDatabase(db);
-
 	// Ready, processing pending requests
 	started = true;
 	startupWaiters.forEach(f => f());
+	console.log('Server started');
 
 	await serverClosed;
 	await db.close();

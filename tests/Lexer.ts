@@ -14,13 +14,12 @@ let lexer: Lexer;
 describe('Lexer', async () => {
 	beforeEach(async () => {
 		const db = new Database();
-		const dictionary = new Dictionary();
-		await dictionary.loadFromDatabase(db);
+		const dictionary = new Dictionary(db);
 		lexer = new Lexer(dictionary);
 	});
 
 	it('Basic sentence tokenization', async () => {
-		const result = lexer.tokenize('私はセバスティアンと申します。');
+		const result = await lexer.tokenize('私はセバスティアンと申します。');
 		expect(result.length).toBe(6);
 		expect(result[0].text).toBe('私');
 		expect(result[1].text).toBe('は');
@@ -30,7 +29,7 @@ describe('Lexer', async () => {
 		expect(result[5].text).toBe('。');
 	});
 	it('Token types recognition', async () => {
-		const result = lexer.tokenize('私はセバスティアンと申します。');
+		const result = await lexer.tokenize('私はセバスティアンと申します。');
 		expect(result[0] instanceof WordToken).toBe(true);
 		expect(result[1] instanceof ParticleToken).toBe(true);
 		expect(result[3] instanceof ParticleToken).toBe(true);
@@ -38,7 +37,7 @@ describe('Lexer', async () => {
 		expect(result[5] instanceof PunctuationToken).toBe(true);
 	});
 	it('Verb parts', async () => {
-		const result = lexer.tokenize('私はセバスティアンと申します。');
+		const result = await lexer.tokenize('私はセバスティアンと申します。');
 		expect(result[4] instanceof VerbToken).toBe(true);
 		const verb = <VerbToken>result[4];
 		expect(verb.conjugation).toBe('します');
@@ -46,14 +45,14 @@ describe('Lexer', async () => {
 		expect(verb.forms.map(v => v.dictionaryForm)).toContain('す');
 	});
 	it('Dictionary words', async () => {
-		const result = lexer.tokenize('私はセバスティアンと申します。');
+		const result = await lexer.tokenize('私はセバスティアンと申します。');
 		const word = <WordToken>result[0];
 		const verb = <VerbToken>result[4];
 		expect(word.words.length > 0).toBe(true);
 		expect(verb.words.length > 0).toBe(true);
 	});
 	it('Multi-token kanji sequences', async () => {
-		const result = lexer.tokenize('国立女性美術館と日本大帝国憲法と合衆国最高裁判所はたくさん感じがある言葉。');
+		const result = await lexer.tokenize('国立女性美術館と日本大帝国憲法と合衆国最高裁判所はたくさん感じがある言葉。');
 		expect(result[0].text).toBe('国立');
 		expect(result[1].text).toBe('女性美');
 		expect(result[2].text).toBe('術');
@@ -65,13 +64,13 @@ describe('Lexer', async () => {
 		expect(result[10].text).toBe('最高裁判所');
 	});
 	it('More test sentences', async () => {
-		// console.log(lexer.tokenize(
+		// console.log(await lexer.tokenize(
 		// 	'TypeScript はマイクロソフトによって開発され、'
 		// 	+ 'メンテナンスされているフリーでオープンソース'
 		// 	+ 'のプログラミング言語である。',
 		// ));
 
-		// console.log(lexer.tokenize(`
+		// console.log(await lexer.tokenize(`
 		// 	「日本」という漢字による国号の表記は、日本列島が中国大陸から見て東の果て、
 		// 	つまり「日の本（ひのもと）」に位置することに由来するのではないかとされる[3]。
 		// 	近代の二つの憲法の表題は、「日本国憲法」および「大日本帝国憲法」であるが、

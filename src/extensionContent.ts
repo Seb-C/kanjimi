@@ -1,7 +1,7 @@
 import CharType from './Misc/CharType';
 import Serializer from './Api/Serializer';
 import Token from './Lexer/Token/Token';
-import tokenize from './Api/tokenize';
+import tokenize from './Api/Client/tokenize';
 import { debounce } from 'ts-debounce';
 const elementVisible = require('element-visible');
 

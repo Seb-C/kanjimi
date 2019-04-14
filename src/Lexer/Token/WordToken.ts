@@ -11,12 +11,12 @@ export default class WordToken extends Token {
 
 	private getBestWord(): Word|null {
 		// TODO depending on the user + better algorithm
-		for (const i = 0; i < this.words.length; i++) {
+		for (let i = 0; i < this.words.length; i++) {
 			if (this.words[i].translationLang === 'fra') {
 				return this.words[i];
 			}
 		}
-		for (const i = 0; i < this.words.length; i++) {
+		for (let i = 0; i < this.words.length; i++) {
 			if (this.words[i].translationLang === 'eng') {
 				return this.words[i];
 			}
@@ -40,6 +40,6 @@ export default class WordToken extends Token {
 			return '';
 		}
 
-		return word.translation;
+		return word.getShortTranslation();
 	}
 }

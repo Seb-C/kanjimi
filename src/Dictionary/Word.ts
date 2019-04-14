@@ -11,4 +11,8 @@ export default class Word {
 	constructor(attributes: Word) {
 		Object.assign(this, attributes);
 	}
+
+	getShortTranslation(): string {
+		return this.translation.replace(/^([^{(]+).*$/, '$1').trim();
+	}
 }

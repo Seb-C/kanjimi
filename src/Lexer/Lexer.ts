@@ -19,7 +19,7 @@ export default class Lexer {
 		this.dictionary = dictionary;
 	}
 
-	tokenize (text: string): Token[] {
+	async tokenize (text: string): Promise<Token[]> {
 		this.text = text.trim();
 		this.tokens = [];
 
@@ -30,7 +30,7 @@ export default class Lexer {
 			let lastToken = this.getLastToken();
 			const lastTokenComplete = (lastToken !== null && this.isTokenComplete(lastToken));
 			if (lastToken !== null) {
-				this.setLastToken(this.refineToken(lastToken));
+				this.setLastToken(await this.refineToken(lastToken));
 			}
 			if (lastToken === null || lastTokenComplete) {
 				// Considering that the last token was recognized as complete
@@ -46,7 +46,7 @@ export default class Lexer {
 			}
 
 			if (lastCharType === CharType.KANJI && currentCharType === CharType.HIRAGANA) {
-				const verbToken = this.getTokenIfVerbConjugation(lastToken.text, this.currentIndex);
+				const verbToken = await this.getTokenIfVerbConjugation(lastToken.text, this.currentIndex);
 				if (verbToken !== null) {
 					this.currentIndex += verbToken.conjugation.length - 1;
 					this.setLastToken(verbToken);
@@ -59,11 +59,11 @@ export default class Lexer {
 				&& currentCharType !== CharType.KANJI
 				&& !lastTokenComplete
 			) {
-				const result = this.splitMultiKanjisSequence(lastToken);
+				const result = await this.splitMultiKanjisSequence(lastToken);
 				this.setLastToken(result);
 			}
 
-			currentToken = this.refineToken(currentToken);
+			currentToken = await this.refineToken(currentToken);
 
 			this.tokens.push(currentToken);
 		}
@@ -74,17 +74,17 @@ export default class Lexer {
 				CharType.of(this.getLastChar(lastToken.text)) === CharType.KANJI
 				&& !this.isTokenComplete(lastToken)
 			) {
-				const result = this.splitMultiKanjisSequence(lastToken);
+				const result = await this.splitMultiKanjisSequence(lastToken);
 				this.setLastToken(result);
 			} else {
-				this.setLastToken(this.refineToken(lastToken));
+				this.setLastToken(await this.refineToken(lastToken));
 			}
 		}
 
 		return this.tokens;
 	}
 
-	protected refineToken(token: Token): Token {
+	protected async refineToken(token: Token): Promise<Token> {
 		const charType = CharType.of(this.getLastChar(token.text));
 
 		if (ParticleToken.isParticle(token.text)) {
@@ -93,15 +93,17 @@ export default class Lexer {
 		if (charType === CharType.PUNCTUATION) {
 			return new PunctuationToken(token.text);
 		}
-		if (this.dictionary.has(token.text)) {
+
+		const word = await this.dictionary.get(token.text);
+		if (word.length > 0) {
 			// Simple dictionary lookup
-			return new WordToken(token.text, this.dictionary.get(token.text));
+			return new WordToken(token.text, word);
 		}
 
 		return token;
 	}
 
-	protected splitMultiKanjisSequence(token: Token): Token[] {
+	protected async splitMultiKanjisSequence(token: Token): Promise<Token[]> {
 		const tokens: Token[] = [];
 
 		let begin = 0;
@@ -109,8 +111,9 @@ export default class Lexer {
 			let length;
 			for (length = token.text.length - begin; length > 0; length--) {
 				const sub = token.text.substr(begin, length);
-				if (this.dictionary.has(sub)) {
-					tokens.push(new WordToken(sub, this.dictionary.get(sub)));
+				const word = await this.dictionary.get(sub);
+				if (word.length > 0) {
+					tokens.push(new WordToken(sub, word));
 					begin += sub.length;
 					break; // Inner for loop
 				}
@@ -144,7 +147,10 @@ export default class Lexer {
 		return token.constructor !== Token;
 	}
 
-	protected getTokenIfVerbConjugation(verb: string, position: number): VerbToken|null {
+	protected async getTokenIfVerbConjugation(
+		verb: string,
+		position: number,
+	): Promise<VerbToken|null> {
 		let conjugation = '';
 		for (let i = 0; (
 			i < VerbForms.getMaxConjugationLength()
@@ -158,9 +164,11 @@ export default class Lexer {
 			if (VerbForms.hasForm(conjugation)) {
 				const words: Word[] = [];
 				const forms = VerbForms.getForms(conjugation);
-				forms.forEach((form: VerbForm) => {
-					words.push(...this.dictionary.get(verb + form.dictionaryForm));
-				});
+				await Promise.all(forms.map(async (form: VerbForm) => {
+					words.push(...(
+						await this.dictionary.get(verb + form.dictionaryForm)
+					));
+				}));
 
 				return new VerbToken(verb, conjugation, forms, words);
 			}

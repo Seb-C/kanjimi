@@ -5,6 +5,14 @@ class VerbFormsClass {
 	readonly possibeFormsByConjugation: { [conjugation: string]: VerbForm[] } = {};
 	private maxConjugationLength: number = 0;
 
+	private readonly PLAIN_FORMS: ReadonlyArray<VerbFormType> = [
+		CAUSATIVE,
+		PASSIVE,
+		PLAIN,
+		POLITE,
+		POTENTIAL,
+	];
+
 	addForm (form: VerbForm) {
 		if (!this.possibeFormsByConjugation.hasOwnProperty(form.conjugation)) {
 			this.possibeFormsByConjugation[form.conjugation] = [];

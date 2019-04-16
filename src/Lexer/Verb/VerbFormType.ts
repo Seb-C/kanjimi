@@ -7,7 +7,7 @@ enum VerbFormType {
 	POLITE,
 	POTENTIAL,
 	PROHIBITIVE,
-	TA,
+	PAST,
 	TE,
 	VOLITIONAL,
 }

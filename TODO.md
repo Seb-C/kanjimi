@@ -7,8 +7,9 @@ Tech priority:
 
 Algorithm priorities:
 - Verb forms: missing polite past and negative forms (need to recursively relaunch the algorithm on the masu form?)?
-    remove masu conjugations and set it apart?
-    + masu conjugations should be conjugable
+    masu conjugations should be conjugable (where to add this?)
+    rename verb module to conjugations
+    improve the condition to detect it (kanji + ending will not work for i-adjectives?)
 - adjectives conjugation? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
 - suru irregular
 - kuru irregular

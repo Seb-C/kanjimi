@@ -6,9 +6,35 @@ class VerbFormsClass {
 	readonly conjugationsByPlainForm: { [conjugation: string]: VerbForm[] } = {};
 	private maxConjugationLength: number = 0;
 
-	private readonly FORMS_CONVERT: { [from: VerbFormType]: VerbFormType[] } = [
-
-	];
+	private readonly FORMS_CONVERT: {
+		[a: VerbFormType]: { [b: VerbFormType]: VerbFormType },
+	} = {
+		[VerbFormType.PASSIVE]: {
+			[VerbFormType.NEGATIVE]: VerbFormType.PASSIVE_NEGATIVE,
+			[VerbFormType.POLITE]: VerbFormType.PASSIVE_POLITE,
+		},
+		[VerbFormType.CAUSATIVE]: {
+			[VerbFormType.NEGATIVE]: VerbFormType.CAUSATIVE_NEGATIVE,
+			[VerbFormType.POLITE]: VerbFormType.CAUSATIVE_POLITE,
+		},
+		[VerbFormType.POTENTIAL]: {
+			[VerbFormType.NEGATIVE]: VerbFormType.POTENTIAL_NEGATIVE,
+			[VerbFormType.POLITE]: VerbFormType.POTENTIAL_POLITE,
+		},
+		[VerbFormType.POLITE]: {
+			[VerbFormType.VOLITIONAL]: VerbFormType.POLITE_VOLITIONAL,
+			[VerbFormType.PAST]: VerbFormType.POLITE_PAST,
+		},
+		[VerbFormType.PASSIVE_POLITE]: {
+			[VerbFormType.NEGATIVE]: VerbFormType.PASSIVE_POLITE_NEGATIVE,
+		},
+		[VerbFormType.CAUSATIVE_POLITE]: {
+			[VerbFormType.NEGATIVE]: VerbFormType.CAUSATIVE_POLITE_NEGATIVE,
+		},
+		[VerbFormType.POTENTIAL_POLITE]: {
+			[VerbFormType.NEGATIVE]: VerbFormType.POTENTIAL_POLITE_NEGATIVE,
+		},
+	};
 
 	private fromPlainForm(plain: string, formTo: VerbFormType): string {
 		for (let i = plain.length; i > 0; i--) {
@@ -45,12 +71,13 @@ class VerbFormsClass {
 		}
 
 		if (this.FORMS_CONVERT.hasOwnProperty(form.type)) {
-			// Adding polite form from plain ones
-			this.addForm(new VerbForm(
-				this.fromPlainForm(form.conjugation, VerbFormType.STEM),
-				form.dictionaryForm,
-				this.FORMS_CONVERT[form.type],
-			));
+			Object.keys(this.FORMS_CONVERT[form.type]).forEach((formCombinedWith) => {
+				this.addForm(new VerbForm(
+					this.fromPlainForm(form.conjugation, formCombinedWith),
+					form.dictionaryForm,
+					this.FORMS_CONVERT[form.type][formCombinedWith],
+				));
+			});
 		}
 	}
 
@@ -69,6 +96,32 @@ class VerbFormsClass {
 
 const verbForms = new VerbFormsClass();
 export default verbForms;
+
+verbForms.addForm(new VerbForm('いません'  , 'いる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('いません'  , 'う'  , VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('えません'  , 'える', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('きません'  , 'きる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('きません'  , 'く'  , VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('ぎません'  , 'ぐ'  , VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('けません'  , 'ける', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('しません'  , 'しる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('しません'  , 'す'  , VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('せません'  , 'せる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('ちません'  , 'ちる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('ちません'  , 'つ'  , VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('てません'  , 'てる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('にません'  , 'にる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('にません'  , 'ぬ'  , VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('ねません'  , 'ねる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('ひません'  , 'ひる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('びません'  , 'ぶ'  , VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('へません'  , 'へる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('みません'  , 'みる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('みません'  , 'む'  , VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('めません'  , 'める', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('りません'  , 'りる', VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('りません'  , 'る'  , VerbFormType.POLITE_NEGATIVE));
+verbForms.addForm(new VerbForm('れません'  , 'れる', VerbFormType.POLITE_NEGATIVE));
 
 verbForms.addForm(new VerbForm('います'  , 'いる', VerbFormType.POLITE));
 verbForms.addForm(new VerbForm('います'  , 'う'  , VerbFormType.POLITE));

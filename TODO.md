@@ -6,11 +6,11 @@ Tech priority:
 - implement down migrations
 
 Algorithm priorities:
-- Verb forms: missing polite past and negative forms (need to recursively relaunch the algorithm on the masu form?)?
-    masu conjugations should be conjugable (where to add this?)
+- Verb forms: test the changes (manually + unit test the presence of every type?)
     rename verb module to conjugations
     improve the condition to detect it (kanji + ending will not work for i-adjectives?)
 - adjectives conjugation? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
+    replace simple negative past form of verbs with the adjectives conjugation?
 - suru irregular
 - kuru irregular
 - multi token expressions?

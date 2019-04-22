@@ -7,6 +7,9 @@ Tech priority:
 
 Algorithm priorities:
 - Verb forms: test the changes (manually + unit test the presence of every type?)
+    test the fromPlainForm method?
+    fix tests
+    fix ~iru and ~eru which are not complete
     rename verb module to conjugations
     improve the condition to detect it (kanji + ending will not work for i-adjectives?)
 - adjectives conjugation? https://en.wikipedia.org/wiki/Japanese_verb_conjugation

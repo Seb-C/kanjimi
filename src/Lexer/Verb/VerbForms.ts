@@ -6,57 +6,55 @@ class VerbFormsClass {
 	readonly conjugationsByPlainForm: { [conjugation: string]: VerbForm[] } = {};
 	private maxConjugationLength: number = 0;
 
-	private readonly FORMS_CONVERT: {
-		[a: VerbFormType]: { [b: VerbFormType]: VerbFormType },
-	} = {
-		[VerbFormType.PASSIVE]: {
-			[VerbFormType.NEGATIVE]: VerbFormType.PASSIVE_NEGATIVE,
-			[VerbFormType.POLITE]: VerbFormType.PASSIVE_POLITE,
-			[VerbFormType.PAST]: VerbFormType.PASSIVE_PAST,
-			[VerbFormType.POLITE_NEGATIVE_PAST]: VerbFormType.PASSIVE_POLITE_NEGATIVE_PAST,
-			[VerbFormType.NEGATIVE_PAST]: VerbFormType.PASSIVE_NEGATIVE_PAST,
-		},
-		[VerbFormType.CAUSATIVE]: {
-			[VerbFormType.NEGATIVE]: VerbFormType.CAUSATIVE_NEGATIVE,
-			[VerbFormType.POLITE]: VerbFormType.CAUSATIVE_POLITE,
-			[VerbFormType.PAST]: VerbFormType.CAUSATIVE_PAST,
-			[VerbFormType.POLITE_NEGATIVE_PAST]: VerbFormType.CAUSATIVE_POLITE_NEGATIVE_PAST,
-			[VerbFormType.NEGATIVE_PAST]: VerbFormType.CAUSATIVE_NEGATIVE_PAST,
-		},
-		[VerbFormType.POTENTIAL]: {
-			[VerbFormType.NEGATIVE]: VerbFormType.POTENTIAL_NEGATIVE,
-			[VerbFormType.POLITE]: VerbFormType.POTENTIAL_POLITE,
-			[VerbFormType.PAST]: VerbFormType.POTENTIAL_PAST,
-			[VerbFormType.POLITE_NEGATIVE_PAST]: VerbFormType.POTENTIAL_POLITE_NEGATIVE_PAST,
-			[VerbFormType.NEGATIVE_PAST]: VerbFormType.POTENTIAL_NEGATIVE_PAST,
-		},
-		[VerbFormType.POLITE]: {
-			[VerbFormType.VOLITIONAL]: VerbFormType.POLITE_VOLITIONAL,
-			[VerbFormType.PAST]: VerbFormType.POLITE_PAST,
-		},
-		[VerbFormType.PASSIVE_POLITE]: {
-			[VerbFormType.NEGATIVE]: VerbFormType.PASSIVE_POLITE_NEGATIVE,
-			[VerbFormType.PAST]: VerbFormType.PASSIVE_POLITE_PAST,
-		},
-		[VerbFormType.CAUSATIVE_POLITE]: {
-			[VerbFormType.NEGATIVE]: VerbFormType.CAUSATIVE_POLITE_NEGATIVE,
-			[VerbFormType.PAST]: VerbFormType.CAUSATIVE_POLITE_PAST,
-		},
-		[VerbFormType.POTENTIAL_POLITE]: {
-			[VerbFormType.NEGATIVE]: VerbFormType.POTENTIAL_POLITE_NEGATIVE,
-			[VerbFormType.PAST]: VerbFormType.POTENTIAL_POLITE_PAST,
-		},
-	};
+	private readonly FORMS_CONVERT: Map<VerbFormType, Map<VerbFormType, VerbFormType>> = new Map([
+		[VerbFormType.PASSIVE, new Map([
+			[VerbFormType.NEGATIVE, VerbFormType.PASSIVE_NEGATIVE],
+			[VerbFormType.POLITE, VerbFormType.PASSIVE_POLITE],
+			[VerbFormType.PAST, VerbFormType.PASSIVE_PAST],
+			[VerbFormType.POLITE_NEGATIVE_PAST, VerbFormType.PASSIVE_POLITE_NEGATIVE_PAST],
+			[VerbFormType.NEGATIVE_PAST, VerbFormType.PASSIVE_NEGATIVE_PAST],
+		])],
+		[VerbFormType.CAUSATIVE, new Map([
+			[VerbFormType.NEGATIVE, VerbFormType.CAUSATIVE_NEGATIVE],
+			[VerbFormType.POLITE, VerbFormType.CAUSATIVE_POLITE],
+			[VerbFormType.PAST, VerbFormType.CAUSATIVE_PAST],
+			[VerbFormType.POLITE_NEGATIVE_PAST, VerbFormType.CAUSATIVE_POLITE_NEGATIVE_PAST],
+			[VerbFormType.NEGATIVE_PAST, VerbFormType.CAUSATIVE_NEGATIVE_PAST],
+		])],
+		[VerbFormType.POTENTIAL, new Map([
+			[VerbFormType.NEGATIVE, VerbFormType.POTENTIAL_NEGATIVE],
+			[VerbFormType.POLITE, VerbFormType.POTENTIAL_POLITE],
+			[VerbFormType.PAST, VerbFormType.POTENTIAL_PAST],
+			[VerbFormType.POLITE_NEGATIVE_PAST, VerbFormType.POTENTIAL_POLITE_NEGATIVE_PAST],
+			[VerbFormType.NEGATIVE_PAST, VerbFormType.POTENTIAL_NEGATIVE_PAST],
+		])],
+		[VerbFormType.POLITE, new Map([
+			[VerbFormType.VOLITIONAL, VerbFormType.POLITE_VOLITIONAL],
+			[VerbFormType.PAST, VerbFormType.POLITE_PAST],
+		])],
+		[VerbFormType.PASSIVE_POLITE, new Map([
+			[VerbFormType.NEGATIVE, VerbFormType.PASSIVE_POLITE_NEGATIVE],
+			[VerbFormType.PAST, VerbFormType.PASSIVE_POLITE_PAST],
+		])],
+		[VerbFormType.CAUSATIVE_POLITE, new Map([
+			[VerbFormType.NEGATIVE, VerbFormType.CAUSATIVE_POLITE_NEGATIVE],
+			[VerbFormType.PAST, VerbFormType.CAUSATIVE_POLITE_PAST],
+		])],
+		[VerbFormType.POTENTIAL_POLITE, new Map([
+			[VerbFormType.NEGATIVE, VerbFormType.POTENTIAL_POLITE_NEGATIVE],
+			[VerbFormType.PAST, VerbFormType.POTENTIAL_POLITE_PAST],
+		])],
+	]);
 
 	private fromPlainForm(plain: string, formTo: VerbFormType): string {
-		for (let i = plain.length; i > 0; i--) {
+		for (let i = plain.length; i >= 0; i--) {
 			const conjugation = plain.substr(-1 * i);
 
 			if (this.conjugationsByPlainForm[conjugation]) {
-				const forms = this.stemsByPlainForm[conjugation];
+				const forms = this.conjugationsByPlainForm[conjugation];
 				for (let j = 0; j < forms.length; j++) {
 					if (forms[j].type === formTo) {
-						return forms[j].conjugation;
+						return plain.substr(0, plain.length - i) + forms[j].conjugation;
 					}
 				}
 			}
@@ -82,14 +80,15 @@ class VerbFormsClass {
 			this.maxConjugationLength = form.conjugation.length;
 		}
 
-		if (this.FORMS_CONVERT.hasOwnProperty(form.type)) {
-			Object.keys(this.FORMS_CONVERT[form.type]).forEach((formCombinedWith) => {
-				this.addForm(new VerbForm(
-					this.fromPlainForm(form.conjugation, formCombinedWith),
-					form.dictionaryForm,
-					this.FORMS_CONVERT[form.type][formCombinedWith],
-				));
-			});
+		if (this.FORMS_CONVERT.has(form.type)) {
+			(<Map<VerbFormType, VerbFormType>>(this.FORMS_CONVERT.get(form.type)))
+				.forEach((targetForm: VerbFormType, formCombinedWith: VerbFormType) => {
+					this.addForm(new VerbForm(
+						this.fromPlainForm(form.conjugation, formCombinedWith),
+						form.dictionaryForm,
+						targetForm,
+					));
+				});
 		}
 	}
 

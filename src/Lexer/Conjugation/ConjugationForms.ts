@@ -1,6 +1,22 @@
 import ConjugationType from 'Lexer/Conjugation/ConjugationType';
 import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
 
+/*
+はやく
+
+あつい atsui
+あつかった atsukatta
+あつくない atsuku nai
+あつくなかった
+
+あついです
+あつかったです
+あつくないです
+あつくありません
+あつくなかったです
+あつくありませんでした
+*/
+
 class ConjugationFormsClass {
 	readonly formsByConjugation: { [conjugation: string]: ConjugationForm[] } = {};
 	readonly conjugationsByPlainForm: { [conjugation: string]: ConjugationForm[] } = {};

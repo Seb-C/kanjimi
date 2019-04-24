@@ -1,17 +1,17 @@
 import WordToken from 'Lexer/Token/WordToken';
-import VerbForms from 'Lexer/Verb/VerbForms';
-import VerbForm from 'Lexer/Verb/VerbForm';
+import ConjugationForms from 'Lexer/Conjugation/ConjugationForms';
+import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
 import Word from 'Dictionary/Word';
 
 export default class VerbToken extends WordToken {
 	public readonly verb: string;
 	public readonly conjugation: string;
-	public readonly forms: ReadonlyArray<VerbForm>;
+	public readonly forms: ReadonlyArray<ConjugationForm>;
 
 	constructor(
 		verb: string,
 		conjugation: string,
-		forms: ReadonlyArray<VerbForm>,
+		forms: ReadonlyArray<ConjugationForm>,
 		words: ReadonlyArray<Word>,
 	) {
 		super(verb + conjugation, words);

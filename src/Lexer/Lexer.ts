@@ -1,5 +1,5 @@
-import VerbForms from 'Lexer/Verb/VerbForms';
-import VerbForm from 'Lexer/Verb/VerbForm';
+import ConjugationForms from 'Lexer/Conjugation/ConjugationForms';
+import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
 import Token from 'Lexer/Token/Token';
 import CharType from 'Misc/CharType';
 import VerbToken from 'Lexer/Token/VerbToken';
@@ -153,7 +153,7 @@ export default class Lexer {
 	): Promise<VerbToken|null> {
 		let conjugation = '';
 		for (let i = 0; (
-			i < VerbForms.getMaxConjugationLength()
+			i < ConjugationForms.getMaxConjugationLength()
 			&& i + position < this.text.length
 		); i++) {
 			if (CharType.of(this.text[position + i]) !== CharType.HIRAGANA) {
@@ -161,10 +161,10 @@ export default class Lexer {
 			}
 
 			conjugation += this.text[position + i];
-			if (VerbForms.hasForm(conjugation)) {
+			if (ConjugationForms.hasForm(conjugation)) {
 				const words: Word[] = [];
-				const forms = VerbForms.getForms(conjugation);
-				await Promise.all(forms.map(async (form: VerbForm) => {
+				const forms = ConjugationForms.getForms(conjugation);
+				await Promise.all(forms.map(async (form: ConjugationForm) => {
 					words.push(...(
 						await this.dictionary.get(verb + form.dictionaryForm)
 					));

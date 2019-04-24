@@ -1,4 +1,4 @@
-enum VerbFormType {
+enum ConjugationType {
 	CAUSATIVE,
 	CAUSATIVE_NEGATIVE,
 	CAUSATIVE_NEGATIVE_PAST,
@@ -39,4 +39,4 @@ enum VerbFormType {
 	VOLITIONAL,
 }
 
-export default VerbFormType;
+export default ConjugationType;

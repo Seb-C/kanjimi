@@ -3,8 +3,8 @@ export { default as Word } from 'Dictionary/Word';
 export { default as PartOfSpeech } from 'Dictionary/PartOfSpeech';
 
 // Verbs
-export { default as VerbForm } from 'Lexer/Verb/VerbForm';
-export { default as VerbFormType } from 'Lexer/Verb/VerbFormType';
+export { default as ConjugationForm } from 'Lexer/Conjugation/ConjugationForm';
+export { default as ConjugationType } from 'Lexer/Conjugation/ConjugationType';
 
 // Tokens
 export { default as ParticleToken } from 'Lexer/Token/ParticleToken';

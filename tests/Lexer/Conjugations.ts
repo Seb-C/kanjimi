@@ -1,13 +1,13 @@
 import 'jasmine';
-import VerbForm from 'Lexer/Verb/VerbForm';
-import VerbForms from 'Lexer/Verb/VerbForms';
-import VerbFormType from 'Lexer/Verb/VerbFormType';
+import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
+import ConjugationForms from 'Lexer/Conjugation/ConjugationForms';
+import ConjugationType from 'Lexer/Conjugation/ConjugationType';
 
 describe('Lexer', async () => {
 	it('existing verb forms', async () => {
-		const checkForm = (conjugation: string, plain: string, type: VerbFormType) => {
-			const forms = VerbForms.getForms(conjugation);
-			expect(forms.map((form: VerbForm): boolean => {
+		const checkForm = (conjugation: string, plain: string, type: ConjugationType) => {
+			const forms = ConjugationForms.getForms(conjugation);
+			expect(forms.map((form: ConjugationForm): boolean => {
 				return (
 					form.type === type
 					&& form.dictionaryForm === plain
@@ -15,50 +15,50 @@ describe('Lexer', async () => {
 				);
 			})).toContain(
 				true,
-				`Form ${conjugation} was not found for type ${VerbFormType[type]}.`,
+				`Form ${conjugation} was not found for type ${ConjugationType[type]}.`,
 			);
 		};
 
 		const util = require('util');
-		console.log(util.inspect(VerbForms, { showHidden: false, depth: null }));
+		console.log(util.inspect(ConjugationForms, { showHidden: false, depth: null }));
 
-		checkForm('りませんでした',   'る', VerbFormType.POLITE_NEGATIVE_PAST);
-		checkForm('りません',         'る', VerbFormType.POLITE_NEGATIVE);
-		checkForm('って',             'る', VerbFormType.TE);
-		checkForm('らなかった',       'る', VerbFormType.NEGATIVE_PAST);
-		checkForm('れ',               'る', VerbFormType.IMPERATIVE);
-		checkForm('るな',             'る', VerbFormType.PROHIBITIVE);
-		checkForm('れば',             'る', VerbFormType.CONDITIONAL);
-		checkForm('ろう',             'る', VerbFormType.VOLITIONAL);
-		checkForm('った',             'る', VerbFormType.PAST);
-		checkForm('ります',           'る', VerbFormType.POLITE);
-		checkForm('らない',           'る', VerbFormType.NEGATIVE);
-		checkForm('られる',           'る', VerbFormType.PASSIVE);
-		checkForm('らせる',           'る', VerbFormType.CAUSATIVE);
-		checkForm('れる',             'る', VerbFormType.POTENTIAL);
-		checkForm('る',               'る', VerbFormType.PLAIN);
-		checkForm('らせない',         'る', VerbFormType.CAUSATIVE_NEGATIVE);
-		checkForm('らせなかった',     'る', VerbFormType.CAUSATIVE_NEGATIVE_PAST);
-		checkForm('らせた',           'る', VerbFormType.CAUSATIVE_PAST);
-		checkForm('らせます',         'る', VerbFormType.CAUSATIVE_POLITE);
-		checkForm('らせません',       'る', VerbFormType.CAUSATIVE_POLITE_NEGATIVE);
-		checkForm('らせませんでした', 'る', VerbFormType.CAUSATIVE_POLITE_NEGATIVE_PAST);
-		checkForm('らせました',       'る', VerbFormType.CAUSATIVE_POLITE_PAST);
-		checkForm('られない',         'る', VerbFormType.PASSIVE_NEGATIVE);
-		checkForm('られなかった',     'る', VerbFormType.PASSIVE_NEGATIVE_PAST);
-		checkForm('られた',           'る', VerbFormType.PASSIVE_PAST);
-		checkForm('られます',         'る', VerbFormType.PASSIVE_POLITE);
-		checkForm('られません',       'る', VerbFormType.PASSIVE_POLITE_NEGATIVE);
-		checkForm('られませんでした', 'る', VerbFormType.PASSIVE_POLITE_NEGATIVE_PAST);
-		checkForm('られました',       'る', VerbFormType.PASSIVE_POLITE_PAST);
-		checkForm('りました',         'る', VerbFormType.POLITE_PAST);
-		checkForm('りましょう',       'る', VerbFormType.POLITE_VOLITIONAL);
-		checkForm('れない',           'る', VerbFormType.POTENTIAL_NEGATIVE);
-		checkForm('れなかった',       'る', VerbFormType.POTENTIAL_NEGATIVE_PAST);
-		checkForm('れた',             'る', VerbFormType.POTENTIAL_PAST);
-		checkForm('れます',           'る', VerbFormType.POTENTIAL_POLITE);
-		checkForm('れません',         'る', VerbFormType.POTENTIAL_POLITE_NEGATIVE);
-		checkForm('れませんでした',   'る', VerbFormType.POTENTIAL_POLITE_NEGATIVE_PAST);
-		checkForm('れました',         'る', VerbFormType.POTENTIAL_POLITE_PAST);
+		checkForm('りませんでした',   'る', ConjugationType.POLITE_NEGATIVE_PAST);
+		checkForm('りません',         'る', ConjugationType.POLITE_NEGATIVE);
+		checkForm('って',             'る', ConjugationType.TE);
+		checkForm('らなかった',       'る', ConjugationType.NEGATIVE_PAST);
+		checkForm('れ',               'る', ConjugationType.IMPERATIVE);
+		checkForm('るな',             'る', ConjugationType.PROHIBITIVE);
+		checkForm('れば',             'る', ConjugationType.CONDITIONAL);
+		checkForm('ろう',             'る', ConjugationType.VOLITIONAL);
+		checkForm('った',             'る', ConjugationType.PAST);
+		checkForm('ります',           'る', ConjugationType.POLITE);
+		checkForm('らない',           'る', ConjugationType.NEGATIVE);
+		checkForm('られる',           'る', ConjugationType.PASSIVE);
+		checkForm('らせる',           'る', ConjugationType.CAUSATIVE);
+		checkForm('れる',             'る', ConjugationType.POTENTIAL);
+		checkForm('る',               'る', ConjugationType.PLAIN);
+		checkForm('らせない',         'る', ConjugationType.CAUSATIVE_NEGATIVE);
+		checkForm('らせなかった',     'る', ConjugationType.CAUSATIVE_NEGATIVE_PAST);
+		checkForm('らせた',           'る', ConjugationType.CAUSATIVE_PAST);
+		checkForm('らせます',         'る', ConjugationType.CAUSATIVE_POLITE);
+		checkForm('らせません',       'る', ConjugationType.CAUSATIVE_POLITE_NEGATIVE);
+		checkForm('らせませんでした', 'る', ConjugationType.CAUSATIVE_POLITE_NEGATIVE_PAST);
+		checkForm('らせました',       'る', ConjugationType.CAUSATIVE_POLITE_PAST);
+		checkForm('られない',         'る', ConjugationType.PASSIVE_NEGATIVE);
+		checkForm('られなかった',     'る', ConjugationType.PASSIVE_NEGATIVE_PAST);
+		checkForm('られた',           'る', ConjugationType.PASSIVE_PAST);
+		checkForm('られます',         'る', ConjugationType.PASSIVE_POLITE);
+		checkForm('られません',       'る', ConjugationType.PASSIVE_POLITE_NEGATIVE);
+		checkForm('られませんでした', 'る', ConjugationType.PASSIVE_POLITE_NEGATIVE_PAST);
+		checkForm('られました',       'る', ConjugationType.PASSIVE_POLITE_PAST);
+		checkForm('りました',         'る', ConjugationType.POLITE_PAST);
+		checkForm('りましょう',       'る', ConjugationType.POLITE_VOLITIONAL);
+		checkForm('れない',           'る', ConjugationType.POTENTIAL_NEGATIVE);
+		checkForm('れなかった',       'る', ConjugationType.POTENTIAL_NEGATIVE_PAST);
+		checkForm('れた',             'る', ConjugationType.POTENTIAL_PAST);
+		checkForm('れます',           'る', ConjugationType.POTENTIAL_POLITE);
+		checkForm('れません',         'る', ConjugationType.POTENTIAL_POLITE_NEGATIVE);
+		checkForm('れませんでした',   'る', ConjugationType.POTENTIAL_POLITE_NEGATIVE_PAST);
+		checkForm('れました',         'る', ConjugationType.POTENTIAL_POLITE_PAST);
 	});
 });

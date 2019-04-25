@@ -32,6 +32,7 @@ class ConjugationFormsClass {
 			[ConjugationType.PAST, ConjugationType.PASSIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE_PAST, ConjugationType.PASSIVE_POLITE_NEGATIVE_PAST],
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.PASSIVE_NEGATIVE_PAST],
+			[ConjugationType.POLITE_NEGATIVE, ConjugationType.PASSIVE_POLITE_NEGATIVE],
 		])],
 		[ConjugationType.CAUSATIVE, new Map([
 			[ConjugationType.NEGATIVE, ConjugationType.CAUSATIVE_NEGATIVE],
@@ -39,6 +40,7 @@ class ConjugationFormsClass {
 			[ConjugationType.PAST, ConjugationType.CAUSATIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE_PAST, ConjugationType.CAUSATIVE_POLITE_NEGATIVE_PAST],
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.CAUSATIVE_NEGATIVE_PAST],
+			[ConjugationType.POLITE_NEGATIVE, ConjugationType.CAUSATIVE_POLITE_NEGATIVE],
 		])],
 		[ConjugationType.POTENTIAL, new Map([
 			[ConjugationType.NEGATIVE, ConjugationType.POTENTIAL_NEGATIVE],
@@ -46,26 +48,23 @@ class ConjugationFormsClass {
 			[ConjugationType.PAST, ConjugationType.POTENTIAL_PAST],
 			[ConjugationType.POLITE_NEGATIVE_PAST, ConjugationType.POTENTIAL_POLITE_NEGATIVE_PAST],
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.POTENTIAL_NEGATIVE_PAST],
+			[ConjugationType.POLITE_NEGATIVE, ConjugationType.POTENTIAL_POLITE_NEGATIVE],
 		])],
 		[ConjugationType.POLITE, new Map([
-			[ConjugationType.VOLITIONAL, ConjugationType.POLITE_VOLITIONAL],
 			[ConjugationType.PAST, ConjugationType.POLITE_PAST],
 		])],
 		[ConjugationType.PASSIVE_POLITE, new Map([
-			[ConjugationType.NEGATIVE, ConjugationType.PASSIVE_POLITE_NEGATIVE],
 			[ConjugationType.PAST, ConjugationType.PASSIVE_POLITE_PAST],
 		])],
 		[ConjugationType.CAUSATIVE_POLITE, new Map([
-			[ConjugationType.NEGATIVE, ConjugationType.CAUSATIVE_POLITE_NEGATIVE],
 			[ConjugationType.PAST, ConjugationType.CAUSATIVE_POLITE_PAST],
 		])],
 		[ConjugationType.POTENTIAL_POLITE, new Map([
-			[ConjugationType.NEGATIVE, ConjugationType.POTENTIAL_POLITE_NEGATIVE],
 			[ConjugationType.PAST, ConjugationType.POTENTIAL_POLITE_PAST],
 		])],
 	]);
 
-	private fromPlainForm(plain: string, formTo: ConjugationType): string {
+	public fromPlainForm(plain: string, formTo: ConjugationType): string {
 		for (let i = plain.length; i >= 0; i--) {
 			const conjugation = plain.substr(-1 * i);
 
@@ -182,6 +181,32 @@ conjugationForms.addForm(new ConjugationForm('めません', 'める', Conjugati
 conjugationForms.addForm(new ConjugationForm('りません', 'りる', ConjugationType.POLITE_NEGATIVE));
 conjugationForms.addForm(new ConjugationForm('りません', 'る'  , ConjugationType.POLITE_NEGATIVE));
 conjugationForms.addForm(new ConjugationForm('れません', 'れる', ConjugationType.POLITE_NEGATIVE));
+
+conjugationForms.addForm(new ConjugationForm('いましょう', 'いる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('いましょう', 'う'  , ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('えましょう', 'える', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('きましょう', 'きる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('きましょう', 'く'  , ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('ぎましょう', 'ぐ'  , ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('けましょう', 'ける', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('しましょう', 'しる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('しましょう', 'す'  , ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('せましょう', 'せる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('ちましょう', 'ちる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('ちましょう', 'つ'  , ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('てましょう', 'てる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('にましょう', 'にる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('にましょう', 'ぬ'  , ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('ねましょう', 'ねる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('ひましょう', 'ひる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('びましょう', 'ぶ'  , ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('へましょう', 'へる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('みましょう', 'みる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('みましょう', 'む'  , ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('めましょう', 'める', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('りましょう', 'りる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('りましょう', 'る'  , ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addForm(new ConjugationForm('れましょう', 'れる', ConjugationType.POLITE_VOLITIONAL));
 
 conjugationForms.addForm(new ConjugationForm('って', 'う'  , ConjugationType.TE));
 conjugationForms.addForm(new ConjugationForm('いて', 'く'  , ConjugationType.TE));

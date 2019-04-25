@@ -6,13 +6,9 @@ Tech priority:
 - implement down migrations
 
 Algorithm priorities:
-- Verb forms: test the changes (manually + unit test the presence of every type?)
-    test the fromPlainForm method?
-    fix tests
-    fix ~iru and ~eru which are not complete
-    improve the condition to detect it (kanji + ending will not work for i-adjectives?)
 - adjectives conjugation? https://en.wikipedia.org/wiki/Japanese_verb_conjugation
     replace simple negative past form of verbs with the adjectives conjugation?
+    improve the condition to detect verbs (kanji + ending will not work for i-adjectives?)
 - suru irregular
 - kuru irregular
 - multi token expressions?

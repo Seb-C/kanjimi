@@ -1,6 +1,6 @@
-
-
-
+generate csv dictionary without duplicates
+    -> there are multiple senses containing different informations to parse properly
+remove the dictionary from database, use plain text and load it as fast as possible
 
 table for custom results
 
@@ -12,10 +12,6 @@ table for custom results
 
 - display history
 - manual lookup history
-
-
-
-
 
 Tech priority:
 - Separate server, client and common classes?

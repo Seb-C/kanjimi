@@ -1,3 +1,22 @@
+
+
+
+
+table for custom results
+
+- id
+- userId
+- word
+- datetime
+- event (read/lookup)
+
+- display history
+- manual lookup history
+
+
+
+
+
 Tech priority:
 - Separate server, client and common classes?
 - Validate input via an express middleware?
@@ -36,3 +55,7 @@ Need to relaunch the dictionary script:
 - names dictionary?
 - counters?
 - places and countries names?
+
+
+store unfound words?
+some words wrongly cutted sometimes (アジア becomes ア + ジア)

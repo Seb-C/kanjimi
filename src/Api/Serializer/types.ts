@@ -1,6 +1,6 @@
 // Dictionary
 export { default as Word } from 'Dictionary/Word';
-export { default as PartOfSpeech } from 'Dictionary/PartOfSpeech';
+export { default as Tag } from 'Dictionary/Tag';
 
 // Verbs
 export { default as ConjugationForm } from 'Lexer/Conjugation/ConjugationForm';

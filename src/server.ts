@@ -33,7 +33,7 @@ const runServer = async (application: express.Application): Promise<void> => {
 		}
 	};
 
-	const dictionary = new Dictionary(db);
+	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
 	const serializer = new Serializer();
 

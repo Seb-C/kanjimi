@@ -1,6 +1,4 @@
-generate csv dictionary without duplicates
-    -> there are multiple senses containing different informations to parse properly
-remove the dictionary from database, use plain text and load it as fast as possible
+use plain text and load the dictionnary as fast as possible
 
 table for custom results
 

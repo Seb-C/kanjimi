@@ -1,12 +1,12 @@
 import Database from 'Database/Database';
 import Word from 'Dictionary/Word';
-import PartOfSpeech from 'Dictionary/PartOfSpeech';
+import Tag from 'Dictionary/Tag';
 
 let singleton: Dictionary;
 
 export default class Dictionary {
 	private db: Database;
-	private partsOfSpeech: { [tag: string]: PartOfSpeech } = {};
+	private tags: { [tag: string]: Tag } = {};
 
 	constructor(db: Database) {
 		if (singleton) {
@@ -19,11 +19,11 @@ export default class Dictionary {
 
 		// TODO wait for this?
 		this.db.iterate(
-			PartOfSpeech,
-			async (pos: PartOfSpeech) => {
-				this.partsOfSpeech[pos.tag] = pos;
+			Tag,
+			async (pos: Tag) => {
+				this.tags[pos.tag] = pos;
 			},
-			'SELECT * FROM "PartOfSpeech"',
+			'SELECT * FROM "Tag"',
 		);
 	}
 
@@ -33,14 +33,14 @@ export default class Dictionary {
 		await this.db.iterate(
 			Object,
 			async (word: any) => {
-				const partOfSpeech: PartOfSpeech[] = [];
-				word.partOfSpeech.forEach((tag: string) => {
-					if (this.partsOfSpeech[tag]) {
-						partOfSpeech.push(this.partsOfSpeech[tag]);
+				const tags: Tag[] = [];
+				word.tags.forEach((tag: string) => {
+					if (this.tags[tag]) {
+						tags.push(this.tags[tag]);
 					}
 				}),
 
-				words.push(new Word(<Word>{ ...word, partOfSpeech }));
+				words.push(new Word(<Word>{ ...word, tags }));
 			},
 			'SELECT * FROM "Word" WHERE "word" = ${text};',
 			{ text },

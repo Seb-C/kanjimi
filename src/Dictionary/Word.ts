@@ -1,10 +1,10 @@
-import PartOfSpeech from 'Dictionary/PartOfSpeech';
+import Tag from 'Dictionary/Tag';
 
 export default class Word {
 	public readonly id: number;
 	public readonly word: string;
 	public readonly reading: string;
-	public readonly partOfSpeech: ReadonlyArray<PartOfSpeech>;
+	public readonly tags: ReadonlyArray<Tag>;
 	public readonly translationLang: string;
 	public readonly translation: string;
 

@@ -1,12 +1,4 @@
-use plain text and load the dictionnary as fast as possible
-
-table for custom results
-
-- id
-- userId
-- word
-- datetime
-- event (read/lookup)
+update vim syntax colours broken (see bottom of the dictionary)
 
 - display history
 - manual lookup history

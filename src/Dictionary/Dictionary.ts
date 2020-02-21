@@ -7,7 +7,6 @@ import * as ReadLine from 'readline';
 let singleton: Dictionary;
 
 export default class Dictionary {
-	private tags: { [tag: string]: Tag } = {};
 	private words: { [text: string]: Word[] } = {};
 
 	constructor() {
@@ -46,9 +45,6 @@ export default class Dictionary {
 				resolve();
 			});
 		});
-
-		// TODO remove this.tags, have a type and an enum instead
-		// (+ reassign properly in the word class and fix the unit test)
 	}
 
 	parseCsvLine (line: string): Word {
@@ -57,7 +53,7 @@ export default class Dictionary {
 			reading: string
 			translationLang: string
 			translation: string
-			tags: string[],
+			tags: Tag[],
 		} = {
 			word: '',
 			reading: '',
@@ -88,7 +84,7 @@ export default class Dictionary {
 				} else if (colIndex === 3) {
 					wordAttributes.translation = colValue;
 				} else if (colIndex === 4) {
-					wordAttributes.tags = colValue.split('/');
+					wordAttributes.tags = <Tag[]>colValue.split('/');
 				}
 
 				// Going to the next column

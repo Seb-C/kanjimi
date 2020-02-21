@@ -5,7 +5,7 @@ export default class Word {
 	public readonly reading: string;
 	public readonly translationLang: string;
 	public readonly translation: string;
-	public readonly tags: ReadonlyArray<string>;
+	public readonly tags: ReadonlyArray<Tag>;
 
 	constructor(attributes: Word) {
 		Object.assign(this, attributes);

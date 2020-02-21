@@ -2,12 +2,18 @@
 
 // From: http://ftp.monash.edu/pub/nihongo/JMdict.gz
 
-$out = fopen(__DIR__ . "/out.csv", "w");
-fputcsv($out, [
+$wordsCsv = fopen(__DIR__ . "/words.csv", "w");
+$tagsCsv = fopen(__DIR__ . "/tags.csv", "w");
+fputcsv($wordsCsv, [
 	'word',
 	'reading',
 	'translationLang',
 	'translation',
+	'tags',
+]);
+fputcsv($tagsCsv, [
+	'tag',
+	'description',
 ]);
 
 $xml = new XMLReader();
@@ -20,6 +26,19 @@ preg_match_all('/<!ENTITY ([^ ]+) "([^"]+)">/', $doctype, $matches);
 $tagValues = [];
 foreach ($matches[1] as $i => $tag) {
 	$tagValues[$tag] = $matches[2][$i];
+}
+
+$usedTags = [];
+function addTagDefinition($tag) {
+	global $tagValues, $usedTags, $tagsCsv;
+	$description = $tagValues[$tag];
+	if (!isset($usedTags[$tag])) {
+		$usedTags[$tag] = $description;
+		fputcsv($tagsCsv, [
+			$tag,
+			$description
+		]);
+	}
 }
 
 // move to the first node
@@ -73,7 +92,18 @@ while($xml->name === 'entry') {
 		}
 	}
 
+	$tags = [];
 	foreach ($entry->getElementsByTagName('sense') as $sense) {
+		foreach ($sense->getElementsByTagName('pos') as $x) {
+			$child = $x->childNodes[0];
+			if ($child instanceof DOMEntityReference) {
+				$tags[$child->nodeName] = true;
+				addTagDefinition($child->nodeName);
+			} else {
+				die('err');
+			}
+		}
+
 		$translations = [];
 		foreach ($sense->getElementsByTagName('lsource') as $x) {
 			$translation = $x->nodeValue;
@@ -90,13 +120,7 @@ while($xml->name === 'entry') {
 		$senseArray = compact('translations');
 
 		$stagk = $sense->getElementsByTagName('stagk');
-		if (count($stagk) == 0) {
-			foreach ($words as $i => $word) {
-				foreach ($words[$i]['readings'] as $j => $reading) {
-					$words[$i]['readings'][$j]['senses'][] = $senseArray;
-				}
-			}
-		} else {
+		if (count($stagk) > 0) {
 			foreach ($stagk as $x) {
 				$wordIndex = null;
 				foreach ($words as $i => $word) {
@@ -115,13 +139,7 @@ while($xml->name === 'entry') {
 		}
 
 		$stagr = $sense->getElementsByTagName('stagr');
-		if (count($stagr) == 0) {
-			foreach ($words as $i => $word) {
-				foreach ($words[$i]['readings'] as $j => $reading) {
-					$words[$i]['readings'][$j]['senses'][] = $senseArray;
-				}
-			}
-		} else {
+		if (count($stagr) > 0) {
 			foreach ($stagr as $x) {
 				foreach ($words as $i => $word) {
 					$readingIndex = null;
@@ -138,17 +156,26 @@ while($xml->name === 'entry') {
 				}
 			}
 		}
+
+		if (count($stagr) == 0 && count($stagk) == 0) {
+			foreach ($words as $i => $word) {
+				foreach ($words[$i]['readings'] as $j => $reading) {
+					$words[$i]['readings'][$j]['senses'][] = $senseArray;
+				}
+			}
+		}
 	}
 
 	foreach ($words as $word) {
 		foreach ($word['readings'] as $reading) {
 			foreach ($reading['senses'] as $sense) {
 				foreach ($sense['translations'] as $translation) {
-					fputcsv($out, [
+					fputcsv($wordsCsv, [
 						$word['word'] === null ? $reading['reading'] : $word['word'],
 						$reading['reading'],
 						$translation['lang'],
 						$translation['translation'],
+						implode('/', array_keys($tags)),
 					]);
 				}
 			}

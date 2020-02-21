@@ -1,5 +1,5 @@
 Dictionary/xml/
-Dictionary/out.csv
+Dictionary/*.csv
 node_modules/
 package-lock.json
 extension/*.build.js

@@ -19,7 +19,7 @@ export default class Lexer {
 		this.dictionary = dictionary;
 	}
 
-	async tokenize (text: string): Promise<Token[]> {
+	tokenize (text: string): Token[] {
 		this.text = text.trim();
 		this.tokens = [];
 
@@ -30,7 +30,7 @@ export default class Lexer {
 			let lastToken = this.getLastToken();
 			const lastTokenComplete = (lastToken !== null && this.isTokenComplete(lastToken));
 			if (lastToken !== null) {
-				this.setLastToken(await this.refineToken(lastToken));
+				this.setLastToken(this.refineToken(lastToken));
 			}
 			if (lastToken === null || lastTokenComplete) {
 				// Considering that the last token was recognized as complete
@@ -46,7 +46,7 @@ export default class Lexer {
 			}
 
 			if (lastCharType === CharType.KANJI && currentCharType === CharType.HIRAGANA) {
-				const verbToken = await this.getTokenIfVerbConjugation(lastToken.text, this.currentIndex);
+				const verbToken = this.getTokenIfVerbConjugation(lastToken.text, this.currentIndex);
 				if (verbToken !== null) {
 					this.currentIndex += verbToken.conjugation.length - 1;
 					this.setLastToken(verbToken);
@@ -59,11 +59,11 @@ export default class Lexer {
 				&& currentCharType !== CharType.KANJI
 				&& !lastTokenComplete
 			) {
-				const result = await this.splitMultiKanjisSequence(lastToken);
+				const result = this.splitMultiKanjisSequence(lastToken);
 				this.setLastToken(result);
 			}
 
-			currentToken = await this.refineToken(currentToken);
+			currentToken = this.refineToken(currentToken);
 
 			this.tokens.push(currentToken);
 		}
@@ -74,17 +74,17 @@ export default class Lexer {
 				CharType.of(this.getLastChar(lastToken.text)) === CharType.KANJI
 				&& !this.isTokenComplete(lastToken)
 			) {
-				const result = await this.splitMultiKanjisSequence(lastToken);
+				const result = this.splitMultiKanjisSequence(lastToken);
 				this.setLastToken(result);
 			} else {
-				this.setLastToken(await this.refineToken(lastToken));
+				this.setLastToken(this.refineToken(lastToken));
 			}
 		}
 
 		return this.tokens;
 	}
 
-	protected async refineToken(token: Token): Promise<Token> {
+	protected refineToken(token: Token): Token {
 		const charType = CharType.of(this.getLastChar(token.text));
 
 		if (ParticleToken.isParticle(token.text)) {
@@ -94,7 +94,7 @@ export default class Lexer {
 			return new PunctuationToken(token.text);
 		}
 
-		const word = await this.dictionary.get(token.text);
+		const word = this.dictionary.get(token.text);
 		if (word.length > 0) {
 			// Simple dictionary lookup
 			return new WordToken(token.text, word);
@@ -103,7 +103,7 @@ export default class Lexer {
 		return token;
 	}
 
-	protected async splitMultiKanjisSequence(token: Token): Promise<Token[]> {
+	protected splitMultiKanjisSequence(token: Token): Token[] {
 		const tokens: Token[] = [];
 
 		let begin = 0;
@@ -111,7 +111,7 @@ export default class Lexer {
 			let length;
 			for (length = token.text.length - begin; length > 0; length--) {
 				const sub = token.text.substr(begin, length);
-				const word = await this.dictionary.get(sub);
+				const word = this.dictionary.get(sub);
 				if (word.length > 0) {
 					tokens.push(new WordToken(sub, word));
 					begin += sub.length;
@@ -147,10 +147,10 @@ export default class Lexer {
 		return token.constructor !== Token;
 	}
 
-	protected async getTokenIfVerbConjugation(
+	protected getTokenIfVerbConjugation(
 		verb: string,
 		position: number,
-	): Promise<VerbToken|null> {
+	): VerbToken|null {
 		let conjugation = '';
 		for (let i = 0; (
 			i < ConjugationForms.getMaxConjugationLength()
@@ -164,11 +164,11 @@ export default class Lexer {
 			if (ConjugationForms.hasForm(conjugation)) {
 				const words: Word[] = [];
 				const forms = ConjugationForms.getForms(conjugation);
-				await Promise.all(forms.map(async (form: ConjugationForm) => {
+				forms.map((form: ConjugationForm) => {
 					words.push(...(
-						await this.dictionary.get(verb + form.dictionaryForm)
+						this.dictionary.get(verb + form.dictionaryForm)
 					));
-				}));
+				});
 
 				return new VerbToken(verb, conjugation, forms, words);
 			}

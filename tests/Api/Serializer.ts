@@ -7,11 +7,11 @@ import Database from 'Database/Database';
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
 describe('Api Serializer', () => {
-	it('All', async () => {
+	it('All', () => {
 		const serializer = new Serializer();
 		const db = new Database();
 		const dictionary = new Dictionary(db);
-		const word = (await dictionary.get('食べる'))[0];
+		const word = dictionary.get('食べる')[0];
 
 		const serialized: any = serializer.toJsonApi(word);
 		expect(serialized.data).toBeDefined();

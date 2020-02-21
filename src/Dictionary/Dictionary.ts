@@ -1,51 +1,39 @@
-import Database from 'Database/Database';
 import Word from 'Dictionary/Word';
 import Tag from 'Dictionary/Tag';
+import * as FileSystem from 'fs';
+import * as Path from 'path';
+import * as ReadLine from 'readline';
 
 let singleton: Dictionary;
 
 export default class Dictionary {
-	private db: Database;
 	private tags: { [tag: string]: Tag } = {};
+	private words: { [text: string]: Word[] } = {};
 
-	constructor(db: Database) {
+	constructor() {
 		if (singleton) {
 			return singleton;
 		} else {
 			singleton = this;
 		}
-
-		this.db = db;
-
-		// TODO wait for this?
-		this.db.iterate(
-			Tag,
-			async (pos: Tag) => {
-				this.tags[pos.tag] = pos;
-			},
-			'SELECT * FROM "Tag"',
-		);
 	}
 
-	async get (text: string): Promise<ReadonlyArray<Word>> {
-		const words: Word[] = [];
+	async load(): Promise<void> {
+		const dictionaryFileIterator = ReadLine.createInterface({
+			input: FileSystem.createReadStream(
+				Path.join(__dirname, '../../Dictionary/words.csv'),
+			),
+		});
 
-		await this.db.iterate(
-			Object,
-			async (word: any) => {
-				const tags: Tag[] = [];
-				word.tags.forEach((tag: string) => {
-					if (this.tags[tag]) {
-						tags.push(this.tags[tag]);
-					}
-				}),
+		for await (const line of dictionaryFileIterator) {
+			// TODO load words as efficiently as possible
+			console.log(`Line from file: ${line}`);
+		}
 
-				words.push(new Word(<Word>{ ...word, tags }));
-			},
-			'SELECT * FROM "Word" WHERE "word" = ${text};',
-			{ text },
-		);
+		// TODO remove this.tags, have a type and an enum instead
+	}
 
-		return words;
+	get (text: string): ReadonlyArray<Word> {
+		return this.words[text] || [];
 	}
 }

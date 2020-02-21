@@ -2,20 +2,17 @@ import 'jasmine';
 import Serializer from 'Api/Serializer/Serializer';
 import Dictionary from 'Dictionary/Dictionary';
 import Word from 'Dictionary/Word';
-import Database from 'Database/Database';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
 describe('Api Serializer', () => {
 	it('All', () => {
 		const serializer = new Serializer();
-		const db = new Database();
-		const dictionary = new Dictionary(db);
+		const dictionary = new Dictionary();
 		const word = dictionary.get('食べる')[0];
 
 		const serialized: any = serializer.toJsonApi(word);
 		expect(serialized.data).toBeDefined();
-		expect(serialized.data.id).toBeDefined();
 		expect(serialized.data.attributes).toBeDefined();
 		expect(serialized.data.type).toBe('Word');
 

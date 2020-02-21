@@ -19,18 +19,89 @@ export default class Dictionary {
 	}
 
 	async load(): Promise<void> {
-		const dictionaryFileIterator = ReadLine.createInterface({
-			input: FileSystem.createReadStream(
-				Path.join(__dirname, '../../Dictionary/words.csv'),
-			),
+		return new Promise((resolve, reject) => {
+			const dictionaryFileIterator = ReadLine.createInterface({
+				input: FileSystem.createReadStream(
+					Path.join(__dirname, '../../Dictionary/words.csv'),
+				),
+			});
+
+			let headerLine = true;
+			dictionaryFileIterator.on('line', (line) => {
+				if (headerLine) {
+					headerLine = false;
+					return;
+				}
+
+				const word = this.parseCsvLine(line);
+
+				if (!this.words[word.word]) {
+					this.words[word.word] = [];
+				}
+
+				this.words[word.word].push(word);
+			});
+
+			dictionaryFileIterator.on('close', () => {
+				resolve();
+			});
 		});
 
-		for await (const line of dictionaryFileIterator) {
-			// TODO load words as efficiently as possible
-			console.log(`Line from file: ${line}`);
-		}
-
 		// TODO remove this.tags, have a type and an enum instead
+		// (+ reassign properly in the word class and fix the unit test)
+	}
+
+	parseCsvLine (line: string): Word {
+		const wordAttributes: {
+			word: string
+			reading: string
+			translationLang: string
+			translation: string
+			tags: string[],
+		} = {
+			word: '',
+			reading: '',
+			translationLang: '',
+			translation: '',
+			tags: [],
+		};
+		let colIndex = 0;
+		let colValue = '';
+		let index = 0;
+		const length = line.length;
+		do {
+			if (line[index] === ',' || index === length) {
+				if (colValue[0] === '"' && colValue[colValue.length - 1] === '"') {
+					// Removing quotes
+					colValue = colValue.substring(1, colValue.length - 1);
+
+					// Unescaping quotes
+					colValue = colValue.replace(/""/g, '"');
+				}
+
+				if (colIndex === 0) {
+					wordAttributes.word = colValue;
+				} else if (colIndex === 1) {
+					wordAttributes.reading = colValue;
+				} else if (colIndex === 2) {
+					wordAttributes.translationLang = colValue;
+				} else if (colIndex === 3) {
+					wordAttributes.translation = colValue;
+				} else if (colIndex === 4) {
+					wordAttributes.tags = colValue.split('/');
+				}
+
+				// Going to the next column
+				colIndex++;
+				colValue = '';
+			} else {
+				colValue += line[index];
+			}
+
+			index++;
+		} while (index <= length);
+
+		return new Word(<Word><any>wordAttributes);
 	}
 
 	get (text: string): ReadonlyArray<Word> {

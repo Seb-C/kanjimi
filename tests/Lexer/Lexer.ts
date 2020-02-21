@@ -1,7 +1,6 @@
 import 'jasmine';
 import Lexer from 'Lexer/Lexer';
 import Dictionary from 'Dictionary/Dictionary';
-import Database from 'Database/Database';
 import Word from 'Dictionary/Word';
 import WordToken from 'Lexer/Token/WordToken';
 import VerbToken from 'Lexer/Token/VerbToken';
@@ -13,8 +12,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 let lexer: Lexer;
 describe('Lexer', async () => {
 	beforeEach(async () => {
-		const db = new Database();
-		const dictionary = new Dictionary(db);
+		const dictionary = new Dictionary();
 		lexer = new Lexer(dictionary);
 	});
 

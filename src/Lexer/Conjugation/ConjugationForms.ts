@@ -1,22 +1,6 @@
 import ConjugationType from 'Lexer/Conjugation/ConjugationType';
 import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
 
-/*
-はやく
-
-あつい atsui
-あつかった atsukatta
-あつくない atsuku nai
-あつくなかった
-
-あついです
-あつかったです
-あつくないです
-あつくありません
-あつくなかったです
-あつくありませんでした
-*/
-
 class ConjugationFormsClass {
 	readonly formsByConjugation: { [conjugation: string]: ConjugationForm[] } = {};
 	readonly conjugationsByPlainForm: { [conjugation: string]: ConjugationForm[] } = {};
@@ -549,5 +533,25 @@ conjugationForms.addForm(new ConjugationForm('みる', 'みる', ConjugationType
 conjugationForms.addForm(new ConjugationForm('める', 'める', ConjugationType.PLAIN));
 conjugationForms.addForm(new ConjugationForm('りる', 'りる', ConjugationType.PLAIN));
 conjugationForms.addForm(new ConjugationForm('れる', 'れる', ConjugationType.PLAIN));
+
+// Adjectives
+
+conjugationForms.addForm(new ConjugationForm('い', 'い', ConjugationType.ADJECTIVE_PLAIN));
+conjugationForms.addForm(new ConjugationForm('しい', 'しい', ConjugationType.ADJECTIVE_PLAIN));
+
+conjugationForms.addForm(new ConjugationForm('かった', 'い', ConjugationType.ADJECTIVE_PAST));
+conjugationForms.addForm(new ConjugationForm('しかった', 'しい', ConjugationType.ADJECTIVE_PAST));
+
+conjugationForms.addForm(new ConjugationForm('くない', 'い', ConjugationType.ADJECTIVE_NEGATIVE));
+conjugationForms.addForm(new ConjugationForm('しくない', 'しい', ConjugationType.ADJECTIVE_NEGATIVE));
+
+conjugationForms.addForm(new ConjugationForm('くなかった', 'い', ConjugationType.ADJECTIVE_NEGATIVE_PAST));
+conjugationForms.addForm(new ConjugationForm('しくなかった', 'しい', ConjugationType.ADJECTIVE_NEGATIVE_PAST));
+
+conjugationForms.addForm(new ConjugationForm('くありません', 'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE));
+conjugationForms.addForm(new ConjugationForm('しくありません', 'しい', ConjugationType.ADJECTIVE_POLITE_NEGATIVE));
+
+conjugationForms.addForm(new ConjugationForm('くありませんでした', 'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE_PAST));
+conjugationForms.addForm(new ConjugationForm('しくありませんでした', 'しい', ConjugationType.ADJECTIVE_POLITE_NEGATIVE_PAST));
 
 // tslint:enable

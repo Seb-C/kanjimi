@@ -25,7 +25,9 @@ describe('Lexer', async () => {
 			'国憲法',
 			'合衆国',
 			'最高裁判所',
-		].forEach(word => dictionary.add(new Word({ word })));
+		].forEach(word => dictionary.add(
+			new Word(word, '', '', '', []),
+		));
 
 		lexer = new Lexer(dictionary);
 	});

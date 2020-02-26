@@ -3,9 +3,9 @@ import Word from 'Dictionary/Word';
 
 describe('Word', () => {
 	it('getShortTranslation method', async () => {
-		const test = (translation: string) => (new Word({
-			translation,
-		})).getShortTranslation();
+		const test = (translation: string) => (
+			new Word('', '', '', translation, [])
+		).getShortTranslation();
 
 		expect(test('test')).toBe('test');
 		expect(test('two words')).toBe('two words');

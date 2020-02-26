@@ -35,19 +35,12 @@ export default class Dictionary {
 	}
 
 	parseCsvLine (line: string): Word {
-		const wordAttributes: {
-			word: string
-			reading: string
-			translationLang: string
-			translation: string
-			tags: Tag[],
-		} = {
-			word: '',
-			reading: '',
-			translationLang: '',
-			translation: '',
-			tags: [],
-		};
+		let word: string = '';
+		let reading: string = '';
+		let translationLang: string = '';
+		let translation: string = '';
+		let tags: Tag[] = [];
+
 		let colIndex = 0;
 		let colValue = '';
 		let index = 0;
@@ -63,15 +56,15 @@ export default class Dictionary {
 				}
 
 				if (colIndex === 0) {
-					wordAttributes.word = colValue;
+					word = colValue;
 				} else if (colIndex === 1) {
-					wordAttributes.reading = colValue;
+					reading = colValue;
 				} else if (colIndex === 2) {
-					wordAttributes.translationLang = colValue;
+					translationLang = colValue;
 				} else if (colIndex === 3) {
-					wordAttributes.translation = colValue;
+					translation = colValue;
 				} else if (colIndex === 4) {
-					wordAttributes.tags = <Tag[]>colValue.split('/');
+					tags = <Tag[]>colValue.split('/');
 				}
 
 				// Going to the next column
@@ -84,7 +77,7 @@ export default class Dictionary {
 			index++;
 		} while (index <= length);
 
-		return new Word(wordAttributes);
+		return new Word(word, reading, translationLang, translation, tags);
 	}
 
 	add (word: Word) {

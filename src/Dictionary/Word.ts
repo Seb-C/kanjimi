@@ -7,8 +7,18 @@ export default class Word {
 	public readonly translation: string;
 	public readonly tags: ReadonlyArray<Tag>;
 
-	constructor(attributes: object) {
-		Object.assign(this, attributes);
+	constructor(
+		word: string,
+		reading: string,
+		translationLang: string,
+		translation: string,
+		tags: ReadonlyArray<Tag>,
+	) {
+		this.word = word;
+		this.reading = reading;
+		this.translationLang = translationLang;
+		this.translation = translation;
+		this.tags = tags;
 	}
 
 	getShortTranslation(): string {

@@ -1,7 +1,8 @@
-improve the constructor of the models
-update vim syntax colours broken (see bottom of the dictionary)
 some words wrongly cutted sometimes (アジア becomes ア + ジア)
+add a test for the adjectives in a sentence (and debug the lexer if needed)
 improve the condition to detect verbs (kanji + ending will not work for all i-adjectives?)
+Do not show reading for loan words (katakana)
+update vim syntax colours broken (see bottom of the dictionary)
 improve the UI performance
 suru irregular
 kuru irregular
@@ -22,7 +23,6 @@ Show a loading indicator
 Client should be able to make parallel queries
 Group HTTP queries?
 Optimize the algorithm
-Do not show reading for load words (katakana)
 Do not show single kana translations?
 convert language code
 Kanjis dictionary?

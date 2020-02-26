@@ -91,7 +91,7 @@ export default class Dictionary {
 			index++;
 		} while (index <= length);
 
-		return new Word(<Word><any>wordAttributes);
+		return new Word(wordAttributes);
 	}
 
 	add (word: Word) {

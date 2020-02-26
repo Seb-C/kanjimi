@@ -3,7 +3,7 @@ import Word from 'Dictionary/Word';
 
 describe('Word', () => {
 	it('getShortTranslation method', async () => {
-		const test = (translation: string) => (new Word(<Word><any>{
+		const test = (translation: string) => (new Word({
 			translation,
 		})).getShortTranslation();
 

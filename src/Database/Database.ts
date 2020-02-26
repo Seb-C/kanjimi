@@ -5,19 +5,10 @@ type Buildable<T> = (new (params?: T) => T);
 
 type Params = { [key: string]: any; };
 
-// TODO better handling of this object? (or ignore warnings in tests)
-let singleton: Database;
-
 export default class Database {
 	private db: PgPromise.IDatabase<void>;
 
 	constructor() {
-		if (singleton) {
-			return singleton;
-		} else {
-			singleton = this;
-		}
-
 		this.db = PgPromise()({
 			host     :  process.env.DB_HOST || 'database',
 			port     :  5432,

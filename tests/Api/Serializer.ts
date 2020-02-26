@@ -8,7 +8,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 describe('Api Serializer', () => {
 	it('All', async () => {
 		const serializer = new Serializer();
-		const word = new Word(<Word><any>{
+		const word = new Word({
 			word: '食べる',
 			reading: 'たべる',
 			translationLang: 'eng',

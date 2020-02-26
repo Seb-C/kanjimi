@@ -1,5 +1,0 @@
-#!/bin/sh
-
-./npm run extension:watch &
-./node_modules/.bin/web-ext --config=web-ext.js run
-wait

@@ -1,4 +1,4 @@
-adjectives conjugation -> add unit tests
+improve the constructor of the models
 update vim syntax colours broken (see bottom of the dictionary)
 some words wrongly cutted sometimes (アジア becomes ア + ジア)
 improve the condition to detect verbs (kanji + ending will not work for all i-adjectives?)

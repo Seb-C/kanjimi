@@ -57,6 +57,13 @@ describe('Lexer', async () => {
 		checkForm('れません',         'る', ConjugationType.POTENTIAL_POLITE_NEGATIVE);
 		checkForm('れませんでした',   'る', ConjugationType.POTENTIAL_POLITE_NEGATIVE_PAST);
 		checkForm('れました',         'る', ConjugationType.POTENTIAL_POLITE_PAST);
+
+		checkForm('い',                 'い', ConjugationType.ADJECTIVE_PLAIN);
+		checkForm('かった',             'い', ConjugationType.ADJECTIVE_PAST);
+		checkForm('くない',             'い', ConjugationType.ADJECTIVE_NEGATIVE);
+		checkForm('くなかった',         'い', ConjugationType.ADJECTIVE_NEGATIVE_PAST);
+		checkForm('くありません',       'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE);
+		checkForm('くありませんでした', 'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE_PAST);
 	});
 
 	it('fromPlainForm with complex forms', async () => {
@@ -91,5 +98,12 @@ describe('Lexer', async () => {
 		checkForm('れません',         'る', ConjugationType.POTENTIAL_POLITE_NEGATIVE);
 		checkForm('れませんでした',   'る', ConjugationType.POTENTIAL_POLITE_NEGATIVE_PAST);
 		checkForm('れました',         'る', ConjugationType.POTENTIAL_POLITE_PAST);
+
+		checkForm('い',                 'い', ConjugationType.ADJECTIVE_PLAIN);
+		checkForm('かった',             'い', ConjugationType.ADJECTIVE_PAST);
+		checkForm('くない',             'い', ConjugationType.ADJECTIVE_NEGATIVE);
+		checkForm('くなかった',         'い', ConjugationType.ADJECTIVE_NEGATIVE_PAST);
+		checkForm('くありません',       'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE);
+		checkForm('くありませんでした', 'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE_PAST);
 	});
 });

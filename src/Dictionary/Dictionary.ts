@@ -32,13 +32,7 @@ export default class Dictionary {
 					return;
 				}
 
-				const word = this.parseCsvLine(line);
-
-				if (!this.words[word.word]) {
-					this.words[word.word] = [];
-				}
-
-				this.words[word.word].push(word);
+				this.add(this.parseCsvLine(line));
 			});
 
 			dictionaryFileIterator.on('close', () => {
@@ -98,6 +92,14 @@ export default class Dictionary {
 		} while (index <= length);
 
 		return new Word(<Word><any>wordAttributes);
+	}
+
+	add (word: Word) {
+		if (!this.words[word.word]) {
+			this.words[word.word] = [];
+		}
+
+		this.words[word.word].push(word);
 	}
 
 	get (text: string): ReadonlyArray<Word> {

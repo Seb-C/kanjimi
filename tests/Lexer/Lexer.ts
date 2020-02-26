@@ -13,6 +13,20 @@ let lexer: Lexer;
 describe('Lexer', async () => {
 	beforeEach(async () => {
 		const dictionary = new Dictionary();
+		[
+			'私',
+			'申す',
+			'国立',
+			'女性美',
+			'術',
+			'館',
+			'日本',
+			'大帝',
+			'国憲法',
+			'合衆国',
+			'最高裁判所',
+		].forEach(word => dictionary.add(new Word(<Word><any>{ word })));
+
 		lexer = new Lexer(dictionary);
 	});
 

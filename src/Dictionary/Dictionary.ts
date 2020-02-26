@@ -4,18 +4,8 @@ import * as FileSystem from 'fs';
 import * as Path from 'path';
 import * as ReadLine from 'readline';
 
-let singleton: Dictionary;
-
 export default class Dictionary {
-	private words: { [text: string]: Word[] } = {};
-
-	constructor() {
-		if (singleton) {
-			return singleton;
-		} else {
-			singleton = this;
-		}
-	}
+	private words: Map<string, Word[]> = new Map();
 
 	async load(): Promise<void> {
 		return new Promise((resolve, reject) => {
@@ -24,6 +14,8 @@ export default class Dictionary {
 					Path.join(__dirname, '../../Dictionary/words.csv'),
 				),
 			});
+
+			const dictionaryLoadingStart = +new Date();
 
 			let headerLine = true;
 			dictionaryFileIterator.on('line', (line) => {
@@ -36,6 +28,7 @@ export default class Dictionary {
 			});
 
 			dictionaryFileIterator.on('close', () => {
+				console.log('Dictionary loaded in', ((+new Date()) - dictionaryLoadingStart), 'milliseconds.');
 				resolve();
 			});
 		});
@@ -95,14 +88,14 @@ export default class Dictionary {
 	}
 
 	add (word: Word) {
-		if (!this.words[word.word]) {
-			this.words[word.word] = [];
+		if (this.words.has(word.word)) {
+			(<Word[]>this.words.get(word.word)).push(word);
+		} else {
+			this.words.set(word.word, [word]);
 		}
-
-		this.words[word.word].push(word);
 	}
 
 	get (text: string): ReadonlyArray<Word> {
-		return this.words[text] || [];
+		return this.words.get(text) || [];
 	}
 }

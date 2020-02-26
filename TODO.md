@@ -1,4 +1,5 @@
-some words wrongly cutted sometimes (アジア becomes ア + ジア)
+rework the lexer by using multi steps (basic tokenizer, then parser)
+decomment last test sentences and test it properly
 add a test for the adjectives in a sentence (and debug the lexer if needed)
 improve the condition to detect verbs (kanji + ending will not work for all i-adjectives?)
 Do not show reading for loan words (katakana)
@@ -16,7 +17,6 @@ implement down migrations
 Search and fix the TODOs in the codebase
 half width characters? full-width roman chars and letters?
 Filter languages in server instead of client (see TODO in WordToken)
-decomment last random test sentences
 Add all data about a word as a tooltip
 properly implement all the JSONApi spec (+ relationships)
 Show a loading indicator

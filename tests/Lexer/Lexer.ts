@@ -11,7 +11,7 @@ jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
 let lexer: Lexer;
 describe('Lexer', async () => {
-	beforeEach(async () => {
+	beforeEach(() => {
 		const dictionary = new Dictionary();
 		[
 			'私',
@@ -25,6 +25,9 @@ describe('Lexer', async () => {
 			'国憲法',
 			'合衆国',
 			'最高裁判所',
+			'東',
+			'ア',
+			'アジア',
 		].forEach(word => dictionary.add(
 			new Word(word, '', '', '', []),
 		));
@@ -77,7 +80,13 @@ describe('Lexer', async () => {
 		expect(result[9].text).toBe('合衆国');
 		expect(result[10].text).toBe('最高裁判所');
 	});
-	it('More test sentences', () => {
+	it('Specific case with katakana after a kanji', async () => {
+		const result = lexer.tokenize('東アジア');
+		expect(result[0].text).toBe('東');
+		expect(result[1].text).toBe('アジア');
+	});
+
+	it('More test sentences', async () => {
 		// console.log(lexer.tokenize(
 		// 	'TypeScript はマイクロソフトによって開発され、'
 		// 	+ 'メンテナンスされているフリーでオープンソース'

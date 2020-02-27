@@ -16,8 +16,7 @@ export default class Lexer {
 		this.dictionary = dictionary;
 	}
 
-	tokenize (untrimmedText: string): Token[] {
-		const text = untrimmedText.trim();
+	tokenize (text: string): Token[] {
 		const tokens: Token[] = [];
 
 		for (let currentIndex = 0; currentIndex < text.length; currentIndex++) {

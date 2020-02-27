@@ -1,13 +1,13 @@
-import Token from 'Lexer/Token/Token';
+import CharTypeToken from 'Lexer/Token/CharTypeToken';
 import CharType from 'Misc/CharType';
 
 export default class CharTypeTokenizer {
-	tokenize (text: string): Token[] {
+	tokenize (text: string): CharTypeToken[] {
 		if (text.length === 0) {
 			return [];
 		}
 
-		const tokens: Token[] = [];
+		const tokens: CharTypeToken[] = [];
 
 		let currentTokenCharType: CharType = CharType.of(text[0]);
 		let currentTokenStartIndex = 0;
@@ -15,15 +15,19 @@ export default class CharTypeTokenizer {
 		for (let currentIndex = 1; currentIndex < text.length; currentIndex++) {
 			const currentCharType = CharType.of(text[currentIndex]);
 			if (currentTokenCharType !== null && currentCharType !== currentTokenCharType) {
-				tokens.push(new Token(
+				tokens.push(new CharTypeToken(
 					text.substring(currentTokenStartIndex, currentIndex),
+					currentTokenCharType,
 				));
 				currentTokenCharType = currentCharType;
 				currentTokenStartIndex = currentIndex;
 			}
 		}
 
-		tokens.push(new Token(text.substring(currentTokenStartIndex)));
+		tokens.push(new CharTypeToken(
+			text.substring(currentTokenStartIndex),
+			currentTokenCharType,
+		));
 
 		return tokens;
 	}

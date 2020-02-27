@@ -4,7 +4,7 @@ import Serializer from 'Api/Serializer/Serializer';
 const serializer = new Serializer();
 
 export default async (text: string): Promise<Token[]> => {
-	const response = await fetch('http://localhost:3000/tokenize', {
+	const response = await fetch('http://localhost:3000/analyze', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

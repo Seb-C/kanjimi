@@ -6,97 +6,93 @@ import VerbToken from 'Lexer/Token/VerbToken';
 import ParticleToken from 'Lexer/Token/ParticleToken';
 import PunctuationToken from 'Lexer/Token/PunctuationToken';
 import WordToken from 'Lexer/Token/WordToken';
+import CharTypeToken from 'Lexer/Token/CharTypeToken';
+import CharTypeTokenizer from 'Lexer/CharTypeTokenizer';
 import Dictionary from 'Dictionary/Dictionary';
 import Word from 'Dictionary/Word';
 
 export default class Lexer {
 	protected dictionary: Dictionary;
+	protected tokenizer: CharTypeTokenizer;
 
 	constructor(dictionary: Dictionary) {
 		this.dictionary = dictionary;
+		this.tokenizer = new CharTypeTokenizer();
 	}
 
-	tokenize (text: string): Token[] {
+	analyze (text: string): Token[] {
+		// It is better to handle this function with a stack than an array
+		const remainingTokensStack: CharTypeToken[] = this.tokenizer.tokenize(text).reverse();
+
 		const tokens: Token[] = [];
 
-		for (let currentIndex = 0; currentIndex < text.length; currentIndex++) {
-			let currentToken = new Token(text[currentIndex]);
-			const currentCharType = CharType.of(this.getLastChar(currentToken.text));
+		while (remainingTokensStack.length > 0) {
+			const currentToken = remainingTokensStack.pop();
+			const nextToken = remainingTokensStack.length === 0
+				? null
+				: remainingTokensStack[remainingTokensStack.length - 1];
 
-			let lastToken = this.getLastToken(tokens);
-			const lastTokenComplete = (lastToken !== null && this.isTokenComplete(lastToken));
-			if (lastToken !== null) {
-				this.setLastToken(this.refineToken(lastToken), tokens);
-			}
-			if (lastToken === null || lastTokenComplete) {
-				// Considering that the last token was recognized as complete
-				// In that case, we start a new one to be sure that it will always be different
-				lastToken = new Token('');
-				tokens.push(lastToken);
-			}
+			if (
+				nextToken !== null
+				&& currentToken.charType === CharType.KANJI
+				&& nextToken.charType === CharType.HIRAGANA
+			) {
+				let foundToken: Token = null;
+				for (let i = 0; i < nextToken.text.length; i++) {
+					const conjugation = nextToken.text.substring(0, i + 1);
+					if (ConjugationForms.hasForm(conjugation)) {
+						const words: Word[] = [];
+						const forms = ConjugationForms.getForms(conjugation);
+						forms.map((form: ConjugationForm) => {
+							words.push(...(
+								this.dictionary.get(currentToken.text + form.dictionaryForm)
+							));
+						});
 
-			const lastCharType = CharType.of(this.getLastChar(lastToken.text));
-			if (lastCharType === currentCharType || lastToken.text === '') {
-				this.setLastToken(new Token(lastToken.text + currentToken.text), tokens);
-				continue;
-			}
+						foundToken = new VerbToken(currentToken.text, conjugation, forms, words);
+						break;
+					}
+				}
 
-			if (lastCharType === CharType.KANJI && currentCharType === CharType.HIRAGANA) {
-				const verbToken = this.getTokenIfVerbConjugation(lastToken.text, currentIndex, text);
-				if (verbToken !== null) {
-					currentIndex += verbToken.conjugation.length - 1;
-					this.setLastToken(verbToken, tokens);
+				if (foundToken !== null) {
+					tokens.push(foundToken);
+
+					// Removing the conjugation token and adding the unhandled string to the stack
+					tokens.pop();
+					tokens.push(new CharTypeToken(
+						nextToken.text.substring(foundToken.text.length),
+						nextToken.charType,
+					));
+
 					continue;
 				}
 			}
 
-			if (
-				lastCharType === CharType.KANJI
-				&& currentCharType !== CharType.KANJI
-				&& !lastTokenComplete
-			) {
-				const result = this.splitMultiKanjisSequence(lastToken);
-				this.setLastToken(result, tokens);
+			if (ParticleToken.isParticle(token.text)) {
+				tokens.push(new ParticleToken(token.text));
+				continue;
 			}
 
-			currentToken = this.refineToken(currentToken);
+			if (currentToken.charType === CharType.PUNCTUATION) {
+				tokens.push(new PunctuationToken(token.text));
+				continue;
+			}
+
+			// TODO merge the kanji split with the dictionary search
+			if (currentToken.charType === CharType.KANJI) {
+				tokens.push(...this.splitMultiKanjisSequence(currentToken));
+				continue;
+			}
+			const word = this.dictionary.get(currentToken.text);
+			if (word.length > 0) {
+				tokens.push(new WordToken(currentToken.text, word));
+				continue;
+			}
 
 			tokens.push(currentToken);
 		}
 
-		const lastToken = this.getLastToken(tokens);
-		if (lastToken !== null) {
-			if (
-				CharType.of(this.getLastChar(lastToken.text)) === CharType.KANJI
-				&& !this.isTokenComplete(lastToken)
-			) {
-				const result = this.splitMultiKanjisSequence(lastToken);
-				this.setLastToken(result, tokens);
-			} else {
-				this.setLastToken(this.refineToken(lastToken), tokens);
-			}
-		}
-
 		return tokens;
-	}
-
-	protected refineToken(token: Token): Token {
-		const charType = CharType.of(this.getLastChar(token.text));
-
-		if (ParticleToken.isParticle(token.text)) {
-			return new ParticleToken(token.text);
-		}
-		if (charType === CharType.PUNCTUATION) {
-			return new PunctuationToken(token.text);
-		}
-
-		const word = this.dictionary.get(token.text);
-		if (word.length > 0) {
-			// Simple dictionary lookup
-			return new WordToken(token.text, word);
-		}
-
-		return token;
 	}
 
 	protected splitMultiKanjisSequence(token: Token): Token[] {
@@ -123,58 +119,5 @@ export default class Lexer {
 		}
 
 		return tokens;
-	}
-
-	protected getLastToken(tokens: Token[]): Token|null {
-		return tokens[tokens.length - 1] || null;
-	}
-
-	protected setLastToken(token: Token|Token[], tokens: Token[]): void {
-		tokens.pop();
-
-		if (token instanceof Array) {
-			tokens.push(...token);
-		} else {
-			tokens.push(token);
-		}
-	}
-
-	protected isTokenComplete(token: Token): boolean {
-		return token.constructor !== Token;
-	}
-
-	protected getTokenIfVerbConjugation(verb: string, position: number, text: string): VerbToken|null {
-		let conjugation = '';
-		for (let i = 0; (
-			i < ConjugationForms.getMaxConjugationLength()
-			&& i + position < text.length
-		); i++) {
-			if (CharType.of(text[position + i]) !== CharType.HIRAGANA) {
-				return null;
-			}
-
-			conjugation += text[position + i];
-			if (ConjugationForms.hasForm(conjugation)) {
-				const words: Word[] = [];
-				const forms = ConjugationForms.getForms(conjugation);
-				forms.map((form: ConjugationForm) => {
-					words.push(...(
-						this.dictionary.get(verb + form.dictionaryForm)
-					));
-				});
-
-				return new VerbToken(verb, conjugation, forms, words);
-			}
-		}
-
-		return null;
-	}
-
-	getLastChar(text: string): string {
-		if (text.length === 0) {
-			return '';
-		}
-
-		return text[text.length - 1];
 	}
 }

@@ -4,8 +4,6 @@ import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
 class ConjugationFormsClass {
 	readonly formsByConjugation: { [conjugation: string]: ConjugationForm[] } = {};
 	readonly conjugationsByPlainForm: { [conjugation: string]: ConjugationForm[] } = {};
-	private maxConjugationLength: number = 0;
-
 	private readonly FORMS_CONVERT: Map<
 		ConjugationType,
 		Map<ConjugationType, ConjugationType>
@@ -78,10 +76,6 @@ class ConjugationFormsClass {
 		}
 		this.conjugationsByPlainForm[form.dictionaryForm].push(form);
 
-		if (form.conjugation.length > this.maxConjugationLength) {
-			this.maxConjugationLength = form.conjugation.length;
-		}
-
 		if (this.FORMS_CONVERT.has(form.type)) {
 			(<Map<ConjugationType, ConjugationType>>(this.FORMS_CONVERT.get(form.type)))
 				.forEach((targetForm: ConjugationType, formCombinedWith: ConjugationType) => {
@@ -100,10 +94,6 @@ class ConjugationFormsClass {
 
 	getForms(form: string): ReadonlyArray<ConjugationForm> {
 		return <ReadonlyArray<ConjugationForm>>(this.formsByConjugation[form] || []);
-	}
-
-	getMaxConjugationLength(): number {
-		return this.maxConjugationLength;
 	}
 }
 

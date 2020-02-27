@@ -1,7 +1,7 @@
 import CharType from 'Misc/CharType';
 import Serializer from 'Api/Serializer/Serializer';
 import Token from 'Lexer/Token/Token';
-import tokenize from 'Api/Client/tokenize';
+import analyze from 'Api/Client/analyze';
 import { debounce } from 'ts-debounce';
 const elementVisible = require('element-visible');
 
@@ -135,7 +135,7 @@ const convertVisibleElements = async () => {
 	processing = true;
 	for (const textNode of getElementsToConvert()) {
 		try {
-			const data = await tokenize(textNode.data.trim());
+			const data = await analyze(textNode.data.trim());
 			convertNode(textNode, data);
 		} catch (e) {
 			console.error(e, textNode);

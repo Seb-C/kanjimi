@@ -1,5 +1,4 @@
 rework the lexer by using multi steps (basic tokenizer, then parser)
-    also, the lexer is currently mutable and will not work with concurrent uses
 decomment last test sentences and test it properly
 add a test for the adjectives in a sentence (and debug the lexer if needed)
 improve the condition to detect verbs (kanji + ending will not work for all i-adjectives?)

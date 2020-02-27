@@ -11,45 +11,42 @@ import Word from 'Dictionary/Word';
 
 export default class Lexer {
 	protected dictionary: Dictionary;
-	protected text: string;
-	protected tokens: Token[];
-	protected currentIndex: number;
 
 	constructor(dictionary: Dictionary) {
 		this.dictionary = dictionary;
 	}
 
-	tokenize (text: string): Token[] {
-		this.text = text.trim();
-		this.tokens = [];
+	tokenize (untrimmedText: string): Token[] {
+		const text = untrimmedText.trim();
+		const tokens: Token[] = [];
 
-		for (this.currentIndex = 0; this.currentIndex < this.text.length; this.currentIndex++) {
-			let currentToken = new Token(this.text[this.currentIndex]);
+		for (let currentIndex = 0; currentIndex < text.length; currentIndex++) {
+			let currentToken = new Token(text[currentIndex]);
 			const currentCharType = CharType.of(this.getLastChar(currentToken.text));
 
-			let lastToken = this.getLastToken();
+			let lastToken = this.getLastToken(tokens);
 			const lastTokenComplete = (lastToken !== null && this.isTokenComplete(lastToken));
 			if (lastToken !== null) {
-				this.setLastToken(this.refineToken(lastToken));
+				this.setLastToken(this.refineToken(lastToken), tokens);
 			}
 			if (lastToken === null || lastTokenComplete) {
 				// Considering that the last token was recognized as complete
 				// In that case, we start a new one to be sure that it will always be different
 				lastToken = new Token('');
-				this.tokens.push(lastToken);
+				tokens.push(lastToken);
 			}
 
 			const lastCharType = CharType.of(this.getLastChar(lastToken.text));
 			if (lastCharType === currentCharType || lastToken.text === '') {
-				this.setLastToken(new Token(lastToken.text + currentToken.text));
+				this.setLastToken(new Token(lastToken.text + currentToken.text), tokens);
 				continue;
 			}
 
 			if (lastCharType === CharType.KANJI && currentCharType === CharType.HIRAGANA) {
-				const verbToken = this.getTokenIfVerbConjugation(lastToken.text, this.currentIndex);
+				const verbToken = this.getTokenIfVerbConjugation(lastToken.text, currentIndex, text);
 				if (verbToken !== null) {
-					this.currentIndex += verbToken.conjugation.length - 1;
-					this.setLastToken(verbToken);
+					currentIndex += verbToken.conjugation.length - 1;
+					this.setLastToken(verbToken, tokens);
 					continue;
 				}
 			}
@@ -60,28 +57,28 @@ export default class Lexer {
 				&& !lastTokenComplete
 			) {
 				const result = this.splitMultiKanjisSequence(lastToken);
-				this.setLastToken(result);
+				this.setLastToken(result, tokens);
 			}
 
 			currentToken = this.refineToken(currentToken);
 
-			this.tokens.push(currentToken);
+			tokens.push(currentToken);
 		}
 
-		const lastToken = this.getLastToken();
+		const lastToken = this.getLastToken(tokens);
 		if (lastToken !== null) {
 			if (
 				CharType.of(this.getLastChar(lastToken.text)) === CharType.KANJI
 				&& !this.isTokenComplete(lastToken)
 			) {
 				const result = this.splitMultiKanjisSequence(lastToken);
-				this.setLastToken(result);
+				this.setLastToken(result, tokens);
 			} else {
-				this.setLastToken(this.refineToken(lastToken));
+				this.setLastToken(this.refineToken(lastToken), tokens);
 			}
 		}
 
-		return this.tokens;
+		return tokens;
 	}
 
 	protected refineToken(token: Token): Token {
@@ -129,17 +126,17 @@ export default class Lexer {
 		return tokens;
 	}
 
-	protected getLastToken(): Token|null {
-		return this.tokens[this.tokens.length - 1] || null;
+	protected getLastToken(tokens: Token[]): Token|null {
+		return tokens[tokens.length - 1] || null;
 	}
 
-	protected setLastToken(token: Token|Token[]): void {
-		this.tokens.pop();
+	protected setLastToken(token: Token|Token[], tokens: Token[]): void {
+		tokens.pop();
 
 		if (token instanceof Array) {
-			this.tokens.push(...token);
+			tokens.push(...token);
 		} else {
-			this.tokens.push(token);
+			tokens.push(token);
 		}
 	}
 
@@ -147,20 +144,17 @@ export default class Lexer {
 		return token.constructor !== Token;
 	}
 
-	protected getTokenIfVerbConjugation(
-		verb: string,
-		position: number,
-	): VerbToken|null {
+	protected getTokenIfVerbConjugation(verb: string, position: number, text: string): VerbToken|null {
 		let conjugation = '';
 		for (let i = 0; (
 			i < ConjugationForms.getMaxConjugationLength()
-			&& i + position < this.text.length
+			&& i + position < text.length
 		); i++) {
-			if (CharType.of(this.text[position + i]) !== CharType.HIRAGANA) {
+			if (CharType.of(text[position + i]) !== CharType.HIRAGANA) {
 				return null;
 			}
 
-			conjugation += this.text[position + i];
+			conjugation += text[position + i];
 			if (ConjugationForms.hasForm(conjugation)) {
 				const words: Word[] = [];
 				const forms = ConjugationForms.getForms(conjugation);

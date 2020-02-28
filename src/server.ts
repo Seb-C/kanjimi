@@ -41,7 +41,7 @@ const runServer = async (application: express.Application): Promise<void> => {
 	server.use(bodyParser.json());
 	server.use(waitForStartupMiddleware);
 	server.post('/analyze', (request: express.Request, response: express.Response) => {
-		const sentence: string = trim(request.body.sentence);
+		const sentence: string = request.body.sentence.trim();
 		const tokenized = lexer.analyze(sentence);
 		const serialized = serializer.toJsonApi(tokenized);
 		response.json(serialized);

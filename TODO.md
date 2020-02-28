@@ -1,3 +1,6 @@
+fix the extension multiple errors
+ssimplify the extension rendering
+debug the hiragana strings wrongly cut
 decomment last test sentences and test it properly
 add a test for the adjectives in a sentence (and debug the lexer if needed)
 improve the condition to detect verbs (kanji + ending will not work for all i-adjectives?)

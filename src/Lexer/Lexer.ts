@@ -26,18 +26,18 @@ export default class Lexer {
 
 		const tokens: Token[] = [];
 
-		while (remainingTokensStack.length > 0) {
-			const currentToken = remainingTokensStack.pop();
+		unstackTokensLoop: while (remainingTokensStack.length > 0) {
+			const currentToken = <CharTypeToken>remainingTokensStack.pop();
+
 			const nextToken = remainingTokensStack.length === 0
 				? null
 				: remainingTokensStack[remainingTokensStack.length - 1];
-
 			if (
 				nextToken !== null
 				&& currentToken.charType === CharType.KANJI
 				&& nextToken.charType === CharType.HIRAGANA
 			) {
-				let foundToken: Token = null;
+				let foundToken: VerbToken|null = null;
 				for (let i = 0; i < nextToken.text.length; i++) {
 					const conjugation = nextToken.text.substring(0, i + 1);
 					if (ConjugationForms.hasForm(conjugation)) {
@@ -58,64 +58,76 @@ export default class Lexer {
 					tokens.push(foundToken);
 
 					// Removing the conjugation token and adding the unhandled string to the stack
-					tokens.pop();
-					tokens.push(new CharTypeToken(
-						nextToken.text.substring(foundToken.text.length),
-						nextToken.charType,
-					));
+					remainingTokensStack.pop();
+					if (nextToken.text.length > foundToken.conjugation.length) {
+						remainingTokensStack.push(new CharTypeToken(
+							nextToken.text.substring(foundToken.conjugation.length),
+							nextToken.charType,
+						));
+					}
 
 					continue;
 				}
 			}
 
-			if (ParticleToken.isParticle(token.text)) {
-				tokens.push(new ParticleToken(token.text));
+			if (ParticleToken.isParticle(currentToken.text)) {
+				tokens.push(new ParticleToken(currentToken.text));
 				continue;
 			}
 
 			if (currentToken.charType === CharType.PUNCTUATION) {
-				tokens.push(new PunctuationToken(token.text));
+				tokens.push(new PunctuationToken(currentToken.text));
 				continue;
 			}
 
-			// TODO merge the kanji split with the dictionary search
-			if (currentToken.charType === CharType.KANJI) {
-				tokens.push(...this.splitMultiKanjisSequence(currentToken));
-				continue;
-			}
-			const word = this.dictionary.get(currentToken.text);
-			if (word.length > 0) {
-				tokens.push(new WordToken(currentToken.text, word));
+			if (currentToken.charType === CharType.OTHER) {
+				tokens.push(new Token(currentToken.text));
 				continue;
 			}
 
-			tokens.push(currentToken);
-		}
-
-		return tokens;
-	}
-
-	protected splitMultiKanjisSequence(token: Token): Token[] {
-		const tokens: Token[] = [];
-
-		let begin = 0;
-		while (begin < token.text.length) {
-			let length;
-			for (length = token.text.length - begin; length > 0; length--) {
-				const sub = token.text.substr(begin, length);
-				const word = this.dictionary.get(sub);
+			// Katakanas should not be splitted
+			if (currentToken.charType === CharType.KATAKANA) {
+				const word = this.dictionary.get(currentToken.text);
 				if (word.length > 0) {
-					tokens.push(new WordToken(sub, word));
-					begin += sub.length;
-					break; // Inner for loop
+					tokens.push(new WordToken(currentToken.text, word));
+				} else {
+					tokens.push(new Token(currentToken.text));
+				}
+				continue;
+			}
+
+			// Searching for dictionary words inside this token
+			for (let begin = 0; begin < currentToken.text.length; begin++) {
+				for (let length = currentToken.text.length - begin; length > 0; length--) {
+					const sub = currentToken.text.substring(begin, begin + length);
+					const word = this.dictionary.get(sub);
+					if (word.length > 0) {
+						if (begin > 0) {
+							// Making the text preceding this word as a separate token
+							const precedingText = currentToken.text.substring(0, begin);
+							if (ParticleToken.isParticle(precedingText)) {
+								tokens.push(new ParticleToken(precedingText));
+							} else {
+								tokens.push(new Token(precedingText));
+							}
+						}
+
+						tokens.push(new WordToken(sub, word));
+
+						if (currentToken.text.length > (begin + length)) {
+							remainingTokensStack.push(new CharTypeToken(
+								currentToken.text.substring(begin + length),
+								currentToken.charType,
+							));
+						}
+
+						continue unstackTokensLoop;
+					}
 				}
 			}
 
-			if (length === 0) {
-				// Not found, creating a token with only one kanji
-				tokens.push(new Token(token.text[0]));
-				begin++;
-			}
+			// Don't know what to do with this token...
+			tokens.push(new Token(currentToken.text));
 		}
 
 		return tokens;

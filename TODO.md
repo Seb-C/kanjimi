@@ -1,18 +1,21 @@
 other forms based on i: yaritai, tabetai, tabetara
+verbs with random kana after kanji and before conjugation (食べる)
 verbs without kanji: やりたい
-fix the extension multiple errors
-simplify the extension rendering
 debug the hiragana strings wrongly cut
+dictionary search by hiragana?
 decomment last test sentences and test it properly
 add a test for the adjectives in a sentence (and debug the lexer if needed)
 improve the condition to detect verbs (kanji + ending will not work for all i-adjectives?)
-Do not show reading for loan words (katakana)
-update vim syntax colours broken (see bottom of the dictionary)
-improve the UI performance
 suru irregular
 kuru irregular
 desu? + dewa nai/arimasen
 multi token expressions? complex + 好き
+
+fix the extension multiple errors
+simplify the extension rendering
+Do not show reading for loan words (katakana)
+update vim syntax colours broken (see bottom of the dictionary)
+improve the UI performance
 commit dictionary?
 Separate server, client and common classes?
 Validate input via an express middleware?

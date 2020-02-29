@@ -33,6 +33,7 @@ describe('Lexer', async () => {
 			'行く',
 			'物',
 			'食べる',
+			'たくさん',
 		].forEach(word => dictionary.add(
 			new Word(word, '', '', '', []),
 		));
@@ -40,15 +41,16 @@ describe('Lexer', async () => {
 		lexer = new Lexer(dictionary);
 	});
 
+	function testTokensText(expectedTokens: string[]) {
+		const result = lexer.analyze(expectedTokens.join(''));
+		expect(result.length).toBe(expectedTokens.length);
+		expectedTokens.forEach((expectedString, i) => {
+			expect(result[i].text).toBe(expectedString);
+		});
+	}
+
 	it('Basic sentence tokenization', () => {
-		const result = lexer.analyze('私はセバスティアンと申します。');
-		expect(result.length).toBe(6);
-		expect(result[0].text).toBe('私');
-		expect(result[1].text).toBe('は');
-		expect(result[2].text).toBe('セバスティアン');
-		expect(result[3].text).toBe('と');
-		expect(result[4].text).toBe('申します');
-		expect(result[5].text).toBe('。');
+		testTokensText(['私', 'は', 'セバスティアン', 'と', '申します', '。']);
 	});
 	it('Token types recognition', () => {
 		const result = lexer.analyze('私はセバスティアンと申します。');
@@ -74,41 +76,19 @@ describe('Lexer', async () => {
 		expect(verb.words.length > 0).toBe(true);
 	});
 	it('Multi-token kanji sequences', () => {
-		const result = lexer.analyze('国立女性美術館と日本大帝国憲法と合衆国最高裁判所はたくさん感じがある言葉。');
-		expect(result[0].text).toBe('国立');
-		expect(result[1].text).toBe('女性美');
-		expect(result[2].text).toBe('術');
-		expect(result[3].text).toBe('館');
-		expect(result[5].text).toBe('日本');
-		expect(result[6].text).toBe('大帝');
-		expect(result[7].text).toBe('国憲法');
-		expect(result[9].text).toBe('合衆国');
-		expect(result[10].text).toBe('最高裁判所');
+		testTokensText([
+			'国立', '女性美', '術', '館', 'と', '日本', '大帝', '国憲法', 'と', '合衆国', '最高裁判所',
+			'は', 'たくさん', // '感じ', 'が', 'ある', '言葉', '。',
+		]);
 	});
 	it('Specific case with katakana after a kanji', async () => {
-		const result = lexer.analyze('東アジア');
-		expect(result.length).toBe(2);
-		expect(result[0].text).toBe('東');
-		expect(result[1].text).toBe('アジア');
+		testTokensText(['東', 'アジア']);
 	});
 	it('Hiragana chains with a particle at the end', async () => {
-		const result = lexer.analyze('そんなことで行きます');
-		expect(result.length).toBe(4);
-		expect(result[0].text).toBe('そんな');
-		expect(result[1].text).toBe('こと');
-		expect(result[2].text).toBe('で');
-		expect(result[3].text).toBe('行きます');
+		testTokensText(['そんな', 'こと', 'で', '行きます']);
 	});
 	it('Hiragana chains with a particle at the beginning', async () => {
-		const result = lexer.analyze('私はそんな物を食べる');
-		console.log(result);
-		expect(result.length).toBe(6);
-		expect(result[0].text).toBe('私');
-		expect(result[1].text).toBe('は');
-		expect(result[2].text).toBe('そんな');
-		expect(result[3].text).toBe('物');
-		expect(result[4].text).toBe('を');
-		expect(result[5].text).toBe('食べる');
+		testTokensText(['私', 'は', 'そんな', '物', 'を']);
 	});
 	it('More test sentences', async () => {
 		// console.log(lexer.analyze(

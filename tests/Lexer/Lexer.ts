@@ -28,6 +28,11 @@ describe('Lexer', async () => {
 			'東',
 			'ア',
 			'アジア',
+			'そんな',
+			'こと',
+			'行く',
+			'物',
+			'食べる',
 		].forEach(word => dictionary.add(
 			new Word(word, '', '', '', []),
 		));
@@ -82,10 +87,29 @@ describe('Lexer', async () => {
 	});
 	it('Specific case with katakana after a kanji', async () => {
 		const result = lexer.analyze('東アジア');
+		expect(result.length).toBe(2);
 		expect(result[0].text).toBe('東');
 		expect(result[1].text).toBe('アジア');
 	});
-
+	it('Hiragana chains with a particle at the end', async () => {
+		const result = lexer.analyze('そんなことで行きます');
+		expect(result.length).toBe(4);
+		expect(result[0].text).toBe('そんな');
+		expect(result[1].text).toBe('こと');
+		expect(result[2].text).toBe('で');
+		expect(result[3].text).toBe('行きます');
+	});
+	it('Hiragana chains with a particle at the beginning', async () => {
+		const result = lexer.analyze('私はそんな物を食べる');
+		console.log(result);
+		expect(result.length).toBe(6);
+		expect(result[0].text).toBe('私');
+		expect(result[1].text).toBe('は');
+		expect(result[2].text).toBe('そんな');
+		expect(result[3].text).toBe('物');
+		expect(result[4].text).toBe('を');
+		expect(result[5].text).toBe('食べる');
+	});
 	it('More test sentences', async () => {
 		// console.log(lexer.analyze(
 		// 	'TypeScript はマイクロソフトによって開発され、'

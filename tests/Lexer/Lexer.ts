@@ -3,6 +3,7 @@ import Lexer from 'Lexer/Lexer';
 import Dictionary from 'Dictionary/Dictionary';
 import Word from 'Dictionary/Word';
 import WordToken from 'Lexer/Token/WordToken';
+import Token from 'Lexer/Token/Token';
 import VerbToken from 'Lexer/Token/VerbToken';
 import ParticleToken from 'Lexer/Token/ParticleToken';
 import PunctuationToken from 'Lexer/Token/PunctuationToken';
@@ -13,30 +14,30 @@ let lexer: Lexer;
 describe('Lexer', async () => {
 	beforeEach(() => {
 		const dictionary = new Dictionary();
-		[
-			'私',
-			'申す',
-			'国立',
-			'女性美',
-			'術',
-			'館',
-			'日本',
-			'大帝',
-			'国憲法',
-			'合衆国',
-			'最高裁判所',
-			'東',
-			'ア',
-			'アジア',
-			'そんな',
-			'こと',
-			'行く',
-			'物',
-			'食べる',
-			'たくさん',
-		].forEach(word => dictionary.add(
-			new Word(word, '', '', '', []),
-		));
+		dictionary.add(new Word('私', '', '', '', []));
+		dictionary.add(new Word('申す', '', '', '', []));
+		dictionary.add(new Word('国立', '', '', '', []));
+		dictionary.add(new Word('女性美', '', '', '', []));
+		dictionary.add(new Word('術', '', '', '', []));
+		dictionary.add(new Word('館', '', '', '', []));
+		dictionary.add(new Word('日本', '', '', '', []));
+		dictionary.add(new Word('大帝', '', '', '', []));
+		dictionary.add(new Word('国憲法', '', '', '', []));
+		dictionary.add(new Word('合衆国', '', '', '', []));
+		dictionary.add(new Word('最高裁判所', '', '', '', []));
+		dictionary.add(new Word('東', '', '', '', []));
+		dictionary.add(new Word('ア', '', '', '', []));
+		dictionary.add(new Word('アジア', '', '', '', []));
+		dictionary.add(new Word('そんな', '', '', '', []));
+		dictionary.add(new Word('こと', '', '', '', []));
+		dictionary.add(new Word('行く', '', '', '', []));
+		dictionary.add(new Word('物', '', '', '', []));
+		dictionary.add(new Word('食べる', '', '', '', []));
+		dictionary.add(new Word('たくさん', '', '', '', []));
+		dictionary.add(new Word('感じ', '', '', '', []));
+		dictionary.add(new Word('ある', '', '', '', []));
+		dictionary.add(new Word('言葉', '', '', '', []));
+		dictionary.add(new Word('好き', '', '', '', []));
 
 		lexer = new Lexer(dictionary);
 	});
@@ -75,10 +76,20 @@ describe('Lexer', async () => {
 		expect(word.words.length > 0).toBe(true);
 		expect(verb.words.length > 0).toBe(true);
 	});
+	fit('Test searchMeaning', () => {
+		let result: Token|null = lexer.searchMeaning('食べました');
+		expect(result instanceof VerbToken).toBe(true);
+		expect((<VerbToken>result).verb).toBe('食べ');
+		expect((<VerbToken>result).conjugation).toBe('ました');
+		result = lexer.searchMeaning('好き');
+		expect((<Token>result).text).toBe('好き');
+		result = lexer.searchMeaning('あいうえおしています');
+		expect(result).toBe(null);
+	});
 	it('Multi-token kanji sequences', () => {
 		testTokensText([
 			'国立', '女性美', '術', '館', 'と', '日本', '大帝', '国憲法', 'と', '合衆国', '最高裁判所',
-			'は', 'たくさん', // '感じ', 'が', 'ある', '言葉', '。',
+			'は', 'たくさん', '感じ', 'が', 'ある', '言葉', '。',
 		]);
 	});
 	it('Specific case with katakana after a kanji', async () => {
@@ -88,7 +99,7 @@ describe('Lexer', async () => {
 		testTokensText(['そんな', 'こと', 'で', '行きます']);
 	});
 	it('Hiragana chains with a particle at the beginning', async () => {
-		testTokensText(['私', 'は', 'そんな', '物', 'を']);
+		testTokensText(['私', 'は', 'そんな', '物', 'を', '食べる']);
 	});
 	it('More test sentences', async () => {
 		// console.log(lexer.analyze(

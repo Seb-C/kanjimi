@@ -2,7 +2,7 @@ import CharTypeToken from 'Lexer/Token/CharTypeToken';
 import CharType from 'Misc/CharType';
 
 export default class CharTypeTokenizer {
-	tokenize (text: string): CharTypeToken[] {
+	tokenizeByCharType (text: string): CharTypeToken[] {
 		if (text.length === 0) {
 			return [];
 		}

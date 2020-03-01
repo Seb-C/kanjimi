@@ -21,59 +21,12 @@ export default class Lexer {
 	}
 
 	analyze (text: string): Token[] {
-		// It is better to handle this function with a stack than an array
-		const remainingTokensStack: CharTypeToken[] = this.tokenizer.tokenize(text).reverse();
+		const tokensByCharType: CharTypeToken[] = this.tokenizer.tokenizeByCharType(text);
 
 		const tokens: Token[] = [];
 
-		unstackTokensLoop: while (remainingTokensStack.length > 0) {
-			const currentToken = <CharTypeToken>remainingTokensStack.pop();
-
-			const nextToken = remainingTokensStack.length === 0
-				? null
-				: remainingTokensStack[remainingTokensStack.length - 1];
-			if (
-				nextToken !== null
-				&& currentToken.charType === CharType.KANJI
-				&& nextToken.charType === CharType.HIRAGANA
-			) {
-				let foundToken: VerbToken|null = null;
-				for (let i = 0; i < nextToken.text.length; i++) {
-					const conjugation = nextToken.text.substring(0, i + 1);
-					if (ConjugationForms.hasForm(conjugation)) {
-						const words: Word[] = [];
-						const forms = ConjugationForms.getForms(conjugation);
-						forms.map((form: ConjugationForm) => {
-							words.push(...(
-								this.dictionary.get(currentToken.text + form.dictionaryForm)
-							));
-						});
-
-						foundToken = new VerbToken(currentToken.text, conjugation, forms, words);
-						break;
-					}
-				}
-
-				if (foundToken !== null) {
-					tokens.push(foundToken);
-
-					// Removing the conjugation token and adding the unhandled string to the stack
-					remainingTokensStack.pop();
-					if (nextToken.text.length > foundToken.conjugation.length) {
-						remainingTokensStack.push(new CharTypeToken(
-							nextToken.text.substring(foundToken.conjugation.length),
-							nextToken.charType,
-						));
-					}
-
-					continue;
-				}
-			}
-
-			if (ParticleToken.isParticle(currentToken.text)) {
-				tokens.push(new ParticleToken(currentToken.text));
-				continue;
-			}
+		for (let i = 0; i < tokensByCharType.length; i++) {
+			const currentToken = tokensByCharType[i];
 
 			if (currentToken.charType === CharType.PUNCTUATION) {
 				tokens.push(new PunctuationToken(currentToken.text));
@@ -96,40 +49,82 @@ export default class Lexer {
 				continue;
 			}
 
-			// Searching for dictionary words inside this token
-			for (let begin = 0; begin < currentToken.text.length; begin++) {
-				for (let length = currentToken.text.length - begin; length > 0; length--) {
-					const sub = currentToken.text.substring(begin, begin + length);
-					const word = this.dictionary.get(sub);
-					if (word.length > 0) {
-						if (begin > 0) {
-							// Making the text preceding this word as a separate token
-							const precedingText = currentToken.text.substring(0, begin);
-							if (ParticleToken.isParticle(precedingText)) {
-								tokens.push(new ParticleToken(precedingText));
-							} else {
-								tokens.push(new Token(precedingText));
-							}
-						}
+			// Merging hiragana and kanji tokens
+			let text = '';
+			do {
+				text += tokensByCharType[i].text;
+				i++;
+			} while (i < tokensByCharType.length && (
+				tokensByCharType[i].charType === CharType.HIRAGANA
+				|| tokensByCharType[i].charType === CharType.KANJI
+			));
+			i--; // We increased too much on the last iteration
 
-						tokens.push(new WordToken(sub, word));
-
-						if (currentToken.text.length > (begin + length)) {
-							remainingTokensStack.push(new CharTypeToken(
-								currentToken.text.substring(begin + length),
-								currentToken.charType,
-							));
-						}
-
-						continue unstackTokensLoop;
-					}
-				}
-			}
-
-			// Don't know what to do with this token...
-			tokens.push(new Token(currentToken.text));
+			this.splitByDictionarySearches(text, tokens);
 		}
 
 		return tokens;
+	}
+
+	/**
+	 * @param string The string to split
+	 * @param Token[] The array where to output the tokens
+	 */
+	splitByDictionarySearches (text: string, tokens: Token[]) {
+		for (let position = 0; position < text.length; position++) {
+			for (let length = text.length - position; length > 0; length--) {
+				const foundMeaning = this.searchMeaning(text.substring(position, position + length));
+				if (foundMeaning !== null) {
+					if (position > 0) {
+						// Making the text preceding this word as a separate token
+						tokens.push(this.makeUnknownToken(text.substring(0, position)));
+					}
+
+					tokens.push(foundMeaning);
+
+					if (text.length > (position + length)) {
+						this.splitByDictionarySearches(text.substring(position + length), tokens);
+					}
+
+					return;
+				}
+			}
+		}
+
+		// Not found anything in the whole string
+		tokens.push(this.makeUnknownToken(text));
+	}
+
+	makeUnknownToken (text: string): Token {
+		if (ParticleToken.isParticle(text)) {
+			return new ParticleToken(text);
+		} else {
+			return new Token(text);
+		}
+	}
+
+	searchMeaning (text: string): Token|null {
+		if (this.dictionary.has(text)) {
+			return new WordToken(text, this.dictionary.get(text));
+		}
+
+		for (let i = 1; i < text.length ; i++) {
+			const conjugation = text.substring(i);
+			if (ConjugationForms.hasForm(conjugation)) {
+				const forms = ConjugationForms.getForms(conjugation);
+				const prefix = text.substring(0, i);
+
+				const words: Word[] = [];
+				forms.forEach((form: ConjugationForm) => {
+					words.push(...this.dictionary.get(prefix + form.dictionaryForm));
+				});
+
+				if (words.length > 0) {
+					return new VerbToken(prefix, conjugation, forms, words);
+				}
+			}
+		}
+
+		return null;
 	}
 }

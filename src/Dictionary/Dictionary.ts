@@ -91,4 +91,8 @@ export default class Dictionary {
 	get (text: string): ReadonlyArray<Word> {
 		return this.words.get(text) || [];
 	}
+
+	has (text: string): boolean {
+		return this.words.has(text);
+	}
 }

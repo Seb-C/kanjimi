@@ -96,6 +96,13 @@ class ConjugationFormsClass {
 		// tslint:enable
 	}
 
+	addNegativeBasedForms (prefix: string, dictionaryForm: string) {
+		// tslint:disable
+		this.addForm(new ConjugationForm(prefix + 'ない',     dictionaryForm, ConjugationType.NEGATIVE));
+		this.addForm(new ConjugationForm(prefix + 'なかった', dictionaryForm, ConjugationType.NEGATIVE_PAST));
+		// tslint:enable
+	}
+
 	hasForm(form: string): boolean {
 		return this.formsByConjugation.hasOwnProperty(form);
 	}
@@ -147,6 +154,32 @@ conjugationForms.addStem('り', 'りる');
 conjugationForms.addStem('り', 'る'  );
 conjugationForms.addStem('れ', 'れる');
 
+conjugationForms.addNegativeBasedForms('わ', 'う'  );
+conjugationForms.addNegativeBasedForms('か', 'く'  );
+conjugationForms.addNegativeBasedForms('が', 'ぐ'  );
+conjugationForms.addNegativeBasedForms('さ', 'す'  );
+conjugationForms.addNegativeBasedForms('た', 'つ'  );
+conjugationForms.addNegativeBasedForms('な', 'ぬ'  );
+conjugationForms.addNegativeBasedForms('ば', 'ぶ'  );
+conjugationForms.addNegativeBasedForms('ま', 'む'  );
+conjugationForms.addNegativeBasedForms('ら', 'る'  );
+conjugationForms.addNegativeBasedForms('い', 'いる');
+conjugationForms.addNegativeBasedForms('え', 'える');
+conjugationForms.addNegativeBasedForms('き', 'きる');
+conjugationForms.addNegativeBasedForms('け', 'ける');
+conjugationForms.addNegativeBasedForms('し', 'しる');
+conjugationForms.addNegativeBasedForms('せ', 'せる');
+conjugationForms.addNegativeBasedForms('ち', 'ちる');
+conjugationForms.addNegativeBasedForms('て', 'てる');
+conjugationForms.addNegativeBasedForms('に', 'にる');
+conjugationForms.addNegativeBasedForms('ね', 'ねる');
+conjugationForms.addNegativeBasedForms('ひ', 'ひる');
+conjugationForms.addNegativeBasedForms('へ', 'へる');
+conjugationForms.addNegativeBasedForms('み', 'みる');
+conjugationForms.addNegativeBasedForms('め', 'める');
+conjugationForms.addNegativeBasedForms('り', 'りる');
+conjugationForms.addNegativeBasedForms('れ', 'れる');
+
 conjugationForms.addForm(new ConjugationForm('って', 'う'  , ConjugationType.TE));
 conjugationForms.addForm(new ConjugationForm('いて', 'く'  , ConjugationType.TE));
 conjugationForms.addForm(new ConjugationForm('いで', 'ぐ'  , ConjugationType.TE));
@@ -172,32 +205,6 @@ conjugationForms.addForm(new ConjugationForm('みて', 'みる', ConjugationType
 conjugationForms.addForm(new ConjugationForm('めて', 'める', ConjugationType.TE));
 conjugationForms.addForm(new ConjugationForm('りて', 'りる', ConjugationType.TE));
 conjugationForms.addForm(new ConjugationForm('れて', 'れる', ConjugationType.TE));
-
-conjugationForms.addForm(new ConjugationForm('わなかった', 'う'  , ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('かなかった', 'く'  , ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('がなかった', 'ぐ'  , ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('さなかった', 'す'  , ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('たなかった', 'つ'  , ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ななかった', 'ぬ'  , ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ばなかった', 'ぶ'  , ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('まなかった', 'む'  , ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('らなかった', 'る'  , ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('いなかった', 'いる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('えなかった', 'える', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('きなかった', 'きる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('けなかった', 'ける', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('しなかった', 'しる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('せなかった', 'せる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ちなかった', 'ちる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('てなかった', 'てる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('になかった', 'にる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ねなかった', 'ねる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ひなかった', 'ひる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('へなかった', 'へる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('みなかった', 'みる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('めなかった', 'める', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('りなかった', 'りる', ConjugationType.NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('れなかった', 'れる', ConjugationType.NEGATIVE_PAST));
 
 conjugationForms.addForm(new ConjugationForm('え'  , 'う'  , ConjugationType.IMPERATIVE));
 conjugationForms.addForm(new ConjugationForm('け'  , 'く'  , ConjugationType.IMPERATIVE));
@@ -328,32 +335,6 @@ conjugationForms.addForm(new ConjugationForm('みた', 'みる', ConjugationType
 conjugationForms.addForm(new ConjugationForm('めた', 'める', ConjugationType.PAST));
 conjugationForms.addForm(new ConjugationForm('りた', 'りる', ConjugationType.PAST));
 conjugationForms.addForm(new ConjugationForm('れた', 'れる', ConjugationType.PAST));
-
-conjugationForms.addForm(new ConjugationForm('わない', 'う'  , ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('かない', 'く'  , ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('がない', 'ぐ'  , ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('さない', 'す'  , ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('たない', 'つ'  , ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('なない', 'ぬ'  , ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('ばない', 'ぶ'  , ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('まない', 'む'  , ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('らない', 'る'  , ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('いない', 'いる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('えない', 'える', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('きない', 'きる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('けない', 'ける', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('しない', 'しる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('せない', 'せる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('ちない', 'ちる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('てない', 'てる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('にない', 'にる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('ねない', 'ねる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('ひない', 'ひる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('へない', 'へる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('みない', 'みる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('めない', 'める', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('りない', 'りる', ConjugationType.NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('れない', 'れる', ConjugationType.NEGATIVE));
 
 conjugationForms.addForm(new ConjugationForm('われる'  , 'う'  , ConjugationType.PASSIVE));
 conjugationForms.addForm(new ConjugationForm('かれる'  , 'く'  , ConjugationType.PASSIVE));

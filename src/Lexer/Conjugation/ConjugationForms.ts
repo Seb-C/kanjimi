@@ -4,6 +4,7 @@ import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
 class ConjugationFormsClass {
 	readonly formsByConjugation: { [conjugation: string]: ConjugationForm[] } = {};
 	readonly conjugationsByPlainForm: { [conjugation: string]: ConjugationForm[] } = {};
+
 	private readonly FORMS_CONVERT: Map<
 		ConjugationType,
 		Map<ConjugationType, ConjugationType>
@@ -31,9 +32,6 @@ class ConjugationFormsClass {
 			[ConjugationType.POLITE_NEGATIVE_PAST, ConjugationType.POTENTIAL_POLITE_NEGATIVE_PAST],
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.POTENTIAL_NEGATIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE, ConjugationType.POTENTIAL_POLITE_NEGATIVE],
-		])],
-		[ConjugationType.POLITE, new Map([
-			[ConjugationType.PAST, ConjugationType.POLITE_PAST],
 		])],
 		[ConjugationType.PASSIVE_POLITE, new Map([
 			[ConjugationType.PAST, ConjugationType.PASSIVE_POLITE_PAST],
@@ -88,6 +86,16 @@ class ConjugationFormsClass {
 		}
 	}
 
+	addStem (prefix: string, dictionaryForm: string) {
+		// tslint:disable
+		this.addForm(new ConjugationForm(prefix + 'ます',         dictionaryForm, ConjugationType.POLITE));
+		this.addForm(new ConjugationForm(prefix + 'ませんでした', dictionaryForm, ConjugationType.POLITE_NEGATIVE_PAST));
+		this.addForm(new ConjugationForm(prefix + 'ません',       dictionaryForm, ConjugationType.POLITE_NEGATIVE));
+		this.addForm(new ConjugationForm(prefix + 'ましょう',     dictionaryForm, ConjugationType.POLITE_VOLITIONAL));
+		this.addForm(new ConjugationForm(prefix + 'ました',       dictionaryForm, ConjugationType.POLITE_PAST));
+		// tslint:enable
+	}
+
 	hasForm(form: string): boolean {
 		return this.formsByConjugation.hasOwnProperty(form);
 	}
@@ -100,87 +108,44 @@ class ConjugationFormsClass {
 const conjugationForms = new ConjugationFormsClass();
 export default conjugationForms;
 
-// Forms that cannot be derived
-
 // tslint:disable
 
-conjugationForms.addForm(new ConjugationForm('いませんでした', 'いる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('いませんでした', 'う'  , ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('えませんでした', 'える', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('きませんでした', 'きる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('きませんでした', 'く'  , ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ぎませんでした', 'ぐ'  , ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('けませんでした', 'ける', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('しませんでした', 'しる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('しませんでした', 'す'  , ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('せませんでした', 'せる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ちませんでした', 'ちる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ちませんでした', 'つ'  , ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('てませんでした', 'てる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('にませんでした', 'にる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('にませんでした', 'ぬ'  , ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ねませんでした', 'ねる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('ひませんでした', 'ひる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('びませんでした', 'ぶ'  , ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('へませんでした', 'へる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('みませんでした', 'みる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('みませんでした', 'む'  , ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('めませんでした', 'める', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('りませんでした', 'りる', ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('りませんでした', 'る'  , ConjugationType.POLITE_NEGATIVE_PAST));
-conjugationForms.addForm(new ConjugationForm('れませんでした', 'れる', ConjugationType.POLITE_NEGATIVE_PAST));
-
-conjugationForms.addForm(new ConjugationForm('いません', 'いる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('いません', 'う'  , ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('えません', 'える', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('きません', 'きる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('きません', 'く'  , ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('ぎません', 'ぐ'  , ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('けません', 'ける', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('しません', 'しる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('しません', 'す'  , ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('せません', 'せる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('ちません', 'ちる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('ちません', 'つ'  , ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('てません', 'てる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('にません', 'にる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('にません', 'ぬ'  , ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('ねません', 'ねる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('ひません', 'ひる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('びません', 'ぶ'  , ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('へません', 'へる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('みません', 'みる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('みません', 'む'  , ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('めません', 'める', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('りません', 'りる', ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('りません', 'る'  , ConjugationType.POLITE_NEGATIVE));
-conjugationForms.addForm(new ConjugationForm('れません', 'れる', ConjugationType.POLITE_NEGATIVE));
-
-conjugationForms.addForm(new ConjugationForm('いましょう', 'いる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('いましょう', 'う'  , ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('えましょう', 'える', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('きましょう', 'きる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('きましょう', 'く'  , ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('ぎましょう', 'ぐ'  , ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('けましょう', 'ける', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('しましょう', 'しる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('しましょう', 'す'  , ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('せましょう', 'せる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('ちましょう', 'ちる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('ちましょう', 'つ'  , ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('てましょう', 'てる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('にましょう', 'にる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('にましょう', 'ぬ'  , ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('ねましょう', 'ねる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('ひましょう', 'ひる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('びましょう', 'ぶ'  , ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('へましょう', 'へる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('みましょう', 'みる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('みましょう', 'む'  , ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('めましょう', 'める', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('りましょう', 'りる', ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('りましょう', 'る'  , ConjugationType.POLITE_VOLITIONAL));
-conjugationForms.addForm(new ConjugationForm('れましょう', 'れる', ConjugationType.POLITE_VOLITIONAL));
+conjugationForms.addStem('い', 'いる');
+conjugationForms.addStem('い', 'う'  );
+conjugationForms.addStem('え', 'える');
+conjugationForms.addStem('き', 'きる');
+conjugationForms.addStem('ぎ', 'ぎる');
+conjugationForms.addStem('き', 'くる');
+conjugationForms.addStem('き', 'く'  );
+conjugationForms.addStem('ぎ', 'ぐ'  );
+conjugationForms.addStem('け', 'ける');
+conjugationForms.addStem('げ', 'げる');
+conjugationForms.addStem('し', 'しる');
+conjugationForms.addStem('じ', 'じる');
+conjugationForms.addStem('し', 'す'  );
+conjugationForms.addStem('せ', 'せる');
+conjugationForms.addStem('ぜ', 'ぜる');
+conjugationForms.addStem('ち', 'ちる');
+conjugationForms.addStem('ぢ', 'ぢる');
+conjugationForms.addStem('ち', 'つ'  );
+conjugationForms.addStem('て', 'てる');
+conjugationForms.addStem('で', 'でる');
+conjugationForms.addStem('に', 'にる');
+conjugationForms.addStem('に', 'ぬ'  );
+conjugationForms.addStem('ね', 'ねる');
+conjugationForms.addStem('ひ', 'ひる');
+conjugationForms.addStem('び', 'びる');
+conjugationForms.addStem('ぴ', 'ぴる');
+conjugationForms.addStem('び', 'ぶ'  );
+conjugationForms.addStem('へ', 'へる');
+conjugationForms.addStem('べ', 'べる');
+conjugationForms.addStem('ぺ', 'ぺる');
+conjugationForms.addStem('み', 'みる');
+conjugationForms.addStem('み', 'む'  );
+conjugationForms.addStem('め', 'める');
+conjugationForms.addStem('り', 'りる');
+conjugationForms.addStem('り', 'る'  );
+conjugationForms.addStem('れ', 'れる');
 
 conjugationForms.addForm(new ConjugationForm('って', 'う'  , ConjugationType.TE));
 conjugationForms.addForm(new ConjugationForm('いて', 'く'  , ConjugationType.TE));
@@ -364,34 +329,6 @@ conjugationForms.addForm(new ConjugationForm('めた', 'める', ConjugationType
 conjugationForms.addForm(new ConjugationForm('りた', 'りる', ConjugationType.PAST));
 conjugationForms.addForm(new ConjugationForm('れた', 'れる', ConjugationType.PAST));
 
-// Forms that may be derived but need to be defined first
-
-conjugationForms.addForm(new ConjugationForm('います', 'いる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('います', 'う'  , ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('えます', 'える', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('きます', 'きる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('きます', 'く'  , ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('ぎます', 'ぐ'  , ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('けます', 'ける', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('します', 'しる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('します', 'す'  , ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('せます', 'せる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('ちます', 'ちる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('ちます', 'つ'  , ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('てます', 'てる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('にます', 'にる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('にます', 'ぬ'  , ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('ねます', 'ねる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('ひます', 'ひる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('びます', 'ぶ'  , ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('へます', 'へる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('みます', 'みる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('みます', 'む'  , ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('めます', 'める', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('ります', 'りる', ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('ります', 'る'  , ConjugationType.POLITE));
-conjugationForms.addForm(new ConjugationForm('れます', 'れる', ConjugationType.POLITE));
-
 conjugationForms.addForm(new ConjugationForm('わない', 'う'  , ConjugationType.NEGATIVE));
 conjugationForms.addForm(new ConjugationForm('かない', 'く'  , ConjugationType.NEGATIVE));
 conjugationForms.addForm(new ConjugationForm('がない', 'ぐ'  , ConjugationType.NEGATIVE));
@@ -417,8 +354,6 @@ conjugationForms.addForm(new ConjugationForm('みない', 'みる', ConjugationT
 conjugationForms.addForm(new ConjugationForm('めない', 'める', ConjugationType.NEGATIVE));
 conjugationForms.addForm(new ConjugationForm('りない', 'りる', ConjugationType.NEGATIVE));
 conjugationForms.addForm(new ConjugationForm('れない', 'れる', ConjugationType.NEGATIVE));
-
-// Forms that may be derived
 
 conjugationForms.addForm(new ConjugationForm('われる'  , 'う'  , ConjugationType.PASSIVE));
 conjugationForms.addForm(new ConjugationForm('かれる'  , 'く'  , ConjugationType.PASSIVE));

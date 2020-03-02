@@ -1,20 +1,8 @@
-conjugation list is wrong, missing characters like べる (only へる exists)
-    'きる' -> giru
-    'ける' -> geru
-    'しる' -> jiru
-    'せる' -> zeru
-    'ちる' -> jiru
-    'てる' -> deru
-    'ひる' -> biru
-    'ひる' -> piru
-    'へる' -> beru
-    'へる' -> peru
-    -> compare again to the grammar lists to be sure that everything is here (-u/-i might have become only u/i?)
-
-add a test for splitByDictionarySearches
 fix the failing test (the code is wrong?)
+add a test for splitByDictionarySearches
 decomment last test sentences and test it properly
 
+check and fix all the verb conjugations (except the stem already done)
 other forms based on i: yaritai, tabetai, tabetara
 verbs without kanji: やりたい
 add a test for the i-adjectives in a sentence (and debug the lexer if needed)

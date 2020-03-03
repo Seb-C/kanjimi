@@ -33,6 +33,7 @@ describe('Lexer', async () => {
 		dictionary.add(new Word('行く', '', '', '', []));
 		dictionary.add(new Word('物', '', '', '', []));
 		dictionary.add(new Word('食べる', '', '', '', []));
+		dictionary.add(new Word('食べ物', '', '', '', []));
 		dictionary.add(new Word('たくさん', '', '', '', []));
 		dictionary.add(new Word('感じ', '', '', '', []));
 		dictionary.add(new Word('ある', '', '', '', []));
@@ -76,15 +77,25 @@ describe('Lexer', async () => {
 		expect(word.words.length > 0).toBe(true);
 		expect(verb.words.length > 0).toBe(true);
 	});
-	fit('Test searchMeaning', () => {
+	it('Test searchMeaning', () => {
 		let result: Token|null = lexer.searchMeaning('食べました');
 		expect(result instanceof VerbToken).toBe(true);
-		expect((<VerbToken>result).verb).toBe('食べ');
-		expect((<VerbToken>result).conjugation).toBe('ました');
+		expect((<VerbToken>result).verb).toBe('食');
+		expect((<VerbToken>result).conjugation).toBe('べました');
 		result = lexer.searchMeaning('好き');
 		expect((<Token>result).text).toBe('好き');
 		result = lexer.searchMeaning('あいうえおしています');
 		expect(result).toBe(null);
+	});
+	it('Test splitByDictionarySearches', () => {
+		const tokens: Token[] = [];
+		lexer.splitByDictionarySearches('日本の食べ物が好き', tokens);
+		expect(tokens.length).toBe(5);
+		expect(tokens[0].text).toBe('日本');
+		expect(tokens[1].text).toBe('の');
+		expect(tokens[2].text).toBe('食べ物');
+		expect(tokens[3].text).toBe('が');
+		expect(tokens[4].text).toBe('好き');
 	});
 	it('Multi-token kanji sequences', () => {
 		testTokensText([

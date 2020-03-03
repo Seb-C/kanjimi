@@ -1,11 +1,8 @@
-fix the failing test (the code is wrong?)
-add a test for splitByDictionarySearches
 decomment last test sentences and test it properly
 
 https://en.wikipedia.org/wiki/Japanese_irregular_verbs
 check and fix all the verb conjugations (except the stem already done)
 other forms based on i: yaritai, tabetai, tabetara
-verbs without kanji: やりたい
 add a test for the i-adjectives in a sentence (and debug the lexer if needed)
 suru irregular
 kuru irregular

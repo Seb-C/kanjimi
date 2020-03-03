@@ -1,13 +1,6 @@
-decomment last test sentences and test it properly
-
-https://en.wikipedia.org/wiki/Japanese_irregular_verbs
-check and fix all the verb conjugations (except the stem already done)
-other forms based on i: yaritai, tabetai, tabetara
+fix now broken conjugation tests
 add a test for the i-adjectives in a sentence (and debug the lexer if needed)
-suru irregular
-kuru irregular
-desu? + dewa nai/arimasen
-
+add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 ConjugationForms -> use maps instead of objects (and everywhere)
 fix the extension multiple errors
 simplify the extension rendering

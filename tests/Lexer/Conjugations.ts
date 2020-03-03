@@ -24,7 +24,7 @@ describe('Lexer', async () => {
 		checkForm('って',             'る', ConjugationType.TE);
 		checkForm('らなかった',       'る', ConjugationType.NEGATIVE_PAST);
 		checkForm('れ',               'る', ConjugationType.IMPERATIVE);
-		checkForm('るな',             'る', ConjugationType.PROHIBITIVE);
+		checkForm('りませ',           'る', ConjugationType.IMPERATIVE_POLITE);
 		checkForm('れば',             'る', ConjugationType.CONDITIONAL);
 		checkForm('ろう',             'る', ConjugationType.VOLITIONAL);
 		checkForm('った',             'る', ConjugationType.PAST);

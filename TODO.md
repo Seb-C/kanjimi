@@ -1,4 +1,3 @@
-fix now broken conjugation tests
 add a test for the i-adjectives in a sentence (and debug the lexer if needed)
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 ConjugationForms -> use maps instead of objects (and everywhere)

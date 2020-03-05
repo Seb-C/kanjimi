@@ -44,21 +44,23 @@ class ConjugationFormsClass {
 		])],
 	]);
 
-	public fromPlainForm(plain: string, formTo: ConjugationType): string {
-		for (let i = plain.length; i >= 0; i--) {
-			const conjugation = plain.substr(-1 * i);
+	public conjugate(plain: string, formTo: ConjugationType): string[] {
+		const possibleForms: string[] = [];
+		for (let i = 0; i < plain.length; i++) {
+			const conjugation = plain.substring(i);
 
 			if (this.conjugationsByPlainForm[conjugation]) {
 				const forms = this.conjugationsByPlainForm[conjugation];
+
 				for (let j = 0; j < forms.length; j++) {
 					if (forms[j].type === formTo) {
-						return plain.substr(0, plain.length - i) + forms[j].conjugation;
+						possibleForms.push(plain.substr(0, i) + forms[j].conjugation);
 					}
 				}
 			}
 		}
 
-		throw new Error(`Unable to find the stem form of ${plain}.`);
+		return possibleForms;
 	}
 
 	addForm (form: ConjugationForm) {
@@ -77,11 +79,13 @@ class ConjugationFormsClass {
 		if (this.FORMS_CONVERT.has(form.type)) {
 			(<Map<ConjugationType, ConjugationType>>(this.FORMS_CONVERT.get(form.type)))
 				.forEach((targetForm: ConjugationType, formCombinedWith: ConjugationType) => {
-					this.addForm(new ConjugationForm(
-						this.fromPlainForm(form.conjugation, formCombinedWith),
-						form.dictionaryForm,
-						targetForm,
-					));
+					this.conjugate(form.conjugation, formCombinedWith).forEach((conjugatedForm: string) => {
+						this.addForm(new ConjugationForm(
+							conjugatedForm,
+							form.dictionaryForm,
+							targetForm,
+						));
+					});
 				});
 		}
 	}

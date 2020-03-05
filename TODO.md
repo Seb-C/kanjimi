@@ -1,4 +1,3 @@
-Search and fix the TODOs in the codebase
 fix the extension multiple errors
 simplify the extension rendering
 Do not show reading for loan words (katakana)
@@ -12,7 +11,7 @@ Validate input via an express middleware?
 webpack: different typescript config for each (lib and type keys for example)
 implement down migrations
 half width characters? full-width roman chars and letters?
-Filter languages in server instead of client (see TODO in WordToken)
+Filter languages in server instead of client (see getBestWord function in WordToken)
 Add all data about a word as a tooltip
 properly implement all the JSONApi spec (+ relationships)
 Show a loading indicator

@@ -2,8 +2,8 @@ import ConjugationType from 'Lexer/Conjugation/ConjugationType';
 import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
 
 class ConjugationFormsClass {
-	readonly formsByConjugation: { [conjugation: string]: ConjugationForm[] } = {};
-	readonly conjugationsByPlainForm: { [conjugation: string]: ConjugationForm[] } = {};
+	readonly formsByConjugation: Map<string, ConjugationForm[]> = new Map();
+	readonly conjugationsByPlainForm: Map<string, ConjugationForm[]> = new Map();
 
 	private readonly FORMS_CONVERT: Map<
 		ConjugationType,
@@ -49,8 +49,8 @@ class ConjugationFormsClass {
 		for (let i = 0; i < plain.length; i++) {
 			const conjugation = plain.substring(i);
 
-			if (this.conjugationsByPlainForm[conjugation]) {
-				const forms = this.conjugationsByPlainForm[conjugation];
+			if (this.conjugationsByPlainForm.has(conjugation)) {
+				const forms = <ConjugationForm[]>this.conjugationsByPlainForm.get(conjugation);
 
 				for (let j = 0; j < forms.length; j++) {
 					if (forms[j].type === formTo) {
@@ -65,16 +65,18 @@ class ConjugationFormsClass {
 
 	addForm (form: ConjugationForm) {
 		// Adding to the dictionary
-		if (!this.formsByConjugation.hasOwnProperty(form.conjugation)) {
-			this.formsByConjugation[form.conjugation] = [];
+		if (this.formsByConjugation.has(form.conjugation)) {
+			(<ConjugationForm[]>this.formsByConjugation.get(form.conjugation)).push(form);
+		} else {
+			this.formsByConjugation.set(form.conjugation, [form]);
 		}
-		this.formsByConjugation[form.conjugation].push(form);
 
 		// Adding to the reversed dictionary
-		if (!this.conjugationsByPlainForm.hasOwnProperty(form.dictionaryForm)) {
-			this.conjugationsByPlainForm[form.dictionaryForm] = [];
+		if (this.conjugationsByPlainForm.has(form.dictionaryForm)) {
+			(<ConjugationForm[]>this.conjugationsByPlainForm.get(form.dictionaryForm)).push(form);
+		} else {
+			this.conjugationsByPlainForm.set(form.dictionaryForm, [form]);
 		}
-		this.conjugationsByPlainForm[form.dictionaryForm].push(form);
 
 		if (this.FORMS_CONVERT.has(form.type)) {
 			(<Map<ConjugationType, ConjugationType>>(this.FORMS_CONVERT.get(form.type)))
@@ -119,11 +121,11 @@ class ConjugationFormsClass {
 	}
 
 	hasForm(form: string): boolean {
-		return this.formsByConjugation.hasOwnProperty(form);
+		return this.formsByConjugation.has(form);
 	}
 
 	getForms(form: string): ReadonlyArray<ConjugationForm> {
-		return <ReadonlyArray<ConjugationForm>>(this.formsByConjugation[form] || []);
+		return <ReadonlyArray<ConjugationForm>>(this.formsByConjugation.get(form) || []);
 	}
 }
 

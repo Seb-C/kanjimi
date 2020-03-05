@@ -1,5 +1,4 @@
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
-ConjugationForms -> use maps instead of objects (and everywhere)
 fix the extension multiple errors
 simplify the extension rendering
 Do not show reading for loan words (katakana)

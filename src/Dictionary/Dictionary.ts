@@ -5,7 +5,7 @@ import * as Path from 'path';
 import * as ReadLine from 'readline';
 
 export default class Dictionary {
-	private words: Map<string, Word[]> = new Map();
+	private readonly words: Map<string, Word[]> = new Map();
 
 	async load(): Promise<void> {
 		return new Promise((resolve, reject) => {

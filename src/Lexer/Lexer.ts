@@ -12,8 +12,8 @@ import Dictionary from 'Dictionary/Dictionary';
 import Word from 'Dictionary/Word';
 
 export default class Lexer {
-	protected dictionary: Dictionary;
-	protected tokenizer: CharTypeTokenizer;
+	protected readonly dictionary: Dictionary;
+	protected readonly tokenizer: CharTypeTokenizer;
 
 	constructor(dictionary: Dictionary) {
 		this.dictionary = dictionary;

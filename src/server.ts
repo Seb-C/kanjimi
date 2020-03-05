@@ -41,10 +41,19 @@ const runServer = async (application: express.Application): Promise<void> => {
 	server.use(bodyParser.json());
 	server.use(waitForStartupMiddleware);
 	server.post('/analyze', (request: express.Request, response: express.Response) => {
-		const sentence: string = request.body.sentence.trim();
-		const tokenized = lexer.analyze(sentence);
-		const serialized = serializer.toJsonApi(tokenized);
-		response.json(serialized);
+		const sentences: string[] = request.body.sentences;
+		const result: any[] = [];
+		for (let i = 0; i < sentences.length; i++) {
+			result.push(
+				serializer.toJsonApi(
+					lexer.analyze(
+						sentences[i].trim(),
+					),
+				),
+			);
+		}
+
+		response.json(result);
 	});
 
 	await dictionary.load();

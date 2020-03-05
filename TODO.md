@@ -1,10 +1,9 @@
-fix the extension multiple errors
+fix the extension remaining errors
 simplify the extension rendering
 Do not show reading for loan words (katakana)
-
+avoid the global loop that slows down the browser?
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 update vim syntax colours broken (see bottom of the dictionary)
-improve the UI performance
 commit dictionary?
 Separate server, client and common classes?
 Validate input via an express middleware?
@@ -27,3 +26,4 @@ places and countries names?
 store unfound words?
 display history
 manual lookup history
+make the enum values hardcoded to avoid future compatibility issues

@@ -16,28 +16,28 @@ const containsJapanese = (text: string) => {
 	return false;
 };
 
-const TAG_SENTENCE = 'yometai-sentence';
-const TAG_TOKEN = 'yometai-token';
-const TAG_FURIGANA = 'yometai-furigana';
-const TAG_WORD = 'yometai-word';
-const TAG_TRANSLATION = 'yometai-translation';
+const CLASS_SENTENCE = 'yometai-sentence';
+const CLASS_TOKEN = 'yometai-token';
+const CLASS_FURIGANA = 'yometai-furigana';
+const CLASS_WORD = 'yometai-word';
+const CLASS_TRANSLATION = 'yometai-translation';
 const style = document.createElement('style');
 style.textContent = `
-	${TAG_SENTENCE} {
+	.${CLASS_SENTENCE} {
         clear: both;
         margin-bottom: 30px;
         display: inline;
     }
 
-	${TAG_SENTENCE} > ${TAG_TOKEN} {
+	.${CLASS_SENTENCE} > .${CLASS_TOKEN} {
 		display: inline-block;
         margin-bottom: 15px;
         height: 2rem;
         text-align: center;
     }
 
-	${TAG_SENTENCE} > ${TAG_TOKEN} ${TAG_FURIGANA},
-	${TAG_SENTENCE} > ${TAG_TOKEN} ${TAG_TRANSLATION} {
+	.${CLASS_SENTENCE} > .${CLASS_TOKEN} .${CLASS_FURIGANA},
+	.${CLASS_SENTENCE} > .${CLASS_TOKEN} .${CLASS_TRANSLATION} {
         font-size: 0.5rem;
         display: block;
 		margin: 0 2px;
@@ -45,27 +45,26 @@ style.textContent = `
 `;
 document.body.appendChild(style);
 
-customElements.define(TAG_SENTENCE, class extends HTMLElement {});
-customElements.define(TAG_TOKEN, class extends HTMLElement {});
-customElements.define(TAG_FURIGANA, class extends HTMLElement {});
-customElements.define(TAG_WORD, class extends HTMLElement {});
-customElements.define(TAG_TRANSLATION, class extends HTMLElement {});
-
 const convertNode = (node: Text, tokens: Token[]) => {
-	const container = document.createElement(TAG_SENTENCE);
+	const container = document.createElement('span');
+	container.classList.add(CLASS_SENTENCE);
 
 	tokens.map((token) => {
-		const tokenElement = document.createElement(TAG_TOKEN);
+		const tokenElement = document.createElement('span');
+		tokenElement.classList.add(CLASS_TOKEN);
 
-		const tokenFurigana = document.createElement(TAG_FURIGANA);
+		const tokenFurigana = document.createElement('span');
+		tokenFurigana.classList.add(CLASS_FURIGANA);
 		tokenFurigana.innerText = token.getFurigana() || '\xa0';
 		tokenElement.appendChild(tokenFurigana);
 
-		const tokenWord = document.createElement(TAG_WORD);
+		const tokenWord = document.createElement('span');
+		tokenWord.classList.add(CLASS_WORD);
 		tokenWord.innerText = token.text || '\xa0';
 		tokenElement.appendChild(tokenWord);
 
-		const tokenTranslation = document.createElement(TAG_TRANSLATION);
+		const tokenTranslation = document.createElement('span');
+		tokenTranslation.classList.add(CLASS_TRANSLATION);
 		tokenTranslation.innerText = token.getTranslation() || '\xa0';
 		tokenElement.appendChild(tokenTranslation);
 
@@ -75,11 +74,11 @@ const convertNode = (node: Text, tokens: Token[]) => {
 	(<Node>node.parentNode).replaceChild(container, node);
 };
 
-const hasParentTag = (node: Node, tag: string): boolean => {
+const hasParentClass = (node: Node, cssClass: string): boolean => {
 	let cur: Node = node;
 
 	while (cur !== null) {
-		if (cur instanceof Element && (<Element>cur).tagName.toLowerCase() === tag) {
+		if (cur instanceof Element && (<Element>cur).classList.contains(cssClass)) {
 			return true;
 		}
 
@@ -101,9 +100,10 @@ const getElementsToConvert = function* (): Iterable<Text> {
 				&& containerType !== 'script'
 				&& containerType !== 'style'
 				&& containerType !== 'noscript'
+				&& containerType !== 'textarea'
 				&& containsJapanese(text)
 				&& elementVisible(node.parentNode, 0.1)
-				&& !hasParentTag(node, TAG_SENTENCE)
+				&& !hasParentClass(node, CLASS_SENTENCE)
 			) {
 				return NodeFilter.FILTER_ACCEPT;
 			}
@@ -133,14 +133,26 @@ const convertVisibleElements = async () => {
 	}
 
 	processing = true;
+
+	const nodes: Text[] = [];
+	const strings: string[] = [];
 	for (const textNode of getElementsToConvert()) {
+		nodes.push(textNode);
+		strings.push(textNode.data.trim());
+	}
+
+	if (nodes.length > 0) {
 		try {
-			const data = await analyze(textNode.data.trim());
-			convertNode(textNode, data);
+			const data = await analyze(strings);
+			for (let i = 0; i < data.length; i++) {
+				convertNode(nodes[i], data[i]);
+			}
 		} catch (e) {
-			console.error(e, textNode);
+			console.error('Exception: ', e.toString());
+			console.error('Strings: ', ...strings);
 		}
 	}
+
 	processing = false;
 };
 

@@ -23,4 +23,16 @@ describe('Api Serializer', () => {
 		expect(data.translation).toBe('to eat');
 		expect(data.tags[0]).toBe(Tag.UNCLASSIFIED);
 	});
+
+	it('Unserialize an array of arrays', async () => {
+		const serializer = new Serializer();
+		const word = new Word('食べる', 'たべる', 'en', 'to eat', [Tag.UNCLASSIFIED]);
+
+		const serialized: any = serializer.toJsonApi([[word]]);
+
+		const data = serializer.fromJsonApi<Word[][]>(serialized);
+		expect(data.length).toBe(1);
+		expect(data[0].length).toBe(1);
+		expect(data[0][0].constructor).toBe(Word);
+	});
 });

@@ -39,6 +39,8 @@ describe('Lexer', async () => {
 		dictionary.add(new Word('ある', '', '', '', []));
 		dictionary.add(new Word('言葉', '', '', '', []));
 		dictionary.add(new Word('好き', '', '', '', []));
+		dictionary.add(new Word('楽しい', '', '', '', []));
+		dictionary.add(new Word('高い', '', '', '', []));
 
 		lexer = new Lexer(dictionary);
 	});
@@ -111,5 +113,21 @@ describe('Lexer', async () => {
 	});
 	it('Hiragana chains with a particle at the beginning', async () => {
 		testTokensText(['私', 'は', 'そんな', '物', 'を', '食べる']);
+	});
+	it('Conjugated i-adjective recognition', async () => {
+		const result = lexer.analyze('このイベントは高かったです。');
+		expect(result[3] instanceof VerbToken).toBe(true);
+		const adjective = <VerbToken>result[3];
+		expect(adjective.conjugation).toBe('かった');
+		expect(adjective.verb).toBe('高');
+		expect(adjective.forms.map(v => v.dictionaryForm)).toContain('い');
+	});
+	it('Conjugated shii-adjective recognition', async () => {
+		const result = lexer.analyze('このイベントは楽しかったです。');
+		expect(result[3] instanceof VerbToken).toBe(true);
+		const adjective = <VerbToken>result[3];
+		expect(adjective.conjugation).toBe('しかった');
+		expect(adjective.verb).toBe('楽');
+		expect(adjective.forms.map(v => v.dictionaryForm)).toContain('しい');
 	});
 });

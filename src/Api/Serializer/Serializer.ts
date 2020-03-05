@@ -1,25 +1,23 @@
 import * as types from 'Api/Serializer/types';
 
 export default class Serializer {
-	private readonly types: Readonly<{ [type: string]: Object }>;
+	private readonly typesByClassName: Map<string, Object> = new Map();
+	private readonly classNamesByType: Map<Object, string> = new Map();
 
 	constructor() {
-		this.types = types;
+		const allTypes: { [type: string]: Object } = types;
+		for (const type in allTypes) {
+			this.typesByClassName.set(type, allTypes[type]);
+			this.classNamesByType.set(allTypes[type], type);
+		}
 	}
 
 	protected getType(className: Object): string|null {
-		// TODO optimize this with a map
-		for (const type in this.types) {
-			if (this.types[type] === className) {
-				return type;
-			}
-		}
-
-		return null;
+		return this.classNamesByType.get(className) || null;
 	}
 
 	protected getClass(type: string): Object|null {
-		return this.types[type] || null;
+		return this.typesByClassName.get(type) || null;
 	}
 
 	toJsonApi (o: any): any {

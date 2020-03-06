@@ -1,5 +1,5 @@
 import 'jasmine';
-import Word from 'Server/Dictionary/Word';
+import Word from 'Common/Models/Word';
 
 describe('Word', () => {
 	it('getShortTranslation method', async () => {

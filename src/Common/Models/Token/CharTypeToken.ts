@@ -1,5 +1,5 @@
-import Token from 'Server/Lexer/Token/Token';
-import CharType from 'Common/Misc/CharType';
+import Token from 'Common/Models/Token/Token';
+import CharType from 'Common/Types/CharType';
 
 export default class CharTypeToken extends Token {
 	public readonly charType: CharType;

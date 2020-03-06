@@ -1,6 +1,6 @@
-import ConjugationType from 'Server/Lexer/Conjugation/ConjugationType';
+import ConjugationType from 'Common/Types/ConjugationType';
 
-export default class ConjugationForm {
+export default class Conjugation {
 	readonly conjugation: string;
 	readonly dictionaryForm: string;
 	readonly type: ConjugationType;

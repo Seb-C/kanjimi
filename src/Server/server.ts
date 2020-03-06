@@ -1,5 +1,5 @@
 import Lexer from 'Server/Lexer/Lexer';
-import Dictionary from 'Server/Dictionary/Dictionary';
+import Dictionary from 'Server/Lexer/Dictionary';
 import Database from 'Server/Database/Database';
 import Serializer from 'Common/Api/Serializer';
 import express = require('express');

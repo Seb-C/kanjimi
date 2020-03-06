@@ -1,13 +1,13 @@
 import 'jasmine';
-import ConjugationForm from 'Server/Lexer/Conjugation/ConjugationForm';
-import ConjugationForms from 'Server/Lexer/Conjugation/ConjugationForms';
-import ConjugationType from 'Server/Lexer/Conjugation/ConjugationType';
+import Conjugation from 'Common/Models/Conjugation';
+import Conjugations from 'Server/Lexer/Conjugations';
+import ConjugationType from 'Common/Types/ConjugationType';
 
 describe('Lexer', async () => {
 	it('existing verb forms', async () => {
 		const checkForm = (conjugation: string, plain: string, type: ConjugationType) => {
-			const forms = ConjugationForms.getForms(conjugation);
-			const found = forms.some((form: ConjugationForm): boolean => {
+			const forms = Conjugations.getForms(conjugation);
+			const found = forms.some((form: Conjugation): boolean => {
 				return (
 					form.type === type
 					&& form.dictionaryForm === plain
@@ -69,7 +69,7 @@ describe('Lexer', async () => {
 
 	it('conjugate with complex forms', async () => {
 		const checkForm = (conjugation: string, plain: string, type: ConjugationType) => {
-			const forms = ConjugationForms.conjugate(plain, type);
+			const forms = Conjugations.conjugate(plain, type);
 			const doesContainTheForm = forms.some((form: string) => form === conjugation);
 			expect(doesContainTheForm).toBe(
 				true,

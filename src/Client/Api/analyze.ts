@@ -1,4 +1,4 @@
-import Token from 'Server/Lexer/Token/Token';
+import Token from 'Common/Models/Token/Token';
 import Unserializer from 'Common/Api/Unserializer';
 
 const unserializer = new Unserializer();

@@ -1,14 +1,14 @@
 import 'jasmine';
 import Serializer from 'Common/Api/Serializer';
 import Unserializer from 'Common/Api/Unserializer';
-import Word from 'Server/Dictionary/Word';
-import Tag from 'Server/Dictionary/Tag';
+import Word from 'Common/Models/Word';
+import WordTagType from 'Common/Types/WordTagType';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
 describe('Api Serializer', () => {
 	it('All', async () => {
-		const word = new Word('食べる', 'たべる', 'en', 'to eat', [Tag.UNCLASSIFIED]);
+		const word = new Word('食べる', 'たべる', 'en', 'to eat', [WordTagType.UNCLASSIFIED]);
 
 		const serialized: any = (new Serializer()).toJsonApi(word);
 		expect(serialized.data).toBeDefined();
@@ -21,11 +21,11 @@ describe('Api Serializer', () => {
 		expect(data.reading).toBe('たべる');
 		expect(data.translationLang).toBe('en');
 		expect(data.translation).toBe('to eat');
-		expect(data.tags[0]).toBe(Tag.UNCLASSIFIED);
+		expect(data.tags[0]).toBe(WordTagType.UNCLASSIFIED);
 	});
 
 	it('Unserialize an array of arrays', async () => {
-		const word = new Word('食べる', 'たべる', 'en', 'to eat', [Tag.UNCLASSIFIED]);
+		const word = new Word('食べる', 'たべる', 'en', 'to eat', [WordTagType.UNCLASSIFIED]);
 
 		const serialized: any = (new Serializer()).toJsonApi([[word]]);
 

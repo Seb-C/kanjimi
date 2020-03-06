@@ -1,12 +1,12 @@
 import 'jasmine';
 import Lexer from 'Server/Lexer/Lexer';
-import Dictionary from 'Server/Dictionary/Dictionary';
-import Word from 'Server/Dictionary/Word';
-import WordToken from 'Server/Lexer/Token/WordToken';
-import Token from 'Server/Lexer/Token/Token';
-import VerbToken from 'Server/Lexer/Token/VerbToken';
-import ParticleToken from 'Server/Lexer/Token/ParticleToken';
-import PunctuationToken from 'Server/Lexer/Token/PunctuationToken';
+import Dictionary from 'Server/Lexer/Dictionary';
+import Word from 'Common/Models/Word';
+import WordToken from 'Common/Models/Token/WordToken';
+import Token from 'Common/Models/Token/Token';
+import VerbToken from 'Common/Models/Token/VerbToken';
+import ParticleToken from 'Common/Models/Token/ParticleToken';
+import PunctuationToken from 'Common/Models/Token/PunctuationToken';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 

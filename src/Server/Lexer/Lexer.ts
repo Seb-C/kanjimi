@@ -1,27 +1,24 @@
-import ConjugationForms from 'Server/Lexer/Conjugation/ConjugationForms';
-import ConjugationForm from 'Server/Lexer/Conjugation/ConjugationForm';
-import Token from 'Server/Lexer/Token/Token';
-import CharType from 'Common/Misc/CharType';
-import VerbToken from 'Server/Lexer/Token/VerbToken';
-import ParticleToken from 'Server/Lexer/Token/ParticleToken';
-import PunctuationToken from 'Server/Lexer/Token/PunctuationToken';
-import WordToken from 'Server/Lexer/Token/WordToken';
-import CharTypeToken from 'Server/Lexer/Token/CharTypeToken';
-import CharTypeTokenizer from 'Server/Lexer/CharTypeTokenizer';
-import Dictionary from 'Server/Dictionary/Dictionary';
-import Word from 'Server/Dictionary/Word';
+import Conjugations from 'Server/Lexer/Conjugations';
+import Conjugation from 'Common/Models/Conjugation';
+import Token from 'Common/Models/Token/Token';
+import CharType from 'Common/Types/CharType';
+import VerbToken from 'Common/Models/Token/VerbToken';
+import ParticleToken from 'Common/Models/Token/ParticleToken';
+import PunctuationToken from 'Common/Models/Token/PunctuationToken';
+import WordToken from 'Common/Models/Token/WordToken';
+import CharTypeToken from 'Common/Models/Token/CharTypeToken';
+import Dictionary from 'Server/Lexer/Dictionary';
+import Word from 'Common/Models/Word';
 
 export default class Lexer {
 	protected readonly dictionary: Dictionary;
-	protected readonly tokenizer: CharTypeTokenizer;
 
 	constructor(dictionary: Dictionary) {
 		this.dictionary = dictionary;
-		this.tokenizer = new CharTypeTokenizer();
 	}
 
 	analyze (text: string): Token[] {
-		const tokensByCharType: CharTypeToken[] = this.tokenizer.tokenizeByCharType(text);
+		const tokensByCharType: CharTypeToken[] = this.tokenizeByCharType(text);
 
 		const tokens: Token[] = [];
 
@@ -68,6 +65,36 @@ export default class Lexer {
 		return tokens;
 	}
 
+	tokenizeByCharType (text: string): CharTypeToken[] {
+		if (text.length === 0) {
+			return [];
+		}
+
+		const tokens: CharTypeToken[] = [];
+
+		let currentTokenCharType: CharType = CharType.of(text[0]);
+		let currentTokenStartIndex = 0;
+
+		for (let currentIndex = 1; currentIndex < text.length; currentIndex++) {
+			const currentCharType = CharType.of(text[currentIndex]);
+			if (currentTokenCharType !== null && currentCharType !== currentTokenCharType) {
+				tokens.push(new CharTypeToken(
+					text.substring(currentTokenStartIndex, currentIndex),
+					currentTokenCharType,
+				));
+				currentTokenCharType = currentCharType;
+				currentTokenStartIndex = currentIndex;
+			}
+		}
+
+		tokens.push(new CharTypeToken(
+			text.substring(currentTokenStartIndex),
+			currentTokenCharType,
+		));
+
+		return tokens;
+	}
+
 	*splitByDictionarySearches (text: string): Iterable<Token> {
 		for (let position = 0; position < text.length; position++) {
 			for (let length = text.length - position; length > 0; length--) {
@@ -110,12 +137,12 @@ export default class Lexer {
 
 		for (let i = 1; i < text.length ; i++) {
 			const conjugation = text.substring(i);
-			if (ConjugationForms.hasForm(conjugation)) {
-				const forms = ConjugationForms.getForms(conjugation);
+			if (Conjugations.hasForm(conjugation)) {
+				const forms = Conjugations.getForms(conjugation);
 				const prefix = text.substring(0, i);
 
 				const words: Word[] = [];
-				forms.forEach((form: ConjugationForm) => {
+				forms.forEach((form: Conjugation) => {
 					words.push(...this.dictionary.get(prefix + form.dictionaryForm));
 				});
 

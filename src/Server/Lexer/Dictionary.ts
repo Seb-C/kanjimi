@@ -1,5 +1,5 @@
-import Word from 'Server/Dictionary/Word';
-import Tag from 'Server/Dictionary/Tag';
+import Word from 'Common/Models/Word';
+import WordTagType from 'Common/Types/WordTagType';
 import * as FileSystem from 'fs';
 import * as Path from 'path';
 import * as ReadLine from 'readline';
@@ -47,7 +47,7 @@ export default class Dictionary {
 		let word: string = '';
 		let reading: string = '';
 		let translation: string = '';
-		let tags: Tag[] = [];
+		let tags: WordTagType[] = [];
 
 		let colIndex = 0;
 		let colValue = '';
@@ -70,7 +70,7 @@ export default class Dictionary {
 				} else if (colIndex === 2) {
 					translation = colValue;
 				} else if (colIndex === 3) {
-					tags = <Tag[]>colValue.split('/');
+					tags = <WordTagType[]>colValue.split('/');
 				}
 
 				// Going to the next column

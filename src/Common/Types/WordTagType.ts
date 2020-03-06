@@ -1,4 +1,4 @@
-enum Tag {
+enum WordTagType {
 	ADJECTIVE = 'adj-i',
 	ADJECTIVE_AUXILIARY = 'aux-adj',
 	ADJECTIVE_TARU = 'adj-t',
@@ -86,4 +86,4 @@ enum Tag {
 	WHICH_TAKES_THE_VERB_SURU = 'vs',
 }
 
-export default Tag;
+export default WordTagType;

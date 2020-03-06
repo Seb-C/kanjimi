@@ -1,5 +1,5 @@
-import Token from 'Server/Lexer/Token/Token';
-import Word from 'Server/Dictionary/Word';
+import Token from 'Common/Models/Token/Token';
+import Word from 'Common/Models/Word';
 
 export default class WordToken extends Token {
 	public readonly words: ReadonlyArray<Word>;

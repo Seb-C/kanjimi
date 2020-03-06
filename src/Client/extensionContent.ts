@@ -1,6 +1,6 @@
-import CharType from 'Common/Misc/CharType';
+import CharType from 'Common/Types/CharType';
 import Serializer from 'Common/Api/Serializer';
-import Token from 'Server/Lexer/Token/Token';
+import Token from 'Common/Models/Token/Token';
 import analyze from 'Client/Api/analyze';
 import { debounce } from 'ts-debounce';
 const elementVisible = require('element-visible');

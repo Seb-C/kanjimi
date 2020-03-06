@@ -1,5 +1,4 @@
 Clean the dictionary on the other PC
-Optimize the algorithm with iterators
 Reorganize classes -> Separate client and server
 refactor the extension code
 Show a loading indicator

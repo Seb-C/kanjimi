@@ -60,30 +60,30 @@ export default class Lexer {
 			));
 			i--; // We increased too much on the last iteration
 
-			this.splitByDictionarySearches(text, tokens);
+			for (const token of this.splitByDictionarySearches(text)) {
+				tokens.push(token);
+			}
 		}
 
 		return tokens;
 	}
 
-	/**
-	 * @param string The string to split
-	 * @param Token[] The array where to output the tokens
-	 */
-	splitByDictionarySearches (text: string, tokens: Token[]) {
+	*splitByDictionarySearches (text: string): Iterable<Token> {
 		for (let position = 0; position < text.length; position++) {
 			for (let length = text.length - position; length > 0; length--) {
 				const foundMeaning = this.searchMeaning(text.substring(position, position + length));
 				if (foundMeaning !== null) {
 					if (position > 0) {
 						// Making the text preceding this word as a separate token
-						tokens.push(this.makeUnknownToken(text.substring(0, position)));
+						yield this.makeUnknownToken(text.substring(0, position));
 					}
 
-					tokens.push(foundMeaning);
+					yield foundMeaning;
 
 					if (text.length > (position + length)) {
-						this.splitByDictionarySearches(text.substring(position + length), tokens);
+						for (const token of this.splitByDictionarySearches(text.substring(position + length))) {
+							yield token;
+						}
 					}
 
 					return;
@@ -92,7 +92,7 @@ export default class Lexer {
 		}
 
 		// Not found anything in the whole string
-		tokens.push(this.makeUnknownToken(text));
+		yield this.makeUnknownToken(text);
 	}
 
 	makeUnknownToken (text: string): Token {

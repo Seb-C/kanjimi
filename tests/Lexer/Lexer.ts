@@ -90,8 +90,9 @@ describe('Lexer', async () => {
 		expect(result).toBe(null);
 	});
 	it('Test splitByDictionarySearches', () => {
-		const tokens: Token[] = [];
-		lexer.splitByDictionarySearches('日本の食べ物が好き', tokens);
+		const tokens: Token[] = Array.from(
+			lexer.splitByDictionarySearches('日本の食べ物が好き'),
+		);
 		expect(tokens.length).toBe(5);
 		expect(tokens[0].text).toBe('日本');
 		expect(tokens[1].text).toBe('の');

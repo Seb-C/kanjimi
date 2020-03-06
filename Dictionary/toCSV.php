@@ -2,19 +2,35 @@
 
 // From: http://ftp.monash.edu/pub/nihongo/JMdict.gz
 
-$wordsCsv = fopen(__DIR__ . "/words.csv", "w");
 $tagsCsv = fopen(__DIR__ . "/tags.csv", "w");
-fputcsv($wordsCsv, [
-	'word',
-	'reading',
-	'translationLang',
-	'translation',
-	'tags',
-]);
 fputcsv($tagsCsv, [
 	'tag',
 	'description',
 ]);
+
+$languageCodes = [
+	'dut' => 'nl',
+	'eng' => 'en',
+	'fre' => 'fr',
+	'ger' => 'de',
+	'hun' => 'hu',
+	'rus' => 'ru',
+	'slv' => 'sl',
+	'spa' => 'es',
+	'swe' => 'sv',
+];
+
+$wordsCsvPerLang = [];
+foreach ($languageCodes as $lang) {
+	$file = fopen(__DIR__ . "/../src/Dictionary/data/words-$lang.csv", "w");
+	fputcsv($file, [
+		'word',
+		'reading',
+		'translation',
+		'tags',
+	]);
+	$wordsCsvPerLang[$lang] = $file;
+}
 
 $xml = new XMLReader();
 $xml->open(__DIR__.'/xml/Dictionary.xml');
@@ -109,12 +125,18 @@ while($xml->name === 'entry') {
 			$translation = $x->nodeValue;
 			if (empty($translation)) continue;
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
-			$translations[] = compact('lang', 'translation');
+			if (array_key_exists($lang, $languageCodes)) {
+				$lang = $languageCodes[$lang];
+				$translations[] = compact('lang', 'translation');
+			}
 		}
 		foreach ($sense->getElementsByTagName('gloss') as $x) {
 			$translation = $x->nodeValue;
 			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
-			$translations[] = compact('lang', 'translation');
+			if (array_key_exists($lang, $languageCodes)) {
+				$lang = $languageCodes[$lang];
+				$translations[] = compact('lang', 'translation');
+			}
 		}
 
 		$senseArray = compact('translations');
@@ -170,10 +192,9 @@ while($xml->name === 'entry') {
 		foreach ($word['readings'] as $reading) {
 			foreach ($reading['senses'] as $sense) {
 				foreach ($sense['translations'] as $translation) {
-					fputcsv($wordsCsv, [
+					fputcsv($wordsCsvPerLang[$translation['lang']], [
 						$word['word'] === null ? $reading['reading'] : $word['word'],
 						$reading['reading'],
-						$translation['lang'],
 						$translation['translation'],
 						implode('/', array_keys($tags)),
 					]);

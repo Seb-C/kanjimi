@@ -1,4 +1,4 @@
-convert language code
+Clean the dictionary on the other PC
 Optimize the algorithm with iterators
 Reorganize classes -> Separate client and server
 refactor the extension code
@@ -11,7 +11,6 @@ find a name
 Do not show reading for loan words (katakana)
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 update vim syntax colours broken (see bottom of the dictionary)
-commit dictionary?
 Validate input via an express middleware?
 webpack: different typescript config for each (lib and type keys for example)
 implement down migrations

@@ -11,12 +11,12 @@ export default class WordToken extends Token {
 
 	private getBestWord(): Word|null {
 		for (let i = 0; i < this.words.length; i++) {
-			if (this.words[i].translationLang === 'fra') {
+			if (this.words[i].translationLang === 'fr') {
 				return this.words[i];
 			}
 		}
 		for (let i = 0; i < this.words.length; i++) {
-			if (this.words[i].translationLang === 'eng') {
+			if (this.words[i].translationLang === 'en') {
 				return this.words[i];
 			}
 		}

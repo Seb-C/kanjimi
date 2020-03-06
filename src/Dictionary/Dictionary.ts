@@ -7,37 +7,45 @@ import * as ReadLine from 'readline';
 export default class Dictionary {
 	private readonly words: Map<string, Word[]> = new Map();
 
-	async load(): Promise<void> {
-		return new Promise((resolve, reject) => {
-			const dictionaryFileIterator = ReadLine.createInterface({
-				input: FileSystem.createReadStream(
-					Path.join(__dirname, '../../Dictionary/words.csv'),
-				),
-			});
+	async load(): Promise<void[]> {
+		const langAndFiles: { lang: string, path: string }[] = [
+			{ lang: 'de', path: Path.join(__dirname, './data/words-de.csv') },
+			{ lang: 'en', path: Path.join(__dirname, './data/words-en.csv') },
+			{ lang: 'es', path: Path.join(__dirname, './data/words-es.csv') },
+			{ lang: 'fr', path: Path.join(__dirname, './data/words-fr.csv') },
+			{ lang: 'hu', path: Path.join(__dirname, './data/words-hu.csv') },
+			{ lang: 'nl', path: Path.join(__dirname, './data/words-nl.csv') },
+			{ lang: 'ru', path: Path.join(__dirname, './data/words-ru.csv') },
+			{ lang: 'sl', path: Path.join(__dirname, './data/words-sl.csv') },
+			{ lang: 'sv', path: Path.join(__dirname, './data/words-sv.csv') },
+		];
 
-			const dictionaryLoadingStart = +new Date();
+		const loaders: Promise<void>[] = langAndFiles.map((file: { lang: string, path: string }) => {
+			return new Promise((resolve, reject) => {
+				const dictionaryFileIterator = ReadLine.createInterface({
+					input: FileSystem.createReadStream(file.path),
+				});
 
-			let headerLine = true;
-			dictionaryFileIterator.on('line', (line) => {
-				if (headerLine) {
-					headerLine = false;
-					return;
-				}
+				let headerLine = true;
+				dictionaryFileIterator.on('line', (line) => {
+					if (headerLine) {
+						headerLine = false;
+						return;
+					}
 
-				this.add(this.parseCsvLine(line));
-			});
+					this.add(this.parseCsvLine(line, file.lang));
+				});
 
-			dictionaryFileIterator.on('close', () => {
-				console.log('Dictionary loaded in', ((+new Date()) - dictionaryLoadingStart), 'milliseconds.');
-				resolve();
+				dictionaryFileIterator.on('close', resolve);
 			});
 		});
+
+		return Promise.all(loaders);
 	}
 
-	parseCsvLine (line: string): Word {
+	parseCsvLine (line: string, lang: string): Word {
 		let word: string = '';
 		let reading: string = '';
-		let translationLang: string = '';
 		let translation: string = '';
 		let tags: Tag[] = [];
 
@@ -60,10 +68,8 @@ export default class Dictionary {
 				} else if (colIndex === 1) {
 					reading = colValue;
 				} else if (colIndex === 2) {
-					translationLang = colValue;
-				} else if (colIndex === 3) {
 					translation = colValue;
-				} else if (colIndex === 4) {
+				} else if (colIndex === 3) {
 					tags = <Tag[]>colValue.split('/');
 				}
 
@@ -77,7 +83,7 @@ export default class Dictionary {
 			index++;
 		} while (index <= length);
 
-		return new Word(word, reading, translationLang, translation, tags);
+		return new Word(word, reading, lang, translation, tags);
 	}
 
 	add (word: Word) {

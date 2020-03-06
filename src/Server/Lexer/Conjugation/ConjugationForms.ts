@@ -1,5 +1,5 @@
-import ConjugationType from 'Lexer/Conjugation/ConjugationType';
-import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
+import ConjugationType from 'Server/Lexer/Conjugation/ConjugationType';
+import ConjugationForm from 'Server/Lexer/Conjugation/ConjugationForm';
 
 class ConjugationFormsClass {
 	readonly formsByConjugation: Map<string, ConjugationForm[]> = new Map();

@@ -1,5 +1,5 @@
 import 'jasmine';
-import Dictionary from 'Dictionary/Dictionary';
+import Dictionary from 'Server/Dictionary/Dictionary';
 
 describe('Dictionary', () => {
 	it('parseCsvLine method', async () => {

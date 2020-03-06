@@ -1,5 +1,5 @@
 import 'jasmine';
-import Word from 'Dictionary/Word';
+import Word from 'Server/Dictionary/Word';
 
 describe('Word', () => {
 	it('getShortTranslation method', async () => {

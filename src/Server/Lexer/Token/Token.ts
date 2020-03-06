@@ -1,4 +1,4 @@
-import CharType from 'Misc/CharType';
+import CharType from 'Common/Misc/CharType';
 
 export default class Token {
 	public readonly text: string;

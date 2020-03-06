@@ -66,7 +66,7 @@ const extensionContent = {
 		]
 	},
 	entry: {
-		main: './src/extensionContent.ts',
+		main: './src/Client/extensionContent.ts',
 	},
 	output: {
 		path: path.resolve(__dirname, './extension'),

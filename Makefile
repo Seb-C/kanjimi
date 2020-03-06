@@ -1,7 +1,7 @@
 .PHONY: migrate test lint dictionary browser
 
 migrate:
-	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/migrate.ts
+	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts
 test:
 	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
 lint:

@@ -1,7 +1,7 @@
-import Token from 'Lexer/Token/Token';
-import Serializer from 'Api/Serializer/Serializer';
+import Token from 'Server/Lexer/Token/Token';
+import Unserializer from 'Common/Api/Unserializer';
 
-const serializer = new Serializer();
+const unserializer = new Unserializer();
 
 export default async (strings: string[]): Promise<Token[][]> => {
 	const response = await fetch('http://localhost:3000/analyze', {
@@ -15,7 +15,7 @@ export default async (strings: string[]): Promise<Token[][]> => {
 
 	const sentences: Token[][] = [];
 	for (let i = 0; i < responseData.length; i++) {
-		const tokenList = serializer.fromJsonApi<Token[]>(responseData[i]);
+		const tokenList = unserializer.fromJsonApi<Token[]>(responseData[i]);
 		sentences.push(tokenList);
 	}
 

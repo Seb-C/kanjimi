@@ -1,4 +1,4 @@
-import ConjugationType from 'Lexer/Conjugation/ConjugationType';
+import ConjugationType from 'Server/Lexer/Conjugation/ConjugationType';
 
 export default class ConjugationForm {
 	readonly conjugation: string;

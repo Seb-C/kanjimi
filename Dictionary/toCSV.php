@@ -22,7 +22,7 @@ $languageCodes = [
 
 $wordsCsvPerLang = [];
 foreach ($languageCodes as $lang) {
-	$file = fopen(__DIR__ . "/../src/Dictionary/data/words-$lang.csv", "w");
+	$file = fopen(__DIR__ . "/../src/Server/Dictionary/data/words-$lang.csv", "w");
 	fputcsv($file, [
 		'word',
 		'reading',

@@ -1,7 +1,7 @@
-import CharType from 'Misc/CharType';
-import Serializer from 'Api/Serializer/Serializer';
-import Token from 'Lexer/Token/Token';
-import analyze from 'Api/Client/analyze';
+import CharType from 'Common/Misc/CharType';
+import Serializer from 'Common/Api/Serializer';
+import Token from 'Server/Lexer/Token/Token';
+import analyze from 'Client/Api/analyze';
 import { debounce } from 'ts-debounce';
 const elementVisible = require('element-visible');
 
@@ -24,24 +24,24 @@ const CLASS_TRANSLATION = 'yometai-translation';
 const style = document.createElement('style');
 style.textContent = `
 	.${CLASS_SENTENCE} {
-        clear: both;
-        margin-bottom: 30px;
-        display: inline;
-    }
+		clear: both;
+		margin-bottom: 30px;
+		display: inline;
+	}
 
 	.${CLASS_SENTENCE} > .${CLASS_TOKEN} {
 		display: inline-block;
-        margin-bottom: 15px;
-        height: 2rem;
-        text-align: center;
-    }
+		margin-bottom: 15px;
+		height: 2rem;
+		text-align: center;
+	}
 
 	.${CLASS_SENTENCE} > .${CLASS_TOKEN} .${CLASS_FURIGANA},
 	.${CLASS_SENTENCE} > .${CLASS_TOKEN} .${CLASS_TRANSLATION} {
-        font-size: 0.5rem;
-        display: block;
+		font-size: 0.5rem;
+		display: block;
 		margin: 0 2px;
-    }
+	}
 `;
 document.body.appendChild(style);
 

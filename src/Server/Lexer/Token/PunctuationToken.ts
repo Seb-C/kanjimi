@@ -1,5 +1,5 @@
-import Token from 'Lexer/Token/Token';
-import CharType from 'Misc/CharType';
+import Token from 'Server/Lexer/Token/Token';
+import CharType from 'Common/Misc/CharType';
 
 export default class PunctuationToken extends Token {
 	constructor(text: string) {

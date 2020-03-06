@@ -1,5 +1,5 @@
-import Database from 'Database/Database';
-import Lexer from 'Lexer/Lexer';
+import Database from 'Server/Database/Database';
+import Lexer from 'Server/Lexer/Lexer';
 import * as fs from 'fs';
 
 enum MigrationType {

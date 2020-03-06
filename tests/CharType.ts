@@ -1,5 +1,5 @@
 import 'jasmine';
-import CharType from 'Misc/CharType';
+import CharType from 'Common/Misc/CharType';
 
 describe('CharType', () => {
 	it('Hiraganas', () => {

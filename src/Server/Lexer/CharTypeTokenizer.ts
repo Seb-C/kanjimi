@@ -1,5 +1,5 @@
-import CharTypeToken from 'Lexer/Token/CharTypeToken';
-import CharType from 'Misc/CharType';
+import CharTypeToken from 'Server/Lexer/Token/CharTypeToken';
+import CharType from 'Common/Misc/CharType';
 
 export default class CharTypeTokenizer {
 	tokenizeByCharType (text: string): CharTypeToken[] {

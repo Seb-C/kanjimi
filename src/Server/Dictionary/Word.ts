@@ -1,4 +1,4 @@
-import Tag from 'Dictionary/Tag';
+import Tag from 'Server/Dictionary/Tag';
 
 export default class Word {
 	public readonly word: string;

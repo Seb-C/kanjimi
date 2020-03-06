@@ -1,6 +1,6 @@
 import 'jasmine';
-import CharTypeTokenizer from 'Lexer/CharTypeTokenizer';
-import CharType from 'Misc/CharType';
+import CharTypeTokenizer from 'Server/Lexer/CharTypeTokenizer';
+import CharType from 'Common/Misc/CharType';
 
 describe('Lexer', async () => {
 	it('Testing the tokens text', () => {

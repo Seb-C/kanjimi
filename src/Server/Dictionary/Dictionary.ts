@@ -1,5 +1,5 @@
-import Word from 'Dictionary/Word';
-import Tag from 'Dictionary/Tag';
+import Word from 'Server/Dictionary/Word';
+import Tag from 'Server/Dictionary/Tag';
 import * as FileSystem from 'fs';
 import * as Path from 'path';
 import * as ReadLine from 'readline';

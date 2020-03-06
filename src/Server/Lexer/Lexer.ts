@@ -1,15 +1,15 @@
-import ConjugationForms from 'Lexer/Conjugation/ConjugationForms';
-import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
-import Token from 'Lexer/Token/Token';
-import CharType from 'Misc/CharType';
-import VerbToken from 'Lexer/Token/VerbToken';
-import ParticleToken from 'Lexer/Token/ParticleToken';
-import PunctuationToken from 'Lexer/Token/PunctuationToken';
-import WordToken from 'Lexer/Token/WordToken';
-import CharTypeToken from 'Lexer/Token/CharTypeToken';
-import CharTypeTokenizer from 'Lexer/CharTypeTokenizer';
-import Dictionary from 'Dictionary/Dictionary';
-import Word from 'Dictionary/Word';
+import ConjugationForms from 'Server/Lexer/Conjugation/ConjugationForms';
+import ConjugationForm from 'Server/Lexer/Conjugation/ConjugationForm';
+import Token from 'Server/Lexer/Token/Token';
+import CharType from 'Common/Misc/CharType';
+import VerbToken from 'Server/Lexer/Token/VerbToken';
+import ParticleToken from 'Server/Lexer/Token/ParticleToken';
+import PunctuationToken from 'Server/Lexer/Token/PunctuationToken';
+import WordToken from 'Server/Lexer/Token/WordToken';
+import CharTypeToken from 'Server/Lexer/Token/CharTypeToken';
+import CharTypeTokenizer from 'Server/Lexer/CharTypeTokenizer';
+import Dictionary from 'Server/Dictionary/Dictionary';
+import Word from 'Server/Dictionary/Word';
 
 export default class Lexer {
 	protected readonly dictionary: Dictionary;

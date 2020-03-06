@@ -1,7 +1,7 @@
 import 'jasmine';
-import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
-import ConjugationForms from 'Lexer/Conjugation/ConjugationForms';
-import ConjugationType from 'Lexer/Conjugation/ConjugationType';
+import ConjugationForm from 'Server/Lexer/Conjugation/ConjugationForm';
+import ConjugationForms from 'Server/Lexer/Conjugation/ConjugationForms';
+import ConjugationType from 'Server/Lexer/Conjugation/ConjugationType';
 
 describe('Lexer', async () => {
 	it('existing verb forms', async () => {

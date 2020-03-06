@@ -1,5 +1,8 @@
 Clean the dictionary on the other PC
 Reorganize classes -> Separate client and server
+    -> in progress
+    -> remaining TODO: move models to Common
+    -> TODO also reflect changes in the tests files structure
 refactor the extension code
 Show a loading indicator
 fix the particles rendering

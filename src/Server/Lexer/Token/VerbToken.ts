@@ -1,7 +1,7 @@
-import WordToken from 'Lexer/Token/WordToken';
-import ConjugationForms from 'Lexer/Conjugation/ConjugationForms';
-import ConjugationForm from 'Lexer/Conjugation/ConjugationForm';
-import Word from 'Dictionary/Word';
+import WordToken from 'Server/Lexer/Token/WordToken';
+import ConjugationForms from 'Server/Lexer/Conjugation/ConjugationForms';
+import ConjugationForm from 'Server/Lexer/Conjugation/ConjugationForm';
+import Word from 'Server/Dictionary/Word';
 
 export default class VerbToken extends WordToken {
 	public readonly verb: string;

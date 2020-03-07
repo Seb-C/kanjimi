@@ -1,4 +1,3 @@
-Reorganized classes -> reflect changes in the tests files structure
 refactor the extension code
 Show a loading indicator
 fix the particles rendering

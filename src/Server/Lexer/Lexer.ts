@@ -131,6 +131,10 @@ export default class Lexer {
 	}
 
 	searchMeaning (text: string): Token|null {
+		if (ParticleToken.isParticle(text)) {
+			return new ParticleToken(text);
+		}
+
 		if (this.dictionary.has(text)) {
 			return new WordToken(text, this.dictionary.get(text));
 		}

@@ -1,6 +1,5 @@
-possible to use a virtual dom to optimize?
+fix the extension not properly rebuilding it's code
 Show a loading indicator
-fix the particles rendering
 avoid the global loop that slows down the browser?
 Add all data about a word as a tooltip
 optimize server performance by compiling properly

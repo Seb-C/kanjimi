@@ -42,6 +42,13 @@ describe('Lexer', async () => {
 		dictionary.add(new Word('好き', '', '', '', []));
 		dictionary.add(new Word('楽しい', '', '', '', []));
 		dictionary.add(new Word('高い', '', '', '', []));
+		dictionary.add(new Word('この', '', '', '', []));
+		dictionary.add(new Word('です', '', '', '', []));
+
+		// Adding some particles to the dictionary to assert that
+		// it is well recognized as a particle and not as a word
+		dictionary.add(new Word('は', '', '', '', []));
+		dictionary.add(new Word('と', '', '', '', []));
 
 		lexer = new Lexer(dictionary);
 	});
@@ -116,6 +123,7 @@ describe('Lexer', async () => {
 	it('Hiragana chains with a particle at the beginning', async () => {
 		testTokensText(['私', 'は', 'そんな', '物', 'を', '食べる']);
 	});
+
 	it('Conjugated i-adjective recognition', async () => {
 		const result = lexer.analyze('このイベントは高かったです。');
 		expect(result[3] instanceof VerbToken).toBe(true);

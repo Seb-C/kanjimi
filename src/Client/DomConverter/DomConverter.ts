@@ -106,6 +106,7 @@ export default class DomConverter {
 				font-size: 0.5rem;
 				display: block;
 				line-height: 150%;
+				margin: 0 2px;
 			}
 		`;
 		document.body.appendChild(style);

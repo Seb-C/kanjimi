@@ -25,22 +25,20 @@ const style = document.createElement('style');
 style.textContent = `
 	.${CLASS_SENTENCE} {
 		clear: both;
-		margin-bottom: 30px;
 		display: inline;
 	}
 
 	.${CLASS_SENTENCE} > .${CLASS_TOKEN} {
 		display: inline-block;
-		margin-bottom: 15px;
-		height: 2rem;
 		text-align: center;
+		line-height: 100%;
 	}
 
 	.${CLASS_SENTENCE} > .${CLASS_TOKEN} .${CLASS_FURIGANA},
 	.${CLASS_SENTENCE} > .${CLASS_TOKEN} .${CLASS_TRANSLATION} {
 		font-size: 0.5rem;
 		display: block;
-		margin: 0 2px;
+		line-height: 150%;
 	}
 `;
 document.body.appendChild(style);

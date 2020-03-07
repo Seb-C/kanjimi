@@ -1,10 +1,11 @@
-refactor the extension code
+possible to use a virtual dom to optimize?
 Show a loading indicator
 fix the particles rendering
 avoid the global loop that slows down the browser?
 Add all data about a word as a tooltip
 optimize server performance by compiling properly
 find a name
+after finding a name: replace `yometai` by the right name for css classes in `Client/DomConverter/DomConverter.ts`
 Do not show reading for loan words (katakana)
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 update vim syntax colours broken (see bottom of the dictionary)

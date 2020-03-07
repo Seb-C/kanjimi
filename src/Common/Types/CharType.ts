@@ -26,6 +26,17 @@ namespace CharType {
 	export function isJapanese(char: string): boolean {
 		return CharType.of(char) !== CharType.OTHER;
 	}
+
+	export function containsJapanese(text: string): boolean {
+		// Note: arbitrarily limiting the number of characters for performance reason
+		for (let i = 0; i < text.length && i < 20; i++) {
+			if (CharType.isJapanese(text[i])) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 }
 
 export default CharType;

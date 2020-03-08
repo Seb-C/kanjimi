@@ -1,9 +1,12 @@
 Show a loading indicator
+replace API with websockets?
 avoid the global loop that slows down the browser?
 Add all data about a word as a tooltip
 optimize server performance by compiling properly
 find a name
 after finding a name: replace `yometai` by the right name for css classes in `Client/DomConverter/DomConverter.ts`
+hide and show tokens (click on text : context menu for links, buttons...?)
+hide and show kanjis by reading
 Do not show reading for loan words (katakana)
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 update vim syntax colours broken (see bottom of the dictionary)

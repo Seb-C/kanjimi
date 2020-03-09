@@ -1,20 +1,24 @@
-replace API with websockets?
-avoid the global loop that slows down the browser?
+optimization: 
+    - no advantage to change to NodeIterator
+    - need to use treewalker with FILTER_REJECT on the appropriate parent nodes
+    - Skip the non-text and reject the yometai nodes (then filter custom)
+    - Also use NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT
 Add all data about a word as a tooltip
-optimize server performance by compiling properly
+Do not show reading for loan words (katakana)
+update vim syntax colours broken (see bottom of the dictionary)
 find a name
 after finding a name: replace `yometai` by the right name for css classes in `Client/DomConverter/DomConverter.ts`
 hide and show tokens (click on text : context menu for links, buttons...?)
 hide and show kanjis by reading
-Do not show reading for loan words (katakana)
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
-update vim syntax colours broken (see bottom of the dictionary)
 Validate input via an express middleware?
 webpack: different typescript config for each (lib and type keys for example)
 implement down migrations
 half width characters? full-width roman chars and letters?
 Filter languages in server instead of client (see getBestWord function in WordToken)
-properly implement all the JSONApi spec (+ relationships)
+replace API with websockets?
+properly implement all the JSONApi spec (+ relationships, client already fixed)
+optimize server performance by compiling properly
 Do not show single kana translations?
 Kanjis dictionary?
 names dictionary?

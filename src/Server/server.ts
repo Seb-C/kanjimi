@@ -2,6 +2,7 @@ import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Database from 'Server/Database/Database';
 import Serializer from 'Common/Api/Serializer';
+import Unserializer from 'Common/Api/Unserializer';
 import express = require('express');
 import bodyParser = require('body-parser');
 
@@ -36,12 +37,13 @@ const runServer = async (application: express.Application): Promise<void> => {
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
 	const serializer = new Serializer();
+	const unserializer = new Unserializer();
 
 	const server = express();
 	server.use(bodyParser.json());
 	server.use(waitForStartupMiddleware);
 	server.post('/analyze', (request: express.Request, response: express.Response) => {
-		const sentences: string[] = request.body.sentences;
+		const sentences: string[] = unserializer.fromJsonApi(request.body);
 		const result: any[] = [];
 		for (let i = 0; i < sentences.length; i++) {
 			result.push(

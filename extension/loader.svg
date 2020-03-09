@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no" ?>
+<svg
+    xmlns="http://www.w3.org/2000/svg"
+    width="210"
+    height="70"
+    viewBox="0 0 210 70"
+    version="1.1"
+>
+    <defs>
+        <style type="text/css"><![CDATA[
+            #circle1 {
+                animation: animate 0.4s ease-in 0s infinite alternate;
+                transform-origin: 35px 35px;
+            }
+            #circle2 {
+                animation: animate 0.4s ease-in 0.2s infinite alternate;
+                transform-origin: 105px 35px;
+            }
+            #circle3 {
+                animation: animate 0.4s ease-in 0.4s infinite alternate;
+                transform-origin: 175px 35px;
+            }
+
+            @keyframes animate {
+                from {
+                    transform: scale(1, 1);
+                }
+                to {
+                    transform: scale(0.2, 0.2);
+                }
+            }
+        ]]></style>
+    </defs>
+    <!--<rect width="100%" height="100%" fill="rgba(200, 200, 200, 100)"/>-->
+    <circle id="circle1" cx="35" cy="35" r="20" fill="#FFFFFF" />
+    <circle id="circle2" cx="105" cy="35" r="20" fill="#AD001F" />
+    <circle id="circle3" cx="175" cy="35" r="20" fill="#FFFFFF" />
+</svg>

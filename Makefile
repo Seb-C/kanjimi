@@ -1,4 +1,4 @@
-.PHONY: migrate test lint dictionary browser
+.PHONY: migrate test lint dictionary extension browser
 
 migrate:
 	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts
@@ -8,6 +8,8 @@ lint:
 	docker-compose exec server ./node_modules/.bin/tslint './src/*.ts' './tests/*.ts'
 dictionary:
 	docker run -v ${PWD}:/app -w /app -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/toCSV.php
+extension:
+	docker-compose exec server ./node_modules/.bin/webpack --build;
 browser:
 	./node_modules/.bin/web-ext --config=web-ext.js run & \
 	docker-compose exec server ./node_modules/.bin/webpack --watch; \

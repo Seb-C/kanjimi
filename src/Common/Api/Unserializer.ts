@@ -37,7 +37,7 @@ export default class Unserializer {
 						// @ts-ignore
 						return Object.assign(new (<T>typeClass)(), attributes);
 					} else {
-						throw new Error(`Type not unserialize: ${o.type}`);
+						throw new Error(`Type not unserializable: ${o.type}`);
 					}
 				}
 

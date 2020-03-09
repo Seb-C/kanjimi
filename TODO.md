@@ -1,4 +1,3 @@
-Show a loading indicator
 replace API with websockets?
 avoid the global loop that slows down the browser?
 Add all data about a word as a tooltip

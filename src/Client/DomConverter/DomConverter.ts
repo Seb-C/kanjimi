@@ -68,14 +68,16 @@ export default class DomConverter {
 		const nodes: Text[] = [];
 		const strings: string[] = [];
 		for (const textNode of texts) {
+			(<Element>textNode.parentNode).classList.add('yometai-loader');
 			nodes.push(textNode);
 			strings.push(textNode.data.trim());
 		}
 
-		if (nodes.length > 0) {
+		if (strings.length > 0) {
 			try {
 				const data = await analyze(strings);
 				for (let i = 0; i < data.length; i++) {
+					(<Element>nodes[i].parentNode).classList.remove('yometai-loader');
 					this.convertSentence(nodes[i], data[i]);
 				}
 			} catch (e) {
@@ -88,8 +90,28 @@ export default class DomConverter {
 	}
 
 	injectStyle() {
+		const loaderUrl = (<any>browser).runtime.getURL('loader.svg');
+
 		const style = document.createElement('style');
 		style.textContent = `
+			.yometai-loader {
+				opacity: 0.3;
+				background: #AAA;
+				position: relative;
+			}
+			.yometai-loader:after {
+				content: "";
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				position: absolute;
+				background-image: url(${loaderUrl});
+				background-position: center;
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+
 			.yometai-sentence {
 				clear: both;
 				display: inline;

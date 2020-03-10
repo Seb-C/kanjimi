@@ -2,6 +2,7 @@ import DomConverter from 'Client/DomConverter/DomConverter';
 import { debounce } from 'ts-debounce';
 
 const converter = new DomConverter();
+
 converter.injectStyle();
 
 // Initializing

@@ -9,6 +9,26 @@
       "js": ["content.build.js"]
     }
   ],
+  "sidebar_action": {
+    "default_icon": "icon.png",
+    "default_title": "Example Sidebar",
+    "default_panel": "sidebar.html",
+    "open_at_install": false
+  },
+  "page_action": {
+    "browser_style": true,
+    "default_icon": {
+      "19": "button/geo-19.png",
+      "38": "button/geo-38.png"
+    },
+    "default_title": "Whereami?",
+    "show_matches": ["<all_urls>"]
+  },
+  "background": {
+    "scripts": [
+      "open-sidebar.js"
+    ]
+  },
   "permissions": [
     "*://localhost/*"
   ],

@@ -32,3 +32,4 @@ explain grammar
 copy/paste functionality on the website
 netflix integration
 amazon ebook integration
+include copyright somewhere in the site

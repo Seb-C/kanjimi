@@ -1,8 +1,3 @@
-optimization: 
-    - no advantage to change to NodeIterator
-    - need to use treewalker with FILTER_REJECT on the appropriate parent nodes
-    - Skip the non-text and reject the yometai nodes (then filter custom)
-    - Also use NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT
 Add all data about a word as a tooltip
 Do not show reading for loan words (katakana)
 update vim syntax colours broken (see bottom of the dictionary)
@@ -18,6 +13,7 @@ half width characters? full-width roman chars and letters?
 Filter languages in server instead of client (see getBestWord function in WordToken)
 replace API with websockets?
 properly implement all the JSONApi spec (+ relationships, client already fixed)
+automatic tests for the frontend? unit test some dom functions?
 optimize server performance by compiling properly
 Do not show single kana translations?
 Kanjis dictionary?

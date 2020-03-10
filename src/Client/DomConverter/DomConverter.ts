@@ -1,7 +1,6 @@
 import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token/Token';
 import analyze from 'Client/Api/analyze';
-const elementVisible = require('element-visible');
 
 export default class DomConverter {
 	private processing: boolean = false;
@@ -9,26 +8,50 @@ export default class DomConverter {
 	*getSentencesToConvert(): Iterable<Text> {
 		const walker = document.createTreeWalker(
 			document.body,
-			NodeFilter.SHOW_TEXT,
+			NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
 			{ acceptNode: (node: Node): number => {
-				const containerType: string = (<Element>node.parentNode).tagName;
-				if (
-					containerType === 'SCRIPT'
-					|| containerType === 'STYLE'
-					|| containerType === 'NOSCRIPT'
-					|| containerType === 'TEXTAREA'
-					|| (<Element>(<Element>node).parentNode).classList.contains('yometai')
-					|| !elementVisible(node.parentNode, 0.1)
-				) {
-					return NodeFilter.FILTER_SKIP;
-				}
+				if (node instanceof Element) {
+					if (
+						node.tagName === 'SCRIPT'
+						|| node.tagName === 'STYLE'
+						|| node.tagName === 'NOSCRIPT'
+						|| node.tagName === 'TEXTAREA'
+					) {
+						return NodeFilter.FILTER_REJECT;
+					}
 
-				const text = (<Text>node).data.trim();
-				if (text.length === 0 || !CharType.containsJapanese(text)) {
-					return NodeFilter.FILTER_SKIP;
-				}
+					if ((<Element>node).classList.contains('yometai-sentence')) {
+						return NodeFilter.FILTER_REJECT;
+					}
 
-				return NodeFilter.FILTER_ACCEPT;
+					if (!this.isElementVisible(<HTMLElement>node)) {
+						return NodeFilter.FILTER_REJECT;
+					}
+
+					if (!this.isElementOnScreen(<HTMLElement>node)) {
+						if ((<HTMLElement>node).offsetWidth === 0 || (<HTMLElement>node).offsetHeight === 0) {
+							// Rejecting would include absolute elements being
+							// inside elements that are outside screen
+							return NodeFilter.FILTER_SKIP;
+						} else {
+							return NodeFilter.FILTER_REJECT;
+						}
+					}
+
+					return NodeFilter.FILTER_SKIP;
+				} else {
+					const text = (<Text>node).data.trim();
+
+					if (text.length === 0) {
+						return NodeFilter.FILTER_SKIP;
+					}
+
+					if (!CharType.containsJapanese(text)) {
+						return NodeFilter.FILTER_SKIP;
+					}
+
+					return NodeFilter.FILTER_ACCEPT;
+				}
 			}},
 		);
 
@@ -44,6 +67,32 @@ export default class DomConverter {
 		if (previous !== null && previous instanceof Text) {
 			yield previous;
 		}
+	}
+
+	isElementVisible (node: HTMLElement): boolean {
+		return (
+			node.style.opacity !== '0'
+			&& node.style.display !== 'none'
+			&& node.style.visibility !== 'hidden'
+		);
+	}
+
+	isElementOnScreen (node: HTMLElement): boolean {
+		let top = 0;
+		let left = 0;
+		let currentNode = node;
+		do {
+			top += currentNode.offsetTop || 0;
+			left += currentNode.offsetLeft || 0;
+			currentNode = <HTMLElement>currentNode.offsetParent;
+		} while (currentNode);
+
+		return !(
+			top > window.scrollY + window.innerHeight
+			|| top + node.offsetHeight < window.scrollY
+			|| left > window.scrollX + window.innerWidth
+			|| left + node.offsetWidth < window.scrollX
+		);
 	}
 
 	async convertSentences(texts: Iterable<Text>) {
@@ -124,28 +173,23 @@ export default class DomConverter {
 
 	convertSentence(node: Text, tokens: Token[]) {
 		const container = document.createElement('span');
-		container.classList.add('yometai');
 		container.classList.add('yometai-sentence');
 
 		tokens.map((token) => {
 			const tokenElement = document.createElement('span');
-			tokenElement.classList.add('yometai');
 			tokenElement.classList.add('yometai-token');
 
 			const tokenFurigana = document.createElement('span');
-			tokenFurigana.classList.add('yometai');
 			tokenFurigana.classList.add('yometai-furigana');
 			tokenFurigana.innerText = token.getFurigana() || '\xa0';
 			tokenElement.appendChild(tokenFurigana);
 
 			const tokenWord = document.createElement('span');
-			tokenWord.classList.add('yometai');
 			tokenWord.classList.add('yometai-word');
 			tokenWord.innerText = token.text || '\xa0';
 			tokenElement.appendChild(tokenWord);
 
 			const tokenTranslation = document.createElement('span');
-			tokenTranslation.classList.add('yometai');
 			tokenTranslation.classList.add('yometai-translation');
 			tokenTranslation.innerText = token.getTranslation() || '\xa0';
 			tokenElement.appendChild(tokenTranslation);

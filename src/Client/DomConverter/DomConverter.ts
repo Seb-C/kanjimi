@@ -206,7 +206,7 @@ export default class DomConverter {
 	}
 
 	async handleWordClick(token: Token) {
-		browser.runtime.sendMessage('openSidebar');
+		// TODO create interface inside the page
 		alert(token.text);
 	}
 }

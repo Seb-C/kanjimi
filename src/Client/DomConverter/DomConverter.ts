@@ -128,7 +128,7 @@ export default class DomConverter {
 	}
 
 	injectStyle() {
-		const loaderUrl = (<any>browser).runtime.getURL('images/loader.svg');
+		const loaderUrl = (<any>browser).runtime.getURL('/images/loader.svg');
 
 		const style = document.createElement('style');
 		style.textContent = `

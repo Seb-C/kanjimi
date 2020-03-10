@@ -9,12 +9,6 @@
       "js": ["content.build.js"]
     }
   ],
-  "sidebar_action": {
-    "default_icon": "icon.png",
-    "default_title": "Example Sidebar",
-    "default_panel": "sidebar.html",
-    "open_at_install": false
-  },
   "page_action": {
     "browser_style": true,
     "default_icon": {
@@ -25,12 +19,11 @@
     "show_matches": ["<all_urls>"]
   },
   "background": {
-    "scripts": [
-      "open-sidebar.js"
-    ]
+    "scripts": ["background.js"]
   },
   "permissions": [
-    "*://localhost/*"
+    "*://localhost/*",
+    "tabs"
   ],
   "web_accessible_resources": [
     "*"

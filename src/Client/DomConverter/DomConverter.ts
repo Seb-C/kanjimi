@@ -16,6 +16,7 @@ export default class DomConverter {
 						|| node.tagName === 'STYLE'
 						|| node.tagName === 'NOSCRIPT'
 						|| node.tagName === 'TEXTAREA'
+						|| node.tagName === 'BUTTON'
 					) {
 						return NodeFilter.FILTER_REJECT;
 					}
@@ -187,6 +188,10 @@ export default class DomConverter {
 			const tokenWord = document.createElement('span');
 			tokenWord.classList.add('yometai-word');
 			tokenWord.innerText = token.text || '\xa0';
+			tokenWord.addEventListener('click', (event) => {
+				event.stopPropagation();
+				this.handleWordClick(token);
+			});
 			tokenElement.appendChild(tokenWord);
 
 			const tokenTranslation = document.createElement('span');
@@ -198,5 +203,10 @@ export default class DomConverter {
 		});
 
 		(<Node>node.parentNode).replaceChild(container, node);
+	}
+
+	async handleWordClick(token: Token) {
+		browser.runtime.sendMessage('openSidebar');
+		alert(token.text);
 	}
 }

@@ -1,4 +1,6 @@
+mockup of the tooltip/popup
 Add all data about a word as a tooltip
+any way to prevent long translations from breaking the layout?
 Do not show reading for loan words (katakana)
 update vim syntax colours broken (see bottom of the dictionary)
 find a name
@@ -16,7 +18,7 @@ properly implement all the JSONApi spec (+ relationships, client already fixed)
 automatic tests for the frontend? unit test some dom functions?
 optimize server performance by compiling properly
 Do not show single kana translations?
-Kanjis dictionary?
+Kanjis dictionary with readings?
 names dictionary?
 counters?
 places and countries names?

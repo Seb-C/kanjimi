@@ -13,6 +13,6 @@
     "*://localhost/*"
   ],
   "web_accessible_resources": [
-    "loader.svg"
+    "*"
   ]
 }

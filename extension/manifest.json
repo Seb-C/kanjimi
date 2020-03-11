@@ -5,6 +5,7 @@
   "description": "TODO",
   "content_scripts": [
     {
+      "all_frames": true,
       "matches": ["<all_urls>"],
       "js": ["content.build.js"]
     }
@@ -23,6 +24,7 @@
   },
   "permissions": [
     "*://localhost/*",
+    "<all_urls>",
     "tabs"
   ],
   "web_accessible_resources": [

@@ -10,3 +10,6 @@ indent_style = tab
 
 [*.{js,jsx,mjs,ts}]
 indent_style = tab
+
+[*.html]
+indent_style = tab

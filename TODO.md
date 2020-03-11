@@ -1,3 +1,4 @@
+update npm on PC
 mockup of the tooltip/popup
 Add all data about a word as a tooltip
 any way to prevent long translations from breaking the layout?

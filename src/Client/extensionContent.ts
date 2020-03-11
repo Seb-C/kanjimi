@@ -1,4 +1,4 @@
-import DomConverter from 'Client/DomConverter/DomConverter';
+import DomConverter from 'Client/Dom/DomConverter';
 import { debounce } from 'ts-debounce';
 
 const converter = new DomConverter();

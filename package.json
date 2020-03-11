@@ -20,6 +20,9 @@
     "tslint": "^5.12.1",
     "tslint-config-airbnb": "^5.11.1",
     "typescript": "^3.3.3",
+    "vue": "^2.6.11",
+    "vue-loader": "^15.9.0",
+    "vue-template-compiler": "^2.6.11",
     "web-ext": "^3.0.0",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3"

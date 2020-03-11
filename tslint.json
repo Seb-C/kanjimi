@@ -5,6 +5,7 @@
       "indent": [true, "tabs", 1],
       "ter-indent": [true, "tab"],
       "no-else-after-return": [false],
-      "no-increment-decrement": [false]
+      "no-increment-decrement": [false],
+      "import-name": [false]
     }
 }

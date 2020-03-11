@@ -10,21 +10,8 @@
       "js": ["content.build.js"]
     }
   ],
-  "page_action": {
-    "browser_style": true,
-    "default_icon": {
-      "19": "button/geo-19.png",
-      "38": "button/geo-38.png"
-    },
-    "default_title": "Whereami?",
-    "show_matches": ["<all_urls>"]
-  },
-  "background": {
-    "scripts": ["background.js"]
-  },
   "permissions": [
     "*://localhost/*",
-    "<all_urls>",
     "tabs"
   ],
   "web_accessible_resources": [

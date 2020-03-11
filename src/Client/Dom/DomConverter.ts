@@ -1,9 +1,15 @@
 import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token/Token';
 import analyze from 'Client/Api/analyze';
+import Vue from 'vue';
+import Tooltip from 'Client/Dom/Tooltip.vue';
 
 export default class DomConverter {
 	private processing: boolean = false;
+
+	private tooltipToken: Token|null = null;
+	private tooltipContainer: HTMLElement|null = null;
+	private tooltipInstance: Vue|null = null;
 
 	*getSentencesToConvert(): Iterable<Text> {
 		const walker = document.createTreeWalker(
@@ -205,8 +211,39 @@ export default class DomConverter {
 		(<Node>node.parentNode).replaceChild(container, node);
 	}
 
-	async handleWordClick(token: Token) {
-		// TODO create interface inside the page
-		alert(token.text);
+	handleWordClick(token: Token) {
+		if (this.tooltipToken === null) {
+			this.openTooltip(token);
+		} else if (this.tooltipToken.text === token.text) {
+			this.closeTooltip();
+		} else {
+			this.closeTooltip();
+			this.openTooltip(token);
+		}
+	}
+
+	openTooltip(token: Token) {
+		this.tooltipToken = token;
+
+		this.tooltipContainer = document.createElement('div');
+		this.tooltipInstance = new Vue({
+			render: createElement => createElement(Tooltip),
+			data: { token },
+		});
+
+		document.body.appendChild(this.tooltipContainer);
+		this.tooltipInstance.$mount(this.tooltipContainer);
+	}
+
+	closeTooltip() {
+		this.tooltipToken = null;
+		if (this.tooltipInstance !== null) {
+			this.tooltipInstance.$destroy();
+			this.tooltipInstance = null;
+		}
+		if (this.tooltipContainer !== null) {
+			document.body.removeChild(this.tooltipContainer);
+			this.tooltipContainer = null;
+		}
 	}
 }

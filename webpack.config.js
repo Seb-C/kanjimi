@@ -1,5 +1,6 @@
 var path = require('path');
 const webpack = require('webpack');
+const VueLoaderPlugin = require('vue-loader/lib/plugin');
 
 // const server = {
 // 	target: 'node',
@@ -60,10 +61,19 @@ const extensionContent = {
 		rules: [
 			{
 				test: /\.tsx?$/,
-				use: 'ts-loader',
 				exclude: /node_modules/,
-			}
-		]
+				use: {
+					loader: "ts-loader",
+					options: {
+						appendTsSuffixTo: [/\.vue$/]
+					}
+				},
+			},
+			{
+				test: /\.vue$/,
+				loader: 'vue-loader',
+			},
+		],
 	},
 	entry: {
 		main: './src/Client/extensionContent.ts',
@@ -72,6 +82,9 @@ const extensionContent = {
 		path: path.resolve(__dirname, './extension'),
 		filename: 'content.build.js',
 	},
+	plugins: [
+		new VueLoaderPlugin(),
+	],
 };
 
 module.exports = [

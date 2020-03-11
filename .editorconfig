@@ -8,7 +8,7 @@ indent_style = tab
 [*.sql]
 indent_style = tab
 
-[*.{js,jsx,mjs,ts}]
+[*.{js,jsx,mjs,ts,vue}]
 indent_style = tab
 
 [*.html]

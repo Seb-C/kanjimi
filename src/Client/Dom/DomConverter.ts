@@ -196,7 +196,7 @@ export default class DomConverter {
 			tokenWord.innerText = token.text || '\xa0';
 			tokenWord.addEventListener('click', (event) => {
 				event.stopPropagation();
-				this.handleWordClick(token);
+				this.handleWordClick(token, tokenElement);
 			});
 			tokenElement.appendChild(tokenWord);
 
@@ -211,24 +211,28 @@ export default class DomConverter {
 		(<Node>node.parentNode).replaceChild(container, node);
 	}
 
-	handleWordClick(token: Token) {
+	handleWordClick(token: Token, tokenElement: Element) {
 		if (this.tooltipToken === null) {
-			this.openTooltip(token);
+			this.openTooltip(token, tokenElement);
 		} else if (this.tooltipToken.text === token.text) {
 			this.closeTooltip();
 		} else {
 			this.closeTooltip();
-			this.openTooltip(token);
+			this.openTooltip(token, tokenElement);
 		}
 	}
 
-	openTooltip(token: Token) {
+	openTooltip(token: Token, tokenElement: Element) {
 		this.tooltipToken = token;
 
 		this.tooltipContainer = document.createElement('div');
 		this.tooltipInstance = new Vue({
-			render: createElement => createElement(Tooltip),
-			data: { token },
+			render: createElement => createElement(Tooltip, {
+				props: {
+					token,
+					tokenElement,
+				},
+			}),
 		});
 
 		document.body.appendChild(this.tooltipContainer);

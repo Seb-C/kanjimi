@@ -6,15 +6,11 @@ const converter = new DomConverter();
 converter.injectStyle();
 
 // Initializing
-converter.convertSentences(
-	converter.getSentencesToConvert(),
-);
+converter.convertSentences(converter.getSentencesToConvert());
 
 window.addEventListener('scroll', debounce(
 	() => {
-		converter.convertSentences(
-			converter.getSentencesToConvert(),
-		);
+		converter.convertSentences(converter.getSentencesToConvert());
 	},
 	300,
 ));

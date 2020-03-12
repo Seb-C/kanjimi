@@ -20,9 +20,12 @@
 			</ul>
 		</div>
 		<div
-			ref="tip"
 			class="yometai-tooltip-tip"
 			v-bind:style="tipStyles"
+		></div>
+		<div
+			class="yometai-tooltip-cursor"
+			v-bind:style="cursorStyles"
 		></div>
 	</div>
 </template>
@@ -49,6 +52,10 @@
 					top: '-999999px',
 					left: '-999999px',
 				},
+				cursorStyles: {
+					top: '-999999px',
+					left: '-999999px',
+				},
 			};
 		},
 		mounted() {
@@ -58,7 +65,7 @@
 			const tooltipWidth = this.$refs.tooltip.offsetWidth;
 			const tooltipHeight = this.$refs.tooltip.offsetHeight;
 
-			let tipLeft = targetPos.left + ((targetPos.right - targetPos.left) / 2) - (tipDiagonal / 2);
+			let tipLeft = targetPos.left + ((targetPos.right - targetPos.left) / 2) - (this.tipSize / 2);
 
 			let left = targetPos.left - ((tooltipWidth - (targetPos.right - targetPos.left)) / 2);
 			if (left < 0) {
@@ -107,6 +114,13 @@
 				top: tipTop + 'px',
 				width: this.tipSize + 'px',
 				height: this.tipSize + 'px',
+			};
+
+			this.cursorStyles = {
+				left: targetPos.left + 'px',
+				top: targetPos.top + 'px',
+				width: (targetPos.right - targetPos.left) + 'px',
+				height: (targetPos.bottom - targetPos.top) + 'px',
 			};
 		},
 		methods: {

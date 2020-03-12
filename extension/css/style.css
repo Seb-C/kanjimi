@@ -6,6 +6,7 @@
 :root {
   --yometai-color-background: #eae4ce;
   --yometai-color-text: black;
+  --yometai-color-cursor: #C53A3A;
 }
 
 .yometai-loader {
@@ -64,4 +65,10 @@
     transform-origin: center;
     transform: rotate(45deg);
     border: 1px solid var(--yometai-color-text);
+}
+
+.yometai-tooltip-cursor {
+    box-sizing: border-box;
+    position: absolute;
+    border: 2px dashed var(--yometai-color-cursor);
 }

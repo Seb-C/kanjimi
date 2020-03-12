@@ -1,28 +1,29 @@
 <template>
-	<div
-		ref="tooltip"
-		class="yometai-tooltip"
-		v-bind:style="{
-			position: 'absolute',
-			background: 'red',
-			overflowY: 'auto',
-			zIndex: 999999,
-			...tooltipStyles,
-		}"
-	>
-		<div>{{ token.text }}</div>
-		<div v-bind:style="{
-			fontFamily: 'yometai-kanji-stroke-orders',
-			fontSize: '150px',
-		}">{{ token.text }}</div>
+	<div>
+		<div
+			ref="tooltip"
+			class="yometai-tooltip"
+			v-bind:style="tooltipStyles"
+		>
+			<div>{{ token.text }}</div>
+			<div v-bind:style="{
+				fontFamily: 'yometai-kanji-stroke-orders',
+				fontSize: '150px',
+			}">{{ token.text }}</div>
 
-		<ul>
-			<li v-for="word in token.words">
-				{{ word.reading }}
-				{{ word.translationLang }}
-				{{ word.translation }}
-			</li>
-		</ul>
+			<ul>
+				<li v-for="word in token.words">
+					{{ word.reading }}
+					{{ word.translationLang }}
+					{{ word.translation }}
+				</li>
+			</ul>
+		</div>
+		<div
+			ref="tip"
+			class="yometai-tooltip-tip"
+			v-bind:style="tipStyles"
+		></div>
 	</div>
 </template>
 <script lang="ts">
@@ -43,43 +44,55 @@
 					maxHeight: '50vh',
 					maxWidth: '100vw',
 				},
+				tipSize: 15,
+				tipStyles: {
+					top: '-999999px',
+					left: '-999999px',
+				},
 			};
 		},
 		mounted() {
-			const tipHeight = 10;
+			const tipDiagonal = Math.sqrt((this.tipSize * this.tipSize) * 2);
 			const targetPos = this.getElementPosition(this.tokenElement);
 
 			const tooltipWidth = this.$refs.tooltip.offsetWidth;
 			const tooltipHeight = this.$refs.tooltip.offsetHeight;
 
-			let left = targetPos.left - Math.round((tooltipWidth - (targetPos.right - targetPos.left)) / 2);
+			let tipLeft = targetPos.left + ((targetPos.right - targetPos.left) / 2) - (tipDiagonal / 2);
+
+			let left = targetPos.left - ((tooltipWidth - (targetPos.right - targetPos.left)) / 2);
 			if (left < 0) {
 				// Making sure it does not go outside the document on the left
 				left = 0;
 			}
 
 			let right = left + tooltipWidth;
-			if (right >= window.innerWidth) {
+			if (right >= document.body.offsetWidth) {
 				// Making sure it does not go outside the document on the right
-				left -= (right - window.innerWidth);
+				left -= (right - document.body.offsetWidth);
+				right = left + tooltipWidth;
 			}
 
 			const targetDistanceToTop = targetPos.top - window.scrollY;
 			const targetDistanceToBottom = (window.scrollY + window.innerHeight) - targetPos.bottom;
 			const showOnTop = (
-				targetDistanceToTop >= (tooltipHeight + tipHeight)
+				targetDistanceToTop >= (tooltipHeight + (tipDiagonal / 2))
 				|| targetDistanceToTop >= targetDistanceToBottom
 			);
 
+			let tipTop: number; // Haha!
 			let top: number;
 			if (showOnTop) {
-				top = targetPos.top - tooltipHeight - tipHeight;
+				tipTop = targetPos.top - tipDiagonal;
+				top = targetPos.top - tooltipHeight - (tipDiagonal / 2);
 				if (top < 0) {
 					// Making sure it does not go over the top of the document
-					top = targetPos.bottom + tipHeight;
+					tipTop = targetPos.bottom + (tipDiagonal / 4);
+					top = targetPos.bottom + (tipDiagonal / 2);
 				}
 			} else {
-				top = targetPos.bottom + tipHeight;
+				tipTop = targetPos.bottom + (tipDiagonal / 4);
+				top = targetPos.bottom + (tipDiagonal / 2);
 			}
 
 			this.tooltipStyles = {
@@ -87,6 +100,13 @@
 				top: top + 'px',
 				width: (right - left) + 'px',
 				height: tooltipHeight + 'px',
+			};
+
+			this.tipStyles = {
+				left: tipLeft + 'px',
+				top: tipTop + 'px',
+				width: this.tipSize + 'px',
+				height: this.tipSize + 'px',
 			};
 		},
 		methods: {

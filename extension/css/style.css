@@ -3,6 +3,11 @@
     src: url('/fonts/KanjiStrokeOrders/KanjiStrokeOrders.ttf');
 }
 
+:root {
+  --yometai-color-background: #eae4ce;
+  --yometai-color-text: black;
+}
+
 .yometai-loader {
     opacity: 0.3;
     background: #AAA;
@@ -38,4 +43,25 @@
     display: block;
     line-height: 150%;
     margin: 0 2px;
+}
+
+.yometai-tooltip {
+    position: absolute;
+    background: var(--yometai-color-background);
+    overflow-y: auto;
+    z-index: 999999;
+    box-sizing: border-box;
+    border-radius: 5px;
+    border: 1px solid var(--yometai-color-text);
+    color: var(--yometai-color-text);
+    padding: 5px;
+}
+
+.yometai-tooltip-tip {
+    position: absolute;
+    background: var(--yometai-color-background);
+    z-index: 999998;
+    transform-origin: center;
+    transform: rotate(45deg);
+    border: 1px solid var(--yometai-color-text);
 }

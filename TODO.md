@@ -1,4 +1,4 @@
-improve the tooltip style & add the tip to the tooltip
+border around the defined word
 route to explain a word (split kanji and contextualized reading of every kanji)
 any way to prevent long translations from breaking the layout?
 kanji stroke font size

@@ -7,9 +7,7 @@ import Tooltip from 'Client/Dom/Tooltip.vue';
 export default class DomConverter {
 	private processing: boolean = false;
 
-	private tooltipToken: Token|null = null;
-	private tooltipContainer: HTMLElement|null = null;
-	private tooltipInstance: Vue|null = null;
+	private tooltip: Vue|null = null;
 
 	*getSentencesToConvert(): Iterable<Text> {
 		const walker = document.createTreeWalker(
@@ -28,6 +26,10 @@ export default class DomConverter {
 					}
 
 					if ((<Element>node).classList.contains('yometai-sentence')) {
+						return NodeFilter.FILTER_REJECT;
+					}
+
+					if ((<Element>node).classList.contains('yometai-tooltip')) {
 						return NodeFilter.FILTER_REJECT;
 					}
 
@@ -133,51 +135,6 @@ export default class DomConverter {
 		this.processing = false;
 	}
 
-	injectStyle() {
-		const loaderUrl = (<any>browser).runtime.getURL('/images/loader.svg');
-
-		const style = document.createElement('style');
-		style.textContent = `
-			.yometai-loader {
-				opacity: 0.3;
-				background: #AAA;
-				position: relative;
-			}
-			.yometai-loader:after {
-				content: "";
-				left: 0;
-				right: 0;
-				top: 0;
-				bottom: 0;
-				position: absolute;
-				background-image: url(${loaderUrl});
-				background-position: center;
-				background-size: contain;
-				background-repeat: no-repeat;
-			}
-
-			.yometai-sentence {
-				clear: both;
-				display: inline;
-			}
-
-			.yometai-sentence > .yometai-token {
-				display: inline-block;
-				text-align: center;
-				line-height: 100%;
-			}
-
-			.yometai-sentence > .yometai-token .yometai-furigana,
-			.yometai-sentence > .yometai-token .yometai-translation {
-				font-size: 0.5rem;
-				display: block;
-				line-height: 150%;
-				margin: 0 2px;
-			}
-		`;
-		document.body.appendChild(style);
-	}
-
 	convertSentence(node: Text, tokens: Token[]) {
 		const container = document.createElement('span');
 		container.classList.add('yometai-sentence');
@@ -212,9 +169,9 @@ export default class DomConverter {
 	}
 
 	handleWordClick(token: Token, tokenElement: Element) {
-		if (this.tooltipToken === null) {
+		if (this.tooltip === null) {
 			this.openTooltip(token, tokenElement);
-		} else if (this.tooltipToken.text === token.text) {
+		} else if (this.tooltip.$children[0].$props.token.text === token.text) {
 			this.closeTooltip();
 		} else {
 			this.closeTooltip();
@@ -223,10 +180,12 @@ export default class DomConverter {
 	}
 
 	openTooltip(token: Token, tokenElement: Element) {
-		this.tooltipToken = token;
+		const container = document.createElement('div');
+		document.body.appendChild(container);
 
-		this.tooltipContainer = document.createElement('div');
-		this.tooltipInstance = new Vue({
+		// Vue replaces the container, so no need to save the reference
+		this.tooltip = new Vue({
+			el: container,
 			render: createElement => createElement(Tooltip, {
 				props: {
 					token,
@@ -234,20 +193,13 @@ export default class DomConverter {
 				},
 			}),
 		});
-
-		document.body.appendChild(this.tooltipContainer);
-		this.tooltipInstance.$mount(this.tooltipContainer);
 	}
 
 	closeTooltip() {
-		this.tooltipToken = null;
-		if (this.tooltipInstance !== null) {
-			this.tooltipInstance.$destroy();
-			this.tooltipInstance = null;
-		}
-		if (this.tooltipContainer !== null) {
-			document.body.removeChild(this.tooltipContainer);
-			this.tooltipContainer = null;
+		if (this.tooltip !== null) {
+			document.body.removeChild(this.tooltip.$el);
+			this.tooltip.$destroy();
+			this.tooltip = null;
 		}
 	}
 }

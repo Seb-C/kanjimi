@@ -3,8 +3,6 @@ import { debounce } from 'ts-debounce';
 
 const converter = new DomConverter();
 
-converter.injectStyle();
-
 // Initializing
 converter.convertSentences(converter.getSentencesToConvert());
 

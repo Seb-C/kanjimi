@@ -1,7 +1,7 @@
-update npm on PC
-mockup of the tooltip/popup
-Add all data about a word as a tooltip
+improve the tooltip style & add the tip to the tooltip
+route to explain a word (split kanji and contextualized reading of every kanji)
 any way to prevent long translations from breaking the layout?
+kanji stroke font size
 Do not show reading for loan words (katakana)
 update vim syntax colours broken (see bottom of the dictionary)
 find a name
@@ -12,10 +12,13 @@ add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_ve
 Validate input via an express middleware?
 webpack: different typescript config for each (lib and type keys for example)
 implement down migrations
+show tags in the tooltip?
 half width characters? full-width roman chars and letters?
+extension hot-reload (feasible by unloading everything properly?)
 Filter languages in server instead of client (see getBestWord function in WordToken)
 replace API with websockets?
 properly implement all the JSONApi spec (+ relationships, client already fixed)
+automatic test of the tooltip position calculations?
 automatic tests for the frontend? unit test some dom functions?
 optimize server performance by compiling properly
 Do not show single kana translations?

@@ -1,16 +1,28 @@
 <template>
 	<div
 		ref="tooltip"
+		class="yometai-tooltip"
 		v-bind:style="{
 			position: 'absolute',
 			background: 'red',
-			top: tooltipStyles.y1,
-			left: tooltipStyles.x1,
-			bottom: tooltipStyles.y2,
-			right: tooltipStyles.x2,
+			overflowY: 'auto',
+			zIndex: 999999,
+			...tooltipStyles,
 		}"
 	>
-		Hello World!
+		<div>{{ token.text }}</div>
+		<div v-bind:style="{
+			fontFamily: 'yometai-kanji-stroke-orders',
+			fontSize: '150px',
+		}">{{ token.text }}</div>
+
+		<ul>
+			<li v-for="word in token.words">
+				{{ word.reading }}
+				{{ word.translationLang }}
+				{{ word.translation }}
+			</li>
+		</ul>
 	</div>
 </template>
 <script lang="ts">
@@ -24,28 +36,57 @@
 		data() {
 			return {
 				tooltipStyles: {
-					x1: -1000,
-					y1: -1000,
-					x2: -1000,
-					y2: -1000,
+					top: '-999999px',
+					left: '-999999px',
+					width: 'auto',
+					height: 'auto',
+					maxHeight: '50vh',
+					maxWidth: '100vw',
 				},
 			};
 		},
 		mounted() {
+			const tipHeight = 10;
 			const targetPos = this.getElementPosition(this.tokenElement);
-			const tooltipSize = this.getElementSize(this.$refs.tooltip);
 
-			// TODO calculate the tooltip position
-			// should be on the top, unless there is no space
-			// should be horizontally centered, unless there is no space
-			// TODO possible to do some hot-reload? or properly remove everything when uninstalling extension
-			console.log(targetPos, tooltipSize);
+			const tooltipWidth = this.$refs.tooltip.offsetWidth;
+			const tooltipHeight = this.$refs.tooltip.offsetHeight;
 
-			this.$tooltipStyles = {
-				x1: targetPos.x1,
-				y1: targetPos.y1 - 50,
-				x2: targetPos.x1 + tooltipSize.width,
-				y2: targetPos.y1 + tooltipSize.height,
+			let left = targetPos.left - Math.round((tooltipWidth - (targetPos.right - targetPos.left)) / 2);
+			if (left < 0) {
+				// Making sure it does not go outside the document on the left
+				left = 0;
+			}
+
+			let right = left + tooltipWidth;
+			if (right >= window.innerWidth) {
+				// Making sure it does not go outside the document on the right
+				left -= (right - window.innerWidth);
+			}
+
+			const targetDistanceToTop = targetPos.top - window.scrollY;
+			const targetDistanceToBottom = (window.scrollY + window.innerHeight) - targetPos.bottom;
+			const showOnTop = (
+				targetDistanceToTop >= (tooltipHeight + tipHeight)
+				|| targetDistanceToTop >= targetDistanceToBottom
+			);
+
+			let top: number;
+			if (showOnTop) {
+				top = targetPos.top - tooltipHeight - tipHeight;
+				if (top < 0) {
+					// Making sure it does not go over the top of the document
+					top = targetPos.bottom + tipHeight;
+				}
+			} else {
+				top = targetPos.bottom + tipHeight;
+			}
+
+			this.tooltipStyles = {
+				left: left + 'px',
+				top: top + 'px',
+				width: (right - left) + 'px',
+				height: tooltipHeight + 'px',
 			};
 		},
 		methods: {
@@ -61,16 +102,10 @@
 				} while (currentNode);
 
 				return {
-					x1: left,
-					y1: top,
-					x2: left + element.offsetWidth,
-					y2: top + element.offsetHeight,
-				};
-			},
-			getElementSize(element: HTMLElement) {
-				return {
-					width: element.offsetWidth,
-					height: element.offsetHeight,
+					left: left,
+					top: top,
+					right: left + element.offsetWidth,
+					bottom: top + element.offsetHeight,
 				};
 			},
 		},

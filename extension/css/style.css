@@ -1,0 +1,41 @@
+@font-face {
+    font-family: 'yometai-kanji-stroke-orders';
+    src: url('/fonts/KanjiStrokeOrders/KanjiStrokeOrders.ttf');
+}
+
+.yometai-loader {
+    opacity: 0.3;
+    background: #AAA;
+    position: relative;
+}
+.yometai-loader:after {
+    content: "";
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    position: absolute;
+    background-image: url(/images/loader.svg);
+    background-position: center;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.yometai-sentence {
+    clear: both;
+    display: inline;
+}
+
+.yometai-sentence > .yometai-token {
+    display: inline-block;
+    text-align: center;
+    line-height: 100%;
+}
+
+.yometai-sentence > .yometai-token .yometai-furigana,
+.yometai-sentence > .yometai-token .yometai-translation {
+    font-size: 0.5rem;
+    display: block;
+    line-height: 150%;
+    margin: 0 2px;
+}

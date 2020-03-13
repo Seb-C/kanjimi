@@ -2,6 +2,7 @@ import Conjugations from 'Server/Lexer/Conjugations';
 import Conjugation from 'Common/Models/Conjugation';
 import Token from 'Common/Models/Token/Token';
 import CharType from 'Common/Types/CharType';
+import Language from 'Common/Types/Language';
 import VerbToken from 'Common/Models/Token/VerbToken';
 import ParticleToken from 'Common/Models/Token/ParticleToken';
 import PunctuationToken from 'Common/Models/Token/PunctuationToken';
@@ -17,7 +18,7 @@ export default class Lexer {
 		this.dictionary = dictionary;
 	}
 
-	analyze (text: string): Token[] {
+	analyze (text: string, langs: Language[]|null = null): Token[] {
 		const tokensByCharType: CharTypeToken[] = this.tokenizeByCharType(text);
 
 		const tokens: Token[] = [];
@@ -37,7 +38,7 @@ export default class Lexer {
 
 			// Katakanas should not be splitted
 			if (currentToken.charType === CharType.KATAKANA) {
-				const word = this.dictionary.get(currentToken.text);
+				const word = this.dictionary.get(currentToken.text, langs);
 				if (word.length > 0) {
 					tokens.push(new WordToken(currentToken.text, word));
 				} else {
@@ -57,7 +58,7 @@ export default class Lexer {
 			));
 			i--; // We increased too much on the last iteration
 
-			for (const token of this.splitByDictionarySearches(text)) {
+			for (const token of this.splitByDictionarySearches(text, langs)) {
 				tokens.push(token);
 			}
 		}
@@ -95,10 +96,13 @@ export default class Lexer {
 		return tokens;
 	}
 
-	*splitByDictionarySearches (text: string): Iterable<Token> {
+	*splitByDictionarySearches (text: string, langs: Language[]|null = null): Iterable<Token> {
 		for (let position = 0; position < text.length; position++) {
 			for (let length = text.length - position; length > 0; length--) {
-				const foundMeaning = this.searchMeaning(text.substring(position, position + length));
+				const foundMeaning = this.searchMeaning(
+					text.substring(position, position + length),
+					langs,
+				);
 				if (foundMeaning !== null) {
 					if (position > 0) {
 						// Making the text preceding this word as a separate token
@@ -108,7 +112,10 @@ export default class Lexer {
 					yield foundMeaning;
 
 					if (text.length > (position + length)) {
-						for (const token of this.splitByDictionarySearches(text.substring(position + length))) {
+						for (const token of this.splitByDictionarySearches(
+							text.substring(position + length),
+							langs,
+						)) {
 							yield token;
 						}
 					}
@@ -130,13 +137,13 @@ export default class Lexer {
 		}
 	}
 
-	searchMeaning (text: string): Token|null {
+	searchMeaning (text: string, langs: Language[]|null = null): Token|null {
 		if (ParticleToken.isParticle(text)) {
 			return new ParticleToken(text);
 		}
 
 		if (this.dictionary.has(text)) {
-			return new WordToken(text, this.dictionary.get(text));
+			return new WordToken(text, this.dictionary.get(text, langs));
 		}
 
 		for (let i = 1; i < text.length ; i++) {

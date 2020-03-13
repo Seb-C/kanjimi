@@ -1,5 +1,6 @@
 import Word from 'Common/Models/Word';
 import WordTagType from 'Common/Types/WordTagType';
+import Language from 'Common/Types/Language';
 import * as FileSystem from 'fs';
 import * as Path from 'path';
 import * as ReadLine from 'readline';
@@ -8,19 +9,19 @@ export default class Dictionary {
 	private readonly words: Map<string, Word[]> = new Map();
 
 	async load(): Promise<void[]> {
-		const langAndFiles: { lang: string, path: string }[] = [
-			{ lang: 'de', path: Path.join(__dirname, './data/words-de.csv') },
-			{ lang: 'en', path: Path.join(__dirname, './data/words-en.csv') },
-			{ lang: 'es', path: Path.join(__dirname, './data/words-es.csv') },
-			{ lang: 'fr', path: Path.join(__dirname, './data/words-fr.csv') },
-			{ lang: 'hu', path: Path.join(__dirname, './data/words-hu.csv') },
-			{ lang: 'nl', path: Path.join(__dirname, './data/words-nl.csv') },
-			{ lang: 'ru', path: Path.join(__dirname, './data/words-ru.csv') },
-			{ lang: 'sl', path: Path.join(__dirname, './data/words-sl.csv') },
-			{ lang: 'sv', path: Path.join(__dirname, './data/words-sv.csv') },
+		const langAndFiles: { lang: Language, path: string }[] = [
+			{ lang: Language.GERMAN, path: Path.join(__dirname, './data/words-de.csv') },
+			{ lang: Language.ENGLISH, path: Path.join(__dirname, './data/words-en.csv') },
+			{ lang: Language.SPANISH, path: Path.join(__dirname, './data/words-es.csv') },
+			{ lang: Language.FRENCH, path: Path.join(__dirname, './data/words-fr.csv') },
+			{ lang: Language.HUNGARIAN, path: Path.join(__dirname, './data/words-hu.csv') },
+			{ lang: Language.DUTCH, path: Path.join(__dirname, './data/words-nl.csv') },
+			{ lang: Language.RUSSIAN, path: Path.join(__dirname, './data/words-ru.csv') },
+			{ lang: Language.SLOVENIAN, path: Path.join(__dirname, './data/words-sl.csv') },
+			{ lang: Language.SWEDISH, path: Path.join(__dirname, './data/words-sv.csv') },
 		];
 
-		const loaders: Promise<void>[] = langAndFiles.map((file: { lang: string, path: string }) => {
+		const loaders: Promise<void>[] = langAndFiles.map((file: { lang: Language, path: string }) => {
 			return new Promise((resolve, reject) => {
 				const dictionaryFileIterator = ReadLine.createInterface({
 					input: FileSystem.createReadStream(file.path),
@@ -43,7 +44,7 @@ export default class Dictionary {
 		return Promise.all(loaders);
 	}
 
-	parseCsvLine (line: string, lang: string): Word {
+	parseCsvLine (line: string, lang: Language): Word {
 		let word: string = '';
 		let reading: string = '';
 		let translation: string = '';
@@ -94,8 +95,24 @@ export default class Dictionary {
 		}
 	}
 
-	get (text: string): ReadonlyArray<Word> {
-		return this.words.get(text) || [];
+	get (text: string, langs: Language[]|null = null): ReadonlyArray<Word> {
+		const words = this.words.get(text) || [];
+
+		if (langs === null) {
+			return words;
+		} else {
+			// We want the result to have the languages ordered like the langs array
+			const filteredWords: Word[] = [];
+			for (let i = 0; i < langs.length; i++) {
+				for (let j = 0; j < words.length; j++) {
+					if (words[j].translationLang === langs[i]) {
+						filteredWords.push(words[j]);
+					}
+				}
+			}
+
+			return filteredWords;
+		}
 	}
 
 	has (text: string): boolean {

@@ -11,5 +11,8 @@ indent_style = tab
 [*.{js,jsx,mjs,ts,vue}]
 indent_style = tab
 
+[*.css]
+indent_style = tab
+
 [*.html]
 indent_style = tab

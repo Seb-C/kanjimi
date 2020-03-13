@@ -1,5 +1,6 @@
 import Token from 'Common/Models/Token/Token';
 import Word from 'Common/Models/Word';
+import Language from 'Common/Types/Language';
 
 export default class WordToken extends Token {
 	public readonly words: ReadonlyArray<Word>;
@@ -9,36 +10,19 @@ export default class WordToken extends Token {
 		this.words = words;
 	}
 
-	private getBestWord(): Word|null {
-		for (let i = 0; i < this.words.length; i++) {
-			if (this.words[i].translationLang === 'fr') {
-				return this.words[i];
-			}
-		}
-		for (let i = 0; i < this.words.length; i++) {
-			if (this.words[i].translationLang === 'en') {
-				return this.words[i];
-			}
-		}
-
-		return this.words[0];
-	}
-
 	public getFurigana(): string {
-		const word = this.getBestWord();
-		if (word === null) {
+		if (this.words.length === 0) {
 			return '';
 		}
 
-		return word.reading;
+		return this.words[0].reading;
 	}
 
 	public getTranslation(): string {
-		const word = this.getBestWord();
-		if (word === null) {
+		if (this.words.length === 0) {
 			return '';
 		}
 
-		return word.getShortTranslation();
+		return this.words[0].getShortTranslation();
 	}
 }

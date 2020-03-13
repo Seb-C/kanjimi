@@ -5,19 +5,25 @@
 			class="yometai-tooltip"
 			v-bind:style="tooltipStyles"
 		>
-			<div>{{ token.text }}</div>
+			<ul class="yometai-readings">
+				<li v-for="[reading, words] of wordsByReading">
+					<span class="yometai-token">
+						<span class="yometai-furigana">{{ reading }}</span>
+						<span class="yometai-word">{{ token.text }}</span>
+					</span>
+					<ol class="yometai-reading-translations">
+						<li v-for="word in words">
+							{{ Language.toUnicodeFlag(word.translationLang) }}
+							{{ word.translation }}
+						</li>
+					</ol>
+				</li>
+			</ul>
+
 			<div v-bind:style="{
 				fontFamily: 'yometai-kanji-stroke-orders',
 				fontSize: '150px',
 			}">{{ token.text }}</div>
-
-			<ul>
-				<li v-for="word in token.words">
-					{{ word.reading }}
-					{{ word.translationLang }}
-					{{ word.translation }}
-				</li>
-			</ul>
 		</div>
 		<div
 			class="yometai-tooltip-tip"
@@ -31,6 +37,9 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
+	import Word from 'Common/Models/Word';
+	import Language from 'Common/Types/Language';
+	import WordToken from 'Common/Models/Token/WordToken';
 
 	export default Vue.extend({
 		props: [
@@ -38,7 +47,18 @@
 			'tokenElement',
 		],
 		data() {
+			const wordsByReading: Map<string, Word[]> = new Map();
+			(<WordToken>this.token).words.forEach((word) => {
+				if (wordsByReading.has(word.reading)) {
+					(<Word[]>wordsByReading.get(word.reading)).push(word);
+				} else {
+					wordsByReading.set(word.reading, [word]);
+				}
+			});
+
 			return {
+				Language,
+				wordsByReading,
 				tooltipStyles: {
 					top: '-999999px',
 					left: '-999999px',

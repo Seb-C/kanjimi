@@ -8,6 +8,7 @@ import Token from 'Common/Models/Token/Token';
 import VerbToken from 'Common/Models/Token/VerbToken';
 import ParticleToken from 'Common/Models/Token/ParticleToken';
 import PunctuationToken from 'Common/Models/Token/PunctuationToken';
+import Language from 'Common/Types/Language';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
@@ -15,40 +16,40 @@ let lexer: Lexer;
 describe('Lexer', async () => {
 	beforeEach(() => {
 		const dictionary = new Dictionary();
-		dictionary.add(new Word('私', '', '', '', []));
-		dictionary.add(new Word('申す', '', '', '', []));
-		dictionary.add(new Word('国立', '', '', '', []));
-		dictionary.add(new Word('女性美', '', '', '', []));
-		dictionary.add(new Word('術', '', '', '', []));
-		dictionary.add(new Word('館', '', '', '', []));
-		dictionary.add(new Word('日本', '', '', '', []));
-		dictionary.add(new Word('大帝', '', '', '', []));
-		dictionary.add(new Word('国憲法', '', '', '', []));
-		dictionary.add(new Word('合衆国', '', '', '', []));
-		dictionary.add(new Word('最高裁判所', '', '', '', []));
-		dictionary.add(new Word('東', '', '', '', []));
-		dictionary.add(new Word('ア', '', '', '', []));
-		dictionary.add(new Word('アジア', '', '', '', []));
-		dictionary.add(new Word('そんな', '', '', '', []));
-		dictionary.add(new Word('こと', '', '', '', []));
-		dictionary.add(new Word('行く', '', '', '', []));
-		dictionary.add(new Word('物', '', '', '', []));
-		dictionary.add(new Word('食べる', '', '', '', []));
-		dictionary.add(new Word('食べ物', '', '', '', []));
-		dictionary.add(new Word('たくさん', '', '', '', []));
-		dictionary.add(new Word('感じ', '', '', '', []));
-		dictionary.add(new Word('ある', '', '', '', []));
-		dictionary.add(new Word('言葉', '', '', '', []));
-		dictionary.add(new Word('好き', '', '', '', []));
-		dictionary.add(new Word('楽しい', '', '', '', []));
-		dictionary.add(new Word('高い', '', '', '', []));
-		dictionary.add(new Word('この', '', '', '', []));
-		dictionary.add(new Word('です', '', '', '', []));
+		dictionary.add(new Word('私', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('申す', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('国立', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('女性美', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('術', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('館', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('日本', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('大帝', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('国憲法', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('合衆国', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('最高裁判所', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('東', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('ア', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('アジア', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('そんな', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('こと', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('行く', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('物', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('食べる', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('食べ物', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('たくさん', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('感じ', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('ある', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('言葉', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('好き', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('楽しい', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('高い', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('この', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('です', '', Language.ENGLISH, '', []));
 
 		// Adding some particles to the dictionary to assert that
 		// it is well recognized as a particle and not as a word
-		dictionary.add(new Word('は', '', '', '', []));
-		dictionary.add(new Word('と', '', '', '', []));
+		dictionary.add(new Word('は', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('と', '', Language.ENGLISH, '', []));
 
 		lexer = new Lexer(dictionary);
 	});

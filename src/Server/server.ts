@@ -3,6 +3,7 @@ import Dictionary from 'Server/Lexer/Dictionary';
 import Database from 'Server/Database/Database';
 import Serializer from 'Common/Api/Serializer';
 import Unserializer from 'Common/Api/Unserializer';
+import Language from 'Common/Types/Language';
 import express = require('express');
 import bodyParser = require('body-parser');
 
@@ -50,6 +51,7 @@ const runServer = async (application: express.Application): Promise<void> => {
 				serializer.toJsonApi(
 					lexer.analyze(
 						sentences[i].trim(),
+						[Language.FRENCH, Language.ENGLISH],
 					),
 				),
 			);

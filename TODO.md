@@ -1,5 +1,7 @@
-download and keep the kanji and names dictionaries on my PC
+improve display (remove translation number? indent by flag?)
+unit-test toUnicodeFlag
 route to explain a word (split kanji and contextualized reading of every kanji)
+uniformly reset the css inside the tooltip, to avoid conflicts
 Kanjis explanation and readings
 Kanjis dictionary with readings?
 any way to prevent long translations from breaking the layout?
@@ -16,7 +18,7 @@ webpack: different typescript config for each (lib and type keys for example)
 implement down migrations
 show tags in the tooltip?
 half width characters? full-width roman chars and letters?
-Filter languages in server instead of client (see getBestWord function in WordToken)
+Use the proper languages depending on the user (currently filtered in the route definition)
 extension hot-reload -> only feasible by clearing everything on load
 replace API with websockets?
 properly implement all the JSONApi spec (+ relationships, client already fixed)

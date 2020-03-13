@@ -1,10 +1,11 @@
 import 'jasmine';
 import Word from 'Common/Models/Word';
+import Language from 'Common/Types/Language';
 
 describe('Word', () => {
 	it('getShortTranslation method', async () => {
 		const test = (translation: string) => (
-			new Word('', '', '', translation, [])
+			new Word('', '', Language.ENGLISH, translation, [])
 		).getShortTranslation();
 
 		expect(test('test')).toBe('test');

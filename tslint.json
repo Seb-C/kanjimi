@@ -3,7 +3,7 @@
     "extends": "tslint-config-airbnb",
     "rules": {
       "indent": [true, "tabs", 1],
-      "ter-indent": [true, "tab"],
+      "ter-indent": [true, "tab", {"SwitchCase": 1}],
       "no-else-after-return": [false],
       "no-increment-decrement": [false],
       "import-name": [false]

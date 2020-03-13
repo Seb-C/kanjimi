@@ -1,82 +1,100 @@
 @font-face {
-    font-family: 'yometai-kanji-stroke-orders';
-    src: url('/fonts/KanjiStrokeOrders/KanjiStrokeOrders.ttf');
+	font-family: 'yometai-kanji-stroke-orders';
+	src: url('/fonts/KanjiStrokeOrders/KanjiStrokeOrders.ttf');
 }
 
 :root {
-  --yometai-color-background: #eae4ce;
-  --yometai-color-text: black;
-  --yometai-color-cursor: #C53A3A;
+	--yometai-color-background: #eae4ce;
+	--yometai-color-text: black;
+	--yometai-color-cursor: #C53A3A;
+	--yometai-color-gray: #AAA;
 }
 
 .yometai-loader {
-    opacity: 0.3;
-    background: #AAA;
-    position: relative;
+	opacity: 0.3;
+	background: var(--yometai-color-gray);
+	position: relative;
 }
 .yometai-loader:after {
-    content: "";
-    left: 0;
-    right: 0;
-    top: 0;
-    bottom: 0;
-    position: absolute;
-    background-image: url(/images/loader.svg);
-    background-position: center;
-    background-size: contain;
-    background-repeat: no-repeat;
+	content: "";
+	left: 0;
+	right: 0;
+	top: 0;
+	bottom: 0;
+	position: absolute;
+	background-image: url(/images/loader.svg);
+	background-position: center;
+	background-size: contain;
+	background-repeat: no-repeat;
 }
 
 .yometai-sentence {
-    clear: both;
-    display: inline;
+	clear: both;
+	display: inline;
 }
 
-.yometai-sentence > .yometai-token {
-    display: inline-block;
-    text-align: center;
-    line-height: 100%;
+.yometai-token {
+	display: inline-block;
+	text-align: center;
+	line-height: 100%;
 }
 
-.yometai-sentence > .yometai-token .yometai-furigana,
-.yometai-sentence > .yometai-token .yometai-translation {
-    font-size: 0.5rem;
-    display: block;
-    line-height: 150%;
-    margin: 0 2px;
+.yometai-token .yometai-furigana,
+.yometai-token .yometai-translation {
+	font-size: 0.5rem;
+	display: block;
+	line-height: 150%;
+	margin: 0 2px;
 }
 
 a .yometai-sentence:after {
-    content: "\1F517";
-    display: inline-block;
-    vertical-align: top;
-    margin: 0.5rem 0.5rem 0.5rem 0;
+	content: "\1F517";
+	display: inline-block;
+	vertical-align: top;
+	margin: 0.5rem 0.5rem 0.5rem 0;
 }
 
 .yometai-tooltip {
-    position: absolute;
-    background: var(--yometai-color-background);
-    overflow-y: auto;
-    z-index: 999999;
-    box-sizing: border-box;
-    border-radius: 5px;
-    border: 1px solid var(--yometai-color-text);
-    color: var(--yometai-color-text);
-    padding: 5px;
+	position: absolute;
+	background: var(--yometai-color-background);
+	overflow-y: auto;
+	z-index: 999999;
+	box-sizing: border-box;
+	border-radius: 5px;
+	border: 1px solid var(--yometai-color-text);
+	color: var(--yometai-color-text);
+	padding: 5px;
 }
 
 .yometai-tooltip-tip {
-    position: absolute;
-    background: var(--yometai-color-background);
-    z-index: 999998;
-    transform-origin: center;
-    transform: rotate(45deg);
-    border: 1px solid var(--yometai-color-text);
+	position: absolute;
+	background: var(--yometai-color-background);
+	z-index: 999998;
+	transform-origin: center;
+	transform: rotate(45deg);
+	border: 1px solid var(--yometai-color-text);
 }
 
 .yometai-tooltip-cursor {
-    box-sizing: border-box;
-    position: absolute;
-    border: 2px dashed var(--yometai-color-cursor);
-    pointer-events: none;
+	box-sizing: border-box;
+	position: absolute;
+	border: 2px dashed var(--yometai-color-cursor);
+	pointer-events: none;
+}
+
+.yometai-readings {
+	list-style-type: none;
+	list-style-image: none;
+	margin: 0;
+}
+
+.yometai-readings li > .yometai-token {
+	float: left;
+}
+
+.yometai-reading-translations {
+	display: inline-block;
+	padding-left: 1.5rem;
+	margin-left: 0.5rem;
+	border-left: 2px solid var(--yometai-color-gray);
 }

@@ -1,3 +1,4 @@
+download and keep the kanji and names dictionaries on my PC
 route to explain a word (split kanji and contextualized reading of every kanji)
 Kanjis explanation and readings
 Kanjis dictionary with readings?

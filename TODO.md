@@ -1,4 +1,3 @@
-handle clicks on links
 extension hot-reload -> only feasible by clearing everything on load
 route to explain a word (split kanji and contextualized reading of every kanji)
 any way to prevent long translations from breaking the layout?

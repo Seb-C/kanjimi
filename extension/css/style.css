@@ -46,6 +46,13 @@
     margin: 0 2px;
 }
 
+a .yometai-sentence:after {
+    content: "\1F517";
+    display: inline-block;
+    vertical-align: top;
+    margin: 0.5rem 0.5rem 0.5rem 0;
+}
+
 .yometai-tooltip {
     position: absolute;
     background: var(--yometai-color-background);
@@ -71,4 +78,5 @@
     box-sizing: border-box;
     position: absolute;
     border: 2px dashed var(--yometai-color-cursor);
+    pointer-events: none;
 }

@@ -152,6 +152,7 @@ export default class DomConverter {
 			tokenWord.classList.add('yometai-word');
 			tokenWord.innerText = token.text || '\xa0';
 			tokenWord.addEventListener('click', (event) => {
+				event.preventDefault();
 				event.stopPropagation();
 				this.handleWordClick(token, tokenElement);
 			});

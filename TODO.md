@@ -1,4 +1,3 @@
-unit-test toUnicodeFlag
 route to explain a word (split kanji and contextualized reading of every kanji)
 uniformly reset the css inside the tooltip, to avoid conflicts
 Kanjis explanation and readings

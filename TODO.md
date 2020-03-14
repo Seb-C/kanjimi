@@ -1,10 +1,10 @@
-improve display (remove translation number? indent by flag?)
 unit-test toUnicodeFlag
 route to explain a word (split kanji and contextualized reading of every kanji)
 uniformly reset the css inside the tooltip, to avoid conflicts
 Kanjis explanation and readings
 Kanjis dictionary with readings?
 any way to prevent long translations from breaking the layout?
+in the definition, indent and count the definitions separately for each flag (and don't repeat the flag)
 Do not show reading for loan words (katakana)
 update vim syntax colours broken (see bottom of the dictionary)
 find a name

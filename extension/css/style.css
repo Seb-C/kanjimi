@@ -10,6 +10,13 @@
 	--yometai-color-gray: #AAA;
 }
 
+.yometai-tooltip-container,
+.yometai-tooltip-container *,
+.yometai-tooltip-container *::before,
+.yometai-tooltip-container *::after {
+	all: initial;
+}
+
 .yometai-loader {
 	opacity: 0.3;
 	background: var(--yometai-color-gray);
@@ -83,12 +90,15 @@ a .yometai-sentence:after {
 }
 
 .yometai-readings {
-	list-style-type: none;
-	list-style-image: none;
+	display: block;
 	margin: 0;
 }
 
-.yometai-readings li > .yometai-token {
+.yometai-readings > li {
+	list-style-type: none;
+}
+
+.yometai-readings > li > .yometai-token {
 	float: left;
 }
 
@@ -97,4 +107,9 @@ a .yometai-sentence:after {
 	padding-left: 1.5rem;
 	margin-left: 0.5rem;
 	border-left: 2px solid var(--yometai-color-gray);
+}
+
+.yometai-reading-translations > li {
+	list-style-type: decimal;
+	display: list-item;
 }

@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="yometai-tooltip-container">
 		<div
 			ref="tooltip"
 			class="yometai-tooltip"

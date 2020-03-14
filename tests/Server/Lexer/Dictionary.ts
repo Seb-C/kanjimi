@@ -44,4 +44,15 @@ describe('Dictionary', () => {
 		expect(multiLangResult[1].translation).toBe('translation fr 2');
 		expect(multiLangResult[2].translation).toBe('translation en');
 	});
+
+	it('Get words not associated to a lang', async () => {
+		const dictionary = new Dictionary();
+		dictionary.add(new Word('ア', 'あ', Language.ENGLISH, 'en', []));
+		dictionary.add(new Word('ア', 'あ', null, 'no lang', []));
+
+		expect(dictionary.get('ア').length).toBe(2);
+		expect(dictionary.get('ア', [Language.ENGLISH]).length).toBe(2);
+		expect(dictionary.get('ア', [Language.FRENCH]).length).toBe(1);
+		expect(dictionary.get('ア', [Language.FRENCH])[0].translationLang).toBe(null);
+	});
 });

@@ -1,12 +1,12 @@
+fix the rendering of the definitions
+in the definition, indent and count the definitions separately for each flag (and don't repeat the flag)
+improve display of definitions with flex or grid? long sentence goes to the next line
 close popup if click outside? cross to close?
 split the tooltip and dom files
 typescript for the props of vue.js
 use vue js to render the normal tokens as well
-improve display of definitions with flex or grid? long sentence goes to the next line
 route to explain a word (split kanji and contextualized reading of every kanji)
 Kanjis explanation and readings
-Kanjis dictionary with readings?
-in the definition, indent and count the definitions separately for each flag (and don't repeat the flag)
 Do not show reading for loan words (katakana)
 update vim syntax colours broken (see bottom of the dictionary)
 find a name
@@ -18,7 +18,7 @@ add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_ve
 Validate input via an express middleware?
 webpack: different typescript config for each (lib and type keys for example)
 implement down migrations
-show tags in the tooltip?
+show some tags in the tooltip (names...)
 half width characters? full-width roman chars and letters?
 Use the proper languages depending on the user (currently filtered in the route definition)
 extension hot-reload -> only feasible by clearing everything on load
@@ -28,9 +28,7 @@ automatic tests for the frontend? unit test some dom functions? How to do that?
 automatic test of the tooltip position calculations? (e2e tests of the result)
 optimize server performance by compiling properly
 Do not show single kana translations?
-names dictionary?
 counters?
-places and countries names?
 store unfound words?
 display history
 manual lookup history

@@ -13,7 +13,7 @@
 					</span>
 					<ol class="yometai-reading-translations">
 						<li v-for="word in words">
-							{{ Language.toUnicodeFlag(word.translationLang) }}
+							{{ word.translationLang === null ? '' : Language.toUnicodeFlag(word.translationLang) }}
 							{{ word.translation }}
 						</li>
 					</ol>

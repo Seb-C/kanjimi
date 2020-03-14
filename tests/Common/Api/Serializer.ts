@@ -20,7 +20,7 @@ describe('Api Serializer', () => {
 		expect(data.constructor).toBe(Word);
 		expect(data.word).toBe('食べる');
 		expect(data.reading).toBe('たべる');
-		expect(data.translationLang).toBe('en');
+		expect(data.translationLang).toBe(Language.ENGLISH);
 		expect(data.translation).toBe('to eat');
 		expect(data.tags[0]).toBe(WordTagType.UNCLASSIFIED);
 	});

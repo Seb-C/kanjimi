@@ -9,7 +9,7 @@ export default class Dictionary {
 	private readonly words: Map<string, Word[]> = new Map();
 
 	async load(): Promise<void[]> {
-		const langAndFiles: { lang: Language, path: string }[] = [
+		const langAndFiles: { lang: Language|null, path: string }[] = [
 			{ lang: Language.GERMAN, path: Path.join(__dirname, './data/words-de.csv') },
 			{ lang: Language.ENGLISH, path: Path.join(__dirname, './data/words-en.csv') },
 			{ lang: Language.SPANISH, path: Path.join(__dirname, './data/words-es.csv') },
@@ -19,9 +19,13 @@ export default class Dictionary {
 			{ lang: Language.RUSSIAN, path: Path.join(__dirname, './data/words-ru.csv') },
 			{ lang: Language.SLOVENIAN, path: Path.join(__dirname, './data/words-sl.csv') },
 			{ lang: Language.SWEDISH, path: Path.join(__dirname, './data/words-sv.csv') },
+			{ lang: null, path: Path.join(__dirname, './data/names.csv') },
 		];
 
-		const loaders: Promise<void>[] = langAndFiles.map((file: { lang: Language, path: string }) => {
+		const loaders: Promise<void>[] = langAndFiles.map((file: {
+			lang: Language|null,
+			path: string,
+		}) => {
 			return new Promise((resolve, reject) => {
 				const dictionaryFileIterator = ReadLine.createInterface({
 					input: FileSystem.createReadStream(file.path),
@@ -44,7 +48,7 @@ export default class Dictionary {
 		return Promise.all(loaders);
 	}
 
-	parseCsvLine (line: string, lang: Language): Word {
+	parseCsvLine (line: string, lang: Language|null): Word {
 		let word: string = '';
 		let reading: string = '';
 		let translation: string = '';
@@ -108,6 +112,13 @@ export default class Dictionary {
 					if (words[j].translationLang === langs[i]) {
 						filteredWords.push(words[j]);
 					}
+				}
+			}
+
+			// Adding words not associated to a lang
+			for (let j = 0; j < words.length; j++) {
+				if (words[j].translationLang === null) {
+					filteredWords.push(words[j]);
 				}
 			}
 

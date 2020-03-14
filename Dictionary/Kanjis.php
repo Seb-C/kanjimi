@@ -2,26 +2,6 @@
 
 // From: http://ftp.monash.edu/pub/nihongo/kanjidic2.xml.gz
 
-/*
-<character>
-<literal>姐</literal>
-<reading_meaning>
-<rmgroup>
-<reading r_type="pinyin">jie3</reading>
-<reading r_type="korean_r">jeo</reading>
-<reading r_type="korean_h">저</reading>
-<reading r_type="vietnam">Tả</reading>
-<reading r_type="vietnam">Thư</reading>
-<reading r_type="ja_on">ソ</reading>
-<reading r_type="ja_on">シャ</reading>
-<reading r_type="ja_kun">あね</reading>
-<reading r_type="ja_kun">ねえさん</reading>
-<meaning>elder sister</meaning>
-<meaning>maidservant</meaning>
-<meaning m_lang="es">sarga</meaning>
-<meaning m_lang="es">tela con diseño</meaning>
-*/
-
 $languageCodes = ['en', 'fr', 'pt', 'es'];
 
 $readingsCsv = fopen(__DIR__ . "/../src/Server/Lexer/data/kanjis-readings.csv", "w");

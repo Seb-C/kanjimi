@@ -1,5 +1,4 @@
 Dictionary/xml/
-Dictionary/*.csv
 node_modules/
 package-lock.json
 extension/*.build.js

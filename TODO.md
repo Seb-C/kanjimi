@@ -1,8 +1,11 @@
+close popup if click outside? cross to close?
+split the tooltip and dom files
+typescript for the props of vue.js
+use vue js to render the normal tokens as well
+improve display of definitions with flex or grid? long sentence goes to the next line
 route to explain a word (split kanji and contextualized reading of every kanji)
-uniformly reset the css inside the tooltip, to avoid conflicts
 Kanjis explanation and readings
 Kanjis dictionary with readings?
-any way to prevent long translations from breaking the layout?
 in the definition, indent and count the definitions separately for each flag (and don't repeat the flag)
 Do not show reading for loan words (katakana)
 update vim syntax colours broken (see bottom of the dictionary)

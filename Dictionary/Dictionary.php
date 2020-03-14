@@ -2,12 +2,6 @@
 
 // From: http://ftp.monash.edu/pub/nihongo/JMdict.gz
 
-$tagsCsv = fopen(__DIR__ . "/tags.csv", "w");
-fputcsv($tagsCsv, [
-	'tag',
-	'description',
-]);
-
 $languageCodes = [
 	'dut' => 'nl',
 	'eng' => 'en',
@@ -36,26 +30,6 @@ $xml = new XMLReader();
 $xml->open(__DIR__.'/xml/Dictionary.xml');
 
 while ($xml->read() && $xml->nodeType != XMLReader::DOC_TYPE);
-$doctype = $xml->readOuterXml();
-preg_match_all('/<!ENTITY ([^ ]+) "([^"]+)">/', $doctype, $matches);
-
-$tagValues = [];
-foreach ($matches[1] as $i => $tag) {
-	$tagValues[$tag] = $matches[2][$i];
-}
-
-$usedTags = [];
-function addTagDefinition($tag) {
-	global $tagValues, $usedTags, $tagsCsv;
-	$description = $tagValues[$tag];
-	if (!isset($usedTags[$tag])) {
-		$usedTags[$tag] = $description;
-		fputcsv($tagsCsv, [
-			$tag,
-			$description
-		]);
-	}
-}
 
 // move to the first node
 while ($xml->read() && $xml->name !== 'entry');
@@ -114,7 +88,6 @@ while($xml->name === 'entry') {
 			$child = $x->childNodes[0];
 			if ($child instanceof DOMEntityReference) {
 				$tags[$child->nodeName] = true;
-				addTagDefinition($child->nodeName);
 			} else {
 				die('err');
 			}

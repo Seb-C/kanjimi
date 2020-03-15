@@ -3,6 +3,7 @@ import Token from 'Common/Models/Token/Token';
 import analyze from 'Client/Api/analyze';
 import Vue from 'vue';
 import Tooltip from 'Client/Dom/Tooltip.vue';
+import Sentence from 'Client/Dom/Sentence.vue';
 
 export default class DomConverter {
 	private processing: boolean = false;
@@ -137,39 +138,22 @@ export default class DomConverter {
 
 	convertSentence(node: Text, tokens: Token[]) {
 		const container = document.createElement('span');
-		container.classList.add('yometai-sentence');
-
-		tokens.map((token) => {
-			const tokenElement = document.createElement('span');
-			tokenElement.classList.add('yometai-token');
-
-			const tokenFurigana = document.createElement('span');
-			tokenFurigana.classList.add('yometai-furigana');
-			tokenFurigana.innerText = token.getFurigana() || '\xa0';
-			tokenElement.appendChild(tokenFurigana);
-
-			const tokenWord = document.createElement('span');
-			tokenWord.classList.add('yometai-word');
-			tokenWord.innerText = token.text || '\xa0';
-			tokenWord.addEventListener('click', (event) => {
-				event.preventDefault();
-				event.stopPropagation();
-				this.handleWordClick(token, tokenElement);
-			});
-			tokenElement.appendChild(tokenWord);
-
-			const tokenTranslation = document.createElement('span');
-			tokenTranslation.classList.add('yometai-translation');
-			tokenTranslation.innerText = token.getTranslation() || '\xa0';
-			tokenElement.appendChild(tokenTranslation);
-
-			container.appendChild(tokenElement);
-		});
-
 		(<Node>node.parentNode).replaceChild(container, node);
+
+		console.log(Sentence, Tooltip);
+
+		new Vue({
+			el: container,
+			render: createElement => createElement(Sentence, {
+				props: {
+					tokens,
+					toggleTooltip: this.toggleTooltip.bind(this),
+				},
+			}),
+		});
 	}
 
-	handleWordClick(token: Token, tokenElement: Element) {
+	toggleTooltip(token: Token, tokenElement: Element) {
 		if (this.tooltip === null) {
 			this.openTooltip(token, tokenElement);
 		} else if (this.tooltip.$children[0].$props.token.text === token.text) {

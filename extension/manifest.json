@@ -8,10 +8,7 @@
       "all_frames": true,
       "matches": ["<all_urls>"],
       "js": ["/content.build.js"],
-      "css": [
-        "/css/style.css",
-        "/content.build.css"
-      ]
+      "css": ["/content.build.css"]
     }
   ],
   "permissions": [

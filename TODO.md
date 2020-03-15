@@ -1,5 +1,8 @@
+use vue js to render the normal tokens as well: WIP. Remaining:
+    - debug the tooltip content being translated again
+    - debug the loader (css does not work anymore)
+    - debug the loop that cannot find the already tokenized stuff anymore
 split the tooltip and content files
-use vue js to render the normal tokens as well (then remove the hardcoded css file)
 
 close popup if click outside (except another word)
 route to explain a word (split kanji and contextualized reading of every kanji)

@@ -6,17 +6,23 @@
 			v-bind:style="tooltipStyles"
 		>
 			<ul class="yometai-readings">
-				<li v-for="[reading, words] of wordsByReading">
+				<li v-for="[reading, wordsByLanguage] of wordsByReadingAndLanguage">
 					<span class="yometai-token">
 						<span class="yometai-furigana">{{ reading }}</span>
 						<span class="yometai-word">{{ token.text }}</span>
 					</span>
-					<ol class="yometai-reading-translations">
-						<li v-for="word in words">
-							{{ word.translationLang === null ? '' : Language.toUnicodeFlag(word.translationLang) }}
-							{{ word.translation }}
-						</li>
-					</ol>
+					<div class="yometai-reading-translations">
+						<div v-for="[lang, words] of wordsByLanguage" class="yometai-reading-translation">
+							<span class="yometai-reading-translation-flag">
+								{{ lang === null ? '' : Language.toUnicodeFlag(lang) }}
+							</span>
+							<ol>
+								<li v-for="word in words">
+									{{ word.translation }}
+								</li>
+							</ol>
+						</div>
+					</div>
 				</li>
 			</ul>
 
@@ -47,18 +53,24 @@
 			'tokenElement',
 		],
 		data() {
-			const wordsByReading: Map<string, Word[]> = new Map();
+			const wordsByReadingAndLanguage: Map<string, Map<Language|null, Word[]>> = new Map();
 			(<WordToken>this.token).words.forEach((word) => {
-				if (wordsByReading.has(word.reading)) {
-					(<Word[]>wordsByReading.get(word.reading)).push(word);
-				} else {
-					wordsByReading.set(word.reading, [word]);
+				if (!wordsByReadingAndLanguage.has(word.reading)) {
+					wordsByReadingAndLanguage.set(word.reading, new Map());
 				}
+				const wordsByLanguage = (<Map<Language|null, Word[]>>wordsByReadingAndLanguage.get(word.reading));
+
+				if (!wordsByLanguage.has(word.translationLang)) {
+					wordsByLanguage.set(word.translationLang, []);
+				}
+				const words = (<Word[]>wordsByLanguage.get(word.translationLang));
+
+				words.push(word);
 			});
 
 			return {
 				Language,
-				wordsByReading,
+				wordsByReadingAndLanguage,
 				tooltipStyles: {
 					top: '-999999px',
 					left: '-999999px',

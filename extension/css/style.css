@@ -42,16 +42,32 @@
 
 .yometai-token {
 	display: inline-block;
-	text-align: center;
 	line-height: 100%;
 }
 
-.yometai-token .yometai-furigana,
+.yometai-token .yometai-furigana {
+	font-size: 0.5rem;
+	display: block;
+	line-height: 150%;
+	margin: 0 2px;
+	text-align: center;
+	white-space: nowrap;
+}
+
+.yometai-token .yometai-word {
+	line-height: 100%;
+	display: block;
+	text-align: center;
+	white-space: nowrap;
+}
+
 .yometai-token .yometai-translation {
 	font-size: 0.5rem;
 	display: block;
 	line-height: 150%;
 	margin: 0 2px;
+	text-align: center;
+	white-space: nowrap;
 }
 
 a .yometai-sentence:after {
@@ -96,6 +112,8 @@ a .yometai-sentence:after {
 
 .yometai-readings > li {
 	list-style-type: none;
+	display: flex;
+	margin-bottom: 0.5rem;
 }
 
 .yometai-readings > li > .yometai-token {
@@ -104,12 +122,27 @@ a .yometai-sentence:after {
 
 .yometai-reading-translations {
 	display: inline-block;
-	padding-left: 1.5rem;
+	padding-left: 0.5rem;
 	margin-left: 0.5rem;
 	border-left: 2px solid var(--yometai-color-gray);
+	flex-grow: 1;
 }
 
-.yometai-reading-translations > li {
+.yometai-reading-translation {
+	display: flex;
+}
+
+.yometai-reading-translation-flag {
+	float: left;
+}
+
+.yometai-reading-translation ol {
+	flex-grow: 1;
+	margin-left: 0.5rem;
+}
+
+.yometai-reading-translation ol li {
 	list-style-type: decimal;
+	list-style-position: inside;
 	display: list-item;
 }

@@ -1,10 +1,9 @@
-fix the rendering of the definitions
-in the definition, indent and count the definitions separately for each flag (and don't repeat the flag)
-improve display of definitions with flex or grid? long sentence goes to the next line
-close popup if click outside? cross to close?
+typescript for the props of vue.js + class syntax
+move all css in the vue file
 split the tooltip and dom files
-typescript for the props of vue.js
 use vue js to render the normal tokens as well
+
+close popup if click outside (except another word)
 route to explain a word (split kanji and contextualized reading of every kanji)
 Kanjis explanation and readings
 Do not show reading for loan words (katakana)

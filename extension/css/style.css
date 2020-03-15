@@ -1,25 +1,6 @@
-@font-face {
-	font-family: 'yometai-kanji-stroke-orders';
-	src: url('/fonts/KanjiStrokeOrders/KanjiStrokeOrders.ttf');
-}
-
-:root {
-	--yometai-color-background: #eae4ce;
-	--yometai-color-text: black;
-	--yometai-color-cursor: #C53A3A;
-	--yometai-color-gray: #AAA;
-}
-
-.yometai-tooltip-container,
-.yometai-tooltip-container *,
-.yometai-tooltip-container *::before,
-.yometai-tooltip-container *::after {
-	all: initial;
-}
-
 .yometai-loader {
 	opacity: 0.3;
-	background: var(--yometai-color-gray);
+	background: #AAA;
 	position: relative;
 }
 .yometai-loader:after {
@@ -75,74 +56,4 @@ a .yometai-sentence:after {
 	display: inline-block;
 	vertical-align: top;
 	margin: 0.5rem 0.5rem 0.5rem 0;
-}
-
-.yometai-tooltip {
-	position: absolute;
-	background: var(--yometai-color-background);
-	overflow-y: auto;
-	z-index: 999999;
-	box-sizing: border-box;
-	border-radius: 5px;
-	border: 1px solid var(--yometai-color-text);
-	color: var(--yometai-color-text);
-	padding: 5px;
-}
-
-.yometai-tooltip-tip {
-	position: absolute;
-	background: var(--yometai-color-background);
-	z-index: 999998;
-	transform-origin: center;
-	transform: rotate(45deg);
-	border: 1px solid var(--yometai-color-text);
-}
-
-.yometai-tooltip-cursor {
-	box-sizing: border-box;
-	position: absolute;
-	border: 2px dashed var(--yometai-color-cursor);
-	pointer-events: none;
-}
-
-.yometai-readings {
-	display: block;
-	margin: 0;
-}
-
-.yometai-readings > li {
-	list-style-type: none;
-	display: flex;
-	margin-bottom: 0.5rem;
-}
-
-.yometai-readings > li > .yometai-token {
-	float: left;
-}
-
-.yometai-reading-translations {
-	display: inline-block;
-	padding-left: 0.5rem;
-	margin-left: 0.5rem;
-	border-left: 2px solid var(--yometai-color-gray);
-	flex-grow: 1;
-}
-
-.yometai-reading-translation {
-	display: flex;
-}
-
-.yometai-reading-translation-flag {
-	float: left;
-}
-
-.yometai-reading-translation ol {
-	flex-grow: 1;
-	margin-left: 0.5rem;
-}
-
-.yometai-reading-translation ol li {
-	list-style-type: decimal;
-	list-style-position: inside;
-	display: list-item;
 }

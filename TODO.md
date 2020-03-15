@@ -1,6 +1,5 @@
-move all css in the vue file
-split the tooltip and dom files
-use vue js to render the normal tokens as well
+split the tooltip and content files
+use vue js to render the normal tokens as well (then remove the hardcoded css file)
 
 close popup if click outside (except another word)
 route to explain a word (split kanji and contextualized reading of every kanji)

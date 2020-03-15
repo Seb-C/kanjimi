@@ -1,6 +1,7 @@
 var path = require('path');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
+const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 
 // const server = {
 // 	target: 'node',
@@ -73,6 +74,16 @@ const extensionContent = {
 				test: /\.vue$/,
 				loader: 'vue-loader',
 			},
+			{
+				test: /\.css$/i,
+				use: [
+					{
+						loader: MiniCssExtractPlugin.loader,
+					}, {
+						loader: 'css-loader',
+					},
+				],
+			},
 		],
 	},
 	entry: {
@@ -84,7 +95,24 @@ const extensionContent = {
 	},
 	plugins: [
 		new VueLoaderPlugin(),
+		new MiniCssExtractPlugin({
+			filename: 'content.build.css',
+		}),
 	],
+
+	// Makes mini-css-extract-plugin output everything in a single file
+	optimization: {
+		splitChunks: {
+			cacheGroups: {
+				styles: {
+					name: 'styles',
+					test: /\.css$/,
+					chunks: 'all',
+					enforce: true,
+				},
+			},
+		},
+	},
 };
 
 module.exports = [

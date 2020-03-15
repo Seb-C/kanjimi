@@ -1,19 +1,19 @@
 <template>
-	<div class="yometai-tooltip-container">
+	<div class="tooltip-container">
 		<div
 			ref="tooltip"
-			class="yometai-tooltip"
+			class="tooltip"
 			v-bind:style="tooltipStyles"
 		>
-			<ul class="yometai-readings">
+			<ul class="readings">
 				<li v-for="[reading, wordsByLanguage] of wordsByReadingAndLanguage">
-					<span class="yometai-token">
-						<span class="yometai-furigana">{{ reading }}</span>
-						<span class="yometai-word">{{ token.text }}</span>
+					<span class="token">
+						<span class="furigana">{{ reading }}</span>
+						<span class="word">{{ token.text }}</span>
 					</span>
-					<div class="yometai-reading-translations">
-						<div v-for="[lang, words] of wordsByLanguage" class="yometai-reading-translation">
-							<span class="yometai-reading-translation-flag">
+					<div class="reading-translations">
+						<div v-for="[lang, words] of wordsByLanguage" class="reading-translation">
+							<span class="reading-translation-flag">
 								{{ lang === null ? '' : Language.toUnicodeFlag(lang) }}
 							</span>
 							<ol>
@@ -32,11 +32,11 @@
 			}">{{ token.text }}</div>
 		</div>
 		<div
-			class="yometai-tooltip-tip"
+			class="tooltip-tip"
 			v-bind:style="tipStyles"
 		></div>
 		<div
-			class="yometai-tooltip-cursor"
+			class="tooltip-cursor"
 			v-bind:style="cursorStyles"
 		></div>
 	</div>
@@ -177,3 +177,107 @@
 		},
 	});
 </script>
+<style scoped>
+	.tooltip-container,
+	.tooltip-container *,
+	.tooltip-container *::before,
+	.tooltip-container *::after {
+		all: initial;
+	}
+
+	@font-face {
+		font-family: 'yometai-kanji-stroke-orders';
+		src: url('/fonts/KanjiStrokeOrders/KanjiStrokeOrders.ttf');
+	}
+
+	.token {
+		display: inline-block;
+		line-height: 100%;
+	}
+
+	.token .furigana {
+		font-size: 0.5rem;
+		display: block;
+		line-height: 150%;
+		margin: 0 2px;
+		text-align: center;
+		white-space: nowrap;
+	}
+
+	.token .word {
+		line-height: 100%;
+		display: block;
+		text-align: center;
+		white-space: nowrap;
+	}
+
+	.tooltip {
+		position: absolute;
+		background: #eae4ce;
+		overflow-y: auto;
+		z-index: 999999;
+		box-sizing: border-box;
+		border-radius: 5px;
+		border: 1px solid black;
+		color: black;
+		padding: 5px;
+	}
+
+	.tooltip-tip {
+		position: absolute;
+		background: #eae4ce;
+		z-index: 999998;
+		transform-origin: center;
+		transform: rotate(45deg);
+		border: 1px solid black;
+	}
+
+	.tooltip-cursor {
+		box-sizing: border-box;
+		position: absolute;
+		border: 2px dashed #C53A3A;
+		pointer-events: none;
+	}
+
+	.readings {
+		display: block;
+		margin: 0;
+	}
+
+	.readings > li {
+		list-style-type: none;
+		display: flex;
+		margin-bottom: 0.5rem;
+	}
+
+	.readings > li > .token {
+		float: left;
+	}
+
+	.reading-translations {
+		display: inline-block;
+		padding-left: 0.5rem;
+		margin-left: 0.5rem;
+		border-left: 2px solid #AAA;
+		flex-grow: 1;
+	}
+
+	.reading-translation {
+		display: flex;
+	}
+
+	.reading-translation-flag {
+		float: left;
+	}
+
+	.reading-translation ol {
+		flex-grow: 1;
+		margin-left: 0.5rem;
+	}
+
+	.reading-translation ol li {
+		list-style-type: decimal;
+		list-style-position: inside;
+		display: list-item;
+	}
+</style>

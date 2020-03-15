@@ -1,4 +1,3 @@
-typescript for the props of vue.js + class syntax
 move all css in the vue file
 split the tooltip and dom files
 use vue js to render the normal tokens as well

@@ -48,13 +48,13 @@
 	import WordToken from 'Common/Models/Token/WordToken';
 
 	export default Vue.extend({
-		props: [
-			'token',
-			'tokenElement',
-		],
+		props: {
+			token: { type: Object as () => WordToken },
+			tokenElement: { type: Object as () => HTMLElement },
+		},
 		data() {
 			const wordsByReadingAndLanguage: Map<string, Map<Language|null, Word[]>> = new Map();
-			(<WordToken>this.token).words.forEach((word) => {
+			this.token.words.forEach((word) => {
 				if (!wordsByReadingAndLanguage.has(word.reading)) {
 					wordsByReadingAndLanguage.set(word.reading, new Map());
 				}

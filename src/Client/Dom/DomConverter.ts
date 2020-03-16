@@ -7,8 +7,13 @@ import Sentence from 'Client/Dom/Sentence.vue';
 
 export default class DomConverter {
 	private processing: boolean = false;
-
 	private tooltip: Vue|null = null;
+	private uidClass: string;
+
+	constructor() {
+		// Note: using a really random id breaks the hot-reloading
+		this.uidClass = 'uid-6270173546874285';
+	}
 
 	*getSentencesToConvert(): Iterable<Text> {
 		const walker = document.createTreeWalker(
@@ -26,11 +31,7 @@ export default class DomConverter {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					if ((<Element>node).classList.contains('yometai-sentence')) {
-						return NodeFilter.FILTER_REJECT;
-					}
-
-					if ((<Element>node).classList.contains('yometai-tooltip')) {
+					if ((<Element>node).classList.contains(this.uidClass)) {
 						return NodeFilter.FILTER_REJECT;
 					}
 
@@ -115,7 +116,7 @@ export default class DomConverter {
 		const nodes: Text[] = [];
 		const strings: string[] = [];
 		for (const textNode of texts) {
-			(<Element>textNode.parentNode).classList.add('yometai-loader');
+			(<Element>textNode.parentNode).classList.add(`${this.uidClass}-loader`);
 			nodes.push(textNode);
 			strings.push(textNode.data.trim());
 		}
@@ -124,7 +125,7 @@ export default class DomConverter {
 			try {
 				const data = await analyze(strings);
 				for (let i = 0; i < data.length; i++) {
-					(<Element>nodes[i].parentNode).classList.remove('yometai-loader');
+					(<Element>nodes[i].parentNode).classList.remove(`${this.uidClass}-loader`);
 					this.convertSentence(nodes[i], data[i]);
 				}
 			} catch (e) {
@@ -148,6 +149,7 @@ export default class DomConverter {
 				props: {
 					tokens,
 					toggleTooltip: this.toggleTooltip.bind(this),
+					uidClass: this.uidClass,
 				},
 			}),
 		});
@@ -175,6 +177,7 @@ export default class DomConverter {
 				props: {
 					token,
 					tokenElement,
+					uidClass: this.uidClass,
 				},
 			}),
 		});
@@ -186,5 +189,30 @@ export default class DomConverter {
 			this.tooltip.$destroy();
 			this.tooltip = null;
 		}
+	}
+
+	injectLoaderCss() {
+		const style = document.createElement('style');
+		style.textContent = `
+			.${this.uidClass}-loader {
+				opacity: 0.3;
+				background: #AAA;
+				position: relative;
+			}
+			.${this.uidClass}-loader:after {
+				content: "";
+				left: 0;
+				right: 0;
+				top: 0;
+				bottom: 0;
+				position: absolute;
+				background-image: url('${browser.runtime.getURL('/images/loader.svg')}');
+				background-position: center;
+				background-size: contain;
+				background-repeat: no-repeat;
+			}
+
+		`;
+		document.getElementsByTagName('head')[0].appendChild(style);
 	}
 }

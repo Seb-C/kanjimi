@@ -1,5 +1,5 @@
 <template>
-	<span class="sentence">
+	<span v-bind:class="['sentence', uidClass]">
 		<span v-for="(token, i) in tokens" class="token" ref="token">
 			<span class="furigana">
 				{{ token.getFurigana() || '&nbsp;' }}
@@ -20,6 +20,7 @@
 
 	export default Vue.extend({
 		props: {
+			uidClass: { type: String },
 			tokens: { type: Array as () => Token[] },
 			toggleTooltip: { type: (Function as unknown) as () => (
 				(token: Token, tokenElement: Element) => void
@@ -38,24 +39,6 @@
 	});
 </script>
 <style scoped>
-	.loader {
-		opacity: 0.3;
-		background: #AAA;
-		position: relative;
-	}
-	.loader:after {
-		content: "";
-		left: 0;
-		right: 0;
-		top: 0;
-		bottom: 0;
-		position: absolute;
-		background-image: url(/images/loader.svg);
-		background-position: center;
-		background-size: contain;
-		background-repeat: no-repeat;
-	}
-
 	.sentence {
 		clear: both;
 		display: inline;

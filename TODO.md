@@ -1,5 +1,3 @@
-split the tooltip and content files
-
 close popup if click outside (except another word)
 route to explain a word (split kanji and contextualized reading of every kanji)
 Kanjis explanation and readings
@@ -16,7 +14,7 @@ implement down migrations
 show some tags in the tooltip (names...)
 half width characters? full-width roman chars and letters?
 Use the proper languages depending on the user (currently filtered in the route definition)
-extension hot-reload -> only feasible by clearing everything on load
+extension hot-reload -> supported by vue.js, but the current instances are not migrated
 replace API with websockets?
 properly implement all the JSONApi spec (+ relationships, client already fixed)
 automatic tests for the frontend? unit test some dom functions? How to do that?

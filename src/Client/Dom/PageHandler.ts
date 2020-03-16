@@ -141,8 +141,6 @@ export default class PageHandler {
 		const container = document.createElement('span');
 		(<Node>node.parentNode).replaceChild(container, node);
 
-		console.log(Sentence, Tooltip);
-
 		new Vue({
 			el: container,
 			render: createElement => createElement(Sentence, {

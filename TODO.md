@@ -6,7 +6,6 @@ Kanjis explanation and readings
 Do not show reading for loan words (katakana)
 update vim syntax colours broken (see bottom of the dictionary)
 find a name
-after finding a name: replace `yometai` by the right name for css classes in `Client/Dom/DomConverter.ts`
 hide and show tokens (and remember)
 hide and show kanjis by reading (and remember)
 example of words using the same kanjis and that have been seen before
@@ -26,6 +25,7 @@ optimize server performance by compiling properly
 Do not show single kana translations?
 counters?
 store unfound words?
+streaming support: trigger the function on a dom inserted
 display history
 manual lookup history
 make the enum values hardcoded to avoid future compatibility issues

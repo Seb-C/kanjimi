@@ -1,15 +1,15 @@
-import DomConverter from 'Client/Dom/DomConverter';
+import PageHandler from 'Client/Dom/PageHandler';
 import { debounce } from 'ts-debounce';
 
-const converter = new DomConverter();
+const pageHandler = new PageHandler();
 
 // Initializing
-converter.injectLoaderCss();
-converter.convertSentences(converter.getSentencesToConvert());
+pageHandler.injectLoaderCss();
+pageHandler.convertSentences(pageHandler.getSentencesToConvert());
 
 window.addEventListener('scroll', debounce(
 	() => {
-		converter.convertSentences(converter.getSentencesToConvert());
+		pageHandler.convertSentences(pageHandler.getSentencesToConvert());
 	},
 	300,
 ));

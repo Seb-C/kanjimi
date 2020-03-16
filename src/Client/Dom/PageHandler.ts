@@ -5,7 +5,7 @@ import Vue from 'vue';
 import Tooltip from 'Client/Dom/Tooltip.vue';
 import Sentence from 'Client/Dom/Sentence.vue';
 
-export default class DomConverter {
+export default class PageHandler {
 	private processing: boolean = false;
 	private tooltip: Vue|null = null;
 	private uidClass: string;

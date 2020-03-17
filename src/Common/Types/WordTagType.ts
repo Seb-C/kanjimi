@@ -44,7 +44,7 @@ enum WordTagType {
 	EXPRESSION = 'exp',
 	INTERJECTION = 'int',
 	NAME = 'surname',
-	NAME_ARATWORK = 'work',
+	NAME_ARTWORK = 'work',
 	NAME_COMPANY = 'company',
 	NAME_FEMALE = 'fem',
 	NAME_GIVEN = 'given',

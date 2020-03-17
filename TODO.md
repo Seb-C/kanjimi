@@ -1,28 +1,32 @@
-close popup if click outside (except another word)
+update vim syntax -> update vim on PC
 route to explain a word (split kanji and contextualized reading of every kanji)
 Kanjis explanation and readings
-update vim syntax colours broken (see bottom of the dictionary)
+use kanjis svg instead of a font (proper sizing + animatable?)
+debug the tokenizer
+show some tags in the tooltip (names...)
+add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
+automatic test of the tooltip position calculations? (e2e tests of the result)
+automatic tests for the frontend? unit test some dom functions? How to do that?
 find a name
+
+implement users
+implement down migrations? or not do it and remove related code
 hide and show tokens (and remember)
 hide and show kanjis by reading (and remember)
 example of words using the same kanjis and that have been seen before
-add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 Validate input via an express middleware?
+close popup if click outside (except another word)
 webpack: different typescript config for each (lib and type keys for example)
-implement down migrations
-show some tags in the tooltip (names...)
 half width characters? full-width roman chars and letters?
 Use the proper languages depending on the user (currently filtered in the route definition)
 extension hot-reload -> supported by vue.js, but the current instances are not migrated
 replace API with websockets?
 properly implement all the JSONApi spec (+ relationships, client already fixed)
-automatic tests for the frontend? unit test some dom functions? How to do that?
-automatic test of the tooltip position calculations? (e2e tests of the result)
 optimize server performance by compiling properly
 Do not show single kana translations?
 counters?
 store unfound words?
-streaming support: trigger the function on a dom inserted
+streaming subtitles support: trigger the function on a dom inserted
 display history
 manual lookup history
 make the enum values hardcoded to avoid future compatibility issues

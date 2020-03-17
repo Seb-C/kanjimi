@@ -1,7 +1,6 @@
 close popup if click outside (except another word)
 route to explain a word (split kanji and contextualized reading of every kanji)
 Kanjis explanation and readings
-Do not show reading for loan words (katakana)
 update vim syntax colours broken (see bottom of the dictionary)
 find a name
 hide and show tokens (and remember)

@@ -2,7 +2,7 @@
 	<ul class="readings">
 		<li v-for="[reading, wordsByLanguage] of wordsByReadingAndLanguage">
 			<span class="token">
-				<span class="furigana">{{ reading }}</span>
+				<span class="furigana">{{ reading == token.text ? '&nbsp;' : reading }}</span>
 				<span class="word">{{ token.text }}</span>
 			</span>
 			<div class="reading-translations">

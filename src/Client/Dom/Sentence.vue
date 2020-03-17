@@ -2,7 +2,7 @@
 	<span v-bind:class="['sentence', uidClass]">
 		<span v-for="(token, i) in tokens" class="token" ref="token">
 			<span class="furigana">
-				{{ token.getFurigana() || '&nbsp;' }}
+				{{ (token.getFurigana() == token.text ? null : token.getFurigana()) || '&nbsp;' }}
 			</span>
 			<span class="word" v-on:click="handleWordClick(token, $refs.token[i], $event)">
 				{{ token.text || '&nbsp;' }}

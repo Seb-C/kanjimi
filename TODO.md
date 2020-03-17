@@ -1,10 +1,6 @@
-update vim syntax -> update vim on PC
-route to explain a word (split kanji and contextualized reading of every kanji)
-Kanjis explanation and readings
-use kanjis svg instead of a font (proper sizing + animatable?)
-debug the tokenizer
-show some tags in the tooltip (names...)
+explain the conjugations in the tooltip
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
+debug the tokenizer (+ check the non-kanji forms?)
 automatic test of the tooltip position calculations? (e2e tests of the result)
 automatic tests for the frontend? unit test some dom functions? How to do that?
 find a name
@@ -14,6 +10,9 @@ implement down migrations? or not do it and remove related code
 hide and show tokens (and remember)
 hide and show kanjis by reading (and remember)
 example of words using the same kanjis and that have been seen before
+route to explain a word (split kanji and contextualized reading of every kanji)
+Kanjis explanation and readings
+use kanjis svg instead of a font (proper sizing + animatable?)
 Validate input via an express middleware?
 close popup if click outside (except another word)
 webpack: different typescript config for each (lib and type keys for example)
@@ -23,7 +22,7 @@ extension hot-reload -> supported by vue.js, but the current instances are not m
 replace API with websockets?
 properly implement all the JSONApi spec (+ relationships, client already fixed)
 optimize server performance by compiling properly
-Do not show single kana translations?
+Do not show single kana translations? Or hide words with a particle tag?
 counters?
 store unfound words?
 streaming subtitles support: trigger the function on a dom inserted

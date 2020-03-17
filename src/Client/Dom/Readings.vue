@@ -7,11 +7,19 @@
 			</span>
 			<div class="reading-translations">
 				<div v-for="[lang, words] of wordsByLanguage" class="reading-translation">
-					<span class="reading-translation-flag">
+					<span
+						v-bind:title="LanguageTranslations[lang] || ''"
+						class="reading-translation-flag"
+					>
 						{{ lang === null ? '' : Language.toUnicodeFlag(lang) }}
 					</span>
 					<ol>
 						<li v-for="word in words">
+							<template v-for="tag in word.tags">
+								<b v-if="WordTagTranslations[tag]">
+									({{ WordTagTranslations[tag] }})
+								</b>
+							</template>
 							{{ word.translation }}
 						</li>
 					</ol>
@@ -25,6 +33,8 @@
 	import Word from 'Common/Models/Word';
 	import Language from 'Common/Types/Language';
 	import WordToken from 'Common/Models/Token/WordToken';
+	import LanguageTranslations from 'Client/Lang/Language';
+	import WordTagTranslations from 'Client/Lang/WordTag';
 
 	export default Vue.extend({
 		props: {
@@ -49,6 +59,8 @@
 
 			return {
 				Language,
+				LanguageTranslations,
+				WordTagTranslations,
 				wordsByReadingAndLanguage,
 			};
 		},

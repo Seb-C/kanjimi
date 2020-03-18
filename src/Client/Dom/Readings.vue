@@ -2,8 +2,8 @@
 	<ul class="readings">
 		<li v-for="[reading, wordsByLanguage] of wordsByReadingAndLanguage">
 			<span class="token">
-				<span class="furigana">{{ reading == token.text ? '&nbsp;' : reading }}</span>
-				<span class="word">{{ token.text }}</span>
+				<span class="furigana">{{ reading == wordText ? '&nbsp;' : reading }}</span>
+				<span class="word">{{ wordText }}</span>
 			</span>
 			<div class="reading-translations">
 				<div v-for="[lang, words] of wordsByLanguage" class="reading-translation">
@@ -33,6 +33,7 @@
 	import Word from 'Common/Models/Word';
 	import Language from 'Common/Types/Language';
 	import WordToken from 'Common/Models/Token/WordToken';
+	import VerbToken from 'Common/Models/Token/VerbToken';
 	import LanguageTranslations from 'Client/Lang/Language';
 	import WordTagTranslations from 'Client/Lang/WordTag';
 
@@ -57,9 +58,16 @@
 				words.push(word);
 			});
 
+			console.log(this.token);
+			let wordText = this.token.text;
+			if (this.token instanceof VerbToken && this.token.words.length > 0) {
+				wordText = this.token.words[0].word;
+			}
+
 			return {
 				Language,
 				LanguageTranslations,
+				wordText,
 				WordTagTranslations,
 				wordsByReadingAndLanguage,
 			};

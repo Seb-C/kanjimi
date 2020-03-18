@@ -1,4 +1,5 @@
-explain the conjugations in the tooltip
+retry loading tokens in case of failure (or remove the added classes to allow it to try again)
+fix the tooltip position in case of a change in the position of the node (= loaded text on the top for example)
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 debug the tokenizer (+ check the non-kanji forms?)
 automatic test of the tooltip position calculations? (e2e tests of the result)

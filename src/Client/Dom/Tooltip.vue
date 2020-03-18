@@ -6,6 +6,7 @@
 			v-bind:style="tooltipStyles"
 		>
 			<readings v-bind:token="token" v-bind:uid-class="uidClass" />
+			<conjugations v-if="token instanceof VerbToken" v-bind:token="token" v-bind:uid-class="uidClass" />
 			<kanjis v-bind:token="token" v-bind:uid-class="uidClass" />
 		</div>
 		<div
@@ -23,8 +24,10 @@
 	import Word from 'Common/Models/Word';
 	import Language from 'Common/Types/Language';
 	import WordToken from 'Common/Models/Token/WordToken';
+	import VerbToken from 'Common/Models/Token/VerbToken';
 	import Kanjis from 'Client/Dom/Kanjis.vue';
 	import Readings from 'Client/Dom/Readings.vue';
+	import Conjugations from 'Client/Dom/Conjugations.vue';
 
 	export default Vue.extend({
 		props: {
@@ -51,6 +54,7 @@
 					top: '-999999px',
 					left: '-999999px',
 				},
+				VerbToken,
 			};
 		},
 		mounted() {
@@ -141,6 +145,7 @@
 		components: {
 			'kanjis': Kanjis,
 			'readings': Readings,
+			'conjugations': Conjugations,
 		},
 	});
 </script>

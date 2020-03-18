@@ -58,7 +58,6 @@
 				words.push(word);
 			});
 
-			console.log(this.token);
 			let wordText = this.token.text;
 			if (this.token instanceof VerbToken && this.token.words.length > 0) {
 				wordText = this.token.words[0].word;
@@ -67,8 +66,8 @@
 			return {
 				Language,
 				LanguageTranslations,
-				wordText,
 				WordTagTranslations,
+				wordText,
 				wordsByReadingAndLanguage,
 			};
 		},

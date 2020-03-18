@@ -1,4 +1,4 @@
-retry loading tokens in case of failure (or remove the added classes to allow it to try again)
+fix missing (or simplify?) uidClass in components
 fix the tooltip position in case of a change in the position of the node (= loaded text on the top for example)
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 debug the tokenizer (+ check the non-kanji forms?)

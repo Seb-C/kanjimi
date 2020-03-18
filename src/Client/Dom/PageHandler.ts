@@ -124,6 +124,7 @@ export default class PageHandler {
 		if (strings.length > 0) {
 			try {
 				const data = await analyze(strings);
+
 				for (let i = 0; i < data.length; i++) {
 					(<Element>nodes[i].parentNode).classList.remove(`${this.uidClass}-loader`);
 					this.convertSentence(nodes[i], data[i]);
@@ -131,6 +132,10 @@ export default class PageHandler {
 			} catch (e) {
 				console.error('Exception: ', e.toString());
 				console.error('Strings: ', ...strings);
+
+				for (let i = 0; i < nodes.length; i++) {
+					(<Element>nodes[i].parentNode).classList.remove(`${this.uidClass}-loader`);
+				}
 			}
 		}
 

@@ -39,7 +39,6 @@
 
 	export default Vue.extend({
 		props: {
-			uidClass: { type: String },
 			token: { type: Object as () => WordToken },
 		},
 		data() {

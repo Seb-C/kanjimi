@@ -5,8 +5,8 @@
 			class="tooltip"
 			v-bind:style="tooltipStyles"
 		>
-			<readings v-bind:token="token" v-bind:uid-class="uidClass" />
-			<conjugations v-if="token instanceof VerbToken" v-bind:token="token" v-bind:uid-class="uidClass" />
+			<readings v-bind:token="token" />
+			<conjugations v-if="token instanceof VerbToken" v-bind:token="token" />
 			<kanjis v-bind:token="token" v-bind:uid-class="uidClass" />
 		</div>
 		<div

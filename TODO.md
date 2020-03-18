@@ -1,4 +1,7 @@
 fix the tooltip position in case of a change in the position of the node (= loaded text on the top for example)
+    - put properties whose changes should not be observed in the data constructor (window and document positions)
+    - find a way to observe any change on the parent nodes, and then trigger update
+    - also trigger on resize
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 debug the tokenizer (+ check the non-kanji forms?)
 automatic test of the tooltip position calculations? (e2e tests of the result)

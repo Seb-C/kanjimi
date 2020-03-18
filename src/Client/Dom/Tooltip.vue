@@ -36,109 +36,112 @@
 			tokenElement: { type: Object as () => HTMLElement },
 		},
 		data() {
+			let top = 0;
+			let left = 0;
+			let currentNode = this.tokenElement;
+			do {
+				top += currentNode.offsetTop || 0;
+				left += currentNode.offsetLeft || 0;
+				currentNode = <HTMLElement>currentNode.offsetParent;
+			} while (currentNode);
+
 			return {
-				tooltipStyles: {
-					top: '-999999px',
-					left: '-999999px',
-					width: 'auto',
-					height: 'auto',
-					maxHeight: '50vh',
-					maxWidth: '100vw',
-				},
-				tipSize: 15,
-				tipStyles: {
-					top: '-999999px',
-					left: '-999999px',
-				},
-				cursorStyles: {
-					top: '-999999px',
-					left: '-999999px',
-				},
-				VerbToken,
-			};
-		},
-		mounted() {
-			const tipDiagonal = Math.sqrt((this.tipSize * this.tipSize) * 2);
-			const targetPos = this.getElementPosition(this.tokenElement);
-
-			const tooltipWidth = this.$refs.tooltip.offsetWidth;
-			const tooltipHeight = this.$refs.tooltip.offsetHeight;
-
-			let tipLeft = targetPos.left + ((targetPos.right - targetPos.left) / 2) - (this.tipSize / 2);
-
-			let left = targetPos.left - ((tooltipWidth - (targetPos.right - targetPos.left)) / 2);
-			if (left < 0) {
-				// Making sure it does not go outside the document on the left
-				left = 0;
-			}
-
-			let right = left + tooltipWidth;
-			if (right >= document.body.offsetWidth) {
-				// Making sure it does not go outside the document on the right
-				left -= (right - document.body.offsetWidth);
-				right = left + tooltipWidth;
-			}
-
-			const targetDistanceToTop = targetPos.top - window.scrollY;
-			const targetDistanceToBottom = (window.scrollY + window.innerHeight) - targetPos.bottom;
-			const showOnTop = (
-				targetDistanceToTop >= (tooltipHeight + (tipDiagonal / 2))
-				|| targetDistanceToTop >= targetDistanceToBottom
-			);
-
-			let tipTop: number; // Haha!
-			let top: number;
-			if (showOnTop) {
-				tipTop = targetPos.top - tipDiagonal;
-				top = targetPos.top - tooltipHeight - (tipDiagonal / 2);
-				if (top < 0) {
-					// Making sure it does not go over the top of the document
-					tipTop = targetPos.bottom + (tipDiagonal / 4);
-					top = targetPos.bottom + (tipDiagonal / 2);
-				}
-			} else {
-				tipTop = targetPos.bottom + (tipDiagonal / 4);
-				top = targetPos.bottom + (tipDiagonal / 2);
-			}
-
-			this.tooltipStyles = {
-				left: left + 'px',
-				top: top + 'px',
-				width: (right - left) + 'px',
-				height: tooltipHeight + 'px',
-			};
-
-			this.tipStyles = {
-				left: tipLeft + 'px',
-				top: tipTop + 'px',
-				width: this.tipSize + 'px',
-				height: this.tipSize + 'px',
-			};
-
-			this.cursorStyles = {
-				left: targetPos.left + 'px',
-				top: targetPos.top + 'px',
-				width: (targetPos.right - targetPos.left) + 'px',
-				height: (targetPos.bottom - targetPos.top) + 'px',
-			};
-		},
-		methods: {
-			getElementPosition(element: HTMLElement) {
-				let top = 0;
-				let left = 0;
-
-				let currentNode = element;
-				do {
-					top += currentNode.offsetTop || 0;
-					left += currentNode.offsetLeft || 0;
-					currentNode = <HTMLElement>currentNode.offsetParent;
-				} while (currentNode);
-
-				return {
+				targetPos: {
 					left: left,
 					top: top,
-					right: left + element.offsetWidth,
-					bottom: top + element.offsetHeight,
+					right: left + this.tokenElement.offsetWidth,
+					bottom: top + this.tokenElement.offsetHeight,
+				},
+				tipSize: 15,
+				VerbToken,
+
+				// Values that only should not be affected by future dom changes
+				windowScrollY: window.scrollY,
+				windowHeight: window.innerHeight,
+				bodyWidth: document.body.offsetWidth,
+			};
+		},
+		computed: {
+			tooltipStyles() {
+				const tipDiagonal = Math.sqrt((this.tipSize * this.tipSize) * 2);
+				const tooltipWidth = Math.round(this.bodyWidth * 0.4); // Mobile: should take 100%?
+				const tooltipHeight = Math.round(this.windowHeight / 2);
+
+				let left = this.targetPos.left - ((tooltipWidth - (this.targetPos.right - this.targetPos.left)) / 2);
+				if (left < 0) {
+					// Making sure it does not go outside the document on the left
+					left = 0;
+				}
+
+				let right = left + tooltipWidth;
+				if (right >= this.bodyWidth) {
+					// Making sure it does not go outside the document on the right
+					left -= (right - this.bodyWidth);
+					right = left + tooltipWidth;
+				}
+
+				const targetDistanceToTop = this.targetPos.top - this.windowScrollY;
+				const targetDistanceToBottom = (this.windowScrollY + this.windowHeight) - this.targetPos.bottom;
+				const showOnTop = (
+					targetDistanceToTop >= (tooltipHeight + (tipDiagonal / 2))
+					|| targetDistanceToTop >= targetDistanceToBottom
+				);
+
+				let top: number;
+				if (showOnTop) {
+					top = this.targetPos.top - tooltipHeight - (tipDiagonal / 2);
+					if (top < 0) {
+						// Making sure it does not go over the top of the document
+						top = this.targetPos.bottom + (tipDiagonal / 2);
+					}
+				} else {
+					top = this.targetPos.bottom + (tipDiagonal / 2);
+				}
+
+				return {
+					left: left + 'px',
+					top: top + 'px',
+					width: (right - left) + 'px',
+					height: tooltipHeight + 'px',
+				};
+			},
+			tipStyles() {
+				const tipDiagonal = Math.sqrt((this.tipSize * this.tipSize) * 2);
+				const tooltipHeight = Math.round(this.windowHeight / 2);
+
+				let tipLeft = this.targetPos.left + ((this.targetPos.right - this.targetPos.left) / 2) - (this.tipSize / 2);
+
+				const targetDistanceToTop = this.targetPos.top - this.windowScrollY;
+				const targetDistanceToBottom = (this.windowScrollY + this.windowHeight) - this.targetPos.bottom;
+				const showOnTop = (
+					targetDistanceToTop >= (tooltipHeight + (tipDiagonal / 2))
+					|| targetDistanceToTop >= targetDistanceToBottom
+				);
+
+				let tipTop: number; // Haha!
+				if (showOnTop) {
+					tipTop = this.targetPos.top - tipDiagonal;
+					if ((this.targetPos.top - tooltipHeight - (tipDiagonal / 2)) < 0) {
+						// Making sure it does not go over the top of the document
+						tipTop = this.targetPos.bottom + (tipDiagonal / 4);
+					}
+				} else {
+					tipTop = this.targetPos.bottom + (tipDiagonal / 4);
+				}
+
+				return {
+					left: tipLeft + 'px',
+					top: tipTop + 'px',
+					width: this.tipSize + 'px',
+					height: this.tipSize + 'px',
+				};
+			},
+			cursorStyles() {
+				return {
+					left: this.targetPos.left + 'px',
+					top: this.targetPos.top + 'px',
+					width: (this.targetPos.right - this.targetPos.left) + 'px',
+					height: (this.targetPos.bottom - this.targetPos.top) + 'px',
 				};
 			},
 		},

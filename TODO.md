@@ -1,12 +1,12 @@
 MVP:
-    handle double particles
+    add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
+    Validate input via an express middleware?
     display particle title whenever a word is a particle (and revert the definition change?)
     test with a lot of different sites
     test and debug intensively the tokenizer and display of results
     find a name
     implement users
     hide and show words (and remember)
-    Validate input via an express middleware?
     webpack: different typescript config for each (lib and type keys for example)
     Use the proper languages depending on the user (currently filtered in the route definition)
     store visited urls to make recommendations later

@@ -18,6 +18,17 @@ export default class ParticleToken extends WordToken {
 			'を',
 			'お',
 			'し',
+			'ぜ',
+			'ぞ',
+			'で',
+			'でも',
+			'とか',
+			'とも',
+			'ね',
+			'ねえ',
+			'ので',
+			'のに',
+			'よ',
 		].includes(text);
 	}
 

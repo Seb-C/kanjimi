@@ -8,6 +8,12 @@
 			<readings v-bind:token="token" />
 			<conjugations v-if="token instanceof VerbToken" v-bind:token="token" />
 			<kanjis v-bind:token="token" v-bind:uid-class="appUid" />
+
+			<div
+				class="tooltip-close-button"
+				v-bind:style="closeButtonStyles"
+				v-on:click="closeTooltip"
+			>❌</div>
 		</div>
 		<div
 			class="tooltip-tip"
@@ -36,6 +42,7 @@
 			appUid: { type: String },
 			token: { type: Object as () => WordToken },
 			tokenElement: { type: Object as () => HTMLElement },
+			closeTooltip: { type: (Function as unknown) as () => (() => void) },
 		},
 		data() {
 			return {
@@ -52,12 +59,21 @@
 			this.updateTargetPos();
 			window.addEventListener('resize', this.updateTargetPos);
 			window.addEventListener(`${this.appUid}-converted-sentences`, this.updateTargetPos);
+			document.addEventListener('keyup', this.keyPressHandler);
 		},
 		beforeDestroy() {
 			window.removeEventListener('resize', this.updateTargetPos);
 			window.removeEventListener(`${this.appUid}-converted-sentences`, this.updateTargetPos);
+			document.removeEventListener('keyup', this.keyPressHandler);
 		},
 		methods: {
+			keyPressHandler(event: KeyboardEvent) {
+				if (event.key === 'Escape') {
+					event.preventDefault();
+					event.stopPropagation();
+					this.closeTooltip();
+				}
+			},
 			updateTargetPos() {
 				let top = 0;
 				let left = 0;
@@ -75,12 +91,29 @@
 					bottom: top + this.tokenElement.offsetHeight,
 				};
 			},
+			getTipDiagonal(): number {
+				return Math.sqrt((TIP_SIZE * TIP_SIZE) * 2);
+			},
+			getTooltipHeight(): number {
+				return Math.round(this.windowHeight / 2);
+			},
+			showTooltipOnTop(): boolean {
+				const tipDiagonal = this.getTipDiagonal();
+				const tooltipHeight = this.getTooltipHeight();
+
+				const targetDistanceToTop = this.targetPos.top - this.windowScrollY;
+				const targetDistanceToBottom = (this.windowScrollY + this.windowHeight) - this.targetPos.bottom;
+				return (
+					targetDistanceToTop >= (tooltipHeight + (tipDiagonal / 2))
+					|| targetDistanceToTop >= targetDistanceToBottom
+				);
+			},
 		},
 		computed: {
 			tooltipStyles() {
-				const tipDiagonal = Math.sqrt((TIP_SIZE * TIP_SIZE) * 2);
+				const tipDiagonal = this.getTipDiagonal();
 				const tooltipWidth = Math.round(this.bodyWidth * 0.4); // Mobile: should take 100%?
-				const tooltipHeight = Math.round(this.windowHeight / 2);
+				const tooltipHeight = this.getTooltipHeight();
 
 				let left = this.targetPos.left - ((tooltipWidth - (this.targetPos.right - this.targetPos.left)) / 2);
 				if (left < 0) {
@@ -95,15 +128,8 @@
 					right = left + tooltipWidth;
 				}
 
-				const targetDistanceToTop = this.targetPos.top - this.windowScrollY;
-				const targetDistanceToBottom = (this.windowScrollY + this.windowHeight) - this.targetPos.bottom;
-				const showOnTop = (
-					targetDistanceToTop >= (tooltipHeight + (tipDiagonal / 2))
-					|| targetDistanceToTop >= targetDistanceToBottom
-				);
-
 				let top: number;
-				if (showOnTop) {
+				if (this.showTooltipOnTop()) {
 					top = this.targetPos.top - tooltipHeight - (tipDiagonal / 2);
 					if (top < 0) {
 						// Making sure it does not go over the top of the document
@@ -121,20 +147,13 @@
 				};
 			},
 			tipStyles() {
-				const tipDiagonal = Math.sqrt((TIP_SIZE * TIP_SIZE) * 2);
-				const tooltipHeight = Math.round(this.windowHeight / 2);
+				const tipDiagonal = this.getTipDiagonal();
+				const tooltipHeight = this.getTooltipHeight();
 
 				let tipLeft = this.targetPos.left + ((this.targetPos.right - this.targetPos.left) / 2) - (TIP_SIZE / 2);
 
-				const targetDistanceToTop = this.targetPos.top - this.windowScrollY;
-				const targetDistanceToBottom = (this.windowScrollY + this.windowHeight) - this.targetPos.bottom;
-				const showOnTop = (
-					targetDistanceToTop >= (tooltipHeight + (tipDiagonal / 2))
-					|| targetDistanceToTop >= targetDistanceToBottom
-				);
-
 				let tipTop: number; // Haha!
-				if (showOnTop) {
+				if (this.showTooltipOnTop()) {
 					tipTop = this.targetPos.top - tipDiagonal;
 					if ((this.targetPos.top - tooltipHeight - (tipDiagonal / 2)) < 0) {
 						// Making sure it does not go over the top of the document
@@ -158,6 +177,13 @@
 					width: (this.targetPos.right - this.targetPos.left) + 'px',
 					height: (this.targetPos.bottom - this.targetPos.top) + 'px',
 				};
+			},
+			closeButtonStyles() {
+				if (this.showTooltipOnTop()) {
+					return { bottom: 0 };
+				} else {
+					return { top: 0 };
+				}
 			},
 		},
 		components: {
@@ -201,5 +227,13 @@
 		position: absolute;
 		border: 2px dashed #C53A3A;
 		pointer-events: none;
+	}
+
+	.tooltip-close-button {
+		cursor: pointer;
+		position: absolute;
+		right: 0;
+		padding: 5px;
+		line-height: 1rem;
 	}
 </style>

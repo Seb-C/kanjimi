@@ -183,6 +183,7 @@ export default class PageHandler {
 					token,
 					tokenElement,
 					appUid: this.appUid,
+					closeTooltip: this.closeTooltip.bind(this),
 				},
 			}),
 		});

@@ -7,6 +7,7 @@ import * as ReadLine from 'readline';
 
 export default class Dictionary {
 	private readonly words: Map<string, Word[]> = new Map();
+	private readonly wordsByReading: Map<string, Word[]> = new Map();
 
 	async load(): Promise<void[]> {
 		const langAndFiles: { lang: Language|null, path: string }[] = [
@@ -97,11 +98,15 @@ export default class Dictionary {
 		} else {
 			this.words.set(word.word, [word]);
 		}
+
+		if (this.wordsByReading.has(word.word)) {
+			(<Word[]>this.wordsByReading.get(word.reading)).push(word);
+		} else {
+			this.wordsByReading.set(word.reading, [word]);
+		}
 	}
 
-	get (text: string, langs: Language[]|null = null): ReadonlyArray<Word> {
-		const words = this.words.get(text) || [];
-
+	private filterAndSortLangs(words: Word[], langs: Language[]|null): Word[] {
 		if (langs === null) {
 			return words;
 		} else {
@@ -126,7 +131,25 @@ export default class Dictionary {
 		}
 	}
 
+	get (text: string, langs: Language[]|null = null): ReadonlyArray<Word> {
+		return this.filterAndSortLangs(
+			this.words.get(text) || [],
+			langs,
+		);
+	}
+
+	getReading (text: string, langs: Language[]|null = null): ReadonlyArray<Word> {
+		return this.filterAndSortLangs(
+			this.wordsByReading.get(text) || [],
+			langs,
+		);
+	}
+
 	has (text: string): boolean {
 		return this.words.has(text);
+	}
+
+	hasReading (text: string): boolean {
+		return this.wordsByReading.has(text);
 	}
 }

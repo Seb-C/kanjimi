@@ -55,4 +55,24 @@ describe('Dictionary', () => {
 		expect(dictionary.get('ア', [Language.FRENCH]).length).toBe(1);
 		expect(dictionary.get('ア', [Language.FRENCH])[0].translationLang).toBe(null);
 	});
+
+	it('Get words by reading', async () => {
+		const dictionary = new Dictionary();
+		dictionary.add(new Word('ア', 'あ', null, 'a', []));
+		dictionary.add(new Word('イ', 'い', null, 'i', []));
+		dictionary.add(new Word('ア', '', null, 'a', []));
+		dictionary.add(new Word('イ', '', null, 'i', []));
+		dictionary.add(new Word('', 'あ', null, 'a', []));
+		dictionary.add(new Word('', 'い', null, 'i', []));
+
+		expect(dictionary.get('ア').length).toBe(2);
+		expect(dictionary.get('イ').length).toBe(2);
+		expect(dictionary.get('あ').length).toBe(0);
+		expect(dictionary.get('い').length).toBe(0);
+
+		expect(dictionary.getReading('ア').length).toBe(0);
+		expect(dictionary.getReading('イ').length).toBe(0);
+		expect(dictionary.getReading('あ').length).toBe(2);
+		expect(dictionary.getReading('い').length).toBe(2);
+	});
 });

@@ -1,3 +1,4 @@
+handle definitions of particles (use the dictionary but don't show translation directly) + non-WordToken in the definitions list (undefined this.token.words)
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
 debug the tokenizer (+ check the non-kanji forms?)
 automatic test of the tooltip position calculations? (e2e tests of the result)

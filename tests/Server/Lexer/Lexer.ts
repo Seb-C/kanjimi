@@ -45,6 +45,7 @@ describe('Lexer', async () => {
 		dictionary.add(new Word('高い', '', Language.ENGLISH, '', []));
 		dictionary.add(new Word('この', '', Language.ENGLISH, '', []));
 		dictionary.add(new Word('です', '', Language.ENGLISH, '', []));
+		dictionary.add(new Word('に就いて', 'について', Language.ENGLISH, '', []));
 
 		// Adding some particles to the dictionary to assert that
 		// it is well recognized as a particle and not as a word
@@ -167,5 +168,11 @@ describe('Lexer', async () => {
 		expect(result[4].charType).toBe(CharType.KANJI);
 		expect(result[5].charType).toBe(CharType.HIRAGANA);
 		expect(result[6].charType).toBe(CharType.PUNCTUATION);
+	});
+	it('Testing the search by dictionary reading', () => {
+		const result = lexer.analyze('私については');
+		expect(result.length).toBe(3);
+		expect(result[1] instanceof WordToken).toBe(true);
+		expect(result[1].text).toBe('について');
 	});
 });

@@ -163,6 +163,10 @@ export default class Lexer {
 			}
 		}
 
+		if (this.dictionary.hasReading(text)) {
+			return new WordToken(text, this.dictionary.getReading(text, langs));
+		}
+
 		return null;
 	}
 }

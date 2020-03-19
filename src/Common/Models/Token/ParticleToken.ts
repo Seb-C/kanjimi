@@ -2,10 +2,22 @@ import Token from 'Common/Models/Token/Token';
 
 export default class ParticleToken extends Token {
 	static isParticle(text: string): boolean {
-		return (
-			text.length === 1
-			&& ['か', 'が', 'で', 'と', 'な', 'に', 'の', 'は', 'へ', 'も', 'や', 'を', 'お'].includes(text)
-		);
+		return text.length === 1 && [
+			'か',
+			'が',
+			'で',
+			'と',
+			'な',
+			'に',
+			'の',
+			'は',
+			'へ',
+			'も',
+			'や',
+			'を',
+			'お',
+			'し',
+		].includes(text);
 	}
 
 	constructor(text: string) {

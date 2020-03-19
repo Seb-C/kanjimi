@@ -106,7 +106,7 @@ export default class Lexer {
 				if (foundMeaning !== null) {
 					if (position > 0) {
 						// Making the text preceding this word as a separate token
-						yield this.makeUnknownToken(text.substring(0, position));
+						yield this.makeUnknownToken(text.substring(0, position), langs);
 					}
 
 					yield foundMeaning;
@@ -126,12 +126,15 @@ export default class Lexer {
 		}
 
 		// Not found anything in the whole string
-		yield this.makeUnknownToken(text);
+		yield this.makeUnknownToken(text, langs);
 	}
 
-	makeUnknownToken (text: string): Token {
+	makeUnknownToken (text: string, langs: Language[]|null = null): Token {
 		if (ParticleToken.isParticle(text)) {
-			return new ParticleToken(text);
+			return new ParticleToken(
+				text,
+				this.dictionary.get(text, langs),
+			);
 		} else {
 			return new Token(text);
 		}
@@ -139,7 +142,10 @@ export default class Lexer {
 
 	searchMeaning (text: string, langs: Language[]|null = null): Token|null {
 		if (ParticleToken.isParticle(text)) {
-			return new ParticleToken(text);
+			return new ParticleToken(
+				text,
+				this.dictionary.get(text, langs),
+			);
 		}
 
 		if (this.dictionary.has(text)) {

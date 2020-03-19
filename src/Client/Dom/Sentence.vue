@@ -8,7 +8,7 @@
 				{{ token.text || '&nbsp;' }}
 			</span>
 			<span class="translation">
-				{{ token.getTranslation() || '&nbsp;' }}
+				{{ (showTranslation(token) ? token.getTranslation() : null) || '&nbsp;' }}
 			</span>
 		</span>
 	</span>
@@ -16,6 +16,8 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import Token from 'Common/Models/Token/Token';
+	import ParticleToken from 'Common/Models/Token/ParticleToken';
+	import PunctuationToken from 'Common/Models/Token/PunctuationToken';
 	import Tooltip from 'Client/Dom/Tooltip.vue';
 
 	export default Vue.extend({
@@ -30,12 +32,17 @@
 			handleWordClick(token: Token, tokenElement: Element, event: Event) {
 				event.preventDefault();
 				event.stopPropagation();
-				this.toggleTooltip(token, tokenElement);
+				if (!(token instanceof PunctuationToken)) {
+					this.toggleTooltip(token, tokenElement);
+				}
+			},
+			showTranslation(token: Token) {
+				return !(token instanceof ParticleToken);
 			},
 		},
-        components: {
-            Tooltip,
-        },
+		components: {
+			Tooltip,
+		},
 	});
 </script>
 <style scoped>

@@ -1,10 +1,11 @@
-handle definitions of particles (use the dictionary but don't show translation directly) + non-WordToken in the definitions list (undefined this.token.words)
 add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
-debug the tokenizer (+ check the non-kanji forms?)
+handle double particles
+display particle title whenever a word is a particle
+test and debug intensively the tokenizer and display of results
+CI to run the tests
 automatic test of the tooltip position calculations? (e2e tests of the result)
 automatic tests for the frontend? unit test some dom functions? How to do that?
 find a name
-
 fix the broken indentation and folding for typescript
 implement users
 implement down migrations? or not do it and remove related code

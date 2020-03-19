@@ -1,6 +1,7 @@
-import Token from 'Common/Models/Token/Token';
+import Word from 'Common/Models/Word';
+import WordToken from 'Common/Models/Token/WordToken';
 
-export default class ParticleToken extends Token {
+export default class ParticleToken extends WordToken {
 	static isParticle(text: string): boolean {
 		return text.length === 1 && [
 			'か',
@@ -20,10 +21,10 @@ export default class ParticleToken extends Token {
 		].includes(text);
 	}
 
-	constructor(text: string) {
+	constructor(text: string, words: ReadonlyArray<Word>) {
 		if (typeof text === 'string' && !ParticleToken.isParticle(text)) {
 			throw new Error(`${text} is not a valid particle.`);
 		}
-		super(text);
+		super(text, words);
 	}
 }

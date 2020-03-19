@@ -1,9 +1,9 @@
 enum CharType {
-	KATAKANA,
-	HIRAGANA,
-	KANJI,
-	PUNCTUATION,
-	OTHER,
+	KATAKANA = 'katakana',
+	HIRAGANA = 'hiragana',
+	KANJI = 'kanji',
+	PUNCTUATION = 'punctuation',
+	OTHER = 'other',
 }
 
 namespace CharType {

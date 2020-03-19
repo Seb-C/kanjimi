@@ -1,5 +1,4 @@
 MVP:
-    add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
     handle double particles
     display particle title whenever a word is a particle (and revert the definition change?)
     test with a lot of different sites
@@ -11,7 +10,6 @@ MVP:
     webpack: different typescript config for each (lib and type keys for example)
     Use the proper languages depending on the user (currently filtered in the route definition)
     store visited urls to make recommendations later
-    make the enum values hardcoded to avoid future compatibility issues
     copy/paste functionality on the website
     include copyright somewhere in the site (and external resources used)
 

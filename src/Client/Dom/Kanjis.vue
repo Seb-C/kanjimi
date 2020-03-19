@@ -9,9 +9,9 @@
 	import WordToken from 'Common/Models/Token/WordToken';
 
 	const injectedKanjiFonts: string[] = [];
-	const getKanjiFontName = (uidClass: string): string => {
-		const fontName = `${uidClass}-kanji-stroke-orders`;
-		if (!injectedKanjiFonts.includes(uidClass)) {
+	const getKanjiFontName = (appUid: string): string => {
+		const fontName = `${appUid}-kanji-stroke-orders`;
+		if (!injectedKanjiFonts.includes(appUid)) {
 			const style = document.createElement('style');
 			style.textContent = `
 				@font-face {
@@ -20,7 +20,7 @@
 				}
 			`;
 			document.getElementsByTagName('head')[0].appendChild(style);
-			injectedKanjiFonts.push(uidClass);
+			injectedKanjiFonts.push(appUid);
 		}
 
 		return fontName;
@@ -28,12 +28,12 @@
 
 	export default Vue.extend({
 		props: {
-			uidClass: { type: String },
+			appUid: { type: String },
 			token: { type: Object as () => WordToken },
 		},
 		data() {
 			return {
-				kanjiFontName: getKanjiFontName(this.uidClass),
+				kanjiFontName: getKanjiFontName(this.appUid),
 			};
 		},
 	});

@@ -8,11 +8,11 @@ import Sentence from 'Client/Dom/Sentence.vue';
 export default class PageHandler {
 	private processing: boolean = false;
 	private tooltip: Vue|null = null;
-	private uidClass: string;
+	private appUid: string;
 
 	constructor() {
 		// Note: using a really random id breaks the hot-reloading
-		this.uidClass = 'uid-6270173546874285';
+		this.appUid = 'uid-6270173546874285';
 	}
 
 	*getSentencesToConvert(): Iterable<Text> {
@@ -31,7 +31,7 @@ export default class PageHandler {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					if ((<Element>node).classList.contains(this.uidClass)) {
+					if ((<Element>node).classList.contains(this.appUid)) {
 						return NodeFilter.FILTER_REJECT;
 					}
 
@@ -116,7 +116,7 @@ export default class PageHandler {
 		const nodes: Text[] = [];
 		const strings: string[] = [];
 		for (const textNode of texts) {
-			(<Element>textNode.parentNode).classList.add(`${this.uidClass}-loader`);
+			(<Element>textNode.parentNode).classList.add(`${this.appUid}-loader`);
 			nodes.push(textNode);
 			strings.push(textNode.data.trim());
 		}
@@ -126,15 +126,17 @@ export default class PageHandler {
 				const data = await analyze(strings);
 
 				for (let i = 0; i < data.length; i++) {
-					(<Element>nodes[i].parentNode).classList.remove(`${this.uidClass}-loader`);
+					(<Element>nodes[i].parentNode).classList.remove(`${this.appUid}-loader`);
 					this.convertSentence(nodes[i], data[i]);
 				}
+
+				window.dispatchEvent(new Event(`${this.appUid}-converted-sentences`));
 			} catch (e) {
 				console.error('Exception: ', e.toString());
 				console.error('Strings: ', ...strings);
 
 				for (let i = 0; i < nodes.length; i++) {
-					(<Element>nodes[i].parentNode).classList.remove(`${this.uidClass}-loader`);
+					(<Element>nodes[i].parentNode).classList.remove(`${this.appUid}-loader`);
 				}
 			}
 		}
@@ -152,7 +154,7 @@ export default class PageHandler {
 				props: {
 					tokens,
 					toggleTooltip: this.toggleTooltip.bind(this),
-					uidClass: this.uidClass,
+					appUid: this.appUid,
 				},
 			}),
 		});
@@ -180,7 +182,7 @@ export default class PageHandler {
 				props: {
 					token,
 					tokenElement,
-					uidClass: this.uidClass,
+					appUid: this.appUid,
 				},
 			}),
 		});
@@ -197,12 +199,12 @@ export default class PageHandler {
 	injectLoaderCss() {
 		const style = document.createElement('style');
 		style.textContent = `
-			.${this.uidClass}-loader {
+			.${this.appUid}-loader {
 				opacity: 0.3;
 				background: #AAA;
 				position: relative;
 			}
-			.${this.uidClass}-loader:after {
+			.${this.appUid}-loader:after {
 				content: "";
 				left: 0;
 				right: 0;

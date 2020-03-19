@@ -1,5 +1,5 @@
 <template>
-	<span v-bind:class="['sentence', uidClass]">
+	<span v-bind:class="['sentence', appUid]">
 		<span v-for="(token, i) in tokens" class="token" ref="token">
 			<span class="furigana">
 				{{ (token.getFurigana() == token.text ? null : token.getFurigana()) || '&nbsp;' }}
@@ -20,7 +20,7 @@
 
 	export default Vue.extend({
 		props: {
-			uidClass: { type: String },
+			appUid: { type: String },
 			tokens: { type: Array as () => Token[] },
 			toggleTooltip: { type: (Function as unknown) as () => (
 				(token: Token, tokenElement: Element) => void

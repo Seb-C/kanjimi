@@ -1,5 +1,5 @@
 <template>
-	<div v-bind:class="['tooltip-container', uidClass]">
+	<div v-bind:class="['tooltip-container', appUid]">
 		<div
 			ref="tooltip"
 			class="tooltip"
@@ -7,7 +7,7 @@
 		>
 			<readings v-bind:token="token" />
 			<conjugations v-if="token instanceof VerbToken" v-bind:token="token" />
-			<kanjis v-bind:token="token" v-bind:uid-class="uidClass" />
+			<kanjis v-bind:token="token" v-bind:uid-class="appUid" />
 		</div>
 		<div
 			class="tooltip-tip"
@@ -29,30 +29,17 @@
 	import Readings from 'Client/Dom/Readings.vue';
 	import Conjugations from 'Client/Dom/Conjugations.vue';
 
+	const TIP_SIZE = 15;
+
 	export default Vue.extend({
 		props: {
-			uidClass: { type: String },
+			appUid: { type: String },
 			token: { type: Object as () => WordToken },
 			tokenElement: { type: Object as () => HTMLElement },
 		},
 		data() {
-			let top = 0;
-			let left = 0;
-			let currentNode = this.tokenElement;
-			do {
-				top += currentNode.offsetTop || 0;
-				left += currentNode.offsetLeft || 0;
-				currentNode = <HTMLElement>currentNode.offsetParent;
-			} while (currentNode);
-
 			return {
-				targetPos: {
-					left: left,
-					top: top,
-					right: left + this.tokenElement.offsetWidth,
-					bottom: top + this.tokenElement.offsetHeight,
-				},
-				tipSize: 15,
+				targetPos: {},
 				VerbToken,
 
 				// Values that only should not be affected by future dom changes
@@ -61,9 +48,37 @@
 				bodyWidth: document.body.offsetWidth,
 			};
 		},
+		created() {
+			this.updateTargetPos();
+			window.addEventListener('resize', this.updateTargetPos);
+			window.addEventListener(`${this.appUid}-converted-sentences`, this.updateTargetPos);
+		},
+		beforeDestroy() {
+			window.removeEventListener('resize', this.updateTargetPos);
+			window.removeEventListener(`${this.appUid}-converted-sentences`, this.updateTargetPos);
+		},
+		methods: {
+			updateTargetPos() {
+				let top = 0;
+				let left = 0;
+				let currentNode = this.tokenElement;
+				do {
+					top += currentNode.offsetTop || 0;
+					left += currentNode.offsetLeft || 0;
+					currentNode = <HTMLElement>currentNode.offsetParent;
+				} while (currentNode);
+
+				this.targetPos = {
+					left: left,
+					top: top,
+					right: left + this.tokenElement.offsetWidth,
+					bottom: top + this.tokenElement.offsetHeight,
+				};
+			},
+		},
 		computed: {
 			tooltipStyles() {
-				const tipDiagonal = Math.sqrt((this.tipSize * this.tipSize) * 2);
+				const tipDiagonal = Math.sqrt((TIP_SIZE * TIP_SIZE) * 2);
 				const tooltipWidth = Math.round(this.bodyWidth * 0.4); // Mobile: should take 100%?
 				const tooltipHeight = Math.round(this.windowHeight / 2);
 
@@ -106,10 +121,10 @@
 				};
 			},
 			tipStyles() {
-				const tipDiagonal = Math.sqrt((this.tipSize * this.tipSize) * 2);
+				const tipDiagonal = Math.sqrt((TIP_SIZE * TIP_SIZE) * 2);
 				const tooltipHeight = Math.round(this.windowHeight / 2);
 
-				let tipLeft = this.targetPos.left + ((this.targetPos.right - this.targetPos.left) / 2) - (this.tipSize / 2);
+				let tipLeft = this.targetPos.left + ((this.targetPos.right - this.targetPos.left) / 2) - (TIP_SIZE / 2);
 
 				const targetDistanceToTop = this.targetPos.top - this.windowScrollY;
 				const targetDistanceToBottom = (this.windowScrollY + this.windowHeight) - this.targetPos.bottom;
@@ -132,8 +147,8 @@
 				return {
 					left: tipLeft + 'px',
 					top: tipTop + 'px',
-					width: this.tipSize + 'px',
-					height: this.tipSize + 'px',
+					width: TIP_SIZE + 'px',
+					height: TIP_SIZE + 'px',
 				};
 			},
 			cursorStyles() {

@@ -16,7 +16,7 @@ describe('Lexer', async () => {
 			});
 			expect(found).toBe(
 				true,
-				`Forms for type ${ConjugationType[type]}: Expect ${conjugation}, found [${forms.join(', ')}].`,
+				`Forms for type ${type}: Expect ${conjugation}, found [${forms.join(', ')}].`,
 			);
 		};
 
@@ -73,7 +73,7 @@ describe('Lexer', async () => {
 			const doesContainTheForm = forms.some((form: string) => form === conjugation);
 			expect(doesContainTheForm).toBe(
 				true,
-				`Form ${ConjugationType[type]}: expected ${conjugation}, found [${forms.join(', ')}].`,
+				`Form ${type}: expected ${conjugation}, found [${forms.join(', ')}].`,
 			);
 		};
 

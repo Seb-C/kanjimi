@@ -21,6 +21,7 @@ enum ConjugationType {
 	IMPERATIVE_POLITE = 'imperative_polite',
 	NEGATIVE = 'negative',
 	NEGATIVE_PAST = 'negative_past',
+	NEGATIVE_TE = 'negative_te',
 	PASSIVE = 'passive',
 	PASSIVE_NEGATIVE = 'passive_negative',
 	PASSIVE_NEGATIVE_PAST = 'passive_negative_past',

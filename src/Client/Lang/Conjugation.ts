@@ -39,6 +39,7 @@ export default {
 		[ConjugationType.IMPERATIVE_POLITE]: 'imperative polite',
 		[ConjugationType.NEGATIVE]: 'negative',
 		[ConjugationType.NEGATIVE_PAST]: 'negative past',
+		[ConjugationType.NEGATIVE_TE]: 'negative te',
 		[ConjugationType.PASSIVE]: 'passive',
 		[ConjugationType.PASSIVE_NEGATIVE]: 'passive negative',
 		[ConjugationType.PASSIVE_NEGATIVE_PAST]: 'passive negative past',

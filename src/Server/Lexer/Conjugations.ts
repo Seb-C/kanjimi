@@ -77,12 +77,16 @@ class ConjugationsClass {
 		} else {
 			this.conjugationsByPlainForm.set(form.dictionaryForm, [form]);
 		}
+	}
+
+	addFormAndDerivates (form: Conjugation) {
+		this.addForm(form);
 
 		if (this.FORMS_CONVERT.has(form.type)) {
 			(<Map<ConjugationType, ConjugationType>>(this.FORMS_CONVERT.get(form.type)))
 				.forEach((targetForm: ConjugationType, formCombinedWith: ConjugationType) => {
 					this.conjugate(form.conjugation, formCombinedWith).forEach((conjugatedForm: string) => {
-						this.addForm(new Conjugation(
+						this.addFormAndDerivates(new Conjugation(
 							conjugatedForm,
 							form.dictionaryForm,
 							targetForm,
@@ -94,38 +98,39 @@ class ConjugationsClass {
 
 	addStem (prefix: string, dictionaryForm: string) {
 		// tslint:disable
-		this.addForm(new Conjugation(prefix,                  dictionaryForm, ConjugationType.STEM));
-		this.addForm(new Conjugation(prefix + 'ます',         dictionaryForm, ConjugationType.POLITE));
-		this.addForm(new Conjugation(prefix + 'ませんでした', dictionaryForm, ConjugationType.POLITE_NEGATIVE_PAST));
-		this.addForm(new Conjugation(prefix + 'ません',       dictionaryForm, ConjugationType.POLITE_NEGATIVE));
-		this.addForm(new Conjugation(prefix + 'ましょう',     dictionaryForm, ConjugationType.POLITE_VOLITIONAL));
-		this.addForm(new Conjugation(prefix + 'ました',       dictionaryForm, ConjugationType.POLITE_PAST));
-		this.addForm(new Conjugation(prefix + 'ませ',         dictionaryForm, ConjugationType.IMPERATIVE_POLITE));
-		this.addForm(new Conjugation(prefix + 'たい',         dictionaryForm, ConjugationType.WISH));
+		this.addFormAndDerivates(new Conjugation(prefix,                  dictionaryForm, ConjugationType.STEM));
+		this.addFormAndDerivates(new Conjugation(prefix + 'ます',         dictionaryForm, ConjugationType.POLITE));
+		this.addFormAndDerivates(new Conjugation(prefix + 'ませんでした', dictionaryForm, ConjugationType.POLITE_NEGATIVE_PAST));
+		this.addFormAndDerivates(new Conjugation(prefix + 'ません',       dictionaryForm, ConjugationType.POLITE_NEGATIVE));
+		this.addFormAndDerivates(new Conjugation(prefix + 'ましょう',     dictionaryForm, ConjugationType.POLITE_VOLITIONAL));
+		this.addFormAndDerivates(new Conjugation(prefix + 'ました',       dictionaryForm, ConjugationType.POLITE_PAST));
+		this.addFormAndDerivates(new Conjugation(prefix + 'ませ',         dictionaryForm, ConjugationType.IMPERATIVE_POLITE));
+		this.addFormAndDerivates(new Conjugation(prefix + 'たい',         dictionaryForm, ConjugationType.WISH));
 		// tslint:enable
 	}
 
 	addNegativeBasedForms (prefix: string, dictionaryForm: string) {
 		// tslint:disable
-		this.addForm(new Conjugation(prefix + 'ない',     dictionaryForm, ConjugationType.NEGATIVE));
-		this.addForm(new Conjugation(prefix + 'なかった', dictionaryForm, ConjugationType.NEGATIVE_PAST));
+		this.addFormAndDerivates(new Conjugation(prefix + 'ない',     dictionaryForm, ConjugationType.NEGATIVE));
+		this.addFormAndDerivates(new Conjugation(prefix + 'なかった', dictionaryForm, ConjugationType.NEGATIVE_PAST));
+		this.addFormAndDerivates(new Conjugation(prefix + 'なくて', dictionaryForm, ConjugationType.NEGATIVE_TE));
 		// tslint:enable
 	}
 
 	addPastBasedForms (pastForm: string, dictionaryForm: string) {
 		// tslint:disable
-		this.addForm(new Conjugation(pastForm, dictionaryForm, ConjugationType.PAST));
-		this.addForm(new Conjugation(pastForm + 'ら', dictionaryForm, ConjugationType.CONDITIONAL_RA));
-		this.addForm(new Conjugation(pastForm + 'り', dictionaryForm, ConjugationType.ENUMERATION));
+		this.addFormAndDerivates(new Conjugation(pastForm, dictionaryForm, ConjugationType.PAST));
+		this.addFormAndDerivates(new Conjugation(pastForm + 'ら', dictionaryForm, ConjugationType.CONDITIONAL_RA));
+		this.addFormAndDerivates(new Conjugation(pastForm + 'り', dictionaryForm, ConjugationType.ENUMERATION));
 		// tslint:enable
 	}
 
 	addTeBasedForms (teForm: string, dictionaryForm: string) {
 		// tslint:disable
-		this.addForm(new Conjugation(teForm, dictionaryForm, ConjugationType.TE));
-		this.addForm(new Conjugation(teForm + 'いる', dictionaryForm, ConjugationType.TEIRU));
-		this.addForm(new Conjugation(teForm + 'る', dictionaryForm, ConjugationType.TEIRU));
-		this.addForm(new Conjugation(teForm + 'おく', dictionaryForm, ConjugationType.TEOKU));
+		this.addFormAndDerivates(new Conjugation(teForm, dictionaryForm, ConjugationType.TE));
+		this.addFormAndDerivates(new Conjugation(teForm + 'いる', dictionaryForm, ConjugationType.TEIRU));
+		this.addFormAndDerivates(new Conjugation(teForm + 'る', dictionaryForm, ConjugationType.TEIRU));
+		this.addFormAndDerivates(new Conjugation(teForm + 'おく', dictionaryForm, ConjugationType.TEOKU));
 
 		// Teoku short = toku/doku
 		let tokuForm;
@@ -134,7 +139,7 @@ class ConjugationsClass {
 		} else {
 			tokuForm = teForm.substring(0, teForm.length - 1) + 'とく';
 		}
-		this.addForm(new Conjugation(tokuForm, dictionaryForm, ConjugationType.TEOKU));
+		this.addFormAndDerivates(new Conjugation(tokuForm, dictionaryForm, ConjugationType.TEOKU));
 		// tslint:enable
 	}
 
@@ -271,205 +276,277 @@ conjugations.addTeBasedForms('んで', 'む');
 conjugations.addTeBasedForms('って', 'る');
 conjugations.addTeBasedForms('て',   'る');
 
-conjugations.addForm(new Conjugation('え'  , 'う'  , ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('け'  , 'く'  , ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('げ'  , 'ぐ'  , ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('せ'  , 'す'  , ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('て'  , 'つ'  , ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ね'  , 'ぬ'  , ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('べ'  , 'ぶ'  , ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('め'  , 'む'  , ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('れ'  , 'る'  , ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('いろ', 'いる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('えろ', 'える', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('きろ', 'きる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('けろ', 'ける', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('しろ', 'しる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('せろ', 'せる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ちろ', 'ちる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('てろ', 'てる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('にろ', 'にる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ねろ', 'ねる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ひろ', 'ひる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('へろ', 'へる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('みろ', 'みる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('めろ', 'める', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('りろ', 'りる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('れろ', 'れる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('れ',   'れる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'わる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'らる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'やる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'ゃる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'まる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'はる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'なる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'たる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'さる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'かる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ぎろ', 'ぎる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('げろ', 'げる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('じろ', 'じる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ぜろ', 'ぜる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ぢろ', 'ぢる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('でろ', 'でる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('びろ', 'びる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ぴろ', 'ぴる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('べろ', 'べる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ぺろ', 'ぺる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('あい', 'ある', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('わい', 'わる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('らい', 'らる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('やい', 'やる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ゃい', 'ゃる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('まい', 'まる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('はい', 'はる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ない', 'なる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('たい', 'たる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('さい', 'さる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('かい', 'かる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('がい', 'がる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ざい', 'ざる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('だい', 'だる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ばい', 'ばる', ConjugationType.IMPERATIVE));
-conjugations.addForm(new Conjugation('ぱい', 'ぱる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('え'  , 'う'  , ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('け'  , 'く'  , ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('げ'  , 'ぐ'  , ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('せ'  , 'す'  , ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('て'  , 'つ'  , ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ね'  , 'ぬ'  , ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('べ'  , 'ぶ'  , ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('め'  , 'む'  , ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('れ'  , 'る'  , ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('いろ', 'いる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('えろ', 'える', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('きろ', 'きる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('けろ', 'ける', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('しろ', 'しる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('せろ', 'せる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ちろ', 'ちる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('てろ', 'てる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('にろ', 'にる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ねろ', 'ねる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ひろ', 'ひる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('へろ', 'へる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('みろ', 'みる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('めろ', 'める', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('りろ', 'りる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('れろ', 'れる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('れ',   'れる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'わる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'らる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'やる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'ゃる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'まる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'はる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'なる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'たる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'さる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'かる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ぎろ', 'ぎる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('げろ', 'げる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('じろ', 'じる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ぜろ', 'ぜる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ぢろ', 'ぢる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('でろ', 'でる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('びろ', 'びる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ぴろ', 'ぴる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('べろ', 'べる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ぺろ', 'ぺる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('あい', 'ある', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('わい', 'わる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('らい', 'らる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('やい', 'やる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ゃい', 'ゃる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('まい', 'まる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('はい', 'はる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ない', 'なる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('たい', 'たる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('さい', 'さる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('かい', 'かる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('がい', 'がる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ざい', 'ざる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('だい', 'だる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ばい', 'ばる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ぱい', 'ぱる', ConjugationType.IMPERATIVE));
 
-conjugations.addForm(new Conjugation('えば'  , 'う'  , ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('けば'  , 'く'  , ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('げば'  , 'ぐ'  , ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('せば'  , 'す'  , ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('てば'  , 'つ'  , ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('ねば'  , 'ぬ'  , ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('べば'  , 'ぶ'  , ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('めば'  , 'む'  , ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('れば'  , 'る'  , ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('くれば', 'くる', ConjugationType.CONDITIONAL));
-conjugations.addForm(new Conjugation('すれば', 'する', ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('えば'  , 'う'  , ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('けば'  , 'く'  , ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('げば'  , 'ぐ'  , ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('せば'  , 'す'  , ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('てば'  , 'つ'  , ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('ねば'  , 'ぬ'  , ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('べば'  , 'ぶ'  , ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('めば'  , 'む'  , ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('れば'  , 'る'  , ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('くれば', 'くる', ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('すれば', 'する', ConjugationType.CONDITIONAL));
 
-conjugations.addForm(new Conjugation('おう'  , 'う'  , ConjugationType.VOLITIONAL));
-conjugations.addForm(new Conjugation('こう'  , 'く'  , ConjugationType.VOLITIONAL));
-conjugations.addForm(new Conjugation('ごう'  , 'ぐ'  , ConjugationType.VOLITIONAL));
-conjugations.addForm(new Conjugation('そう'  , 'す'  , ConjugationType.VOLITIONAL));
-conjugations.addForm(new Conjugation('とう'  , 'つ'  , ConjugationType.VOLITIONAL));
-conjugations.addForm(new Conjugation('のう'  , 'ぬ'  , ConjugationType.VOLITIONAL));
-conjugations.addForm(new Conjugation('ぼう'  , 'ぶ'  , ConjugationType.VOLITIONAL));
-conjugations.addForm(new Conjugation('もう'  , 'む'  , ConjugationType.VOLITIONAL));
-conjugations.addForm(new Conjugation('よう'  , 'る'  , ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('おう'  , 'う'  , ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('こう'  , 'く'  , ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('ごう'  , 'ぐ'  , ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('そう'  , 'す'  , ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('とう'  , 'つ'  , ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('のう'  , 'ぬ'  , ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('ぼう'  , 'ぶ'  , ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('もう'  , 'む'  , ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('よう'  , 'る'  , ConjugationType.VOLITIONAL));
 
-conjugations.addForm(new Conjugation('われる'  , 'う'  , ConjugationType.PASSIVE));
-conjugations.addForm(new Conjugation('かれる'  , 'く'  , ConjugationType.PASSIVE));
-conjugations.addForm(new Conjugation('がれる'  , 'ぐ'  , ConjugationType.PASSIVE));
-conjugations.addForm(new Conjugation('される'  , 'す'  , ConjugationType.PASSIVE));
-conjugations.addForm(new Conjugation('たれる'  , 'つ'  , ConjugationType.PASSIVE));
-conjugations.addForm(new Conjugation('なれる'  , 'ぬ'  , ConjugationType.PASSIVE));
-conjugations.addForm(new Conjugation('ばれる'  , 'ぶ'  , ConjugationType.PASSIVE));
-conjugations.addForm(new Conjugation('まれる'  , 'む'  , ConjugationType.PASSIVE));
-conjugations.addForm(new Conjugation('られる'  , 'る'  , ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('われる'  , 'う'  , ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('かれる'  , 'く'  , ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('がれる'  , 'ぐ'  , ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('される'  , 'す'  , ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('たれる'  , 'つ'  , ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('なれる'  , 'ぬ'  , ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('ばれる'  , 'ぶ'  , ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('まれる'  , 'む'  , ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('られる'  , 'る'  , ConjugationType.PASSIVE));
 
-conjugations.addForm(new Conjugation('わせる'  , 'う'  , ConjugationType.CAUSATIVE));
-conjugations.addForm(new Conjugation('かせる'  , 'く'  , ConjugationType.CAUSATIVE));
-conjugations.addForm(new Conjugation('がせる'  , 'ぐ'  , ConjugationType.CAUSATIVE));
-conjugations.addForm(new Conjugation('させる'  , 'す'  , ConjugationType.CAUSATIVE));
-conjugations.addForm(new Conjugation('たせる'  , 'つ'  , ConjugationType.CAUSATIVE));
-conjugations.addForm(new Conjugation('なせる'  , 'ぬ'  , ConjugationType.CAUSATIVE));
-conjugations.addForm(new Conjugation('ばせる'  , 'ぶ'  , ConjugationType.CAUSATIVE));
-conjugations.addForm(new Conjugation('ませる'  , 'む'  , ConjugationType.CAUSATIVE));
-conjugations.addForm(new Conjugation('させる'  , 'る'  , ConjugationType.CAUSATIVE));
-conjugations.addForm(new Conjugation('らせる'  , 'る'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('わせる'  , 'う'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('かせる'  , 'く'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('がせる'  , 'ぐ'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('させる'  , 'す'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('たせる'  , 'つ'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('なせる'  , 'ぬ'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ばせる'  , 'ぶ'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('ませる'  , 'む'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('させる'  , 'る'  , ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('らせる'  , 'る'  , ConjugationType.CAUSATIVE));
 
-conjugations.addForm(new Conjugation('える'    , 'う'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ける'    , 'く'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('げる'    , 'ぐ'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('せる'    , 'す'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('てる'    , 'つ'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ねる'    , 'ぬ'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('べる'    , 'ぶ'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('める'    , 'む'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('れる'    , 'る'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('られる'  , 'る'  , ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('せる',     'する', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('あり得る', 'ある', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('わり得る', 'わる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('らり得る', 'らる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('やり得る', 'やる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ゃり得る', 'ゃる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('まり得る', 'まる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('はり得る', 'はる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('なり得る', 'なる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('たり得る', 'たる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('さり得る', 'さる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('かり得る', 'かる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('がり得る', 'がる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ざり得る', 'ざる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('だり得る', 'だる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ばり得る', 'ばる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ぱり得る', 'ぱる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ありえる', 'ある', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('わりえる', 'わる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('らりえる', 'らる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('やりえる', 'やる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ゃりえる', 'ゃる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('まりえる', 'まる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('はりえる', 'はる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('なりえる', 'なる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('たりえる', 'たる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('さりえる', 'さる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('かりえる', 'かる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('がりえる', 'がる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ざりえる', 'ざる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('だりえる', 'だる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ばりえる', 'ばる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ぱりえる', 'ぱる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ありうる', 'ある', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('わりうる', 'わる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('らりうる', 'らる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('やりうる', 'やる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ゃりうる', 'ゃる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('まりうる', 'まる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('はりうる', 'はる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('なりうる', 'なる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('たりうる', 'たる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('さりうる', 'さる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('かりうる', 'かる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('がりうる', 'がる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ざりうる', 'ざる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('だりうる', 'だる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ばりうる', 'ばる', ConjugationType.POTENTIAL));
-conjugations.addForm(new Conjugation('ぱりうる', 'ぱる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('える'    , 'う'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ける'    , 'く'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('げる'    , 'ぐ'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('せる'    , 'す'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('てる'    , 'つ'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ねる'    , 'ぬ'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('べる'    , 'ぶ'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('める'    , 'む'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('れる'    , 'る'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('られる'  , 'る'  , ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('せる',     'する', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('あり得る', 'ある', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('わり得る', 'わる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('らり得る', 'らる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('やり得る', 'やる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ゃり得る', 'ゃる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('まり得る', 'まる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('はり得る', 'はる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('なり得る', 'なる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('たり得る', 'たる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('さり得る', 'さる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('かり得る', 'かる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('がり得る', 'がる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ざり得る', 'ざる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('だり得る', 'だる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ばり得る', 'ばる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ぱり得る', 'ぱる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ありえる', 'ある', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('わりえる', 'わる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('らりえる', 'らる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('やりえる', 'やる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ゃりえる', 'ゃる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('まりえる', 'まる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('はりえる', 'はる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('なりえる', 'なる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('たりえる', 'たる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('さりえる', 'さる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('かりえる', 'かる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('がりえる', 'がる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ざりえる', 'ざる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('だりえる', 'だる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ばりえる', 'ばる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ぱりえる', 'ぱる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ありうる', 'ある', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('わりうる', 'わる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('らりうる', 'らる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('やりうる', 'やる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ゃりうる', 'ゃる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('まりうる', 'まる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('はりうる', 'はる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('なりうる', 'なる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('たりうる', 'たる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('さりうる', 'さる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('かりうる', 'かる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('がりうる', 'がる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ざりうる', 'ざる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('だりうる', 'だる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ばりうる', 'ばる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('ぱりうる', 'ぱる', ConjugationType.POTENTIAL));
 
-conjugations.addForm(new Conjugation('う'  , 'う'  , ConjugationType.PLAIN));
-conjugations.addForm(new Conjugation('く'  , 'く'  , ConjugationType.PLAIN));
-conjugations.addForm(new Conjugation('ぐ'  , 'ぐ'  , ConjugationType.PLAIN));
-conjugations.addForm(new Conjugation('す'  , 'す'  , ConjugationType.PLAIN));
-conjugations.addForm(new Conjugation('つ'  , 'つ'  , ConjugationType.PLAIN));
-conjugations.addForm(new Conjugation('ぬ'  , 'ぬ'  , ConjugationType.PLAIN));
-conjugations.addForm(new Conjugation('ぶ'  , 'ぶ'  , ConjugationType.PLAIN));
-conjugations.addForm(new Conjugation('む'  , 'む'  , ConjugationType.PLAIN));
-conjugations.addForm(new Conjugation('る'  , 'る'  , ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('う'  , 'う'  , ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('く'  , 'く'  , ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('ぐ'  , 'ぐ'  , ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('す'  , 'す'  , ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('つ'  , 'つ'  , ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('ぬ'  , 'ぬ'  , ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('ぶ'  , 'ぶ'  , ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('む'  , 'む'  , ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('る'  , 'る'  , ConjugationType.PLAIN));
 
 // Adjectives
 
-conjugations.addForm(new Conjugation('い', 'い', ConjugationType.ADJECTIVE_PLAIN));
-conjugations.addForm(new Conjugation('しい', 'しい', ConjugationType.ADJECTIVE_PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('い', 'い', ConjugationType.ADJECTIVE_PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('しい', 'しい', ConjugationType.ADJECTIVE_PLAIN));
 
-conjugations.addForm(new Conjugation('め', 'い', ConjugationType.ADJECTIVE_ME));
-conjugations.addForm(new Conjugation('しめ', 'しい', ConjugationType.ADJECTIVE_ME));
-conjugations.addForm(new Conjugation('目', 'い', ConjugationType.ADJECTIVE_ME));
-conjugations.addForm(new Conjugation('し目', 'しい', ConjugationType.ADJECTIVE_ME));
+conjugations.addFormAndDerivates(new Conjugation('め', 'い', ConjugationType.ADJECTIVE_ME));
+conjugations.addFormAndDerivates(new Conjugation('しめ', 'しい', ConjugationType.ADJECTIVE_ME));
+conjugations.addFormAndDerivates(new Conjugation('目', 'い', ConjugationType.ADJECTIVE_ME));
+conjugations.addFormAndDerivates(new Conjugation('し目', 'しい', ConjugationType.ADJECTIVE_ME));
 
-conjugations.addForm(new Conjugation('かった', 'い', ConjugationType.ADJECTIVE_PAST));
-conjugations.addForm(new Conjugation('しかった', 'しい', ConjugationType.ADJECTIVE_PAST));
+conjugations.addFormAndDerivates(new Conjugation('かった', 'い', ConjugationType.ADJECTIVE_PAST));
+conjugations.addFormAndDerivates(new Conjugation('しかった', 'しい', ConjugationType.ADJECTIVE_PAST));
 
-conjugations.addForm(new Conjugation('くない', 'い', ConjugationType.ADJECTIVE_NEGATIVE));
-conjugations.addForm(new Conjugation('しくない', 'しい', ConjugationType.ADJECTIVE_NEGATIVE));
+conjugations.addFormAndDerivates(new Conjugation('くない', 'い', ConjugationType.ADJECTIVE_NEGATIVE));
+conjugations.addFormAndDerivates(new Conjugation('しくない', 'しい', ConjugationType.ADJECTIVE_NEGATIVE));
 
-conjugations.addForm(new Conjugation('くなかった', 'い', ConjugationType.ADJECTIVE_NEGATIVE_PAST));
-conjugations.addForm(new Conjugation('しくなかった', 'しい', ConjugationType.ADJECTIVE_NEGATIVE_PAST));
+conjugations.addFormAndDerivates(new Conjugation('くなかった', 'い', ConjugationType.ADJECTIVE_NEGATIVE_PAST));
+conjugations.addFormAndDerivates(new Conjugation('しくなかった', 'しい', ConjugationType.ADJECTIVE_NEGATIVE_PAST));
 
-conjugations.addForm(new Conjugation('くありません', 'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE));
-conjugations.addForm(new Conjugation('しくありません', 'しい', ConjugationType.ADJECTIVE_POLITE_NEGATIVE));
+conjugations.addFormAndDerivates(new Conjugation('くありません', 'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE));
+conjugations.addFormAndDerivates(new Conjugation('しくありません', 'しい', ConjugationType.ADJECTIVE_POLITE_NEGATIVE));
 
-conjugations.addForm(new Conjugation('くありませんでした', 'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE_PAST));
-conjugations.addForm(new Conjugation('しくありませんでした', 'しい', ConjugationType.ADJECTIVE_POLITE_NEGATIVE_PAST));
+conjugations.addFormAndDerivates(new Conjugation('くありませんでした', 'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE_PAST));
+conjugations.addFormAndDerivates(new Conjugation('しくありませんでした', 'しい', ConjugationType.ADJECTIVE_POLITE_NEGATIVE_PAST));
+
+// suru
+
+conjugations.addStem('し', 'する');
+conjugations.addNegativeBasedForms('し', 'する');
+conjugations.addNegativeBasedForms('さ', 'する');
+conjugations.addPastBasedForms('した', 'する');
+conjugations.addTeBasedForms('して', 'する');
+conjugations.addFormAndDerivates(new Conjugation('する',   'する', ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('す',     'する', ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('ず',     'する', ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('しよう', 'する', ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('される', 'する', ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('させる', 'する', ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('できる', 'する', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('せる',   'する', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('しろ',   'する', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('せよ',   'する', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('すれば', 'する', ConjugationType.CONDITIONAL));
+
+// kuru
+
+conjugations.addStem('来', '来る');
+conjugations.addStem('き', 'くる');
+conjugations.addNegativeBasedForms('来', '来る');
+conjugations.addNegativeBasedForms('こ', 'くる');
+conjugations.addPastBasedForms('来た', '来る');
+conjugations.addPastBasedForms('きた', 'くる');
+conjugations.addTeBasedForms('来て', '来る');
+conjugations.addTeBasedForms('きて', 'くる');
+conjugations.addFormAndDerivates(new Conjugation('来る',     '来る', ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('くる',     'くる', ConjugationType.PLAIN));
+conjugations.addFormAndDerivates(new Conjugation('来よう',   '来る', ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('こよう',   'くる', ConjugationType.VOLITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('来られる', '来る', ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('こられる', 'くる', ConjugationType.PASSIVE));
+conjugations.addFormAndDerivates(new Conjugation('来させる', '来る', ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('こさせる', 'くる', ConjugationType.CAUSATIVE));
+conjugations.addFormAndDerivates(new Conjugation('来られる', '来る', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('来れる',   '来る', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('こられる', 'くる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('これる',   'くる', ConjugationType.POTENTIAL));
+conjugations.addFormAndDerivates(new Conjugation('来い',     '来る', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('こい',     'くる', ConjugationType.IMPERATIVE));
+conjugations.addFormAndDerivates(new Conjugation('来れば',   '来る', ConjugationType.CONDITIONAL));
+conjugations.addFormAndDerivates(new Conjugation('くれば',   'くる', ConjugationType.CONDITIONAL));
+
+// desu
+
+conjugations.addNegativeBasedForms('じゃ', 'だ');
+conjugations.addNegativeBasedForms('では', 'だ');
+conjugations.addTeBasedForms('であって', 'だ');
+conjugations.addForm(new Conjugation('じゃないです',         'だ', ConjugationType.POLITE_NEGATIVE));
+conjugations.addForm(new Conjugation('じゃありません',       'だ', ConjugationType.POLITE_NEGATIVE));
+conjugations.addForm(new Conjugation('ではありません',       'だ', ConjugationType.POLITE_NEGATIVE));
+conjugations.addForm(new Conjugation('でございません',       'だ', ConjugationType.POLITE_NEGATIVE));
+conjugations.addForm(new Conjugation('じゃないでした',       'だ', ConjugationType.POLITE_NEGATIVE_PAST));
+conjugations.addForm(new Conjugation('じゃなかったです',     'だ', ConjugationType.POLITE_NEGATIVE_PAST));
+conjugations.addForm(new Conjugation('じゃありませんでした', 'だ', ConjugationType.POLITE_NEGATIVE_PAST));
+conjugations.addForm(new Conjugation('ではありませんでした', 'だ', ConjugationType.POLITE_NEGATIVE_PAST));
+conjugations.addForm(new Conjugation('でございませんでした', 'だ', ConjugationType.POLITE_NEGATIVE_PAST));
+conjugations.addForm(new Conjugation('でした',               'だ', ConjugationType.POLITE_PAST));
+conjugations.addForm(new Conjugation('でありました',         'だ', ConjugationType.POLITE_PAST));
+conjugations.addForm(new Conjugation('でございました',       'だ', ConjugationType.POLITE_PAST));
+conjugations.addForm(new Conjugation('です',                 'だ', ConjugationType.POLITE));
+conjugations.addForm(new Conjugation('であります',           'だ', ConjugationType.POLITE));
+conjugations.addForm(new Conjugation('でございます',         'だ', ConjugationType.POLITE));
+conjugations.addForm(new Conjugation('だ',                   'だ', ConjugationType.STEM));
+conjugations.addForm(new Conjugation('である',               'だ', ConjugationType.STEM));
+conjugations.addForm(new Conjugation('じゃ',                 'だ', ConjugationType.STEM));
+conjugations.addForm(new Conjugation('だった',               'だ', ConjugationType.PAST));
+conjugations.addForm(new Conjugation('であった',             'だ', ConjugationType.PAST));
 
 // tslint:enable

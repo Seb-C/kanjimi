@@ -152,7 +152,7 @@ export default class Lexer {
 			return new WordToken(text, this.dictionary.get(text, langs));
 		}
 
-		for (let i = 1; i < text.length ; i++) {
+		for (let i = 0; i < text.length ; i++) {
 			const conjugation = text.substring(i);
 			if (Conjugations.hasForm(conjugation)) {
 				const forms = Conjugations.getForms(conjugation);
@@ -161,6 +161,7 @@ export default class Lexer {
 				const words: Word[] = [];
 				forms.forEach((form: Conjugation) => {
 					words.push(...this.dictionary.get(prefix + form.dictionaryForm));
+					words.push(...this.dictionary.getReading(prefix + form.dictionaryForm));
 				});
 
 				if (words.length > 0) {

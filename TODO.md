@@ -1,6 +1,5 @@
 MVP:
-    add all the irregular forms (https://en.wikipedia.org/wiki/Japanese_irregular_verbs) (including suru, kuru, desu, dewanai, dewaarimasen)
-    Validate input via an express middleware?
+    Validate input via an express middleware? --> https://www.npmjs.com/package/express-jsonschema
     display particle title whenever a word is a particle (and revert the definition change?)
     test with a lot of different sites
     test and debug intensively the tokenizer and display of results

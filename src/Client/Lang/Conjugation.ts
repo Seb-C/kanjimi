@@ -17,6 +17,7 @@ export default {
 		},
 	},
 	forms: {
+		[ConjugationType.ADJECTIVE_ME]: 'me (somewhat ...)',
 		[ConjugationType.ADJECTIVE_NEGATIVE]: 'negative',
 		[ConjugationType.ADJECTIVE_NEGATIVE_PAST]: 'negative past',
 		[ConjugationType.ADJECTIVE_PAST]: 'past',
@@ -63,6 +64,8 @@ export default {
 		[ConjugationType.POTENTIAL_POLITE_PAST]: 'potential polite past',
 		[ConjugationType.STEM]: 'stem',
 		[ConjugationType.TE]: 'te',
+		[ConjugationType.TEIRU]: 'teiru (to be doing)',
+		[ConjugationType.TEOKU]: 'teoku (to be preparing)',
 		[ConjugationType.VOLITIONAL]: 'volitional',
 		[ConjugationType.WISH]: 'wishful',
 	},

@@ -1,4 +1,5 @@
 enum ConjugationType {
+	ADJECTIVE_ME = 'adjective_me',
 	ADJECTIVE_NEGATIVE = 'adjective_negative',
 	ADJECTIVE_NEGATIVE_PAST = 'adjective_negative_past',
 	ADJECTIVE_PAST = 'adjective_past',
@@ -45,6 +46,8 @@ enum ConjugationType {
 	POTENTIAL_POLITE_PAST = 'potential_polite_past',
 	STEM = 'stem',
 	TE = 'te',
+	TEIRU = 'teiru',
+	TEOKU = 'teoku',
 	VOLITIONAL = 'volitional',
 	WISH = 'wish',
 }

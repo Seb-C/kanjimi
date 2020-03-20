@@ -160,8 +160,8 @@ export default class Lexer {
 
 				const words: Word[] = [];
 				forms.forEach((form: Conjugation) => {
-					words.push(...this.dictionary.get(prefix + form.dictionaryForm));
-					words.push(...this.dictionary.getReading(prefix + form.dictionaryForm));
+					words.push(...this.dictionary.get(prefix + form.dictionaryForm, langs));
+					words.push(...this.dictionary.getReading(prefix + form.dictionaryForm, langs));
 				});
 
 				if (words.length > 0) {

@@ -28,7 +28,7 @@ describe('Dictionary', () => {
 		dictionary.add(new Word('ア', 'あ', Language.FRENCH, 'translation fr', []));
 		dictionary.add(new Word('ア', 'あ', Language.FRENCH, 'translation fr 2', []));
 
-		expect(dictionary.get('ア').length).toBe(4);
+		expect(dictionary.get('ア', null).length).toBe(4);
 		expect(dictionary.get('ア', [Language.FRENCH]).length).toBe(2);
 		expect(dictionary.get('ア', [Language.SPANISH]).length).toBe(1);
 		expect(dictionary.get('ア', [Language.ENGLISH]).length).toBe(1);
@@ -50,7 +50,7 @@ describe('Dictionary', () => {
 		dictionary.add(new Word('ア', 'あ', Language.ENGLISH, 'en', []));
 		dictionary.add(new Word('ア', 'あ', null, 'no lang', []));
 
-		expect(dictionary.get('ア').length).toBe(2);
+		expect(dictionary.get('ア', null).length).toBe(2);
 		expect(dictionary.get('ア', [Language.ENGLISH]).length).toBe(2);
 		expect(dictionary.get('ア', [Language.FRENCH]).length).toBe(1);
 		expect(dictionary.get('ア', [Language.FRENCH])[0].translationLang).toBe(null);
@@ -65,14 +65,14 @@ describe('Dictionary', () => {
 		dictionary.add(new Word('', 'あ', null, 'a', []));
 		dictionary.add(new Word('', 'い', null, 'i', []));
 
-		expect(dictionary.get('ア').length).toBe(2);
-		expect(dictionary.get('イ').length).toBe(2);
-		expect(dictionary.get('あ').length).toBe(0);
-		expect(dictionary.get('い').length).toBe(0);
+		expect(dictionary.get('ア', null).length).toBe(2);
+		expect(dictionary.get('イ', null).length).toBe(2);
+		expect(dictionary.get('あ', null).length).toBe(0);
+		expect(dictionary.get('い', null).length).toBe(0);
 
-		expect(dictionary.getReading('ア').length).toBe(0);
-		expect(dictionary.getReading('イ').length).toBe(0);
-		expect(dictionary.getReading('あ').length).toBe(2);
-		expect(dictionary.getReading('い').length).toBe(2);
+		expect(dictionary.getReading('ア', null).length).toBe(0);
+		expect(dictionary.getReading('イ', null).length).toBe(0);
+		expect(dictionary.getReading('あ', null).length).toBe(2);
+		expect(dictionary.getReading('い', null).length).toBe(2);
 	});
 });

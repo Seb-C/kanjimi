@@ -131,14 +131,14 @@ export default class Dictionary {
 		}
 	}
 
-	get (text: string, langs: Language[]|null = null): ReadonlyArray<Word> {
+	get (text: string, langs: Language[]|null): ReadonlyArray<Word> {
 		return this.filterAndSortLangs(
 			this.words.get(text) || [],
 			langs,
 		);
 	}
 
-	getReading (text: string, langs: Language[]|null = null): ReadonlyArray<Word> {
+	getReading (text: string, langs: Language[]|null): ReadonlyArray<Word> {
 		return this.filterAndSortLangs(
 			this.wordsByReading.get(text) || [],
 			langs,

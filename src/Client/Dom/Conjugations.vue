@@ -22,7 +22,10 @@
 			for (let i = 0; i < this.token.forms.length; i++) {
 				const form = this.token.forms[i];
 				if (ConjugationTranslations.forms[form.type]) {
-					conjugationsNames.push(ConjugationTranslations.forms[form.type]);
+					const conjugationName = ConjugationTranslations.forms[form.type];
+					if (!conjugationsNames.includes(conjugationName)) {
+						conjugationsNames.push(conjugationName);
+					}
 				}
 			}
 

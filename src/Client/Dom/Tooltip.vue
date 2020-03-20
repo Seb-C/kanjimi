@@ -5,9 +5,11 @@
 			class="tooltip"
 			v-bind:style="tooltipStyles"
 		>
-			<readings v-bind:token="token" />
-			<conjugations v-if="token instanceof VerbToken" v-bind:token="token" />
-			<kanjis v-bind:token="token" v-bind:uid-class="appUid" />
+			<div class="tooltip-content">
+				<readings v-bind:token="token" />
+				<conjugations v-if="token instanceof VerbToken" v-bind:token="token" />
+				<kanjis v-bind:token="token" v-bind:uid-class="appUid" />
+			</div>
 
 			<div
 				class="tooltip-close-button"
@@ -204,13 +206,19 @@
 	.tooltip {
 		position: absolute;
 		background: #eae4ce;
-		overflow-y: auto;
 		z-index: 999999;
 		box-sizing: border-box;
 		border-radius: 5px;
 		border: 1px solid black;
 		color: black;
 		padding: 5px;
+	}
+
+	.tooltip-content {
+		overflow-y: auto;
+		width: 100%;
+		height: 100%;
+		display: block;
 	}
 
 	.tooltip-tip {
@@ -235,5 +243,7 @@
 		right: 0;
 		padding: 5px;
 		line-height: 1rem;
+		background: #eae4ce;
+		border-radius: 5px;
 	}
 </style>

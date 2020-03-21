@@ -3,9 +3,11 @@ import Dictionary from 'Server/Lexer/Dictionary';
 import Database from 'Server/Database/Database';
 import Serializer from 'Common/Api/Serializer';
 import Unserializer from 'Common/Api/Unserializer';
-import Language from 'Common/Types/Language';
 import express = require('express');
 import bodyParser = require('body-parser');
+import ValidationError from 'Server/Api/ValidationError';
+
+import apiSerialize from 'Server/Api/Routes/serialize';
 
 const runServer = async (application: express.Application): Promise<void> => {
 	return new Promise((resolve, reject) => {
@@ -43,21 +45,36 @@ const runServer = async (application: express.Application): Promise<void> => {
 	const server = express();
 	server.use(bodyParser.json());
 	server.use(waitForStartupMiddleware);
-	server.post('/analyze', (request: express.Request, response: express.Response) => {
-		const sentences: string[] = unserializer.fromJsonApi(request.body);
-		const result: any[] = [];
-		for (let i = 0; i < sentences.length; i++) {
-			result.push(
-				serializer.toJsonApi(
-					lexer.analyze(
-						sentences[i].trim(),
-						[Language.FRENCH, Language.ENGLISH],
-					),
-				),
-			);
-		}
+	server.set('db', db);
+	server.set('dictionary', dictionary);
+	server.set('lexer', lexer);
+	server.set('serializer', serializer);
+	server.set('unserializer', unserializer);
 
-		response.json(result);
+	server.post('/analyze', apiSerialize);
+
+	server.use((
+		error: Object,
+		request: express.Request,
+		response: express.Response,
+		next: Function,
+	) => {
+		if (error instanceof ValidationError) {
+			response.status(422).send({
+				errors: error.errors.map(err => ({
+					id: err.schemaPath,
+					title: err.keyword,
+					detail: err.message,
+					source: {
+						pointer: err.dataPath,
+						parameter: err.propertyName,
+					},
+					meta: err.params,
+				})),
+			});
+		} else {
+			next(error);
+		}
 	});
 
 	await dictionary.load();

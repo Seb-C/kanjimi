@@ -1,5 +1,5 @@
 MVP:
-    Validate input via an express middleware? --> https://www.npmjs.com/package/express-jsonschema
+    error handling properly in express (500 and 404, should always be an API response)
     test with a lot of different sites
     test and debug intensively the tokenizer and display of results
     find a name
@@ -9,6 +9,7 @@ MVP:
     Use the proper languages depending on the user (currently filtered in the route definition)
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...)?
+    only apply conjugations to the words with verb tags
 
 Website/publishing:
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
@@ -21,6 +22,7 @@ Website/publishing:
     initialize user known words depending on the average jlpt level?
 
 After:
+    recommend words to hide depending on the statistics
     automatic test of the tooltip position calculations? (e2e tests of the result)
     automatic tests for the frontend? unit test some dom functions? How to do that?
     CI to run the tests

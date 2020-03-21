@@ -6,7 +6,7 @@ const serializer = new Serializer();
 const unserializer = new Unserializer();
 
 export default async (strings: string[]): Promise<Token[][]> => {
-	const response = await fetch('http://localhost:3000/analyze', {
+	const response = await fetch('http://localhost:3000/lexer/analyze', {
 		method: 'POST',
 		headers: {
 			'Content-Type': 'application/json',

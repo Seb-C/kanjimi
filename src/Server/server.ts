@@ -8,7 +8,7 @@ import { Application, Request, Response } from 'express';
 import * as BodyParser from 'body-parser';
 import ValidationError from 'Server/Api/ValidationError';
 
-import apiSerialize from 'Server/Api/Routes/serialize';
+import * as LexerController from 'Server/Api/Controllers/Lexer';
 
 const runServer = async (application: Application): Promise<void> => {
 	return new Promise((resolve, reject) => {
@@ -48,7 +48,13 @@ const runServer = async (application: Application): Promise<void> => {
 	server.set('serializer', serializer);
 	server.set('unserializer', unserializer);
 
-	server.post('/analyze', apiSerialize);
+	server.post('/lexer/analyze', LexerController.analyze);
+
+	// server.get('/user', );
+	// server.post('/user', );
+	// server.get('/user/:id', );
+	// server.patch('/user/:id', );
+	// server.delete('/user/:id', );
 
 	server.use((error: Object, request: Request, response: Response, next: Function) => {
 		if (error instanceof ValidationError) {

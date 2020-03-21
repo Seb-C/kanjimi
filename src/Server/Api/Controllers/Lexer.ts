@@ -17,7 +17,7 @@ const validator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export default (request: Request, response: Response) => {
+export const analyze = (request: Request, response: Response) => {
 	if (!validator(request.body)) {
 		throw new ValidationError(<Ajv.ErrorObject[]>validator.errors);
 	}

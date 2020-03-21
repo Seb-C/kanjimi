@@ -6,6 +6,7 @@
       "ter-indent": [true, "tab", {"SwitchCase": 1}],
       "no-else-after-return": [false],
       "no-increment-decrement": [false],
+      "no-duplicate-imports": [false],
       "import-name": [false]
     }
 }

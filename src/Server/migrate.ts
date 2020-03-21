@@ -2,14 +2,9 @@ import Database from 'Server/Database/Database';
 import Lexer from 'Server/Lexer/Lexer';
 import * as fs from 'fs';
 
-enum MigrationType {
-	UP = 'up',
-	DOWN = 'down',
-}
-
-const getMigrations = (type: MigrationType): Promise<string[]> => {
+const getMigrations = (): Promise<string[]> => {
 	return new Promise((resolve, reject) => {
-		fs.readdir(`./migrations/${type}`, (error, files) => {
+		fs.readdir('./src/Server/Database/Migrations', (error, files) => {
 			if (error !== null) {
 				reject(error);
 			} else {
@@ -21,9 +16,9 @@ const getMigrations = (type: MigrationType): Promise<string[]> => {
 	});
 };
 
-const getMigrationScript = (type: MigrationType, migration: string): Promise<string> => {
+const getMigrationScript = (migration: string): Promise<string> => {
 	return new Promise((resolve, reject) => {
-		fs.readFile(`./migrations/${type}/${migration}`, (error, content) => {
+		fs.readFile(`./src/Server/Database/Migrations/${migration}`, (error, content) => {
 			if (error !== null) {
 				reject(error);
 			} else {
@@ -35,9 +30,9 @@ const getMigrationScript = (type: MigrationType, migration: string): Promise<str
 
 const db = new Database();
 
-const runMigration = async (type: MigrationType, migration: string): Promise<void> => {
+const runMigration = async (migration: string): Promise<void> => {
 	console.log(`Starting migration "${migration}"`);
-	const migrationScript = await getMigrationScript(type, migration);
+	const migrationScript = await getMigrationScript(migration);
 	await db.exec(
 		`
 			BEGIN;
@@ -57,7 +52,7 @@ const runMigration = async (type: MigrationType, migration: string): Promise<voi
 		);
 	`);
 
-	const migrations = (await getMigrations(MigrationType.UP)).sort();
+	const migrations = (await getMigrations()).sort();
 	const migrationsDone = (await db.array(Object, `
 		SELECT "name"
 		FROM "Migrations"
@@ -71,6 +66,6 @@ const runMigration = async (type: MigrationType, migration: string): Promise<voi
 	});
 
 	await Promise.all(migrationsToDo.map(
-		migration => runMigration(MigrationType.UP, migration),
+		migration => runMigration(migration),
 	));
 })().then(() => db.close());

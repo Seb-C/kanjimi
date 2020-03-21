@@ -1,8 +1,0 @@
---CREATE TABLE "Word" (
---	"id" SERIAL PRIMARY KEY NOT NULL,
---	"word" TEXT NOT NULL,
---	"reading" TEXT NOT NULL,
---	"tags" TEXT[] NOT NULL,
---	"translationLang" TEXT NOT NULL,
---	"translation" TEXT NOT NULL
---);

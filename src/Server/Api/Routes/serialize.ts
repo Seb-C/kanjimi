@@ -1,5 +1,5 @@
 import Language from 'Common/Types/Language';
-import express = require('express');
+import { Request, Response } from 'express';
 import * as Ajv from 'ajv';
 import ValidationError from 'Server/Api/ValidationError';
 
@@ -17,7 +17,7 @@ const validator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export default (request: express.Request, response: express.Response) => {
+export default (request: Request, response: Response) => {
 	if (!validator(request.body)) {
 		throw new ValidationError(<Ajv.ErrorObject[]>validator.errors);
 	}

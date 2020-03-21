@@ -3,13 +3,14 @@ import Dictionary from 'Server/Lexer/Dictionary';
 import Database from 'Server/Database/Database';
 import Serializer from 'Common/Api/Serializer';
 import Unserializer from 'Common/Api/Unserializer';
-import express = require('express');
-import bodyParser = require('body-parser');
+import * as Express from 'express';
+import { Application, Request, Response } from 'express';
+import * as BodyParser from 'body-parser';
 import ValidationError from 'Server/Api/ValidationError';
 
 import apiSerialize from 'Server/Api/Routes/serialize';
 
-const runServer = async (application: express.Application): Promise<void> => {
+const runServer = async (application: Application): Promise<void> => {
 	return new Promise((resolve, reject) => {
 		try {
 			const server = application.listen(80);
@@ -25,11 +26,7 @@ const runServer = async (application: express.Application): Promise<void> => {
 
 	const startupWaiters: Function[] = [];
 	let started = false;
-	const waitForStartupMiddleware = (
-		request: express.Request,
-		response: express.Response,
-		next: Function,
-	) => {
+	const waitForStartupMiddleware = (request: Request, response: Response, next: Function) => {
 		if (started) {
 			next();
 		} else {
@@ -42,8 +39,8 @@ const runServer = async (application: express.Application): Promise<void> => {
 	const serializer = new Serializer();
 	const unserializer = new Unserializer();
 
-	const server = express();
-	server.use(bodyParser.json());
+	const server = Express();
+	server.use(BodyParser.json());
 	server.use(waitForStartupMiddleware);
 	server.set('db', db);
 	server.set('dictionary', dictionary);
@@ -53,12 +50,7 @@ const runServer = async (application: express.Application): Promise<void> => {
 
 	server.post('/analyze', apiSerialize);
 
-	server.use((
-		error: Object,
-		request: express.Request,
-		response: express.Response,
-		next: Function,
-	) => {
+	server.use((error: Object, request: Request, response: Response, next: Function) => {
 		if (error instanceof ValidationError) {
 			response.status(422).send({
 				errors: error.errors.map(err => ({

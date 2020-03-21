@@ -1,8 +1,8 @@
 MVP:
-    error handling properly in express (500 and 404, should always be an API response)
+    docker image for the extension watcher and the browser?
     test with a lot of different sites
     test and debug intensively the tokenizer and display of results
-    find a name
+    find a name (Kanjimi?)
     implement users
     hide and show words (and remember)
     webpack: different webpack and typescript config for extension and server
@@ -22,6 +22,7 @@ Website/publishing:
     initialize user known words depending on the average jlpt level?
 
 After:
+    error handling properly in express (500 and 404, should always be an API response?)
     recommend words to hide depending on the statistics
     automatic test of the tooltip position calculations? (e2e tests of the result)
     automatic tests for the frontend? unit test some dom functions? How to do that?

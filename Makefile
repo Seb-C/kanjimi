@@ -1,4 +1,4 @@
-.PHONY: migrate test lint kanjis dictionary extension browser
+.PHONY: migrate test lint kanjis dictionary extension browser db
 
 migrate:
 	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts
@@ -18,3 +18,5 @@ browser:
 	./node_modules/.bin/web-ext --config=web-ext.js run & \
 	docker-compose exec server ./node_modules/.bin/webpack --watch; \
 	wait
+db:
+	docker-compose exec database psql -h localhost -U test -d test

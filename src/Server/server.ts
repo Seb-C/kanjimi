@@ -9,6 +9,7 @@ import * as BodyParser from 'body-parser';
 import ValidationError from 'Server/Api/ValidationError';
 
 import * as LexerController from 'Server/Api/Controllers/Lexer';
+import * as UserController from 'Server/Api/Controllers/User';
 
 const runServer = async (application: Application): Promise<void> => {
 	return new Promise((resolve, reject) => {
@@ -49,12 +50,9 @@ const runServer = async (application: Application): Promise<void> => {
 	server.set('unserializer', unserializer);
 
 	server.post('/lexer/analyze', LexerController.analyze);
-
-	// server.get('/user', );
-	// server.post('/user', );
-	// server.get('/user/:id', );
-	// server.patch('/user/:id', );
-	// server.delete('/user/:id', );
+	server.post('/user', UserController.create);
+	// server.post('/token', );
+	// server.get('/token', );
 
 	server.use((error: Object, request: Request, response: Response, next: Function) => {
 		if (error instanceof ValidationError) {

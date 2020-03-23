@@ -1,14 +1,22 @@
 MVP:
+    route to create a user: unit test it and debug it
+    add route to generate a token (with login and password) and test it
+    add route to check a token and retrieve the linked user and test it
+    have repositories?
+    remove magic from serialize and unserialize? or remove completely? (it would be dangerous in the case of a user for example)
     test with a lot of different sites
     test and debug intensively the tokenizer and display of results
+    random salt for the user password hash
     find a name (Kanjimi?)
-    implement users
     hide and show words (and remember)
     webpack: different webpack and typescript config for extension and server
     Use the proper languages depending on the user (currently filtered in the route definition)
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...)?
     only apply conjugations to the words with verb tags
+    retrieve password process
+    verify email process after subscription
+    route to modify a user (PATCH, languages and password only)
 
 Website/publishing:
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
@@ -21,6 +29,9 @@ Website/publishing:
     initialize user known words depending on the average jlpt level?
 
 After:
+    remove tslint?
+    disconnect (delete token route)
+    change email process
     error handling properly in express (500 and 404, should always be an API response?)
     recommend words to hide depending on the statistics
     automatic test of the tooltip position calculations? (e2e tests of the result)

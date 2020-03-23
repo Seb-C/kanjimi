@@ -1,12 +1,20 @@
 MVP:
-    route to create a user: unit test it and debug it
+    simplify serialize and unserialize
+        -> replace the type list and autodetect with an argument (passing the constructor).
+        -> Have getId, getAttributes and getType (or static const?) for each object (+ interface)
+        -> use getType in the route validator
+    user creation: unit test the route
+        -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)
+        -> test that the password is properly hashed
+        -> test the output structure (with jsonschema)
+        -> test that the output does not contain the password
+        -> test that it exists in the database after creation
+    store tokens in a table (id, token, expiration, user id)
     add route to generate a token (with login and password) and test it
     add route to check a token and retrieve the linked user and test it
-    have repositories?
-    remove magic from serialize and unserialize? or remove completely? (it would be dangerous in the case of a user for example)
+    have a random unique salt for each user (generate uuid with crypto?)
     test with a lot of different sites
     test and debug intensively the tokenizer and display of results
-    random salt for the user password hash
     find a name (Kanjimi?)
     hide and show words (and remember)
     webpack: different webpack and typescript config for extension and server

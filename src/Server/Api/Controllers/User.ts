@@ -49,16 +49,17 @@ export const create = async (request: Request, response: Response) => {
 		throw new ValidationError(<Ajv.ErrorObject[]>createUserValidator.errors);
 	}
 
-	const user: User = unserializer.fromJsonApi(request.body);
+	const userInput = unserializer.fromJsonApi<User>(request.body);
 	const db = request.app.get('db');
 
-	await db.exec(`
-		INSERT INTO "User" (email, emailVerified, password, languages, createdAt)
-		VALUES (\${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP);
+	const user = await db.get(User, `
+		INSERT INTO "User" ("email", "emailVerified", "password", "languages", "createdAt")
+		VALUES (\${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP)
+		RETURNING *;
 	`, {
-		email: user.email,
-		password: User.hashPassword(user.password),
-		languages: user.languages,
+		email: userInput.email,
+		password: User.hashPassword(userInput.password),
+		languages: userInput.languages,
 	});
 
 	response.json(serializer.toJsonApi(user));

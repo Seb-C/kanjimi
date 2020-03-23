@@ -1,4 +1,4 @@
-.PHONY: migrate test lint kanjis dictionary extension browser db
+.PHONY: migrate test lint dictionary kanjis names browser db
 
 migrate:
 	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts

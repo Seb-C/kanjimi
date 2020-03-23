@@ -1,5 +1,4 @@
 MVP:
-    docker image for the extension watcher and the browser?
     test with a lot of different sites
     test and debug intensively the tokenizer and display of results
     find a name (Kanjimi?)

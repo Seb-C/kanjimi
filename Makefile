@@ -12,11 +12,7 @@ kanjis:
 	docker run -v ${PWD}:/app -w /app -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Kanjis.php
 names:
 	docker run -v ${PWD}:/app -w /app -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Names.php
-extension:
-	docker-compose exec server ./node_modules/.bin/webpack --build;
 browser:
-	./node_modules/.bin/web-ext --config=web-ext.js run & \
-	docker-compose exec server ./node_modules/.bin/webpack --watch; \
-	wait
+	(./node_modules/.bin/web-ext --config=web-ext.js run &)
 db:
 	docker-compose exec database psql -h localhost -U test -d test

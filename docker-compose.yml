@@ -21,5 +21,14 @@ services:
       - "3000:80"
     volumes:
       - $PWD:/app
+  extension_watch:
+    image: node:11
+    restart: on-failure
+    working_dir: /app
+    command: |
+      ./node_modules/.bin/webpack --build
+      ./node_modules/.bin/webpack --watch
+    volumes:
+      - $PWD:/app
 volumes:
   database:

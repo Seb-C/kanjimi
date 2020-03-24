@@ -25,4 +25,24 @@ export default class Word {
 	getShortTranslation(): string {
 		return this.translation.replace(/^([^{(]+).*$/, '$1').trim();
 	}
+
+	public toApi(): Object {
+		return {
+			word: this.word,
+			reading: this.reading,
+			translationLang: this.translationLang,
+			translation: this.translation,
+			tags: this.tags,
+		};
+	}
+
+	public static fromApi(data: Object): Word {
+		return new Word(
+			<string>data.word,
+			<string>data.reading,
+			<Language|null>data.translationLang,
+			<string>data.translation,
+			<ReadonlyArray<WordTagType>>data.tags,
+		);
+	}
 }

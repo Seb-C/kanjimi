@@ -38,4 +38,11 @@ export default class ParticleToken extends WordToken {
 		}
 		super(text, words);
 	}
+
+	public toApi(): Object {
+		return {
+			...super.toApi(),
+			type: 'ParticleToken',
+		};
+	}
 }

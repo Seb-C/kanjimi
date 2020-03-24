@@ -1,8 +1,6 @@
 MVP:
-    simplify serialize and unserialize
-        -> replace the type list and autodetect with an argument (passing the constructor).
-        -> Have getId, getAttributes and getType (or static const?) for each object (+ interface)
-        -> use getType in the route validator
+    merge all the token types in a single, simple class (with a type attribute)?
+    unit test the serialize route result (and the associated client code?)
     user creation: unit test the route
         -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)
         -> test that the password is properly hashed

@@ -1,8 +1,6 @@
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Database from 'Server/Database/Database';
-import Serializer from 'Common/Api/Serializer';
-import Unserializer from 'Common/Api/Unserializer';
 import * as Express from 'express';
 import { Application, Request, Response } from 'express';
 import * as BodyParser from 'body-parser';
@@ -37,8 +35,6 @@ const runServer = async (application: Application): Promise<void> => {
 
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
-	const serializer = new Serializer();
-	const unserializer = new Unserializer();
 
 	const server = Express();
 	server.use(BodyParser.json());
@@ -46,8 +42,6 @@ const runServer = async (application: Application): Promise<void> => {
 	server.set('db', db);
 	server.set('dictionary', dictionary);
 	server.set('lexer', lexer);
-	server.set('serializer', serializer);
-	server.set('unserializer', unserializer);
 
 	server.post('/lexer/analyze', LexerController.analyze);
 	server.post('/user', UserController.create);
@@ -56,18 +50,7 @@ const runServer = async (application: Application): Promise<void> => {
 
 	server.use((error: Object, request: Request, response: Response, next: Function) => {
 		if (error instanceof ValidationError) {
-			response.status(422).send({
-				errors: error.errors.map(err => ({
-					id: err.schemaPath,
-					title: err.keyword,
-					detail: err.message,
-					source: {
-						pointer: err.dataPath,
-						parameter: err.propertyName,
-					},
-					meta: err.params,
-				})),
-			});
+			response.status(422).send(error.errors);
 		} else {
 			next(error);
 		}

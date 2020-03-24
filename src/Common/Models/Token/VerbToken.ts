@@ -31,4 +31,23 @@ export default class VerbToken extends WordToken {
 
 		return reading;
 	}
+
+	public toApi(): Object {
+		return {
+			...super.toApi(),
+			type: 'VerbToken',
+			verb: this.verb,
+			conjugation: this.conjugation,
+			forms: this.forms.map(form => form.toApi()),
+		};
+	}
+
+	public static fromApi(data: Object): Token {
+		return new WordToken(
+			<string>data.verb,
+			<string>data.conjugation,
+			<ReadonlyArray<Conjugation>>data.forms.map(form => Conjugation.fromApi(form)),
+			<ReadonlyArray<Word>>data.words.map(word => Word.fromApi(word)),
+		);
+	}
 }

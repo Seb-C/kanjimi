@@ -18,4 +18,19 @@ export default class User {
 	constructor(attributes: object) {
 		Object.assign(this, attributes);
 	}
+
+	toApi(): object {
+		return {
+			id: this.id,
+			email: this.email,
+			emailVerified: this.emailVerified,
+			password: null,
+			languages: this.languages,
+			createdAt: this.createdAt,
+		};
+	}
+
+	public static fromApi(data: Object): User {
+		return new Word(data);
+	}
 }

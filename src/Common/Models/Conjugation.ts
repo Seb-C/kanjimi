@@ -10,4 +10,20 @@ export default class Conjugation {
 		this.dictionaryForm = dictionaryForm;
 		this.type = type;
 	}
+
+	public toApi(): Object {
+		return {
+			conjugation: this.conjugation,
+			dictionaryForm: this.dictionaryForm,
+			type: this.type,
+		};
+	}
+
+	public static fromApi(data: Object): Conjugation {
+		return new Conjugation(
+			<string>data.conjugation,
+			<string>data.dictionaryForm,
+			<ConjugationType>data.type,
+		);
+	}
 }

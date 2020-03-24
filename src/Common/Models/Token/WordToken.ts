@@ -25,4 +25,19 @@ export default class WordToken extends Token {
 
 		return this.words[0].getShortTranslation();
 	}
+
+	public toApi(): Object {
+		return {
+			...super.toApi(),
+			type: 'WordToken',
+			words: this.words.map(word => word.toApi()),
+		};
+	}
+
+	public static fromApi(data: Object): Token {
+		return new WordToken(
+			<string>data.text,
+			<ReadonlyArray<Word>>data.words.map(word => Word.fromApi(word)),
+		);
+	}
 }

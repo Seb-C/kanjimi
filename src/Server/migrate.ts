@@ -33,15 +33,14 @@ const db = new Database();
 const runMigration = async (migration: string): Promise<void> => {
 	console.log(`Starting migration "${migration}"`);
 	const migrationScript = await getMigrationScript(migration);
-	await db.exec(
-		`
-			BEGIN;
-			${migrationScript}
-			INSERT INTO "Migrations" VALUES (\${name});
-			COMMIT;
-		`,
-		{ name: migration },
-	);
+	await db.exec(`
+		BEGIN;
+		${migrationScript}
+		INSERT INTO "Migrations" VALUES (\${name});
+		COMMIT;
+	`, {
+		name: migration,
+	});
 	console.log(`Finished migration "${migration}"`);
 };
 

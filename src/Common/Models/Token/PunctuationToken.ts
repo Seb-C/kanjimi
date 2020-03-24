@@ -8,4 +8,11 @@ export default class PunctuationToken extends Token {
 		}
 		super(text);
 	}
+
+	public toApi(): Object {
+		return {
+			...super.toApi(),
+			type: 'PunctuationToken',
+		};
+	}
 }

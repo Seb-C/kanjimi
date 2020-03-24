@@ -1,13 +1,10 @@
 import 'jasmine';
 import CharType from 'Common/Types/CharType';
+import TokenType from 'Common/Types/TokenType';
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Word from 'Common/Models/Word';
-import WordToken from 'Common/Models/Token/WordToken';
 import Token from 'Common/Models/Token/Token';
-import VerbToken from 'Common/Models/Token/VerbToken';
-import ParticleToken from 'Common/Models/Token/ParticleToken';
-import PunctuationToken from 'Common/Models/Token/PunctuationToken';
 import Language from 'Common/Types/Language';
 
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
@@ -68,32 +65,29 @@ describe('Lexer', async () => {
 	});
 	it('Token types recognition', () => {
 		const result = lexer.analyze('私はセバスティアンと申します。');
-		expect(result[0] instanceof WordToken).toBe(true);
-		expect(result[1] instanceof ParticleToken).toBe(true);
-		expect(result[3] instanceof ParticleToken).toBe(true);
-		expect(result[4] instanceof VerbToken).toBe(true);
-		expect(result[5] instanceof PunctuationToken).toBe(true);
+		expect((<Token>result[0]).type === TokenType.WORD).toBe(true);
+		expect((<Token>result[1]).type === TokenType.PARTICLE).toBe(true);
+		expect((<Token>result[3]).type === TokenType.PARTICLE).toBe(true);
+		expect((<Token>result[4]).type === TokenType.VERB).toBe(true);
+		expect((<Token>result[5]).type).toBe(TokenType.PUNCTUATION);
 	});
 	it('Verb parts', () => {
 		const result = lexer.analyze('私はセバスティアンと申します。');
-		expect(result[4] instanceof VerbToken).toBe(true);
-		const verb = <VerbToken>result[4];
-		expect(verb.conjugation).toBe('します');
-		expect(verb.verb).toBe('申');
-		expect(verb.forms.map(v => v.dictionaryForm)).toContain('す');
+		expect((<Token>result[4]).type === TokenType.VERB).toBe(true);
+		expect((<Token>result[4]).conjugation).toBe('します');
+		expect((<Token>result[4]).verb).toBe('申');
+		expect((<Token>result[4]).forms.map(v => v.dictionaryForm)).toContain('す');
 	});
 	it('Dictionary words', () => {
 		const result = lexer.analyze('私はセバスティアンと申します。');
-		const word = <WordToken>result[0];
-		const verb = <VerbToken>result[4];
-		expect(word.words.length > 0).toBe(true);
-		expect(verb.words.length > 0).toBe(true);
+		expect((<Token>result[0]).words.length > 0).toBe(true);
+		expect((<Token>result[4]).words.length > 0).toBe(true);
 	});
 	it('Test searchMeaning', () => {
 		let result: Token|null = lexer.searchMeaning('食べました');
-		expect(result instanceof VerbToken).toBe(true);
-		expect((<VerbToken>result).verb).toBe('食');
-		expect((<VerbToken>result).conjugation).toBe('べました');
+		expect((<Token>result).type === TokenType.VERB).toBe(true);
+		expect((<Token>result).verb).toBe('食');
+		expect((<Token>result).conjugation).toBe('べました');
 		result = lexer.searchMeaning('好き');
 		expect((<Token>result).text).toBe('好き');
 		result = lexer.searchMeaning('あいうえおしています');
@@ -128,25 +122,25 @@ describe('Lexer', async () => {
 
 	it('Conjugated i-adjective recognition', async () => {
 		const result = lexer.analyze('このイベントは高かったです。');
-		expect(result[3] instanceof VerbToken).toBe(true);
-		const adjective = <VerbToken>result[3];
+		expect(result[3].type === TokenType.VERB).toBe(true);
+		const adjective = <Token>result[3];
 		expect(adjective.conjugation).toBe('かった');
 		expect(adjective.verb).toBe('高');
 		expect(adjective.forms.map(v => v.dictionaryForm)).toContain('い');
 	});
 	it('Conjugated shii-adjective recognition', async () => {
 		const result = lexer.analyze('このイベントは楽しかったです。');
-		expect(result[3] instanceof VerbToken).toBe(true);
-		const adjective = <VerbToken>result[3];
+		expect(result[3].type === TokenType.VERB).toBe(true);
+		const adjective = <Token>result[3];
 		expect(adjective.conjugation).toBe('しかった');
 		expect(adjective.verb).toBe('楽');
 		expect(adjective.forms.map(v => v.dictionaryForm)).toContain('しい');
 	});
 
-	it('Testing tokenizeByCharType: the tokens text', () => {
+	it('Testing splitTextByCharType: the tokens text', () => {
 		const dictionary = new Dictionary();
 		const tokenizer = new Lexer(dictionary);
-		const result = tokenizer.tokenizeByCharType('私はセバスティアンと申します。');
+		const result = tokenizer.splitTextByCharType('私はセバスティアンと申します。');
 		expect(result.length).toBe(7);
 		expect(result[0].text).toBe('私');
 		expect(result[1].text).toBe('は');
@@ -156,10 +150,10 @@ describe('Lexer', async () => {
 		expect(result[5].text).toBe('します');
 		expect(result[6].text).toBe('。');
 	});
-	it('Testing tokenizeByCharType: the tokens type', () => {
+	it('Testing splitTextByCharType: the tokens type', () => {
 		const dictionary = new Dictionary();
 		const tokenizer = new Lexer(dictionary);
-		const result = tokenizer.tokenizeByCharType('私はセバスティアンと申します。');
+		const result = tokenizer.splitTextByCharType('私はセバスティアンと申します。');
 		expect(result.length).toBe(7);
 		expect(result[0].charType).toBe(CharType.KANJI);
 		expect(result[1].charType).toBe(CharType.HIRAGANA);
@@ -172,7 +166,7 @@ describe('Lexer', async () => {
 	it('Testing the search by dictionary reading', () => {
 		const result = lexer.analyze('私については');
 		expect(result.length).toBe(3);
-		expect(result[1] instanceof WordToken).toBe(true);
+		expect(result[1].type === TokenType.WORD).toBe(true);
 		expect(result[1].text).toBe('について');
 	});
 });

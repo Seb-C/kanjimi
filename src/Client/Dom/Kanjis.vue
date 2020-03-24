@@ -6,7 +6,7 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import WordToken from 'Common/Models/Token/WordToken';
+	import Token from 'Common/Models/Token/Token';
 
 	const injectedKanjiFonts: string[] = [];
 	const getKanjiFontName = (appUid: string): string => {
@@ -29,7 +29,7 @@
 	export default Vue.extend({
 		props: {
 			appUid: { type: String },
-			token: { type: Object as () => WordToken },
+			token: { type: Object as () => Token },
 		},
 		data() {
 			return {

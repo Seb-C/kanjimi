@@ -32,14 +32,14 @@
 	import Vue from 'vue';
 	import Word from 'Common/Models/Word';
 	import Language from 'Common/Types/Language';
-	import WordToken from 'Common/Models/Token/WordToken';
-	import VerbToken from 'Common/Models/Token/VerbToken';
+	import Token from 'Common/Models/Token/Token';
+	import TokenType from 'Common/Types/TokenType';
 	import LanguageTranslations from 'Client/Lang/Language';
 	import WordTagTranslations from 'Client/Lang/WordTag';
 
 	export default Vue.extend({
 		props: {
-			token: { type: Object as () => WordToken },
+			token: { type: Object as () => Token },
 		},
 		data() {
 			const wordsByReadingAndLanguage: Map<string, Map<Language|null, Word[]>> = new Map();
@@ -58,7 +58,7 @@
 			});
 
 			let wordText = this.token.text;
-			if (this.token instanceof VerbToken && this.token.words.length > 0) {
+			if (this.token.type === TokenType.VERB && this.token.words.length > 0) {
 				wordText = this.token.words[0].word;
 			}
 

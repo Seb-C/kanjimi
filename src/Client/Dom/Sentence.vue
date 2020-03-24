@@ -16,8 +16,7 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import Token from 'Common/Models/Token/Token';
-	import ParticleToken from 'Common/Models/Token/ParticleToken';
-	import PunctuationToken from 'Common/Models/Token/PunctuationToken';
+	import TokenType from 'Common/Types/TokenType';
 	import Tooltip from 'Client/Dom/Tooltip.vue';
 
 	export default Vue.extend({
@@ -32,12 +31,12 @@
 			handleWordClick(token: Token, tokenElement: Element, event: Event) {
 				event.preventDefault();
 				event.stopPropagation();
-				if (!(token instanceof PunctuationToken)) {
+				if (!(token.type === TokenType.PUNCTUATION)) {
 					this.toggleTooltip(token, tokenElement);
 				}
 			},
 			showTranslation(token: Token) {
-				return !(token instanceof ParticleToken);
+				return !(token.type === TokenType.PARTICLE);
 			},
 		},
 		components: {

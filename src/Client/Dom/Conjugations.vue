@@ -10,12 +10,12 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import VerbToken from 'Common/Models/Token/VerbToken';
+	import Token from 'Common/Models/Token/Token';
 	import ConjugationTranslations from 'Client/Lang/Conjugation';
 
 	export default Vue.extend({
 		props: {
-			token: { type: Object as () => VerbToken },
+			token: { type: Object as () => Token },
 		},
 		data() {
 			const conjugationsNames: string[] = [];

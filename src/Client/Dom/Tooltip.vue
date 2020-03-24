@@ -7,7 +7,7 @@
 		>
 			<div class="tooltip-content">
 				<readings v-bind:token="token" />
-				<conjugations v-if="token instanceof VerbToken" v-bind:token="token" />
+				<conjugations v-if="token.type === TokenType.VERB" v-bind:token="token" />
 				<kanjis v-bind:token="token" v-bind:uid-class="appUid" />
 			</div>
 
@@ -31,8 +31,8 @@
 	import Vue from 'vue';
 	import Word from 'Common/Models/Word';
 	import Language from 'Common/Types/Language';
-	import WordToken from 'Common/Models/Token/WordToken';
-	import VerbToken from 'Common/Models/Token/VerbToken';
+	import TokenType from 'Common/Types/TokenType';
+	import Token from 'Common/Models/Token/Token';
 	import Kanjis from 'Client/Dom/Kanjis.vue';
 	import Readings from 'Client/Dom/Readings.vue';
 	import Conjugations from 'Client/Dom/Conjugations.vue';
@@ -42,14 +42,14 @@
 	export default Vue.extend({
 		props: {
 			appUid: { type: String },
-			token: { type: Object as () => WordToken },
+			token: { type: Object as () => Token },
 			tokenElement: { type: Object as () => HTMLElement },
 			closeTooltip: { type: (Function as unknown) as () => (() => void) },
 		},
 		data() {
 			return {
 				targetPos: {},
-				VerbToken,
+				TokenType,
 
 				// Values that only should not be affected by future dom changes
 				windowScrollY: window.scrollY,

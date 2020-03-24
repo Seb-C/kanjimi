@@ -2,14 +2,15 @@ import Conjugations from 'Server/Lexer/Conjugations';
 import Conjugation from 'Common/Models/Conjugation';
 import Token from 'Common/Models/Token/Token';
 import CharType from 'Common/Types/CharType';
+import TokenType from 'Common/Types/TokenType';
 import Language from 'Common/Types/Language';
-import VerbToken from 'Common/Models/Token/VerbToken';
-import ParticleToken from 'Common/Models/Token/ParticleToken';
-import PunctuationToken from 'Common/Models/Token/PunctuationToken';
-import WordToken from 'Common/Models/Token/WordToken';
-import CharTypeToken from 'Common/Models/Token/CharTypeToken';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Word from 'Common/Models/Word';
+
+interface CharTypeText {
+	public readonly text: string;
+	public readonly type: CharType;
+}
 
 export default class Lexer {
 	protected readonly dictionary: Dictionary;
@@ -19,30 +20,30 @@ export default class Lexer {
 	}
 
 	analyze (text: string, langs: Language[]|null = null): Token[] {
-		const tokensByCharType: CharTypeToken[] = this.tokenizeByCharType(text);
+		const textsByCharType: CharTypeText[] = this.splitTextByCharType(text);
 
 		const tokens: Token[] = [];
 
-		for (let i = 0; i < tokensByCharType.length; i++) {
-			const currentToken = tokensByCharType[i];
+		for (let i = 0; i < textsByCharType.length; i++) {
+			const currentText = textsByCharType[i];
 
-			if (currentToken.charType === CharType.PUNCTUATION) {
-				tokens.push(new PunctuationToken(currentToken.text));
+			if (currentText.type === CharType.PUNCTUATION) {
+				tokens.push(new Token(currentText.text, TokenType.PUNCTUATION));
 				continue;
 			}
 
-			if (currentToken.charType === CharType.OTHER) {
-				tokens.push(new Token(currentToken.text));
+			if (currentText.type === CharType.OTHER) {
+				tokens.push(new Token(currentText.text, TokenType.UNKNOWN));
 				continue;
 			}
 
 			// Katakanas should not be splitted
-			if (currentToken.charType === CharType.KATAKANA) {
-				const word = this.dictionary.get(currentToken.text, langs);
+			if (currentText.type === CharType.KATAKANA) {
+				const word = this.dictionary.get(currentText.text, langs);
 				if (word.length > 0) {
-					tokens.push(new WordToken(currentToken.text, word));
+					tokens.push(new Token(currentText.text, TokenType.WORD, word));
 				} else {
-					tokens.push(new Token(currentToken.text));
+					tokens.push(new Token(currentText.text, TokenType.UNKNOWN));
 				}
 				continue;
 			}
@@ -50,11 +51,11 @@ export default class Lexer {
 			// Merging hiragana and kanji tokens
 			let text = '';
 			do {
-				text += tokensByCharType[i].text;
+				text += textsByCharType[i].text;
 				i++;
-			} while (i < tokensByCharType.length && (
-				tokensByCharType[i].charType === CharType.HIRAGANA
-				|| tokensByCharType[i].charType === CharType.KANJI
+			} while (i < textsByCharType.length && (
+				textsByCharType[i].type === CharType.HIRAGANA
+				|| textsByCharType[i].type === CharType.KANJI
 			));
 			i--; // We increased too much on the last iteration
 
@@ -66,12 +67,12 @@ export default class Lexer {
 		return tokens;
 	}
 
-	tokenizeByCharType (text: string): CharTypeToken[] {
+	splitTextByCharType (text: string): CharTypeText[] {
 		if (text.length === 0) {
 			return [];
 		}
 
-		const tokens: CharTypeToken[] = [];
+		const tokens: CharTypeText[] = [];
 
 		let currentTokenCharType: CharType = CharType.of(text[0]);
 		let currentTokenStartIndex = 0;
@@ -79,7 +80,7 @@ export default class Lexer {
 		for (let currentIndex = 1; currentIndex < text.length; currentIndex++) {
 			const currentCharType = CharType.of(text[currentIndex]);
 			if (currentTokenCharType !== null && currentCharType !== currentTokenCharType) {
-				tokens.push(new CharTypeToken(
+				tokens.push(new CharTypeText(
 					text.substring(currentTokenStartIndex, currentIndex),
 					currentTokenCharType,
 				));
@@ -88,7 +89,7 @@ export default class Lexer {
 			}
 		}
 
-		tokens.push(new CharTypeToken(
+		tokens.push(new CharTypeText(
 			text.substring(currentTokenStartIndex),
 			currentTokenCharType,
 		));
@@ -130,26 +131,28 @@ export default class Lexer {
 	}
 
 	makeUnknownToken (text: string, langs: Language[]|null = null): Token {
-		if (ParticleToken.isParticle(text)) {
-			return new ParticleToken(
+		if (TokenType.isParticle(text)) {
+			return new Token(
 				text,
+				TokenType.PARTICLE,
 				this.dictionary.get(text, langs),
 			);
 		} else {
-			return new Token(text);
+			return new Token(text, TokenType.UNKNOWN);
 		}
 	}
 
 	searchMeaning (text: string, langs: Language[]|null = null): Token|null {
-		if (ParticleToken.isParticle(text)) {
-			return new ParticleToken(
+		if (TokenType.isParticle(text)) {
+			return new Token(
 				text,
+				TokenType.PARTICLE,
 				this.dictionary.get(text, langs),
 			);
 		}
 
 		if (this.dictionary.has(text)) {
-			return new WordToken(text, this.dictionary.get(text, langs));
+			return new Token(text, TokenType.WORD, this.dictionary.get(text, langs));
 		}
 
 		for (let i = 0; i < text.length ; i++) {
@@ -165,13 +168,20 @@ export default class Lexer {
 				});
 
 				if (words.length > 0) {
-					return new VerbToken(prefix, conjugation, forms, words);
+					return new Token(
+						prefix + conjugation,
+						TokenType.VERB,
+						words,
+						prefix,
+						conjugation,
+						forms,
+					);
 				}
 			}
 		}
 
 		if (this.dictionary.hasReading(text)) {
-			return new WordToken(text, this.dictionary.getReading(text, langs));
+			return new Token(text, TokenType.WORD, this.dictionary.getReading(text, langs));
 		}
 
 		return null;

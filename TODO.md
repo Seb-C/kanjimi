@@ -1,6 +1,13 @@
 MVP:
-    merge all the token types in a single, simple class (with a type attribute)?
-    unit test the serialize route result (and the associated client code?)
+    token merge:
+        possible to remove the type?
+        fix the tests
+        tests: refactor the type assertions (not necessary to test true anymore)
+        tests: create variable to avoid redundant type casting
+        test and fix everything
+        rename the token class (remove the now useless folder)
+    unit test the analyze route result
+    unit test the models fromApi / toApi
     user creation: unit test the route
         -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)
         -> test that the password is properly hashed

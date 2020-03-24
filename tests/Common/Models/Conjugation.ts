@@ -9,7 +9,7 @@ describe('Conjugation', () => {
 			'dictionary form',
 			ConjugationType.IMPERATIVE,
 		);
-		const output = Conjugation.fromApi(input.toApi());
+		const output = Conjugation.fromApi(JSON.parse(JSON.stringify(input.toApi())));
 
 		expect(output.conjugation).toBe('conjugation');
 		expect(output.dictionaryForm).toBe('dictionary form');

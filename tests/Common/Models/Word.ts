@@ -24,7 +24,7 @@ describe('Word', () => {
 			'translation',
 			[WordTag.ADJECTIVE, WordTag.ADVERB],
 		);
-		const output = Word.fromApi(input.toApi());
+		const output = Word.fromApi(JSON.parse(JSON.stringify(input.toApi())));
 
 		expect(output.word).toBe('word');
 		expect(output.reading).toBe('reading');

@@ -2,6 +2,7 @@ MVP:
     unit test the models fromApi / toApi
     unit test the analyze route result (without resorting to function)
     unit test the client function to get api results
+    check that the output of the database is a date
     check duplicate emails
         -> test the route manually to check the behaviour and database errors
     user creation: unit test the route

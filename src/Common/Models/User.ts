@@ -26,11 +26,14 @@ export default class User {
 			emailVerified: this.emailVerified,
 			password: null,
 			languages: this.languages,
-			createdAt: this.createdAt,
+			createdAt: this.createdAt.toISOString(),
 		};
 	}
 
-	public static fromApi(data: Object): User {
-		return new User(data);
+	public static fromApi(data: any): User {
+		return new User({
+			...data,
+			createdAt: new Date(data.createdAt),
+		});
 	}
 }

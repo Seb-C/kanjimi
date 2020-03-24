@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import * as Ajv from 'ajv';
 import ValidationError from 'Server/Api/ValidationError';
 import Database from 'Server/Database/Database';
+import User from 'Common/Models/User';
 
 const createUserValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',

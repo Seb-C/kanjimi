@@ -1,6 +1,6 @@
 import Conjugations from 'Server/Lexer/Conjugations';
 import Conjugation from 'Common/Models/Conjugation';
-import Token from 'Common/Models/Token/Token';
+import Token from 'Common/Models/Token';
 import CharType from 'Common/Types/CharType';
 import TokenType from 'Common/Types/TokenType';
 import Language from 'Common/Types/Language';
@@ -8,8 +8,8 @@ import Dictionary from 'Server/Lexer/Dictionary';
 import Word from 'Common/Models/Word';
 
 interface CharTypeText {
-	public readonly text: string;
-	public readonly type: CharType;
+	readonly text: string;
+	readonly type: CharType;
 }
 
 export default class Lexer {
@@ -72,7 +72,7 @@ export default class Lexer {
 			return [];
 		}
 
-		const tokens: CharTypeText[] = [];
+		const texts: CharTypeText[] = [];
 
 		let currentTokenCharType: CharType = CharType.of(text[0]);
 		let currentTokenStartIndex = 0;
@@ -80,21 +80,21 @@ export default class Lexer {
 		for (let currentIndex = 1; currentIndex < text.length; currentIndex++) {
 			const currentCharType = CharType.of(text[currentIndex]);
 			if (currentTokenCharType !== null && currentCharType !== currentTokenCharType) {
-				tokens.push(new CharTypeText(
-					text.substring(currentTokenStartIndex, currentIndex),
-					currentTokenCharType,
-				));
+				texts.push(<CharTypeText>{
+					text: text.substring(currentTokenStartIndex, currentIndex),
+					type: currentTokenCharType,
+				});
 				currentTokenCharType = currentCharType;
 				currentTokenStartIndex = currentIndex;
 			}
 		}
 
-		tokens.push(new CharTypeText(
-			text.substring(currentTokenStartIndex),
-			currentTokenCharType,
-		));
+		texts.push(<CharTypeText>{
+			text: text.substring(currentTokenStartIndex),
+			type: currentTokenCharType,
+		});
 
-		return tokens;
+		return texts;
 	}
 
 	*splitByDictionarySearches (text: string, langs: Language[]|null = null): Iterable<Token> {

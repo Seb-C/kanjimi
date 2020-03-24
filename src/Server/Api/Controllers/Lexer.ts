@@ -2,7 +2,7 @@ import Language from 'Common/Types/Language';
 import { Request, Response } from 'express';
 import * as Ajv from 'ajv';
 import ValidationError from 'Server/Api/ValidationError';
-import Token from 'Common/Models/Token/Token';
+import Token from 'Common/Models/Token';
 
 const validator = new Ajv({ allErrors: true }).compile({
 	type: 'array',

@@ -6,7 +6,7 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import Token from 'Common/Models/Token/Token';
+	import Token from 'Common/Models/Token';
 
 	const injectedKanjiFonts: string[] = [];
 	const getKanjiFontName = (appUid: string): string => {

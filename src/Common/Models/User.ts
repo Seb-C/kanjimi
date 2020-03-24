@@ -31,6 +31,6 @@ export default class User {
 	}
 
 	public static fromApi(data: Object): User {
-		return new Word(data);
+		return new User(data);
 	}
 }

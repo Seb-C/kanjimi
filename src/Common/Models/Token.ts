@@ -1,21 +1,21 @@
-import CharType from 'Common/Types/CharType';
 import TokenType from 'Common/Types/TokenType';
 import Word from 'Common/Models/Word';
-import Language from 'Common/Types/Language';
-import Conjugations from 'Server/Lexer/Conjugations';
 import Conjugation from 'Common/Models/Conjugation';
 
 export default class Token {
 	public readonly text: string;
 	public readonly type: TokenType;
 	public readonly words: ReadonlyArray<Word>;
+	public readonly verb: string|null;
+	public readonly conjugation: string|null;
+	public readonly forms: ReadonlyArray<Conjugation>;
 
 	constructor(
 		text: string,
 		type: TokenType,
 		words: ReadonlyArray<Word> = [],
-		verb: string = null,
-		conjugation: string = null,
+		verb: string|null = null,
+		conjugation: string|null = null,
 		forms: ReadonlyArray<Conjugation> = [],
 	) {
 		this.text = text;
@@ -60,14 +60,14 @@ export default class Token {
 		};
 	}
 
-	public static fromApi(data: Object): Token {
+	public static fromApi(data: any): Token {
 		return new Token(
 			<string>data.text,
 			<TokenType>data.type,
-			<ReadonlyArray<Word>>data.words.map(word => Word.fromApi(word)),
+			<ReadonlyArray<Word>>data.words.map((word: any) => Word.fromApi(word)),
 			<string>data.verb,
 			<string>data.conjugation,
-			<ReadonlyArray<Conjugation>>data.forms.map(form => Conjugation.fromApi(form)),
+			<ReadonlyArray<Conjugation>>data.forms.map((form: any) => Conjugation.fromApi(form)),
 		);
 	}
 }

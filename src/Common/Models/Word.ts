@@ -26,7 +26,7 @@ export default class Word {
 		return this.translation.replace(/^([^{(]+).*$/, '$1').trim();
 	}
 
-	public toApi(): Object {
+	public toApi(): any {
 		return {
 			word: this.word,
 			reading: this.reading,
@@ -36,7 +36,7 @@ export default class Word {
 		};
 	}
 
-	public static fromApi(data: Object): Word {
+	public static fromApi(data: any): Word {
 		return new Word(
 			<string>data.word,
 			<string>data.reading,

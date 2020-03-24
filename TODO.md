@@ -1,13 +1,10 @@
 MVP:
+    remove the type suffix
     token merge:
         possible to remove the type?
-        fix the tests
-        tests: refactor the type assertions (not necessary to test true anymore)
-        tests: create variable to avoid redundant type casting
-        test and fix everything
-        rename the token class (remove the now useless folder)
     unit test the analyze route result
     unit test the models fromApi / toApi
+    check duplicate emails
     user creation: unit test the route
         -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)
         -> test that the password is properly hashed
@@ -32,6 +29,8 @@ MVP:
     route to modify a user (PATCH, languages and password only)
 
 Website/publishing:
+    free trial for beta?
+    analytics?
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
     include copyright somewhere in the site (and external resources used)
     onboarding
@@ -40,6 +39,7 @@ Website/publishing:
     free plan?
     CGU
     initialize user known words depending on the average jlpt level?
+    coming soon page early
 
 After:
     remove tslint?

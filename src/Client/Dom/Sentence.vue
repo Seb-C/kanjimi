@@ -15,7 +15,7 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import Token from 'Common/Models/Token/Token';
+	import Token from 'Common/Models/Token';
 	import TokenType from 'Common/Types/TokenType';
 	import Tooltip from 'Client/Dom/Tooltip.vue';
 

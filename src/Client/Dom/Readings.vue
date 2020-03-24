@@ -32,7 +32,7 @@
 	import Vue from 'vue';
 	import Word from 'Common/Models/Word';
 	import Language from 'Common/Types/Language';
-	import Token from 'Common/Models/Token/Token';
+	import Token from 'Common/Models/Token';
 	import TokenType from 'Common/Types/TokenType';
 	import LanguageTranslations from 'Client/Lang/Language';
 	import WordTagTranslations from 'Client/Lang/WordTag';

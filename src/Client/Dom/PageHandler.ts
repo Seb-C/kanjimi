@@ -1,5 +1,5 @@
 import CharType from 'Common/Types/CharType';
-import Token from 'Common/Models/Token/Token';
+import Token from 'Common/Models/Token';
 import analyze from 'Client/Api/analyze';
 import Vue from 'vue';
 import Tooltip from 'Client/Dom/Tooltip.vue';

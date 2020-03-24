@@ -1,4 +1,4 @@
-import Token from 'Common/Models/Token/Token';
+import Token from 'Common/Models/Token';
 
 export default async (strings: string[]): Promise<Token[][]> => {
 	const response = await fetch('http://localhost:3000/lexer/analyze', {
@@ -10,7 +10,7 @@ export default async (strings: string[]): Promise<Token[][]> => {
 	});
 	const responseData = await response.json();
 
-	return responseData.map((tokenList) => {
-		return tokenList.map(tokenData => Token.fromApi(tokenData));
+	return responseData.map((tokenList: any) => {
+		return tokenList.map((tokenData: any) => Token.fromApi(tokenData));
 	});
 };

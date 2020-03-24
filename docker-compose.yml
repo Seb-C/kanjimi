@@ -26,8 +26,8 @@ services:
     restart: on-failure
     working_dir: /app
     command: |
-      ./node_modules/.bin/webpack --build
-      ./node_modules/.bin/webpack --watch
+      ./node_modules/.bin/webpack --color --build
+      ./node_modules/.bin/webpack --color --watch
     volumes:
       - $PWD:/app
 volumes:

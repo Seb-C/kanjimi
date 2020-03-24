@@ -11,7 +11,7 @@ export default class Conjugation {
 		this.type = type;
 	}
 
-	public toApi(): Object {
+	public toApi(): any {
 		return {
 			conjugation: this.conjugation,
 			dictionaryForm: this.dictionaryForm,
@@ -19,7 +19,7 @@ export default class Conjugation {
 		};
 	}
 
-	public static fromApi(data: Object): Conjugation {
+	public static fromApi(data: any): Conjugation {
 		return new Conjugation(
 			<string>data.conjugation,
 			<string>data.dictionaryForm,

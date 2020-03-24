@@ -32,7 +32,7 @@
 	import Word from 'Common/Models/Word';
 	import Language from 'Common/Types/Language';
 	import TokenType from 'Common/Types/TokenType';
-	import Token from 'Common/Models/Token/Token';
+	import Token from 'Common/Models/Token';
 	import Kanjis from 'Client/Dom/Kanjis.vue';
 	import Readings from 'Client/Dom/Readings.vue';
 	import Conjugations from 'Client/Dom/Conjugations.vue';

@@ -10,7 +10,7 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import Token from 'Common/Models/Token/Token';
+	import Token from 'Common/Models/Token';
 	import ConjugationTranslations from 'Client/Lang/Conjugation';
 
 	export default Vue.extend({

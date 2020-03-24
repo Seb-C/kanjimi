@@ -1,4 +1,4 @@
-import WordTagType from 'Common/Types/WordTagType';
+import WordTag from 'Common/Types/WordTag';
 import Language from 'Common/Types/Language';
 
 export default class Word {
@@ -6,14 +6,14 @@ export default class Word {
 	public readonly reading: string;
 	public readonly translationLang: Language|null;
 	public readonly translation: string;
-	public readonly tags: ReadonlyArray<WordTagType>;
+	public readonly tags: ReadonlyArray<WordTag>;
 
 	constructor(
 		word: string,
 		reading: string,
 		translationLang: Language|null,
 		translation: string,
-		tags: ReadonlyArray<WordTagType>,
+		tags: ReadonlyArray<WordTag>,
 	) {
 		this.word = word;
 		this.reading = reading;
@@ -42,7 +42,7 @@ export default class Word {
 			<string>data.reading,
 			<Language|null>data.translationLang,
 			<string>data.translation,
-			<ReadonlyArray<WordTagType>>data.tags,
+			<ReadonlyArray<WordTag>>data.tags,
 		);
 	}
 }

@@ -1,14 +1,14 @@
-import WordTagType from 'Common/Types/WordTagType';
+import WordTag from 'Common/Types/WordTag';
 
 export default {
-	[WordTagType.ADJECTIVE]: 'adjective',
-	[WordTagType.COUNTER]: 'counter',
-	[WordTagType.NAME]: 'name',
-	[WordTagType.NAME_FEMALE]: 'feminine name',
-	[WordTagType.NAME_GIVEN]: 'given name',
-	[WordTagType.NAME_MALE]: 'masculine name',
-	[WordTagType.NAME_OLD]: 'old name',
-	[WordTagType.NAME_PERSON]: 'person',
-	[WordTagType.NAME_PLACE]: 'place',
-	[WordTagType.NAME_PRODUCT]: 'product',
+	[WordTag.ADJECTIVE]: 'adjective',
+	[WordTag.COUNTER]: 'counter',
+	[WordTag.NAME]: 'name',
+	[WordTag.NAME_FEMALE]: 'feminine name',
+	[WordTag.NAME_GIVEN]: 'given name',
+	[WordTag.NAME_MALE]: 'masculine name',
+	[WordTag.NAME_OLD]: 'old name',
+	[WordTag.NAME_PERSON]: 'person',
+	[WordTag.NAME_PLACE]: 'place',
+	[WordTag.NAME_PRODUCT]: 'product',
 };

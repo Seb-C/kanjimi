@@ -1,5 +1,4 @@
 MVP:
-    remove the type suffix
     token merge:
         possible to remove the type?
     unit test the analyze route result

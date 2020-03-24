@@ -36,8 +36,8 @@ export const create = async (request: Request, response: Response) => {
 
 	const db = request.app.get('db');
 	const user = await db.get(User, `
-		INSERT INTO "User" ("email", "emailVerified", "password", "languages", "createdAt")
-		VALUES (\${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP)
+		INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
+		VALUES (DEFAULT, \${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP)
 		RETURNING *;
 	`, {
 		email: request.body.email,

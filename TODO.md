@@ -1,10 +1,9 @@
 MVP:
-    unit test the models fromApi / toApi
-    unit test the analyze route result (without resorting to function)
-    unit test the client function to get api results
-    check that the output of the database is a date
+    analyze route:
+        unit test the result (without resorting to function) -> use json schema
+        unit test the client function to get api results -> test the structure outside the token (already unit tested the model contents)
     check duplicate emails
-        -> test the route manually to check the behaviour and database errors
+        -> test the route manually to check the behaviour in case of a database errors (+ test this)
     user creation: unit test the route
         -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)
         -> test that the password is properly hashed

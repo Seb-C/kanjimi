@@ -1,6 +1,6 @@
 import Token from 'Common/Models/Token';
 
-export default async (strings: string[]): Promise<Token[][]> => {
+export const analyze = async (strings: string[]): Promise<Token[][]> => {
 	const response = await fetch('http://localhost:3000/lexer/analyze', {
 		method: 'POST',
 		headers: {

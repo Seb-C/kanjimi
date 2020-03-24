@@ -1,9 +1,9 @@
 MVP:
-    token merge:
-        possible to remove the type?
-    unit test the analyze route result
+    unit test the analyze route result (without resorting to function)
     unit test the models fromApi / toApi
+    unit test the client function to get api results
     check duplicate emails
+        -> test the route manually to check the behaviour and database errors
     user creation: unit test the route
         -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)
         -> test that the password is properly hashed
@@ -13,6 +13,7 @@ MVP:
     store tokens in a table (id, token, expiration, user id)
     add route to generate a token (with login and password) and test it
     add route to check a token and retrieve the linked user and test it
+    search a better french dictionary?
     have a random unique salt for each user (generate uuid with crypto?)
     test with a lot of different sites
     test and debug intensively the tokenizer and display of results
@@ -26,6 +27,7 @@ MVP:
     retrieve password process
     verify email process after subscription
     route to modify a user (PATCH, languages and password only)
+    database setup and api url -> env file?
 
 Website/publishing:
     free trial for beta?

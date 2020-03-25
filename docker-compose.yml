@@ -16,7 +16,11 @@ services:
     image: node:11
     restart: on-failure
     working_dir: /app
-    command: ./node_modules/.bin/nodemon -e ts -w ./src -x ./node_modules/.bin/ts-node -r tsconfig-paths/register src/Server/server.ts
+    command: >
+      bash -c "
+        ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts &
+        ./node_modules/.bin/nodemon -e ts -w ./src -x ./node_modules/.bin/ts-node -r tsconfig-paths/register src/Server/server.ts
+      "
     ports:
       - "3000:3000"
     volumes:
@@ -25,9 +29,11 @@ services:
     image: node:11
     restart: on-failure
     working_dir: /app
-    command: |
-      ./node_modules/.bin/webpack --color --build
-      ./node_modules/.bin/webpack --color --watch
+    command: >
+      bash -c "
+        ./node_modules/.bin/webpack --color --build;
+        ./node_modules/.bin/webpack --color --watch
+      "
     volumes:
       - $PWD:/app
 volumes:

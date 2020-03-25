@@ -28,12 +28,11 @@ const createUserValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const create = async (request: Request, response: Response) => {
+export const create = (db: Database) => async (request: Request, response: Response) => {
 	if (!createUserValidator(request.body)) {
 		return response.status(422).json(createUserValidator.errors);
 	}
 
-	const db = request.app.get('db');
 	try {
 		const user = await db.get(User, `
 			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")

@@ -2,6 +2,7 @@ import Language from 'Common/Types/Language';
 import { Request, Response } from 'express';
 import * as Ajv from 'ajv';
 import Token from 'Common/Models/Token';
+import Lexer from 'Server/Lexer/Lexer';
 
 const validator = new Ajv({ allErrors: true }).compile({
 	type: 'array',
@@ -11,12 +12,10 @@ const validator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const analyze = (request: Request, response: Response) => {
+export const analyze = (lexer: Lexer) => (request: Request, response: Response) => {
 	if (!validator(request.body)) {
 		return response.status(422).json(validator.errors);
 	}
-
-	const lexer = request.app.get('lexer');
 
 	const sentences: string[] = request.body;
 	const result: any[] = [];

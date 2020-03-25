@@ -38,12 +38,9 @@ const runServer = async (application: Application): Promise<void> => {
 	const server = Express();
 	server.use(BodyParser.json());
 	server.use(waitForStartupMiddleware);
-	server.set('db', db);
-	server.set('dictionary', dictionary);
-	server.set('lexer', lexer);
 
-	server.post('/lexer/analyze', LexerController.analyze);
-	server.post('/user', UserController.create);
+	server.post('/lexer/analyze', LexerController.analyze(lexer));
+	server.post('/user', UserController.create(db));
 	// server.post('/token', );
 	// server.get('/token', );
 

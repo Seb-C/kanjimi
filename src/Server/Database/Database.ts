@@ -1,7 +1,7 @@
 import * as PgPromise from 'pg-promise';
 import * as QueryStream from 'pg-query-stream';
 
-type Buildable<T> = (new (params?: T) => T);
+type Buildable<T> = (new (attributes: object) => T);
 
 type Params = { [key: string]: any; };
 

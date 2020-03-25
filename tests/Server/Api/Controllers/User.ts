@@ -12,9 +12,6 @@ describe('UserController', async () => {
 
 		const response = await fetch('http://localhost:3000/user', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
 			body: JSON.stringify({
 				email: 'unittest@example.com',
 				password: '123456',
@@ -66,9 +63,6 @@ describe('UserController', async () => {
 		// Trying again (it should fail)
 		const response2 = await fetch('http://localhost:3000/user', {
 			method: 'POST',
-			headers: {
-				'Content-Type': 'application/json',
-			},
 			body: JSON.stringify({
 				email: 'unittest@example.com',
 				password: '123456',

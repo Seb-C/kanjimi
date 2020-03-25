@@ -34,7 +34,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 	}
 
 	try {
-		const user = await db.get(User, `
+		const user = <User>await db.get(User, `
 			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
 			VALUES (DEFAULT, \${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP)
 			RETURNING *;

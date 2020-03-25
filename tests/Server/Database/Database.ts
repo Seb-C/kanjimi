@@ -10,7 +10,7 @@ class Test {
 	public numberNullable: number|null;
 	public dateNullable: Date|null;
 
-	constructor (params?: Test) {
+	constructor (params: object) {
 		Object.assign(this, params);
 	}
 }

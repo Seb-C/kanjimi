@@ -36,7 +36,7 @@ const runServer = async (application: Application): Promise<void> => {
 	const lexer = new Lexer(dictionary);
 
 	const server = Express();
-	server.use(BodyParser.json());
+	server.use(BodyParser.json({ type: () => true }));
 	server.use(waitForStartupMiddleware);
 
 	server.post('/lexer/analyze', LexerController.analyze(lexer));

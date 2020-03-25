@@ -1,7 +1,6 @@
 import Language from 'Common/Types/Language';
 import { Request, Response } from 'express';
 import * as Ajv from 'ajv';
-import ValidationError from 'Server/Api/ValidationError';
 import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 
@@ -31,19 +30,29 @@ const createUserValidator = new Ajv({ allErrors: true }).compile({
 
 export const create = async (request: Request, response: Response) => {
 	if (!createUserValidator(request.body)) {
-		throw new ValidationError(<Ajv.ErrorObject[]>createUserValidator.errors);
+		return response.status(422).json(createUserValidator.errors);
 	}
 
 	const db = request.app.get('db');
-	const user = await db.get(User, `
-		INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
-		VALUES (DEFAULT, \${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP)
-		RETURNING *;
-	`, {
-		email: request.body.email,
-		password: User.hashPassword(request.body.password),
-		languages: request.body.languages,
-	});
+	try {
+		const user = await db.get(User, `
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
+			VALUES (DEFAULT, \${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP)
+			RETURNING *;
+		`, {
+			email: request.body.email,
+			password: User.hashPassword(request.body.password),
+			languages: request.body.languages,
+		});
 
-	response.json(user.toApi());
+		return response.json(user.toApi());
+	} catch (exception) {
+		if (exception.constraint === 'User_email_unique') {
+			return response.status(409).json(
+				'A member is already registered with this email',
+			);
+		} else {
+			throw exception;
+		}
+	}
 };

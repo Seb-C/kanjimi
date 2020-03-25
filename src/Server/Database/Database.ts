@@ -5,10 +5,17 @@ type Buildable<T> = (new (params?: T) => T);
 
 type Params = { [key: string]: any; };
 
+let singleton: Database|null = null;
+
 export default class Database {
 	private db: PgPromise.IDatabase<void>;
 
 	constructor() {
+		if (singleton !== null) {
+			return singleton;
+		} else {
+			singleton = this;
+		}
 		this.db = PgPromise()({
 			host     :  process.env.DB_HOST || 'database',
 			port     :  5432,

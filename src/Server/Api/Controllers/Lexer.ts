@@ -1,7 +1,6 @@
 import Language from 'Common/Types/Language';
 import { Request, Response } from 'express';
 import * as Ajv from 'ajv';
-import ValidationError from 'Server/Api/ValidationError';
 import Token from 'Common/Models/Token';
 
 const validator = new Ajv({ allErrors: true }).compile({
@@ -14,7 +13,7 @@ const validator = new Ajv({ allErrors: true }).compile({
 
 export const analyze = (request: Request, response: Response) => {
 	if (!validator(request.body)) {
-		throw new ValidationError(<Ajv.ErrorObject[]>validator.errors);
+		return response.status(422).json(validator.errors);
 	}
 
 	const lexer = request.app.get('lexer');
@@ -29,5 +28,5 @@ export const analyze = (request: Request, response: Response) => {
 		result.push(tokens.map(token => token.toApi()));
 	}
 
-	response.json(result);
+	return response.json(result);
 };

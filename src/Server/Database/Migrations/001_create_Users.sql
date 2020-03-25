@@ -4,5 +4,6 @@ CREATE TABLE "User" (
 	"emailVerified" BOOLEAN NOT NULL,
 	"password" TEXT NOT NULL,
 	"languages" TEXT[] NOT NULL,
-	"createdAt" TIMESTAMP NOT NULL
+	"createdAt" TIMESTAMP NOT NULL,
+	CONSTRAINT "User_email_unique" UNIQUE ("email")
 );

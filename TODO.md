@@ -1,12 +1,13 @@
 MVP:
-    check duplicate emails
-        -> test the route manually to check the behaviour in case of a database errors (+ test this)
+    temporary database to avoid cleaning in the beginning of a test? big global transaction to revert after tests?
+    fix server ECONNREFUSED when testing while the server is restarting
     user creation: unit test the route
         -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)
         -> test that the password is properly hashed
-        -> test the output structure (with jsonschema)
-        -> test that the output does not contain the password
         -> test that it exists in the database after creation
+        -> create and test the client function (and handle errors)
+    analyze route: handle the validation error case
+    test the error code for validation errors (and contents) for the two routes
     store tokens in a table (id, token, expiration, user id)
     add route to generate a token (with login and password) and test it
     add route to check a token and retrieve the linked user and test it

@@ -15,6 +15,7 @@ describe('LexerController', async () => {
 				'この文を書きました。',
 			]),
 		});
+		expect(response.status).toBe(200);
 		const responseData = await response.json();
 
 		const validator = new Ajv({ allErrors: true }).compile({

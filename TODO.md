@@ -1,6 +1,5 @@
 MVP:
     analyze route:
-        unit test the result (without resorting to function) -> use json schema
         unit test the client function to get api results -> test the structure outside the token (already unit tested the model contents)
     check duplicate emails
         -> test the route manually to check the behaviour in case of a database errors (+ test this)

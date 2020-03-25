@@ -6,7 +6,8 @@
     "allowSyntheticDefaultImports": true,
     "types": [
       "node",
-      "firefox-webext-browser"
+      "firefox-webext-browser",
+      "node-fetch"
     ],
     "lib": [
       "es2015",

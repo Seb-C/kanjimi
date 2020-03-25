@@ -55,11 +55,11 @@ describe('Database', () => {
 		const result = <Test>resultNullable;
 		expect(result.text).toBe('test 1');
 		expect(result.number).toBe(1);
-		expect(result.date instanceof Date).toBe(true);
+		expect(result.date).toBeInstanceOf(Date);
 		expect(result.textNullable).toBe('test2 1');
 		expect(result.numberNullable).toBe(null);
 		expect(result.dateNullable).not.toBe(null);
-		expect(result.dateNullable instanceof Date).toBe(true);
+		expect(result.dateNullable).toBeInstanceOf(Date);
 	});
 
 	it('Array query', async () => {

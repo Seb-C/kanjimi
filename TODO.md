@@ -1,5 +1,8 @@
 MVP:
-    analyze route: handle the validation error case
+    api errors: different exception classes
+    client api: create a routes directory to separate errors
+    use uuids instead if ids?
+    move the unit tests along with the source
     user creation: create and test the client function (and handle errors)
     have a random unique salt for each user (generate uuid with crypto?)
     insert a user in the migration, to allow for tests
@@ -13,13 +16,16 @@ MVP:
     hide and show words (and remember)
     webpack: different webpack and typescript config for extension and server
     Use the proper languages depending on the user (currently filtered in the route definition)
+    automatic test of the tooltip position calculations? (e2e tests of the result)
+    automatic tests for the frontend? unit test some dom functions? How to do that?
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...)?
     only apply conjugations to the words with verb tags
     retrieve password process
     verify email process after subscription
     route to modify a user (PATCH, languages and password only)
-    database setup and api url -> env file?
+    database setup -> env file?
+    urls setup -> keep hardcoded for tests, have a firefox config key for the extension
 
 Website/publishing:
     free trial for beta?
@@ -40,8 +46,6 @@ After:
     change email process
     error handling properly in express (500 and 404, should always be an API response?)
     recommend words to hide depending on the statistics
-    automatic test of the tooltip position calculations? (e2e tests of the result)
-    automatic tests for the frontend? unit test some dom functions? How to do that?
     CI to run the tests
     fix the broken indentation and folding for typescript
     implement down migrations? or not do it and remove related code

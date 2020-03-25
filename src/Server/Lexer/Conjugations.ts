@@ -9,7 +9,7 @@ class ConjugationsClass {
 		ConjugationType,
 		Map<ConjugationType, ConjugationType>
 	> = new Map([
-		[ConjugationType.PASSIVE, new Map([
+		[ConjugationType.PASSIVE, new Map<ConjugationType, ConjugationType>([
 			[ConjugationType.NEGATIVE, ConjugationType.PASSIVE_NEGATIVE],
 			[ConjugationType.POLITE, ConjugationType.PASSIVE_POLITE],
 			[ConjugationType.PAST, ConjugationType.PASSIVE_PAST],
@@ -17,7 +17,7 @@ class ConjugationsClass {
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.PASSIVE_NEGATIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE, ConjugationType.PASSIVE_POLITE_NEGATIVE],
 		])],
-		[ConjugationType.CAUSATIVE, new Map([
+		[ConjugationType.CAUSATIVE, new Map<ConjugationType, ConjugationType>([
 			[ConjugationType.NEGATIVE, ConjugationType.CAUSATIVE_NEGATIVE],
 			[ConjugationType.POLITE, ConjugationType.CAUSATIVE_POLITE],
 			[ConjugationType.PAST, ConjugationType.CAUSATIVE_PAST],
@@ -25,7 +25,7 @@ class ConjugationsClass {
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.CAUSATIVE_NEGATIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE, ConjugationType.CAUSATIVE_POLITE_NEGATIVE],
 		])],
-		[ConjugationType.POTENTIAL, new Map([
+		[ConjugationType.POTENTIAL, new Map<ConjugationType, ConjugationType>([
 			[ConjugationType.NEGATIVE, ConjugationType.POTENTIAL_NEGATIVE],
 			[ConjugationType.POLITE, ConjugationType.POTENTIAL_POLITE],
 			[ConjugationType.PAST, ConjugationType.POTENTIAL_PAST],
@@ -33,13 +33,13 @@ class ConjugationsClass {
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.POTENTIAL_NEGATIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE, ConjugationType.POTENTIAL_POLITE_NEGATIVE],
 		])],
-		[ConjugationType.PASSIVE_POLITE, new Map([
+		[ConjugationType.PASSIVE_POLITE, new Map<ConjugationType, ConjugationType>([
 			[ConjugationType.PAST, ConjugationType.PASSIVE_POLITE_PAST],
 		])],
-		[ConjugationType.CAUSATIVE_POLITE, new Map([
+		[ConjugationType.CAUSATIVE_POLITE, new Map<ConjugationType, ConjugationType>([
 			[ConjugationType.PAST, ConjugationType.CAUSATIVE_POLITE_PAST],
 		])],
-		[ConjugationType.POTENTIAL_POLITE, new Map([
+		[ConjugationType.POTENTIAL_POLITE, new Map<ConjugationType, ConjugationType>([
 			[ConjugationType.PAST, ConjugationType.POTENTIAL_POLITE_PAST],
 		])],
 	]);

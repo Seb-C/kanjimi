@@ -8,20 +8,7 @@ import * as BodyParser from 'body-parser';
 import * as LexerController from 'Server/Api/Controllers/Lexer';
 import * as UserController from 'Server/Api/Controllers/User';
 
-const runServer = async (application: Application): Promise<void> => {
-	return new Promise((resolve, reject) => {
-		try {
-			const server = application.listen(3000);
-			server.on('close', resolve);
-		} catch (error) {
-			reject(error);
-		}
-	});
-};
-
 (async () => {
-	const db = new Database();
-
 	const startupWaiters: Function[] = [];
 	let started = false;
 	const waitForStartupMiddleware = (request: Request, response: Response, next: Function) => {
@@ -32,21 +19,28 @@ const runServer = async (application: Application): Promise<void> => {
 		}
 	};
 
+	const application = Express();
+	application.use(waitForStartupMiddleware);
+	application.use(BodyParser.json({ type: () => true }));
+	const serverClosed = new Promise((resolve, reject) => {
+		try {
+			const server = application.listen(3000);
+			server.on('close', resolve);
+		} catch (error) {
+			reject(error);
+		}
+	});
+
+	const db = new Database();
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
 
-	const server = Express();
-	server.use(BodyParser.json({ type: () => true }));
-	server.use(waitForStartupMiddleware);
-
-	server.post('/lexer/analyze', LexerController.analyze(lexer));
-	server.post('/user', UserController.create(db));
-	// server.post('/token', );
-	// server.get('/token', );
+	application.post('/lexer/analyze', LexerController.analyze(lexer));
+	application.post('/user', UserController.create(db));
+	// application.post('/token', );
+	// application.get('/token', );
 
 	await dictionary.load();
-
-	const serverClosed: Promise<void> = runServer(server);
 
 	// Ready, processing pending requests
 	started = true;

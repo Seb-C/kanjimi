@@ -1,5 +1,4 @@
 MVP:
-    fix server ECONNREFUSED when testing while the server is restarting
     user creation: unit test the route
         -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)
         -> test that the password is properly hashed

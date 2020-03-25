@@ -1,14 +1,12 @@
 MVP:
-    user creation: unit test the route
-        -> test that the password is properly hashed
-        -> test that it exists in the database after creation
-        -> create and test the client function (and handle errors)
     analyze route: handle the validation error case
+    user creation: create and test the client function (and handle errors)
+    have a random unique salt for each user (generate uuid with crypto?)
+    insert a user in the migration, to allow for tests
     store tokens in a table (id, token, expiration, user id)
     add route to generate a token (with login and password) and test it
     add route to check a token and retrieve the linked user and test it
     search a better french dictionary?
-    have a random unique salt for each user (generate uuid with crypto?)
     test with a lot of different sites
     test and debug intensively the tokenizer and display of results
     find a name (Kanjimi?)

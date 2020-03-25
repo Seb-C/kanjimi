@@ -2,6 +2,7 @@ import 'jasmine';
 import fetch from 'node-fetch';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
+import User from 'Common/Models/User';
 
 describe('UserController', async () => {
 	beforeEach(async () => {
@@ -69,6 +70,18 @@ describe('UserController', async () => {
 		expect(validator(responseData))
 			.withContext(JSON.stringify(validator.errors))
 			.toBe(true);
+
+		// Checking the db contents
+		const db = (new Database());
+		const dbUser = await db.get(User, `
+			SELECT * FROM "User" WHERE "id" = \${id};
+		`, { id: responseData.id });
+		await db.close();
+
+		expect(dbUser).not.toBe(null);
+		expect((<User>dbUser).password).not.toBe(null);
+		expect((<User>dbUser).password).not.toBe('');
+		expect((<User>dbUser).password).not.toBe('123456');
 
 		// Trying again (it should fail)
 		const response2 = await fetch('http://localhost:3000/user', {

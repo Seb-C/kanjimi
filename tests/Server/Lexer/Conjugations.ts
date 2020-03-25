@@ -3,7 +3,7 @@ import Conjugation from 'Common/Models/Conjugation';
 import Conjugations from 'Server/Lexer/Conjugations';
 import ConjugationType from 'Common/Types/ConjugationType';
 
-describe('Lexer', async () => {
+describe('Conjugations', async () => {
 	it('existing verb forms', async () => {
 		const checkForm = (conjugation: string, plain: string, type: ConjugationType) => {
 			const forms = Conjugations.getForms(conjugation);

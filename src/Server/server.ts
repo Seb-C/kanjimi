@@ -12,7 +12,7 @@ import * as UserController from 'Server/Api/Controllers/User';
 const runServer = async (application: Application): Promise<void> => {
 	return new Promise((resolve, reject) => {
 		try {
-			const server = application.listen(80);
+			const server = application.listen(3000);
 			server.on('close', resolve);
 		} catch (error) {
 			reject(error);

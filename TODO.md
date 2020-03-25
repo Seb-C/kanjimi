@@ -1,11 +1,9 @@
 MVP:
     user creation: unit test the route
-        -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)
         -> test that the password is properly hashed
         -> test that it exists in the database after creation
         -> create and test the client function (and handle errors)
     analyze route: handle the validation error case
-    test the error code for validation errors (and contents) for the two routes
     store tokens in a table (id, token, expiration, user id)
     add route to generate a token (with login and password) and test it
     add route to check a token and retrieve the linked user and test it

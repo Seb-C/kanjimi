@@ -4,12 +4,14 @@ import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
 
 describe('UserController', async () => {
-	it('create result', async () => {
+	beforeEach(async () => {
 		// Clearing previous run if necessary
 		const db = (new Database());
 		await db.exec(`DELETE FROM "User" WHERE "email" = 'unittest@example.com';`);
 		await db.close();
+	});
 
+	it('create (normal and duplicate case)', async () => {
 		const response = await fetch('http://localhost:3000/user', {
 			method: 'POST',
 			body: JSON.stringify({
@@ -23,6 +25,14 @@ describe('UserController', async () => {
 
 		const validator = new Ajv({ allErrors: true }).compile({
 			type: 'object',
+			required: [
+				'id',
+				'email',
+				'emailVerified',
+				'password',
+				'languages',
+				'createdAt',
+			],
 			additionalProperties: false,
 			properties: {
 				id: {
@@ -70,5 +80,35 @@ describe('UserController', async () => {
 			}),
 		});
 		expect(response2.status).toBe(409);
+	});
+
+	it('create (validation errors)', async () => {
+		const response = await fetch('http://localhost:3000/user', {
+			method: 'POST',
+			body: JSON.stringify({
+				emailValidated: true,
+				createdAt: new Date().toISOString(),
+			}),
+		});
+		expect(response.status).toBe(422);
+		const responseData = await response.json();
+
+		const validator = new Ajv({ allErrors: true }).compile({
+			type: 'array',
+			items: {
+				type: 'object',
+				additionalProperties: true,
+				required: ['message'],
+				properties: {
+					message: {
+						type: 'string',
+					},
+				},
+			},
+		});
+
+		expect(validator(responseData))
+			.withContext(JSON.stringify(validator.errors))
+			.toBe(true);
 	});
 });

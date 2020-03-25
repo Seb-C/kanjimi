@@ -4,7 +4,7 @@ import Token from 'Common/Models/Token';
 import * as Ajv from 'ajv';
 
 describe('LexerController', async () => {
-	it('analyze result', async () => {
+	it('analyze (checking results)', async () => {
 		const response = await fetch('http://localhost:3000/lexer/analyze', {
 			method: 'POST',
 			body: JSON.stringify([
@@ -25,6 +25,14 @@ describe('LexerController', async () => {
 				items: {
 					type: 'object',
 					additionalProperties: false,
+					required: [
+						'type',
+						'text',
+						'words',
+						'verb',
+						'conjugation',
+						'forms',
+					],
 					properties: {
 						type: {
 							type: 'string',
@@ -37,6 +45,13 @@ describe('LexerController', async () => {
 							items: {
 								type: 'object',
 								additionalProperties: false,
+								required: [
+									'word',
+									'reading',
+									'translationLang',
+									'translation',
+									'tags',
+								],
 								properties: {
 									word: {
 										type: 'string',
@@ -70,6 +85,11 @@ describe('LexerController', async () => {
 							items: {
 								type: 'object',
 								additionalProperties: false,
+								required: [
+									'conjugation',
+									'dictionaryForm',
+									'type',
+								],
 								properties: {
 									conjugation: {
 										type: 'string',
@@ -83,6 +103,33 @@ describe('LexerController', async () => {
 								},
 							},
 						},
+					},
+				},
+			},
+		});
+
+		expect(validator(responseData))
+			.withContext(JSON.stringify(validator.errors))
+			.toBe(true);
+	});
+
+	it('analyze (validation errors)', async () => {
+		const response = await fetch('http://localhost:3000/lexer/analyze', {
+			method: 'POST',
+			body: JSON.stringify({}),
+		});
+		expect(response.status).toBe(422);
+		const responseData = await response.json();
+
+		const validator = new Ajv({ allErrors: true }).compile({
+			type: 'array',
+			items: {
+				type: 'object',
+				additionalProperties: true,
+				required: ['message'],
+				properties: {
+					message: {
+						type: 'string',
 					},
 				},
 			},

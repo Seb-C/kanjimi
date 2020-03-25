@@ -6,7 +6,9 @@ import Database from 'Server/Database/Database';
 describe('UserController', async () => {
 	it('create result', async () => {
 		// Clearing previous run if necessary
-		await (new Database()).exec(`DELETE FROM "User" WHERE "email" = 'unittest@example.com';`);
+		const db = (new Database());
+		await db.exec(`DELETE FROM "User" WHERE "email" = 'unittest@example.com';`);
+		await db.close();
 
 		const response = await fetch('http://localhost:3000/user', {
 			method: 'POST',

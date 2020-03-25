@@ -1,5 +1,4 @@
 MVP:
-    temporary database to avoid cleaning in the beginning of a test? big global transaction to revert after tests?
     fix server ECONNREFUSED when testing while the server is restarting
     user creation: unit test the route
         -> test that it fails in case of inserting forbidden attributes (emailValidated, createdAt)

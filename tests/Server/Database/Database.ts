@@ -1,8 +1,6 @@
 import 'jasmine';
 import Database from 'Server/Database/Database';
 
-const db = new Database();
-
 class Test {
 	public id: number;
 	public text: string;
@@ -17,8 +15,11 @@ class Test {
 	}
 }
 
+let db: Database|null = null;
+
 describe('Database', () => {
 	beforeEach(async () => {
+		db = new Database();
 		await db.exec(`
 			CREATE TEMPORARY TABLE "Test" (
 				"id" SERIAL PRIMARY KEY NOT NULL,
@@ -39,11 +40,13 @@ describe('Database', () => {
 	});
 
 	afterEach(async () => {
-		await db.exec('DROP TABLE "Test";');
+		await (<Database>db).exec('DROP TABLE "Test";');
+		await (<Database>db).close();
+		db = null;
 	});
 
 	it('Simple query', async () => {
-		const resultNullable = await db.get(
+		const resultNullable = await (<Database>db).get(
 			Test,
 			'SELECT * FROM "Test" WHERE "id" = ${id}',
 			{ id: 1 },
@@ -60,7 +63,7 @@ describe('Database', () => {
 	});
 
 	it('Array query', async () => {
-		const result = await db.array(Test, 'SELECT * FROM "Test"');
+		const result = await (<Database>db).array(Test, 'SELECT * FROM "Test"');
 		expect(result.length).toBe(4);
 		expect(result[0].id).toBeGreaterThan(0);
 		expect(result[1].id).toBeGreaterThan(0);
@@ -71,7 +74,7 @@ describe('Database', () => {
 	it('Function query', async () => {
 		let count = 0;
 		const metIds: number[] = [];
-		const result = await db.iterate(
+		const result = await (<Database>db).iterate(
 			Test,
 			async (row) => {
 				count++;

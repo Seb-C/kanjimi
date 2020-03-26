@@ -64,7 +64,7 @@ const runMigration = async (migration: string): Promise<void> => {
 		);
 	});
 
-	await Promise.all(migrationsToDo.map(
-		migration => runMigration(migration),
-	));
+	for (let i = 0; i < migrationsToDo.length; i++) {
+		await runMigration(migrationsToDo[i]);
+	}
 })().then(() => db.close());

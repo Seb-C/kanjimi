@@ -1,5 +1,4 @@
 MVP:
-    move the unit tests along with the source
     insert a user in the migration, to allow for tests
     store tokens in a table (id, token, expiration, user id)
     add route to generate a token (with login and password) and test it

@@ -1,6 +1,6 @@
 import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token';
-import { analyze } from 'Client/Api/Lexer';
+import { analyze } from 'Client/Api/Routes/Lexer';
 import Vue from 'vue';
 import Tooltip from 'Client/Dom/Tooltip.vue';
 import Sentence from 'Client/Dom/Sentence.vue';

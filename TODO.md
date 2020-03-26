@@ -1,10 +1,8 @@
 MVP:
-    api errors: different exception classes
-    client api: create a routes directory to separate errors
-    use uuids instead if ids?
-    move the unit tests along with the source
-    user creation: create and test the client function (and handle errors)
     have a random unique salt for each user (generate uuid with crypto?)
+    use uuids instead if ids?
+
+    move the unit tests along with the source
     insert a user in the migration, to allow for tests
     store tokens in a table (id, token, expiration, user id)
     add route to generate a token (with login and password) and test it

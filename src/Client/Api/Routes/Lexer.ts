@@ -1,5 +1,5 @@
 import Token from 'Common/Models/Token';
-import { ApiError, ApiErrorType } from 'Client/Api/Errors';
+import ValidationError from 'Client/Api/Errors/Validation';
 
 export const analyze = async (strings: string[]): Promise<Token[][]> => {
 	const response = await fetch('http://localhost:3000/lexer/analyze', {
@@ -9,7 +9,7 @@ export const analyze = async (strings: string[]): Promise<Token[][]> => {
 	const responseData = await response.json();
 
 	if (response.status === 422) {
-		throw new ApiError(ApiErrorType.VALIDATION, responseData);
+		throw new ValidationError(responseData);
 	}
 
 	return responseData.map((tokenList: any) => {

@@ -37,7 +37,7 @@ describe('UserController', async () => {
 			additionalProperties: false,
 			properties: {
 				id: {
-					type: 'integer',
+					type: 'string',
 				},
 				email: {
 					type: 'string',

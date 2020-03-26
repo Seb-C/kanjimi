@@ -1,7 +1,4 @@
 MVP:
-    have a random unique salt for each user (generate uuid with crypto?)
-    use uuids instead if ids?
-
     move the unit tests along with the source
     insert a user in the migration, to allow for tests
     store tokens in a table (id, token, expiration, user id)

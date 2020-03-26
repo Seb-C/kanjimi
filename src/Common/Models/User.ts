@@ -2,13 +2,13 @@ import * as Crypto from 'crypto';
 import Language from 'Common/Types/Language';
 
 export default class User {
-	static hashPassword(password: string): string {
+	static hashPassword(uuid: string, password: string): string {
 		const hash = Crypto.createHash('sha256');
-		hash.update(password);
+		hash.update(password + uuid);
 		return hash.digest('base64');
 	}
 
-	public readonly id: number;
+	public readonly id: string;
 	public readonly email: string;
 	public readonly emailVerified: boolean;
 	public readonly password: string|null;

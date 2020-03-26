@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
+import { v4 as uuidv4 } from 'uuid';
 
 const createUserValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
@@ -34,13 +35,15 @@ export const create = (db: Database) => async (request: Request, response: Respo
 	}
 
 	try {
+		const uuid = uuidv4();
 		const user = <User>await db.get(User, `
 			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
-			VALUES (DEFAULT, \${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP)
+			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP)
 			RETURNING *;
 		`, {
+			id: uuid,
 			email: request.body.email,
-			password: User.hashPassword(request.body.password),
+			password: User.hashPassword(uuid, request.body.password),
 			languages: request.body.languages,
 		});
 

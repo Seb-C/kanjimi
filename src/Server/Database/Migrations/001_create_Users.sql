@@ -1,5 +1,5 @@
 CREATE TABLE "User" (
-	"id" SERIAL PRIMARY KEY NOT NULL,
+	"id" UUID PRIMARY KEY NOT NULL,
 	"email" TEXT NOT NULL,
 	"emailVerified" BOOLEAN NOT NULL,
 	"password" TEXT NOT NULL,

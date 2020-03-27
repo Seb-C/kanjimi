@@ -1,11 +1,11 @@
 MVP:
-    add route to generate a token (with login and password) and test it
-        import * as Crypto from 'crypto';
-        console.log(Crypto.randomBytes(64).toString('base64'));
-    add route to check a token and retrieve the linked user and test it
+    add route to generate a api key (with login and password) and test it
+    add function to generate a api key and test it
+    add route to check a api key and retrieve the linked user and test it
+    add function to check a api key and test it
     search a better french dictionary?
     test with a lot of different sites
-    test and debug intensively the tokenizer and display of results
+    test and debug intensively the api key and display of results
     find a name (Kanjimi?)
     hide and show words (and remember)
     webpack: different webpack and typescript config for extension and server
@@ -36,7 +36,7 @@ Website/publishing:
 
 After:
     remove tslint?
-    disconnect (delete token route)
+    disconnect (delete api key route)
     change email process
     error handling properly in express (500 and 404, should always be an API response?)
     recommend words to hide depending on the statistics

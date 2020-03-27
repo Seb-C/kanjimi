@@ -1,6 +1,6 @@
-CREATE TABLE "Token" (
+CREATE TABLE "ApiKey" (
 	"id" UUID PRIMARY KEY NOT NULL,
-	"token" TEXT NOT NULL,
+	"key" TEXT NOT NULL,
 	"userId" UUID NOT NULL,
 	"createdAt" TIMESTAMP NOT NULL,
 	"expiresAt" TIMESTAMP NOT NULL,
@@ -10,9 +10,9 @@ CREATE TABLE "Token" (
 		ON DELETE CASCADE
 );
 
-CREATE INDEX "Token_token_index" ON "Token"("token");
+CREATE INDEX "Token_token_index" ON "ApiKey"("key");
 
-INSERT INTO "Token" VALUES (
+INSERT INTO "ApiKey" VALUES (
 	'a2912ca8-c206-467b-b914-aae961930c71',
 	'PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==',
 	'cef830cb-6e75-43ab-91d3-ae13c82bd836',

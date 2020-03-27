@@ -1,5 +1,6 @@
 import ValidationError from 'Client/Api/Errors/Validation';
 import ForbiddenError from 'Client/Api/Errors/Forbidden';
+import ServerError from 'Client/Api/Errors/Server';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
 
@@ -18,6 +19,9 @@ export const create = async (attributes: {
 	}
 	if (response.status === 403) {
 		throw new ForbiddenError(responseData);
+	}
+	if (response.status >= 500 && response.status < 600) {
+		throw new ServerError(await response.text());
 	}
 
 	return ApiKey.fromApi(responseData);

@@ -4,6 +4,7 @@ CREATE TABLE "ApiKey" (
 	"userId" UUID NOT NULL,
 	"createdAt" TIMESTAMP NOT NULL,
 	"expiresAt" TIMESTAMP NOT NULL,
+	CONSTRAINT "ApiKey_key_unique" UNIQUE ("key"),
 	CONSTRAINT "Token_userId_foreignKey"
 		FOREIGN KEY ("userId")
 		REFERENCES "User" ("id")

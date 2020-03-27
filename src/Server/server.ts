@@ -39,6 +39,7 @@ import * as ApiKeyController from 'Server/Api/Controllers/ApiKey';
 	application.post('/lexer/analyze', LexerController.analyze(lexer));
 	application.post('/user', UserController.create(db));
 	application.post('/api-key', ApiKeyController.create(db));
+	application.get('/api-key', ApiKeyController.get(db));
 
 	await dictionary.load();
 

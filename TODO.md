@@ -1,6 +1,7 @@
 MVP:
-    store tokens in a table (id, token, expiration, user id)
     add route to generate a token (with login and password) and test it
+        import * as Crypto from 'crypto';
+        console.log(Crypto.randomBytes(64).toString('base64'));
     add route to check a token and retrieve the linked user and test it
     search a better french dictionary?
     test with a lot of different sites

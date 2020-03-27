@@ -7,6 +7,7 @@ import * as BodyParser from 'body-parser';
 
 import * as LexerController from 'Server/Api/Controllers/Lexer';
 import * as UserController from 'Server/Api/Controllers/User';
+import * as ApiKeyController from 'Server/Api/Controllers/ApiKey';
 
 (async () => {
 	const startupWaiters: Function[] = [];
@@ -37,8 +38,7 @@ import * as UserController from 'Server/Api/Controllers/User';
 
 	application.post('/lexer/analyze', LexerController.analyze(lexer));
 	application.post('/user', UserController.create(db));
-	// application.post('/token', );
-	// application.get('/token', );
+	application.post('/api-key', ApiKeyController.create(db));
 
 	await dictionary.load();
 

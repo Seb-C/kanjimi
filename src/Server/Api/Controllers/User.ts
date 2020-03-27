@@ -38,13 +38,14 @@ export const create = (db: Database) => async (request: Request, response: Respo
 		const uuid = uuidv4();
 		const user = <User>await db.get(User, `
 			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
-			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, CURRENT_TIMESTAMP)
+			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, \${createdAt})
 			RETURNING *;
 		`, {
 			id: uuid,
 			email: request.body.email,
 			password: User.hashPassword(uuid, request.body.password),
 			languages: request.body.languages,
+			createdAt: new Date(),
 		});
 
 		return response.json(user.toApi());

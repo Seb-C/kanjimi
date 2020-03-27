@@ -1,5 +1,4 @@
 MVP:
-    add route to generate a api key (with login and password) and test it
     add function to generate a api key and test it
     add route to check a api key and retrieve the linked user and test it
     add function to check a api key and test it
@@ -16,7 +15,7 @@ MVP:
     save the watched words and stats about it (frequency, webpage, clicked...)?
     only apply conjugations to the words with verb tags
     retrieve password process
-    verify email process after subscription
+    verify email process after subscription (and block login if not validated)
     route to modify a user (PATCH, languages and password only)
     database setup -> env file?
     urls setup -> keep hardcoded for tests, have a firefox config key for the extension

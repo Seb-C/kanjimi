@@ -1,7 +1,6 @@
 MVP:
-    add function to generate a api key and test it
-    add route to check a api key and retrieve the linked user and test it
-    add function to check a api key and test it
+    add and test route to check an api key and retrieve it
+    add and test function to check a api key and retrieve it
     search a better french dictionary?
     test with a lot of different sites
     test and debug intensively the api key and display of results

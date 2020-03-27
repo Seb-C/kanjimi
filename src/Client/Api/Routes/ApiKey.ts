@@ -1,14 +1,13 @@
 import ValidationError from 'Client/Api/Errors/Validation';
-import DuplicateError from 'Client/Api/Errors/Duplicate';
-import Language from 'Common/Types/Language';
+import ForbiddenError from 'Client/Api/Errors/Forbidden';
 import User from 'Common/Models/User';
+import ApiKey from 'Common/Models/ApiKey';
 
 export const create = async (attributes: {
 	email: string,
 	password: string,
-	languages: Language[],
-}): Promise<User> => {
-	const response = await fetch('http://localhost:3000/user', {
+}): Promise<ApiKey> => {
+	const response = await fetch('http://localhost:3000/api-key', {
 		method: 'POST',
 		body: JSON.stringify(attributes),
 	});
@@ -17,9 +16,9 @@ export const create = async (attributes: {
 	if (response.status === 422) {
 		throw new ValidationError(responseData);
 	}
-	if (response.status === 409) {
-		throw new DuplicateError(responseData);
+	if (response.status === 403) {
+		throw new ForbiddenError(responseData);
 	}
 
-	return User.fromApi(responseData);
+	return ApiKey.fromApi(responseData);
 };

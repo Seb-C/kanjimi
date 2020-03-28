@@ -64,13 +64,6 @@ export default class User {
 	}
 
 	hashPassword (uuid: string, password: string): string {
-		// TODO test to integrate
-		// it('hashPassword', async () => {
-		// 	expect(User.hashPassword('a', 'a')).toEqual(User.hashPassword('a', 'a'));
-		// 	expect(User.hashPassword('a', 'a')).not.toEqual(User.hashPassword('b', 'a'));
-		// 	expect(User.hashPassword('a', 'a')).not.toEqual(User.hashPassword('a', 'b'));
-		// });
-
 		const hash = Crypto.createHash('sha256');
 		hash.update(password + uuid);
 		return hash.digest('base64');

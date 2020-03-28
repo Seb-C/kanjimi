@@ -128,7 +128,6 @@ describe('ApiKeyController', async () => {
 	it('get the api key object from the credentials', async () => {
 		const uuid = uuidv4();
 		const db = new Database();
-		// Note: the inserted data should be cleaned properly because there is a cascade delete
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const apiKey = await apiKeyRepository.create(user);
 		await db.close();

@@ -5,6 +5,7 @@ import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
 import UserRepository from 'Server/Repository/User';
+import ApiKeyRepository from 'Server/Repository/ApiKey';
 import Language from 'Common/Types/Language';
 import * as Ajv from 'ajv';
 import { v4 as uuidv4 } from 'uuid';
@@ -17,19 +18,10 @@ describe('LexerController', async () => {
 		// Clearing previous run if necessary
 		const db = new Database();
 		const userRepository = new UserRepository(db);
+		const apiKeyRepository = new ApiKeyRepository(db);
 		await userRepository.deleteByEmail('unittest@example.com');
 		user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
-		apiKey = <ApiKey>await db.get(ApiKey, `
-			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
-			VALUES (\${id}, \${key}, \${userId}, \${createdAt}, \${expiresAt})
-			RETURNING *;
-		`, {
-			id: uuidv4(),
-			key: ApiKey.generateKey(),
-			userId: user.id,
-			createdAt: new Date(),
-			expiresAt: ApiKey.createExpiryDate(new Date()),
-		});
+		apiKey = await apiKeyRepository.create(user);
 
 		await db.close();
 	});

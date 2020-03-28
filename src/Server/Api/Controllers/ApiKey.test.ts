@@ -5,6 +5,7 @@ import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
 import UserRepository from 'Server/Repository/User';
+import ApiKeyRepository from 'Server/Repository/ApiKey';
 import Language from 'Common/Types/Language';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -67,9 +68,8 @@ describe('ApiKeyController', async () => {
 
 		// Checking the db contents
 		const db = new Database();
-		const dbApiKey = await db.get(ApiKey, `
-			SELECT * FROM "ApiKey" WHERE "id" = \${id};
-		`, { id: responseData.id });
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const dbApiKey = await apiKeyRepository.getById(responseData.id);
 		await db.close();
 
 		expect(dbApiKey).not.toBe(null);
@@ -128,18 +128,9 @@ describe('ApiKeyController', async () => {
 	it('get the api key object from the credentials', async () => {
 		const uuid = uuidv4();
 		const db = new Database();
-		// Note: the inserted data should be cleaned properly because there is a casdace delete
-		const apiKey = <ApiKey>await db.get(ApiKey, `
-			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
-			VALUES (\${id}, \${key}, \${userId}, \${createdAt}, \${expiresAt})
-			RETURNING *;
-		`, {
-			id: uuid,
-			key: ApiKey.generateKey(),
-			userId: user.id,
-			createdAt: new Date(),
-			expiresAt: ApiKey.createExpiryDate(new Date()),
-		});
+		// Note: the inserted data should be cleaned properly because there is a cascade delete
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const apiKey = await apiKeyRepository.create(user);
 		await db.close();
 
 		const response = await fetch('http://localhost:3000/api-key', {

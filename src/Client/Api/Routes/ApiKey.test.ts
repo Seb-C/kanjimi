@@ -7,6 +7,7 @@ import ValidationError from 'Client/Api/Errors/Validation';
 import AuthenticationError from 'Client/Api/Errors/Authentication';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repository/User';
+import ApiKeyRepository from 'Server/Repository/ApiKey';
 import Language from 'Common/Types/Language';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -65,17 +66,8 @@ describe('Client ApiKey', () => {
 	it('get (normal case)', async () => {
 		const uuid = uuidv4();
 		const db = new Database();
-		const apiKey = <ApiKey>await db.get(ApiKey, `
-			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
-			VALUES (\${id}, \${key}, \${userId}, \${createdAt}, \${expiresAt})
-			RETURNING *;
-		`, {
-			id: uuid,
-			key: ApiKey.generateKey(),
-			userId: user.id,
-			createdAt: new Date(),
-			expiresAt: ApiKey.createExpiryDate(new Date()),
-		});
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const apiKey = await apiKeyRepository.create(user);
 		await db.close();
 
 		const resultApiKey = await get(apiKey.key);

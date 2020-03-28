@@ -4,6 +4,7 @@ import Database from 'Server/Database/Database';
 import ApiKey from 'Common/Models/ApiKey';
 import User from 'Common/Models/User';
 import UserRepository from 'Server/Repository/User';
+import ApiKeyRepository from 'Server/Repository/ApiKey';
 import { v4 as uuidv4 } from 'uuid';
 import { getApiKeyFromRequest } from 'Server/Api/Authentication';
 
@@ -40,18 +41,8 @@ export const create = (db: Database) => async (request: Request, response: Respo
 	}
 
 	try {
-		const apiKey = <ApiKey>await db.get(ApiKey, `
-			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
-			VALUES (\${id}, \${key}, \${userId}, \${createdAt}, \${expiresAt})
-			RETURNING *;
-		`, {
-			id: uuidv4(),
-			key: ApiKey.generateKey(),
-			userId: (<User>user).id,
-			languages: request.body.languages,
-			createdAt: new Date(),
-			expiresAt: ApiKey.createExpiryDate(new Date()),
-		});
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const apiKey = await apiKeyRepository.create(<User>user);
 
 		return response.json(apiKey.toApi());
 	} catch (exception) {

@@ -2,6 +2,7 @@ import { Request, Response } from 'express';
 import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
+import ApiKeyRepository from 'Server/Repository/ApiKey';
 
 const authHeaderPrefix = 'Bearer ';
 

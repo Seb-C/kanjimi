@@ -6,7 +6,6 @@ import User from 'Common/Models/User';
 import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
 import { v4 as uuidv4 } from 'uuid';
-import { getApiKeyFromRequest } from 'Server/Api/Authentication';
 
 const createApiKeyValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
@@ -55,7 +54,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 };
 
 export const get = (db: Database) => async (request: Request, response: Response) => {
-	const apiKey = await getApiKeyFromRequest(db, request);
+	const apiKey = await (new ApiKeyRepository(db)).getFromRequest(request);
 	if (apiKey === null) {
 		return response.status(403).json('Invalid api key');
 	}

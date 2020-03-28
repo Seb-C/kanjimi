@@ -4,7 +4,7 @@ import Token from 'Common/Models/Token';
 import Lexer from 'Server/Lexer/Lexer';
 import User from 'Common/Models/User';
 import Database from 'Server/Database/Database';
-import { getUserFromRequest } from 'Server/Api/Authentication';
+import UserRepository from 'Server/Repository/User';
 
 const validator = new Ajv({ allErrors: true }).compile({
 	type: 'array',
@@ -16,7 +16,7 @@ const validator = new Ajv({ allErrors: true }).compile({
 
 export const analyze = (db: Database, lexer: Lexer) => (
 	async (request: Request, response: Response) => {
-		const user = await getUserFromRequest(db, request);
+		const user = await (new UserRepository(db)).getFromRequest(request);
 		if (user === null) {
 			return response.status(403).json('Invalid api key');
 		}

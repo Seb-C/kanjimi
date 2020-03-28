@@ -1,13 +1,13 @@
 MVP:
-    search a better french dictionary?
-    test with a lot of different sites
-    test and debug intensively the api key and display of results
-    find a name (Kanjimi?)
+    fix api key missing client side
+    test the server/api/authentication functions
     hide and show words (and remember)
-    webpack: different webpack and typescript config for extension and server
-    Use the proper languages depending on the user (currently filtered in the route definition)
+    find a name (Kanjimi?)
     automatic test of the tooltip position calculations? (e2e tests of the result)
     automatic tests for the frontend? unit test some dom functions? How to do that?
+    test with a lot of different sites
+    test and debug intensively the display of results
+    webpack: different webpack and typescript config for extension and server
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...)?
     only apply conjugations to the words with verb tags
@@ -31,6 +31,7 @@ Website/publishing:
     coming soon page early
 
 After:
+    search better dictionaries? -> extract wiktionary (https://dumps.wikimedia.org/backup-index.html)
     remove tslint?
     disconnect (delete api key route)
     change email process

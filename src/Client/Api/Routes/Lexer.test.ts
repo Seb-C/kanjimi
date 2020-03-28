@@ -3,14 +3,52 @@ import { analyze } from 'Client/Api/Routes/Lexer';
 import Token from 'Common/Models/Token';
 import fetch from 'node-fetch';
 import ValidationError from 'Client/Api/Errors/Validation';
+import AuthenticationError from 'Client/Api/Errors/Authentication';
+import Database from 'Server/Database/Database';
+import User from 'Common/Models/User';
+import ApiKey from 'Common/Models/ApiKey';
+import { v4 as uuidv4 } from 'uuid';
+
+let user: User;
+let apiKey: ApiKey;
 
 describe('Client Lexer', () => {
 	beforeEach(async () => {
 		(<any>global).fetch = fetch;
+
+		// Clearing previous run if necessary
+		const db = (new Database());
+		await db.exec(`DELETE FROM "User" WHERE "email" = 'unittest@example.com';`);
+
+		const uuid = uuidv4();
+		user = <User>await db.get(User, `
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
+			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, \${createdAt})
+			RETURNING *;
+		`, {
+			id: uuid,
+			email: 'unittest@example.com',
+			password: User.hashPassword(uuid, '123456'),
+			languages: ['fr'],
+			createdAt: new Date(),
+		});
+		apiKey = <ApiKey>await db.get(ApiKey, `
+			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
+			VALUES (\${id}, \${key}, \${userId}, \${createdAt}, \${expiresAt})
+			RETURNING *;
+		`, {
+			id: uuidv4(),
+			key: ApiKey.generateKey(),
+			userId: user.id,
+			createdAt: new Date(),
+			expiresAt: ApiKey.createExpiryDate(new Date()),
+		});
+
+		await db.close();
 	});
 
 	it('analyze (normal case)', async () => {
-		const result = await analyze(['first sentence', 'second sentence']);
+		const result = await analyze(apiKey.key, ['first sentence', 'second sentence']);
 
 		expect(result).toBeInstanceOf(Array);
 		expect(result.length).toBe(2);
@@ -21,14 +59,25 @@ describe('Client Lexer', () => {
 		// No need to test further because it is already done in the models and API tests
 	});
 
-	it('analyze (error case)', async () => {
+	it('analyze (validation error case)', async () => {
 		let error;
 		try {
-			await analyze([]);
+			await analyze(apiKey.key, []);
 		} catch (e) {
 			error = e;
 		}
 
 		expect(error).toBeInstanceOf(ValidationError);
+	});
+
+	it('analyze (authentication error case)', async () => {
+		let error;
+		try {
+			await analyze('wrongtoken', ['first sentence', 'second sentence']);
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 });

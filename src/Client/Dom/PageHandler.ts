@@ -123,7 +123,7 @@ export default class PageHandler {
 
 		if (strings.length > 0) {
 			try {
-				const data = await analyze(strings);
+				const data = await analyze('TODO', strings);
 
 				for (let i = 0; i < data.length; i++) {
 					(<Element>nodes[i].parentNode).classList.remove(`${this.appUid}-loader`);

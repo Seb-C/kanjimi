@@ -1,4 +1,4 @@
-export default class Forbidden {
+export default class Authentication {
 	public readonly error: string;
 
 	constructor(error: string) {

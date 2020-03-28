@@ -4,7 +4,7 @@ import ApiKey from 'Common/Models/ApiKey';
 import User from 'Common/Models/User';
 import fetch from 'node-fetch';
 import ValidationError from 'Client/Api/Errors/Validation';
-import ForbiddenError from 'Client/Api/Errors/Forbidden';
+import AuthenticationError from 'Client/Api/Errors/Authentication';
 import Database from 'Server/Database/Database';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -69,7 +69,7 @@ describe('Client ApiKey', () => {
 			error = e;
 		}
 
-		expect(error).toBeInstanceOf(ForbiddenError);
+		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 
 	it('get (normal case)', async () => {
@@ -101,6 +101,6 @@ describe('Client ApiKey', () => {
 			error = e;
 		}
 
-		expect(error).toBeInstanceOf(ForbiddenError);
+		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 });

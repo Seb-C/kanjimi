@@ -1,5 +1,5 @@
 import ValidationError from 'Client/Api/Errors/Validation';
-import ForbiddenError from 'Client/Api/Errors/Forbidden';
+import AuthenticationError from 'Client/Api/Errors/Authentication';
 import ServerError from 'Client/Api/Errors/Server';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
@@ -18,7 +18,7 @@ export const create = async (attributes: {
 		throw new ValidationError(responseData);
 	}
 	if (response.status === 403) {
-		throw new ForbiddenError(responseData);
+		throw new AuthenticationError(responseData);
 	}
 	if (response.status >= 500 && response.status < 600) {
 		throw new ServerError(await response.text());
@@ -37,7 +37,7 @@ export const get = async (key: string): Promise<ApiKey> => {
 	const responseData = await response.json();
 
 	if (response.status === 403) {
-		throw new ForbiddenError(responseData);
+		throw new AuthenticationError(responseData);
 	}
 	if (response.status >= 500 && response.status < 600) {
 		throw new ServerError(await response.text());

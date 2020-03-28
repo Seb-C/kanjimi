@@ -1,15 +1,4 @@
-import * as Crypto from 'crypto';
-
 export default class ApiKey {
-	static generateKey(): string {
-		return Crypto.randomBytes(64).toString('base64');
-	}
-	static createExpiryDate(creationDate: Date): Date {
-		const expiresAt = new Date(creationDate.valueOf());
-		expiresAt.setDate(expiresAt.getDate() + 365);
-		return expiresAt;
-	}
-
 	public readonly id: string;
 	public readonly key: string;
 	public readonly userId: string;

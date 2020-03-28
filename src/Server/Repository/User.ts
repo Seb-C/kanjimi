@@ -2,6 +2,7 @@ import Language from 'Common/Types/Language';
 import { Request } from 'express';
 import Database from 'Server/Database/Database';
 import UserModel from 'Common/Models/User';
+import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
 export default class User {
@@ -52,7 +53,7 @@ export default class User {
 		`, {
 			id: uuid,
 			email,
-			password: UserModel.hashPassword(uuid, password),
+			password: this.hashPassword(uuid, password),
 			languages,
 			createdAt: new Date(),
 		});
@@ -60,5 +61,18 @@ export default class User {
 
 	async deleteByEmail (email: string): Promise<void> {
 		await this.db.exec('DELETE FROM "User" WHERE "email" = ${email};', { email });
+	}
+
+	hashPassword (uuid: string, password: string): string {
+		// TODO test to integrate
+		// it('hashPassword', async () => {
+		// 	expect(User.hashPassword('a', 'a')).toEqual(User.hashPassword('a', 'a'));
+		// 	expect(User.hashPassword('a', 'a')).not.toEqual(User.hashPassword('b', 'a'));
+		// 	expect(User.hashPassword('a', 'a')).not.toEqual(User.hashPassword('a', 'b'));
+		// });
+
+		const hash = Crypto.createHash('sha256');
+		hash.update(password + uuid);
+		return hash.digest('base64');
 	}
 }

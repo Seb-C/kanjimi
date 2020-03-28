@@ -31,7 +31,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 	const user = await userRepository.getByEmail(request.body.email);
 	if (
 		user === null
-		|| user.password !== User.hashPassword(
+		|| user.password !== userRepository.hashPassword(
 			user.id,
 			request.body.password,
 		)

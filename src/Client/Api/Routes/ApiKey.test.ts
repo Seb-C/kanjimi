@@ -78,7 +78,7 @@ describe('Client ApiKey', () => {
 	it('get (invalid token case)', async () => {
 		let error;
 		try {
-			await get(ApiKey.generateKey());
+			await get('invalidtoken');
 		} catch (e) {
 			error = e;
 		}

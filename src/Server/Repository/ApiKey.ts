@@ -2,6 +2,7 @@ import { Request } from 'express';
 import Database from 'Server/Database/Database';
 import ApiKeyModel from 'Common/Models/ApiKey';
 import User from 'Common/Models/User';
+import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
 export default class ApiKey {
@@ -35,16 +36,30 @@ export default class ApiKey {
 	}
 
 	async create (user: User): Promise<ApiKeyModel> {
+		// TODO test
+		// it('createExpiryDate', async () => {
+		// 	const createdAt = new Date();
+		// 	const expiresAt = ApiKey.createExpiryDate(createdAt);
+		// 	expect(expiresAt > createdAt).toEqual(true);
+		// });
+		// it('generateKey', async () => {
+		// 	expect(ApiKey.generateKey()).not.toEqual(ApiKey.generateKey());
+		// 	expect(ApiKey.generateKey().length > 32).toEqual(true);
+		// });
+
+		const expiresAt = new Date();
+		expiresAt.setDate(expiresAt.getDate() + 365);
+
 		return <ApiKeyModel>await this.db.get(ApiKeyModel, `
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
 			VALUES (\${id}, \${key}, \${userId}, \${createdAt}, \${expiresAt})
 			RETURNING *;
 		`, {
 			id: uuidv4(),
-			key: ApiKeyModel.generateKey(),
+			key: Crypto.randomBytes(64).toString('base64'),
 			userId: user.id,
 			createdAt: new Date(),
-			expiresAt: ApiKeyModel.createExpiryDate(new Date()),
+			expiresAt,
 		});
 	}
 }

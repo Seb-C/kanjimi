@@ -22,10 +22,4 @@ describe('User', () => {
 		expect(output.languages).toEqual([Language.FRENCH, Language.GERMAN]);
 		expect(output.createdAt).toEqual(now);
 	});
-
-	it('hashPassword', async () => {
-		expect(User.hashPassword('a', 'a')).toEqual(User.hashPassword('a', 'a'));
-		expect(User.hashPassword('a', 'a')).not.toEqual(User.hashPassword('b', 'a'));
-		expect(User.hashPassword('a', 'a')).not.toEqual(User.hashPassword('a', 'b'));
-	});
 });

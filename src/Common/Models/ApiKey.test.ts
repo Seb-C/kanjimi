@@ -5,7 +5,8 @@ import Language from 'Common/Types/Language';
 describe('ApiKey', () => {
 	it('API formatting methods', async () => {
 		const now = new Date();
-		const expires = ApiKey.createExpiryDate(now);
+		const expires = new Date();
+		expires.setDate(expires.getDate() + 1);
 		const input = new ApiKey({
 			id: 'uuid',
 			key: 'key',
@@ -20,16 +21,5 @@ describe('ApiKey', () => {
 		expect(output.userId).toBe('user uuid');
 		expect(output.createdAt).toEqual(now);
 		expect(output.expiresAt).toEqual(expires);
-	});
-
-	it('generateKey', async () => {
-		expect(ApiKey.generateKey()).not.toEqual(ApiKey.generateKey());
-		expect(ApiKey.generateKey().length > 32).toEqual(true);
-	});
-
-	it('generateKey', async () => {
-		const createdAt = new Date();
-		const expiresAt = ApiKey.createExpiryDate(createdAt);
-		expect(expiresAt > createdAt).toEqual(true);
 	});
 });

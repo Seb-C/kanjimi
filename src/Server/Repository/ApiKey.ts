@@ -36,17 +36,6 @@ export default class ApiKey {
 	}
 
 	async create (user: User): Promise<ApiKeyModel> {
-		// TODO test
-		// it('createExpiryDate', async () => {
-		// 	const createdAt = new Date();
-		// 	const expiresAt = ApiKey.createExpiryDate(createdAt);
-		// 	expect(expiresAt > createdAt).toEqual(true);
-		// });
-		// it('generateKey', async () => {
-		// 	expect(ApiKey.generateKey()).not.toEqual(ApiKey.generateKey());
-		// 	expect(ApiKey.generateKey().length > 32).toEqual(true);
-		// });
-
 		const expiresAt = new Date();
 		expiresAt.setDate(expiresAt.getDate() + 365);
 

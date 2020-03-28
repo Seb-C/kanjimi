@@ -1,7 +1,6 @@
 import 'jasmine';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repository/User';
-import ApiKeyRepository from 'Server/Repository/ApiKey';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import { Request } from 'express';

@@ -1,5 +1,4 @@
 MVP:
-    test the repositories completely (and integrate the commented tests in the repositories)
     urls setup -> have a firefox config key for the extension + api key missing client side
         https://extensionworkshop.com/documentation/develop/testing-persistent-and-restart-features/#what-do-i-do-to-ensure-i-can-test-my-extension
         https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/local

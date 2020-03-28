@@ -1,9 +1,11 @@
 MVP:
-    fix api key missing client side
-    test the server/api/authentication functions
+    create repositories to avoid the many duplicate sql queries (including tests) + move auth functions to the repos + test it
+    urls setup -> have a firefox config key for the extension + api key missing client side
+        https://extensionworkshop.com/documentation/develop/testing-persistent-and-restart-features/#what-do-i-do-to-ensure-i-can-test-my-extension
+        https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/local
     hide and show words (and remember)
     find a name (Kanjimi?)
-    automatic test of the tooltip position calculations? (e2e tests of the result)
+    automatic test of the tooltip position calculations? (e2e tests of the result? selenium? geckodriver?)
     automatic tests for the frontend? unit test some dom functions? How to do that?
     test with a lot of different sites
     test and debug intensively the display of results
@@ -15,7 +17,6 @@ MVP:
     verify email process after subscription (and block login if not validated)
     route to modify a user (PATCH, languages and password only)
     database setup -> env file?
-    urls setup -> keep hardcoded for tests, have a firefox config key for the extension
 
 Website/publishing:
     free trial for beta?
@@ -31,6 +32,7 @@ Website/publishing:
     coming soon page early
 
 After:
+    test the src/Server/Api/Authentication functions
     search better dictionaries? -> extract wiktionary (https://dumps.wikimedia.org/backup-index.html)
     remove tslint?
     disconnect (delete api key route)

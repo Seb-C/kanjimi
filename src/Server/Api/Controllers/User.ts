@@ -3,6 +3,7 @@ import { Request, Response } from 'express';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
+import UserRepository from 'Server/Repository/User';
 import { v4 as uuidv4 } from 'uuid';
 
 const createUserValidator = new Ajv({ allErrors: true }).compile({
@@ -35,18 +36,12 @@ export const create = (db: Database) => async (request: Request, response: Respo
 	}
 
 	try {
-		const uuid = uuidv4();
-		const user = <User>await db.get(User, `
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
-			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, \${createdAt})
-			RETURNING *;
-		`, {
-			id: uuid,
-			email: request.body.email,
-			password: User.hashPassword(uuid, request.body.password),
-			languages: request.body.languages,
-			createdAt: new Date(),
-		});
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.create(
+			request.body.email,
+			request.body.password,
+			request.body.languages,
+		);
 
 		return response.json(user.toApi());
 	} catch (exception) {

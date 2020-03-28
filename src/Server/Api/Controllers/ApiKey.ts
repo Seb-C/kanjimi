@@ -3,6 +3,7 @@ import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
 import ApiKey from 'Common/Models/ApiKey';
 import User from 'Common/Models/User';
+import UserRepository from 'Server/Repository/User';
 import { v4 as uuidv4 } from 'uuid';
 import { getApiKeyFromRequest } from 'Server/Api/Authentication';
 
@@ -26,11 +27,8 @@ export const create = (db: Database) => async (request: Request, response: Respo
 		return response.status(422).json(createApiKeyValidator.errors);
 	}
 
-	const user = await db.get(User, `
-		SELECT * FROM "User" WHERE email = \${email};
-	`, {
-		email: request.body.email,
-	});
+	const userRepository = new UserRepository(db);
+	const user = await userRepository.getByEmail(request.body.email);
 	if (
 		user === null
 		|| user.password !== User.hashPassword(

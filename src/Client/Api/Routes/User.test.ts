@@ -6,14 +6,16 @@ import fetch from 'node-fetch';
 import ValidationError from 'Client/Api/Errors/Validation';
 import DuplicateError from 'Client/Api/Errors/Duplicate';
 import Database from 'Server/Database/Database';
+import UserRepository from 'Server/Repository/User';
 
 describe('Client User', () => {
 	beforeEach(async () => {
 		(<any>global).fetch = fetch;
 
 		// Clearing previous run if necessary
-		const db = (new Database());
-		await db.exec(`DELETE FROM "User" WHERE "email" = 'unittest@example.com';`);
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		await userRepository.deleteByEmail('unittest@example.com');
 		await db.close();
 	});
 

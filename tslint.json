@@ -7,6 +7,7 @@
       "no-else-after-return": [false],
       "no-increment-decrement": [false],
       "no-duplicate-imports": [false],
+      "object-shorthand-properties-first": [false],
       "align": [false],
       "import-name": [false]
     }

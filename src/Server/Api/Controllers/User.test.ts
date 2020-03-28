@@ -2,13 +2,16 @@ import 'jasmine';
 import fetch from 'node-fetch';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
+import UserRepository from 'Server/Repository/User';
 import User from 'Common/Models/User';
+import Language from 'Common/Types/Language';
 
 describe('UserController', async () => {
 	beforeEach(async () => {
 		// Clearing previous run if necessary
-		const db = (new Database());
-		await db.exec(`DELETE FROM "User" WHERE "email" = 'unittest@example.com';`);
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		await userRepository.deleteByEmail('unittest@example.com');
 		await db.close();
 	});
 
@@ -72,10 +75,9 @@ describe('UserController', async () => {
 			.toBe(true);
 
 		// Checking the db contents
-		const db = (new Database());
-		const dbUser = await db.get(User, `
-			SELECT * FROM "User" WHERE "id" = \${id};
-		`, { id: responseData.id });
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const dbUser = await userRepository.getById(responseData.id);
 		await db.close();
 
 		expect(dbUser).not.toBe(null);

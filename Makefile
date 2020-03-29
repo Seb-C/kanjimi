@@ -13,6 +13,6 @@ kanjis:
 names:
 	docker run -v ${PWD}:/app -w /app -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Names.php
 browser:
-	(./node_modules/.bin/web-ext --config=web-ext.js run &)
+	./node_modules/.bin/web-ext --config=web-ext.js run --firefox-profile ./firefox-profile --keep-profile-changes
 db:
 	docker-compose exec database psql -h localhost -U test -d test

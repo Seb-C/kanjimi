@@ -1,11 +1,9 @@
 MVP:
-    urls setup -> have a firefox config key for the extension + api key missing client side
-        https://extensionworkshop.com/documentation/develop/testing-persistent-and-restart-features/#what-do-i-do-to-ensure-i-can-test-my-extension
-        https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/API/storage/local
     hide and show words (and remember)
-    find a name (Kanjimi?)
     automatic test of the tooltip position calculations? (e2e tests of the result? selenium? geckodriver?)
     automatic tests for the frontend? unit test some dom functions? How to do that?
+    Basic login interface in a popup button, token in the extension config
+        - remove hardcoded key set for debugging
     test with a lot of different sites
     test and debug intensively the display of results
     webpack: different webpack and typescript config for extension and server
@@ -16,11 +14,13 @@ MVP:
     verify email process after subscription (and block login if not validated)
     route to modify a user (PATCH, languages and password only)
     database setup -> env file?
+    chrome compatibility
 
 Website/publishing:
     free trial for beta?
     analytics?
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
+    share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
     include copyright somewhere in the site (and external resources used)
     onboarding
     contact/newsletters/discussions/rss (forum or discord?)
@@ -31,6 +31,7 @@ Website/publishing:
     coming soon page early
 
 After:
+    automatic updates (https://extensionworkshop.com/documentation/manage/updating-your-extension/)
     search better dictionaries? -> extract wiktionary (https://dumps.wikimedia.org/backup-index.html)
     remove tslint?
     disconnect (delete api key route)

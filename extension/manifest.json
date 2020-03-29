@@ -13,9 +13,15 @@
   ],
   "permissions": [
     "*://localhost/*",
+    "storage",
     "tabs"
   ],
   "web_accessible_resources": [
     "*"
-  ]
+  ],
+  "browser_specific_settings": {
+    "gecko": {
+      "id": "extension@kanjimi.com"
+    }
+  }
 }

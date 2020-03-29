@@ -107,6 +107,11 @@ export default class PageHandler {
 	}
 
 	async convertSentences(texts: Iterable<Text>) {
+		// TODO remove this test
+		await browser.storage.local.set({
+			key: 'PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==',
+		});
+
 		if (this.processing) {
 			return;
 		}
@@ -123,7 +128,8 @@ export default class PageHandler {
 
 		if (strings.length > 0) {
 			try {
-				const data = await analyze('TODO', strings);
+				const key = (await browser.storage.local.get('key')).key;
+				const data = await analyze(key, strings);
 
 				for (let i = 0; i < data.length; i++) {
 					(<Element>nodes[i].parentNode).classList.remove(`${this.appUid}-loader`);

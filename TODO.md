@@ -1,5 +1,11 @@
 MVP:
     hide and show words (and remember)
+        table: userId, word, showFurigana, showTranslation
+        create model and test
+        create get server route and test (always bulk)
+        create get client method and test
+        create insert server route and test (always bulk)
+        create insert client method and test
     automatic test of the tooltip position calculations? (e2e tests of the result? selenium? geckodriver?)
     automatic tests for the frontend? unit test some dom functions? How to do that?
     Basic login interface in a popup button, token in the extension config
@@ -8,7 +14,7 @@ MVP:
     test and debug intensively the display of results
     webpack: different webpack and typescript config for extension and server
     store visited urls to make recommendations later
-    save the watched words and stats about it (frequency, webpage, clicked...)?
+    save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
     retrieve password process
     verify email process after subscription (and block login if not validated)

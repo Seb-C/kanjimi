@@ -4,6 +4,7 @@ import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 import WordStatus from 'Common/Models/WordStatus';
 import UserRepository from 'Server/Repository/User';
+import WordStatusRepository from 'Server/Repository/WordStatus';
 
 const wordStatusesValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
@@ -39,27 +40,13 @@ export const createOrUpdate = (db: Database) => async (request: Request, respons
 		return response.status(403).json('Invalid userId in object.');
 	}
 
-	// TODO add a transaction for those two queries
-
-	await db.exec(`
-		DELETE FROM "WordStatus"
-		WHERE "userId" = \${userId}
-		AND "word" = \${word};
-	`, {
-		userId: user.id,
-		word: request.body.word,
-	});
-
-	const wordStatus = <WordStatus>await db.get(WordStatus, `
-		INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
-		VALUES (\${userId}, \${word}, \${showFurigana}, \${showTranslation})
-		RETURNING *;
-	`, {
-		userId: user.id,
-		word: request.body.word,
-		showFurigana: request.body.showFurigana,
-		showTranslation: request.body.showTranslation,
-	});
+	const wordStatusRepository = new WordStatusRepository(db);
+	const wordStatus = await wordStatusRepository.createOrUpdate(
+		user,
+		request.body.word,
+		request.body.showFurigana,
+		request.body.showTranslation,
+	);
 
 	return response.json(wordStatus.toApi());
 };

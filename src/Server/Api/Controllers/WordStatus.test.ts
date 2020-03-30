@@ -4,6 +4,7 @@ import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
+import WordStatusRepository from 'Server/Repository/WordStatus';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
 import WordStatus from 'Common/Models/WordStatus';
@@ -75,15 +76,8 @@ describe('WordStatus', async () => {
 
 		// Checking the db contents
 		const db = new Database();
-		const dbWordStatus = await db.get(WordStatus, `
-			SELECT *
-			FROM "WordStatus"
-			WHERE "userId" = \${userId}
-			AND "word" = \${word};
-		`, {
-			userId: user.id,
-			word: 'word',
-		});
+		const wordStatusRepository = new WordStatusRepository(db);
+		const dbWordStatus = await wordStatusRepository.get(user, 'word');
 		await db.close();
 
 		expect(dbWordStatus).not.toBe(null);
@@ -93,15 +87,8 @@ describe('WordStatus', async () => {
 
 	it('createOrUpdate (update case)', async () => {
 		const db = new Database();
-		await db.exec(`
-			INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
-			VALUES (\${userId}, \${word}, \${showFurigana}, \${showTranslation});
-		`, {
-			userId: user.id,
-			word: 'word',
-			showFurigana: false,
-			showTranslation: true,
-		});
+		const wordStatusRepository = new WordStatusRepository(db);
+		await wordStatusRepository.create(user, 'word', false, true);
 
 		const response = await fetch('http://localhost:3000/word-status', {
 			method: 'PUT',
@@ -152,15 +139,7 @@ describe('WordStatus', async () => {
 			.toBe(true);
 
 		// Checking the db contents
-		const dbWordStatus = await db.get(WordStatus, `
-			SELECT *
-			FROM "WordStatus"
-			WHERE "userId" = \${userId}
-			AND "word" = \${word};
-		`, {
-			userId: user.id,
-			word: 'word',
-		});
+		const dbWordStatus = await wordStatusRepository.get(user, 'word');
 		await db.close();
 
 		expect(dbWordStatus).not.toBe(null);

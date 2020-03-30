@@ -8,6 +8,7 @@ import * as BodyParser from 'body-parser';
 import * as LexerController from 'Server/Api/Controllers/Lexer';
 import * as UserController from 'Server/Api/Controllers/User';
 import * as ApiKeyController from 'Server/Api/Controllers/ApiKey';
+import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 
 (async () => {
 	const startupWaiters: Function[] = [];
@@ -40,6 +41,7 @@ import * as ApiKeyController from 'Server/Api/Controllers/ApiKey';
 	application.post('/user', UserController.create(db));
 	application.post('/api-key', ApiKeyController.create(db));
 	application.get('/api-key', ApiKeyController.get(db));
+	application.put('/word-status', WordStatusController.createOrUpdate(db));
 
 	await dictionary.load();
 

@@ -1,10 +1,9 @@
 MVP:
     hide and show words (and remember)
-        create model and test
+        create a repository and test (extract useful queries from the controller and test)
+        create insert client method and test
         create get server route and test (always bulk)
         create get client method and test
-        create insert server route and test (always bulk)
-        create insert client method and test
     landing page + video
     automatic test of the tooltip position calculations? (e2e tests of the result? selenium? geckodriver?)
     automatic tests for the frontend? unit test some dom functions? How to do that?

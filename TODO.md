@@ -1,11 +1,11 @@
 MVP:
     hide and show words (and remember)
-        table: userId, word, showFurigana, showTranslation
         create model and test
         create get server route and test (always bulk)
         create get client method and test
         create insert server route and test (always bulk)
         create insert client method and test
+    landing page + video
     automatic test of the tooltip position calculations? (e2e tests of the result? selenium? geckodriver?)
     automatic tests for the frontend? unit test some dom functions? How to do that?
     Basic login interface in a popup button, token in the extension config

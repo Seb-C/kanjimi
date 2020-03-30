@@ -1,8 +1,8 @@
 MVP:
     hide and show words (and remember)
-        create a repository and test (extract useful queries from the controller and test)
+        test the get server route (and default response)
+        test the word status repository
         create insert client method and test
-        create get server route and test (always bulk)
         create get client method and test
     landing page + video
     automatic test of the tooltip position calculations? (e2e tests of the result? selenium? geckodriver?)

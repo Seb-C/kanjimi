@@ -14,10 +14,12 @@ const createApiKeyValidator = new Ajv({ allErrors: true }).compile({
 	properties: {
 		email: {
 			type: 'string',
+			minLength: 1,
 			format: 'email',
 		},
 		password: {
 			type: 'string',
+			minLength: 1,
 		},
 	},
 });

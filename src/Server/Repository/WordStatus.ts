@@ -12,6 +12,18 @@ export default class WordStatus {
 		this.db = db;
 	}
 
+	async getList(user: User, words: string[]): Promise<WordStatusModel[]> {
+		return await this.db.array(WordStatusModel, `
+			SELECT *
+			FROM "WordStatus"
+			WHERE "userId" = \${userId}
+			AND "word" IN \${words};
+		`, {
+			userId: user.id,
+			words,
+		});
+	}
+
 	async get(user: User, word: string): Promise<WordStatusModel|null> {
 		return await this.db.get(WordStatusModel, `
 			SELECT *

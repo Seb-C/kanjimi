@@ -11,6 +11,7 @@ const validator = new Ajv({ allErrors: true }).compile({
 	minItems: 1,
 	items: {
 		type: 'string',
+		minLength: 1,
 	},
 });
 

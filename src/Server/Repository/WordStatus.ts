@@ -17,7 +17,7 @@ export default class WordStatus {
 			SELECT *
 			FROM "WordStatus"
 			WHERE "userId" = \${userId}
-			AND "word" IN \${words};
+			AND "word" = ANY(\${words});
 		`, {
 			userId: user.id,
 			words,

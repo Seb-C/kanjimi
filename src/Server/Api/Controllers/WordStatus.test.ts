@@ -192,4 +192,127 @@ describe('WordStatus', async () => {
 			.withContext(JSON.stringify(validator.errors))
 			.toBe(true);
 	});
+
+	it('createOrUpdate (authentication error)', async () => {
+		const response = await fetch('http://localhost:3000/word-status', {
+			method: 'PUT',
+			headers: {
+				Authorization: 'Bearer wrongtoken',
+			},
+			body: JSON.stringify(['word']),
+		});
+		expect(response.status).toBe(403);
+	});
+
+	it('get (normal case)', async () => {
+		const db = new Database();
+		const wordStatusRepository = new WordStatusRepository(db);
+		await wordStatusRepository.create(user, 'word2', true, false);
+		await db.close();
+
+		const response = await fetch(
+			`http://localhost:3000/word-status?${escape(JSON.stringify([
+				'word1',
+				'word2',
+			]))}`,
+			{
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${apiKey.key}`,
+				},
+			},
+		);
+		expect(response.status).toBe(200);
+		const responseData = await response.json();
+
+		const validator = new Ajv({ allErrors: true }).compile({
+			type: 'array',
+			minItems: 2,
+			maxItems: 2,
+			items: {
+				type: 'object',
+				required: [
+					'userId',
+					'word',
+					'showFurigana',
+					'showTranslation',
+				],
+				additionalProperties: false,
+				properties: {
+					userId: {
+						type: 'string',
+						const: user.id,
+					},
+					word: {
+						type: 'string',
+					},
+					showFurigana: {
+						type: 'boolean',
+					},
+					showTranslation: {
+						type: 'boolean',
+					},
+				},
+			},
+		});
+
+		expect(validator(responseData))
+			.withContext(JSON.stringify(validator.errors))
+			.toBe(true);
+
+		expect(responseData[0].word).toBe('word1');
+		expect(responseData[0].showFurigana).toBe(true);
+		expect(responseData[0].showTranslation).toBe(true);
+
+		expect(responseData[1].word).toBe('word2');
+		expect(responseData[1].showFurigana).toBe(true);
+		expect(responseData[1].showTranslation).toBe(false);
+	});
+
+	it('get (validation errors)', async () => {
+		const response = await fetch(
+			`http://localhost:3000/word-status?${escape(JSON.stringify([]))}`,
+			{
+				method: 'GET',
+				headers: {
+					Authorization: `Bearer ${apiKey.key}`,
+				},
+			},
+		);
+		expect(response.status).toBe(422);
+		const responseData = await response.json();
+
+		const validator = new Ajv({ allErrors: true }).compile({
+			type: 'array',
+			items: {
+				type: 'object',
+				additionalProperties: true,
+				required: ['message'],
+				properties: {
+					message: {
+						type: 'string',
+					},
+				},
+			},
+		});
+
+		expect(validator(responseData))
+			.withContext(JSON.stringify(validator.errors))
+			.toBe(true);
+	});
+
+	it('get (authentication error)', async () => {
+		const response = await fetch(
+			`http://localhost:3000/word-status?${escape(JSON.stringify([
+				'word',
+			]))}`,
+			{
+				method: 'GET',
+				headers: {
+					Authorization: 'Bearer wrongtoken',
+				},
+			},
+		);
+		expect(response.status).toBe(403);
+	});
 });

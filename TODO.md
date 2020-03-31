@@ -1,6 +1,5 @@
 MVP:
     hide and show words (and remember)
-        test the get server route (and default response)
         test the word status repository
         create insert client method and test
         create get client method and test

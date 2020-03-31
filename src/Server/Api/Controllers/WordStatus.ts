@@ -22,12 +22,12 @@ export const get = (db: Database) => async (request: Request, response: Response
 		return response.status(403).json('Invalid api key');
 	}
 
-	if (!wordStatusListValidator(request.body)) {
+	if (!wordStatusListValidator(request.query)) {
 		return response.status(422).json(wordStatusListValidator.errors);
 	}
 
 	const wordStatusRepository = new WordStatusRepository(db);
-	const wordStatusList = await wordStatusRepository.getList(user, request.body);
+	const wordStatusList = await wordStatusRepository.getList(user, request.query);
 
 	const wordStatusMap: Map<string, WordStatus> = new Map();
 	for (let i = 0; i < wordStatusList.length; i++) {
@@ -36,10 +36,10 @@ export const get = (db: Database) => async (request: Request, response: Response
 	}
 
 	const output = [];
-	for (let j = 0; j < request.body.length; j++) {
-		const word = request.body[j];
+	for (let j = 0; j < request.query.length; j++) {
+		const word = request.query[j];
 		if (wordStatusMap.has(word)) {
-			output.push(wordStatusMap.get(word).toApi());
+			output.push((<WordStatus>wordStatusMap.get(word)).toApi());
 		} else {
 			output.push(new WordStatus({
 				userId: user.id,

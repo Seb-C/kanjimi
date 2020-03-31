@@ -4,6 +4,7 @@ import Database from 'Server/Database/Database';
 import * as Express from 'express';
 import { Application, Request, Response } from 'express';
 import * as BodyParser from 'body-parser';
+import * as URL from 'url';
 
 import * as LexerController from 'Server/Api/Controllers/Lexer';
 import * as UserController from 'Server/Api/Controllers/User';
@@ -20,10 +21,25 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 			startupWaiters.push(next);
 		}
 	};
+	const jsonQueryStrings = (request: Request, response: Response, next: Function) => {
+		const query = URL.parse(request.originalUrl).query;
+		if (query) {
+			try {
+				request.query = JSON.parse(unescape(query));
+			} catch {
+				request.query = null;
+			}
+		} else {
+			request.query = null;
+		}
+
+		next();
+	};
 
 	const application = Express();
 	application.use(waitForStartupMiddleware);
 	application.use(BodyParser.json({ type: () => true }));
+	application.use(jsonQueryStrings);
 	const serverClosed = new Promise((resolve, reject) => {
 		try {
 			const server = application.listen(3000);

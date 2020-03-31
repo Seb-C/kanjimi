@@ -1,10 +1,8 @@
 MVP:
-    hide and show words (and remember)
-        create insert client method and test
-        create get client method and test
     landing page + video
     automatic test of the tooltip position calculations? (e2e tests of the result? selenium? geckodriver?)
     automatic tests for the frontend? unit test some dom functions? How to do that?
+    hide and show word statuses on the frontend
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
     test with a lot of different sites

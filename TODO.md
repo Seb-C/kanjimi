@@ -1,6 +1,5 @@
 MVP:
     hide and show words (and remember)
-        test the word status repository
         create insert client method and test
         create get client method and test
     landing page + video
@@ -35,6 +34,7 @@ Website/publishing:
     coming soon page early
 
 After:
+    tslint: clean useless imports -> migrate to https://github.com/typescript-eslint/typescript-eslint
     automatic updates (https://extensionworkshop.com/documentation/manage/updating-your-extension/)
     search better dictionaries? -> extract wiktionary (https://dumps.wikimedia.org/backup-index.html)
     remove tslint?

@@ -8,6 +8,7 @@
       "node",
       "firefox-webext-browser",
       "node-fetch",
+      "selenium-webdriver",
       "uuid"
     ],
     "lib": [

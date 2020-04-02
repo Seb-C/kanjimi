@@ -1,13 +1,13 @@
 <template>
 	<span v-bind:class="['sentence', appUid]">
 		<span v-for="(token, i) in tokens" class="token" ref="token">
-			<span class="furigana">
+			<span class="furigana" v-on:click="handleFuriganaClick(token, $refs.token[i], $event)">
 				{{ (token.getFurigana() == token.text ? null : token.getFurigana()) || '&nbsp;' }}
 			</span>
 			<span class="word" v-on:click="handleWordClick(token, $refs.token[i], $event)">
 				{{ token.text || '&nbsp;' }}
 			</span>
-			<span class="translation">
+			<span class="translation" v-on:click="handleTranslationClick(token, $refs.token[i], $event)">
 				{{ (showTranslation(token) ? token.getTranslation() : null) || '&nbsp;' }}
 			</span>
 		</span>
@@ -34,6 +34,14 @@
 				if (!(token.type === TokenType.PUNCTUATION)) {
 					this.toggleTooltip(token, tokenElement);
 				}
+			},
+			handleFuriganaClick(token: Token, tokenElement: Element, event: Event) {
+				event.preventDefault();
+				event.stopPropagation();
+			},
+			handleTranslationClick(token: Token, tokenElement: Element, event: Event) {
+				event.preventDefault();
+				event.stopPropagation();
 			},
 			showTranslation(token: Token) {
 				return !(token.type === TokenType.PARTICLE);

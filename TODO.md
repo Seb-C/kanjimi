@@ -1,7 +1,7 @@
 MVP:
+    automatic tests for the frontend source files
+    css scoping not enough (.sentence class gets inserted, replace Uid by Kanjimi)
     landing page + video
-    automatic test of the tooltip position calculations? (e2e tests with Cypress 4? https://docs.cypress.io/api/plugins/browser-launch-api.html#Syntax )
-    automatic tests for the frontend? unit test some dom functions? How to do that?
     hide and show word statuses on the frontend
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging

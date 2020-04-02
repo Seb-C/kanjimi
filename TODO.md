@@ -1,6 +1,6 @@
 MVP:
     landing page + video
-    automatic test of the tooltip position calculations? (e2e tests of the result? selenium? geckodriver?)
+    automatic test of the tooltip position calculations? (e2e tests with Cypress 4? https://docs.cypress.io/api/plugins/browser-launch-api.html#Syntax )
     automatic tests for the frontend? unit test some dom functions? How to do that?
     hide and show word statuses on the frontend
     Basic login interface in a popup button, token in the extension config

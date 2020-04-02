@@ -1,6 +1,6 @@
 {
   "manifest_version": 2,
-  "name": "test-jp",
+  "name": "Kanjimi",
   "version": "1.0",
   "description": "TODO",
   "content_scripts": [

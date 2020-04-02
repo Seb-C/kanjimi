@@ -8,12 +8,6 @@ import Sentence from 'Client/Dom/Sentence.vue';
 export default class PageHandler {
 	private processing: boolean = false;
 	private tooltip: Vue|null = null;
-	private appUid: string;
-
-	constructor() {
-		// Note: using a really random id breaks the hot-reloading
-		this.appUid = 'uid-6270173546874285';
-	}
 
 	*getSentencesToConvert(): Iterable<Text> {
 		const walker = document.createTreeWalker(
@@ -31,7 +25,7 @@ export default class PageHandler {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					if ((<Element>node).classList.contains(this.appUid)) {
+					if ((<Element>node).classList.contains('kanjimi')) {
 						return NodeFilter.FILTER_REJECT;
 					}
 
@@ -121,7 +115,7 @@ export default class PageHandler {
 		const nodes: Text[] = [];
 		const strings: string[] = [];
 		for (const textNode of texts) {
-			(<Element>textNode.parentNode).classList.add(`${this.appUid}-loader`);
+			(<Element>textNode.parentNode).classList.add('kanjimi-loader');
 			nodes.push(textNode);
 			strings.push(textNode.data.trim());
 		}
@@ -132,17 +126,17 @@ export default class PageHandler {
 				const data = await analyze(key, strings);
 
 				for (let i = 0; i < data.length; i++) {
-					(<Element>nodes[i].parentNode).classList.remove(`${this.appUid}-loader`);
+					(<Element>nodes[i].parentNode).classList.remove('kanjimi-loader');
 					this.convertSentence(nodes[i], data[i]);
 				}
 
-				window.dispatchEvent(new Event(`${this.appUid}-converted-sentences`));
+				window.dispatchEvent(new Event('kanjimi-converted-sentences'));
 			} catch (e) {
 				console.error('Exception: ', e.toString());
 				console.error('Strings: ', ...strings);
 
 				for (let i = 0; i < nodes.length; i++) {
-					(<Element>nodes[i].parentNode).classList.remove(`${this.appUid}-loader`);
+					(<Element>nodes[i].parentNode).classList.remove('kanjimi-loader');
 				}
 			}
 		}
@@ -160,7 +154,6 @@ export default class PageHandler {
 				props: {
 					tokens,
 					toggleTooltip: this.toggleTooltip.bind(this),
-					appUid: this.appUid,
 				},
 			}),
 		});
@@ -188,7 +181,6 @@ export default class PageHandler {
 				props: {
 					token,
 					tokenElement,
-					appUid: this.appUid,
 					closeTooltip: this.closeTooltip.bind(this),
 				},
 			}),
@@ -206,12 +198,12 @@ export default class PageHandler {
 	injectLoaderCss() {
 		const style = document.createElement('style');
 		style.textContent = `
-			.${this.appUid}-loader {
+			.kanjimi-loader {
 				opacity: 0.3;
 				background: #AAA;
 				position: relative;
 			}
-			.${this.appUid}-loader:after {
+			.kanjimi-loader:after {
 				content: "";
 				left: 0;
 				right: 0;

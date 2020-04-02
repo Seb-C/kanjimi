@@ -1,8 +1,12 @@
 MVP:
     automatic tests for the frontend source files
-    css scoping not enough (.sentence class gets inserted, replace Uid by Kanjimi)
-    landing page + video
+        - Conjugations
+        - Kanjis
+        - Readings
+        - Sentence (should be separated from PageHeader)
+        - Tooltip
     hide and show word statuses on the frontend
+    landing page + video
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
     test with a lot of different sites
@@ -15,7 +19,7 @@ MVP:
     verify email process after subscription (and block login if not validated)
     route to modify a user (PATCH, languages and password only)
     database setup -> env file?
-    chrome compatibility
+    chrome compatibility (and test others)
 
 Website/publishing:
     free trial for beta?
@@ -32,6 +36,7 @@ Website/publishing:
     coming soon page early
 
 After:
+    Cypress commands should run in a docker as well
     tslint: clean useless imports -> migrate to https://github.com/typescript-eslint/typescript-eslint
     automatic updates (https://extensionworkshop.com/documentation/manage/updating-your-extension/)
     search better dictionaries? -> extract wiktionary (https://dumps.wikimedia.org/backup-index.html)

@@ -1,5 +1,5 @@
 <template>
-	<div v-bind:class="['tooltip-container', appUid]">
+	<div class="kanjimi kanjimi-tooltip-container">
 		<div
 			ref="tooltip"
 			class="tooltip"
@@ -8,7 +8,7 @@
 			<div class="tooltip-content">
 				<readings v-bind:token="token" />
 				<conjugations v-if="token.type === TokenType.VERB" v-bind:token="token" />
-				<kanjis v-bind:token="token" v-bind:uid-class="appUid" />
+				<kanjis v-bind:token="token" />
 			</div>
 
 			<div
@@ -41,7 +41,6 @@
 
 	export default Vue.extend({
 		props: {
-			appUid: { type: String },
 			token: { type: Object as () => Token },
 			tokenElement: { type: Object as () => HTMLElement },
 			closeTooltip: { type: (Function as unknown) as () => (() => void) },
@@ -60,12 +59,12 @@
 		created() {
 			this.updateTargetPos();
 			window.addEventListener('resize', this.updateTargetPos);
-			window.addEventListener(`${this.appUid}-converted-sentences`, this.updateTargetPos);
+			window.addEventListener('kanjimi-converted-sentences', this.updateTargetPos);
 			document.addEventListener('keyup', this.keyPressHandler);
 		},
 		beforeDestroy() {
 			window.removeEventListener('resize', this.updateTargetPos);
-			window.removeEventListener(`${this.appUid}-converted-sentences`, this.updateTargetPos);
+			window.removeEventListener('kanjimi-converted-sentences', this.updateTargetPos);
 			document.removeEventListener('keyup', this.keyPressHandler);
 		},
 		methods: {

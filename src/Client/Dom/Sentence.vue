@@ -1,5 +1,5 @@
 <template>
-	<span v-bind:class="['sentence', appUid]">
+	<span class="kanjimi kanjimi-sentence">
 		<span v-for="(token, i) in tokens" class="token" ref="token">
 			<span class="furigana" v-on:click="handleFuriganaClick(token, $refs.token[i], $event)">
 				{{ (token.getFurigana() == token.text ? null : token.getFurigana()) || '&nbsp;' }}
@@ -21,7 +21,6 @@
 
 	export default Vue.extend({
 		props: {
-			appUid: { type: String },
 			tokens: { type: Array as () => Token[] },
 			toggleTooltip: { type: (Function as unknown) as () => (
 				(token: Token, tokenElement: Element) => void

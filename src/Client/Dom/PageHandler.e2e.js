@@ -4,29 +4,29 @@ context('Actions', () => {
 
 		cy.get('#firstHeading').should('contain', '日本');
 
-		cy.get('#firstHeading .sentence').should('exist');
-		cy.get('#firstHeading .sentence .token').should('exist');
-		cy.get('#firstHeading .sentence .token .furigana').should('exist').should('contain', 'にほん');
-		cy.get('#firstHeading .sentence .token .word').should('exist').should('contain', '日本');
-		cy.get('#firstHeading .sentence .token .translation').should('exist').should('contain', 'Japon');
+		cy.get('#firstHeading .kanjimi-sentence').should('exist');
+		cy.get('#firstHeading .kanjimi-sentence .token').should('exist');
+		cy.get('#firstHeading .kanjimi-sentence .token .furigana').should('exist').should('contain', 'にほん');
+		cy.get('#firstHeading .kanjimi-sentence .token .word').should('exist').should('contain', '日本');
+		cy.get('#firstHeading .kanjimi-sentence .token .translation').should('exist').should('contain', 'Japon');
 
-		cy.get('.sentence').its('length').should('be.gte', 50);
-		cy.get('.sentence:visible').should('exist');
+		cy.get('.kanjimi-sentence').its('length').should('be.gte', 50);
+		cy.get('.kanjimi-sentence:visible').should('exist');
 	});
 
 	it('Loading on scroll', () => {
 		cy.visit('./test-pages/wikipedia.html')
 
-		cy.get('.sentence').then((sentences) => {
+		cy.get('.kanjimi-sentence').then((sentences) => {
 			const sentencesCount = sentences.length;
 			cy.scrollTo(0, 1500);
 
-			cy.get('.uid-6270173546874285-loader').should('exist');
+			cy.get('.kanjimi-loader').should('exist');
 			cy.wait(500);
 
-			cy.get('.uid-6270173546874285-loader').should('not.exist');
-			cy.get('.sentence').its('length').should('be.gt', sentencesCount);
-			cy.get('.sentence:visible').should('exist');
+			cy.get('.kanjimi-loader').should('not.exist');
+			cy.get('.kanjimi-sentence').its('length').should('be.gt', sentencesCount);
+			cy.get('.kanjimi-sentence:visible').should('exist');
 		});
 	});
 
@@ -34,7 +34,7 @@ context('Actions', () => {
 		cy.visit('./test-pages/wikipedia.html')
 
 		cy.get('a:contains(検証)').should('exist');
-		cy.get('a:contains(検証) .sentence').should('exist');
+		cy.get('a:contains(検証) .kanjimi-sentence').should('exist');
 
 		cy.get('a:contains(検証) .furigana:first').click();
 		cy.get('a:contains(検証) .word:first').click();

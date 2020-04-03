@@ -1,9 +1,7 @@
 MVP:
     automatic tests for the frontend source files
         - Conjugations
-        - Kanjis
         - Readings
-        - Sentence (should be separated from PageHeader)
         - Tooltip
     hide and show word statuses on the frontend
     landing page + video

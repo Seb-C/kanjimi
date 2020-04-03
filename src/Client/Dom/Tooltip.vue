@@ -195,10 +195,10 @@
 	});
 </script>
 <style scoped>
-	.tooltip-container,
-	.tooltip-container *,
-	.tooltip-container *::before,
-	.tooltip-container *::after {
+	.kanjimi-tooltip-container,
+	.kanjimi-tooltip-container *,
+	.kanjimi-tooltip-container *::before,
+	.kanjimi-tooltip-container *::after {
 		all: initial;
 	}
 

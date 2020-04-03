@@ -52,7 +52,7 @@
 	});
 </script>
 <style scoped>
-	.sentence {
+	.kanjimi-sentence {
 		clear: both;
 		display: inline;
 	}
@@ -87,7 +87,7 @@
 		white-space: nowrap;
 	}
 
-	a .sentence:after {
+	a .kanjimi-sentence:after {
 		content: "\1F517";
 		display: inline-block;
 		vertical-align: top;

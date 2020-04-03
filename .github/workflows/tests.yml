@@ -1,0 +1,16 @@
+name: tests
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+jobs:
+  tests:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - run: sudo apt-get install firefox
+    - run: npm install
+    - run: docker-compose up -d --build
+    - run: make test
+    - run: make e2e

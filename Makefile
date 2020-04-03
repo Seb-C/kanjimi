@@ -3,7 +3,7 @@
 migrate:
 	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts
 test:
-	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
+	docker-compose exec -T server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
 e2e:
 	./node_modules/.bin/cypress run --browser=firefox --headless
 cypress:

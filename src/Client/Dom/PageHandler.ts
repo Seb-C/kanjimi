@@ -1,6 +1,8 @@
 import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token';
+import WordStatus from 'Common/Models/WordStatus';
 import { analyze } from 'Client/Api/Routes/Lexer';
+import { get as getWordStatuses } from 'Client/Api/Routes/WordStatus';
 import Vue from 'vue';
 import Tooltip from 'Client/Dom/Tooltip.vue';
 import Sentence from 'Client/Dom/Sentence.vue';
@@ -8,6 +10,7 @@ import Sentence from 'Client/Dom/Sentence.vue';
 export default class PageHandler {
 	private processing: boolean = false;
 	private tooltip: Vue|null = null;
+	private wordStatuses: Map<string, WordStatus> = new Map();
 
 	*getSentencesToConvert(): Iterable<Text> {
 		const walker = document.createTreeWalker(
@@ -125,9 +128,29 @@ export default class PageHandler {
 				const key = (await browser.storage.local.get('key')).key;
 				const data = await analyze(key, strings);
 
+				const words: Set<string> = new Set();
+
 				for (let i = 0; i < data.length; i++) {
 					(<Element>nodes[i].parentNode).classList.remove('kanjimi-loader');
 					this.convertSentence(nodes[i], data[i]);
+
+					for (let j = 0; j < data[i].length; j++) {
+						const token: Token = data[i][j];
+
+						if (this.wordStatuses.has(token.text)) {
+							continue;
+						}
+
+						words.add(token.text);
+					}
+				}
+
+				if (words.size > 0) {
+					const wordStatuses = await getWordStatuses(key, Array.from(words.values()));
+					for (let i = 0; i < wordStatuses.length; i++) {
+						const wordStatus = wordStatuses[i];
+						this.wordStatuses.set(wordStatus.word, wordStatus);
+					}
 				}
 
 				window.dispatchEvent(new Event('kanjimi-converted-sentences'));
@@ -154,6 +177,7 @@ export default class PageHandler {
 				props: {
 					tokens,
 					toggleTooltip: this.toggleTooltip.bind(this),
+					wordStatuses: this.wordStatuses,
 				},
 			}),
 		});

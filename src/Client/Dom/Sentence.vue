@@ -2,7 +2,7 @@
 	<span class="kanjimi kanjimi-sentence">
 		<span v-for="(token, i) in tokens" class="token" ref="token">
 			<span class="furigana" v-on:click="handleFuriganaClick(token, $refs.token[i], $event)">
-				{{ (token.getFurigana() == token.text ? null : token.getFurigana()) || '&nbsp;' }}
+				{{ (showFurigana(token) ? token.getFurigana() : null) || '&nbsp;' }}
 			</span>
 			<span class="word" v-on:click="handleWordClick(token, $refs.token[i], $event)">
 				{{ token.text || '&nbsp;' }}
@@ -18,6 +18,7 @@
 	import Token from 'Common/Models/Token';
 	import TokenType from 'Common/Types/TokenType';
 	import Tooltip from 'Client/Dom/Tooltip.vue';
+	import WordStatus from 'Common/Models/WordStatus';
 
 	export default Vue.extend({
 		props: {
@@ -25,6 +26,7 @@
 			toggleTooltip: { type: (Function as unknown) as () => (
 				(token: Token, tokenElement: Element) => void
 			) },
+			wordStatuses: { type: Object as () => Map<string, WordStatus> },
 		},
 		methods: {
 			handleWordClick(token: Token, tokenElement: Element, event: Event) {
@@ -42,8 +44,27 @@
 				event.preventDefault();
 				event.stopPropagation();
 			},
+			showFurigana(token: Token) {
+				if (token.getFurigana() === token.text) {
+					return false;
+				}
+
+				if (!this.wordStatuses.has(token.text)) {
+					return true;
+				}
+
+				return (<WordStatus>this.wordStatuses.get(token.text)).showFurigana;
+			},
 			showTranslation(token: Token) {
-				return !(token.type === TokenType.PARTICLE);
+				if (token.type === TokenType.PARTICLE) {
+					return false;
+				}
+
+				if (!this.wordStatuses.has(token.text)) {
+					return true;
+				}
+
+				return (<WordStatus>this.wordStatuses.get(token.text)).showTranslation;
 			},
 		},
 		components: {

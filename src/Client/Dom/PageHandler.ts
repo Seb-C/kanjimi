@@ -2,7 +2,10 @@ import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token';
 import WordStatus from 'Common/Models/WordStatus';
 import { analyze } from 'Client/Api/Routes/Lexer';
-import { get as getWordStatuses } from 'Client/Api/Routes/WordStatus';
+import {
+	get as getWordStatuses,
+	createOrUpdate as putWordStatus,
+} from 'Client/Api/Routes/WordStatus';
 import Vue from 'vue';
 import Tooltip from 'Client/Dom/Tooltip.vue';
 import Sentence from 'Client/Dom/Sentence.vue';
@@ -178,9 +181,19 @@ export default class PageHandler {
 					tokens,
 					toggleTooltip: this.toggleTooltip.bind(this),
 					wordStatuses: this.wordStatuses,
+					setWordStatus: this.setWordStatus.bind(this),
 				},
 			}),
 		});
+	}
+
+	async setWordStatus(wordStatus: WordStatus, attributes: any) {
+		const key = (await browser.storage.local.get('key')).key;
+		const newWordStatus = await putWordStatus(key, new WordStatus({
+			...wordStatus,
+			...attributes,
+		}));
+		this.wordStatuses.set(newWordStatus.word, newWordStatus);
 	}
 
 	toggleTooltip(token: Token, tokenElement: Element) {

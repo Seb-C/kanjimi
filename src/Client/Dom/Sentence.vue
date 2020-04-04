@@ -2,13 +2,15 @@
 	<span class="kanjimi kanjimi-sentence">
 		<span v-for="(token, i) in tokens" class="token" ref="token">
 			<span class="furigana" v-on:click="handleFuriganaClick(token, $refs.token[i], $event)">
-				{{ (showFurigana(token) ? token.getFurigana() : null) || '&nbsp;' }}
+				<template v-if="showFurigana(token)">{{ token.getFurigana() || '&nbsp;' }}</template>
+				<template v-else>&nbsp;</template>
 			</span>
 			<span class="word" v-on:click="handleWordClick(token, $refs.token[i], $event)">
 				{{ token.text || '&nbsp;' }}
 			</span>
 			<span class="translation" v-on:click="handleTranslationClick(token, $refs.token[i], $event)">
-				{{ (showTranslation(token) ? token.getTranslation() : null) || '&nbsp;' }}
+				<template v-if="showTranslation(token)">{{ token.getTranslation() || '&nbsp;' }}</template>
+				<template v-else>&nbsp;</template>
 			</span>
 		</span>
 	</span>
@@ -27,6 +29,9 @@
 				(token: Token, tokenElement: Element) => void
 			) },
 			wordStatuses: { type: Object as () => Map<string, WordStatus> },
+			setWordStatus: { type: (Function as unknown) as () => (
+				(wordStatus: WordStatus, attributes: any) => void
+			) },
 		},
 		methods: {
 			handleWordClick(token: Token, tokenElement: Element, event: Event) {
@@ -39,10 +44,22 @@
 			handleFuriganaClick(token: Token, tokenElement: Element, event: Event) {
 				event.preventDefault();
 				event.stopPropagation();
+				if (this.wordStatuses.has(token.text)) {
+					const wordStatus = <WordStatus>this.wordStatuses.get(token.text);
+					this.setWordStatus(wordStatus, {
+						showFurigana: !this.showFurigana(token),
+					});
+				}
 			},
 			handleTranslationClick(token: Token, tokenElement: Element, event: Event) {
 				event.preventDefault();
 				event.stopPropagation();
+				if (this.wordStatuses.has(token.text)) {
+					const wordStatus = <WordStatus>this.wordStatuses.get(token.text);
+					this.setWordStatus(wordStatus, {
+						showTranslation: !this.showTranslation(token),
+					});
+				}
 			},
 			showFurigana(token: Token) {
 				if (token.getFurigana() === token.text) {
@@ -90,6 +107,7 @@
 		margin: 0 2px;
 		text-align: center;
 		white-space: nowrap;
+		cursor: help;
 	}
 
 	.token .word {
@@ -106,6 +124,7 @@
 		margin: 0 2px;
 		text-align: center;
 		white-space: nowrap;
+		cursor: help;
 	}
 
 	a .kanjimi-sentence:after {

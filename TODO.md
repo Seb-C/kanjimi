@@ -1,6 +1,5 @@
 MVP:
     automatic tests for the frontend source files
-        - Conjugations
         - Readings
         - Tooltip
     hide and show word statuses on the frontend

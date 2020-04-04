@@ -1,6 +1,5 @@
 MVP:
     automatic tests for the frontend source files
-        - Readings
         - Tooltip
     hide and show word statuses on the frontend
     landing page + video

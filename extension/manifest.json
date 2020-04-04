@@ -3,6 +3,9 @@
   "name": "Kanjimi",
   "version": "1.0",
   "description": "TODO",
+  "icons": {
+    "48": "./images/logo.png"
+  },
   "content_scripts": [
     {
       "all_frames": true,

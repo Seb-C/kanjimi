@@ -1,16 +1,22 @@
 <template>
 	<span class="kanjimi kanjimi-sentence">
 		<span v-for="(token, i) in tokens" class="token" ref="token">
-			<span class="furigana" v-on:click="handleFuriganaClick(token, $refs.token[i], $event)">
-				<template v-if="showFurigana(token)">{{ token.getFurigana() || '&nbsp;' }}</template>
-				<template v-else>&nbsp;</template>
+			<span
+				class="furigana"
+				v-on:click="handleFuriganaClick(token, $refs.token[i], $event)"
+				v-bind:style="getFuriganaStyle(token)"
+			>
+				{{ token.getFurigana() || '&nbsp;' }}
 			</span>
 			<span class="word" v-on:click="handleWordClick(token, $refs.token[i], $event)">
 				{{ token.text || '&nbsp;' }}
 			</span>
-			<span class="translation" v-on:click="handleTranslationClick(token, $refs.token[i], $event)">
-				<template v-if="showTranslation(token)">{{ token.getTranslation() || '&nbsp;' }}</template>
-				<template v-else>&nbsp;</template>
+			<span
+				class="translation"
+				v-on:click="handleTranslationClick(token, $refs.token[i], $event)"
+				v-bind:style="getTranslationStyle(token)"
+			>
+				{{ token.getTranslation() || '&nbsp;' }}
 			</span>
 		</span>
 	</span>
@@ -25,63 +31,76 @@
 	export default Vue.extend({
 		props: {
 			tokens: { type: Array as () => Token[] },
-			toggleTooltip: { type: (Function as unknown) as () => (
-				(token: Token, tokenElement: Element) => void
-			) },
-			wordStatuses: { type: Object as () => Map<string, WordStatus> },
-			setWordStatus: { type: (Function as unknown) as () => (
-				(wordStatus: WordStatus, attributes: any) => void
-			) },
 		},
 		methods: {
 			handleWordClick(token: Token, tokenElement: Element, event: Event) {
 				event.preventDefault();
 				event.stopPropagation();
 				if (!(token.type === TokenType.PUNCTUATION)) {
-					this.toggleTooltip(token, tokenElement);
+					this.$root.toggleTooltip(token, tokenElement);
 				}
 			},
-			handleFuriganaClick(token: Token, tokenElement: Element, event: Event) {
+			async handleFuriganaClick(token: Token, tokenElement: Element, event: Event) {
 				event.preventDefault();
 				event.stopPropagation();
-				if (this.wordStatuses.has(token.text)) {
-					const wordStatus = <WordStatus>this.wordStatuses.get(token.text);
-					this.setWordStatus(wordStatus, {
+				if (this.$root.wordStatuses[token.text]) {
+					const wordStatus = <WordStatus>this.$root.wordStatuses[token.text];
+					await this.$root.setWordStatus(wordStatus, {
 						showFurigana: !this.showFurigana(token),
 					});
 				}
 			},
-			handleTranslationClick(token: Token, tokenElement: Element, event: Event) {
+			async handleTranslationClick(token: Token, tokenElement: Element, event: Event) {
 				event.preventDefault();
 				event.stopPropagation();
-				if (this.wordStatuses.has(token.text)) {
-					const wordStatus = <WordStatus>this.wordStatuses.get(token.text);
-					this.setWordStatus(wordStatus, {
+				if (this.$root.wordStatuses[token.text]) {
+					const wordStatus = <WordStatus>this.$root.wordStatuses[token.text];
+					await this.$root.setWordStatus(wordStatus, {
 						showTranslation: !this.showTranslation(token),
 					});
 				}
 			},
+			hasFurigana(token: Token) {
+				return token.getFurigana() !== token.text;
+			},
+			hasTranslation(token: Token) {
+				return token.type !== TokenType.PARTICLE;
+			},
 			showFurigana(token: Token) {
-				if (token.getFurigana() === token.text) {
-					return false;
-				}
-
-				if (!this.wordStatuses.has(token.text)) {
+				if (!this.$root.wordStatuses[token.text]) {
 					return true;
 				}
 
-				return (<WordStatus>this.wordStatuses.get(token.text)).showFurigana;
+				return (<WordStatus>this.$root.wordStatuses[token.text]).showFurigana;
 			},
 			showTranslation(token: Token) {
-				if (token.type === TokenType.PARTICLE) {
-					return false;
-				}
-
-				if (!this.wordStatuses.has(token.text)) {
+				if (!this.$root.wordStatuses[token.text]) {
 					return true;
 				}
 
-				return (<WordStatus>this.wordStatuses.get(token.text)).showTranslation;
+				return (<WordStatus>this.$root.wordStatuses[token.text]).showTranslation;
+			},
+			getFuriganaStyle(token: Token) {
+				if (!this.hasFurigana(token)) {
+					// Hide it, disable pointer reactivity and bounding-box (but we need to keep the height)
+					return { visibility: 'hidden', width: '1px' };
+				} else if (!this.showFurigana(token)) {
+					// Hide it but keep the pointer reactivity and bounding-box
+					return { opacity: 0 };
+				} else {
+					return {};
+				}
+			},
+			getTranslationStyle(token: Token) {
+				if (!this.hasTranslation(token)) {
+					// Hide it, disable pointer reactivity and bounding-box (but we need to keep the height)
+					return { visibility: 'hidden', width: '1px' };
+				} else if (!this.showTranslation(token)) {
+					// Hide it but keep the pointer reactivity and bounding-box
+					return { opacity: 0 };
+				} else {
+					return {};
+				}
 			},
 		},
 		components: {

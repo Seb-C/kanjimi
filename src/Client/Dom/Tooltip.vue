@@ -14,7 +14,7 @@
 			<div
 				class="tooltip-close-button"
 				v-bind:style="closeButtonStyles"
-				v-on:click="closeTooltip"
+				v-on:click="handleCloseButtonClick"
 			>❌</div>
 		</div>
 		<div
@@ -43,7 +43,6 @@
 		props: {
 			token: { type: Object as () => Token },
 			tokenElement: { type: Object as () => HTMLElement },
-			closeTooltip: { type: (Function as unknown) as () => (() => void) },
 		},
 		data() {
 			return {
@@ -72,7 +71,7 @@
 				if (event.key === 'Escape') {
 					event.preventDefault();
 					event.stopPropagation();
-					this.closeTooltip();
+					this.$root.closeTooltip();
 				}
 			},
 			updateTargetPos() {
@@ -97,6 +96,9 @@
 			},
 			getTooltipHeight(): number {
 				return Math.round(this.windowHeight / 2);
+			},
+			handleCloseButtonClick() {
+				this.$root.closeTooltip();
 			},
 			showTooltipOnTop(): boolean {
 				const tipDiagonal = this.getTipDiagonal();

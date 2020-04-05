@@ -13,7 +13,12 @@ import Sentence from 'Client/Dom/Sentence.vue';
 export default class PageHandler {
 	private processing: boolean = false;
 	private tooltip: Vue|null = null;
-	private wordStatuses: Map<string, WordStatus> = new Map();
+	private store = {
+		closeTooltip: this.closeTooltip.bind(this),
+		toggleTooltip: this.toggleTooltip.bind(this),
+		wordStatuses: <{ [key: string]: WordStatus }>{},
+		setWordStatus: this.setWordStatus.bind(this),
+	};
 
 	*getSentencesToConvert(): Iterable<Text> {
 		const walker = document.createTreeWalker(
@@ -140,7 +145,7 @@ export default class PageHandler {
 					for (let j = 0; j < data[i].length; j++) {
 						const token: Token = data[i][j];
 
-						if (this.wordStatuses.has(token.text)) {
+						if (this.store.wordStatuses[token.text]) {
 							continue;
 						}
 
@@ -152,7 +157,7 @@ export default class PageHandler {
 					const wordStatuses = await getWordStatuses(key, Array.from(words.values()));
 					for (let i = 0; i < wordStatuses.length; i++) {
 						const wordStatus = wordStatuses[i];
-						this.wordStatuses.set(wordStatus.word, wordStatus);
+						Vue.set(this.store.wordStatuses, wordStatus.word, wordStatus);
 					}
 				}
 
@@ -179,11 +184,9 @@ export default class PageHandler {
 			render: createElement => createElement(Sentence, {
 				props: {
 					tokens,
-					toggleTooltip: this.toggleTooltip.bind(this),
-					wordStatuses: this.wordStatuses,
-					setWordStatus: this.setWordStatus.bind(this),
 				},
 			}),
+			data: this.store,
 		});
 	}
 
@@ -193,7 +196,7 @@ export default class PageHandler {
 			...wordStatus,
 			...attributes,
 		}));
-		this.wordStatuses.set(newWordStatus.word, newWordStatus);
+		Vue.set(this.store.wordStatuses, newWordStatus.word, newWordStatus);
 	}
 
 	toggleTooltip(token: Token, tokenElement: Element) {
@@ -218,9 +221,9 @@ export default class PageHandler {
 				props: {
 					token,
 					tokenElement,
-					closeTooltip: this.closeTooltip.bind(this),
 				},
 			}),
+			data: this.store,
 		});
 	}
 

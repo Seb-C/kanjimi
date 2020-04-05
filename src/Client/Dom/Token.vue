@@ -3,7 +3,7 @@
 		<span
 			class="furigana"
 			v-on:click="handleFuriganaClick($event)"
-			v-bind:style="getFuriganaStyle()"
+			v-bind:style="furiganaStyle"
 		>
 			{{ token.getFurigana() || '&nbsp;' }}
 		</span>
@@ -13,7 +13,7 @@
 		<span
 			class="translation"
 			v-on:click="handleTranslationClick($event)"
-			v-bind:style="getTranslationStyle()"
+			v-bind:style="translationStyle"
 		>
 			{{ token.getTranslation() || '&nbsp;' }}
 		</span>
@@ -43,7 +43,7 @@
 				if (this.$root.wordStatuses[this.token.text]) {
 					const wordStatus = <WordStatus>this.$root.wordStatuses[this.token.text];
 					await this.$root.setWordStatus(wordStatus, {
-						showFurigana: !this.showFurigana(),
+						showFurigana: !this.showFurigana,
 					});
 				}
 			},
@@ -53,10 +53,12 @@
 				if (this.$root.wordStatuses[this.token.text]) {
 					const wordStatus = <WordStatus>this.$root.wordStatuses[this.token.text];
 					await this.$root.setWordStatus(wordStatus, {
-						showTranslation: !this.showTranslation(this.token),
+						showTranslation: !this.showTranslation,
 					});
 				}
 			},
+		},
+		computed: {
 			hasFurigana() {
 				return this.token.getFurigana() !== this.token.text;
 			},
@@ -77,22 +79,22 @@
 
 				return (<WordStatus>this.$root.wordStatuses[this.token.text]).showTranslation;
 			},
-			getFuriganaStyle() {
-				if (!this.hasFurigana()) {
+			furiganaStyle() {
+				if (!this.hasFurigana) {
 					// Hide it, disable pointer reactivity and bounding-box (but we need to keep the height)
 					return { visibility: 'hidden', width: '1px' };
-				} else if (!this.showFurigana()) {
+				} else if (!this.showFurigana) {
 					// Hide it but keep the pointer reactivity and bounding-box
 					return { opacity: 0 };
 				} else {
 					return {};
 				}
 			},
-			getTranslationStyle() {
-				if (!this.hasTranslation()) {
+			translationStyle() {
+				if (!this.hasTranslation) {
 					// Hide it, disable pointer reactivity and bounding-box (but we need to keep the height)
 					return { visibility: 'hidden', width: '1px' };
-				} else if (!this.showTranslation()) {
+				} else if (!this.showTranslation) {
 					// Hide it but keep the pointer reactivity and bounding-box
 					return { opacity: 0 };
 				} else {

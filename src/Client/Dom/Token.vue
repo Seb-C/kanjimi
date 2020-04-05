@@ -79,13 +79,17 @@
 
 				return (<WordStatus>this.$root.wordStatuses[this.token.text]).showTranslation;
 			},
+			currentTextColor() {
+				const tokenComputedStyles = window.getComputedStyle(this.$refs.tokenElement);
+				return tokenComputedStyles.getPropertyValue('color');
+			},
 			furiganaStyle() {
 				if (!this.hasFurigana) {
 					// Hide it, disable pointer reactivity and bounding-box (but we need to keep the height)
 					return { visibility: 'hidden', width: '1px' };
 				} else if (!this.showFurigana) {
 					// Hide it but keep the pointer reactivity and bounding-box
-					return { opacity: 0 };
+					return { backgroundColor: this.currentTextColor, color: this.currentTextColor };
 				} else {
 					return {};
 				}
@@ -96,7 +100,7 @@
 					return { visibility: 'hidden', width: '1px' };
 				} else if (!this.showTranslation) {
 					// Hide it but keep the pointer reactivity and bounding-box
-					return { opacity: 0 };
+					return { backgroundColor: this.currentTextColor, color: this.currentTextColor };
 				} else {
 					return {};
 				}
@@ -121,17 +125,18 @@
 	}
 
 	.token .word {
-		line-height: 100%;
+		line-height: 1em;
 		display: block;
 		text-align: center;
 		white-space: nowrap;
+		margin: 0 0 0.1em 0;
 	}
 
 	.token .translation {
 		font-size: 0.5rem;
 		display: block;
 		line-height: 150%;
-		margin: 0 2px;
+		margin: 0px 2px;
 		text-align: center;
 		white-space: nowrap;
 		cursor: help;

@@ -1,5 +1,5 @@
 MVP:
-    hide and show word statuses on the frontend -> debug vuejs not refreshing + test with cypress
+    hide and show word statuses on the frontend -> test with cypress
     landing page + video
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging

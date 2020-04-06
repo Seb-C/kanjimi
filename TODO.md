@@ -1,9 +1,10 @@
 MVP:
-    hide and show word statuses on the frontend -> test with cypress (data already reset at the beginning)
+    move this TODO list to github issues
     landing page + video
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
-    test with a lot of different sites
+    test with a lot of different sites and texts
+    test and debug with slack
     test and debug intensively the display of results
     webpack: different webpack and typescript config for extension and server
     store visited urls to make recommendations later
@@ -61,5 +62,4 @@ After:
     netflix integration
     amazon ebook integration
     youtube compatibility
-    slack compatibility
     handle closing popup with the back button using pushstate on mobile?

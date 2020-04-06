@@ -1,7 +1,7 @@
 <template>
 	<span class="token" ref="tokenElement">
 		<span
-			class="furigana"
+			v-bind:class="['furigana', showFurigana ? 'shown' : 'hidden']"
 			v-on:click="handleFuriganaClick($event)"
 			v-bind:style="furiganaStyle"
 		>
@@ -11,7 +11,7 @@
 			{{ token.text || '&nbsp;' }}
 		</span>
 		<span
-			class="translation"
+			v-bind:class="['translation', showTranslation ? 'shown' : 'hidden']"
 			v-on:click="handleTranslationClick($event)"
 			v-bind:style="translationStyle"
 		>

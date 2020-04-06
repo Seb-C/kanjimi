@@ -1,5 +1,5 @@
 MVP:
-    hide and show word statuses on the frontend -> test with cypress
+    hide and show word statuses on the frontend -> test with cypress (data already reset at the beginning)
     landing page + video
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging

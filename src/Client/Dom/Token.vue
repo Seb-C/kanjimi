@@ -80,7 +80,7 @@
 				return (<WordStatus>this.$root.wordStatuses[this.token.text]).showTranslation;
 			},
 			currentTextColor() {
-				const tokenComputedStyles = window.getComputedStyle(this.$refs.tokenElement);
+				const tokenComputedStyles = window.getComputedStyle(this.$root.$el);
 				return tokenComputedStyles.getPropertyValue('color');
 			},
 			furiganaStyle() {

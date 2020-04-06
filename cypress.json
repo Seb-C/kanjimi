@@ -4,5 +4,6 @@
   "integrationFolder": "src",
   "testFiles": "**/*.e2e.*",
   "pluginsFile": "cypress.plugins.js",
-  "supportFile": false
+  "supportFile": false,
+  "defaultCommandTimeout": 10000
 }

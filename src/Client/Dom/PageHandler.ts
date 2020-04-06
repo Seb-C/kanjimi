@@ -137,11 +137,7 @@ export default class PageHandler {
 				const data = await analyze(key, strings);
 
 				const words: Set<string> = new Set();
-
 				for (let i = 0; i < data.length; i++) {
-					(<Element>nodes[i].parentNode).classList.remove('kanjimi-loader');
-					this.convertSentence(nodes[i], data[i]);
-
 					for (let j = 0; j < data[i].length; j++) {
 						const token: Token = data[i][j];
 
@@ -159,6 +155,11 @@ export default class PageHandler {
 						const wordStatus = wordStatuses[i];
 						Vue.set(this.store.wordStatuses, wordStatus.word, wordStatus);
 					}
+				}
+
+				for (let i = 0; i < data.length; i++) {
+					(<Element>nodes[i].parentNode).classList.remove('kanjimi-loader');
+					this.convertSentence(nodes[i], data[i]);
 				}
 
 				window.dispatchEvent(new Event('kanjimi-converted-sentences'));

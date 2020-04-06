@@ -1,4 +1,34 @@
 context('Sentence', () => {
+	beforeEach(() => {
+		// Resetting word statuses before test
+		cy.visit('./test-pages/wikipedia.html');
+		cy.window().then((win) => {
+			return new Cypress.Promise((resolve) => {
+				const onDataLoaded = () => {
+					win.removeEventListener('kanjimi-converted-sentences', onDataLoaded);
+					resolve();
+				};
+				win.addEventListener('kanjimi-converted-sentences', onDataLoaded)
+			});
+		}).wait(500).then(() => {
+			return cy.get('.kanjimi-sentence .word:contains(日本):first').then((word) => {
+				const $token = word.closest('.token');
+
+				const $furigana = $token.find('.furigana');
+				const furigana = $furigana.get(0);
+				if (furigana.style.color && furigana.style.color === furigana.style.backgroundColor) {
+					$furigana.click();
+				}
+
+				const $translation = $token.find('.translation');
+				const translation = $translation.get(0);
+				if (translation.style.color && translation.style.color === translation.style.backgroundColor) {
+					$translation.click();
+				}
+			});
+		});
+	});
+
 	it('Basic tokenization', () => {
 		cy.visit('./test-pages/wikipedia.html')
 

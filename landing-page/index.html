@@ -6,15 +6,6 @@
 		<link rel="icon" type="image/png" href="./img/icon.png" />
 
 		<link rel="stylesheet" href="./css/bootstrap.min.css" />
-		<style>
-			header {
-				background-image: url(./img/banner.svg);
-				height: 100vh;
-				background-position: center;
-				background-repeat: no-repeat;
-				background-size: cover;
-			}
-		</style>
 
 		<title>Kanjimi</title>
 	</head>
@@ -49,26 +40,59 @@
 						<a class="nav-link" href="#top">Top</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#showcase">Showcase</a>
+						<a class="nav-link" href="#basics">Basics</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#newsletter">Get informed</a>
+						<a class="nav-link" href="#details">Details</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#customize">Customize</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#compatibility">Compatibility</a>
+					</li>
+					<li class="nav-item">
+						<a class="nav-link" href="#newsletter">Keep me informed</a>
 					</li>
 				</ul>
 			</div>
 		</nav>
 
-		<header>test</header>
-
 		<div class="container">
-			<h1 id="top">Hello, world!</h1>
-			<div style="height: 100vh">test</div>
+			<header
+			   id="top"
+				class="vh-100 d-flex"
+				style="background: url(./img/banner.svg) center / cover no-repeat;"
+			>
+				<div class="row align-items-center flex-fill">
+					<div class="col-5">
+						<div class="jumbotron mt-1 mb-1">
+							<h1 class="display-4">TODO Hello, world!</h1>
+							<p class="lead">TODO This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+							<hr class="my-4">
+							<p>TODO It uses utility classes for typography and spacing to space content out within the larger container.</p>
+							<a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+						</div>
+					</div>
+				</div>
+			</header>
 
-			<h1 id="showcase">Hello, world!</h1>
-			<div style="height: 100vh">test</div>
+			<h1 id="basics">Hello, world!</h1>
+			<div class="vh-100">TODO explanation 1: basic concept</div>
+
+			<h1 id="details">Hello, world!</h1>
+			<div class="vh-100">TODO explanation 2: show words details and definitions</div>
+
+			<h1 id="customize">Hello, world!</h1>
+			<div class="vh-100">TODO explanation 3 : hide definitions and pronunciation</div>
+
+			<h1 id="compatibility">Hello, world!</h1>
+			<div class="vh-100">TODO browsers</div>
 
 			<h1 id="newsletter">Hello, world!</h1>
-			<div style="height: 100vh">test</div>
+			<div class="vh-100">TODO keep me informed</div>
+
+			footer + copyright + contact
 		</div>
 
 		<script src="./js/jquery.min.js"></script>
@@ -76,7 +100,16 @@
 		<script src="./js/bootstrap.min.js"></script>
 		<script>
 			(function ($) {
+				// Fixing the 100vh not ignoring the header
+				$('.vh-100').each(function (i, element) {
+					const height = 'height: calc(100vh - ' + $('.navbar').outerHeight() + 'px) !important';
+					element.setAttribute('style', height + ';' + (element.getAttribute('style') || ''));
+				});
+
+				// Setting the scroll-spy offset to the actual header height
 				$('[data-spy="scroll"]').attr('data-offset', $('.navbar').outerHeight());
+
+				// Setup for smooth animated nav bar links scrolling
 				$(".navbar a[href^='#']").on('click', function(event) {
 					event.preventDefault();
 					$('html, body').animate({

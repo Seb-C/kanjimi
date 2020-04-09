@@ -1,6 +1,10 @@
 MVP:
+    landing page
+        + language list
+        + mini images with a small language list (to break the current pattern)
+        + french translation
+        + analytics
     move this TODO list to github issues
-    landing page + video
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
     test with a lot of different sites and texts
@@ -21,14 +25,12 @@ Website/publishing:
     analytics?
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
     share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
-    include copyright somewhere in the site (and external resources used)
+    include copyright somewhere in the site (and external resources used) -> mostly external resources used
     onboarding
     contact/newsletters/discussions/rss (forum or discord?)
-    make a website and newsletter before release
     free plan?
     CGU
     initialize user known words depending on the average jlpt level?
-    coming soon page early
 
 After:
     Cypress commands should run in a docker as well

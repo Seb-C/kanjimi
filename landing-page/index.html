@@ -94,19 +94,12 @@
 										id="newsletter-button-top"
 									>Keep me in touch!</button>
 								</div>
-								<p class="text-muted">
-									<small>
-										Strictly used for informational purposes.
-										<br />
-										You can unsubscribe at any time.
-									</small>
-								</p>
 							</div>
 						</div>
 					</div>
 					<div class="col-7"></div>
 					<div class="col-12 text-center">
-						<a href="#basics">
+						<a href="#basics" class="stretched-link">
 							Learn more
 							<br />
 							<i class="fas fa-chevron-down"></i>
@@ -115,9 +108,10 @@
 				</div>
 			</header>
 
-			<h2 id="basics" class="text-center">Read any Japanese website</h2>
-			<hr class="my-4" />
-			<div class="vh-100 d-flex">
+			<div id="basics" class="vh-100 d-flex flex-column">
+				<h2 class="text-center mt-5">Read any Japanese website</h2>
+				<hr class="my-4" />
+
 				<div class="row align-items-center flex-fill">
 					<div class="col">
 						<div class="card rounded-lg bg-light mt-5 mx-5 text-muted">
@@ -156,9 +150,10 @@
 				</div>
 			</div>
 
-			<h2 id="details" class="text-center">Hello, world!</h2>
-			<hr class="my-4" />
-			<div class="vh-100 d-flex">
+			<div id="details" class="vh-100 d-flex flex-column">
+				<h2 class="text-center mt-5">Hello, world!</h2>
+				<hr class="my-4" />
+
 				<div class="row align-items-center flex-fill">
 					<div class="col">
 						TODO explanation 2: show words details and definitions
@@ -169,9 +164,10 @@
 				</div>
 			</div>
 
-			<h2 id="customize" class="text-center">Hello, world!</h2>
-			<hr class="my-4" />
-			<div class="vh-100 d-flex">
+			<div id="customize" class="vh-100 d-flex flex-column">
+				<h2 class="text-center mt-5">Hello, world!</h2>
+				<hr class="my-4" />
+
 				<div class="row align-items-center flex-fill">
 					<div class="col">
 						TODO sample
@@ -182,40 +178,41 @@
 				</div>
 			</div>
 
-			<h2 id="compatibility" class="text-center">Hello, world!</h2>
-			<hr class="my-4" />
-			<div class="vh-100 d-flex">
-				TODO browsers
-			</div>
+			<div id="compatibility" class="vh-100 d-flex flex-column">
+				<h2 class="text-center mt-5">Hello, world!</h2>
+				<hr class="my-4" />
 
-			<h2 id="newsletter" class="text-center">Interested about our product?</h2>
-			<hr class="my-4" />
-			<div class="row mt-5 mt-5 justify-content-md-center">
-				<div class="col-8 input-group input-group-lg">
-					<input
-						type="email"
-						class="form-control"
-						placeholder="Your email"
-						title="Email address to subscribe to our newsletter"
-						aria-label="Email address to subscribe to our newsletter"
-						aria-describedby="newsletter-button-bottom"
-					/>
-					<div class="input-group-append">
-						<button
-							class="btn btn-primary"
-							type="button"
-							id="newsletter-button-bottom"
-						>Keep me in touch!</button>
+				<div class="row align-items-center flex-fill">
+					<div class="col">
+						Computer (Windows/Linux/Mac): Firefox, Chrome, Edge, Opera
+						Android: Firefox for Android, Kiwi browser, Yandex browser
+						Unfortunately, iOS devices does not support WebExtensions
 					</div>
 				</div>
 			</div>
-			<div class="row mb-5">
-				<div class="col">
-					<p class="text-muted text-center">
-						<small>
-							Strictly used for informational purposes. You can unsubscribe at any time.
-						</small>
-					</p>
+
+			<div id="newsletter" class="vh-100 d-flex flex-column">
+				<h2 class="text-center mt-5">Interested about Kanjimi?</h2>
+				<hr class="my-4" />
+
+				<div class="row my-5 align-items-center flex-fill justify-content-md-center">
+					<div class="col-8 input-group input-group-lg">
+						<input
+							type="email"
+							class="form-control"
+							placeholder="Your email"
+							title="Email address to subscribe to our newsletter"
+							aria-label="Email address to subscribe to our newsletter"
+							aria-describedby="newsletter-button-bottom"
+						/>
+						<div class="input-group-append">
+							<button
+								class="btn btn-primary"
+								type="button"
+								id="newsletter-button-bottom"
+							>Keep me in touch!</button>
+						</div>
+					</div>
 				</div>
 			</div>
 
@@ -234,7 +231,7 @@
 				});
 
 				// Setting the scroll-spy offset to the actual header height
-				$('[data-spy="scroll"]').attr('data-offset', $('.navbar').outerHeight());
+				$('[data-spy="scroll"]').attr('data-offset', $('.navbar').outerHeight() + 10);
 
 				// Setup for smooth animated nav bar links scrolling
 				$("a[href^='#']").on('click', function(event) {

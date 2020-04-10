@@ -6,6 +6,7 @@
 		<link rel="icon" type="image/png" href="./img/icon.png" />
 
 		<link rel="stylesheet" href="./css/bootstrap.min.css" />
+		<link rel="stylesheet" href="./css/fontawesome.min.css" />
 
 		<title>Kanjimi</title>
 
@@ -103,6 +104,14 @@
 							</div>
 						</div>
 					</div>
+					<div class="col-7"></div>
+					<div class="col-12 text-center">
+						<a href="#basics">
+							Learn more
+							<br />
+							<i class="fas fa-chevron-down"></i>
+						</a>
+					</div>
 				</div>
 			</header>
 
@@ -111,13 +120,21 @@
 			<div class="vh-100 d-flex">
 				<div class="row align-items-center flex-fill">
 					<div class="col">
-						<div class="card rounded-lg bg-light m-5">
+						<div class="card rounded-lg bg-light mt-5 mx-5 text-muted">
 							<div class="card-body">
 								<p class="card-text">TODO before</p>
 							</div>
 						</div>
 
-						<div class="card rounded-lg bg-light m-5">
+						<div class="row">
+							<div class="col">
+								<p class="display-4 m-0 text-center">
+									<i class="fas fa-angle-double-down"></i>
+								</p>
+							</div>
+						</div>
+
+						<div class="card rounded-lg bg-light mb-5 mx-5">
 							<div class="card-body">
 								<p class="card-text">TODO after</p>
 							</div>
@@ -220,7 +237,7 @@
 				$('[data-spy="scroll"]').attr('data-offset', $('.navbar').outerHeight());
 
 				// Setup for smooth animated nav bar links scrolling
-				$(".navbar a[href^='#']").on('click', function(event) {
+				$("a[href^='#']").on('click', function(event) {
 					event.preventDefault();
 					$('html, body').animate({
 						scrollTop: $(this.hash).offset().top - $('.navbar').outerHeight(),

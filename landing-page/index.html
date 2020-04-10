@@ -8,6 +8,12 @@
 		<link rel="stylesheet" href="./css/bootstrap.min.css" />
 
 		<title>Kanjimi</title>
+
+		<style>
+			.container h2 + hr {
+				width: 10%;
+			}
+		</style>
 	</head>
 	<body data-spy="scroll" data-target="#main-menu">
 		<nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
@@ -60,37 +66,121 @@
 
 		<div class="container">
 			<header
-			   id="top"
+				id="top"
 				class="vh-100 d-flex"
 				style="background: url(./img/banner.svg) center / cover no-repeat;"
 			>
 				<div class="row align-items-center flex-fill">
 					<div class="col-5">
 						<div class="jumbotron mt-1 mb-1">
-							<h1 class="display-4">TODO Hello, world!</h1>
-							<p class="lead">TODO This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
-							<hr class="my-4">
-							<p>TODO It uses utility classes for typography and spacing to space content out within the larger container.</p>
-							<a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+							<h1 class="display-4">Learn Japanese faster</h1>
+							<p class="lead">Native material made accessible to anyone learning Japanese</p>
+							<hr class="my-4" />
+							<p>Because reading authentic and rich content is better, we are building a tool that makes it possible.</p>
+							<div class="input-group input-group-lg">
+								<input
+									type="email"
+									class="form-control"
+									placeholder="Your email"
+									title="Email address to subscribe to our newsletter"
+									aria-label="Email address to subscribe to our newsletter"
+									aria-describedby="newsletter-button-top"
+								/>
+								<div class="input-group-append">
+									<button
+										class="btn btn-primary"
+										type="button"
+										id="newsletter-button-top"
+									>Keep me in touch!</button>
+								</div>
+								<p class="text-muted">
+									<small>
+										Strictly used for informational purposes.
+										<br />
+										You can unsubscribe at any time.
+									</small>
+								</p>
+							</div>
 						</div>
 					</div>
 				</div>
 			</header>
 
-			<h1 id="basics">Hello, world!</h1>
-			<div class="vh-100">TODO explanation 1: basic concept</div>
+			<h2 id="basics" class="text-center">Hello, world!</h2>
+			<hr class="my-4" />
+			<div class="vh-100 d-flex">
+				<div class="row align-items-center flex-fill">
+					<div class="col">
+						TODO sample
+					</div>
+					<div class="col">
+						TODO explanation 1: basic concept
+					</div>
+				</div>
+			</div>
 
-			<h1 id="details">Hello, world!</h1>
-			<div class="vh-100">TODO explanation 2: show words details and definitions</div>
+			<h2 id="details" class="text-center">Hello, world!</h2>
+			<hr class="my-4" />
+			<div class="vh-100 d-flex">
+				<div class="row align-items-center flex-fill">
+					<div class="col">
+						TODO explanation 2: show words details and definitions
+					</div>
+					<div class="col">
+						TODO sample
+					</div>
+				</div>
+			</div>
 
-			<h1 id="customize">Hello, world!</h1>
-			<div class="vh-100">TODO explanation 3 : hide definitions and pronunciation</div>
+			<h2 id="customize" class="text-center">Hello, world!</h2>
+			<hr class="my-4" />
+			<div class="vh-100 d-flex">
+				<div class="row align-items-center flex-fill">
+					<div class="col">
+						TODO sample
+					</div>
+					<div class="col">
+						TODO explanation 3 : hide definitions and pronunciation
+					</div>
+				</div>
+			</div>
 
-			<h1 id="compatibility">Hello, world!</h1>
-			<div class="vh-100">TODO browsers</div>
+			<h2 id="compatibility" class="text-center">Hello, world!</h2>
+			<hr class="my-4" />
+			<div class="vh-100 d-flex">
+				TODO browsers
+			</div>
 
-			<h1 id="newsletter">Hello, world!</h1>
-			<div class="vh-100">TODO keep me informed</div>
+			<h2 id="newsletter" class="text-center">Interested about our product?</h2>
+			<hr class="my-4" />
+			<div class="row mt-5 mt-5 justify-content-md-center">
+				<div class="col-8 input-group input-group-lg">
+					<input
+						type="email"
+						class="form-control"
+						placeholder="Your email"
+						title="Email address to subscribe to our newsletter"
+						aria-label="Email address to subscribe to our newsletter"
+						aria-describedby="newsletter-button-bottom"
+					/>
+					<div class="input-group-append">
+						<button
+							class="btn btn-primary"
+							type="button"
+							id="newsletter-button-bottom"
+						>Keep me in touch!</button>
+					</div>
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col">
+					<p class="text-muted text-center">
+						<small>
+							Strictly used for informational purposes. You can unsubscribe at any time.
+						</small>
+					</p>
+				</div>
+			</div>
 
 			footer + copyright + contact
 		</div>

@@ -14,6 +14,46 @@
 			.container h2 + hr {
 				width: 10%;
 			}
+
+			.kanjimi-sentence {
+				font-size: 1.5rem;
+			}
+
+			.kanjimi-token {
+				display: inline-block;
+				line-height: 100%;
+			}
+			.kanjimi-token:nth-child(even) {
+				background: var(--light);
+			}
+
+			.kanjimi-furigana {
+				font-size: 0.5em;
+				display: block;
+				line-height: 150%;
+				margin: 0 2px;
+				text-align: center;
+				white-space: nowrap;
+				cursor: help;
+			}
+
+			.kanjimi-word {
+				line-height: 1em;
+				display: block;
+				text-align: center;
+				white-space: nowrap;
+				margin: 0 0 0.1em 0;
+			}
+
+			.kanjimi-translation {
+				font-size: 0.5em;
+				display: block;
+				line-height: 150%;
+				margin: 0px 2px;
+				text-align: center;
+				white-space: nowrap;
+				cursor: help;
+			}
 		</style>
 	</head>
 	<body data-spy="scroll" data-target="#main-menu">
@@ -118,9 +158,10 @@
 					<div class="col">
 						<div class="card rounded-lg bg-white mt-5 mx-5 text-muted">
 							<div class="card-body">
-								<p class="card-text">
-									このアプリケーションのおかげで、漢字は問題ないです。
-									発音と翻訳を見せてくれます。
+								<p class="card-text kanjimi-sentence">
+									このアプリケーションのおかげで、
+									漢字は問題ないです。
+									発音と翻訳を見せてくれます
 								</p>
 							</div>
 						</div>
@@ -136,91 +177,86 @@
 						<div class="card rounded-lg bg-white mb-5 mx-5">
 							<div class="card-body">
 								<p class="card-text">
-									<span class="kanjimi kanjimi-sentence">
-										<span class="token">
-											<span class="furigana">&nbsp;</span>
-											<span class="word">この</span>
-											<span class="translation">This</span>
+									<span class="kanjimi-sentence">
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">この</span>
+											<span class="kanjimi-translation">This</span>
 										</span>
-										<span class="token">
-											<span class="furigana">&nbsp;</span>
-											<span class="word">アプリケーション</span>
-											<span class="translation">application</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">アプリケーション</span>
+											<span class="kanjimi-translation">application</span>
 										</span>
-										<span class="token">
-											<span class="furigana">のおかげで</span>
-											<span class="word">のお</span>
-											<span class="translation">thanks to ...</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">のおかげで</span>
+											<span class="kanjimi-translation">thanks to ...</span>
 										</span>
-										<span class="token">
-											<span class="furigana">&nbsp;</span>
-											<span class="word">、</span>
-											<span class="translation">&nbsp;</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">、</span>
+											<span class="kanjimi-translation">&nbsp;</span>
 										</span>
-										<span class="token">
-											<span class="furigana">かんじ</span>
-											<span class="word">漢字</span>
-											<span class="translation">kanji</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">かんじ</span>
+											<span class="kanjimi-word">漢字</span>
+											<span class="kanjimi-translation">kanji</span>
 										</span>
-										<span class="token">
-											<span class="furigana">&nbsp;</span>
-											<span class="word">は</span>
-											<span class="translation">&nbsp;</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">は</span>
+											<span class="kanjimi-translation">&nbsp;</span>
 										</span>
-										<span class="token">
-											<span class="furigana">もんだい</span>
-											<span class="word">問題</span>
-											<span class="translation">problem</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">もんだい</span>
+											<span class="kanjimi-word">問題</span>
+											<span class="kanjimi-translation">problem</span>
 										</span>
-										<span class="token">
-											<span class="furigana">ない</span>
-											<span class="word">ない</span>
-											<span class="translation">nonexistent</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">ない</span>
+											<span class="kanjimi-translation">nonexistent</span>
 										</span>
-										<span class="token">
-											<span class="furigana">です</span>
-											<span class="word">です</span>
-											<span class="translation">be</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">です</span>
+											<span class="kanjimi-translation">be</span>
 										</span>
-										<span class="token">
-											<span class="furigana">&nbsp;</span>
-											<span class="word">。</span>
-											<span class="translation">&nbsp;</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">。</span>
+											<span class="kanjimi-translation">&nbsp;</span>
 										</span>
-										<span class="token">
-											<span class="furigana">はつおん</span>
-											<span class="word">発音</span>
-											<span class="translation">prononciation</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">はつおん</span>
+											<span class="kanjimi-word">発音</span>
+											<span class="kanjimi-translation">prononciation</span>
 										</span>
-										<span class="token">
-											<span class="furigana">&nbsp;</span>
-											<span class="word">と</span>
-											<span class="translation">&nbsp;</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">と</span>
+											<span class="kanjimi-translation">&nbsp;</span>
 										</span>
-										<span class="token">
-											<span class="furigana">ほんやく</span>
-											<span class="word">翻訳</span>
-											<span class="translation">translation</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">ほんやく</span>
+											<span class="kanjimi-word">翻訳</span>
+											<span class="kanjimi-translation">translation</span>
 										</span>
-										<span class="token">
-											<span class="furigana">&nbsp;</span>
-											<span class="word">を</span>
-											<span class="translation">&nbsp;</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">を</span>
+											<span class="kanjimi-translation">&nbsp;</span>
 										</span>
-										<span class="token">
-											<span class="furigana">みせて</span>
-											<span class="word">見せて</span>
-											<span class="translation">to show</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">みせて</span>
+											<span class="kanjimi-word">見せて</span>
+											<span class="kanjimi-translation">to show</span>
 										</span>
-										<span class="token">
-											<span class="furigana">&nbsp;</span>
-											<span class="word">くれます</span>
-											<span class="translation">to give</span>
-										</span>
-										<span class="token">
-											<span class="furigana">&nbsp;</span>
-											<span class="word">。</span>
-											<span class="translation">&nbsp;</span>
+										<span class="kanjimi-token">
+											<span class="kanjimi-furigana">&nbsp;</span>
+											<span class="kanjimi-word">くれます</span>
+											<span class="kanjimi-translation">to give</span>
 										</span>
 									</span>
 								</p>

@@ -5,6 +5,8 @@ MVP:
         + french translation
         + analytics
     move this TODO list to github issues
+    alternate token background
+    fix dictionary not having everything? See おかげで
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
     test with a lot of different sites and texts

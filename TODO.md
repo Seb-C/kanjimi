@@ -1,9 +1,12 @@
 MVP:
     landing page
+        + finish basic layout and contents
+        + colors and images
         + language list
         + mini images with a small language list (to break the current pattern)
         + french translation
         + analytics
+        + check the validity of the written footer email
     move this TODO list to github issues
     alternate token background
     fix dictionary not having everything? See おかげで

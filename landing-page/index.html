@@ -15,6 +15,10 @@
 				width: 10%;
 			}
 
+			.container .max-vw-50 {
+				max-width: 50vw;
+			}
+
 			.kanjimi-sentence {
 				font-size: 1.5rem;
 			}
@@ -108,16 +112,22 @@
 		<div class="container">
 			<header
 				id="top"
-				class="vh-100 d-flex"
+				class="min-vh-100 d-flex"
 				style="background: url(./img/banner.svg) center / cover no-repeat;"
 			>
 				<div class="row flex-fill">
-					<div class="col-6 align-self-center">
+					<div class="col-auto align-self-center">
 						<div class="jumbotron mt-1 mb-1">
 							<h1 class="display-4 text-nowrap">Learn Japanese faster</h1>
-							<p class="lead">Native material made accessible to anyone learning Japanese</p>
+							<p class="lead max-vw-50">
+								Native material made accessible
+								to anyone learning Japanese
+							</p>
 							<hr class="my-4" />
-							<p>Because reading authentic and rich content is better, we are building a tool that makes it possible.</p>
+							<p class="max-vw-50">
+								Because reading authentic and rich content is better,
+								we are building a tool that makes it possible.
+							</p>
 							<div class="input-group input-group-lg mt-5">
 								<input
 									type="email"
@@ -137,11 +147,11 @@
 							</div>
 						</div>
 					</div>
-					<div class="col-12 text-center align-self-end">
+					<div class="col-12 text-center align-self-end mb-2">
 						<a href="#basics" class="stretched-link">
 							Learn more
 							<br />
-							<i class="fas fa-chevron-down"></i>
+							<i class="fas fa-chevron-down">&nbsp;</i>
 						</a>
 					</div>
 				</div>
@@ -149,7 +159,7 @@
 		</div>
 
 		<div class="bg-light">
-			<div id="basics" class="vh-100 container d-flex flex-column bg-light">
+			<div id="basics" class="min-vh-100 container d-flex flex-column bg-light">
 				<h2 class="text-center mt-5">Read any Japanese website</h2>
 				<hr class="my-4" />
 
@@ -168,7 +178,7 @@
 						<div class="row">
 							<div class="col">
 								<p class="display-4 m-0 text-center">
-									<i class="fas fa-angle-double-down"></i>
+									<i class="fas fa-angle-double-down">&nbsp;</i>
 								</p>
 							</div>
 						</div>
@@ -279,7 +289,7 @@
 			</div>
 		</div>
 
-		<div id="details" class="vh-100 container d-flex flex-column">
+		<div id="details" class="min-vh-100 container d-flex flex-column">
 			<h2 class="text-center mt-5">Hello, world!</h2>
 			<hr class="my-4" />
 
@@ -294,7 +304,7 @@
 		</div>
 
 		<div class="bg-light">
-			<div id="customize" class="vh-100 container d-flex flex-column">
+			<div id="customize" class="min-vh-100 container d-flex flex-column">
 				<h2 class="text-center mt-5">Hello, world!</h2>
 				<hr class="my-4" />
 
@@ -309,7 +319,7 @@
 			</div>
 		</div>
 
-		<div id="compatibility" class="vh-100 container d-flex flex-column">
+		<div id="compatibility" class="min-vh-100 container d-flex flex-column">
 			<h2 class="text-center mt-5">Compatibility</h2>
 			<p class="text-muted text-center mb-3">Kanjimi works with most modern browsers</p>
 
@@ -419,7 +429,7 @@
 		</div>
 
 		<div class="bg-light">
-			<div id="newsletter" class="vh-100 container d-flex flex-column">
+			<div id="newsletter" class="min-vh-100 container d-flex flex-column">
 				<h2 class="text-center mt-5">Interested about Kanjimi?</h2>
 				<hr class="my-4" />
 
@@ -455,8 +465,8 @@
 		<script>
 			(function ($) {
 				// Fixing the 100vh not ignoring the header
-				$('.vh-100').each(function (i, element) {
-					const height = 'height: calc(100vh - ' + $('.navbar').outerHeight() + 'px) !important';
+				$('.min-vh-100').each(function (i, element) {
+					const height = 'min-height: calc(100vh - ' + $('.navbar').outerHeight() + 'px) !important';
 					element.setAttribute('style', height + ';' + (element.getAttribute('style') || ''));
 				});
 

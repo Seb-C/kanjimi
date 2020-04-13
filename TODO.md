@@ -1,15 +1,16 @@
 MVP:
     landing page
-        + finish basic layout and contents
+        + find a way to fix the header text taking too much width (and remove the current non-working fix)
+        + write the details part (with semantic tags)
+        + write the customize part (with semantic tags)
         + colors and images
-        + language list
-        + mini images with a small language list (to break the current pattern)
-        + french translation
+        + mobile and tablet compatibility
         + analytics
         + check the validity of the written footer email
     move this TODO list to github issues
     alternate token background
     fix dictionary not having everything? See おかげで
+    translate the landing page and add the supported languages list somewhere
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
     test with a lot of different sites and texts

@@ -11,6 +11,10 @@
 		<title>Kanjimi</title>
 
 		<style>
+			header {
+				background: url(./img/banner.svg) center / cover no-repeat;
+			}
+
 			.container h2 + hr {
 				width: 10%;
 			}
@@ -109,15 +113,11 @@
 			</div>
 		</nav>
 
-		<div class="container">
-			<header
-				id="top"
-				class="min-vh-100 d-flex"
-				style="background: url(./img/banner.svg) center / cover no-repeat;"
-			>
+		<header id="top">
+			<div class="container min-vh-100 d-flex">
 				<div class="row flex-fill">
 					<div class="col-auto align-self-center">
-						<div class="jumbotron mt-1 mb-1">
+						<article class="jumbotron mt-1 mb-1">
 							<h1 class="display-4 text-nowrap">Learn Japanese faster</h1>
 							<p class="lead max-vw-50">
 								Native material made accessible
@@ -145,7 +145,7 @@
 									>Keep me in touch!</button>
 								</div>
 							</div>
-						</div>
+						</article>
 					</div>
 					<div class="col-12 text-center align-self-end mb-2">
 						<a href="#basics" class="stretched-link">
@@ -155,11 +155,11 @@
 						</a>
 					</div>
 				</div>
-			</header>
-		</div>
+			</div>
+		</header>
 
-		<div class="bg-light">
-			<div id="basics" class="min-vh-100 container d-flex flex-column bg-light">
+		<section id="basics" class="bg-light">
+			<div class="min-vh-100 container d-flex flex-column bg-light">
 				<h2 class="text-center mt-5">Read any Japanese website</h2>
 				<hr class="my-4" />
 
@@ -272,7 +272,7 @@
 							</div>
 						</div>
 					</div>
-					<div class="col">
+					<article class="col">
 						<h3>The world is yours</h3>
 						<p>
 							We are developing a browser extension that works with any Japanese website.
@@ -284,12 +284,12 @@
 							In order to learn, a complete translation of the text is not helpful.
 							That is why we focus on providing a translation and pronunciation for every word.
 						</p>
-					</div>
+					</article>
 				</div>
 			</div>
-		</div>
+		</section>
 
-		<div id="details" class="min-vh-100 container d-flex flex-column">
+		<section id="details" class="min-vh-100 container d-flex flex-column">
 			<h2 class="text-center mt-5">Hello, world!</h2>
 			<hr class="my-4" />
 
@@ -301,10 +301,10 @@
 					TODO sample
 				</div>
 			</div>
-		</div>
+		</section>
 
-		<div class="bg-light">
-			<div id="customize" class="min-vh-100 container d-flex flex-column">
+		<section id="customize" class="bg-light">
+			<div class="min-vh-100 container d-flex flex-column">
 				<h2 class="text-center mt-5">Hello, world!</h2>
 				<hr class="my-4" />
 
@@ -317,9 +317,9 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 
-		<div id="compatibility" class="min-vh-100 container d-flex flex-column">
+		<section id="compatibility" class="min-vh-100 container d-flex flex-column">
 			<h2 class="text-center mt-5">Compatibility</h2>
 			<p class="text-muted text-center mb-3">Kanjimi works with most modern browsers</p>
 
@@ -426,10 +426,10 @@
 					<p class="mt-3">(Unfortunately, iOS devices does not support WebExtensions)</p>
 				</div>
 			</div>
-		</div>
+		</section>
 
-		<div class="bg-light">
-			<div id="newsletter" class="min-vh-100 container d-flex flex-column">
+		<section id="newsletter" class="bg-light">
+			<div class="min-vh-100 container d-flex flex-column">
 				<h2 class="text-center mt-5">Interested about Kanjimi?</h2>
 				<hr class="my-4" />
 
@@ -453,7 +453,7 @@
 					</div>
 				</div>
 			</div>
-		</div>
+		</section>
 
 		<footer class="bg-dark text-white-50">
 			<div class="container p-3">

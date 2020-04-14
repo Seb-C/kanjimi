@@ -11,6 +11,26 @@
 		<title>Kanjimi</title>
 
 		<style>
+			.diagonal-background {
+				position: absolute;
+				top: 0;
+				left: 0;
+				width: 60vw;
+				height: 200vw;
+				background: linear-gradient(to bottom right, var(--gray) 50%, transparent 0%);
+				z-index: 2;
+			}
+
+			.under-diagonal-background {
+				z-index: 1;
+				position: relative;
+			}
+
+			.over-diagonal-background {
+				z-index: 3;
+				position: relative;
+			}
+
 			header {
 				background: url(./img/banner.svg) center / cover no-repeat;
 			}
@@ -114,36 +134,49 @@
 			</div>
 		</nav>
 
-		<header id="top">
-			<div class="container min-vh-100 d-flex">
+		<div class="diagonal-background"></div>
+
+		<header id="top" class="under-diagonal-background">
+			<div class="container min-vh-100 d-flex over-diagonal-background">
 				<div class="row flex-fill">
 					<div class="col-auto align-self-center">
-						<article class="jumbotron mt-1 mb-1">
-							<h1 class="display-4 text-nowrap">Learn Japanese faster</h1>
-							<p class="lead max-vw-50">
-								Native material made accessible
-								to anyone learning Japanese
-							</p>
-							<hr class="my-4" />
-							<p class="max-vw-50">
-								Because reading authentic and rich content is better,
-								we are building a tool that makes it possible.
-							</p>
-							<div class="input-group input-group-lg mt-5">
-								<input
-									type="email"
-									class="form-control"
-									placeholder="Your email address"
-									title="Email address to subscribe to our newsletter"
-									aria-label="Email address to subscribe to our newsletter"
-									aria-describedby="newsletter-button-top"
-								/>
-								<div class="input-group-append">
-									<button
-										class="btn btn-primary"
-										type="button"
-										id="newsletter-button-top"
-									>Keep me in touch!</button>
+						<article class="jumbotron row bg-transparent">
+							<div class="col-auto">
+								<h1 class="display-4 text-nowrap">Learn Japanese faster</h1>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-7">
+								<p class="lead max-vw-50">
+									Native material made accessible
+									to anyone learning Japanese
+								</p>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-6">
+								<hr class="my-4" />
+								<p class="max-vw-50">
+									Because reading authentic and rich content is better,
+									we are building a tool that makes it possible.
+								</p>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-5">
+								<div class="input-group input-group-lg mt-5">
+									<input
+										type="email"
+										class="form-control"
+										placeholder="Your email address"
+										title="Email address to subscribe to our newsletter"
+										aria-label="Email address to subscribe to our newsletter"
+										aria-describedby="newsletter-button-top"
+									/>
+									<div class="input-group-append">
+										<button
+											class="btn btn-primary"
+											type="button"
+											id="newsletter-button-top"
+										>Keep me in touch!</button>
+									</div>
 								</div>
 							</div>
 						</article>
@@ -159,8 +192,8 @@
 			</div>
 		</header>
 
-		<section id="basics" class="bg-light">
-			<div class="min-vh-100 container d-flex flex-column bg-light">
+		<section id="basics" class="bg-light under-diagonal-background">
+			<div class="min-vh-100 container d-flex flex-column over-diagonal-background">
 				<h2 class="text-center mt-5">Read any Japanese website</h2>
 				<hr class="my-4" />
 
@@ -304,7 +337,7 @@
 			</div>
 		</section>
 
-		<section id="customize" class="bg-light">
+		<section id="customize" class="bg-light under-diagonal-background">
 			<div class="min-vh-100 container d-flex flex-column">
 				<h2 class="text-center mt-5">Hello, world!</h2>
 				<hr class="my-4" />
@@ -437,8 +470,8 @@
 			</div>
 		</section>
 
-		<section id="newsletter" class="bg-light">
-			<div class="min-vh-100 container d-flex flex-column">
+		<section id="newsletter" class="bg-light under-diagonal-background">
+			<div class="min-vh-100 container d-flex flex-column over-diagonal-background">
 				<h2 class="text-center mt-5">Interested about Kanjimi?</h2>
 				<hr class="my-4" />
 

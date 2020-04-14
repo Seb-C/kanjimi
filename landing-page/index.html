@@ -11,28 +11,9 @@
 		<title>Kanjimi</title>
 
 		<style>
-			.diagonal-background {
-				position: absolute;
-				top: 0;
-				left: 0;
-				width: 60vw;
-				height: 200vw;
-				background: linear-gradient(to bottom right, var(--gray) 50%, transparent 0%);
-				z-index: 2;
-			}
-
-			.under-diagonal-background {
-				z-index: 1;
-				position: relative;
-			}
-
-			.over-diagonal-background {
-				z-index: 3;
-				position: relative;
-			}
-
 			header {
 				background: url(./img/banner.svg) center / cover no-repeat;
+				background: linear-gradient(120deg, var(--light) 50%, transparent 00%);
 			}
 
 			.container h2 + hr {
@@ -134,10 +115,8 @@
 			</div>
 		</nav>
 
-		<div class="diagonal-background"></div>
-
-		<header id="top" class="under-diagonal-background">
-			<div class="container min-vh-100 d-flex over-diagonal-background">
+		<header id="top">
+			<div class="container min-vh-100 d-flex">
 				<div class="row flex-fill">
 					<div class="col-auto align-self-center">
 						<article class="jumbotron row bg-transparent">
@@ -192,8 +171,8 @@
 			</div>
 		</header>
 
-		<section id="basics" class="bg-light under-diagonal-background">
-			<div class="min-vh-100 container d-flex flex-column over-diagonal-background">
+		<section id="basics" class="bg-light">
+			<div class="min-vh-100 container d-flex flex-column">
 				<h2 class="text-center mt-5">Read any Japanese website</h2>
 				<hr class="my-4" />
 
@@ -337,7 +316,7 @@
 			</div>
 		</section>
 
-		<section id="customize" class="bg-light under-diagonal-background">
+		<section id="customize" class="bg-light">
 			<div class="min-vh-100 container d-flex flex-column">
 				<h2 class="text-center mt-5">Hello, world!</h2>
 				<hr class="my-4" />
@@ -470,8 +449,8 @@
 			</div>
 		</section>
 
-		<section id="newsletter" class="bg-light under-diagonal-background">
-			<div class="min-vh-100 container d-flex flex-column over-diagonal-background">
+		<section id="newsletter" class="bg-light">
+			<div class="min-vh-100 container d-flex flex-column">
 				<h2 class="text-center mt-5">Interested about Kanjimi?</h2>
 				<hr class="my-4" />
 

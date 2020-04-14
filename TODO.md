@@ -1,10 +1,9 @@
 MVP:
     landing page
-        + animations ( https://github.com/daneden/animate.css )
         + write the details part (with semantic tags)
         + write the customize part (with semantic tags)
-        + colors and images
-        + find a way to fix the header text taking too much width (and remove the current non-working fix)
+        + animations ( https://github.com/daneden/animate.css )
+        + colors and backgrounds
         + mobile and tablet compatibility
         + analytics
         + check the validity of the written footer email

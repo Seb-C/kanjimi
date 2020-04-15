@@ -1,7 +1,7 @@
 MVP:
     landing page
-        + write the details part (with semantic tags and icons)
-        + write the customize part (with semantic tags and icons)
+        + write the details part (with semantic tags)
+        + write the customize part (with semantic tags)
         + more links to go down
         + animations ( https://github.com/daneden/animate.css )
         + colors and backgrounds
@@ -9,7 +9,6 @@ MVP:
         + analytics
         + check the validity of the written footer email
     move this TODO list to github issues
-    alternate token background
     fix dictionary not having everything? See おかげで
     translate the landing page and add the supported languages list somewhere
     Basic login interface in a popup button, token in the extension config

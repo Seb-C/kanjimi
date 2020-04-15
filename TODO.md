@@ -1,7 +1,7 @@
 MVP:
     landing page
-        + write the details part (with semantic tags)
-        + write the customize part (with semantic tags)
+        + write the details part (with semantic tags and icons)
+        + write the customize part (with semantic tags and icons)
         + animations ( https://github.com/daneden/animate.css )
         + colors and backgrounds
         + mobile and tablet compatibility

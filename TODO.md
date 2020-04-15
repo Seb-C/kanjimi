@@ -2,6 +2,7 @@ MVP:
     landing page
         + write the details part (with semantic tags and icons)
         + write the customize part (with semantic tags and icons)
+        + more links to go down
         + animations ( https://github.com/daneden/animate.css )
         + colors and backgrounds
         + mobile and tablet compatibility
@@ -54,8 +55,9 @@ After:
     hide and show kanjis by reading (and remember)
     example of words using the same kanjis and that have been seen before
     route to explain a word (split kanji and contextualized reading of every kanji)
-    Kanjis explanation and readings
+    Kanjis translation and readings
     use kanjis svg instead of a font (proper sizing + animatable?)
+    also show old kanji writings to provide a visual help
     half width characters? full-width roman chars and letters?
     extension hot-reload -> supported by vue.js, but the current instances are not migrated
     replace API with websockets?

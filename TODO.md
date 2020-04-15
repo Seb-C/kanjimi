@@ -18,6 +18,7 @@ MVP:
     test and debug with slack
     test and debug intensively the display of results
     webpack: different webpack and typescript config for extension and server
+    JLPT level at subscription, use it to define the default status of words
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags

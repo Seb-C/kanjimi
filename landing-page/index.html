@@ -16,6 +16,12 @@
 				background: linear-gradient(120deg, var(--gray) 60vw, transparent 0%);
 			}
 
+			.sticky-bottom {
+				position: -webkit-sticky;
+				position: sticky;
+				bottom: 0;
+			}
+
 			.container h2 + hr {
 				width: 10%;
 			}
@@ -94,10 +100,10 @@
 						<a class="nav-link" href="#top">Top</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#basics">Read</a>
+						<a class="nav-link" href="#read">Read</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="#details">Study</a>
+						<a class="nav-link" href="#study">Study</a>
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#customize">Customize</a>
@@ -160,8 +166,8 @@
 							</div>
 						</article>
 					</div>
-					<div class="col-12 text-center align-self-end mb-2">
-						<a href="#basics" class="stretched-link text-dark">
+					<div class="col-12 text-center align-self-end sticky-bottom">
+						<a href="#read" class="stretched-link text-dark bg-white rounded-top d-inline-block px-2 pt-1">
 							Learn more
 							<br />
 							<i class="fas fa-chevron-down">&nbsp;</i>
@@ -171,7 +177,7 @@
 			</div>
 		</header>
 
-		<section id="basics" class="bg-light">
+		<section id="read" class="bg-light">
 			<div class="min-vh-100 container d-flex flex-column">
 				<h2 class="text-center mt-5">Read any Japanese website</h2>
 				<hr class="my-4" />
@@ -299,10 +305,17 @@
 						</p>
 					</article>
 				</div>
+				<div class="col-12 text-center align-self-end sticky-bottom">
+					<a href="#study" class="stretched-link text-dark bg-light rounded-top d-inline-block px-2 pt-1">
+						Learn more
+						<br />
+						<i class="fas fa-chevron-down">&nbsp;</i>
+					</a>
+				</div>
 			</div>
 		</section>
 
-		<section id="details" class="min-vh-100 container d-flex flex-column">
+		<section id="study" class="min-vh-100 container d-flex flex-column">
 			<h2 class="text-center mt-5">Study the words and Kanjis</h2>
 			<hr class="my-4" />
 
@@ -330,6 +343,13 @@
 					TODO sample
 				</div>
 			</div>
+			<div class="col-12 text-center align-self-end sticky-bottom">
+				<a href="#customize" class="stretched-link text-dark bg-white rounded-top d-inline-block px-2 pt-1">
+					Learn more
+					<br />
+					<i class="fas fa-chevron-down">&nbsp;</i>
+				</a>
+			</div>
 		</section>
 
 		<section id="customize" class="bg-light">
@@ -352,6 +372,13 @@
 							Both the readings and translations can be toggled separately.
 						</p>
 					</article>
+				</div>
+				<div class="col-12 text-center align-self-end sticky-bottom">
+					<a href="#compatibility" class="stretched-link text-dark bg-light rounded-top d-inline-block px-2 pt-1">
+						Learn more
+						<br />
+						<i class="fas fa-chevron-down">&nbsp;</i>
+					</a>
 				</div>
 			</div>
 		</section>
@@ -472,6 +499,13 @@
 
 					<p class="mt-3">(Unfortunately, iOS devices does not support WebExtensions)</p>
 				</div>
+			</div>
+			<div class="col-12 text-center align-self-end sticky-bottom">
+				<a href="#newsletter" class="stretched-link text-dark bg-white rounded-top d-inline-block px-2 pt-1">
+					Learn more
+					<br />
+					<i class="fas fa-chevron-down">&nbsp;</i>
+				</a>
 			</div>
 		</section>
 

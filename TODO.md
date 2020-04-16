@@ -6,7 +6,9 @@ MVP:
         + colors and backgrounds
         + mobile and tablet compatibility
         + analytics
-        + check the validity of the written footer email
+        + check the validity of the email address in the footer
+        + remove jQuery
+        + separate CSS and JS
     move this TODO list to github issues
     fix dictionary not having everything? See おかげで
     translate the landing page and add the supported languages list somewhere

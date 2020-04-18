@@ -1,7 +1,6 @@
 MVP:
     landing page
-        + write the details part (with semantic tags)
-        + write the customize part (with semantic tags)
+        + write the customize part (with semantic tags + lang attributes)
         + animations ( https://github.com/daneden/animate.css )
         + colors and backgrounds
         + mobile and tablet compatibility
@@ -9,6 +8,7 @@ MVP:
         + check the validity of the email address in the footer
         + remove jQuery
         + separate CSS and JS
+    check and fix rem vs em unit in the extension code
     move this TODO list to github issues
     fix dictionary not having everything? See おかげで
     translate the landing page and add the supported languages list somewhere

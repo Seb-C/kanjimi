@@ -20,6 +20,7 @@
 				position: -webkit-sticky;
 				position: sticky;
 				bottom: 0;
+				z-index: 3;
 			}
 
 			.container h2 + hr {
@@ -70,13 +71,16 @@
 
 			.kanjimi-tooltip {
 				background: #eae4ce;
-				z-index: 999999;
+				z-index: 2;
 				box-sizing: border-box;
 				border-radius: 5px;
 				border: 1px solid black;
 				color: black;
 				padding: 5px;
 				margin-right: 5rem;
+				margin-top: -1rem;
+				position: relative;
+				height: 15rem;
 			}
 
 			.kanjimi-tooltip-content {
@@ -88,10 +92,15 @@
 
 			.kanjimi-tooltip-tip {
 				background: #eae4ce;
-				z-index: 999998;
+				z-index: 1;
 				transform-origin: center;
 				transform: rotate(45deg);
 				border: 1px solid black;
+				width: 1rem;
+				height: 1rem;
+				position: absolute;
+				margin-top: -1.4rem;
+				left: 6.35rem;
 			}
 
 			.kanjimi-readings {
@@ -123,13 +132,13 @@
 			}
 
 			.kanjimi-reading-translation-flag {
-				margin-top: 0.3rem;
 				float: left;
 			}
 
 			.kanjimi-reading-translation ol {
 				flex-grow: 1;
 				margin-left: 0.5rem;
+				padding: 0;
 			}
 
 			.kanjimi-reading-translation ol li {
@@ -255,7 +264,7 @@
 
 				<div class="row align-items-center flex-fill">
 					<div class="col">
-						<div class="card rounded-lg bg-white mt-5 mx-5 text-muted">
+						<aside class="card rounded-lg bg-white mt-5 mx-5 text-muted" lang="ja">
 							<div class="card-body">
 								<p class="card-text kanjimi-sentence">
 									このアプリケーションのおかげで、
@@ -263,7 +272,7 @@
 									発音と翻訳を見せてくれます。
 								</p>
 							</div>
-						</div>
+						</aside>
 
 						<div class="row">
 							<div class="col">
@@ -273,99 +282,99 @@
 							</div>
 						</div>
 
-						<div class="card rounded-lg bg-white mb-5 mx-5">
+						<aside class="card rounded-lg bg-white mb-5 mx-5" lang="ja">
 							<div class="card-body">
 								<p class="card-text">
 									<span class="kanjimi-sentence">
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">この</span>
-											<span class="kanjimi-translation">This</span>
+											<span class="kanjimi-translation" lang="en">This</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">アプリケーション</span>
-											<span class="kanjimi-translation">application</span>
+											<span class="kanjimi-translation" lang="en">application</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">のおかげで</span>
-											<span class="kanjimi-translation">thanks to ...</span>
+											<span class="kanjimi-translation" lang="en">thanks to ...</span>
 										</span><!--
 										--><span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">、</span>
-											<span class="kanjimi-translation">&nbsp;</span>
+											<span class="kanjimi-translation" lang="en">&nbsp;</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">かんじ</span>
 											<span class="kanjimi-word">漢字</span>
-											<span class="kanjimi-translation">kanji</span>
+											<span class="kanjimi-translation" lang="en">kanji</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">は</span>
-											<span class="kanjimi-translation">&nbsp;</span>
+											<span class="kanjimi-translation" lang="en">&nbsp;</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">もんだい</span>
 											<span class="kanjimi-word">問題</span>
-											<span class="kanjimi-translation">problem</span>
+											<span class="kanjimi-translation" lang="en">problem</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">ない</span>
-											<span class="kanjimi-translation">nonexistent</span>
+											<span class="kanjimi-translation" lang="en">nonexistent</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">です</span>
-											<span class="kanjimi-translation">be</span>
+											<span class="kanjimi-translation" lang="en">be</span>
 										</span><!--
 										--><span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">。</span>
-											<span class="kanjimi-translation">&nbsp;</span>
+											<span class="kanjimi-translation" lang="en">&nbsp;</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">はつおん</span>
 											<span class="kanjimi-word">発音</span>
-											<span class="kanjimi-translation">prononciation</span>
+											<span class="kanjimi-translation" lang="en">prononciation</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">と</span>
-											<span class="kanjimi-translation">&nbsp;</span>
+											<span class="kanjimi-translation" lang="en">&nbsp;</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">ほんやく</span>
 											<span class="kanjimi-word">翻訳</span>
-											<span class="kanjimi-translation">translation</span>
+											<span class="kanjimi-translation" lang="en">translation</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">を</span>
-											<span class="kanjimi-translation">&nbsp;</span>
+											<span class="kanjimi-translation" lang="en">&nbsp;</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">みせて</span>
 											<span class="kanjimi-word">見せて</span>
-											<span class="kanjimi-translation">to show</span>
+											<span class="kanjimi-translation" lang="en">to show</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">くれます</span>
-											<span class="kanjimi-translation">to give</span>
+											<span class="kanjimi-translation" lang="en">to give</span>
 										</span><!--
 										--><span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
 											<span class="kanjimi-word">。</span>
-											<span class="kanjimi-translation">&nbsp;</span>
+											<span class="kanjimi-translation" lang="en">&nbsp;</span>
 										</span>
 									</span>
 								</p>
 							</div>
-						</div>
+						</aside>
 					</div>
 					<article class="col">
 						<h3><i class="fas fa-plane-departure mr-2"></i> The world is yours</h3>
@@ -416,113 +425,113 @@
 					</p>
 				</article>
 				<div class="col">
-					<div class="card rounded-lg bg-white mt-5 mr-2 ml-5">
+					<aside class="card rounded-lg bg-white mt-5 mr-2 ml-5" lang="ja">
 						<div class="card-body">
 							<p class="card-text">
 								<span class="kanjimi-sentence">
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">ことば</span>
 										<span class="kanjimi-word">言葉</span>
-										<span class="kanjimi-translation">word</span>
+										<span class="kanjimi-translation" lang="en">word</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">に</span>
-										<span class="kanjimi-translation">&nbsp;</span>
+										<span class="kanjimi-translation" lang="en">&nbsp;</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">クリック</span>
-										<span class="kanjimi-translation">click</span>
+										<span class="kanjimi-translation" lang="en">click</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">したら</span>
-										<span class="kanjimi-translation">to do</span>
+										<span class="kanjimi-translation" lang="en">to do</span>
 									</span><!--
 									--><span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">、</span>
-										<span class="kanjimi-translation">&nbsp;</span>
+										<span class="kanjimi-translation" lang="en">&nbsp;</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">いみ</span>
 										<span class="kanjimi-word">意味</span>
-										<span class="kanjimi-translation">meaning</span>
+										<span class="kanjimi-translation" lang="en">meaning</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">と</span>
-										<span class="kanjimi-translation">&nbsp;</span>
+										<span class="kanjimi-translation" lang="en">&nbsp;</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">よみ</span>
 										<span class="kanjimi-word">読み</span>
-										<span class="kanjimi-translation">reading</span>
+										<span class="kanjimi-translation" lang="en">reading</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">を</span>
-										<span class="kanjimi-translation">&nbsp;</span>
+										<span class="kanjimi-translation" lang="en">&nbsp;</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">みせます</span>
 										<span class="kanjimi-word">見せます</span>
-										<span class="kanjimi-translation">to show</span>
+										<span class="kanjimi-translation" lang="en">to show</span>
 									</span><!--
 									--><span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">。</span>
-										<span class="kanjimi-translation">&nbsp;</span>
+										<span class="kanjimi-translation" lang="en">&nbsp;</span>
 									</span>
 									<br />
 									<span class="kanjimi-token selected">
 										<span class="kanjimi-furigana">ふくすう</span>
 										<span class="kanjimi-word">複数</span>
-										<span class="kanjimi-translation">plural</span>
+										<span class="kanjimi-translation" lang="en">plural</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">の</span>
-										<span class="kanjimi-translation">&nbsp;</span>
+										<span class="kanjimi-translation" lang="en">&nbsp;</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">げんご</span>
 										<span class="kanjimi-word">言語</span>
-										<span class="kanjimi-translation">language</span>
+										<span class="kanjimi-translation" lang="en">language</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">を</span>
-										<span class="kanjimi-translation">&nbsp;</span>
+										<span class="kanjimi-translation" lang="en">&nbsp;</span>
 									</span>
 									<span class="kanjimi-token">
 										<span class="kanjimi-furigana">つかえます</span>
 										<span class="kanjimi-word">使えます</span>
-										<span class="kanjimi-translation">to be usable</span>
+										<span class="kanjimi-translation" lang="en">to be usable</span>
 									</span><!--
 									--><span class="kanjimi-token">
 										<span class="kanjimi-furigana">&nbsp;</span>
 										<span class="kanjimi-word">。</span>
-										<span class="kanjimi-translation">&nbsp;</span>
+										<span class="kanjimi-translation" lang="en">&nbsp;</span>
 									</span>
 								</span>
 							</p>
 						</div>
-					</div>
+					</aside>
 
 					<div class="kanjimi-tooltip-tip"></div>
 
-					<div class="kanjimi-tooltip">
+					<aside class="kanjimi-tooltip">
 						<div class="kanjimi-tooltip-content">
 							<ul class="kanjimi-readings">
 								<li>
-									<span class="kanjimi-token">
+									<span class="kanjimi-token" lang="ja">
 										<span class="kanjimi-furigana">ふくすう</span>
 										<span class="kanjimi-word">複数</span>
 									</span>
 									<div class="kanjimi-reading-translations">
-										<div class="kanjimi-reading-translation">
+										<div class="kanjimi-reading-translation" lang="en">
 											<span title="English" class="kanjimi-reading-translation-flag">🇬🇧</span>
 											<ol>
 												<li>plural</li>
@@ -530,20 +539,20 @@
 												<li>several</li>
 											</ol>
 										</div>
-										<div class="kanjimi-reading-translation">
+										<div class="kanjimi-reading-translation" lang="fr">
 											<span title="French" class="kanjimi-reading-translation-flag">🇫🇷</span>
 											<ol>
 												<li>multiple</li>
 												<li>pluriel</li>
 											</ol>
 										</div>
-										<div class="kanjimi-reading-translation">
+										<div class="kanjimi-reading-translation" lang="es">
 											<span title="Spanish" class="kanjimi-reading-translation-flag">🇪🇸</span>
 											<ol>
 												<li>plural</li>
 											</ol>
 										</div>
-										<div class="kanjimi-reading-translation">
+										<div class="kanjimi-reading-translation" lang="de">
 											<span title="German" class="kanjimi-reading-translation-flag">🇩🇪</span>
 											<ol>
 												<li>Vielzahl</li>
@@ -554,7 +563,7 @@
 												<li>pluralisch</li>
 											</ol>
 										</div>
-										<div class="kanjimi-reading-translation">
+										<div class="kanjimi-reading-translation" lang="ru">
 											<span title="Russian" class="kanjimi-reading-translation-flag">🇷🇺</span>
 											<ol>
 												<li>(грам.) множественное число</li>
@@ -564,7 +573,7 @@
 								</li>
 							</ul>
 						</div>
-					</div>
+					</aside>
 				</div>
 			</div>
 			<div class="col-12 text-center align-self-end sticky-bottom">

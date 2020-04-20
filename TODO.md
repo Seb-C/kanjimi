@@ -1,13 +1,12 @@
 MVP:
     landing page
-        + write the customize part (with semantic tags + lang attributes)
-        + animations ( https://github.com/daneden/animate.css )
-        + colors and backgrounds
-        + mobile and tablet compatibility
-        + analytics
-        + check the validity of the email address in the footer
         + remove jQuery
         + separate CSS and JS
+        + animations ( https://github.com/daneden/animate.css )
+        + mobile and tablet compatibility
+        + nice colors and backgrounds
+        + analytics
+        + check the validity of the email address in the footer
     check and fix rem vs em unit in the extension code
     move this TODO list to github issues
     fix dictionary not having everything? See おかげで

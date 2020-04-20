@@ -36,6 +36,7 @@
 			}
 
 			.kanjimi-token {
+				position: relative;
 				display: inline-block;
 				line-height: 100%;
 			}
@@ -145,6 +146,70 @@
 				list-style-type: decimal;
 				list-style-position: inside;
 				display: list-item;
+			}
+
+			.kanjimi-token .kanjimi-fake-cursor {
+				position: absolute;
+				left: 50%;
+				bottom: -0.75em;
+			}
+
+			.kanjimi-token .kanjimi-fake-cursor::after {
+				content: "";
+				animation: 2s ease infinite fake-cursor-click;
+				display: block;
+				position: absolute;
+				border-radius: 50%;
+				border: 3px solid var(--red);
+				transform-origin: center center;
+				left: -0.9em;
+				top: -0.9em;
+				width: 2em;
+				height: 2em;
+			}
+
+			@keyframes fake-cursor-click {
+				0% {
+					transform: scale(0, 0);
+				}
+
+				79.99% {
+					transform: scale(0, 0);
+				}
+
+				80% {
+					transform: scale(0.5, 0.5);
+				}
+
+				100% {
+					transform: scale(1, 1);
+				}
+			}
+
+			.kanjimi-token .fake-cursor-toggle {
+				animation: 4s linear infinite fake-cursor-toggle;
+				color: var(--dark);
+				background-color: var(--dark);
+			}
+
+			@keyframes fake-cursor-toggle {
+				0% {
+					background-color: var(--dark);
+				}
+
+				39.999% {
+					background-color: var(--dark);
+				}
+				40% {
+					background-color: var(--light);
+				}
+
+				89.999% {
+					background-color: var(--light);
+				}
+				90% {
+					background-color: var(--dark);
+				}
 			}
 		</style>
 	</head>
@@ -614,7 +679,8 @@
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">ほんやく</span>
 											<span class="kanjimi-word">翻訳</span>
-											<span class="kanjimi-translation text-dark bg-dark" lang="en">translation</span>
+											<span class="kanjimi-translation fake-cursor-toggle" lang="en">translation</span>
+											<span class="kanjimi-fake-cursor"><img src="./img/mouse-cursor.svg" /></span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>
@@ -644,7 +710,7 @@
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">ほんやく</span>
 											<span class="kanjimi-word">翻訳</span>
-											<span class="kanjimi-translation text-dark bg-dark" lang="en">translation</span>
+											<span class="kanjimi-translation fake-cursor-toggle" lang="en">translation</span>
 										</span>
 										<span class="kanjimi-token">
 											<span class="kanjimi-furigana">&nbsp;</span>

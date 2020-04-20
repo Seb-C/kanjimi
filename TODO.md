@@ -1,6 +1,5 @@
 MVP:
     landing page
-        + animations ( https://github.com/daneden/animate.css )
         + mobile and tablet compatibility
         + nice colors and backgrounds
         + analytics

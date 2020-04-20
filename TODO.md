@@ -1,7 +1,5 @@
 MVP:
     landing page
-        + remove jQuery
-        + separate CSS and JS
         + animations ( https://github.com/daneden/animate.css )
         + mobile and tablet compatibility
         + nice colors and backgrounds

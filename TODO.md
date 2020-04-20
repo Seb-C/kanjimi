@@ -6,6 +6,7 @@ MVP:
         + mobile and tablet compatibility
         + nice colors and backgrounds
         + analytics
+        + newsletter forms...
         + check the validity of the email address in the footer
     check and fix rem vs em unit in the extension code
     move this TODO list to github issues

@@ -1,11 +1,20 @@
+:root {
+	/* https://coolors.co/ffc857-393e41-f0f8ff-c5d5e9-064789 */
+	--primary: #FFC857;
+	--secondary: #064789;
+	--dark: #393E41;
+	--white: #F0F8FF;
+	--light: #C5D5E9;
+}
 body {
 	position: relative;
 	overflow-x: hidden;
+	color: var(--dark);
 }
 
 header {
 	background: url(../img/banner.svg) center / cover no-repeat;
-	background: linear-gradient(120deg, var(--gray) 60vw, transparent 0%);
+	background: linear-gradient(120deg, var(--light) 60vw, transparent 0%);
 }
 
 .sticky-bottom {
@@ -193,11 +202,11 @@ header {
 		background-color: var(--dark);
 	}
 	40% {
-		background-color: var(--light);
+		background-color: var(--white);
 	}
 
 	89.999% {
-		background-color: var(--light);
+		background-color: var(--white);
 	}
 	90% {
 		background-color: var(--dark);
@@ -208,4 +217,33 @@ footer {
 	position: absolute;
 	width: 100%;
 	bottom: 0;
+}
+
+.btn-primary {
+	color: var(--dark);
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.text-primary {
+	color: var(--primary) !important;
+}
+
+.navbar-dark .navbar-nav .nav-link {
+	color: var(--white);
+}
+.navbar-dark .navbar-nav .nav-link.active {
+	color: var(--primary);
+}
+
+.bg-dark {
+    background-color: var(--dark) !important;
+}
+.bg-white {
+    background-color: var(--white) !important;
+}
+.bg-light {
+    background-color: var(--light) !important;
+}
+.input-group-text {
+	color: var(--dark);
 }

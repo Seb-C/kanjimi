@@ -1,7 +1,7 @@
 MVP:
     landing page
-        + mobile and tablet compatibility
         + nice colors and backgrounds
+        + mobile and tablet compatibility
         + analytics
         + newsletter forms...
         + check the validity of the email address in the footer

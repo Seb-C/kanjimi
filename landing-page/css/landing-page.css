@@ -1,20 +1,28 @@
 :root {
-	/* https://coolors.co/ffc857-393e41-f0f8ff-c5d5e9-064789 */
+	/* https://coolors.co/ffc857-393e41-fffbe3-fff8e8-064789 */
 	--primary: #FFC857;
 	--secondary: #064789;
+	--black: #1d1905;
 	--dark: #393E41;
-	--white: #F0F8FF;
-	--light: #C5D5E9;
+	--white: #FFFCF5;
+	--light: #FFF8E8;
 }
 body {
 	position: relative;
 	overflow-x: hidden;
-	color: var(--dark);
+	color: var(--black);
+	background-color: var(--white);
 }
 
 header {
 	background: url(../img/banner.svg) center / cover no-repeat;
-	background: linear-gradient(120deg, var(--light) 60vw, transparent 0%);
+	background: linear-gradient(120deg, var(--primary) 60vw, transparent 0%);
+}
+header .jumbotron {
+	color: var(--black);
+}
+h1.display-4 {
+	font-weight: 450;
 }
 
 .sticky-bottom {
@@ -22,6 +30,14 @@ header {
 	position: sticky;
 	bottom: 0;
 	z-index: 3;
+	pointer-events: none;
+}
+.sticky-bottom a {
+	pointer-events: auto;
+	color: var(--black);
+}
+.sticky-bottom a.bg-light, .sticky-bottom a.bg-light:hover {
+    background-color: var(--light) !important;
 }
 
 .container h2 + hr {
@@ -72,12 +88,12 @@ header {
 }
 
 .kanjimi-tooltip {
-	background: #eae4ce;
+	background: var(--primary);
 	z-index: 2;
 	box-sizing: border-box;
 	border-radius: 5px;
-	border: 1px solid black;
-	color: black;
+	border: 1px solid var(--dark);
+	color: var(--black);
 	padding: 5px;
 	margin-right: 5rem;
 	margin-top: -1rem;
@@ -93,11 +109,11 @@ header {
 }
 
 .kanjimi-tooltip-tip {
-	background: #eae4ce;
+	background: var(--primary);
 	z-index: 1;
 	transform-origin: center;
 	transform: rotate(45deg);
-	border: 1px solid black;
+	border: 1px solid var(--dark);
 	width: 1rem;
 	height: 1rem;
 	position: absolute;
@@ -125,7 +141,7 @@ header {
 	display: inline-block;
 	padding-left: 0.5rem;
 	margin-left: 0.5rem;
-	border-left: 2px solid #AAA;
+	border-left: 2px solid var(--secondary);
 	flex-grow: 1;
 }
 
@@ -189,17 +205,17 @@ header {
 
 .kanjimi-token .fake-cursor-toggle {
 	animation: 4s linear infinite fake-cursor-toggle;
-	color: var(--dark);
-	background-color: var(--dark);
+	color: var(--black);
+	background-color: var(--black);
 }
 
 @keyframes fake-cursor-toggle {
 	0% {
-		background-color: var(--dark);
+		background-color: var(--black);
 	}
 
 	39.999% {
-		background-color: var(--dark);
+		background-color: var(--black);
 	}
 	40% {
 		background-color: var(--white);
@@ -209,7 +225,7 @@ header {
 		background-color: var(--white);
 	}
 	90% {
-		background-color: var(--dark);
+		background-color: var(--black);
 	}
 }
 
@@ -220,16 +236,31 @@ footer {
 }
 
 .btn-primary {
-	color: var(--dark);
-    background-color: var(--primary);
-    border-color: var(--primary);
+	color: var(--white);
+    background-color: var(--secondary);
+    border-color: var(--secondary);
+}
+.btn-primary:hover {
+	color: var(--light);
+    background-color: var(--secondary);
+    border-color: var(--secondary);
 }
 .text-primary {
 	color: var(--primary) !important;
 }
+.text-muted {
+	color: var(--dark) !important;
+	opacity: 70%;
+}
+.figure-caption {
+	color: var(--dark);
+}
 
 .navbar-dark .navbar-nav .nav-link {
 	color: var(--white);
+}
+.navbar-dark .navbar-nav .nav-link:hover {
+	color: var(--secondary);
 }
 .navbar-dark .navbar-nav .nav-link.active {
 	color: var(--primary);
@@ -245,5 +276,5 @@ footer {
     background-color: var(--light) !important;
 }
 .input-group-text {
-	color: var(--dark);
+	color: var(--black);
 }

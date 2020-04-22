@@ -44,8 +44,13 @@ h1.display-4 {
 	width: 10%;
 }
 
-.container .max-vw-50 {
-	max-width: 50vw;
+@media (max-width: var(--breakpoint-lg)) {
+	.container .max-vw-50-lg {
+		max-width: 50vw;
+	}
+	.text-nowrap-lg {
+		white-space: nowrap !important;
+	}
 }
 
 .kanjimi-sentence {

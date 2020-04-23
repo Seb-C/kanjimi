@@ -1,8 +1,6 @@
 MVP:
     landing page
-        + rounded borders to fix for the header's newsletter controls (xs + others to handle)
         + find background images and pictures to put everywhere
-        + mobile and tablet compatibility
         + analytics
         + newsletter forms...
         + check the validity of the email address in the footer

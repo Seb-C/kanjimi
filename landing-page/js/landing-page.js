@@ -1,4 +1,7 @@
 (function ($) {
+	// Saving it at first because it can change when the mobile menu is opened
+	var navBarHeight = $('.navbar').outerHeight();
+
 	// Fixing the 100vh not ignoring the header
 	$('.min-vh-100').each(function (i, element) {
 		const height = 'min-height: calc(100vh - ' + $('.navbar').outerHeight() + 'px) !important';
@@ -12,7 +15,7 @@
 	$("a[href^='#']").on('click', function(event) {
 		event.preventDefault();
 		$('html, body').animate({
-			scrollTop: $(this.hash).offset().top - $('.navbar').outerHeight(),
+			scrollTop: $(this.hash).offset().top - navBarHeight,
 		}, 500);
 	});
 })(jQuery);

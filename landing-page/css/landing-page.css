@@ -25,6 +25,33 @@ h1.display-4 {
 	font-weight: 450;
 }
 
+/* Warning: this one is not mobile first */
+@media (max-width: 767px) { /* --breakpoint-md - 1 */
+	.input-group-newsletter .input-group-prepend,
+	.input-group-newsletter .input-group-prepend i {
+		border-radius: 0 !important;
+		border-top-left-radius: 0.3rem !important;
+	}
+	.input-group-newsletter input.form-control {
+		border-radius: 0 !important;
+		border-top-right-radius: 0.3rem !important;
+	}
+	.input-group-newsletter .input-group-append {
+		display: block;
+		width: 100%;
+	}
+	.input-group-newsletter .input-group-append,
+	.input-group-newsletter .input-group-append button {
+		width: 100%;
+		border-radius: 0 !important;
+		border-bottom-left-radius: 0.3rem !important;
+		border-bottom-right-radius: 0.3rem !important;
+	}
+	.input-group-newsletter .input-group-append button {
+		margin-left: 1px;
+	}
+}
+
 .sticky-bottom {
 	position: -webkit-sticky;
 	position: sticky;
@@ -43,8 +70,7 @@ h1.display-4 {
 .container h2 + hr {
 	width: 10%;
 }
-
-@media (max-width: var(--breakpoint-lg)) {
+@media (min-width: 992px) { /* --breakpoint-lg */
 	.container .max-vw-50-lg {
 		max-width: 50vw;
 	}
@@ -54,6 +80,19 @@ h1.display-4 {
 }
 
 .kanjimi-sentence {
+	font-size: 1.1em;
+}
+@media (min-width: 768px) { /* --breakpoint-md */
+	.kanjimi-sentence {
+		font-size: 1.5em;
+	}
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	.kanjimi-sentence {
+		font-size: 1.25em;
+	}
+}
+.kanjimi-sentence-static-font-size {
 	font-size: 1.5em;
 }
 
@@ -100,10 +139,33 @@ h1.display-4 {
 	border: 1px solid var(--dark);
 	color: var(--black);
 	padding: 5px;
-	margin-right: 5rem;
-	margin-top: -1rem;
+	max-width: 14em;
 	position: relative;
 	height: 15rem;
+	margin-top: -0.25rem;
+	margin-bottom: 1em;
+}
+@media (min-width: 768px) { /* --breakpoint-md */
+	.kanjimi-tooltip {
+		max-width: none;
+		margin-right: 5em;
+	}
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	.kanjimi-tooltip {
+		margin-top: -1em;
+	}
+}
+
+.move-aside-tooltip {
+	margin-top: -14rem;
+	margin-left: 15em;
+}
+@media (min-width: 768px) { /* --breakpoint-md */
+	.move-aside-tooltip {
+		margin-top: auto;
+		margin-left: auto;
+	}
 }
 
 .kanjimi-tooltip-content {
@@ -123,7 +185,12 @@ h1.display-4 {
 	height: 1rem;
 	position: absolute;
 	margin-top: -0.5rem;
-	left: 5.5rem;
+	left: 1.75rem;
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	.kanjimi-tooltip-tip {
+		left: 5.5rem;
+	}
 }
 
 .kanjimi-readings {
@@ -189,7 +256,6 @@ h1.display-4 {
 	width: 2em;
 	height: 2em;
 }
-
 @keyframes fake-cursor-click {
 	0% {
 		transform: scale(0, 0);
@@ -213,7 +279,6 @@ h1.display-4 {
 	color: var(--black);
 	background-color: var(--black);
 }
-
 @keyframes fake-cursor-toggle {
 	0% {
 		background-color: var(--black);
@@ -282,4 +347,8 @@ footer {
 }
 .input-group-text {
 	color: var(--black);
+}
+
+.display-5 {
+    font-size: 2rem;
 }

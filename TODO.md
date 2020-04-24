@@ -1,6 +1,5 @@
 MVP:
     landing page
-        + improve the parallax with a speed argument (multiplies the position by a factor, use it to replace the margin hack)
         + properly handle the header images
         + handle the parallax images responsiveness
         + analytics

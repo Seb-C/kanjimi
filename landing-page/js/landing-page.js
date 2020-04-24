@@ -22,13 +22,22 @@
 	var parallaxElements = $('.parallax');
 	function refreshParallax (event) {
 		parallaxElements.each(function (i, element) {
-				element.style.top = (
+			var speed = 1;
+			if (element.classList.contains('parallax-fast')) {
+				speed = 2;
+			} else if (element.classList.contains('parallax-slow')) {
+				speed = 0.5;
+			}
+
+			element.style.top = (
+				(
 					element.parentNode.offsetHeight
 					+ element.parentNode.offsetTop
 					- $(window).scrollTop()
 					- (window.innerHeight / 2)
 					- (element.offsetHeight / 2)
-				) + 'px';
+				) * speed
+			) + 'px';
 		});
 	};
 	$(window).scroll(refreshParallax);

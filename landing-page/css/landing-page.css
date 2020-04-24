@@ -5,7 +5,9 @@
 	--black: #1d1905;
 	--dark: #393E41;
 	--white: #FFFCF5;
+	--white-50: rgb(255, 252, 245, 0.8);
 	--light: #FFF8E8;
+	--light-50: rgba(255, 248, 232, 0.8);
 }
 body {
 	position: relative;
@@ -14,11 +16,10 @@ body {
 	background-color: var(--white);
 }
 
-header {
-	background: url(../img/banner.svg) center / cover no-repeat;
+.with-diagonal-background {
 	background: linear-gradient(120deg, var(--primary) 60vw, transparent 0%);
 }
-header .jumbotron {
+.with-diagonal-background .jumbotron {
 	color: var(--black);
 }
 h1.display-4 {
@@ -313,6 +314,8 @@ footer {
 
 .background-image {
 	position: absolute;
+	max-height: 60vh;
+	width: auto;
 }
 
 .btn-primary {
@@ -361,4 +364,11 @@ footer {
 
 .display-5 {
     font-size: 2rem;
+}
+
+.bg-white-50 {
+	background-color: var(--white-50) !important;
+}
+.bg-light-50 {
+	background-color: var(--light-50) !important;
 }

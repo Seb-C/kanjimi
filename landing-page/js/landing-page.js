@@ -18,6 +18,22 @@
 			scrollTop: $(this.hash).offset().top - navBarHeight,
 		}, 500);
 	});
+
+	var parallaxElements = $('.parallax');
+	function refreshParallax (event) {
+		parallaxElements.each(function (i, element) {
+				element.style.top = (
+					element.parentNode.offsetHeight
+					+ element.parentNode.offsetTop
+					- $(window).scrollTop()
+					- (window.innerHeight / 2)
+					- (element.offsetHeight / 2)
+				) + 'px';
+		});
+	};
+	$(window).scroll(refreshParallax);
+    $(window).on('resize', refreshParallax);
+	refreshParallax(); // Init on load
 })(jQuery);
 
 AOS.init();

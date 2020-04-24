@@ -1,7 +1,8 @@
 MVP:
     landing page
-        + properly place and edit background pictures
-        + parallax effects ( https://dixonandmoe.com/rellax/ )
+        + improve the parallax with a speed argument (multiplies the position by a factor, use it to replace the margin hack)
+        + properly handle the header images
+        + handle the parallax images responsiveness
         + analytics
         + newsletter forms...
         + check the validity of the email address in the footer

@@ -311,6 +311,10 @@ footer {
 	bottom: 0;
 }
 
+.background-image {
+	position: absolute;
+}
+
 .btn-primary {
 	color: var(--white);
     background-color: var(--secondary);

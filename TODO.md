@@ -1,19 +1,6 @@
 MVP:
     landing page
-        + find background images and pictures to put everywhere
-            fuji.svg -> header
-            miso-soup.svg -> header
-            yamanote.svg -> header
-            ocha.svg -> header
-
-            new-year.svg -> read any
-
-            police.svg -> study
-
-            onsen.svg -> customize
-            sashimi.svg -> customize
-
-            shinkansen.svg -> newsletter
+        + properly place and edit background pictures
         + parallax effects ( https://dixonandmoe.com/rellax/ )
         + analytics
         + newsletter forms...

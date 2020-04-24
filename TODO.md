@@ -1,10 +1,7 @@
 MVP:
     landing page
-        + move the JR train in the header
-        + remove the shinkansen
-        + move the tea on the footer (in place of the JS train)
+        + fix the header text borders on all sizes
         + make the header train cross the two backgrounds
-        + move the miso soup under the newsletter
         + make the header train move horizontally
         + add a red japanese sun in parallax in the header ( looking like https://www.flaticon.com/premium-icon/fuji-mountain_2747401 )
         + properly handle the header images

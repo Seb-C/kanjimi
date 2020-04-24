@@ -1,6 +1,7 @@
 :root {
 	/* https://coolors.co/ffc857-393e41-fffbe3-fff8e8-064789 */
 	--primary: #FFC857;
+	--primary-50: rgb(255, 200, 87, 0.8);
 	--secondary: #064789;
 	--black: #1d1905;
 	--dark: #393E41;
@@ -366,6 +367,9 @@ footer {
     font-size: 2rem;
 }
 
+.bg-primary-50 {
+	background-color: var(--primary-50) !important;
+}
 .bg-white-50 {
 	background-color: var(--white-50) !important;
 }

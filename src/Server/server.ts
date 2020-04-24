@@ -27,10 +27,10 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 			try {
 				request.query = JSON.parse(unescape(query));
 			} catch {
-				request.query = null;
+				(<any>request).query = null;
 			}
 		} else {
-			request.query = null;
+			(<any>request).query = null;
 		}
 
 		next();

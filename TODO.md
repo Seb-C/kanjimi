@@ -1,10 +1,11 @@
 MVP:
     landing page
-        + fix the header text borders on all sizes
-        + make the header train cross the two backgrounds
-        + make the header train move horizontally
+        + make the header train move horizontally (with appropriate transforms to make it like 3D)
+        + fix the mount fuji image. Make it appropriate. Restore the sky background and stick it to the bottom?
         + add a red japanese sun in parallax in the header ( looking like https://www.flaticon.com/premium-icon/fuji-mountain_2747401 )
-        + properly handle the header images
+        + header text background: use a shadow to blur the borders? Big background circle?
+        + header text background: rounded corners
+        + fix the header text borders on all sizes
         + handle the parallax images responsiveness
         + analytics
         + newsletter forms...

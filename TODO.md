@@ -1,6 +1,7 @@
 MVP:
     landing page
         + find background images and pictures to put everywhere
+        + parallax effects ( https://dixonandmoe.com/rellax/ )
         + analytics
         + newsletter forms...
         + check the validity of the email address in the footer

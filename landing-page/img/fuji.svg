@@ -9,9 +9,9 @@
    xmlns="http://www.w3.org/2000/svg"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
-   width="99.057434mm"
-   height="31.844494mm"
-   viewBox="0 0 99.057434 31.844494"
+   width="79.780655mm"
+   height="29.866995mm"
+   viewBox="0 0 79.780655 29.866995"
    version="1.1"
    id="svg8"
    inkscape:version="0.92.4 5da689c313, 2019-01-14"
@@ -37,20 +37,24 @@
      borderopacity="1.0"
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
-     inkscape:zoom="2.8"
-     inkscape:cx="202.13493"
-     inkscape:cy="73.619254"
+     inkscape:zoom="1.4"
+     inkscape:cx="184.76364"
+     inkscape:cy="148.24822"
      inkscape:document-units="mm"
      inkscape:current-layer="layer1"
      showgrid="false"
      showguides="false"
      inkscape:snap-global="false"
      inkscape:pagecheckerboard="true"
-     inkscape:window-width="1681"
+     inkscape:window-width="1272"
      inkscape:window-height="1382"
-     inkscape:window-x="871"
+     inkscape:window-x="1280"
      inkscape:window-y="24"
-     inkscape:window-maximized="0" />
+     inkscape:window-maximized="0"
+     fit-margin-top="0"
+     fit-margin-left="0"
+     fit-margin-right="0"
+     fit-margin-bottom="0" />
   <metadata
      id="metadata5">
     <rdf:RDF>
@@ -59,7 +63,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -67,10 +71,10 @@
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1"
-     transform="translate(79.241368,-121.12365)">
+     transform="translate(79.241369,-123.10115)">
     <g
        id="Layer_1"
-       transform="matrix(-0.26458333,0,0,0.26458333,51.515981,48.53945)"
+       transform="matrix(-0.21309486,0,0,0.26458333,26.070326,48.53945)"
        clip-path="url(#clipPath4825)">
       <path
          id="path4592"

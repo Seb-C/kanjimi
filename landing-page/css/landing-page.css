@@ -9,6 +9,8 @@
 	--white-50: rgb(255, 252, 245, 0.8);
 	--light: #FFF8E8;
 	--light-50: rgba(255, 248, 232, 0.8);
+
+	--fuji-sky: #75c6d7;
 }
 body {
 	position: relative;
@@ -17,6 +19,9 @@ body {
 	background-color: var(--white);
 }
 
+.fuji-background {
+	background: var(--fuji-sky);
+}
 .with-diagonal-background {
 	background: linear-gradient(120deg, var(--primary) 60vw, transparent 0%);
 }

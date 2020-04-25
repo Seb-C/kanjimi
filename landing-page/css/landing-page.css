@@ -27,6 +27,20 @@ h1.display-4 {
 	font-weight: 450;
 }
 
+.horizontal-train-parallax {
+	max-width: 50%;
+	left: 0;
+	bottom: 3rem;
+	transform-origin: left top;
+	z-index: 2;
+}
+.back-of-horizontal-train {
+	z-index: 1 !important;
+}
+.front-of-horizontal-train {
+	z-index: 3 !important;
+}
+
 /* Warning: this one is not mobile first */
 @media (max-width: 767px) { /* --breakpoint-md - 1 */
 	.input-group-newsletter .input-group-prepend,

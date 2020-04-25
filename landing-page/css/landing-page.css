@@ -11,6 +11,7 @@
 	--light-50: rgba(255, 248, 232, 0.8);
 
 	--fuji-sky: #75c6d7;
+	--fuji-sun: #ee6161;
 }
 body {
 	position: relative;
@@ -21,6 +22,15 @@ body {
 
 .fuji-background {
 	background: var(--fuji-sky);
+}
+.fuji-sun {
+	position: absolute;
+	background-color: var(--fuji-sun);
+	width: 20vw;
+	height: 20vw;
+	right: 5vw;
+	border-radius: 50%;
+	margin-top: -30vh;
 }
 .with-diagonal-background {
 	background: linear-gradient(120deg, var(--primary) 60vw, transparent 0%);

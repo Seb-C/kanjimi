@@ -1,6 +1,5 @@
 MVP:
     landing page
-        + add a red japanese sun in parallax in the header ( looking like https://www.flaticon.com/premium-icon/fuji-mountain_2747401 )
         + header text background: use a shadow to blur the borders? Big background circle?
         + header text background: rounded corners
         + fix the header text borders on all sizes

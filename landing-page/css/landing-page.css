@@ -23,6 +23,36 @@ body {
 .fuji-background {
 	background: var(--fuji-sky);
 }
+.fuji {
+	position: absolute;
+	width: 300%;
+	right: -120%;
+	bottom: 0;
+}
+@media (min-width: 576px) { /* --breakpoint-sm */
+	.fuji {
+		right: -70%;
+		width: 200%;
+	}
+}
+@media (min-width: 768px) { /* --breakpoint-md */
+	.fuji {
+		right: -30%;
+		width: 130%;
+	}
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	.fuji {
+		right: -30%;
+		width: 110%;
+	}
+}
+@media (min-width: 1200px) { /* --breakpoint-xl */
+	.fuji {
+		right: -30%;
+		width: 100%;
+	}
+}
 .fuji-sun {
 	position: absolute;
 	background-color: var(--fuji-sun);

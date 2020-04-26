@@ -7,6 +7,7 @@ MVP:
         + analytics
         + newsletter forms...
         + check the validity of the email address in the footer
+        + test other browsers + real mobile + safari
     check and fix rem vs em unit in the extension code
     move this TODO list to github issues
     fix dictionary not having everything? See おかげで

@@ -37,14 +37,15 @@ body {
 }
 @media (min-width: 768px) { /* --breakpoint-md */
 	.fuji {
-		right: -30%;
-		width: 130%;
+		right: -60%;
+		width: 170%;
 	}
 }
 @media (min-width: 992px) { /* --breakpoint-lg */
 	.fuji {
-		right: -40%;
-		width: 120%;
+		right: -50%;
+		width: 150%;
+		height: 40vw;
 	}
 }
 @media (min-width: 1200px) { /* --breakpoint-xl */
@@ -119,6 +120,9 @@ header .jumbotron div h1.rounded {
 }
 
 .horizontal-train-parallax {
+	position: absolute;
+	max-height: 60vh;
+	width: auto;
 	max-width: 50%;
 	left: 0;
 	bottom: 3rem;
@@ -418,10 +422,67 @@ footer {
 	bottom: 0;
 }
 
-.background-image {
+.background-image-onsen {
 	position: absolute;
-	max-height: 60vh;
-	width: auto;
+	width: 45%;
+	right: 5%;
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	.background-image-onsen {
+		width: 30%;
+	}
+}
+
+.background-image-soup {
+	position: absolute;
+	width: 45%;
+	left: 5%;
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	.background-image-soup {
+		width: 30%;
+	}
+}
+
+.background-image-temple {
+	position: absolute;
+	width: 50%;
+	right: 5%;
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	.background-image-temple {
+		width: 30%;
+	}
+}
+
+.background-image-police {
+	position: absolute;
+	width: 30%;
+	left: auto;
+	right: 15%;
+	margin-top: -25vh;
+	transform: scale(-1, 1);
+}
+@media (min-width: 768px) { /* --breakpoint-md */
+	.background-image-police {
+		transform: none;
+		width: 25%;
+		left: 15%;
+		right: auto;
+	}
+}
+
+.background-image-tea {
+	position: absolute;
+	width: 80%;
+	left: 10%;
+	margin-top: 15vh;
+}
+@media (min-width: 768px) { /* --breakpoint-md */
+	.background-image-tea {
+		width: 50%;
+		left: 25%;
+	}
 }
 
 .btn-primary {

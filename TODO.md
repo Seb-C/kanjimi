@@ -1,7 +1,7 @@
 MVP:
     landing page
-        + handle the parallax images responsiveness
-        + test zoom and unzzom + responsive
+        + policeman on the right on sm size: bug with the background
+        + test zoom and unzoom + responsive
         + analytics
         + newsletter forms...
         + check the validity of the email address in the footer

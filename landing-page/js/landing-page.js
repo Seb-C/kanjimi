@@ -21,9 +21,43 @@
 })(jQuery);
 
 window.addEventListener('load', function () {
-	var parallaxElements = document.querySelectorAll('.parallax');
-	function refreshParallax (event) {
-		parallaxElements.forEach(function (element) {
+	var startScroll = window.scrollY;
+	var currentScroll = window.scrollY;
+	var targetScroll = window.scrollY;
+	var startTime = 0;
+	var currentTime = 0;
+	var targetTime = 0;
+	var listeners = [];
+	function animateNextFrame () {
+		window.requestAnimationFrame(function () {
+			animateNextFrame();
+
+			currentTime = +new Date();
+			var progress = (currentTime - startTime) / (targetTime - startTime);
+			if (progress > 1) {
+				progress = 1;
+			}
+
+			currentScroll = startScroll + (targetScroll - startScroll) * progress;
+			listeners.forEach(function (listener) {
+				listener(currentScroll);
+			});
+		});
+	}
+	animateNextFrame();
+
+	function scrollEvent (event) {
+		startScroll = currentScroll;
+		targetScroll = window.scrollY;
+		startTime = currentTime;
+		targetTime = startTime + 150;
+	}
+	window.addEventListener('scroll', scrollEvent);
+	window.addEventListener('resize', scrollEvent);
+	scrollEvent(); // Init on load
+
+	document.querySelectorAll('.parallax').forEach(function (element) {
+		listeners.push(function (scrollY) {
 			var speed = 1;
 			if (element.classList.contains('parallax-fast')) {
 				speed = 2;
@@ -35,27 +69,21 @@ window.addEventListener('load', function () {
 				(
 					element.parentNode.offsetHeight
 					+ element.parentNode.offsetTop
-					- window.scrollY
+					- scrollY
 					- (window.innerHeight / 2)
 					- (element.offsetHeight / 2)
 				) * speed
 			) + 'px';
 		});
-	};
-	window.addEventListener('scroll', refreshParallax);
-	window.addEventListener('resize', refreshParallax);
-	refreshParallax(); // Init on load
+	});
 
 	var trainElement = document.querySelector('.horizontal-train-parallax');
-	function refreshTrainParallax (event) {
-		var progress = window.scrollY / window.innerHeight;
+	listeners.push(function (scrollY) {
+		var progress = scrollY / window.innerHeight;
 		var translateX = window.innerWidth * progress;
 		var scale = 1 + (progress * 1.55);
 		trainElement.style.transform = 'translateX(' + translateX + 'px) scale(' + scale + ')';
-	};
-	window.addEventListener('scroll', refreshTrainParallax);
-	window.addEventListener('resize', refreshTrainParallax);
-	refreshTrainParallax(); // Init on load
+	});
 });
 
 AOS.init();

@@ -1,9 +1,11 @@
 MVP:
     landing page
         + analytics
-        + newsletter forms...
+        + migrate domain and ovh hosting
         + check the validity of the email address in the footer
-        + test other browsers + real mobile + safari
+        + newsletter forms...
+        + deployment script
+        + test on a real android
     check and fix rem vs em unit in the extension code
     move this TODO list to github issues
     fix dictionary not having everything? See おかげで

@@ -1,7 +1,7 @@
 MVP:
     landing page
-        + header text background: use a shadow to blur the borders? Big background circle?
         + handle the parallax images responsiveness
+        + test zoom and unzzom + responsive
         + analytics
         + newsletter forms...
         + check the validity of the email address in the footer

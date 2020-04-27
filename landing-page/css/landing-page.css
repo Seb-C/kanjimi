@@ -43,8 +43,8 @@ body {
 }
 @media (min-width: 992px) { /* --breakpoint-lg */
 	.fuji {
-		right: -30%;
-		width: 110%;
+		right: -40%;
+		width: 120%;
 	}
 }
 @media (min-width: 1200px) { /* --breakpoint-xl */
@@ -56,8 +56,8 @@ body {
 .fuji-sun {
 	position: absolute;
 	background-color: var(--fuji-sun);
-	width: 20vw;
-	height: 20vw;
+	width: 10rem;
+	height: 10rem;
 	right: 5vw;
 	border-radius: 50%;
 	margin-top: -30vh;
@@ -70,6 +70,28 @@ body {
 }
 h1.display-4 {
 	font-weight: 450;
+}
+
+.yellow-circle-background {
+	display: none;
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	.yellow-circle-background {
+		display: block;
+		position: absolute;
+		z-index: 1;
+		background-color: var(--primary);
+		border-radius: 50%;
+		top: -75rem;
+		bottom: 0;
+		left: -10rem;
+		right: 20vw;
+	}
+}
+@media (min-width: 1200px) { /* --breakpoint-xl */
+	.yellow-circle-background {
+		display: none;
+	}
 }
 
 header .jumbotron .rounded {

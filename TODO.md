@@ -1,8 +1,6 @@
 MVP:
     landing page
         + header text background: use a shadow to blur the borders? Big background circle?
-        + header text background: rounded corners
-        + fix the header text borders on all sizes
         + handle the parallax images responsiveness
         + analytics
         + newsletter forms...

@@ -72,6 +72,30 @@ h1.display-4 {
 	font-weight: 450;
 }
 
+header .jumbotron .rounded {
+	border-radius: 0 0 0 0 !important;
+}
+header .jumbotron > .rounded:last-child {
+	border-radius: 0 0 0.25rem 0.25rem !important;
+}
+header .jumbotron div h1.rounded {
+	border-radius: 0.25rem 0.25rem 0 0 !important;
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	header .jumbotron .rounded {
+		border-radius: 0.25rem 0.25rem 0.25rem 0.25rem !important;
+	}
+	header .jumbotron > .rounded:last-child {
+		border-radius: 0 0 0.25rem 0.25rem !important;
+	}
+	header .jumbotron div h1.rounded {
+		border-radius: 0.25rem 0.25rem 0.25rem 0.25rem !important;
+	}
+	header .jumbotron > .rounded:nth-child(5) {
+		border-radius: 0.25rem 0.25rem 0 0 !important;
+	}
+}
+
 .horizontal-train-parallax {
 	max-width: 50%;
 	left: 0;

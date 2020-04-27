@@ -274,8 +274,11 @@ header .jumbotron div h1.rounded {
 }
 @media (min-width: 576px) { /* --breakpoint-sm */
 	.move-aside-tooltip {
-		margin-top: -14rem;
-		margin-left: 15em;
+		margin-top: -15rem;
+		margin-left: 14.5em;
+		background: var(--white-50);
+		border-radius: 0.25rem;
+		padding: 0.5rem;
 	}
 }
 @media (min-width: 768px) { /* --breakpoint-md */

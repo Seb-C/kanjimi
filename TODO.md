@@ -1,6 +1,5 @@
 MVP:
     landing page
-        + policeman on the right on sm size: bug with the background
         + test zoom and unzoom + responsive
         + analytics
         + newsletter forms...

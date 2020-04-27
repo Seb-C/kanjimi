@@ -285,6 +285,9 @@ header .jumbotron div h1.rounded {
 	.move-aside-tooltip {
 		margin-top: auto;
 		margin-left: auto;
+		background: none;
+		border-radius: 0;
+		padding: 0;
 	}
 }
 
@@ -470,6 +473,14 @@ footer {
 	.background-image-police {
 		transform: none;
 		width: 25%;
+		left: 15%;
+		right: auto;
+	}
+}
+@media (min-width: 992px) { /* --breakpoint-lg */
+	.background-image-police {
+		transform: none;
+		width: 15%;
 		left: 15%;
 		right: auto;
 	}

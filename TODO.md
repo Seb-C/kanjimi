@@ -1,6 +1,5 @@
 MVP:
     landing page
-        + test zoom and unzoom + responsive
         + analytics
         + newsletter forms...
         + check the validity of the email address in the footer

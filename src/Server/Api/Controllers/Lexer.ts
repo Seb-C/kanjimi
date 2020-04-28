@@ -1,4 +1,5 @@
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
 import Token from 'Common/Models/Token';
 import Lexer from 'Server/Lexer/Lexer';

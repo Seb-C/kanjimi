@@ -1,5 +1,6 @@
 import Language from 'Common/Types/Language';
-import { Request, Response } from 'express';
+import { Response } from 'express';
+import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';

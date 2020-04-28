@@ -2,7 +2,9 @@ import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Database from 'Server/Database/Database';
 import * as Express from 'express';
-import { Application, Request, Response } from 'express';
+import { Application } from 'express';
+import { Response } from 'express';
+import { Request } from 'Server/Request';
 import * as BodyParser from 'body-parser';
 import * as URL from 'url';
 
@@ -27,10 +29,10 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 			try {
 				request.query = JSON.parse(unescape(query));
 			} catch {
-				(<any>request).query = null;
+				request.query = null;
 			}
 		} else {
-			(<any>request).query = null;
+			request.query = null;
 		}
 
 		next();

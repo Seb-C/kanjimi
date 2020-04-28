@@ -69,10 +69,5 @@ describe('Dictionary', () => {
 		expect(dictionary.get('イ', null).length).toBe(2);
 		expect(dictionary.get('あ', null).length).toBe(0);
 		expect(dictionary.get('い', null).length).toBe(0);
-
-		expect(dictionary.getReading('ア', null).length).toBe(0);
-		expect(dictionary.getReading('イ', null).length).toBe(0);
-		expect(dictionary.getReading('あ', null).length).toBe(2);
-		expect(dictionary.getReading('い', null).length).toBe(2);
 	});
 });

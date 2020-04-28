@@ -1,6 +1,7 @@
 import 'jasmine';
 import CharType from 'Common/Types/CharType';
 import TokenType from 'Common/Types/TokenType';
+import WordTag from 'Common/Types/WordTag';
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Word from 'Common/Models/Word';
@@ -42,7 +43,7 @@ describe('Lexer', async () => {
 		dictionary.add(new Word('高い', '', Language.ENGLISH, '', []));
 		dictionary.add(new Word('この', '', Language.ENGLISH, '', []));
 		dictionary.add(new Word('です', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('に就いて', 'について', Language.ENGLISH, '', []));
+		dictionary.add(new Word('に就いて', 'について', Language.ENGLISH, '', [WordTag.ONLY_KANA]));
 
 		// Adding some particles to the dictionary to assert that
 		// it is well recognized as a particle and not as a word

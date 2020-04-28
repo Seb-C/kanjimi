@@ -7,7 +7,6 @@ import * as ReadLine from 'readline';
 
 export default class Dictionary {
 	private readonly words: Map<string, Word[]> = new Map();
-	private readonly wordsByReading: Map<string, Word[]> = new Map();
 
 	async load(): Promise<void[]> {
 		const langAndFiles: { lang: Language|null, path: string }[] = [
@@ -99,10 +98,19 @@ export default class Dictionary {
 			this.words.set(word.word, [word]);
 		}
 
-		if (this.wordsByReading.has(word.word)) {
-			(<Word[]>this.wordsByReading.get(word.reading)).push(word);
-		} else {
-			this.wordsByReading.set(word.reading, [word]);
+		if (
+			word.word !== word.reading
+			&& word.tags.some(tag => (
+				tag === WordTag.ONLY_KANA
+				|| tag === WordTag.ONLY_KANA_WRITING
+			))
+		) {
+			// Indexing by reading
+			if (this.words.has(word.reading)) {
+				(<Word[]>this.words.get(word.reading)).push(word);
+			} else {
+				this.words.set(word.reading, [word]);
+			}
 		}
 	}
 
@@ -138,18 +146,7 @@ export default class Dictionary {
 		);
 	}
 
-	getReading (text: string, langs: Language[]|null): ReadonlyArray<Word> {
-		return this.filterAndSortLangs(
-			this.wordsByReading.get(text) || [],
-			langs,
-		);
-	}
-
 	has (text: string): boolean {
 		return this.words.has(text);
-	}
-
-	hasReading (text: string): boolean {
-		return this.wordsByReading.has(text);
 	}
 }

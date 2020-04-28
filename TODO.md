@@ -7,10 +7,6 @@ MVP:
         + deployment script (ftp.cluster029.hosting.ovh.net:21 (sftp) / login: kanjimicak / password: $LANDING_PAGE_FTP_PASSWORD / webftp: https://net2ftp.cluster029.hosting.ovh.net/?username=kanjimicak)
         + test on a real android
     Kanjimi twitter account
-    move this TODO list to github issues
-    fix dictionary not having everything? See おかげで
-        - If the word has the ONLY_KANA_or ONLY_KANA_WRITING tag, also index it by Kana
-        - Remove the dictionary code that searches by Kana?
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
     test with a lot of different sites and texts

@@ -33,6 +33,6 @@
 		content: "\1F517";
 		display: inline-block;
 		vertical-align: top;
-		margin: 0.5rem 0.5rem 0.5rem 0;
+		margin: 0.5em 0.5em 0.5em 0;
 	}
 </style>

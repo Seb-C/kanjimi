@@ -79,7 +79,7 @@
 	}
 
 	.token .furigana {
-		font-size: 0.5rem;
+		font-size: 0.5em;
 		display: block;
 		line-height: 150%;
 		margin: 0 2px;
@@ -102,7 +102,7 @@
 	.readings > li {
 		list-style-type: none;
 		display: flex;
-		margin-bottom: 0.5rem;
+		margin-bottom: 0.5em;
 	}
 
 	.readings > li > .token {
@@ -111,8 +111,8 @@
 
 	.reading-translations {
 		display: inline-block;
-		padding-left: 0.5rem;
-		margin-left: 0.5rem;
+		padding-left: 0.5em;
+		margin-left: 0.5em;
 		border-left: 2px solid #AAA;
 		flex-grow: 1;
 	}
@@ -122,13 +122,13 @@
 	}
 
 	.reading-translation-flag {
-		margin-top: 0.3rem;
+		margin-top: 0.3em;
 		float: left;
 	}
 
 	.reading-translation ol {
 		flex-grow: 1;
-		margin-left: 0.5rem;
+		margin-left: 0.5em;
 	}
 
 	.reading-translation ol li {

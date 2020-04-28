@@ -6,7 +6,6 @@ MVP:
         + deployment script (ftp.cluster029.hosting.ovh.net:21 (sftp) / login: kanjimicak / password: $LANDING_PAGE_FTP_PASSWORD / webftp: https://net2ftp.cluster029.hosting.ovh.net/?username=kanjimicak)
         + test on a real android
         + proper password management
-    check and fix rem vs em unit in the extension code
     move this TODO list to github issues
     fix dictionary not having everything? See おかげで
     translate the landing page and add the supported languages list somewhere

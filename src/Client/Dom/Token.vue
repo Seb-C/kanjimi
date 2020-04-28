@@ -115,7 +115,7 @@
 	}
 
 	.token .furigana {
-		font-size: 0.5rem;
+		font-size: 0.5em;
 		display: block;
 		line-height: 150%;
 		margin: 0 2px;
@@ -133,7 +133,7 @@
 	}
 
 	.token .translation {
-		font-size: 0.5rem;
+		font-size: 0.5em;
 		display: block;
 		line-height: 150%;
 		margin: 0px 2px;

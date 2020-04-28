@@ -9,9 +9,8 @@ MVP:
     Kanjimi twitter account
     move this TODO list to github issues
     fix dictionary not having everything? See おかげで
-        - Make the dictionary script include the tags in the <misc> and not only <pos>
-        - If the word has the &uk; tag, also index it by Kana (+ check another similar tag that I saw)
-        - Remove the dictionary code that searched by Kana?
+        - If the word has the ONLY_KANA_or ONLY_KANA_WRITING tag, also index it by Kana
+        - Remove the dictionary code that searches by Kana?
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
     test with a lot of different sites and texts

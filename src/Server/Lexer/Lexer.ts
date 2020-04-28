@@ -164,7 +164,6 @@ export default class Lexer {
 				const words: Word[] = [];
 				forms.forEach((form: Conjugation) => {
 					words.push(...this.dictionary.get(prefix + form.dictionaryForm, langs));
-					words.push(...this.dictionary.getReading(prefix + form.dictionaryForm, langs));
 				});
 
 				if (words.length > 0) {
@@ -178,10 +177,6 @@ export default class Lexer {
 					);
 				}
 			}
-		}
-
-		if (this.dictionary.hasReading(text)) {
-			return new Token(text, TokenType.WORD, this.dictionary.getReading(text, langs));
 		}
 
 		return null;

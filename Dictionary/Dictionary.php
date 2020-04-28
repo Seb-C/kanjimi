@@ -92,6 +92,14 @@ while($xml->name === 'entry') {
 				die('err');
 			}
 		}
+		foreach ($sense->getElementsByTagName('misc') as $x) {
+			$child = $x->childNodes[0];
+			if ($child instanceof DOMEntityReference) {
+				$tags[$child->nodeName] = true;
+			} else {
+				die('err');
+			}
+		}
 
 		$translations = [];
 		foreach ($sense->getElementsByTagName('lsource') as $x) {

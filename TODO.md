@@ -1,14 +1,18 @@
 MVP:
     landing page
+        + proper password management
         + analytics
         + migrate domain and ovh hosting to ovh world (by creating an account and adding a contact)
         + newsletter forms... -> mailchimp
         + deployment script (ftp.cluster029.hosting.ovh.net:21 (sftp) / login: kanjimicak / password: $LANDING_PAGE_FTP_PASSWORD / webftp: https://net2ftp.cluster029.hosting.ovh.net/?username=kanjimicak)
         + test on a real android
-        + proper password management
+    Kanjimi twitter account
     move this TODO list to github issues
     fix dictionary not having everything? See おかげで
-    translate the landing page and add the supported languages list somewhere
+        - Make the dictionary script include the tags in the <misc> and not only <pos>
+        - Add the missing tags to the WordTag enum (in progress, finish and then check that the row counts are identical)
+        - If the word has the &uk; tag, also index it by Kana (+ check another similar tag that I saw)
+        - Remove the dictionary code that searched by Kana?
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
     test with a lot of different sites and texts
@@ -26,18 +30,18 @@ MVP:
     chrome compatibility (and test others)
 
 Website/publishing:
+    include dynamic interface elements (based on the landing page)
     free trial for beta?
-    analytics?
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
     share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
     include copyright somewhere in the site (and external resources used) -> mostly external resources used
     onboarding
-    contact/newsletters/discussions/rss (forum or discord?)
     free plan?
     CGU
-    initialize user known words depending on the average jlpt level?
+    initialize user known words depending on the average JLPT level?
 
 After:
+    translate the landing page and interface and add the supported languages list somewhere
     Cypress commands should run in a docker as well
     tslint: clean useless imports -> migrate to https://github.com/typescript-eslint/typescript-eslint
     automatic updates (https://extensionworkshop.com/documentation/manage/updating-your-extension/)

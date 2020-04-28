@@ -1,6 +1,5 @@
 Dictionary/xml/
 node_modules/
-package-lock.json
 extension/*.build.js
 extension/*.build.css
 firefox-profile/

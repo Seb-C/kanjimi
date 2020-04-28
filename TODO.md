@@ -10,7 +10,6 @@ MVP:
     move this TODO list to github issues
     fix dictionary not having everything? See おかげで
         - Make the dictionary script include the tags in the <misc> and not only <pos>
-        - Add the missing tags to the WordTag enum (in progress, finish and then check that the row counts are identical)
         - If the word has the &uk; tag, also index it by Kana (+ check another similar tag that I saw)
         - Remove the dictionary code that searched by Kana?
     Basic login interface in a popup button, token in the extension config

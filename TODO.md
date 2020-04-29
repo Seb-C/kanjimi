@@ -1,9 +1,6 @@
 MVP:
     landing page
-        + proper password management
-        + analytics
-        + migrate domain and ovh hosting to ovh world (by creating an account and adding a contact)
-        + newsletter forms... -> mailchimp
+        + newsletter forms... -> mailchimp (subscription done, no integration yet)
         + deployment script (ftp.cluster029.hosting.ovh.net:21 (sftp) / login: kanjimicak / password: $LANDING_PAGE_FTP_PASSWORD / webftp: https://net2ftp.cluster029.hosting.ovh.net/?username=kanjimicak)
         + test on a real android
     Kanjimi twitter account

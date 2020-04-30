@@ -1,6 +1,5 @@
 MVP:
     landing page
-        + twitter account banner?
         + deployment script (ftp.cluster029.hosting.ovh.net:21 (sftp) / login: kanjimicak / password: $LANDING_PAGE_FTP_PASSWORD / webftp: https://net2ftp.cluster029.hosting.ovh.net/?username=kanjimicak)
         + test on a real android
     Basic login interface in a popup button, token in the extension config

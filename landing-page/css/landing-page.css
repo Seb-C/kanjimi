@@ -136,33 +136,6 @@ header .jumbotron div h1.rounded {
 	z-index: 3 !important;
 }
 
-/* Warning: this one is not mobile first */
-@media (max-width: 767px) { /* --breakpoint-md - 1 */
-	.input-group-newsletter .input-group-prepend,
-	.input-group-newsletter .input-group-prepend i {
-		border-radius: 0 !important;
-		border-top-left-radius: 0.3rem !important;
-	}
-	.input-group-newsletter input.form-control {
-		border-radius: 0 !important;
-		border-top-right-radius: 0.3rem !important;
-	}
-	.input-group-newsletter .input-group-append {
-		display: block;
-		width: 100%;
-	}
-	.input-group-newsletter .input-group-append,
-	.input-group-newsletter .input-group-append button {
-		width: 100%;
-		border-radius: 0 !important;
-		border-bottom-left-radius: 0.3rem !important;
-		border-bottom-right-radius: 0.3rem !important;
-	}
-	.input-group-newsletter .input-group-append button {
-		margin-left: 1px;
-	}
-}
-
 .sticky-bottom {
 	position: -webkit-sticky;
 	position: sticky;
@@ -538,9 +511,6 @@ footer {
 }
 .bg-light {
     background-color: var(--light) !important;
-}
-.input-group-text {
-	color: var(--black);
 }
 
 .display-5 {

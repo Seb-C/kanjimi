@@ -85,5 +85,3 @@ window.addEventListener('load', function () {
 		trainElement.style.transform = 'translateX(' + translateX + 'px) scale(' + scale + ')';
 	});
 });
-
-AOS.init();

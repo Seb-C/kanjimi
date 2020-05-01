@@ -7,21 +7,9 @@
 
 		<link rel="stylesheet" href="./css/bootstrap.min.css" />
 		<link rel="stylesheet" href="./css/fontawesome.min.css" />
-		<link rel="stylesheet" href="./css/aos.min.css" />
 		<link rel="stylesheet" href="./css/landing-page.css" />
 
 		<title>Kanjimi</title>
-
-		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
-		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-164923525-1"></script>
-		<script>
-			window.dataLayer = window.dataLayer || [];
-			function gtag() {
-				dataLayer.push(arguments);
-			}
-			gtag('js', new Date());
-			gtag('config', 'UA-164923525-1');
-		</script>
 	</head>
 	<body data-spy="scroll" data-target="#main-menu">
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
@@ -1108,9 +1096,26 @@
 		</footer>
 
 		<script src="./js/jquery.min.js"></script>
-		<script src="./js/popper.min.js"></script>
 		<script src="./js/bootstrap.min.js"></script>
-		<script src="./js/aos.min.js"></script>
 		<script src="./js/landing-page.js"></script>
+
+		<script src="./js/aos.min.js"></script>
+		<link rel="stylesheet" href="./css/aos.min.css" />
+		<script>
+			AOS.init();
+		</script>
+
+		<script src="./js/popper.min.js"></script>
+
+		<script async src="https://platform.twitter.com/widgets.js" charset="utf-8"></script>
+		<script async src="https://www.googletagmanager.com/gtag/js?id=UA-164923525-1"></script>
+		<script>
+			window.dataLayer = window.dataLayer || [];
+			function gtag() {
+				dataLayer.push(arguments);
+			}
+			gtag('js', new Date());
+			gtag('config', 'UA-164923525-1');
+		</script>
 	</body>
 </html>

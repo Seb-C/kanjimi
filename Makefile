@@ -1,4 +1,4 @@
-.PHONY: migrate test e2e cypress lint dictionary kanjis names browser db
+.PHONY: migrate test e2e cypress lint dictionary kanjis names browser db deploy-landing-page
 
 migrate:
 	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts
@@ -20,3 +20,6 @@ browser:
 	./node_modules/.bin/web-ext --config=web-ext.js run --firefox-profile ./firefox-profile --keep-profile-changes
 db:
 	docker-compose exec database psql -h localhost -U test -d test
+deploy-landing-page:
+	# Does not work for now because the sftp of OVH does not allow SSH connexions
+	# docker run -v ${PWD}:/app -w /app -it --rm instrumentisto/rsync-ssh rsync --port=21 -urv ./landing-page/ kanjimicak@ftp.cluster029.hosting.ovh.net:/home/kanjimicak/www --delete -vvv

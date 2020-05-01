@@ -1,9 +1,11 @@
 MVP:
     landing page
-        + deployment script (ftp.cluster029.hosting.ovh.net:21 (sftp) / login: kanjimicak / password: $LANDING_PAGE_FTP_PASSWORD / webftp: https://net2ftp.cluster029.hosting.ovh.net/?username=kanjimicak)
+        + remove http not secure
         + test on a real android
+    Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
+    Fix the CI
     test with a lot of different sites and texts
     test and debug with slack
     test and debug intensively the display of results

@@ -1,4 +1,7 @@
 MVP:
+    landing page:
+        - seo
+        - preload font-awesome
     Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging

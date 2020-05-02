@@ -13,9 +13,12 @@
 	--fuji-sky: #75c6d7;
 	--fuji-sun: #ee6161;
 }
-html, body {
-	position: relative;
+
+html {
 	overflow-x: hidden;
+}
+body {
+	position: relative;
 	color: var(--black);
 	background-color: var(--white);
 }

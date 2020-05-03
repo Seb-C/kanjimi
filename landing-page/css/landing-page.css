@@ -14,15 +14,14 @@
 	--fuji-sun: #ee6161;
 }
 
-html {
-	overflow-x: hidden;
-	overflow-y: scroll;
-}
 body {
-	overflow: hidden;
 	position: relative;
 	color: var(--black);
 	background-color: var(--white);
+}
+body > * {
+	max-width: 100%;
+	overflow: hidden;
 }
 
 .fuji-background {

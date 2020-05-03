@@ -1,9 +1,4 @@
 MVP:
-    landing page:
-        - translate in french?
-        - google search console -> waiting results
-        - preload font-awesome
-    Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
     Basic login interface in a popup button, token in the extension config
         - remove hardcoded key set for debugging
     Fix the CI
@@ -34,7 +29,8 @@ Website/publishing:
     initialize user known words depending on the average JLPT level?
 
 After:
-    translate the landing page and interface and add the supported languages list somewhere
+    Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
+    translate the landing page (french?) and interface and add the supported languages list somewhere
     Cypress commands should run in a docker as well
     tslint: clean useless imports -> migrate to https://github.com/typescript-eslint/typescript-eslint
     automatic updates (https://extensionworkshop.com/documentation/manage/updating-your-extension/)

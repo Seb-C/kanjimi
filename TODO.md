@@ -1,6 +1,7 @@
 MVP:
     landing page:
-        - seo
+        - translate in french?
+        - google search console -> waiting results
         - preload font-awesome
     Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
     Basic login interface in a popup button, token in the extension config
@@ -9,7 +10,8 @@ MVP:
     test with a lot of different sites and texts
     test and debug with slack
     test and debug intensively the display of results
-    webpack: different webpack and typescript config for extension and server
+    webpack: different webpack and typescript config for extension, website and server
+    subscription process
     JLPT level at subscription, use it to define the default status of words
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words

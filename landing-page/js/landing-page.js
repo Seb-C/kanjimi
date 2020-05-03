@@ -46,7 +46,7 @@ window.addEventListener('load', function () {
 	}
 	animateNextFrame();
 
-	function scrollEvent (event) {
+	function scrollEvent () {
 		startScroll = currentScroll;
 		targetScroll = window.scrollY;
 		startTime = currentTime;

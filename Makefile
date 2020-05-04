@@ -1,25 +1,32 @@
-.PHONY: migrate test e2e cypress lint dictionary kanjis names browser db deploy-landing-page
+.PHONY: migrate test e2e cypress lint dictionary kanjis names browser db deploy-landing-page server
 
-migrate:
-	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts
 test:
 	docker-compose exec -T server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
 e2e:
 	./node_modules/.bin/cypress run --browser=firefox --headless
+
 cypress:
 	./node_modules/.bin/cypress open
+browser:
+	./node_modules/.bin/web-ext --config=web-ext.js run --firefox-profile ./firefox-profile --keep-profile-changes
+
 lint:
 	docker-compose exec server ./node_modules/.bin/tslint './src/*.ts' './tests/*.ts'
+
 dictionary:
 	docker run -v ${PWD}:/app -w /app -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Dictionary.php
 kanjis:
 	docker run -v ${PWD}:/app -w /app -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Kanjis.php
 names:
 	docker run -v ${PWD}:/app -w /app -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Names.php
-browser:
-	./node_modules/.bin/web-ext --config=web-ext.js run --firefox-profile ./firefox-profile --keep-profile-changes
+
+server:
+	docker-compose exec server ./node_modules/.bin/tsc
 db:
 	docker-compose exec database psql -h localhost -U test -d test
+migrate:
+	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts
+
 deploy-landing-page:
 	# Does not work for now because the sftp of OVH does not allow SSH connexions
 	# docker run -v ${PWD}:/app -w /app -it --rm instrumentisto/rsync-ssh rsync --port=21 -urv ./landing-page/ kanjimicak@ftp.cluster029.hosting.ovh.net:/home/kanjimicak/www --delete -vvv

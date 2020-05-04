@@ -25,14 +25,14 @@ services:
       - "3000:3000"
     volumes:
       - $PWD:/app
-  extension_watch:
+  extension:
     image: node:11
     restart: on-failure
     working_dir: /app
     command: >
       bash -c "
-        ./node_modules/.bin/webpack --color --build;
-        ./node_modules/.bin/webpack --color --watch
+        ./node_modules/.bin/webpack --color --config=webpack.extensionContent.config.js --build;
+        ./node_modules/.bin/webpack --color --config=webpack.extensionContent.config.js --watch
       "
     volumes:
       - $PWD:/app

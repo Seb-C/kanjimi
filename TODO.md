@@ -1,8 +1,12 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        - if not logged in, show a small alert on the page (red with a close button)
-        - if the alert is clicked, display a login popin for Kanjimi (covering all the page?)
-        - remove hardcoded key set for debugging
+        - make the express server serve static files as well
+        - add a js build for the website, move the landing page here
+        - security: should the API key be in the store? makes it available for the website
+        - fix all errors shown by the new vim plugin
+        - if not logged in, show a popin
+        - if the popin is clicked, display the login page from the website (in an iframe)
+        - remove hardcoded key set for debugging (and fix related tests)
     Have the extension CSS match the website colours + unify the css with variables
     test UIContainer (exists + no dom node if empty)
     Landing page: better sync of the parallax on mobile

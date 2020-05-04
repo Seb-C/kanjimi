@@ -39,7 +39,8 @@ export default class PageHandler {
 		this.injectLoaderCss();
 
 		// TODO remove this test
-		await this.setApiKey('PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==');
+		// await this.setApiKey('PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==');
+		// await browser.storage.local.set({ key: null });
 
 		await this.loadApiKeyFromStorage();
 		browser.storage.onChanged.addListener(async () => {

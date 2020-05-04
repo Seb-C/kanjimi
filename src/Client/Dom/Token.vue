@@ -34,7 +34,16 @@
 				event.preventDefault();
 				event.stopPropagation();
 				if (!(this.token.type === TokenType.PUNCTUATION)) {
-					this.$root.toggleTooltip(this.token, this.$refs.tokenElement);
+					if (this.$root.tooltip !== null && this.$root.tooltip.token.text === this.token.text) {
+						// TODO is this condition right? Bug if clicks
+						// the same word at a different place?
+						this.$root.setTooltip(null);
+					} else {
+						this.$root.setTooltip({
+							token: this.token,
+							tokenElement: this.$refs.tokenElement
+						});
+					}
 				}
 			},
 			async handleFuriganaClick(event: Event) {

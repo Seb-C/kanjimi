@@ -7,18 +7,33 @@ import {
 	createOrUpdate as putWordStatus,
 } from 'Client/Api/Routes/WordStatus';
 import Vue from 'vue';
-import Tooltip from 'Client/Dom/Tooltip.vue';
+import UIContainer from 'Client/Dom/UIContainer.vue';
 import Sentence from 'Client/Dom/Sentence.vue';
+
+type TooltipData = {
+	token: Token,
+	tokenElement: Element,
+};
 
 export default class PageHandler {
 	private processing: boolean = false;
-	private tooltip: Vue|null = null;
 	private store = {
-		closeTooltip: this.closeTooltip.bind(this),
-		toggleTooltip: this.toggleTooltip.bind(this),
+		setTooltip: this.setTooltip.bind(this),
+		tooltip: <TooltipData|null>null,
 		wordStatuses: <{ [key: string]: WordStatus }>{},
 		setWordStatus: this.setWordStatus.bind(this),
 	};
+
+	constructor() {
+		const elementToReplace = document.createElement('div');
+		document.body.appendChild(elementToReplace);
+
+		new Vue({
+			el: elementToReplace,
+			render: createElement => createElement(UIContainer),
+			data: this.store,
+		});
+	}
 
 	*getSentencesToConvert(): Iterable<Text> {
 		const walker = document.createTreeWalker(
@@ -200,40 +215,8 @@ export default class PageHandler {
 		Vue.set(this.store.wordStatuses, newWordStatus.word, newWordStatus);
 	}
 
-	toggleTooltip(token: Token, tokenElement: Element) {
-		if (this.tooltip === null) {
-			this.openTooltip(token, tokenElement);
-		} else if (this.tooltip.$children[0].$props.token.text === token.text) {
-			this.closeTooltip();
-		} else {
-			this.closeTooltip();
-			this.openTooltip(token, tokenElement);
-		}
-	}
-
-	openTooltip(token: Token, tokenElement: Element) {
-		const container = document.createElement('div');
-		document.body.appendChild(container);
-
-		// Vue replaces the container, so no need to save the reference
-		this.tooltip = new Vue({
-			el: container,
-			render: createElement => createElement(Tooltip, {
-				props: {
-					token,
-					tokenElement,
-				},
-			}),
-			data: this.store,
-		});
-	}
-
-	closeTooltip() {
-		if (this.tooltip !== null) {
-			document.body.removeChild(this.tooltip.$el);
-			this.tooltip.$destroy();
-			this.tooltip = null;
-		}
+	setTooltip(tooltipData: TooltipData|null) {
+		this.store.tooltip = tooltipData;
 	}
 
 	injectLoaderCss() {

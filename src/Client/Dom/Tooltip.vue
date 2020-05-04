@@ -71,7 +71,7 @@
 				if (event.key === 'Escape') {
 					event.preventDefault();
 					event.stopPropagation();
-					this.$root.closeTooltip();
+					this.$root.setTooltip(null);
 				}
 			},
 			updateTargetPos() {
@@ -98,7 +98,7 @@
 				return Math.round(this.windowHeight / 2);
 			},
 			handleCloseButtonClick() {
-				this.$root.closeTooltip();
+				this.$root.setTooltip(null);
 			},
 			showTooltipOnTop(): boolean {
 				const tipDiagonal = this.getTipDiagonal();

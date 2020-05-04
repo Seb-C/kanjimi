@@ -145,7 +145,7 @@ enum WordTag {
 	SHOGI = 'shogi',
 	SLANG = 'sl',
 	SLANG_MALE = 'male-sl',
-	SLANG_MANGA_= 'm-sl',
+	SLANG_MANGA = 'm-sl',
 	SONKEIGO = 'hon',
 	SPORTS = 'sports',
 	SUFFIX = 'suf',

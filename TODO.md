@@ -1,6 +1,13 @@
 MVP:
+    Landing page: better sync of the parallax on mobile
     Basic login interface in a popup button, token in the extension config
+        - test UIContainer (exists + no dom node)
+        - PageHandler: split sentence code and store?
+        - pass the window object as an injected dependency?
+        - if not logged in, show a small alert on the page (red with a close button)
+        - if the alert is clicked, display a login popin for Kanjimi (covering all the page?)
         - remove hardcoded key set for debugging
+    Have the extension CSS match the website colours
     Fix the CI
     test with a lot of different sites and texts
     test and debug with slack
@@ -16,6 +23,7 @@ MVP:
     route to modify a user (PATCH, languages and password only)
     database setup -> env file?
     chrome compatibility (and test others)
+    search and fix remaining TODOs
 
 Website/publishing:
     include dynamic interface elements (based on the landing page)

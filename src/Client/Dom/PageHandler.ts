@@ -9,6 +9,7 @@ import {
 import Vue from 'vue';
 import UIContainer from 'Client/Dom/UIContainer.vue';
 import Sentence from 'Client/Dom/Sentence.vue';
+import { debounce } from 'ts-debounce';
 
 type TooltipData = {
 	token: Token,
@@ -18,21 +19,50 @@ type TooltipData = {
 export default class PageHandler {
 	private processing: boolean = false;
 	private store = {
+		apiKey: <string|null>null,
+		setApiKey: this.setApiKey.bind(this),
 		setTooltip: this.setTooltip.bind(this),
 		tooltip: <TooltipData|null>null,
 		wordStatuses: <{ [key: string]: WordStatus }>{},
 		setWordStatus: this.setWordStatus.bind(this),
 	};
 
-	constructor() {
+	async init() {
 		const elementToReplace = document.createElement('div');
 		document.body.appendChild(elementToReplace);
-
 		new Vue({
 			el: elementToReplace,
 			render: createElement => createElement(UIContainer),
 			data: this.store,
 		});
+
+		this.injectLoaderCss();
+
+		// TODO remove this test
+		await this.setApiKey('PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==');
+
+		await this.loadApiKeyFromStorage();
+		browser.storage.onChanged.addListener(async () => {
+			await this.loadApiKeyFromStorage.bind(this);
+
+			// Triggering conversion on the page after login in a different tab/page
+			this.convertSentences();
+		});
+
+		this.convertSentences();
+		window.addEventListener('scroll', debounce(this.convertSentences.bind(this), 300));
+	}
+
+	async setApiKey (key: string) {
+		this.store.apiKey = key;
+		await browser.storage.local.set({ key });
+
+		// Triggering conversion on the page after login
+		this.convertSentences();
+	}
+
+	async loadApiKeyFromStorage () {
+		this.store.apiKey = (await browser.storage.local.get('key')).key;
 	}
 
 	*getSentencesToConvert(): Iterable<Text> {
@@ -126,17 +156,18 @@ export default class PageHandler {
 		);
 	}
 
-	async convertSentences(texts: Iterable<Text>) {
-		// TODO remove this test
-		await browser.storage.local.set({
-			key: 'PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==',
-		});
+	async convertSentences() {
+		if (this.store.apiKey === null) {
+			return;
+		}
 
 		if (this.processing) {
 			return;
 		}
 
 		this.processing = true;
+
+		const texts = this.getSentencesToConvert();
 
 		const nodes: Text[] = [];
 		const strings: string[] = [];
@@ -148,8 +179,7 @@ export default class PageHandler {
 
 		if (strings.length > 0) {
 			try {
-				const key = (await browser.storage.local.get('key')).key;
-				const data = await analyze(key, strings);
+				const data = await analyze(this.store.apiKey, strings);
 
 				const words: Set<string> = new Set();
 				for (let i = 0; i < data.length; i++) {
@@ -165,7 +195,7 @@ export default class PageHandler {
 				}
 
 				if (words.size > 0) {
-					const wordStatuses = await getWordStatuses(key, Array.from(words.values()));
+					const wordStatuses = await getWordStatuses(this.store.apiKey, Array.from(words.values()));
 					for (let i = 0; i < wordStatuses.length; i++) {
 						const wordStatus = wordStatuses[i];
 						Vue.set(this.store.wordStatuses, wordStatus.word, wordStatus);
@@ -207,8 +237,11 @@ export default class PageHandler {
 	}
 
 	async setWordStatus(wordStatus: WordStatus, attributes: any) {
-		const key = (await browser.storage.local.get('key')).key;
-		const newWordStatus = await putWordStatus(key, new WordStatus({
+		if (this.store.apiKey === null) {
+			return;
+		}
+
+		const newWordStatus = await putWordStatus(this.store.apiKey, new WordStatus({
 			...wordStatus,
 			...attributes,
 		}));

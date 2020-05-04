@@ -1,13 +1,11 @@
 MVP:
-    Landing page: better sync of the parallax on mobile
     Basic login interface in a popup button, token in the extension config
-        - test UIContainer (exists + no dom node)
-        - PageHandler: split sentence code and store?
-        - pass the window object as an injected dependency?
         - if not logged in, show a small alert on the page (red with a close button)
         - if the alert is clicked, display a login popin for Kanjimi (covering all the page?)
         - remove hardcoded key set for debugging
-    Have the extension CSS match the website colours
+    Have the extension CSS match the website colours + unify the css with variables
+    test UIContainer (exists + no dom node if empty)
+    Landing page: better sync of the parallax on mobile
     Fix the CI
     test with a lot of different sites and texts
     test and debug with slack

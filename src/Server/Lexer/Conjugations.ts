@@ -97,7 +97,6 @@ class ConjugationsClass {
 	}
 
 	addStem (prefix: string, dictionaryForm: string) {
-		// tslint:disable
 		this.addFormAndDerivates(new Conjugation(prefix,                  dictionaryForm, ConjugationType.STEM));
 		this.addFormAndDerivates(new Conjugation(prefix + 'ます',         dictionaryForm, ConjugationType.POLITE));
 		this.addFormAndDerivates(new Conjugation(prefix + 'ませんでした', dictionaryForm, ConjugationType.POLITE_NEGATIVE_PAST));
@@ -106,27 +105,21 @@ class ConjugationsClass {
 		this.addFormAndDerivates(new Conjugation(prefix + 'ました',       dictionaryForm, ConjugationType.POLITE_PAST));
 		this.addFormAndDerivates(new Conjugation(prefix + 'ませ',         dictionaryForm, ConjugationType.IMPERATIVE_POLITE));
 		this.addFormAndDerivates(new Conjugation(prefix + 'たい',         dictionaryForm, ConjugationType.WISH));
-		// tslint:enable
 	}
 
 	addNegativeBasedForms (prefix: string, dictionaryForm: string) {
-		// tslint:disable
 		this.addFormAndDerivates(new Conjugation(prefix + 'ない',     dictionaryForm, ConjugationType.NEGATIVE));
 		this.addFormAndDerivates(new Conjugation(prefix + 'なかった', dictionaryForm, ConjugationType.NEGATIVE_PAST));
 		this.addFormAndDerivates(new Conjugation(prefix + 'なくて', dictionaryForm, ConjugationType.NEGATIVE_TE));
-		// tslint:enable
 	}
 
 	addPastBasedForms (pastForm: string, dictionaryForm: string) {
-		// tslint:disable
 		this.addFormAndDerivates(new Conjugation(pastForm, dictionaryForm, ConjugationType.PAST));
 		this.addFormAndDerivates(new Conjugation(pastForm + 'ら', dictionaryForm, ConjugationType.CONDITIONAL_RA));
 		this.addFormAndDerivates(new Conjugation(pastForm + 'り', dictionaryForm, ConjugationType.ENUMERATION));
-		// tslint:enable
 	}
 
 	addTeBasedForms (teForm: string, dictionaryForm: string) {
-		// tslint:disable
 		this.addFormAndDerivates(new Conjugation(teForm, dictionaryForm, ConjugationType.TE));
 		this.addFormAndDerivates(new Conjugation(teForm + 'いる', dictionaryForm, ConjugationType.TEIRU));
 		this.addFormAndDerivates(new Conjugation(teForm + 'る', dictionaryForm, ConjugationType.TEIRU));
@@ -140,7 +133,6 @@ class ConjugationsClass {
 			tokuForm = teForm.substring(0, teForm.length - 1) + 'とく';
 		}
 		this.addFormAndDerivates(new Conjugation(tokuForm, dictionaryForm, ConjugationType.TEOKU));
-		// tslint:enable
 	}
 
 	hasForm(form: string): boolean {
@@ -154,8 +146,6 @@ class ConjugationsClass {
 
 const conjugations = new ConjugationsClass();
 export default conjugations;
-
-// tslint:disable
 
 conjugations.addStem('い', 'いる');
 conjugations.addStem('い', 'う'  );
@@ -548,5 +538,3 @@ conjugations.addForm(new Conjugation('である',               'だ', Conjugati
 conjugations.addForm(new Conjugation('じゃ',                 'だ', ConjugationType.STEM));
 conjugations.addForm(new Conjugation('だった',               'だ', ConjugationType.PAST));
 conjugations.addForm(new Conjugation('であった',             'だ', ConjugationType.PAST));
-
-// tslint:enable

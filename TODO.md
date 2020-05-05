@@ -1,6 +1,5 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        - fix all errors shown by the new vim plugin (need to update to typescript-eslint instead of tslint)
         - add a js build for the website, move the landing page here
         - security: should the API key be in the store? makes it available for the website
         - if not logged in, show a popin
@@ -41,10 +40,8 @@ After:
     Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
     translate the landing page (french?) and interface and add the supported languages list somewhere
     Cypress commands should run in a docker as well
-    tslint: clean useless imports -> migrate to https://github.com/typescript-eslint/typescript-eslint
     automatic updates (https://extensionworkshop.com/documentation/manage/updating-your-extension/)
     search better dictionaries? -> extract wiktionary (https://dumps.wikimedia.org/backup-index.html)
-    remove tslint?
     disconnect (delete api key route)
     change email process
     error handling properly in express (500 and 404, should always be an API response?)

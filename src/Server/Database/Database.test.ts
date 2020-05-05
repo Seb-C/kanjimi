@@ -10,8 +10,14 @@ class Test {
 	public numberNullable: number|null;
 	public dateNullable: Date|null;
 
-	constructor (params: object) {
-		Object.assign(this, params);
+	constructor (params: any) {
+		this.id = params.id;
+		this.text = params.text;
+		this.number = params.number;
+		this.date = params.date;
+		this.textNullable = params.textNullable;
+		this.numberNullable = params.numberNullable;
+		this.dateNullable = params.dateNullable;
 	}
 }
 

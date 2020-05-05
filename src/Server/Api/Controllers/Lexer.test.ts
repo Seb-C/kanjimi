@@ -1,6 +1,5 @@
 import 'jasmine';
 import fetch from 'node-fetch';
-import Token from 'Common/Models/Token';
 import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
@@ -8,7 +7,6 @@ import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
 import Language from 'Common/Types/Language';
 import * as Ajv from 'ajv';
-import { v4 as uuidv4 } from 'uuid';
 
 let user: User;
 let apiKey: ApiKey;

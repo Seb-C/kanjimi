@@ -134,7 +134,7 @@ describe('UserRepository', async () => {
 			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], CURRENT_TIMESTAMP);
 		`, { uuid });
 		const userRepository = new UserRepository(db);
-		const user = await userRepository.deleteByEmail('unittest@example.com');
+		await userRepository.deleteByEmail('unittest@example.com');
 		const dbUser = await db.get(User, `
 			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
 		`);

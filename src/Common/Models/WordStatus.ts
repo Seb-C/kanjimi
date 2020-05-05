@@ -4,8 +4,11 @@ export default class WordStatus {
 	public readonly showFurigana: boolean;
 	public readonly showTranslation: boolean;
 
-	constructor(attributes: object) {
-		Object.assign(this, attributes);
+	constructor(attributes: any) {
+		this.userId = attributes.userId;
+		this.word = attributes.word;
+		this.showFurigana = attributes.showFurigana;
+		this.showTranslation = attributes.showTranslation;
 	}
 
 	toApi(): object {

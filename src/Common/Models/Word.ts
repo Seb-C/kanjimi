@@ -19,7 +19,7 @@ export default class Word {
 		this.reading = reading;
 		this.translationLang = translationLang;
 		this.translation = translation;
-		this.tags = tags;
+		this.tags = [...tags];
 	}
 
 	getShortTranslation(): string {

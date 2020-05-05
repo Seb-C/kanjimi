@@ -20,10 +20,10 @@ export default class Token {
 	) {
 		this.text = text;
 		this.type = type;
-		this.words = words;
+		this.words = [...words];
 		this.verb = verb;
 		this.conjugation = conjugation;
-		this.forms = forms;
+		this.forms = [...forms];
 	}
 
 	public getFurigana(): string {

@@ -2,7 +2,6 @@ import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
-import User from 'Common/Models/User';
 import WordStatus from 'Common/Models/WordStatus';
 import UserRepository from 'Server/Repository/User';
 import WordStatusRepository from 'Server/Repository/WordStatus';

@@ -5,11 +5,16 @@ export default class User {
 	public readonly email: string;
 	public readonly emailVerified: boolean;
 	public readonly password: string|null;
-	public readonly languages: Language[];
+	public readonly languages: ReadonlyArray<Language>;
 	public readonly createdAt: Date;
 
-	constructor(attributes: object) {
-		Object.assign(this, attributes);
+	constructor(attributes: any) {
+		this.id = attributes.id;
+		this.email = attributes.email;
+		this.emailVerified = attributes.emailVerified;
+		this.password = attributes.password;
+		this.languages = [...attributes.languages];
+		this.createdAt = attributes.createdAt;
 	}
 
 	toApi(): object {

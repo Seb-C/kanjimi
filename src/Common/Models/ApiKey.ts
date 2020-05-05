@@ -5,8 +5,12 @@ export default class ApiKey {
 	public readonly createdAt: Date;
 	public readonly expiresAt: Date;
 
-	constructor(attributes: object) {
-		Object.assign(this, attributes);
+	constructor(attributes: any) {
+		this.id = attributes.id;
+		this.key = attributes.key;
+		this.userId = attributes.userId;
+		this.createdAt = attributes.createdAt;
+		this.expiresAt = attributes.expiresAt;
 	}
 
 	toApi(): object {

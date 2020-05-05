@@ -4,7 +4,6 @@ import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repository/User';
 import User from 'Common/Models/User';
-import Language from 'Common/Types/Language';
 
 describe('UserController', async () => {
 	beforeEach(async () => {

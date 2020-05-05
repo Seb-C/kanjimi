@@ -3,9 +3,7 @@ import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
-import User from 'Common/Models/User';
 import UserRepository from 'Server/Repository/User';
-import { v4 as uuidv4 } from 'uuid';
 
 const createUserValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',

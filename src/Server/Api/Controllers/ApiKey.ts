@@ -2,11 +2,9 @@ import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
-import ApiKey from 'Common/Models/ApiKey';
 import User from 'Common/Models/User';
 import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
-import { v4 as uuidv4 } from 'uuid';
 
 const createApiKeyValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',

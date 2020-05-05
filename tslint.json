@@ -9,6 +9,7 @@
       "no-duplicate-imports": [false],
       "object-shorthand-properties-first": [false],
       "align": [false],
-      "import-name": [false]
+      "import-name": [false],
+      "no-unused-variable": [false]
     }
 }

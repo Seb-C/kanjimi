@@ -2,7 +2,6 @@ import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Database from 'Server/Database/Database';
 import * as Express from 'express';
-import { Application } from 'express';
 import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as BodyParser from 'body-parser';
@@ -55,6 +54,7 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
 
+	application.use('/www', Express.static('www'));
 	application.post('/lexer/analyze', LexerController.analyze(db, lexer));
 	application.post('/user', UserController.create(db));
 	application.post('/api-key', ApiKeyController.create(db));

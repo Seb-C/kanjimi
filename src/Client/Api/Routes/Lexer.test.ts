@@ -10,7 +10,6 @@ import ApiKey from 'Common/Models/ApiKey';
 import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
 import Language from 'Common/Types/Language';
-import { v4 as uuidv4 } from 'uuid';
 
 let user: User;
 let apiKey: ApiKey;

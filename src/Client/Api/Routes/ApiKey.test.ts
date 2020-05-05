@@ -9,7 +9,6 @@ import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
 import Language from 'Common/Types/Language';
-import { v4 as uuidv4 } from 'uuid';
 
 let user: User;
 
@@ -64,7 +63,6 @@ describe('Client ApiKey', () => {
 	});
 
 	it('get (normal case)', async () => {
-		const uuid = uuidv4();
 		const db = new Database();
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const apiKey = await apiKeyRepository.create(user);

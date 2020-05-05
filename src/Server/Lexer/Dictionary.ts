@@ -26,7 +26,7 @@ export default class Dictionary {
 			lang: Language|null,
 			path: string,
 		}) => {
-			return new Promise((resolve, reject) => {
+			return new Promise((resolve) => {
 				const dictionaryFileIterator = ReadLine.createInterface({
 					input: FileSystem.createReadStream(file.path),
 				});

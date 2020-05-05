@@ -1,9 +1,6 @@
-import { Request } from 'express';
 import Database from 'Server/Database/Database';
 import WordStatusModel from 'Common/Models/WordStatus';
 import User from 'Common/Models/User';
-import * as Crypto from 'crypto';
-import { v4 as uuidv4 } from 'uuid';
 
 export default class WordStatus {
 	private db: Database;

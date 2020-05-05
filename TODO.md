@@ -1,9 +1,8 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        - make the express server serve static files as well
+        - fix all errors shown by the new vim plugin (need to update to typescript-eslint instead of tslint)
         - add a js build for the website, move the landing page here
         - security: should the API key be in the store? makes it available for the website
-        - fix all errors shown by the new vim plugin
         - if not logged in, show a popin
         - if the popin is clicked, display the login page from the website (in an iframe)
         - remove hardcoded key set for debugging (and fix related tests)

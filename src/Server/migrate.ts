@@ -1,5 +1,4 @@
 import Database from 'Server/Database/Database';
-import Lexer from 'Server/Lexer/Lexer';
 import * as fs from 'fs';
 
 const getMigrations = (): Promise<string[]> => {

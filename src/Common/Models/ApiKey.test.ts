@@ -1,6 +1,5 @@
 import 'jasmine';
 import ApiKey from 'Common/Models/ApiKey';
-import Language from 'Common/Types/Language';
 
 describe('ApiKey', () => {
 	it('API formatting methods', async () => {

@@ -1,10 +1,8 @@
 import 'jasmine';
 import WordStatus from 'Common/Models/WordStatus';
-import Language from 'Common/Types/Language';
 
 describe('WordStatus', () => {
 	it('API formatting methods', async () => {
-		const now = new Date();
 		const input = new WordStatus({
 			userId: 'useruuid',
 			word: 'word',

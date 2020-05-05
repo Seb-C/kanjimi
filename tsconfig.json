@@ -17,6 +17,7 @@
     "noImplicitAny": true,
     "strictNullChecks": true,
     "alwaysStrict": true,
+    "noUnusedParameters": false,
     "downlevelIteration": true,
     "baseUrl": "./src"
   },

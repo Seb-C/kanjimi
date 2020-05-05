@@ -7,7 +7,6 @@ import ApiKey from 'Common/Models/ApiKey';
 import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
 import Language from 'Common/Types/Language';
-import { v4 as uuidv4 } from 'uuid';
 
 const apiKeyResponseValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
@@ -126,7 +125,6 @@ describe('ApiKeyController', async () => {
 	});
 
 	it('get the api key object from the credentials', async () => {
-		const uuid = uuidv4();
 		const db = new Database();
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const apiKey = await apiKeyRepository.create(user);

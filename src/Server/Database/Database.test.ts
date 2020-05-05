@@ -74,7 +74,7 @@ describe('Database', () => {
 	it('Function query', async () => {
 		let count = 0;
 		const metIds: number[] = [];
-		const result = await (<Database>db).iterate(
+		await (<Database>db).iterate(
 			Test,
 			async (row) => {
 				count++;

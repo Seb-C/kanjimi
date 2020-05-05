@@ -5,7 +5,6 @@ import WordStatusRepository from 'Server/Repository/WordStatus';
 import User from 'Common/Models/User';
 import WordStatus from 'Common/Models/WordStatus';
 import Language from 'Common/Types/Language';
-import { Request } from 'express';
 
 let user: User;
 

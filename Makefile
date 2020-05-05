@@ -11,7 +11,7 @@ browser:
 	./node_modules/.bin/web-ext --config=web-ext.js run --firefox-profile ./firefox-profile --keep-profile-changes
 
 lint:
-	docker-compose exec server ./node_modules/.bin/tslint './src/*.ts' './tests/*.ts'
+	docker-compose exec server ./node_modules/.bin/eslint ./src/**/*.ts
 
 dictionary:
 	docker run -v ${PWD}:/app -w /app -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Dictionary.php

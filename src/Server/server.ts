@@ -55,6 +55,8 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 	const lexer = new Lexer(dictionary);
 
 	application.use('/www', Express.static('www'));
+	application.use('/www/app/*', Express.static('www/app/index.html'));
+
 	application.post('/lexer/analyze', LexerController.analyze(db, lexer));
 	application.post('/user', UserController.create(db));
 	application.post('/api-key', ApiKeyController.create(db));

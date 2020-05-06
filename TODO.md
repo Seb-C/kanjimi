@@ -1,9 +1,14 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
+        - split styles between the index and the app
+        - set up the basic js/html app and build process
+        - create the page structure in vuejs
+        - create the JS router
+        - add links to the index page to the account
         - add a js build for the website, move the landing page here
-        - security: should the API key be in the store? makes it available for the website
-        - if not logged in, show a popin
-        - if the popin is clicked, display the login page from the website (in an iframe)
+        - security: should the API key be in the store? makes it available for the website (==> test if such a hack is possible from the page)
+        - if not logged in, show a notification
+        - if the notification is clicked, display the login page from the website
         - remove hardcoded key set for debugging (and fix related tests)
     Have the extension CSS match the website colours + unify the css with variables
     test UIContainer (exists + no dom node if empty)

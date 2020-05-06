@@ -1,6 +1,5 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        - split styles between the index and the app
         - set up the basic js/html app and build process
         - create the page structure in vuejs
         - create the JS router

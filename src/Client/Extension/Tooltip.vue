@@ -29,8 +29,6 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import Word from 'Common/Models/Word';
-	import Language from 'Common/Types/Language';
 	import TokenType from 'Common/Types/TokenType';
 	import Token from 'Common/Models/Token';
 	import Kanjis from 'Client/Extension/Kanjis.vue';

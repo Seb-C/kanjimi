@@ -10,9 +10,7 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import TokenModel from 'Common/Models/Token';
-	import TokenType from 'Common/Types/TokenType';
 	import Token from 'Client/Extension/Token.vue';
-	import WordStatus from 'Common/Models/WordStatus';
 
 	export default Vue.extend({
 		props: {

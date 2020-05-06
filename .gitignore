@@ -4,3 +4,5 @@ extension/*.build.js
 extension/*.build.css
 server/
 firefox-profile/
+www/js/*.build.js
+www/css/*.build.css

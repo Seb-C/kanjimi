@@ -1,6 +1,5 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        - set up the basic js app and build process
         - create the page structure in vuejs
         - create the JS router
         - add links to the index page to the account
@@ -41,6 +40,9 @@ Website/publishing:
     initialize user known words depending on the average JLPT level?
 
 After:
+    Have the home page js also built with webpack
+    Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
+    Avoid Google Analytics tracking?
     Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
     translate the landing page (french?) and interface and add the supported languages list somewhere
     Cypress commands should run in a docker as well

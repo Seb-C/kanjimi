@@ -1,3 +1,3 @@
-import PageHandler from 'Client/Dom/PageHandler';
+import PageHandler from 'Client/Extension/PageHandler';
 
 (new PageHandler()).init();

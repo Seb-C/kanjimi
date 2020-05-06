@@ -7,8 +7,8 @@ import {
 	createOrUpdate as putWordStatus,
 } from 'Client/Api/Routes/WordStatus';
 import Vue from 'vue';
-import UIContainer from 'Client/Dom/UIContainer.vue';
-import Sentence from 'Client/Dom/Sentence.vue';
+import UIContainer from 'Client/Extension/UIContainer.vue';
+import Sentence from 'Client/Extension/Sentence.vue';
 import { debounce } from 'ts-debounce';
 
 type TooltipData = {

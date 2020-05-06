@@ -4,8 +4,8 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import Tooltip from 'Client/Dom/Tooltip.vue';
-	import Login from 'Client/Dom/Login.vue';
+	import Tooltip from 'Client/Extension/Tooltip.vue';
+	import Login from 'Client/Extension/Login.vue';
 
 	export default Vue.extend({
 		data() {

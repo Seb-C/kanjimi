@@ -1,10 +1,9 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        - handle link title
-        - make the actual loading page
-        - add links to the index page to the account
-        - add loaders to the app
-        - if not logged in, show a notification
+        - test the basic layout and links
+        - make the actual login page
+        - add loaders to the app and merge the animation with the extension
+        - if not logged in, show a notification (+ debounce)
         - if the notification is clicked, display the login page from the website
         - remove hardcoded key set for debugging (and fix related tests)
     Have the extension CSS match the website colours + unify the css with variables
@@ -16,6 +15,7 @@ MVP:
     test and debug intensively the display of results
     webpack: different webpack and typescript config for extension, website and server
     subscription process
+    after the login and subscription pages are done: add links to the index page to the account (changing depending on the localStorage key)
     JLPT level at subscription, use it to define the default status of words
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words

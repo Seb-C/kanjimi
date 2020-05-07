@@ -6,18 +6,26 @@ import Login from 'Client/WebApp/Login.vue';
 
 window.addEventListener('load', function () {
 	const baseUrl = (<HTMLBaseElement><any>document.querySelector('base[href]')).href;
-
-	const routes: { [key: string]: Vue.VueConstructor } = {
-		[baseUrl + 'app/login']: Login,
+	const urls: { [key: string]: { component: Vue.VueConstructor, title: string } } = {
+		[baseUrl + 'app/login']: { component: Login, title: 'Login' },
 	};
 
 	const getComponent = (url: string): Vue.VueConstructor => {
-		if (routes[url]) {
-			return routes[url];
+		if (urls[url]) {
+			return urls[url].component;
 		} else {
 			return PageNotFound;
 		}
 	};
+	const getTitle = (url: string): string => {
+		if (urls[url]) {
+			return 'Kanjimi - ' + urls[url].title;
+		} else {
+			return 'Kanjimi';
+		}
+	};
+
+	document.title = getTitle(window.location.href);
 
 	const store = {
 		url: window.location.href,
@@ -31,9 +39,12 @@ window.addEventListener('load', function () {
 				url = object;
 			}
 
+			const title = getTitle(url);
+
 			store.url = url;
 			store.component = getComponent(url);
-			window.history.pushState(null, document.title, url);
+			document.title = title;
+			window.history.pushState(null, title, url);
 		},
 	};
 

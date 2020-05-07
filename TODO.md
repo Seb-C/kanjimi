@@ -1,10 +1,8 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        - create the page structure in vuejs
-        - create the JS router
+        - make the actual loading page
         - add links to the index page to the account
         - add loaders to the app
-        - security: should the API key be in the store? makes it available for the website (==> test if such a hack is possible from the page)
         - if not logged in, show a notification
         - if the notification is clicked, display the login page from the website
         - remove hardcoded key set for debugging (and fix related tests)

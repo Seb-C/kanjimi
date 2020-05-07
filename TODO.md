@@ -1,6 +1,6 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        - handle active links and page titles
+        - handle link title
         - make the actual loading page
         - add links to the index page to the account
         - add loaders to the app

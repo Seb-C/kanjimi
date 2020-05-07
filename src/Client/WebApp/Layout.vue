@@ -29,11 +29,13 @@
 				id="main-menu"
 			>
 				<ul class="navbar-nav ml-auto text-right">
-					<li class="nav-item">
-						<a class="nav-link" href="./app/test/route" v-on:click="$root.changeRoute">Test</a>
-					</li>
-					<li class="nav-item">
-						<a class="nav-link" href="./app/login" v-on:click="$root.changeRoute">Login</a>
+					<li v-for="(link, index) in links" class="nav-item">
+						<a
+							v-bind:class="{ 'nav-link': true, 'active': link.active }"
+							v-bind:href="link.url"
+							v-on:click="$root.changeRoute"
+							:ref="'link-' + index"
+						>{{ link.title }}</a>
 					</li>
 				</ul>
 			</div>
@@ -71,6 +73,30 @@
 	import Vue from 'vue';
 
 	export default Vue.extend({
+		data() {
+			return {
+				links: <{ url: string, title: string }[]>[
+					{ url: './app/test/route', title: 'Test' },
+					{ url: './app/login', title: 'Login' },
+				],
+			};
+		},
+		mounted() {
+			this.updateActiveLink();
+		},
+		beforeUpdate () {
+			this.updateActiveLink();
+		},
+		methods: {
+			updateActiveLink() {
+				this.links = this.links.map((link: any, index: number) => {
+					return {
+						...link,
+						active: (this.$root.url == this.$refs['link-' + index][0].href),
+					};
+				});
+			},
+		},
 	});
 </script>
 <style scoped></style>

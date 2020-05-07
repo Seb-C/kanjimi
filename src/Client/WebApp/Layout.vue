@@ -30,17 +30,17 @@
 			>
 				<ul class="navbar-nav ml-auto text-right">
 					<li class="nav-item">
-						<a class="nav-link" href="./app/test/route" v-on:click="$root.setRouteEventHandler">Test</a>
+						<a class="nav-link" href="./app/test/route" v-on:click="$root.changeRoute">Test</a>
 					</li>
 					<li class="nav-item">
-						<a class="nav-link" href="./app/login" v-on:click="$root.setRouteEventHandler">Login</a>
+						<a class="nav-link" href="./app/login" v-on:click="$root.changeRoute">Login</a>
 					</li>
 				</ul>
 			</div>
 		</nav>
 
 		<div class="container flex-fill py-2">
-			<component v-bind:is="bodyComponent" />
+			<component v-bind:is="$root.component" />
 		</div>
 
 		<footer class="bg-dark text-white">
@@ -69,18 +69,8 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import PageNotFound from 'Client/WebApp/PageNotFound.vue';
 
 	export default Vue.extend({
-		computed: {
-			bodyComponent(): Vue.VueConstructor {
-				if (this.$root.routes[this.$root.route]) {
-					return this.$root.routes[this.$root.route];
-				} else {
-					return PageNotFound;
-				}
-			},
-		},
 	});
 </script>
 <style scoped></style>

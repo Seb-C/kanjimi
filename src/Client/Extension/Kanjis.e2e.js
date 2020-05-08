@@ -1,6 +1,6 @@
 context('Kanjis', () => {
 	it('Basic display', () => {
-		cy.visit('./test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .token .word')
 			.should('exist')

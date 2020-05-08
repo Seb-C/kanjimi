@@ -37,7 +37,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 			request.body.password,
 		)
 	) {
-		return response.status(403).json('Invalid user or password');
+		return response.status(403).json('Invalid email or password');
 	}
 
 	try {

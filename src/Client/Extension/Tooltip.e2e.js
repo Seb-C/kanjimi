@@ -1,6 +1,6 @@
 context('Tooltip', () => {
 	it('Display when a word is clicked', () => {
-		cy.visit('./test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
 		cy.get('.kanjimi-tooltip-container .tooltip').should('be.visible');
@@ -8,7 +8,7 @@ context('Tooltip', () => {
 	});
 
 	it('Close button', () => {
-		cy.visit('./test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
 		cy.get('.kanjimi-tooltip-container .tooltip').should('be.visible');
@@ -18,7 +18,7 @@ context('Tooltip', () => {
 	});
 
 	it('Close by clicking again', () => {
-		cy.visit('./test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
 		cy.get('.kanjimi-tooltip-container .tooltip').should('be.visible');
@@ -27,7 +27,7 @@ context('Tooltip', () => {
 	});
 
 	it('Close by opening a different word', () => {
-		cy.visit('./test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
 		cy.get('.kanjimi-tooltip-container .tooltip:contains(日本)').should('exist');
@@ -37,21 +37,21 @@ context('Tooltip', () => {
 	});
 
 	it('Tip is also visible', () => {
-		cy.visit('./test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
 		cy.get('.kanjimi-tooltip-container .tooltip-tip').should('be.visible');
 	});
 
 	it('Cursor is also visible', () => {
-		cy.visit('./test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
 		cy.get('.kanjimi-tooltip-container .tooltip-cursor').should('be.visible');
 	});
 
 	it('Test the tooltip positioning', () => {
-		cy.visit('./test-pages/tooltip-positions.html')
+		cy.visit('/test-pages/tooltip-positions.html')
 
 		cy.get('.word:contains(上左)').click();
 		cy.get('.kanjimi-tooltip-container .tooltip').should('be.visible');

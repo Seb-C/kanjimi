@@ -1,5 +1,7 @@
 <template>
-	<div>Home after login</div>
+	<div class="page-home">
+		Home after login
+	</div>
 </template>
 <script lang="ts">
 	import Vue from 'vue';

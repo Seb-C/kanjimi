@@ -1,5 +1,7 @@
 <template>
-	<div>The requested page does not exists</div>
+	<div class="page-not-found">
+		The requested page was not found
+	</div>
 </template>
 <script lang="ts">
 	import Vue from 'vue';

@@ -10,9 +10,9 @@ CREATE TABLE "User" (
 
 INSERT INTO "User" VALUES (
 	'cef830cb-6e75-43ab-91d3-ae13c82bd836',
-	'sebastiencaparros@gmail.com',
+	'contact@kanjimi.com',
 	TRUE,
-	'tBFLEey0WrShutB+85y1imLXyhw7h9dtGQgmiG76cD0=',
+	'XezyI+4BK2TS47Wfol4+DbXXNWvHKwbFtFlmpG3Q4L0=', -- YQPtL67gddfnkads
 	ARRAY['fr', 'en'],
 	'2020-03-26 22:21:16'
 );

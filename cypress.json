@@ -1,9 +1,10 @@
 {
+  "baseUrl": "http://localhost:3000/www/",
   "video": false,
   "fixturesFolder": false,
   "integrationFolder": "src",
   "testFiles": "**/*.e2e.*",
   "pluginsFile": "cypress.plugins.js",
-  "supportFile": false,
+  "supportFile": "cypress.commands.js",
   "defaultCommandTimeout": 10000
 }

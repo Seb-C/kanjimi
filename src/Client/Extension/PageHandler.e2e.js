@@ -1,6 +1,6 @@
 context('PageHandler', () => {
 	it('Tokenization on load', () => {
-		cy.visit('./test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading').should('contain', '日本');
 
@@ -11,7 +11,7 @@ context('PageHandler', () => {
 	});
 
 	it('Loading on scroll', () => {
-		cy.visit('./test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('.kanjimi-sentence').then((sentences) => {
 			const sentencesCount = sentences.length;

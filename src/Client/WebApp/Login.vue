@@ -1,5 +1,5 @@
 <template>
-	<div class="row mt-5">
+	<div class="row mt-5 page-login">
 		<div class="col-12 col-sm-10 col-md-8 col-xl-6 offset-sm-1 offset-md-2 offset-xl-3">
 			<form
 				class="form-row bg-primary-50 rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5"
@@ -29,7 +29,7 @@
 							v-model.trim="email"
 						/>
 					</div>
-					<div v-if="!!errors.email" class="invalid-feedback d-block">
+					<div v-if="!!errors.email" class="invalid-feedback error-email d-block">
 						{{ errors.email }}
 					</div>
 				</div>
@@ -50,12 +50,12 @@
 							v-model="password"
 						/>
 					</div>
-					<div v-if="!!errors.password" class="invalid-feedback d-block">
+					<div v-if="!!errors.password" class="invalid-feedback error-password d-block">
 						{{ errors.password }}
 					</div>
 				</div>
 
-				<div v-if="!!errors.bottom" class="col-12 mt-3 text-danger">
+				<div v-if="!!errors.bottom" class="col-12 mt-3 text-danger error-bottom">
 					{{ errors.bottom }}
 				</div>
 

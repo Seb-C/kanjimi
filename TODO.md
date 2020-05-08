@@ -3,19 +3,15 @@ MVP:
         Website: 
             - add a feedback and a loader to the login form while processing
             - add loaders to the app and merge the animation with the extension
-            - test the login page
-            - test redirection to the login page if not logged in in the home
-            - test redirection to the home page if logged in and in the login page
-            - test the basic layout and links/router
         Extension: 
             - if not logged in, show a notification (+ debounce)
             - if the notification is clicked, display the login page from the website
             - login in the extension when logged in in the site
             - remove hardcoded key set for debugging (and fix related tests)
-    Website layout: implement the menu and test it
+    Fix the broken Tooltip test (tooltip does not switch when clicking another word while already opened)
+    Website: implement the menu and test it
     Global vuejs error handling?
     Have the extension CSS match the website colours + unify the css with variables
-    test UIContainer (exists + no dom node if empty)
     Landing page: better sync of the parallax on mobile
     Fix the CI
     test with a lot of different sites and texts
@@ -34,6 +30,7 @@ MVP:
     database setup -> env file?
     chrome compatibility (and test others)
     search and fix remaining TODOs
+    Block access to the test pages in production
 
 Website/publishing:
     include dynamic interface elements (based on the landing page)
@@ -59,7 +56,6 @@ After:
     change email process
     error handling properly in express (500 and 404, should always be an API response?)
     recommend words to hide depending on the statistics
-    CI to run the tests
     fix the broken indentation and folding for typescript
     implement down migrations? or not do it and remove related code
     hide and show kanjis by reading (and remember)

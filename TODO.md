@@ -2,6 +2,11 @@ MVP:
     Basic login interface in a popup button, token in the extension config
         - test the basic layout and links
         - make the actual login page
+            - block form on click
+            - dynamic form values with vue js
+            - API query
+            - errors handling
+        - test the login page
         - add loaders to the app and merge the animation with the extension
         - if not logged in, show a notification (+ debounce)
         - if the notification is clicked, display the login page from the website

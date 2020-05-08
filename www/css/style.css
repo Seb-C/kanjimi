@@ -1,10 +1,12 @@
 :root {
-	/* https://coolors.co/ffc857-393e41-fffbe3-fff8e8-064789 */
+	/* https://coolors.co/ffc857-393e41-fffbe3-fff8e8-064789-cdcdcd */
 	--primary: #FFC857;
 	--primary-50: rgba(255, 200, 87, 0.8);
 	--secondary: #064789;
 	--black: #1d1905;
+	--gray: #DCDCDC;
 	--dark: #393E41;
+	--dark-50: rgba(57, 62, 65, 0.8);
 	--white: #FFFCF5;
 	--white-50: rgba(255, 252, 245, 0.8);
 	--light: #FFF8E8;
@@ -15,17 +17,30 @@
 }
 
 .btn-primary {
+	color: var(--black);
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.btn-primary:hover {
+	color: var(--black);
+    background-color: var(--primary);
+    border-color: var(--primary);
+}
+.btn-secondary {
 	color: var(--white);
     background-color: var(--secondary);
     border-color: var(--secondary);
 }
-.btn-primary:hover {
+.btn-secondary:hover {
 	color: var(--light);
     background-color: var(--secondary);
     border-color: var(--secondary);
 }
 .text-primary {
 	color: var(--primary) !important;
+}
+.text-black {
+	color: var(--black) !important;
 }
 .text-muted {
 	color: var(--dark) !important;
@@ -48,17 +63,26 @@
 .bg-dark {
     background-color: var(--dark) !important;
 }
+.bg-gray {
+    background-color: var(--gray) !important;
+}
 .bg-white {
     background-color: var(--white) !important;
 }
 .bg-light {
     background-color: var(--light) !important;
 }
+.bg-primary {
+    background-color: var(--primary) !important;
+}
 
 .display-5 {
     font-size: 2rem;
 }
 
+.bg-dark-50 {
+	background-color: var(--dark-50) !important;
+}
 .bg-primary-50 {
 	background-color: var(--primary-50) !important;
 }
@@ -69,3 +93,12 @@
 	background-color: var(--light-50) !important;
 }
 
+.border-black {
+	border-color: var(--black) !important;
+}
+.border-gray {
+	border-color: var(--gray) !important;
+}
+.border-dark {
+	border-color: var(--dark) !important;
+}

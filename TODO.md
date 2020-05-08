@@ -1,16 +1,19 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        - test the basic layout and links
-        - make the actual login page
-            - block form on click
-            - dynamic form values with vue js
-            - API query
-            - errors handling
-        - test the login page
-        - add loaders to the app and merge the animation with the extension
-        - if not logged in, show a notification (+ debounce)
-        - if the notification is clicked, display the login page from the website
-        - remove hardcoded key set for debugging (and fix related tests)
+        Website: 
+            - add a feedback and a loader to the login form while processing
+            - add loaders to the app and merge the animation with the extension
+            - test the login page
+            - test redirection to the login page if not logged in in the home
+            - test redirection to the home page if logged in and in the login page
+            - test the basic layout and links/router
+        Extension: 
+            - if not logged in, show a notification (+ debounce)
+            - if the notification is clicked, display the login page from the website
+            - login in the extension when logged in in the site
+            - remove hardcoded key set for debugging (and fix related tests)
+    Website layout: implement the menu and test it
+    Global vuejs error handling?
     Have the extension CSS match the website colours + unify the css with variables
     test UIContainer (exists + no dom node if empty)
     Landing page: better sync of the parallax on mobile

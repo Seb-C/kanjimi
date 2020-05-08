@@ -1,7 +1,11 @@
 <template>
 	<div class="row mt-5">
 		<div class="col-12 col-sm-10 col-md-8 col-xl-6 offset-sm-1 offset-md-2 offset-xl-3">
-			<form class="form-row bg-primary-50 rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5">
+			<form
+				class="form-row bg-primary-50 rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5"
+				v-on:submit="submit"
+				novalidate
+			>
 				<div class="col-12 text-center px-5 mb-3">
 					<div class="bg-light p-3 rounded-circle border border-dark kanjimi-login-icon">
 						<img src="./img/logo.svg" alt="Logo" class="mw-100" />
@@ -17,13 +21,16 @@
 							</div>
 						</div>
 						<input
-							type="email"
-							class="form-control"
+							type="text"
+							v-bind:class="{ 'form-control': true, 'is-invalid': !!errors.email }"
 							name="email"
 							placeholder="Email"
 							title="Account email"
-							required
+							v-model.trim="email"
 						/>
+					</div>
+					<div v-if="!!errors.email" class="invalid-feedback d-block">
+						{{ errors.email }}
 					</div>
 				</div>
 
@@ -36,13 +43,20 @@
 						</div>
 						<input
 							type="password"
-							class="form-control"
+							v-bind:class="{ 'form-control': true, 'is-invalid': !!errors.password }"
 							name="password"
 							placeholder="Password"
 							title="Account password"
-							required
+							v-model="password"
 						/>
 					</div>
+					<div v-if="!!errors.password" class="invalid-feedback d-block">
+						{{ errors.password }}
+					</div>
+				</div>
+
+				<div v-if="!!errors.bottom" class="col-12 mt-3 text-danger">
+					{{ errors.bottom }}
 				</div>
 
 				<div class="col-12 mt-3">
@@ -54,13 +68,58 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
+	import { create as createApiKey } from 'Client/Api/Routes/ApiKey';
+	import ValidationError from 'Client/Api/Errors/Validation';
+	import AuthenticationError from 'Client/Api/Errors/Authentication';
+	import ServerError from 'Client/Api/Errors/Server';
 
-	export default Vue.extend({});
+	export default Vue.extend({
+		created() {
+			if (this.$root.apiKey !== null) {
+				this.$root.changeRoute('./app');
+			}
+		},
+		data() {
+			return {
+				email: '',
+				password: '',
+				errors: {},
+			};
+		},
+		methods: {
+			async submit(event: Event) {
+				event.preventDefault();
+				try {
+					const apiKey = await createApiKey({
+						email: this.email,
+						password: this.password,
+					});
+					this.$root.setApiKey(apiKey.key);
+					this.$root.changeRoute('./app');
+				} catch (error) {
+					if (error instanceof ValidationError) {
+						this.errors = error.getFormErrors();
+					} else if (error instanceof AuthenticationError) {
+						this.errors = { bottom: error.error };
+					} else if (error instanceof ServerError) {
+						console.error('Server error during login. Response body: ', error.body);
+						this.errors = { bottom: 'There have been an unknown error. Please try again in a little while' };
+					} else {
+						throw error;
+					}
+				}
+			},
+		},
+	});
 </script>
 <style scoped>
 	.kanjimi-login-icon {
 		width: 100px;
 		margin: auto;
 		margin-top: -50px;
+	}
+
+	.invalid-feedback {
+		padding-left: 3.5em;
 	}
 </style>

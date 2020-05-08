@@ -19,7 +19,7 @@ services:
     command: >
       bash -c "
         ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts &
-        ./node_modules/.bin/nodemon -e ts -w ./src -x ./node_modules/.bin/ts-node -r tsconfig-paths/register src/Server/server.ts
+        ./node_modules/.bin/nodemon -e ts -w ./src --ignore ./src/Client -x ./node_modules/.bin/ts-node -r tsconfig-paths/register src/Server/server.ts
       "
     ports:
       - "3000:3000"

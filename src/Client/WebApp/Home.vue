@@ -1,0 +1,15 @@
+<template>
+	<div>Home after login</div>
+</template>
+<script lang="ts">
+	import Vue from 'vue';
+
+	export default Vue.extend({
+		created() {
+			if (this.$root.apiKey === null) {
+				this.$root.changeRoute('./app/login');
+			}
+		},
+	});
+</script>
+<style scoped></style>

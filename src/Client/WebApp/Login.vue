@@ -27,6 +27,7 @@
 							placeholder="Email"
 							title="Account email"
 							v-model.trim="email"
+							:disabled="loading"
 						/>
 					</div>
 					<div v-if="!!errors.email" class="invalid-feedback error-email d-block">
@@ -48,6 +49,7 @@
 							placeholder="Password"
 							title="Account password"
 							v-model="password"
+							:disabled="loading"
 						/>
 					</div>
 					<div v-if="!!errors.password" class="invalid-feedback error-password d-block">
@@ -60,7 +62,19 @@
 				</div>
 
 				<div class="col-12 mt-3">
-					<button type="submit" class="btn btn-secondary btn-lg w-100">Login</button>
+					<button
+						type="submit"
+						class="btn btn-secondary btn-lg w-100"
+						:disabled="loading"
+					>
+						<div v-if="loading" class="d-flex justify-content-center">
+							<span class="spinner-border" role="status" aria-hidden="true"></span>
+							<span class="sr-only">Loading...</span>
+						</div>
+						<template v-else>
+							Login
+						</template>
+					</button>
 				</div>
 			</form>
 		</div>
@@ -84,11 +98,13 @@
 				email: '',
 				password: '',
 				errors: {},
+				loading: false,
 			};
 		},
 		methods: {
 			async submit(event: Event) {
 				event.preventDefault();
+				this.loading = true;
 				try {
 					const apiKey = await createApiKey({
 						email: this.email,
@@ -107,6 +123,8 @@
 					} else {
 						throw error;
 					}
+				} finally {
+					this.loading = false;
 				}
 			},
 		},

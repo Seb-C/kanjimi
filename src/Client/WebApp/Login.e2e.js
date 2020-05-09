@@ -78,4 +78,19 @@ context('Login', () => {
 			});
 		cy.url().should('not.contain', 'app/login');
 	});
+
+	// Note: the local server is too fast to intercept this, so the test is disabled...
+	it.skip('Visual feedback while loading', () => {
+		cy.setLoggedOut();
+		cy.visit('/app/login');
+
+		cy.get('input[name="email"]').type('invalid@kanjimi.com');
+		cy.get('input[name="password"]').type('123456');
+		cy.get('button[type="submit"]').click();
+
+		cy.get('input[name="email"]').should('be.disabled');
+		cy.get('input[name="password"]').should('be.disabled');
+		cy.get('button[type="submit"]').should('be.disabled');
+		cy.get('button[type="submit"] .spinner-border').should('be.visible');
+	});
 });

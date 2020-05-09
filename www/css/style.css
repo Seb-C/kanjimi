@@ -16,26 +16,38 @@
 	--fuji-sun: #ee6161;
 }
 
-.btn-primary {
+input {
+	/**
+	 * Prevents Firefox from applying a background
+	 * color to the autocompleted fields
+	 */
+	filter: none;
+}
+
+.btn-primary,
+.btn-primary:hover,
+.btn-primary.focus,
+.btn-primary:focus {
 	color: var(--black);
     background-color: var(--primary);
     border-color: var(--primary);
 }
-.btn-primary:hover {
-	color: var(--black);
-    background-color: var(--primary);
-    border-color: var(--primary);
-}
-.btn-secondary {
+.btn-secondary,
+.btn-secondary:hover,
+.btn-secondary.focus,
+.btn-secondary:focus {
 	color: var(--white);
     background-color: var(--secondary);
     border-color: var(--secondary);
 }
-.btn-secondary:hover {
-	color: var(--light);
-    background-color: var(--secondary);
-    border-color: var(--secondary);
+
+.btn.disabled,
+.btn:disabled {
+	opacity: 1;
+	background-color: var(--gray);
+	color: var(--dark-50);
 }
+
 .text-primary {
 	color: var(--primary) !important;
 }

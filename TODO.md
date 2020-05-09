@@ -1,13 +1,11 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
-        Website: 
-            - add a feedback and a loader to the login form while processing
-            - add loaders to the app and merge the animation with the extension
         Extension: 
             - if not logged in, show a notification (+ debounce)
             - if the notification is clicked, display the login page from the website
             - login in the extension when logged in in the site
             - remove hardcoded key set for debugging (and fix related tests)
+    Use a more normal loader in the extension (spinner with 3 round borders like bootstrap)
     Fix the broken Tooltip test (tooltip does not switch when clicking another word while already opened)
     Website: implement the menu and test it
     Global vuejs error handling?

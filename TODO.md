@@ -1,10 +1,14 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
         Extension: 
-            - if not logged in, show a notification (+ debounce)
-            - if the notification is clicked, display the login page from the website
+            - how to properly set up the website url for the background script?
+            - do not show again the notification if the login page is already opened and active
             - login in the extension when logged in in the site
+            - close tab and notify login
             - remove hardcoded key set for debugging (and fix related tests)
+            - remove the api key from the migration?
+            - test this login process
+            - fix the static tests that should login before starting
     token component: replace js color detection with css currentColor keyword?
     OVH: try again to create a secundary account?
     subscription process
@@ -12,6 +16,7 @@ MVP:
     Fix the broken Tooltip test (tooltip does not switch when clicking another word while already opened)
     Website: implement the menu and test it
     Global vuejs error handling?
+    dont save urls on mode incognito (window.incognito?)
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
     Fix the CI

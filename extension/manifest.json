@@ -1,6 +1,10 @@
 {
   "manifest_version": 2,
   "name": "Kanjimi",
+  "author": "Sébastien Caparros",
+  "homepage_url": "http://www.kanjimi.com/",
+  "offline_enabled": false,
+  "incognito": "spanning",
   "version": "1.0",
   "description": "TODO",
   "icons": {
@@ -14,9 +18,15 @@
       "css": ["/content.build.css"]
     }
   ],
+  "background": {
+    "scripts": [
+      "/background.js"
+    ]
+  },
   "permissions": [
     "*://localhost/*",
     "storage",
+    "notifications",
     "tabs"
   ],
   "web_accessible_resources": [

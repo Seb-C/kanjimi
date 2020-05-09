@@ -39,8 +39,8 @@ export default class PageHandler {
 		this.injectLoaderCss();
 
 		// TODO remove this test
-		await this.setApiKey('PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==');
-		// await browser.storage.local.set({ key: null });
+		// await this.setApiKey('PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==');
+		await browser.storage.local.set({ key: null });
 
 		await this.loadApiKeyFromStorage();
 		browser.storage.onChanged.addListener(async () => {
@@ -49,6 +49,11 @@ export default class PageHandler {
 			// Triggering conversion on the page after login in a different tab/page
 			this.convertSentences();
 		});
+
+		if (this.store.apiKey === null) {
+			// Handled by the background script
+			browser.runtime.sendMessage('kanjimi-notify-not-logged-in');
+		}
 
 		this.convertSentences();
 		window.addEventListener('scroll', debounce(this.convertSentences.bind(this), 300));
@@ -63,7 +68,7 @@ export default class PageHandler {
 	}
 
 	async loadApiKeyFromStorage () {
-		this.store.apiKey = (await browser.storage.local.get('key')).key;
+		this.store.apiKey = (await browser.storage.local.get('key')).key || null;
 	}
 
 	*getSentencesToConvert(): Iterable<Text> {

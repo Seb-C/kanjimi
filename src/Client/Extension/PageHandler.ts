@@ -39,7 +39,7 @@ export default class PageHandler {
 		this.injectLoaderCss();
 
 		// TODO remove this test
-		// await this.setApiKey('PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==');
+		await this.setApiKey('PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==');
 		// await browser.storage.local.set({ key: null });
 
 		await this.loadApiKeyFromStorage();
@@ -263,17 +263,29 @@ export default class PageHandler {
 			}
 			.kanjimi-loader:after {
 				content: "";
-				left: 0;
-				right: 0;
-				top: 0;
-				bottom: 0;
 				position: absolute;
-				background-image: url('${browser.runtime.getURL('/images/loader.svg')}');
-				background-position: center;
-				background-size: contain;
-				background-repeat: no-repeat;
-			}
 
+				border-radius: 50%;
+				border: 0.25em solid currentColor;
+				border-right-color: transparent;
+
+				width: 1em;
+				height: 1em;
+
+				left: calc(50% - 0.5em);
+				top: calc(50% - 0.5em);
+
+				animation: kanjimi-loader-animation 0.75s linear infinite;
+				transform-origin: center;
+			}
+			@keyframes kanjimi-loader-animation {
+				from {
+					transform: rotate(0deg);
+				}
+				to {
+					transform: rotate(360deg);
+				}
+			}
 		`;
 		document.getElementsByTagName('head')[0].appendChild(style);
 	}

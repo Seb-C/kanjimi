@@ -5,7 +5,10 @@ MVP:
             - if the notification is clicked, display the login page from the website
             - login in the extension when logged in in the site
             - remove hardcoded key set for debugging (and fix related tests)
-    Use a more normal loader in the extension (spinner with 3 round borders like bootstrap)
+    token component: replace js color detection with css currentColor keyword?
+    OVH: try again to create a secundary account?
+    subscription process
+    verify email process after subscription (and block login if not validated)
     Fix the broken Tooltip test (tooltip does not switch when clicking another word while already opened)
     Website: implement the menu and test it
     Global vuejs error handling?
@@ -16,14 +19,12 @@ MVP:
     test and debug with slack
     test and debug intensively the display of results
     webpack: different webpack and typescript config for extension, website and server
-    subscription process
     after the login and subscription pages are done: add links to the index page to the account (changing depending on the localStorage key)
     JLPT level at subscription, use it to define the default status of words
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
     retrieve password process
-    verify email process after subscription (and block login if not validated)
     route to modify a user (PATCH, languages and password only)
     database setup -> env file?
     chrome compatibility (and test others)

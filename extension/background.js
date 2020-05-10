@@ -1,4 +1,5 @@
 const notificationOnClickUrls = {};
+let openedLoginTabIds = [];
 
 browser.runtime.onMessage.addListener(async (message) => {
 	if (message.action === 'notify') {
@@ -13,15 +14,24 @@ browser.runtime.onMessage.addListener(async (message) => {
 			notificationOnClickUrls[message.notificationId] = message.onClickUrl;
 		}
 		await browser.notifications.create(message.notificationId, message.options);
+	} else if (message.action === 'close-opened-login-tabs') {
+		try {
+			await browser.tabs.remove(openedLoginTabIds);
+			openedLoginTabIds = [];
+		} catch (error) {
+			// Cannot close the tab(s), nothing we can do
+			console.error(error);
+		}
 	}
 });
 
 browser.notifications.onClicked.addListener(async (id) => {
 	if (notificationOnClickUrls[id]) {
 		await browser.notifications.clear(id);
-		await browser.tabs.create({
+		const tab = await browser.tabs.create({
 			active: true,
 			url: notificationOnClickUrls[id],
 		});
+		openedLoginTabIds.push(tab.id);
 	}
 });

@@ -100,6 +100,10 @@ export default class PageHandler {
 					iconUrl: browser.runtime.getURL('/images/logo.svg'),
 				},
 			});
+
+			browser.runtime.sendMessage({
+				action: 'close-opened-login-tabs',
+			});
 		}
 
 		// Triggering conversion on the page after login

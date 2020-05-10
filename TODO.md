@@ -2,7 +2,6 @@ MVP:
     Basic login interface in a popup button, token in the extension config
         Extension: 
             post some news on twitter
-            - close tab after login via the extension
             - remove the api key from the migration?
             - test this login process
             - fix the static tests that should login before starting

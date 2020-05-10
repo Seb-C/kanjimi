@@ -2,9 +2,12 @@ MVP:
     Basic login interface in a popup button, token in the extension config
         Extension: 
             post some news on twitter
-            - remove the api key from the migration?
             - test this login process
             - fix the static tests that should login before starting
+    separate the login code from the main class (extension)
+    extension: separate the store from the main class
+    web-app: separate the store from the main file
+    web-app: separate the router from the main file
     token component: replace js color detection with css currentColor keyword?
     OVH: try again to create a secundary account?
     subscription process

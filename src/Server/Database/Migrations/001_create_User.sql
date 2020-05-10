@@ -8,6 +8,8 @@ CREATE TABLE "User" (
 	CONSTRAINT "User_email_unique" UNIQUE ("email")
 );
 
+CREATE INDEX "User_email_index" ON "User"("email");
+
 INSERT INTO "User" VALUES (
 	'cef830cb-6e75-43ab-91d3-ae13c82bd836',
 	'contact@kanjimi.com',

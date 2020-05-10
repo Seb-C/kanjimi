@@ -16,6 +16,12 @@ services:
     image: node:11
     restart: on-failure
     working_dir: /app
+    environment:
+      - KANJIMI_DATABASE_HOST=database
+      - KANJIMI_DATABASE_PORT=5432
+      - KANJIMI_DATABASE_DATABASE=test
+      - KANJIMI_DATABASE_USER=test
+      - KANJIMI_DATABASE_PASSWORD=test
     command: >
       bash -c "
         ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts &
@@ -29,6 +35,9 @@ services:
     image: node:11
     restart: on-failure
     working_dir: /app
+    environment:
+      - KANJIMI_API_URL=http://localhost:3000
+      - KANJIMI_WWW_URL=http://localhost:3000/www
     command: >
       bash -c "
         ./node_modules/.bin/webpack --color --config=webpack.extensionContent.config.js --build;
@@ -40,6 +49,9 @@ services:
     image: node:11
     restart: on-failure
     working_dir: /app
+    environment:
+      - KANJIMI_API_URL=http://localhost:3000
+      - KANJIMI_WWW_URL=http://localhost:3000/www
     command: >
       bash -c "
         ./node_modules/.bin/webpack --color --config=webpack.webApp.config.js --build;

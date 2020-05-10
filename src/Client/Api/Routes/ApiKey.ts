@@ -7,7 +7,7 @@ export const create = async (attributes: {
 	email: string,
 	password: string,
 }): Promise<ApiKey> => {
-	const response = await fetch('http://localhost:3000/api-key', {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/api-key`, {
 		method: 'POST',
 		body: JSON.stringify(attributes),
 	});
@@ -27,7 +27,7 @@ export const create = async (attributes: {
 };
 
 export const get = async (key: string): Promise<ApiKey> => {
-	const response = await fetch('http://localhost:3000/api-key', {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/api-key`, {
 		method: 'GET',
 		headers: {
 			Authorization: `Bearer ${key}`,

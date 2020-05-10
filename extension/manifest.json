@@ -3,7 +3,6 @@
   "name": "Kanjimi",
   "author": "Sébastien Caparros",
   "homepage_url": "http://www.kanjimi.com/",
-  "offline_enabled": false,
   "incognito": "spanning",
   "version": "1.0",
   "description": "TODO",

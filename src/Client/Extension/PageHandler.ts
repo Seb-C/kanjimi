@@ -52,7 +52,17 @@ export default class PageHandler {
 
 		if (this.store.apiKey === null) {
 			// Handled by the background script
-			browser.runtime.sendMessage('kanjimi-notify-not-logged-in');
+			browser.runtime.sendMessage({
+				action: 'notify',
+				notificationId: 'kanjimi-notify-not-logged-in',
+				onClickUrl: `${process.env.KANJIMI_WWW_URL}/app/login`,
+				options: {
+					type: 'basic',
+					message: "The extension is not connected yet.\n\nClick here to connect it.",
+					title: 'Kanjimi',
+					iconUrl: browser.runtime.getURL('/images/logo.svg'),
+				},
+			});
 		}
 
 		this.convertSentences();

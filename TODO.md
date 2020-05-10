@@ -1,14 +1,14 @@
 MVP:
     Basic login interface in a popup button, token in the extension config
         Extension: 
-            - how to properly set up the website url for the background script?
-            - do not show again the notification if the login page is already opened and active
+            post some news on twitter
             - login in the extension when logged in in the site
-            - close tab and notify login
+            - close tab and notify login after login
             - remove hardcoded key set for debugging (and fix related tests)
             - remove the api key from the migration?
             - test this login process
             - fix the static tests that should login before starting
+
     token component: replace js color detection with css currentColor keyword?
     OVH: try again to create a secundary account?
     subscription process
@@ -23,7 +23,6 @@ MVP:
     test with a lot of different sites and texts
     test and debug with slack
     test and debug intensively the display of results
-    webpack: different webpack and typescript config for extension, website and server
     after the login and subscription pages are done: add links to the index page to the account (changing depending on the localStorage key)
     JLPT level at subscription, use it to define the default status of words
     store visited urls to make recommendations later

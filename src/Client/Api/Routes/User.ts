@@ -9,7 +9,7 @@ export const create = async (attributes: {
 	password: string,
 	languages: Language[],
 }): Promise<User> => {
-	const response = await fetch('http://localhost:3000/user', {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/user`, {
 		method: 'POST',
 		body: JSON.stringify(attributes),
 	});

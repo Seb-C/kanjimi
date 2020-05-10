@@ -10,11 +10,11 @@ export default class Database {
 
 	constructor() {
 		this.db = PgPromise()({
-			host     :  process.env.DB_HOST || 'database',
-			port     :  5432,
-			database :  'test',
-			user     :  'test',
-			password :  'test',
+			host: process.env.KANJIMI_DATABASE_HOST,
+			port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
+			database: process.env.KANJIMI_DATABASE_DATA,
+			user: process.env.KANJIMI_DATABASE_USER,
+			password: process.env.KANJIMI_DATABASE_PASSWORD,
 		});
 	}
 

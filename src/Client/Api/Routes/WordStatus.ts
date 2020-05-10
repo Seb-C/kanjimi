@@ -5,7 +5,7 @@ import WordStatus from 'Common/Models/WordStatus';
 
 export const get = async (key: string, strings: string[]): Promise<WordStatus[]> => {
 	const response = await fetch(
-		`http://localhost:3000/word-status?${escape(JSON.stringify(strings))}`,
+		`${process.env.KANJIMI_API_URL}/word-status?${escape(JSON.stringify(strings))}`,
 		{
 			method: 'GET',
 			headers: {
@@ -29,7 +29,7 @@ export const get = async (key: string, strings: string[]): Promise<WordStatus[]>
 };
 
 export const createOrUpdate = async (key: string, wordStatus: WordStatus): Promise<WordStatus> => {
-	const response = await fetch('http://localhost:3000/word-status', {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/word-status`, {
 		method: 'PUT',
 		headers: {
 			Authorization: `Bearer ${key}`,

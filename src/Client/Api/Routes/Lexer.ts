@@ -4,7 +4,7 @@ import AuthenticationError from 'Client/Api/Errors/Authentication';
 import ServerError from 'Client/Api/Errors/Server';
 
 export const analyze = async (key: string, strings: string[]): Promise<Token[][]> => {
-	const response = await fetch('http://localhost:3000/lexer/analyze', {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/lexer/analyze`, {
 		method: 'POST',
 		headers: {
 			Authorization: `Bearer ${key}`,

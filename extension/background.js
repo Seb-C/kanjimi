@@ -1,20 +1,27 @@
-browser.runtime.onMessage.addListener((message) => {
-	if (message === 'kanjimi-notify-not-logged-in') {
-		browser.notifications.create('kanjimi-not-logged-in', {
-			type: 'basic',
-			message: "The extension is not connected yet.\n\nClick here to connect it.",
-			title: 'Kanjimi',
-			iconUrl: browser.runtime.getURL('/images/logo.svg'),
-		});
+const notificationOnClickUrls = {};
+
+browser.runtime.onMessage.addListener(async (message) => {
+	if (message.action === 'notify') {
+		if (message.onClickUrl) {
+			const tabs = await browser.tabs.query({});
+			for (let i = 0; i < tabs.length; i++) {
+				if (tabs[i].url === message.onClickUrl) {
+					return; // Already clicked and opened
+				}
+			}
+
+			notificationOnClickUrls[message.notificationId] = message.onClickUrl;
+		}
+		await browser.notifications.create(message.notificationId, message.options);
 	}
 });
 
-browser.notifications.onClicked.addListener((id) => {
-	if (id === 'kanjimi-not-logged-in') {
-		browser.notifications.clear(id);
-		browser.tabs.create({
+browser.notifications.onClicked.addListener(async (id) => {
+	if (notificationOnClickUrls[id]) {
+		await browser.notifications.clear(id);
+		await browser.tabs.create({
 			active: true,
-			url: 'http://localhost:3000/www/app/login',
+			url: notificationOnClickUrls[id],
 		});
 	}
 });

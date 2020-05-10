@@ -71,6 +71,7 @@ window.addEventListener('load', function () {
 		setApiKey (key: string) {
 			localStorage.setItem('key', key);
 			store.apiKey = key;
+			window.dispatchEvent(new CustomEvent('kanjimi-set-api-key', { detail: key }));
 		}
 	};
 

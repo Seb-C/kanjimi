@@ -2,13 +2,10 @@ MVP:
     Basic login interface in a popup button, token in the extension config
         Extension: 
             post some news on twitter
-            - login in the extension when logged in in the site
-            - close tab and notify login after login
-            - remove hardcoded key set for debugging (and fix related tests)
+            - close tab after login via the extension
             - remove the api key from the migration?
             - test this login process
             - fix the static tests that should login before starting
-
     token component: replace js color detection with css currentColor keyword?
     OVH: try again to create a secundary account?
     subscription process
@@ -28,6 +25,7 @@ MVP:
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
+    disconnect process + also disconnect the extension
     retrieve password process
     route to modify a user (PATCH, languages and password only)
     database setup -> env file?

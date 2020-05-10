@@ -38,10 +38,6 @@ export default class PageHandler {
 
 		this.injectLoaderCss();
 
-		// TODO remove this test
-		// await this.setApiKey('PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==');
-		await browser.storage.local.set({ key: null });
-
 		await this.loadApiKeyFromStorage();
 		browser.storage.onChanged.addListener(async () => {
 			await this.loadApiKeyFromStorage.bind(this);
@@ -49,6 +45,23 @@ export default class PageHandler {
 			// Triggering conversion on the page after login in a different tab/page
 			this.convertSentences();
 		});
+		window.addEventListener('kanjimi-set-api-key', async (event: Event) => {
+			const origin = (<Window>event.target).location.href;
+			const expectedOrigin = process.env.KANJIMI_WWW_URL + '/';
+			if (origin.substring(0, expectedOrigin.length) === expectedOrigin) {
+				await this.setApiKey((<CustomEvent>event).detail);
+				browser.runtime.sendMessage({
+					action: 'notify',
+					notificationId: 'kanjimi-notify-logged-in',
+					options: {
+						type: 'basic',
+						message: "The extension have been connected with your Kanjimi account.",
+						title: 'Kanjimi',
+						iconUrl: browser.runtime.getURL('/images/logo.svg'),
+					},
+				});
+			}
+		}, false);
 
 		if (this.store.apiKey === null) {
 			// Handled by the background script

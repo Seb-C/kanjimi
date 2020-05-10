@@ -1,5 +1,6 @@
 context('Kanjis', () => {
 	it('Basic display', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .token .word')

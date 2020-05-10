@@ -15,6 +15,7 @@ context('Token', () => {
 	};
 
 	it('Basic tokenization', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 		resetWordStatus('日本');
 
@@ -24,6 +25,7 @@ context('Token', () => {
 	});
 
 	it('Using links', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 		resetWordStatus('検証');
 
@@ -35,6 +37,7 @@ context('Token', () => {
 	});
 
 	it('Changing the word statuses', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 		resetWordStatus('日本国');
 

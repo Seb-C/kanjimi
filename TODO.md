@@ -1,9 +1,5 @@
 MVP:
-    Basic login interface in a popup button, token in the extension config
-        Extension: 
-            post some news on twitter
-            - test this login process
-            - fix the static tests that should login before starting
+    separate test for the extension login process (just in case we don't use the login screen in the future)
     separate the login code from the main class (extension)
     extension: separate the store from the main class
     web-app: separate the store from the main file
@@ -27,7 +23,7 @@ MVP:
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
-    disconnect process + also disconnect the extension
+    disconnect process + also disconnect the extension and in the tests (cf cypress.commands.js)
     retrieve password process
     route to modify a user (PATCH, languages and password only)
     database setup -> env file?

@@ -1,5 +1,6 @@
 context('Tooltip', () => {
 	it('Display when a word is clicked', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
@@ -8,6 +9,7 @@ context('Tooltip', () => {
 	});
 
 	it('Close button', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
@@ -18,6 +20,7 @@ context('Tooltip', () => {
 	});
 
 	it('Close by clicking again', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
@@ -27,6 +30,7 @@ context('Tooltip', () => {
 	});
 
 	it('Close by opening a different word', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
@@ -37,6 +41,7 @@ context('Tooltip', () => {
 	});
 
 	it('Tip is also visible', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
@@ -44,6 +49,7 @@ context('Tooltip', () => {
 	});
 
 	it('Cursor is also visible', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
@@ -51,6 +57,7 @@ context('Tooltip', () => {
 	});
 
 	it('Test the tooltip positioning', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/tooltip-positions.html')
 
 		cy.get('.word:contains(上左)').click();

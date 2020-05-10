@@ -1,5 +1,6 @@
 context('Readings', () => {
 	it('Token display', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('.word:contains(可能):first').click();
@@ -9,6 +10,7 @@ context('Readings', () => {
 	});
 
 	it('Correct furigana for conjugated verb', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('.word:contains(されている):first').click();
@@ -16,6 +18,7 @@ context('Readings', () => {
 	});
 
 	it('Flags display', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('.word:contains(可能):first').click();
@@ -25,6 +28,7 @@ context('Readings', () => {
 	});
 
 	it('French translations display', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('.word:contains(可能):first').click();
@@ -34,6 +38,7 @@ context('Readings', () => {
 	});
 
 	it('English translations display', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('.word:contains(可能):first').click();
@@ -43,6 +48,7 @@ context('Readings', () => {
 	});
 
 	it('Multi-lang translations display', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('.word:contains(可能):first').click();

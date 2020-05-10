@@ -1,11 +1,13 @@
 context('Sentence', () => {
 	it('Basic tokenization', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .token').should('exist');
 	});
 
 	it('Using links', () => {
+		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('a:contains(検証)').should('exist');

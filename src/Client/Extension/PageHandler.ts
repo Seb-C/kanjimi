@@ -39,27 +39,19 @@ export default class PageHandler {
 		this.injectLoaderCss();
 
 		await this.loadApiKeyFromStorage();
+
+		// Handling the login from a different tab
 		browser.storage.onChanged.addListener(async () => {
 			await this.loadApiKeyFromStorage.bind(this);
-
-			// Triggering conversion on the page after login in a different tab/page
 			this.convertSentences();
 		});
+
+		// Changing the key whenever it changes on the kanjimi website
 		window.addEventListener('kanjimi-set-api-key', async (event: Event) => {
 			const origin = (<Window>event.target).location.href;
 			const expectedOrigin = process.env.KANJIMI_WWW_URL + '/';
 			if (origin.substring(0, expectedOrigin.length) === expectedOrigin) {
 				await this.setApiKey((<CustomEvent>event).detail);
-				browser.runtime.sendMessage({
-					action: 'notify',
-					notificationId: 'kanjimi-notify-logged-in',
-					options: {
-						type: 'basic',
-						message: "The extension have been connected with your Kanjimi account.",
-						title: 'Kanjimi',
-						iconUrl: browser.runtime.getURL('/images/logo.svg'),
-					},
-				});
 			}
 		}, false);
 
@@ -82,9 +74,33 @@ export default class PageHandler {
 		window.addEventListener('scroll', debounce(this.convertSentences.bind(this), 300));
 	}
 
-	async setApiKey (key: string) {
+	async setApiKey (key: string|null) {
 		this.store.apiKey = key;
 		await browser.storage.local.set({ key });
+
+		if (key === null) {
+			browser.runtime.sendMessage({
+				action: 'notify',
+				notificationId: 'kanjimi-notify-logged-out',
+				options: {
+					type: 'basic',
+					message: 'The extension have been disconnected from your Kanjimi account.',
+					title: 'Kanjimi',
+					iconUrl: browser.runtime.getURL('/images/logo.svg'),
+				},
+			});
+		} else {
+			browser.runtime.sendMessage({
+				action: 'notify',
+				notificationId: 'kanjimi-notify-logged-in',
+				options: {
+					type: 'basic',
+					message: 'The extension have been connected with your Kanjimi account.',
+					title: 'Kanjimi',
+					iconUrl: browser.runtime.getURL('/images/logo.svg'),
+				},
+			});
+		}
 
 		// Triggering conversion on the page after login
 		this.convertSentences();

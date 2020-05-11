@@ -1,15 +1,11 @@
 Cypress.Commands.add('setLoggedIn', () => {
-	cy.visit('http://localhost:3000/www/app/login');
+	cy.visit('http://localhost:3000/www/app/');
 
-	// Forcing disconnect before connecting (just in case it was not cleared properly)
-	localStorage.removeItem('key');
+	const apiKey = 'PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==';
+	localStorage.setItem('key', apiKey);
 	cy.window().then((window) => {
-		window.dispatchEvent(new window.CustomEvent('kanjimi-set-api-key', { detail: null }));
+		window.dispatchEvent(new window.CustomEvent('kanjimi-set-api-key', { detail: apiKey }));
 	})
-
-	cy.get('input[name="email"]').type('contact@kanjimi.com');
-	cy.get('input[name="password"]').type('YQPtL67gddfnkads');
-	cy.get('button[type="submit"]').click();
 });
 
 Cypress.Commands.add('setLoggedOut', () => {

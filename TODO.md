@@ -1,7 +1,4 @@
 MVP:
-    separate test for the extension login process (just in case we don't use the login screen in the future)
-    separate the login code from the main class (extension)
-    extension: separate the store from the main class
     web-app: separate the store from the main file
     web-app: separate the router from the main file
     token component: replace js color detection with css currentColor keyword?

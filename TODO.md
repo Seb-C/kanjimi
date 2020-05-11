@@ -1,5 +1,4 @@
 MVP:
-    token component: replace js color detection with css currentColor keyword
     OVH: try again to create a secondary account?
     subscription process
     verify email process after subscription (and block login if not validated)
@@ -13,32 +12,29 @@ MVP:
     test with a lot of different sites and texts
     test and debug with slack
     test and debug intensively the display of results
-    after the login and subscription pages are done: add links to the index page to the account (changing depending on the localStorage key)
+    after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
     JLPT level at subscription, use it to define the default status of words
+    romaji option if the kanas are not known
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
     disconnect process + also disconnect the extension and in the tests (cf cypress.commands.js)
     retrieve password process
     route to modify a user (PATCH, languages and password only)
-    database setup -> env file?
     chrome compatibility (and test others)
     search and fix remaining TODOs
     Block access to the test pages in production
     webpack => production mode whenever necessary
-
-Website/publishing:
-    include dynamic interface elements (based on the landing page)
-    free trial for beta?
+    free for beta
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
     share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
     include copyright somewhere in the site (and external resources used) -> mostly external resources used
     onboarding
-    free plan?
     CGU
-    initialize user known words depending on the average JLPT level?
 
 After:
+    free plan?
+    paid member
     Have the home page js also built with webpack
     Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
     Avoid Google Analytics tracking?

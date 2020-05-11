@@ -1,9 +1,13 @@
 <template>
 	<span class="token" ref="tokenElement">
 		<span
-			v-bind:class="['furigana', showFurigana ? 'shown' : 'hidden']"
+			v-bind:class="{
+				'furigana': true,
+				'shown': hasFurigana && showFurigana,
+				'hidden': hasFurigana && !showFurigana,
+				'none': !hasFurigana,
+			}"
 			v-on:click="handleFuriganaClick($event)"
-			v-bind:style="furiganaStyle"
 		>
 			{{ token.getFurigana() || '&nbsp;' }}
 		</span>
@@ -11,9 +15,13 @@
 			{{ token.text || '&nbsp;' }}
 		</span>
 		<span
-			v-bind:class="['translation', showTranslation ? 'shown' : 'hidden']"
+			v-bind:class="{
+				'translation': true,
+				'shown': hasTranslation && showTranslation,
+				'hidden': hasTranslation && !showTranslation,
+				'none': !hasTranslation,
+			}"
 			v-on:click="handleTranslationClick($event)"
-			v-bind:style="translationStyle"
 		>
 			{{ token.getTranslation() || '&nbsp;' }}
 		</span>
@@ -88,32 +96,6 @@
 
 				return (<WordStatus>this.$root.wordStatuses[this.token.text]).showTranslation;
 			},
-			currentTextColor() {
-				const tokenComputedStyles = window.getComputedStyle(this.$root.$el);
-				return tokenComputedStyles.getPropertyValue('color');
-			},
-			furiganaStyle() {
-				if (!this.hasFurigana) {
-					// Hide it, disable pointer reactivity and bounding-box (but we need to keep the height)
-					return { visibility: 'hidden', width: '1px' };
-				} else if (!this.showFurigana) {
-					// Hide it but keep the pointer reactivity and bounding-box
-					return { backgroundColor: this.currentTextColor, color: this.currentTextColor };
-				} else {
-					return {};
-				}
-			},
-			translationStyle() {
-				if (!this.hasTranslation) {
-					// Hide it, disable pointer reactivity and bounding-box (but we need to keep the height)
-					return { visibility: 'hidden', width: '1px' };
-				} else if (!this.showTranslation) {
-					// Hide it but keep the pointer reactivity and bounding-box
-					return { backgroundColor: this.currentTextColor, color: this.currentTextColor };
-				} else {
-					return {};
-				}
-			},
 		},
 	});
 </script>
@@ -130,7 +112,22 @@
 		margin: 0 2px;
 		text-align: center;
 		white-space: nowrap;
-		cursor: help;
+		cursor: pointer;
+	}
+
+	.token .furigana.hidden {
+		/* Hide it but keep the pointer reactivity and bounding-box */
+		background-color: currentColor;
+		color: currentColor;
+	}
+
+	.token .furigana.none {
+		/**
+		 * Hide it, disable pointer reactivity and bounding-box
+		 * (but we need to keep the height)
+		 */
+		visibility: hidden;
+		width: 1px;
 	}
 
 	.token .word {
@@ -148,6 +145,23 @@
 		margin: 0px 2px;
 		text-align: center;
 		white-space: nowrap;
-		cursor: help;
+		cursor: pointer;
+	}
+
+	.token .translation.hidden {
+		/*
+		 * Hide it but keep the pointer reactivity and bounding-box
+		 */
+		background-color: currentColor;
+		color: currentColor;
+	}
+
+	.token .translation.none {
+		/**
+		 * Hide it, disable pointer reactivity and bounding-box
+		 * (but we need to keep the height)
+		 */
+		visibility: hidden;
+		width: 1px;
 	}
 </style>

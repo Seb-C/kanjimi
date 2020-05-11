@@ -1,4 +1,4 @@
-context('Login', () => {
+context('Store', () => {
 	it('Login on the website also logs in the extension', () => {
 		cy.setLoggedOut();
 

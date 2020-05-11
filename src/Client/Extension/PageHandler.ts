@@ -1,33 +1,23 @@
 import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token';
-import WordStatus from 'Common/Models/WordStatus';
+import Store from 'Client/Extension/Store';
 import { analyze } from 'Client/Api/Routes/Lexer';
 import {
 	get as getWordStatuses,
-	createOrUpdate as putWordStatus,
 } from 'Client/Api/Routes/WordStatus';
 import Vue from 'vue';
 import UIContainer from 'Client/Extension/Components/UIContainer.vue';
 import Sentence from 'Client/Extension/Components/Sentence.vue';
-import { debounce } from 'ts-debounce';
-
-type TooltipData = {
-	token: Token,
-	tokenElement: Element,
-};
 
 export default class PageHandler {
 	private processing: boolean = false;
-	private store = {
-		apiKey: <string|null>null,
-		setApiKey: this.setApiKey.bind(this),
-		setTooltip: this.setTooltip.bind(this),
-		tooltip: <TooltipData|null>null,
-		wordStatuses: <{ [key: string]: WordStatus }>{},
-		setWordStatus: this.setWordStatus.bind(this),
-	};
+	private store: Store;
 
-	async init() {
+	constructor (store: Store) {
+		this.store = store;
+	}
+
+	injectUIContainer() {
 		const elementToReplace = document.createElement('div');
 		document.body.appendChild(elementToReplace);
 		new Vue({
@@ -35,83 +25,6 @@ export default class PageHandler {
 			render: createElement => createElement(UIContainer),
 			data: this.store,
 		});
-
-		this.injectLoaderCss();
-
-		await this.loadApiKeyFromStorage();
-
-		// Handling the login from a different tab
-		browser.storage.onChanged.addListener(async () => {
-			await this.loadApiKeyFromStorage.bind(this);
-			this.convertSentences();
-		});
-
-		// Changing the key whenever it changes on the kanjimi website
-		window.addEventListener('kanjimi-set-api-key', async (event: Event) => {
-			const origin = (<Window>event.target).location.href;
-			const expectedOrigin = process.env.KANJIMI_WWW_URL + '/';
-			if (origin.substring(0, expectedOrigin.length) === expectedOrigin) {
-				await this.setApiKey((<CustomEvent>event).detail);
-			}
-		}, false);
-
-		if (this.store.apiKey === null) {
-			// Handled by the background script
-			browser.runtime.sendMessage({
-				action: 'notify',
-				notificationId: 'kanjimi-notify-not-logged-in',
-				onClickUrl: `${process.env.KANJIMI_WWW_URL}/app/login`,
-				options: {
-					type: 'basic',
-					message: "The extension is not connected yet.\n\nClick here to connect it.",
-					title: 'Kanjimi',
-					iconUrl: browser.runtime.getURL('/images/logo.svg'),
-				},
-			});
-		}
-
-		this.convertSentences();
-		window.addEventListener('scroll', debounce(this.convertSentences.bind(this), 300));
-	}
-
-	async setApiKey (key: string|null) {
-		this.store.apiKey = key;
-		await browser.storage.local.set({ key });
-
-		if (key === null) {
-			browser.runtime.sendMessage({
-				action: 'notify',
-				notificationId: 'kanjimi-notify-logged-out',
-				options: {
-					type: 'basic',
-					message: 'The extension have been disconnected from your Kanjimi account.',
-					title: 'Kanjimi',
-					iconUrl: browser.runtime.getURL('/images/logo.svg'),
-				},
-			});
-		} else {
-			browser.runtime.sendMessage({
-				action: 'notify',
-				notificationId: 'kanjimi-notify-logged-in',
-				options: {
-					type: 'basic',
-					message: 'The extension have been connected with your Kanjimi account.',
-					title: 'Kanjimi',
-					iconUrl: browser.runtime.getURL('/images/logo.svg'),
-				},
-			});
-
-			browser.runtime.sendMessage({
-				action: 'close-opened-login-tabs',
-			});
-		}
-
-		// Triggering conversion on the page after login
-		this.convertSentences();
-	}
-
-	async loadApiKeyFromStorage () {
-		this.store.apiKey = (await browser.storage.local.get('key')).key || null;
 	}
 
 	*getSentencesToConvert(): Iterable<Text> {
@@ -283,22 +196,6 @@ export default class PageHandler {
 			}),
 			data: this.store,
 		});
-	}
-
-	async setWordStatus(wordStatus: WordStatus, attributes: any) {
-		if (this.store.apiKey === null) {
-			return;
-		}
-
-		const newWordStatus = await putWordStatus(this.store.apiKey, new WordStatus({
-			...wordStatus,
-			...attributes,
-		}));
-		Vue.set(this.store.wordStatuses, newWordStatus.word, newWordStatus);
-	}
-
-	setTooltip(tooltipData: TooltipData|null) {
-		this.store.tooltip = tooltipData;
 	}
 
 	injectLoaderCss() {

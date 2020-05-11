@@ -1,9 +1,9 @@
 import Vue from 'vue';
-import Layout from 'Client/WebApp/Layout.vue';
-import PageNotFound from 'Client/WebApp/PageNotFound.vue';
+import Layout from 'Client/WebApp/Components/Layout.vue';
+import PageNotFound from 'Client/WebApp/Components/PageNotFound.vue';
 
-import Login from 'Client/WebApp/Login.vue';
-import Home from 'Client/WebApp/Home.vue';
+import Login from 'Client/WebApp/Components/Login.vue';
+import Home from 'Client/WebApp/Components/Home.vue';
 
 window.addEventListener('load', function () {
 	const baseUrl = (<HTMLBaseElement><any>document.querySelector('base[href]')).href;

@@ -22,6 +22,9 @@ services:
       - KANJIMI_DATABASE_DATABASE=test
       - KANJIMI_DATABASE_USER=test
       - KANJIMI_DATABASE_PASSWORD=test
+
+      # Only required by tests
+      - KANJIMI_API_URL=http://localhost:3000
     command: >
       bash -c "
         ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts &

@@ -13,7 +13,7 @@ export default class Store {
 	public tooltip: TooltipData|null = null;
 	public wordStatuses: { [key: string]: WordStatus } = {};
 
-	notifyIfLoggedOut() {
+	public notifyIfLoggedOut = () => {
 		if (this.apiKey === null) {
 			// Handled by the background script
 			browser.runtime.sendMessage({
@@ -30,7 +30,7 @@ export default class Store {
 		}
 	}
 
-	async setApiKey (key: string|null) {
+	public setApiKey = async (key: string|null) => {
 		this.apiKey = key;
 		await browser.storage.local.set({ key });
 
@@ -63,15 +63,15 @@ export default class Store {
 		}
 	}
 
-	async loadApiKeyFromStorage () {
+	public loadApiKeyFromStorage = async () => {
 		this.apiKey = (await browser.storage.local.get('key')).key || null;
 	}
 
-	setTooltip(tooltipData: TooltipData|null) {
+	public setTooltip = (tooltipData: TooltipData|null) => {
 		this.tooltip = tooltipData;
 	}
 
-	async setWordStatus(wordStatus: WordStatus, attributes: any) {
+	public setWordStatus = async (wordStatus: WordStatus, attributes: any) => {
 		if (this.apiKey === null) {
 			return;
 		}

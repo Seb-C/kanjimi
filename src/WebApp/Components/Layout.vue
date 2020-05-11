@@ -33,7 +33,7 @@
 						<a
 							v-bind:class="{ 'nav-link': true, 'active': link.active }"
 							v-bind:href="link.url"
-							v-on:click="$root.changeRoute"
+							v-on:click="$root.router.changeRoute"
 							:ref="'link-' + index"
 						>{{ link.title }}</a>
 					</li>

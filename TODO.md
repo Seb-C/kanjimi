@@ -25,6 +25,7 @@ MVP:
     chrome compatibility (and test others)
     search and fix remaining TODOs
     Block access to the test pages in production
+    webpack => production mode whenever necessary
 
 Website/publishing:
     include dynamic interface elements (based on the landing page)

@@ -19,7 +19,7 @@
 
 	export default Vue.extend({
 		props: {
-			token: { type: Object as () => Token },
+			token: { type: Token },
 		},
 		created() {
 			if (!injectedKanjiFont) {

@@ -5,7 +5,7 @@ import Vue from 'vue';
 
 type TooltipData = {
 	token: Token,
-	tokenElement: Element,
+	tokenElement: HTMLElement,
 };
 
 export default class Store {

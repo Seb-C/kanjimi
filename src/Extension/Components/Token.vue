@@ -35,16 +35,14 @@
 
 	export default Vue.extend({
 		props: {
-			token: { type: Object as () => Token },
+			token: { type: Token },
 		},
 		methods: {
 			handleWordClick(event: Event) {
 				event.preventDefault();
 				event.stopPropagation();
 				if (!(this.token.type === TokenType.PUNCTUATION)) {
-					if (this.$root.tooltip !== null && this.$root.tooltip.token.text === this.token.text) {
-						// TODO is this condition right? Bug if clicks
-						// the same word at a different place?
+					if (this.$root.tooltip !== null && this.$root.tooltip.token === this.token) {
 						this.$root.setTooltip(null);
 					} else {
 						this.$root.setTooltip({
@@ -136,6 +134,7 @@
 		text-align: center;
 		white-space: nowrap;
 		margin: 0 0 0.1em 0;
+		cursor: zoom-in;
 	}
 
 	.token .translation {

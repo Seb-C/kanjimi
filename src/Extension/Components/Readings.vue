@@ -39,36 +39,42 @@
 
 	export default Vue.extend({
 		props: {
-			token: { type: Object as () => Token },
+			token: { type: Token },
 		},
 		data() {
-			const wordsByReadingAndLanguage: Map<string, Map<Language|null, Word[]>> = new Map();
-			this.token.words.forEach((word) => {
-				if (!wordsByReadingAndLanguage.has(word.reading)) {
-					wordsByReadingAndLanguage.set(word.reading, new Map());
-				}
-				const wordsByLanguage = (<Map<Language|null, Word[]>>wordsByReadingAndLanguage.get(word.reading));
-
-				if (!wordsByLanguage.has(word.translationLang)) {
-					wordsByLanguage.set(word.translationLang, []);
-				}
-				const words = (<Word[]>wordsByLanguage.get(word.translationLang));
-
-				words.push(word);
-			});
-
-			let wordText = this.token.text;
-			if (this.token.type === TokenType.VERB && this.token.words.length > 0) {
-				wordText = this.token.words[0].word;
-			}
-
 			return {
 				Language,
 				LanguageTranslation,
 				WordTagTranslation,
-				wordText,
-				wordsByReadingAndLanguage,
 			};
+		},
+		computed: {
+			wordsByReadingAndLanguage() {
+				const wordsByReadingAndLanguage: Map<string, Map<Language|null, Word[]>> = new Map();
+				this.token.words.forEach((word: Word) => {
+					if (!wordsByReadingAndLanguage.has(word.reading)) {
+						wordsByReadingAndLanguage.set(word.reading, new Map());
+					}
+					const wordsByLanguage = (<Map<Language|null, Word[]>>wordsByReadingAndLanguage.get(word.reading));
+
+					if (!wordsByLanguage.has(word.translationLang)) {
+						wordsByLanguage.set(word.translationLang, []);
+					}
+					const words = (<Word[]>wordsByLanguage.get(word.translationLang));
+
+					words.push(word);
+				});
+
+				return wordsByReadingAndLanguage;
+			},
+			wordText() {
+				let wordText = this.token.text;
+				if (this.token.type === TokenType.VERB && this.token.words.length > 0) {
+					wordText = this.token.words[0].word;
+				}
+
+				return wordText;
+			},
 		},
 	});
 </script>

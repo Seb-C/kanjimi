@@ -1,38 +1,39 @@
 MVP:
-    OVH: try again to create a secondary account?
+    Website: implement the menu and test it
+    Fix the CI
+    Add tests for all methods of the Token model
+    Unit tests for new root classes: store and router
+    romaji option if the kanas are not known
     subscription process
     verify email process after subscription (and block login if not validated)
-    Fix the broken Tooltip test (tooltip does not switch when clicking another word while already opened)
-    Website: implement the menu and test it
+    after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
+    JLPT level at subscription, use it to define the default status of words
+    retrieve password process
+    route to modify a user (PATCH, languages and password only)
+    disconnect process + also disconnect the extension and in the tests (cf cypress.commands.js)
+    onboarding
     Global vuejs error handling?
     dont save urls on mode incognito (window.incognito?)
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
-    Fix the CI
     test with a lot of different sites and texts
     test and debug with slack
     test and debug intensively the display of results
-    after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
-    JLPT level at subscription, use it to define the default status of words
-    romaji option if the kanas are not known
     store visited urls to make recommendations later
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
-    disconnect process + also disconnect the extension and in the tests (cf cypress.commands.js)
-    retrieve password process
-    route to modify a user (PATCH, languages and password only)
     chrome compatibility (and test others)
     search and fix remaining TODOs
     Block access to the test pages in production
     webpack => production mode whenever necessary
-    free for beta
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
     share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
     include copyright somewhere in the site (and external resources used) -> mostly external resources used
-    onboarding
+    free for beta
     CGU
 
 After:
+    OVH: try again to create a secondary account?
     free plan?
     paid member
     Have the home page js also built with webpack

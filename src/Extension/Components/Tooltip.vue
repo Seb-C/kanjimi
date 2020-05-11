@@ -39,8 +39,8 @@
 
 	export default Vue.extend({
 		props: {
-			token: { type: Object as () => Token },
-			tokenElement: { type: Object as () => HTMLElement },
+			token: { type: Token },
+			tokenElement: { type: HTMLElement },
 		},
 		data() {
 			return {
@@ -58,6 +58,9 @@
 			window.addEventListener('resize', this.updateTargetPos);
 			window.addEventListener('kanjimi-converted-sentences', this.updateTargetPos);
 			document.addEventListener('keyup', this.keyPressHandler);
+		},
+		beforeUpdate() {
+			this.updateTargetPos();
 		},
 		beforeDestroy() {
 			window.removeEventListener('resize', this.updateTargetPos);

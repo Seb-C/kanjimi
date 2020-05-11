@@ -42,7 +42,7 @@
 		</nav>
 
 		<div class="container flex-fill py-2">
-			<component v-bind:is="$root.component" />
+			<component v-bind:is="$root.router.component" />
 		</div>
 
 		<footer class="bg-dark text-white">

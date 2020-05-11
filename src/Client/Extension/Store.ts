@@ -31,7 +31,7 @@ export default class Store {
 	}
 
 	async setApiKey (key: string|null) {
-		this.store.apiKey = key;
+		this.apiKey = key;
 		await browser.storage.local.set({ key });
 
 		if (key === null) {
@@ -61,9 +61,6 @@ export default class Store {
 				action: 'close-opened-login-tabs',
 			});
 		}
-
-		// Triggering conversion on the page after login
-		this.convertSentences();
 	}
 
 	async loadApiKeyFromStorage () {

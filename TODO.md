@@ -1,6 +1,7 @@
 MVP:
-    web-app: separate the store from the main file
     web-app: separate the router from the main file
+    Typing $root
+    move webapp and extension in the root namespace, remove Client and rename Api to ApiClient
     token component: replace js color detection with css currentColor keyword?
     OVH: try again to create a secundary account?
     subscription process

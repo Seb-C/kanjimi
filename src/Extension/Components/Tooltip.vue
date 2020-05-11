@@ -31,9 +31,9 @@
 	import Vue from 'vue';
 	import TokenType from 'Common/Types/TokenType';
 	import Token from 'Common/Models/Token';
-	import Kanjis from 'Client/Extension/Components/Kanjis.vue';
-	import Readings from 'Client/Extension/Components/Readings.vue';
-	import Conjugations from 'Client/Extension/Components/Conjugations.vue';
+	import Kanjis from 'Extension/Components/Kanjis.vue';
+	import Readings from 'Extension/Components/Readings.vue';
+	import Conjugations from 'Extension/Components/Conjugations.vue';
 
 	const TIP_SIZE = 15;
 

@@ -42,7 +42,7 @@ module.exports = {
 		],
 	},
 	entry: {
-		main: './src/Client/extensionContent.ts',
+		main: './src/Extension/main.ts',
 	},
 	output: {
 		path: path.resolve(__dirname, './extension'),

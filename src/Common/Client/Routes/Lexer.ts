@@ -1,7 +1,7 @@
 import Token from 'Common/Models/Token';
-import ValidationError from 'Client/Api/Errors/Validation';
-import AuthenticationError from 'Client/Api/Errors/Authentication';
-import ServerError from 'Client/Api/Errors/Server';
+import ValidationError from 'Common/Client/Errors/Validation';
+import AuthenticationError from 'Common/Client/Errors/Authentication';
+import ServerError from 'Common/Client/Errors/Server';
 
 export const analyze = async (key: string, strings: string[]): Promise<Token[][]> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/lexer/analyze`, {

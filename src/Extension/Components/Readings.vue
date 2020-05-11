@@ -34,8 +34,8 @@
 	import Language from 'Common/Types/Language';
 	import Token from 'Common/Models/Token';
 	import TokenType from 'Common/Types/TokenType';
-	import LanguageTranslation from 'Client/Translation/Language';
-	import WordTagTranslation from 'Client/Translation/WordTag';
+	import LanguageTranslation from 'Common/Translation/Language';
+	import WordTagTranslation from 'Common/Translation/WordTag';
 
 	export default Vue.extend({
 		props: {

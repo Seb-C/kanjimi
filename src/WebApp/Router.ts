@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import PageNotFound from 'Client/WebApp/Components/PageNotFound.vue';
+import PageNotFound from 'WebApp/Components/PageNotFound.vue';
 
 type Route = {
 	url: string,

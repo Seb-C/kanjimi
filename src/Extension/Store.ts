@@ -1,6 +1,6 @@
 import WordStatus from 'Common/Models/WordStatus';
 import Token from 'Common/Models/Token';
-import { createOrUpdate as putWordStatus } from 'Client/Api/Routes/WordStatus';
+import { createOrUpdate as putWordStatus } from 'Common/Client/Routes/WordStatus';
 import Vue from 'vue';
 
 type TooltipData = {

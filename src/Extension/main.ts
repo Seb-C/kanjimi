@@ -1,5 +1,5 @@
-import PageHandler from 'Client/Extension/PageHandler';
-import Store from 'Client/Extension/Store';
+import PageHandler from 'Extension/PageHandler';
+import Store from 'Extension/Store';
 import { debounce } from 'ts-debounce';
 
 (async () => {

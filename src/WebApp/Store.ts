@@ -1,4 +1,4 @@
-import Router from 'Client/WebApp/Router';
+import Router from 'WebApp/Router';
 
 export default class Store {
 	public router: Router;

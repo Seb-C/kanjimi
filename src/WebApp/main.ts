@@ -1,10 +1,10 @@
 import Vue from 'vue';
-import Layout from 'Client/WebApp/Components/Layout.vue';
-import Store from 'Client/WebApp/Store';
-import Router from 'Client/WebApp/Router';
+import Layout from 'WebApp/Components/Layout.vue';
+import Store from 'WebApp/Store';
+import Router from 'WebApp/Router';
 
-import Login from 'Client/WebApp/Components/Login.vue';
-import Home from 'Client/WebApp/Components/Home.vue';
+import Login from 'WebApp/Components/Login.vue';
+import Home from 'WebApp/Components/Home.vue';
 
 window.addEventListener('load', function () {
 	const router = new Router([

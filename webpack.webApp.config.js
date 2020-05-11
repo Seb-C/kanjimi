@@ -51,7 +51,7 @@ module.exports = {
 		],
 	},
 	entry: {
-		main: './src/Client/webApp.ts',
+		main: './src/WebApp/main.ts',
 	},
 	output: {
 		path: path.resolve(__dirname, './www'),

@@ -1,10 +1,6 @@
 MVP:
-    test the webapp store
-    test the webapp router
-    Typing $root
-    move webapp and extension in the root namespace, remove Client and rename Api to ApiClient
-    token component: replace js color detection with css currentColor keyword?
-    OVH: try again to create a secundary account?
+    token component: replace js color detection with css currentColor keyword
+    OVH: try again to create a secondary account?
     subscription process
     verify email process after subscription (and block login if not validated)
     Fix the broken Tooltip test (tooltip does not switch when clicking another word while already opened)
@@ -55,6 +51,7 @@ After:
     error handling properly in express (500 and 404, should always be an API response?)
     recommend words to hide depending on the statistics
     fix the broken indentation and folding for typescript
+    fix typescript vs vue components (vue 3.0? + store not typed?)
     implement down migrations? or not do it and remove related code
     hide and show kanjis by reading (and remember)
     example of words using the same kanjis and that have been seen before

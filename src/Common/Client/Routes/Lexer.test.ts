@@ -1,9 +1,9 @@
 import 'jasmine';
-import { analyze } from 'Client/Api/Routes/Lexer';
+import { analyze } from 'Common/Client/Routes/Lexer';
 import Token from 'Common/Models/Token';
 import fetch from 'node-fetch';
-import ValidationError from 'Client/Api/Errors/Validation';
-import AuthenticationError from 'Client/Api/Errors/Authentication';
+import ValidationError from 'Common/Client/Errors/Validation';
+import AuthenticationError from 'Common/Client/Errors/Authentication';
 import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';

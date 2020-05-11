@@ -1,10 +1,10 @@
 import 'jasmine';
-import { create } from 'Client/Api/Routes/User';
+import { create } from 'Common/Client/Routes/User';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import fetch from 'node-fetch';
-import ValidationError from 'Client/Api/Errors/Validation';
-import DuplicateError from 'Client/Api/Errors/Duplicate';
+import ValidationError from 'Common/Client/Errors/Validation';
+import DuplicateError from 'Common/Client/Errors/Duplicate';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repository/User';
 

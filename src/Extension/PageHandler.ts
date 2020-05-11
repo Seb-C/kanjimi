@@ -1,13 +1,13 @@
 import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token';
-import Store from 'Client/Extension/Store';
-import { analyze } from 'Client/Api/Routes/Lexer';
+import Store from 'Extension/Store';
+import { analyze } from 'Common/Client/Routes/Lexer';
 import {
 	get as getWordStatuses,
-} from 'Client/Api/Routes/WordStatus';
+} from 'Common/Client/Routes/WordStatus';
 import Vue from 'vue';
-import UIContainer from 'Client/Extension/Components/UIContainer.vue';
-import Sentence from 'Client/Extension/Components/Sentence.vue';
+import UIContainer from 'Extension/Components/UIContainer.vue';
+import Sentence from 'Extension/Components/Sentence.vue';
 
 export default class PageHandler {
 	private processing: boolean = false;

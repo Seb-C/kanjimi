@@ -82,10 +82,10 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import { create as createApiKey } from 'Client/Api/Routes/ApiKey';
-	import ValidationError from 'Client/Api/Errors/Validation';
-	import AuthenticationError from 'Client/Api/Errors/Authentication';
-	import ServerError from 'Client/Api/Errors/Server';
+	import { create as createApiKey } from 'Common/Client/Routes/ApiKey';
+	import ValidationError from 'Common/Client/Errors/Validation';
+	import AuthenticationError from 'Common/Client/Errors/Authentication';
+	import ServerError from 'Common/Client/Errors/Server';
 
 	export default Vue.extend({
 		created() {

@@ -3,7 +3,7 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import Tooltip from 'Client/Extension/Tooltip.vue';
+	import Tooltip from 'Client/Extension/Components/Tooltip.vue';
 
 	export default Vue.extend({
 		data() {

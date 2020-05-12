@@ -489,6 +489,9 @@ footer {
 .text-primary {
 	color: var(--primary) !important;
 }
+.text-dark {
+	color: var(--dark) !important;
+}
 .text-muted {
 	color: var(--dark) !important;
 	opacity: 70%;
@@ -507,6 +510,9 @@ footer {
 	color: var(--primary);
 }
 
+.bg-black {
+    background-color: var(--black) !important;
+}
 .bg-dark {
     background-color: var(--dark) !important;
 }

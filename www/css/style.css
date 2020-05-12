@@ -51,6 +51,9 @@ input {
 .text-primary {
 	color: var(--primary) !important;
 }
+.text-dark {
+	color: var(--dark) !important;
+}
 .text-black {
 	color: var(--black) !important;
 }
@@ -72,6 +75,9 @@ input {
 	color: var(--primary);
 }
 
+.bg-black {
+    background-color: var(--black) !important;
+}
 .bg-dark {
     background-color: var(--dark) !important;
 }

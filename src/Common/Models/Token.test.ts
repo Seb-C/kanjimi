@@ -44,4 +44,27 @@ describe('Token', () => {
 		expect(output2.conjugation).toBe(null);
 		expect(output2.forms.length).toBe(0);
 	});
+	it('getTranslation', async () => {
+		const token = new Token('text', TokenType.PARTICLE, [
+			new Word('', '', Language.FRENCH, 'test translation', []),
+		]);
+
+		expect(token.getTranslation()).toBe('test translation');
+	});
+	it('getFurigana', async () => {
+		const token = new Token('text', TokenType.PARTICLE, [
+			new Word('', 'test reading', Language.FRENCH, '', []),
+		]);
+
+		expect(token.getFurigana()).toBe('test reading');
+	});
+	it('getFurigana - conjugated verb', async () => {
+		const token = new Token('text', TokenType.PARTICLE, [
+			new Word('食べる', 'たべる', Language.FRENCH, '', []),
+		], 'verb', 'conjugation', [
+			new Conjugation('べた', 'べた', ConjugationType.PAST),
+		]);
+
+		expect(token.getFurigana()).toBe('たべた');
+	});
 });

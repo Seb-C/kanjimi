@@ -1,15 +1,14 @@
 MVP:
-    Fix the CI
-    Add tests for all methods of the Token model
     Unit tests for new root classes: store and router
+    route to modify a user (PATCH, languages and password only)
     romaji option if the kanas are not known
     subscription process
     verify email process after subscription (and block login if not validated)
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
     JLPT level at subscription, use it to define the default status of words
     retrieve password process
-    route to modify a user (PATCH, languages and password only)
     disconnect process + also disconnect the extension and in the tests (cf cypress.commands.js)
+    Fix the CI
     onboarding
     Global vuejs error handling?
     dont save urls on mode incognito (window.incognito?)

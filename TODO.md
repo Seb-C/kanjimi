@@ -1,5 +1,4 @@
 MVP:
-    Website: implement the menu and test it
     Fix the CI
     Add tests for all methods of the Token model
     Unit tests for new root classes: store and router

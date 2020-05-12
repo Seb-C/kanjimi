@@ -15,17 +15,20 @@
 			<button
 				class="navbar-toggler"
 				type="button"
-				data-toggle="collapse"
-				data-target="#main-menu"
 				aria-controls="main-menu"
-				aria-expanded="false"
+				v-bind:aria-expanded="isMobileMenuOpened"
 				aria-label="Toggle navigation"
+				v-on:click="clickMobileMenuToggler"
 			>
 				<span class="navbar-toggler-icon">&nbsp;</span>
 			</button>
 
 			<div
-				class="collapse navbar-collapse"
+				v-bind:class="{
+					'collapse': true,
+					'navbar-collapse': true,
+					'show': isMobileMenuOpened,
+				}"
 				id="main-menu"
 			>
 				<ul class="navbar-nav ml-auto text-right">
@@ -75,6 +78,7 @@
 	export default Vue.extend({
 		data() {
 			return {
+				isMobileMenuOpened: false,
 				links: <{ url: string, title: string }[]>[
 					{ url: './app/test/route', title: 'Test' },
 					{ url: './app/login', title: 'Login' },
@@ -95,6 +99,9 @@
 						active: (this.$root.url == this.$refs['link-' + index][0].href),
 					};
 				});
+			},
+			clickMobileMenuToggler() {
+				this.isMobileMenuOpened = !this.isMobileMenuOpened;
 			},
 		},
 	});

@@ -1,5 +1,4 @@
 MVP:
-    Unit tests for new root classes: store and router
     route to modify a user (PATCH, languages and password only)
     romaji option if the kanas are not known
     subscription process
@@ -31,6 +30,7 @@ MVP:
     CGU
 
 After:
+    Possible to have unit tests for new root classes: stores and router?
     OVH: try again to create a secondary account?
     free plan?
     paid member

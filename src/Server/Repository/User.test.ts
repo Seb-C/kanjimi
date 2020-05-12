@@ -126,6 +126,34 @@ describe('UserRepository', async () => {
 		await db.close();
 	});
 
+	it('updateById', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const uuid = uuidv4();
+		const password = userRepository.hashPassword(uuid, '123456');
+		await db.exec(`
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
+			VALUES (\${uuid}, 'unittest@example.com', FALSE, \${password}, ARRAY['fr'], CURRENT_TIMESTAMP);
+		`, { uuid, password });
+		const user = await userRepository.updateById(uuid, {
+			password: 'qwerty',
+			languages: [Language.ENGLISH, Language.GERMAN],
+		});
+		const dbUser = await db.get(User, `
+			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
+		`);
+
+		expect(user).toBeInstanceOf(User);
+		expect(dbUser).toEqual(user);
+		expect(user.password).not.toBe(password);
+		expect(user.password).toBe(userRepository.hashPassword(uuid, 'qwerty'));
+		expect(user.languages.length).toBe(2);
+		expect(user.languages[0]).toBe(Language.ENGLISH);
+		expect(user.languages[1]).toBe(Language.GERMAN);
+
+		await db.close();
+	});
+
 	it('deleteByEmail', async () => {
 		const db = new Database();
 		const uuid = uuidv4();

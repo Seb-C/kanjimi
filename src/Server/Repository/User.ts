@@ -59,6 +59,36 @@ export default class User {
 		});
 	}
 
+	async updateById (uuid: string, attributes: {
+		password?: string,
+		languages?: Language[],
+	}): Promise<UserModel> {
+		const params = {
+			id: uuid,
+			...attributes,
+		};
+		if (params.password) {
+			params.password = this.hashPassword(uuid, params.password);
+		}
+
+		const allowedFieldsInSqlQuery = [
+			'password',
+			'languages',
+		];
+
+		return <UserModel>await this.db.get(UserModel, `
+			UPDATE "User"
+			SET ${
+				allowedFieldsInSqlQuery
+					.filter(fieldName => attributes.hasOwnProperty(fieldName))
+					.map(fieldName => `"${fieldName}" = \${${fieldName}}`)
+					.join(',')
+			}
+			WHERE "id" = \${id}
+			RETURNING *;
+		`, params);
+	}
+
 	async deleteByEmail (email: string): Promise<void> {
 		await this.db.exec('DELETE FROM "User" WHERE "email" = ${email};', { email });
 	}

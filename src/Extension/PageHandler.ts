@@ -141,7 +141,7 @@ export default class PageHandler {
 
 		if (strings.length > 0) {
 			try {
-				const data = await analyze(this.store.apiKey, strings);
+				const data = await analyze(this.store.apiKey.key, strings);
 
 				const words: Set<string> = new Set();
 				for (let i = 0; i < data.length; i++) {
@@ -157,7 +157,7 @@ export default class PageHandler {
 				}
 
 				if (words.size > 0) {
-					const wordStatuses = await getWordStatuses(this.store.apiKey, Array.from(words.values()));
+					const wordStatuses = await getWordStatuses(this.store.apiKey.key, Array.from(words.values()));
 					for (let i = 0; i < wordStatuses.length; i++) {
 						const wordStatus = wordStatuses[i];
 						Vue.set(this.store.wordStatuses, wordStatus.word, wordStatus);

@@ -6,13 +6,13 @@ import Router from 'WebApp/Router';
 import Login from 'WebApp/Components/Login.vue';
 import Home from 'WebApp/Components/Home.vue';
 
-window.addEventListener('load', function () {
+window.addEventListener('load', async function () {
 	const router = new Router([
 		{ url: 'app/login', component: Login, title: 'Login' },
 		{ url: 'app', component: Home, title: 'Home' },
 	]);
 	const store = new Store(router);
-	store.loadApiKeyFromStorage();
+	await store.loadApiKeyFromStorage();
 
 	new Vue({
 		el: '#app',

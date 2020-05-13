@@ -1,6 +1,10 @@
 import WordStatus from 'Common/Models/WordStatus';
 import Token from 'Common/Models/Token';
+import User from 'Common/Models/User';
+import ApiKey from 'Common/Models/ApiKey';
 import { createOrUpdate as putWordStatus } from 'Common/Client/Routes/WordStatus';
+import { get as getApiKey } from 'Common/Client/Routes/ApiKey';
+import { get as getUser } from 'Common/Client/Routes/User';
 import Vue from 'vue';
 
 type TooltipData = {
@@ -9,7 +13,8 @@ type TooltipData = {
 };
 
 export default class Store {
-	public apiKey: string|null = null;
+	public apiKey: ApiKey|null = null;
+	public user: User|null = null;
 	public tooltip: TooltipData|null = null;
 	public wordStatuses: { [key: string]: WordStatus } = {};
 
@@ -31,8 +36,8 @@ export default class Store {
 	}
 
 	public setApiKey = async (key: string|null) => {
-		this.apiKey = key;
 		await browser.storage.local.set({ key });
+		await this.loadApiDataAfterApiKeyChange(key);
 
 		if (key === null) {
 			browser.runtime.sendMessage({
@@ -64,7 +69,33 @@ export default class Store {
 	}
 
 	public loadApiKeyFromStorage = async () => {
-		this.apiKey = (await browser.storage.local.get('key')).key || null;
+		await this.loadApiDataAfterApiKeyChange((await browser.storage.local.get('key')).key || null);
+	}
+
+	// Used to avoid double loading on setApiKey because it
+	// triggers the browser storage onChange method
+	private loadingApiDataAfterApiKeyChange = false;
+
+	private async loadApiDataAfterApiKeyChange(key: string|null) {
+		if (this.loadingApiDataAfterApiKeyChange) {
+			return;
+		}
+		this.loadingApiDataAfterApiKeyChange = true;
+
+		if (key === null) {
+			this.apiKey = null;
+			this.user = null;
+		} else {
+			const apiKey = await getApiKey(key);
+			const user = await getUser(key, apiKey.userId);
+
+			// Always setting the two at the same time, otherwise we may
+			// have inconsistencies since both operations are asynchronous
+			this.apiKey = apiKey;
+			this.user = user;
+		}
+
+		this.loadingApiDataAfterApiKeyChange = false;
 	}
 
 	public setTooltip = (tooltipData: TooltipData|null) => {
@@ -76,7 +107,7 @@ export default class Store {
 			return;
 		}
 
-		const newWordStatus = await putWordStatus(this.apiKey, new WordStatus({
+		const newWordStatus = await putWordStatus(this.apiKey.key, new WordStatus({
 			...wordStatus,
 			...attributes,
 		}));

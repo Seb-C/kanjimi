@@ -1,5 +1,8 @@
 MVP:
-    romaji option if the kanas are not known
+    implement the api get user
+    add the user id in the patch url to be restful
+    extension: reload the user object on api key change + add the email in the notification
+    show readings as romaji in text and tooltip if the option is enabled
     subscription process
     verify email process after subscription (and block login if not validated)
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)

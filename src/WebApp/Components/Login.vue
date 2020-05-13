@@ -110,7 +110,7 @@
 						email: this.email,
 						password: this.password,
 					});
-					this.$root.setApiKey(apiKey.key);
+					await this.$root.setApiKey(apiKey);
 					this.$root.changeRoute('./app');
 				} catch (error) {
 					if (error instanceof ValidationError) {

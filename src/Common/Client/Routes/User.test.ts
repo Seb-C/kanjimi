@@ -77,7 +77,7 @@ describe('Client User', () => {
 		const apiKey = await apiKeyRepository.create(user);
 		await db.close();
 
-		const result = await update(apiKey.key, {
+		const result = await update(apiKey.key, user.id, {
 			languages: [Language.ENGLISH, Language.FRENCH],
 			romanReading: false,
 		});
@@ -89,7 +89,7 @@ describe('Client User', () => {
 	it('update (authentication error case)', async () => {
 		let error;
 		try {
-			await update('wrongtoken', { languages: [Language.FRENCH] });
+			await update('wrongtoken', 'any id should fail', { languages: [Language.FRENCH] });
 		} catch (e) {
 			error = e;
 		}
@@ -112,7 +112,7 @@ describe('Client User', () => {
 
 		let error;
 		try {
-			await update(apiKey.key, {});
+			await update(apiKey.key, user.id, {});
 		} catch (e) {
 			error = e;
 		}

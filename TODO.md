@@ -1,6 +1,5 @@
 MVP:
     implement the api get user
-    add the user id in the patch url to be restful
     show readings as romaji in text and tooltip if the option is enabled
     subscription process
     verify email process after subscription (and block login if not validated)

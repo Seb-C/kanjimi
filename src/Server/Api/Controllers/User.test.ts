@@ -74,6 +74,7 @@ describe('UserController', async () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		await userRepository.deleteByEmail('unittest@example.com');
+		await userRepository.deleteByEmail('unittest2@example.com');
 		await db.close();
 	});
 
@@ -146,7 +147,7 @@ describe('UserController', async () => {
 		});
 		const apiKey = await apiKeyRepository.create(user);
 
-		const response = await fetch('http://localhost:3000/user', {
+		const response = await fetch(`http://localhost:3000/user/${user.id}`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -186,7 +187,7 @@ describe('UserController', async () => {
 		});
 		const apiKey = await apiKeyRepository.create(user);
 
-		const response = await fetch('http://localhost:3000/user', {
+		const response = await fetch(`http://localhost:3000/user/${user.id}`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -202,6 +203,44 @@ describe('UserController', async () => {
 		expect(validationErrorResponseValidator(responseData))
 			.withContext(JSON.stringify(validationErrorResponseValidator.errors))
 			.toBe(true);
+
+		await db.close();
+	});
+
+	it('update (authentication errors)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+		});
+		const user2 = await userRepository.create({
+			email: 'unittest2@example.com',
+			password: '234567',
+			languages: [Language.ENGLISH],
+			romanReading: true,
+		});
+		const apiKey = await apiKeyRepository.create(user);
+
+		const response = await fetch(`http://localhost:3000/user/${user2.id}`, {
+			method: 'PATCH',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: JSON.stringify({
+				languages: ['en', 'es'],
+			}),
+		});
+		expect(response.status).toBe(403);
+
+		// Reloading the user from the database
+		const dbUser2 = await userRepository.getById(user2.id);
+
+		expect(dbUser2).not.toBe(null);
+		expect((<User>dbUser2).languages).not.toEqual([Language.ENGLISH, Language.SPANISH]);
 
 		await db.close();
 	});

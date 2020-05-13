@@ -30,11 +30,11 @@ export const create = async (attributes: {
 	return User.fromApi(responseData);
 };
 
-export const update = async (key: string, attributes: {
+export const update = async (key: string, userId: string, attributes: {
 	languages?: Language[],
 	romanReading?: boolean,
 }): Promise<User> => {
-	const response = await fetch(`${process.env.KANJIMI_API_URL}/user`, {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/user/${userId}`, {
 		method: 'PATCH',
 		headers: {
 			Authorization: `Bearer ${key}`,

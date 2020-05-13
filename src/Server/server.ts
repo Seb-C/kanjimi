@@ -60,7 +60,7 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 	application.post('/lexer/analyze', LexerController.analyze(db, lexer));
 
 	application.post('/user', UserController.create(db));
-	application.patch('/user', UserController.update(db));
+	application.patch('/user/:userId', UserController.update(db));
 
 	application.post('/api-key', ApiKeyController.create(db));
 	application.get('/api-key', ApiKeyController.get(db));

@@ -86,6 +86,9 @@ export const update = (db: Database) => async (request: Request, response: Respo
 	if (user === null) {
 		return response.status(403).json('Invalid api key');
 	}
+	if (!request.params.userId || request.params.userId !== user.id) {
+		return response.status(403).json('You are not allowed access to this object');
+	}
 
 	const updatedUser = await userRepository.updateById(user.id, { ...request.body });
 

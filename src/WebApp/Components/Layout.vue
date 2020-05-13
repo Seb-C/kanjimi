@@ -36,7 +36,7 @@
 						<a
 							v-bind:class="{ 'nav-link': true, 'active': link.active }"
 							v-bind:href="link.url"
-							v-on:click="$root.router.changeRoute"
+							v-on:click="navLinkClickHandler($event)"
 							:ref="'link-' + index"
 						>{{ link.title }}</a>
 					</li>
@@ -102,6 +102,9 @@
 			},
 			clickMobileMenuToggler() {
 				this.isMobileMenuOpened = !this.isMobileMenuOpened;
+			},
+			navLinkClickHandler(event) {
+				this.$root.router.changeRoute(event);
 			},
 		},
 	});

@@ -112,7 +112,12 @@ describe('UserRepository', async () => {
 	it('create', async () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
-		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], true);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: true,
+		});
 		const dbUser = await db.get(User, `
 			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
 		`);

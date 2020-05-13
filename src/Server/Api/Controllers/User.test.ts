@@ -138,7 +138,12 @@ describe('UserController', async () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
-		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], false);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+		});
 		const apiKey = await apiKeyRepository.create(user);
 
 		const response = await fetch('http://localhost:3000/user', {
@@ -173,7 +178,12 @@ describe('UserController', async () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
-		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], false);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+		});
 		const apiKey = await apiKeyRepository.create(user);
 
 		const response = await fetch('http://localhost:3000/user', {

@@ -44,18 +44,21 @@ export default class User {
 		return this.getByApiKey(key);
 	}
 
-	async create (email: string, password: string, languages: Language[], romanReading: boolean): Promise<UserModel> {
+	async create (attributes: {
+		email: string,
+		password: string,
+		languages: Language[],
+		romanReading: boolean,
+	}): Promise<UserModel> {
 		const uuid = uuidv4();
 		return <UserModel>await this.db.get(UserModel, `
 			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "createdAt")
 			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, \${romanReading}, \${createdAt})
 			RETURNING *;
 		`, {
+			...attributes,
 			id: uuid,
-			email,
-			password: this.hashPassword(uuid, password),
-			languages,
-			romanReading,
+			password: this.hashPassword(uuid, attributes.password),
 			createdAt: new Date(),
 		});
 	}
@@ -66,8 +69,8 @@ export default class User {
 		romanReading?: boolean,
 	}): Promise<UserModel> {
 		const params = {
-			id: uuid,
 			...attributes,
+			id: uuid,
 		};
 		if (params.password) {
 			params.password = this.hashPassword(uuid, params.password);

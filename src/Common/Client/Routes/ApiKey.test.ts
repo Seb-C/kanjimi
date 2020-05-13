@@ -20,7 +20,12 @@ describe('Client ApiKey', () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		await userRepository.deleteByEmail('unittest@example.com');
-		user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], false);
+		user = await userRepository.create({
+			email: 'unittest@example.com',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+		});
 		await db.close();
 	});
 

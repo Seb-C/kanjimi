@@ -59,6 +59,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 const updateUserValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
 	additionalProperties: false,
+	minProperties: 1,
 	properties: {
 		languages: {
 			type: 'array',

@@ -1,12 +1,14 @@
 import 'jasmine';
-import { create } from 'Common/Client/Routes/User';
+import { create, update } from 'Common/Client/Routes/User';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import fetch from 'node-fetch';
 import ValidationError from 'Common/Client/Errors/Validation';
+import AuthenticationError from 'Common/Client/Errors/Authentication';
 import DuplicateError from 'Common/Client/Errors/Duplicate';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repository/User';
+import ApiKeyRepository from 'Server/Repository/ApiKey';
 
 describe('Client User', () => {
 	beforeEach(async () => {
@@ -52,6 +54,49 @@ describe('Client User', () => {
 				password: '123456',
 				languages: [Language.ENGLISH],
 			});
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(ValidationError);
+	});
+
+	it('update (normal case)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
+		const apiKey = await apiKeyRepository.create(user);
+		await db.close();
+
+		const result = await update(apiKey.key, { languages: [Language.ENGLISH, Language.FRENCH] });
+
+		expect(result).toBeInstanceOf(User);
+		expect(result.languages).toEqual([Language.ENGLISH, Language.FRENCH]);
+	});
+
+	it('update (authentication error case)', async () => {
+		let error;
+		try {
+			await update('wrongtoken', { languages: [Language.FRENCH] });
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(AuthenticationError);
+	});
+
+	it('update (validation error case)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
+		const apiKey = await apiKeyRepository.create(user);
+		await db.close();
+
+		let error;
+		try {
+			await update(apiKey.key, {});
 		} catch (e) {
 			error = e;
 		}

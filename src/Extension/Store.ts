@@ -56,7 +56,7 @@ export default class Store {
 				notificationId: 'kanjimi-notify-logged-in',
 				options: {
 					type: 'basic',
-					message: 'The extension have been connected with your Kanjimi account.',
+					message: `The extension have been connected with your Kanjimi account (${(<User>this.user).email}).`,
 					title: 'Kanjimi',
 					iconUrl: browser.runtime.getURL('/images/logo.svg'),
 				},

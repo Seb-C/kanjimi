@@ -1,35 +1,36 @@
 MVP:
-    route to modify a user (PATCH, languages and password only)
     romaji option if the kanas are not known
     subscription process
     verify email process after subscription (and block login if not validated)
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
     JLPT level at subscription, use it to define the default status of words
     retrieve password process
+    possibility to change password in the patch route
     disconnect process + also disconnect the extension and in the tests (cf cypress.commands.js)
     Fix the CI
     onboarding
     Global vuejs error handling?
-    dont save urls on mode incognito (window.incognito?)
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
     test with a lot of different sites and texts
     test and debug with slack
     test and debug intensively the display of results
-    store visited urls to make recommendations later
+    store visited urls to make recommendations later (except on mode incognito (window.incognito?))
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
-    chrome compatibility (and test others)
+    chrome compatibility (and test others as well as mobile)
     search and fix remaining TODOs
     Block access to the test pages in production
     webpack => production mode whenever necessary
-    copy/paste functionality on the website (can use the tool on any text, independently from the extension)
-    share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
     include copyright somewhere in the site (and external resources used) -> mostly external resources used
     free for beta
-    CGU
+    CGU / RGPD ?
 
 After:
+    copy/paste functionality on the website (can use the tool on any text, independently from the extension)
+    share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
+    Should saved word preferences be different for each reading?
+    improve order of the returned words (the top one should be right in the context)
     Possible to have unit tests for new root classes: stores and router?
     OVH: try again to create a secondary account?
     free plan?

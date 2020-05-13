@@ -55,3 +55,36 @@ export const create = (db: Database) => async (request: Request, response: Respo
 		}
 	}
 };
+
+const updateUserValidator = new Ajv({ allErrors: true }).compile({
+	type: 'object',
+	additionalProperties: false,
+	properties: {
+		languages: {
+			type: 'array',
+			minItems: 1,
+			uniqueItems: true,
+			items: {
+				type: 'string',
+				enum: Object.values(Language),
+			},
+		},
+	},
+});
+
+export const update = (db: Database) => async (request: Request, response: Response) => {
+	if (!updateUserValidator(request.body)) {
+		return response.status(422).json(updateUserValidator.errors);
+	}
+
+	const userRepository = new UserRepository(db);
+
+	const user = await userRepository.getFromRequest(request);
+	if (user === null) {
+		return response.status(403).json('Invalid api key');
+	}
+
+	const updatedUser = await userRepository.updateById(user.id, { ...request.body });
+
+	return response.json(updatedUser.toApi());
+};

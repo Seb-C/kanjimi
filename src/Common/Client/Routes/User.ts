@@ -9,6 +9,7 @@ export const create = async (attributes: {
 	email: string,
 	password: string,
 	languages: Language[],
+	romanReading: boolean,
 }): Promise<User> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/user`, {
 		method: 'POST',
@@ -31,6 +32,7 @@ export const create = async (attributes: {
 
 export const update = async (key: string, attributes: {
 	languages?: Language[],
+	romanReading?: boolean,
 }): Promise<User> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/user`, {
 		method: 'PATCH',

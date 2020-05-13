@@ -26,6 +26,7 @@ describe('Client User', () => {
 			email: 'unittest@example.com',
 			password: '123456',
 			languages: [Language.ENGLISH],
+			romanReading: false,
 		});
 
 		expect(result).toBeInstanceOf(User);
@@ -38,6 +39,7 @@ describe('Client User', () => {
 				email: 'unittest@example.com',
 				password: '123456',
 				languages: [Language.ENGLISH],
+				romanReading: false,
 			});
 		} catch (e) {
 			error = e;
@@ -53,6 +55,7 @@ describe('Client User', () => {
 				email: 'not an email',
 				password: '123456',
 				languages: [Language.ENGLISH],
+				romanReading: false,
 			});
 		} catch (e) {
 			error = e;
@@ -65,11 +68,14 @@ describe('Client User', () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
-		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
+		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], true);
 		const apiKey = await apiKeyRepository.create(user);
 		await db.close();
 
-		const result = await update(apiKey.key, { languages: [Language.ENGLISH, Language.FRENCH] });
+		const result = await update(apiKey.key, {
+			languages: [Language.ENGLISH, Language.FRENCH],
+			romanReading: false,
+		});
 
 		expect(result).toBeInstanceOf(User);
 		expect(result.languages).toEqual([Language.ENGLISH, Language.FRENCH]);
@@ -90,7 +96,7 @@ describe('Client User', () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
-		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
+		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], false);
 		const apiKey = await apiKeyRepository.create(user);
 		await db.close();
 

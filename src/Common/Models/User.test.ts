@@ -11,6 +11,7 @@ describe('User', () => {
 			emailVerified: false,
 			password: '123456',
 			languages: [Language.FRENCH, Language.GERMAN],
+			romanReading: true,
 			createdAt: now,
 		});
 		const output = User.fromApi(JSON.parse(JSON.stringify(input.toApi())));
@@ -20,6 +21,7 @@ describe('User', () => {
 		expect(output.emailVerified).toBe(false);
 		expect(output.password).toBe(null);
 		expect(output.languages).toEqual([Language.FRENCH, Language.GERMAN]);
+		expect(output.romanReading).toBe(true);
 		expect(output.createdAt).toEqual(now);
 	});
 });

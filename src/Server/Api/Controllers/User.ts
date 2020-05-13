@@ -7,7 +7,7 @@ import UserRepository from 'Server/Repository/User';
 
 const createUserValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
-	required: ['email', 'password', 'languages'],
+	required: ['email', 'password', 'languages', 'romanReading'],
 	additionalProperties: false,
 	properties: {
 		email: {
@@ -28,6 +28,9 @@ const createUserValidator = new Ajv({ allErrors: true }).compile({
 				enum: Object.values(Language),
 			},
 		},
+		romanReading: {
+			type: 'boolean',
+		},
 	},
 });
 
@@ -42,6 +45,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 			request.body.email,
 			request.body.password,
 			request.body.languages,
+			request.body.romanReading,
 		);
 
 		return response.json(user.toApi());
@@ -69,6 +73,9 @@ const updateUserValidator = new Ajv({ allErrors: true }).compile({
 				type: 'string',
 				enum: Object.values(Language),
 			},
+		},
+		romanReading: {
+			type: 'boolean',
 		},
 	},
 });

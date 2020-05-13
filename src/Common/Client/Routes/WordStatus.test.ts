@@ -26,7 +26,7 @@ describe('Client WordStatus', () => {
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const wordStatusRepository = new WordStatusRepository(db);
 		await userRepository.deleteByEmail('unittest@example.com');
-		user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
+		user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], false);
 		apiKey = await apiKeyRepository.create(user);
 		wordStatus = await wordStatusRepository.create(user, 'word', true, false);
 

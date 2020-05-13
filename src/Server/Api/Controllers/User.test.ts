@@ -15,6 +15,7 @@ const userResponseValidator = new Ajv({ allErrors: true }).compile({
 		'emailVerified',
 		'password',
 		'languages',
+		'romanReading',
 		'createdAt',
 	],
 	additionalProperties: false,
@@ -42,6 +43,9 @@ const userResponseValidator = new Ajv({ allErrors: true }).compile({
 				type: 'string',
 				enum: ['en', 'es'],
 			},
+		},
+		romanReading: {
+			type: 'boolean',
 		},
 		createdAt: {
 			type: 'string',
@@ -80,6 +84,7 @@ describe('UserController', async () => {
 				email: 'unittest@example.com',
 				password: '123456',
 				languages: ['en', 'es'],
+				romanReading: false,
 			}),
 		});
 		expect(response.status).toBe(200);
@@ -107,6 +112,7 @@ describe('UserController', async () => {
 				email: 'unittest@example.com',
 				password: '123456',
 				languages: ['en', 'es'],
+				romanReading: false,
 			}),
 		});
 		expect(response2.status).toBe(409);
@@ -132,7 +138,7 @@ describe('UserController', async () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
-		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
+		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], false);
 		const apiKey = await apiKeyRepository.create(user);
 
 		const response = await fetch('http://localhost:3000/user', {
@@ -142,6 +148,7 @@ describe('UserController', async () => {
 			},
 			body: JSON.stringify({
 				languages: ['en', 'es'],
+				romanReading: true,
 			}),
 		});
 		expect(response.status).toBe(200);
@@ -157,6 +164,7 @@ describe('UserController', async () => {
 
 		expect(dbUser).not.toBe(null);
 		expect((<User>dbUser).languages).toEqual([Language.ENGLISH, Language.SPANISH]);
+		expect((<User>dbUser).romanReading).toBe(true);
 
 		await db.close();
 	});
@@ -165,7 +173,7 @@ describe('UserController', async () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
-		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
+		const user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], false);
 		const apiKey = await apiKeyRepository.create(user);
 
 		const response = await fetch('http://localhost:3000/user', {

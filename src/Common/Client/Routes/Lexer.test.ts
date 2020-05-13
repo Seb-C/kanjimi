@@ -23,7 +23,7 @@ describe('Client Lexer', () => {
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
 		await userRepository.deleteByEmail('unittest@example.com');
-		user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
+		user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], false);
 		apiKey = await apiKeyRepository.create(user);
 
 		await db.close();

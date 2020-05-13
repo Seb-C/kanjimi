@@ -4,6 +4,7 @@ CREATE TABLE "User" (
 	"emailVerified" BOOLEAN NOT NULL,
 	"password" TEXT NOT NULL,
 	"languages" TEXT[] NOT NULL,
+	"romanReading" BOOLEAN NOT NULL,
 	"createdAt" TIMESTAMP NOT NULL,
 	CONSTRAINT "User_email_unique" UNIQUE ("email")
 );
@@ -16,5 +17,6 @@ INSERT INTO "User" VALUES (
 	TRUE,
 	'XezyI+4BK2TS47Wfol4+DbXXNWvHKwbFtFlmpG3Q4L0=', -- YQPtL67gddfnkads
 	ARRAY['fr', 'en'],
+	FALSE,
 	'2020-03-26 22:21:16'
 );

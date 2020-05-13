@@ -16,7 +16,7 @@ describe('ApiKeyRepository', async () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		await userRepository.deleteByEmail('unittest@example.com');
-		user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH]);
+		user = await userRepository.create('unittest@example.com', '123456', [Language.FRENCH], false);
 		await db.close();
 	});
 

@@ -44,17 +44,18 @@ export default class User {
 		return this.getByApiKey(key);
 	}
 
-	async create (email: string, password: string, languages: Language[]): Promise<UserModel> {
+	async create (email: string, password: string, languages: Language[], romanReading: boolean): Promise<UserModel> {
 		const uuid = uuidv4();
 		return <UserModel>await this.db.get(UserModel, `
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "createdAt")
-			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, \${createdAt})
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "createdAt")
+			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, \${romanReading}, \${createdAt})
 			RETURNING *;
 		`, {
 			id: uuid,
 			email,
 			password: this.hashPassword(uuid, password),
 			languages,
+			romanReading,
 			createdAt: new Date(),
 		});
 	}
@@ -62,6 +63,7 @@ export default class User {
 	async updateById (uuid: string, attributes: {
 		password?: string,
 		languages?: Language[],
+		romanReading?: boolean,
 	}): Promise<UserModel> {
 		const params = {
 			id: uuid,
@@ -74,6 +76,7 @@ export default class User {
 		const allowedFieldsInSqlQuery = [
 			'password',
 			'languages',
+			'romanReading',
 		];
 
 		return <UserModel>await this.db.get(UserModel, `

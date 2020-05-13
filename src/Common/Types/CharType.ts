@@ -1,3 +1,5 @@
+import hiraganaToRomajiTable from 'Common/Types/data/hiragaToRomajiTable';
+
 enum CharType {
 	KATAKANA = 'katakana',
 	HIRAGANA = 'hiragana',
@@ -36,6 +38,32 @@ namespace CharType {
 		}
 
 		return false;
+	}
+
+	export function hiraganaToRomaji(text: string): string {
+		let result = '';
+		let i = 0;
+		while (i < text.length) {
+			let l = 3;
+			while (l > 0) {
+				const part = text.substring(i, i + l);
+				if (hiraganaToRomajiTable[part]) {
+					result += hiraganaToRomajiTable[part];
+					i += l;
+					break;
+				} else {
+					l--;
+				}
+			}
+
+			if (l == 0) {
+				// Not a hiragana, keeping it
+				result += text[i];
+				i++;
+			}
+		}
+
+		return result;
 	}
 }
 

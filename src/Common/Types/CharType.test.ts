@@ -52,4 +52,11 @@ describe('CharType', () => {
 			expect(CharType.isJapanese(char)).toBe(false)
 		));
 	});
+	it('hiraganaToRomaji method', () => {
+		expect(CharType.hiraganaToRomaji('がっこう')).toBe('gakkou');
+		expect(CharType.hiraganaToRomaji('こうえん')).toBe('kouen');
+		expect(CharType.hiraganaToRomaji('きょう')).toBe('kyou');
+		expect(CharType.hiraganaToRomaji('っきゃ')).toBe('kkya');
+		expect(CharType.hiraganaToRomaji('ふたつ・ことば')).toBe('futatsu・kotoba');
+	});
 });

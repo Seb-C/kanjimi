@@ -5,6 +5,25 @@ import ServerError from 'Common/Client/Errors/Server';
 import Language from 'Common/Types/Language';
 import User from 'Common/Models/User';
 
+export const get = async (key: string, userId: string): Promise<User> => {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/user/${userId}`, {
+		method: 'GET',
+		headers: {
+			Authorization: `Bearer ${key}`,
+		},
+	});
+	const responseData = await response.json();
+
+	if (response.status === 403) {
+		throw new AuthenticationError(responseData);
+	}
+	if (response.status >= 500 && response.status < 600) {
+		throw new ServerError(await response.text());
+	}
+
+	return User.fromApi(responseData);
+};
+
 export const create = async (attributes: {
 	email: string,
 	password: string,

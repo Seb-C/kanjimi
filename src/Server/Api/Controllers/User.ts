@@ -5,6 +5,20 @@ import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repository/User';
 
+export const get = (db: Database) => async (request: Request, response: Response) => {
+	const userRepository = new UserRepository(db);
+
+	const user = await userRepository.getFromRequest(request);
+	if (user === null) {
+		return response.status(403).json('Invalid api key');
+	}
+	if (!request.params.userId || request.params.userId !== user.id) {
+		return response.status(403).json('You are not allowed access to this object');
+	}
+
+	return response.json(user.toApi());
+};
+
 const createUserValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
 	required: ['email', 'password', 'languages', 'romanReading'],

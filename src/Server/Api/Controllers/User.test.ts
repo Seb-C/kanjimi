@@ -78,6 +78,71 @@ describe('UserController', async () => {
 		await db.close();
 	});
 
+	it('get (normal case)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			password: '123456',
+			languages: [Language.ENGLISH, Language.SPANISH],
+			romanReading: false,
+		});
+		const apiKey = await apiKeyRepository.create(user);
+		await db.close();
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}`, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+		});
+		expect(response.status).toBe(200);
+		const responseData = await response.json();
+
+		expect(userResponseValidator(responseData))
+			.withContext(JSON.stringify(userResponseValidator.errors))
+			.toBe(true);
+		expect(responseData.id).toEqual(user.id);
+	});
+
+	it('get (authentication errors)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+		});
+		const user2 = await userRepository.create({
+			email: 'unittest2@example.com',
+			password: '234567',
+			languages: [Language.ENGLISH],
+			romanReading: true,
+		});
+		const apiKey = await apiKeyRepository.create(user);
+		await db.close();
+
+		const response = await fetch(`http://localhost:3000/user/${user2.id}`, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+		});
+		expect(response.status).toBe(403);
+
+		// Should also fail with a wrong key
+		const response2 = await fetch(`http://localhost:3000/user/${user2.id}`, {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer wrongkey`,
+			},
+		});
+		expect(response2.status).toBe(403);
+	});
+
 	it('create (normal and duplicate case)', async () => {
 		const response = await fetch('http://localhost:3000/user', {
 			method: 'POST',
@@ -241,6 +306,18 @@ describe('UserController', async () => {
 
 		expect(dbUser2).not.toBe(null);
 		expect((<User>dbUser2).languages).not.toEqual([Language.ENGLISH, Language.SPANISH]);
+
+		// Should also fail with a wrong key
+		const response2 = await fetch(`http://localhost:3000/user/${user2.id}`, {
+			method: 'PATCH',
+			headers: {
+				Authorization: `Bearer wrongkey`,
+			},
+			body: JSON.stringify({
+				languages: ['en', 'es'],
+			}),
+		});
+		expect(response2.status).toBe(403);
 
 		await db.close();
 	});

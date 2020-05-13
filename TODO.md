@@ -1,5 +1,4 @@
 MVP:
-    implement the api get user
     show readings as romaji in text and tooltip if the option is enabled
     subscription process
     verify email process after subscription (and block login if not validated)

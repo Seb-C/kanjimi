@@ -61,6 +61,7 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 
 	application.post('/user', UserController.create(db));
 	application.patch('/user/:userId', UserController.update(db));
+	application.get('/user/:userId', UserController.get(db));
 
 	application.post('/api-key', ApiKeyController.create(db));
 	application.get('/api-key', ApiKeyController.get(db));

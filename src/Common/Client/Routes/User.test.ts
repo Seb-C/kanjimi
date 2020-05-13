@@ -1,5 +1,5 @@
 import 'jasmine';
-import { create, update } from 'Common/Client/Routes/User';
+import { get, create, update } from 'Common/Client/Routes/User';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import fetch from 'node-fetch';
@@ -19,6 +19,36 @@ describe('Client User', () => {
 		const userRepository = new UserRepository(db);
 		await userRepository.deleteByEmail('unittest@example.com');
 		await db.close();
+	});
+
+	it('get (normal case)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const apiKeyRepository = new ApiKeyRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: true,
+		});
+		const apiKey = await apiKeyRepository.create(user);
+		await db.close();
+
+		const result = await get(apiKey.key, user.id);
+
+		expect(result).toBeInstanceOf(User);
+		expect(result.id).toEqual(user.id);
+	});
+
+	it('get (authentication error case)', async () => {
+		let error;
+		try {
+			await get('wrongtoken', 'any id should fail');
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 
 	it('create (normal and duplicate error cases)', async () => {

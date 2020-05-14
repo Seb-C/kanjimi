@@ -16,7 +16,7 @@ context('Token', () => {
 
 	it('Basic tokenization', () => {
 		cy.setLoggedIn();
-		cy.visit('/test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html');
 		resetWordStatus('日本');
 
 		cy.get('#firstHeading .kanjimi-sentence .token .furigana').should('exist').should('contain', 'にほん');
@@ -24,9 +24,19 @@ context('Token', () => {
 		cy.get('#firstHeading .kanjimi-sentence .token .translation').should('exist').should('contain', 'Japon');
 	});
 
+	it('Furiganas are always in hiragana', () => {
+		cy.setLoggedIn();
+		cy.visit('/test-pages/wikipedia.html');
+
+		cy.get('.kanjimi-sentence .token:contains(コミュニティ) .furigana')
+			.should('exist')
+			.should('not.contain', 'コミュニティ')
+			.should('contain', 'こみゅにてぃ');
+	});
+
 	it('Using links', () => {
 		cy.setLoggedIn();
-		cy.visit('/test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html');
 		resetWordStatus('検証');
 
 		cy.get('a:contains(検証) .furigana:first').click();
@@ -38,7 +48,7 @@ context('Token', () => {
 
 	it('Changing the word statuses', () => {
 		cy.setLoggedIn();
-		cy.visit('/test-pages/wikipedia.html')
+		cy.visit('/test-pages/wikipedia.html');
 		resetWordStatus('日本国');
 
 		cy.get('.token:contains(日本国):first .furigana')

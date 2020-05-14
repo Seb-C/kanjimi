@@ -2,7 +2,7 @@
 	<ul class="readings">
 		<li v-for="[reading, wordsByLanguage] of wordsByReadingAndLanguage">
 			<span class="token">
-				<span class="furigana">{{ reading == wordText ? '&nbsp;' : reading }}</span>
+				<span class="furigana">{{ reading == wordText ? '&nbsp;' : formatReading(reading) }}</span>
 				<span class="word">{{ wordText }}</span>
 			</span>
 			<div class="reading-translations">
@@ -34,6 +34,7 @@
 	import Language from 'Common/Types/Language';
 	import Token from 'Common/Models/Token';
 	import TokenType from 'Common/Types/TokenType';
+	import CharType from 'Common/Types/CharType';
 	import LanguageTranslation from 'Common/Translation/Language';
 	import WordTagTranslation from 'Common/Translation/WordTag';
 
@@ -48,14 +49,24 @@
 				WordTagTranslation,
 			};
 		},
+		methods: {
+			formatReading(reading: string): string {
+				if (this.$root.user.romanReading) {
+					return CharType.hiraganaToRoman(reading);
+				}
+
+				return reading;
+			},
+		},
 		computed: {
 			wordsByReadingAndLanguage() {
 				const wordsByReadingAndLanguage: Map<string, Map<Language|null, Word[]>> = new Map();
 				this.token.words.forEach((word: Word) => {
-					if (!wordsByReadingAndLanguage.has(word.reading)) {
-						wordsByReadingAndLanguage.set(word.reading, new Map());
+					const reading = CharType.katakanaToHiragana(word.reading);
+					if (!wordsByReadingAndLanguage.has(reading)) {
+						wordsByReadingAndLanguage.set(reading, new Map());
 					}
-					const wordsByLanguage = (<Map<Language|null, Word[]>>wordsByReadingAndLanguage.get(word.reading));
+					const wordsByLanguage = (<Map<Language|null, Word[]>>wordsByReadingAndLanguage.get(reading));
 
 					if (!wordsByLanguage.has(word.translationLang)) {
 						wordsByLanguage.set(word.translationLang, []);

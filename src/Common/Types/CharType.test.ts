@@ -58,11 +58,11 @@ describe('CharType', () => {
 		expect(CharType.katakanaToHiragana('ケーキ')).toBe('けーき');
 		expect(CharType.katakanaToHiragana('トマトのパン')).toBe('とまとのぱん');
 	});
-	it('hiraganaToRomaji method', () => {
-		expect(CharType.hiraganaToRomaji('がっこう')).toBe('gakkou');
-		expect(CharType.hiraganaToRomaji('こうえん')).toBe('kouen');
-		expect(CharType.hiraganaToRomaji('きょう')).toBe('kyou');
-		expect(CharType.hiraganaToRomaji('っきゃ')).toBe('kkya');
-		expect(CharType.hiraganaToRomaji('ふたつ・ことば')).toBe('futatsu・kotoba');
+	it('hiraganaToRoman method', () => {
+		expect(CharType.hiraganaToRoman('がっこう')).toBe('gakkou');
+		expect(CharType.hiraganaToRoman('こうえん')).toBe('kouen');
+		expect(CharType.hiraganaToRoman('きょう')).toBe('kyou');
+		expect(CharType.hiraganaToRoman('っきゃ')).toBe('kkya');
+		expect(CharType.hiraganaToRoman('ふたつ・ことば')).toBe('futatsu・kotoba');
 	});
 });

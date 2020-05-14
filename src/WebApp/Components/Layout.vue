@@ -103,7 +103,7 @@
 			clickMobileMenuToggler() {
 				this.isMobileMenuOpened = !this.isMobileMenuOpened;
 			},
-			navLinkClickHandler(event) {
+			navLinkClickHandler(event: Event) {
 				this.$root.router.changeRoute(event);
 			},
 		},

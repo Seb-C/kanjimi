@@ -74,12 +74,17 @@
 				}
 			},
 			getFurigana() {
-				const furigana = this.token.getFurigana();
+				let furigana = this.token.getFurigana();
 				if (furigana === null) {
 					return null;
 				}
 
-				return CharType.katakanaToHiragana(furigana);
+				furigana = CharType.katakanaToHiragana(furigana);
+				if (this.$root.user.romanReading) {
+					furigana = CharType.hiraganaToRoman(furigana);
+				}
+
+				return furigana;
 			},
 			getTranslation() {
 				return this.token.getTranslation();

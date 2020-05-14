@@ -1,4 +1,4 @@
-import hiraganaToRomajiTable from 'Common/Types/data/hiragaToRomajiTable';
+import hiraganaToRomanTable from 'Common/Types/data/hiragaToRomanTable';
 
 enum CharType {
 	KATAKANA = 'katakana',
@@ -55,15 +55,15 @@ namespace CharType {
 		return newText
 	}
 
-	export function hiraganaToRomaji(text: string): string {
+	export function hiraganaToRoman(text: string): string {
 		let result = '';
 		let i = 0;
 		while (i < text.length) {
 			let l = 3;
 			while (l > 0) {
 				const part = text.substring(i, i + l);
-				if (hiraganaToRomajiTable[part]) {
-					result += hiraganaToRomajiTable[part];
+				if (hiraganaToRomanTable[part]) {
+					result += hiraganaToRomanTable[part];
 					i += l;
 					break;
 				} else {

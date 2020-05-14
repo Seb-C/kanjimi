@@ -1,5 +1,5 @@
 MVP:
-    show readings as romaji in text and tooltip if the option is enabled
+    add an e2e test to show roman readings -> requires a settings page first
     subscription process
     verify email process after subscription (and block login if not validated)
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)

@@ -1,11 +1,11 @@
 import Vue from 'vue';
-import Layout from 'WebApp/Components/Layout.vue';
+import Layout from 'WebApp/Pages/Layout.vue';
 import Store from 'WebApp/Store';
 import Router from 'WebApp/Router';
 
-import Login from 'WebApp/Components/Login.vue';
-import Settings from 'WebApp/Components/Settings.vue';
-import Home from 'WebApp/Components/Home.vue';
+import Login from 'WebApp/Pages/Login.vue';
+import Settings from 'WebApp/Pages/Settings.vue';
+import Home from 'WebApp/Pages/Home.vue';
 
 window.addEventListener('load', async function () {
 	const router = new Router([

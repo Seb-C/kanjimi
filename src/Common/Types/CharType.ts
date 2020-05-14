@@ -40,6 +40,21 @@ namespace CharType {
 		return false;
 	}
 
+	export function katakanaToHiragana(text: string): string {
+		let newText = '';
+		for (let i = 0; i < text.length; i++) {
+			const code = text.charCodeAt(i);
+
+			if (code >= 0x30A1 && code <= 0x30F6) {
+				newText += String.fromCharCode(code - 96);
+			} else {
+				newText += text[i];
+			}
+		}
+
+		return newText
+	}
+
 	export function hiraganaToRomaji(text: string): string {
 		let result = '';
 		let i = 0;

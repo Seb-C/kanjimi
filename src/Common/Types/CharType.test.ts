@@ -2,7 +2,7 @@ import 'jasmine';
 import CharType from 'Common/Types/CharType';
 
 describe('CharType', () => {
-	it('Hiraganas', () => {
+	it('of method - Hiraganas', () => {
 		Array.from(
 			'あいうえおかがきぎくぐけげこごさざしじすずせぜそぞ'
 			+ 'ただちぢっつづてでとどなにぬねのはばぱひびぴふぶぷ'
@@ -11,7 +11,7 @@ describe('CharType', () => {
 			expect(CharType.of(char)).toBe(CharType.HIRAGANA)
 		));
 	});
-	it('Katakanas', () => {
+	it('of method - Katakanas', () => {
 		Array.from(
 			'アイウエオカガキギクグケゲコゴサザシジスズセゼソゾ'
 			+ 'タダチヂツヅテデトドナニヌネノハバパヒビピフブプ'
@@ -20,14 +20,14 @@ describe('CharType', () => {
 			expect(CharType.of(char)).toBe(CharType.KATAKANA)
 		));
 	});
-	it('Punctuation', () => {
+	it('of method - Punctuation', () => {
 		Array.from(
 			'、。〃〇〈〉《》「」『』【】〒〔〕〖〗〘〙〚〛〜〝〞〟〶〽',
 		).forEach(char => (
 			expect(CharType.of(char)).toBe(CharType.PUNCTUATION)
 		));
 	});
-	it('Kanji', () => {
+	it('of method - Kanji', () => {
 		Array.from(
 			'一二三四五六七八九十円百千万何日月明寺時'
 			+ '火水木金土今分週年曜大中小少多上下右左石'
@@ -36,7 +36,7 @@ describe('CharType', () => {
 			expect(CharType.of(char)).toBe(CharType.KANJI)
 		));
 	});
-	it('Others', () => {
+	it('of method - Others', () => {
 		Array.from(
 			'abcdefghijklmnopqrstuvwxyz'
 			+ 'ABCDEFGHIJKLMNOPQRSTUVWXYZ',
@@ -51,6 +51,12 @@ describe('CharType', () => {
 		Array.from('aA.1').forEach(char => (
 			expect(CharType.isJapanese(char)).toBe(false)
 		));
+	});
+	it('katakanaToHiragana method', () => {
+		expect(CharType.katakanaToHiragana('アイウエオ')).toBe('あいうえお');
+		expect(CharType.katakanaToHiragana('ンヴヵヶ')).toBe('んゔゕゖ');
+		expect(CharType.katakanaToHiragana('ケーキ')).toBe('けーき');
+		expect(CharType.katakanaToHiragana('トマトのパン')).toBe('とまとのぱん');
 	});
 	it('hiraganaToRomaji method', () => {
 		expect(CharType.hiraganaToRomaji('がっこう')).toBe('gakkou');

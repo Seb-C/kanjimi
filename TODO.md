@@ -1,5 +1,4 @@
 MVP:
-    add an e2e test to check that the menu links work
     show readings as romaji in text and tooltip if the option is enabled
     subscription process
     verify email process after subscription (and block login if not validated)
@@ -10,9 +9,11 @@ MVP:
     disconnect process + also disconnect the extension and in the tests (cf cypress.commands.js)
     Fix the CI
     onboarding
+    when there will be more links: add an e2e test to check that the menu links work
     Global vuejs error handling?
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
+    bug with conjugated furiganas? Cf されて in the wikipedia test page
     test with a lot of different sites and texts
     test and debug with slack
     test and debug intensively the display of results
@@ -28,6 +29,7 @@ MVP:
     CGU / RGPD ?
 
 After:
+    server side fetching of a page to be independent from the extension
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
     share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
     Should saved word preferences be different for each reading?

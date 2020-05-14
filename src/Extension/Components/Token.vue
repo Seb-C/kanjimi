@@ -9,7 +9,7 @@
 			}"
 			v-on:click="handleFuriganaClick($event)"
 		>
-			{{ token.getFurigana() || '&nbsp;' }}
+			{{ getFurigana() || '&nbsp;' }}
 		</span>
 		<span class="word" v-on:click="handleWordClick($event)">
 			{{ token.text || '&nbsp;' }}
@@ -23,7 +23,7 @@
 			}"
 			v-on:click="handleTranslationClick($event)"
 		>
-			{{ token.getTranslation() || '&nbsp;' }}
+			{{ getTranslation() || '&nbsp;' }}
 		</span>
 	</span>
 </template>
@@ -32,6 +32,7 @@
 	import Token from 'Common/Models/Token';
 	import TokenType from 'Common/Types/TokenType';
 	import WordStatus from 'Common/Models/WordStatus';
+	import CharType from 'Common/Types/CharType';
 
 	export default Vue.extend({
 		props: {
@@ -72,13 +73,21 @@
 					});
 				}
 			},
+			getFurigana() {
+				const furigana = this.token.getFurigana();
+				if (furigana === null) {
+					return null;
+				}
+
+				return CharType.katakanaToHiragana(furigana);
+			},
+			getTranslation() {
+				return this.token.getTranslation();
+			},
 		},
 		computed: {
 			hasFurigana() {
-				return this.token.getFurigana() !== this.token.text;
-			},
-			hasTranslation() {
-				return this.token.type !== TokenType.PARTICLE;
+				return this.getFurigana() !== this.token.text;
 			},
 			showFurigana() {
 				if (!this.$root.wordStatuses[this.token.text]) {
@@ -86,6 +95,10 @@
 				}
 
 				return (<WordStatus>this.$root.wordStatuses[this.token.text]).showFurigana;
+			},
+
+			hasTranslation() {
+				return this.token.type !== TokenType.PARTICLE;
 			},
 			showTranslation() {
 				if (!this.$root.wordStatuses[this.token.text]) {

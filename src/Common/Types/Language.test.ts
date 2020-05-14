@@ -13,4 +13,13 @@ describe('Language', () => {
 		expect(Language.toUnicodeFlag(Language.SLOVENIAN)).toBe('🇸🇮');
 		expect(Language.toUnicodeFlag(Language.SWEDISH)).toBe('🇸🇪');
 	});
+	it('LIST', () => {
+		expect(Language.LIST).toContain(Language.GERMAN);
+		expect(Language.LIST).toContain(Language.SWEDISH);
+		expect(Language.LIST).toContain(Language.FRENCH);
+		expect(Language.LIST).toContain(Language.ENGLISH);
+
+		// Checking that we do not have unwanted properties
+		expect(Math.max(...Language.LIST.map(l => l.length))).toBe(2);
+	});
 });

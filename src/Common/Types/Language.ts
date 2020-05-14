@@ -12,6 +12,7 @@ enum Language {
 }
 
 namespace Language {
+	export const LIST = <Language[]>Object.values(Language);
 	export function toUnicodeFlag(lang: Language): string {
 		let langCode: string;
 		switch (lang) {
@@ -34,7 +35,7 @@ namespace Language {
 		const secondCharCode = <number>langCode.codePointAt(1) + unicodeOffset;
 
 		return String.fromCodePoint(firstCharCode) + String.fromCodePoint(secondCharCode);
-	}
+	};
 }
 
 export default Language;

@@ -1,4 +1,7 @@
 MVP:
+    settings page + test
+    404 page: test the button if logged out
+    different menu if logged in (+ show account details) + test
     add an e2e test to show roman readings -> requires a settings page first
     subscription process
     verify email process after subscription (and block login if not validated)

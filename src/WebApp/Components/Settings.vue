@@ -1,6 +1,6 @@
 <template>
-	<div class="page-home">
-		Home after login
+	<div class="page-settings">
+		Settings page
 	</div>
 </template>
 <script lang="ts">

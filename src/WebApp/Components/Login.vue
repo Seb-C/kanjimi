@@ -90,7 +90,7 @@
 	export default Vue.extend({
 		created() {
 			if (this.$root.apiKey !== null) {
-				this.$root.changeRoute('./app');
+				this.$root.router.changeRoute('./app');
 			}
 		},
 		data() {
@@ -111,7 +111,7 @@
 						password: this.password,
 					});
 					await this.$root.setApiKey(apiKey);
-					this.$root.changeRoute('./app');
+					this.$root.router.changeRoute('./app');
 				} catch (error) {
 					if (error instanceof ValidationError) {
 						this.errors = error.getFormErrors();

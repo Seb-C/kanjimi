@@ -15,16 +15,16 @@ export default class Router {
 	private baseUrl: string;
 
 	constructor(routes: Route[]) {
-		const currentUrl = this.normalizeUrl(window.location.href);
-		document.title = this.getTitle(currentUrl);
-		this.url = currentUrl;
-		this.component = this.getComponent(currentUrl);
-
 		this.baseUrl = (<HTMLBaseElement><any>document.querySelector('base[href]')).href;
 		routes.forEach((route) => {
 			const normalizedUrl = this.normalizeUrl(route.url);
 			this.routes[normalizedUrl] = route;
 		});
+
+		const currentUrl = this.normalizeUrl(window.location.href);
+		document.title = this.getTitle(currentUrl);
+		this.url = currentUrl;
+		this.component = this.getComponent(currentUrl);
 	}
 
 	normalizeUrl(url: string): string {

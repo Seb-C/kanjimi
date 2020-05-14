@@ -80,7 +80,7 @@
 			return {
 				isMobileMenuOpened: false,
 				links: <{ url: string, title: string }[]>[
-					{ url: './app/test/route', title: 'Test' },
+					{ url: './app/settings', title: 'Settings' },
 					{ url: './app/login', title: 'Login' },
 				],
 			};

@@ -1,4 +1,12 @@
 MVP:
+    language picker:
+        simplify code, refactor
+        stop using state, only the event and language data
+        drag and drop to remove when everything is selected
+        separate code from the settings page
+        accessibility attributes
+        add info about the number of entries available
+        make it work on mobile / touch screens
     vim: fix indentation bug in vues -> do on PC too
     settings page + test
     404 page: test the button if logged out

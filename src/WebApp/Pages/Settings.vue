@@ -3,7 +3,7 @@
 		<h1>Account settings</h1>
 
 		<div class="row">
-			<div class="col-4">
+			<div class="col-12 order-2 order-sm-1 col-sm-6 col-md-5 col-lg-4">
 				<ul class="list-group">
 					<li class="list-group-item bg-light">
 						<h2 class="h5 m-0">Available languages</h2>
@@ -18,7 +18,7 @@
 					</li>
 				</ul>
 			</div>
-			<div class="col-4">
+			<div class="col-12 order-1 order-sm-2 col-sm-6 col-md-5 col-lg-4">
 				<ul class="list-group">
 					<li class="list-group-item bg-light">
 						<h2 class="h5 m-0">Selected languages</h2>

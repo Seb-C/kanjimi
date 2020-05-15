@@ -11,9 +11,6 @@
 	--white-50: rgba(255, 252, 245, 0.8);
 	--light: #FFF8E8;
 	--light-50: rgba(255, 248, 232, 0.8);
-
-	--fuji-sky: #75c6d7;
-	--fuji-sun: #ee6161;
 }
 
 input {
@@ -50,6 +47,9 @@ input {
 
 .text-primary {
 	color: var(--primary) !important;
+}
+.text-gray {
+	color: var(--gray) !important;
 }
 .text-dark {
 	color: var(--dark) !important;
@@ -119,4 +119,13 @@ input {
 }
 .border-dark {
 	border-color: var(--dark) !important;
+}
+
+.badge-primary {
+	background-color: var(--primary);
+	color: var(--black);
+}
+.badge-secondary {
+	background-color: var(--secondary);
+	color: var(--white);
 }

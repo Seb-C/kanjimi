@@ -3,35 +3,44 @@
 		<h1>Account settings</h1>
 
 		<div class="row">
-			<div class="col">
-				<h2>Available languages</h2>
+			<div class="col-4">
 				<ul class="list-group">
+					<li class="list-group-item bg-light">
+						<h2 class="h5 m-0">Available languages</h2>
+					</li>
 					<li
 						v-for="language in languages"
-						:key="language"
 						v-if="!isSelected(language)"
 						class="list-group-item list-group-item-action"
+						v-on:click="selectLanguage(language)"
 					>
 						{{ getLanguageTitle(language) }}
 					</li>
 				</ul>
 			</div>
-			<div class="col">
-				<h2>Selected languages</h2>
+			<div class="col-4">
 				<ul class="list-group">
+					<li class="list-group-item bg-light">
+						<h2 class="h5 m-0">Selected languages</h2>
+					</li>
 					<li
-						v-for="language in languages"
-						:key="language"
-						v-if="isSelected(language)"
-						class="list-group-item d-flex justify-content-between align-items-center"
+						v-for="language in selectedLanguages"
+						class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+						v-on:click="unselectLanguage(language)"
 					>
 						{{ getLanguageTitle(language) }}
 						<span
-							v-if="isSelected(language)"
-							class="badge badge-primary badge-pill"
+							v-if="isMainLanguage(language)"
+							class="badge badge-secondary badge-pill"
 						>
-							{{ getBadge(language) }}
+							Main Language
 						</span>
+					</li>
+					<li
+						v-if="selectedLanguages.length === 0"
+						class="list-group-item list-group-item-light"
+					>
+						Please select at least one language
 					</li>
 				</ul>
 			</div>
@@ -52,7 +61,7 @@
 		data() {
 			return {
 				languages: Language.LIST,
-				selectedLanguages: ['en'],
+				selectedLanguages: <Language[]>Vue.observable([]),
 			};
 		},
 		methods: {
@@ -65,17 +74,16 @@
 			isSelected(language: Language): boolean {
 				return this.selectedLanguages.includes(language);
 			},
-			getBadge(language: Language): boolean {
-				const index = this.selectedLanguages.indexOf(language);
-				if (index === 0) {
-					return 'Main language';
-				} else if (index === 1) {
-					return 'Second language';
-				} else if (index === 2) {
-					return 'Third language';
-				} else {
-					return (index + 1).toString();
-				}
+			isMainLanguage(language: Language): boolean {
+				return this.selectedLanguages[0] === language;
+			},
+			selectLanguage(language: Language) {
+				this.selectedLanguages.push(language);
+			},
+			unselectLanguage(language: Language) {
+				this.selectedLanguages = this.selectedLanguages.filter(
+					(selectedLanguage: Language) => selectedLanguage !== language
+				);
 			},
 		},
 	});

@@ -1,5 +1,5 @@
 MVP:
-    vim: fix indentation bug in vues
+    vim: fix indentation bug in vues -> do on PC too
     settings page + test
     404 page: test the button if logged out
     different menu if logged in (+ show account details) + test

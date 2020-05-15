@@ -1,3 +1,8 @@
+:root {
+	--fuji-sky: #75c6d7;
+	--fuji-sun: #ee6161;
+}
+
 body {
 	position: relative;
 	color: var(--black);

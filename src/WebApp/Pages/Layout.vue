@@ -1,5 +1,5 @@
 <template>
-	<div class="d-flex flex-column" style="min-height: 100vh">
+	<div class="d-flex flex-column bg-white" style="min-height: 100vh">
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
 			<div class="navbar-brand text-white">
 				<img

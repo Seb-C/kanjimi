@@ -8,25 +8,21 @@
 					<li class="list-group-item bg-light">
 						<h2 class="h5 m-0">Available languages</h2>
 					</li>
-					<template v-for="language in languages">
-						<li
+					<DragAndDropContainer @drop="onChoicesListDrop" :group-name="languages">
+						<DragAndDropItem
+							v-for="language in languages"
+							:key="language"
+							tag="li"
 							v-if="!isSelected(language)"
 							v-bind:class="{
 								'list-group-item': true,
 								'list-group-item-action': true,
-								'active': draggingLanguage === language,
 							}"
-							v-on:click="selectLanguage(language)"
-							draggable="true"
-							v-on:dragstart="languageDragStart(language, $event)"
-							v-on:dragend="languageDragEnd(language, $event)"
-							v-on:dragover="languageDragOver(language, $event)"
-							v-on:dragenter="languageDragEnter(language, $event)"
-							v-on:drop="drop(language, $event)"
+							@click="selectLanguage(language)"
 						>
 							{{ getLanguageTitle(language) }}
-						</li>
-					</template>
+						</DragAndDropItem>
+					</DragAndDropContainer>
 				</ul>
 			</div>
 			<div class="col-12 order-1 order-sm-2 col-sm-6 col-md-5 col-lg-4">
@@ -34,30 +30,19 @@
 					<li class="list-group-item bg-light">
 						<h2 class="h5 m-0">Selected languages</h2>
 					</li>
-					<li
-						v-if="showDropShadow(null)"
-						class="list-group-item list-group-item-light"
-						v-on:dragover="dropShadowDragOver($event)"
-						v-on:dragenter="dropShadowDragEnter($event)"
-						v-on:drop="drop(null, $event)"
-					>&nbsp;</li>
-					<template v-for="language in selectedLanguages">
-						<li
+					<DragAndDropContainer @drop="onSelectedListDrop" :group-name="languages">
+						<DragAndDropItem
+							v-for="language in selectedLanguages"
+							:key="language"
+							tag="li"
 							v-bind:class="{
 								'list-group-item': true,
 								'list-group-item-action': true,
 								'd-flex': true,
 								'justify-content-between': true,
 								'align-items-center': true,
-								'active': draggingLanguage === language,
 							}"
 							v-on:click="unselectLanguage(language)"
-							draggable="true"
-							v-on:dragstart="languageDragStart(language, $event)"
-							v-on:dragend="languageDragEnd(language, $event)"
-							v-on:dragover="languageDragOver(language, $event)"
-							v-on:dragenter="languageDragEnter(language, $event)"
-							v-on:drop="drop(language, $event)"
 						>
 							{{ getLanguageTitle(language) }}
 							<span
@@ -66,28 +51,17 @@
 							>
 								Main Language
 							</span>
-						</li>
+						</DragAndDropItem>
 						<li
-							v-if="showDropShadow(language)"
-							class="list-group-item list-group-item-light"
-							v-on:dragover="dropShadowDragOver($event)"
-							v-on:dragenter="dropShadowDragEnter($event)"
-							v-on:drop="drop(null, $event)"
-						>&nbsp;</li>
-					</template>
-					<li
-						v-if="selectedLanguages.length === 0"
-						v-bind:class="{
-							'list-group-item': true,
-							'list-group-item-light': true,
-						}"
-						draggable="false"
-						v-on:dragover="languageDragOver(null, $event)"
-						v-on:dragenter="languageDragEnter(null, $event)"
-						v-on:drop="drop(null, $event)"
-					>
-						Please select at least one language
-					</li>
+							v-if="selectedLanguages.length === 0"
+							v-bind:class="{
+								'list-group-item': true,
+								'list-group-item-light': true,
+							}"
+						>
+							Please select at least one language
+						</li>
+					</DragAndDropContainer>
 				</ul>
 			</div>
 		</div>
@@ -97,6 +71,12 @@
 	import Vue from 'vue';
 	import Language from 'Common/Types/Language';
 	import LanguageTranslation from 'Common/Translation/Language';
+
+	// @ts-ignore
+	import {
+		Container as DragAndDropContainer,
+		Draggable as DragAndDropItem,
+	} from 'vue-smooth-dnd';
 
 	export default Vue.extend({
 		created() {
@@ -108,9 +88,7 @@
 			return {
 				languages: Language.LIST,
 				selectedLanguages: <Language[]>Vue.observable([]),
-				draggingLanguage: <Language|null>null,
-				hasDropShadow: false,
-				dropShadowAfterLanguage: <Language|null>null,
+				test: [],
 			};
 		},
 		methods: {
@@ -134,78 +112,16 @@
 					(selectedLanguage: Language) => selectedLanguage !== language
 				);
 			},
-			showDropShadow(language: Language|null): boolean {
-				return (
-					this.hasDropShadow
-					&& this.dropShadowAfterLanguage === language
-					&& !(this.selectedLanguages.length === 0 && language === null)
-				);
+			onChoicesListDrop(item: { removedIndex: number|null, addedIndex: number|null }) {
+				console.log('choices', item);
 			},
-			isValidDropTarget(language: Language|null, event: DragEvent) {
-				return (
-					this.draggingLanguage !== null
-					&& language !== this.draggingLanguage
-				);
+			onSelectedListDrop(item: { removedIndex: number|null, addedIndex: number|null }) {
+				console.log('selected', item);
 			},
-			languageDragStart(language: Language, event: DragEvent) {
-				this.draggingLanguage = language;
-			},
-			languageDragEnd(language: Language, event: DragEvent) {
-				this.draggingLanguage = null;
-				this.hasDropShadow = false;
-				this.dropShadowAfterLanguage = null;
-			},
-			dropShadowDragEnter(event: DragEvent) {
-				event.preventDefault();
-			},
-			dropShadowDragOver(event: DragEvent) {
-				event.preventDefault();
-			},
-			languageDragOver(language: Language|null, event: DragEvent) {
-				if (this.isValidDropTarget(language, event)) {
-					event.preventDefault();
-					this.hasDropShadow = true;
-					this.dropShadowAfterLanguage = language;
-
-					// Should be placed before
-					if ((<any>event).layerY < ((<HTMLElement>event.target).offsetHeight / 2)) {
-						const selectedIndex = this.selectedLanguages.indexOf(language);
-						if (selectedIndex < 0) {
-							this.hasDropShadow = false;
-							this.dropShadowAfterLanguage = null;
-						} else if (selectedIndex === 0) {
-							this.dropShadowAfterLanguage = null;
-						} else {
-							this.dropShadowAfterLanguage = this.selectedLanguages[selectedIndex - 1];
-						}
-					}
-				}
-			},
-			languageDragEnter(language: Language|null, event: DragEvent) {
-				if (this.isValidDropTarget(language, event)) {
-					event.preventDefault();
-				}
-			},
-			drop(language: Language|null, event: DragEvent) {
-				if (
-					!this.hasDropShadow
-					&& this.dropShadowAfterLanguage === null
-					&& this.isSelected(this.draggingLanguage)
-				) {
-					this.unselectLanguage(this.draggingLanguage);
-				} else if (this.dropShadowAfterLanguage === null) {
-					this.selectedLanguages.unshift(this.draggingLanguage);
-				} else if (this.isSelected(this.dropShadowAfterLanguage)) {
-					const targetLanguageIndex = this.selectedLanguages.indexOf(this.dropShadowAfterLanguage);
-					this.selectedLanguages = [
-						...this.selectedLanguages.slice(0, targetLanguageIndex + 1),
-						this.draggingLanguage,
-						...this.selectedLanguages.slice(targetLanguageIndex + 1),
-					];
-				} else {
-					this.unselectLanguage(this.draggingLanguage);
-				}
-			},
+		},
+		components: {
+			DragAndDropContainer,
+			DragAndDropItem,
 		},
 	});
 </script>

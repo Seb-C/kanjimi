@@ -1,12 +1,18 @@
 MVP:
+    remove all aliases for components, directly use the object name
     language picker:
-        simplify code, refactor
-        stop using state, only the event and language data
-        drag and drop to remove when everything is selected
+        https://github.com/kutlugsahin/vue-smooth-dnd
+        new library: fix the ghost when no items on the right -> no ghost + move the message?
+        new library: actually handle the drop code
+        new library: handle the simple click
+        new library: fix the console error
+        new library: check that it works to sort too
+        new library: check on touch screens
+        proper typescript definitions instead of ignoring: https://github.com/kutlugsahin/vue-smooth-dnd/issues/44
+        message on the left when everything is selectred?
         separate code from the settings page
         accessibility attributes
         add info about the number of entries available
-        make it work on mobile / touch screens
     vim: fix indentation bug in vues -> do on PC too
     settings page + test
     404 page: test the button if logged out

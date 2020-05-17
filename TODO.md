@@ -1,5 +1,5 @@
 MVP:
-    remove all aliases for components, directly use the object name
+    fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
     language picker:
         https://github.com/kutlugsahin/vue-smooth-dnd
         new library: fix the ghost when no items on the right -> no ghost + move the message?
@@ -45,6 +45,7 @@ MVP:
     include copyright somewhere in the site (and external resources used) -> mostly external resources used
     free for beta
     CGU / RGPD ?
+    need to register a copyright?!
 
 After:
     server side fetching of a page to be independent from the extension

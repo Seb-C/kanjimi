@@ -6,9 +6,9 @@
 			v-bind:style="tooltipStyles"
 		>
 			<div class="tooltip-content">
-				<readings v-bind:token="token" />
-				<conjugations v-if="token.type === TokenType.VERB" v-bind:token="token" />
-				<kanjis v-bind:token="token" />
+				<Readings v-bind:token="token" />
+				<Conjugations v-if="token.type === TokenType.VERB" v-bind:token="token" />
+				<Kanjis v-bind:token="token" />
 			</div>
 
 			<div
@@ -191,9 +191,9 @@
 			},
 		},
 		components: {
-			'kanjis': Kanjis,
-			'readings': Readings,
-			'conjugations': Conjugations,
+			Kanjis,
+			Readings,
+			Conjugations,
 		},
 	});
 </script>

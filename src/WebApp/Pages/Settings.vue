@@ -72,10 +72,10 @@
 	import Language from 'Common/Types/Language';
 	import LanguageTranslation from 'Common/Translation/Language';
 
-	// @ts-ignore
 	import {
 		Container as DragAndDropContainer,
 		Draggable as DragAndDropItem,
+		// @ts-ignore
 	} from 'vue-smooth-dnd';
 
 	export default Vue.extend({

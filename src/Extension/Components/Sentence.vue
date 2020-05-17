@@ -1,6 +1,6 @@
 <template>
 	<span class="kanjimi kanjimi-sentence">
-		<token
+		<Token
 			v-for="(token, i) in tokens"
 			v-bind:token="token"
 			:key="i"
@@ -17,7 +17,7 @@
 			tokens: { type: Array as () => TokenModel[] },
 		},
 		components: {
-			'token': Token,
+			Token,
 		},
 	});
 </script>

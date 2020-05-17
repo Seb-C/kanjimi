@@ -1,5 +1,5 @@
 <template>
-	<tooltip v-if="showTooltip" v-bind="getTooltipProps" />
+	<Tooltip v-if="showTooltip" v-bind="getTooltipProps" />
 </template>
 <script lang="ts">
 	import Vue from 'vue';
@@ -18,7 +18,7 @@
 			},
 		},
 		components: {
-			'tooltip': Tooltip,
+			Tooltip,
 		},
 	});
 </script>

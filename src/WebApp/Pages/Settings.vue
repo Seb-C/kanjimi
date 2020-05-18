@@ -11,18 +11,24 @@
 					<li class="list-group-item bg-light">
 						<h2 class="h5 m-0">Available languages</h2>
 					</li>
-					<DragAndDropContainer @drop="onAvailableListDrop" group-name="languages" :get-child-payload="getAvailableListPayload">
+					<DragAndDropContainer
+						@drop="onAvailableListDrop"
+						group-name="languages"
+						:get-child-payload="getAvailableListPayload"
+					>
 						<DragAndDropItem
 							v-for="language in availableLanguages"
 							:key="language"
-							tag="li"
-							v-bind:class="{
-								'list-group-item': true,
-								'list-group-item-action': true,
-							}"
-							@click="selectLanguage(language)"
 						>
-							{{ getLanguageTitle(language) }}
+							<li
+								v-bind:class="{
+									'list-group-item': true,
+									'list-group-item-action': true,
+								}"
+								@click="selectLanguage(language)"
+							>
+								{{ getLanguageTitle(language) }}
+							</li>
 						</DragAndDropItem>
 						<li
 							v-if="availableLanguages.length === 0"
@@ -44,27 +50,33 @@
 					<li class="list-group-item bg-light">
 						<h2 class="h5 m-0">Selected languages</h2>
 					</li>
-					<DragAndDropContainer @drop="onSelectedListDrop" group-name="languages" :get-child-payload="getSelectedListPayload">
+					<DragAndDropContainer
+						@drop="onSelectedListDrop"
+						group-name="languages"
+						:get-child-payload="getSelectedListPayload"
+					>
 						<DragAndDropItem
 							v-for="language in selectedLanguages"
 							:key="language"
-							tag="li"
-							v-bind:class="{
-								'list-group-item': true,
-								'list-group-item-action': true,
-								'd-flex': true,
-								'justify-content-between': true,
-								'align-items-center': true,
-							}"
-							v-on:click="unselectLanguage(language)"
 						>
-							{{ getLanguageTitle(language) }}
-							<span
-								v-if="isMainLanguage(language)"
-								class="badge badge-secondary badge-pill"
+							<li
+								v-bind:class="{
+									'list-group-item': true,
+									'list-group-item-action': true,
+									'd-flex': true,
+									'justify-content-between': true,
+									'align-items-center': true,
+								}"
+								v-on:click="unselectLanguage(language)"
 							>
-								Main Language
-							</span>
+								{{ getLanguageTitle(language) }}
+								<span
+									v-if="isMainLanguage(language)"
+									class="badge badge-secondary badge-pill"
+								>
+									Main Language
+								</span>
+							</li>
 						</DragAndDropItem>
 						<li
 							v-if="selectedLanguages.length === 0"

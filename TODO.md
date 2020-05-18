@@ -1,9 +1,7 @@
 MVP:
     fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
     language picker:
-        https://github.com/kutlugsahin/vue-smooth-dnd
-        new library: handle the simple click
-        new library: check on touch screens
+        initial values for this component
         proper typescript definitions instead of ignoring (+ DropData type): https://github.com/kutlugsahin/vue-smooth-dnd/issues/44
         separate code from the settings page
         accessibility attributes

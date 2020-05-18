@@ -4,16 +4,18 @@
 
 		<div class="row">
 			<div class="col-12 order-2 order-sm-1 col-sm-6 col-md-5 col-lg-4">
-				<ul class="list-group">
+				<ul v-bind:class="{
+					'list-group': true,
+					'empty-list': availableLanguages.length === 0,
+				}">
 					<li class="list-group-item bg-light">
 						<h2 class="h5 m-0">Available languages</h2>
 					</li>
-					<DragAndDropContainer @drop="onChoicesListDrop" :group-name="languages">
+					<DragAndDropContainer @drop="onAvailableListDrop" group-name="languages" :get-child-payload="getAvailableListPayload">
 						<DragAndDropItem
-							v-for="language in languages"
+							v-for="language in availableLanguages"
 							:key="language"
 							tag="li"
-							v-if="!isSelected(language)"
 							v-bind:class="{
 								'list-group-item': true,
 								'list-group-item-action': true,
@@ -22,15 +24,27 @@
 						>
 							{{ getLanguageTitle(language) }}
 						</DragAndDropItem>
+						<li
+							v-if="availableLanguages.length === 0"
+							v-bind:class="{
+								'list-group-item': true,
+								'list-group-item-light': true,
+							}"
+						>
+							No other language available
+						</li>
 					</DragAndDropContainer>
 				</ul>
 			</div>
 			<div class="col-12 order-1 order-sm-2 col-sm-6 col-md-5 col-lg-4">
-				<ul class="list-group">
+				<ul v-bind:class="{
+					'list-group': true,
+					'empty-list': selectedLanguages.length === 0,
+				}">
 					<li class="list-group-item bg-light">
 						<h2 class="h5 m-0">Selected languages</h2>
 					</li>
-					<DragAndDropContainer @drop="onSelectedListDrop" :group-name="languages">
+					<DragAndDropContainer @drop="onSelectedListDrop" group-name="languages" :get-child-payload="getSelectedListPayload">
 						<DragAndDropItem
 							v-for="language in selectedLanguages"
 							:key="language"
@@ -78,6 +92,12 @@
 		// @ts-ignore
 	} from 'vue-smooth-dnd';
 
+	type DropData = {
+		removedIndex: number|null,
+		addedIndex: number|null,
+		payload: Language,
+	};
+
 	export default Vue.extend({
 		created() {
 			if (this.$root.apiKey === null) {
@@ -86,9 +106,8 @@
 		},
 		data() {
 			return {
-				languages: Language.LIST,
+				availableLanguages: Language.LIST,
 				selectedLanguages: <Language[]>Vue.observable([]),
-				test: [],
 			};
 		},
 		methods: {
@@ -98,25 +117,40 @@
 					${LanguageTranslation[language]}
 				`;
 			},
-			isSelected(language: Language): boolean {
-				return this.selectedLanguages.includes(language);
-			},
 			isMainLanguage(language: Language): boolean {
 				return this.selectedLanguages[0] === language;
 			},
 			selectLanguage(language: Language) {
 				this.selectedLanguages.push(language);
+				this.availableLanguages = this.availableLanguages.filter((l: Language) => l !== language);
 			},
 			unselectLanguage(language: Language) {
-				this.selectedLanguages = this.selectedLanguages.filter(
-					(selectedLanguage: Language) => selectedLanguage !== language
-				);
+				this.selectedLanguages = this.selectedLanguages.filter((l: Language) => l !== language);
+				this.availableLanguages.push(language);
 			},
-			onChoicesListDrop(item: { removedIndex: number|null, addedIndex: number|null }) {
-				console.log('choices', item);
+			getAvailableListPayload(index: number): Language {
+				return this.availableLanguages[index];
 			},
-			onSelectedListDrop(item: { removedIndex: number|null, addedIndex: number|null }) {
-				console.log('selected', item);
+			getSelectedListPayload(index: number): Language {
+				return this.selectedLanguages[index];
+			},
+			onAvailableListDrop({ removedIndex, addedIndex, payload: language }: DropData) {
+				if (removedIndex !== null) {
+					this.availableLanguages.splice(removedIndex, 1);
+				}
+
+				if (addedIndex !== null) {
+					this.availableLanguages.splice(addedIndex, 0, language);
+				}
+			},
+			onSelectedListDrop({ removedIndex, addedIndex, payload: language }: DropData) {
+				if (removedIndex !== null) {
+					this.selectedLanguages.splice(removedIndex, 1);
+				}
+
+				if (addedIndex !== null) {
+					this.selectedLanguages.splice(addedIndex, 0, language);
+				}
 			},
 		},
 		components: {
@@ -128,5 +162,9 @@
 <style scoped>
 	.list-group-item-action {
 		cursor: pointer;
+	}
+
+	.empty-list .list-group-item {
+		transform: none !important;
 	}
 </style>

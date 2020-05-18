@@ -2,14 +2,10 @@ MVP:
     fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
     language picker:
         https://github.com/kutlugsahin/vue-smooth-dnd
-        new library: fix the ghost when no items on the right -> no ghost + move the message?
-        new library: actually handle the drop code
+        small column drop zone should be full height
         new library: handle the simple click
-        new library: fix the console error
-        new library: check that it works to sort too
         new library: check on touch screens
-        proper typescript definitions instead of ignoring: https://github.com/kutlugsahin/vue-smooth-dnd/issues/44
-        message on the left when everything is selectred?
+        proper typescript definitions instead of ignoring (+ DropData type): https://github.com/kutlugsahin/vue-smooth-dnd/issues/44
         separate code from the settings page
         accessibility attributes
         add info about the number of entries available

@@ -160,11 +160,22 @@
 	});
 </script>
 <style scoped>
+	.list-group {
+		min-height: 100%;
+	}
+
 	.list-group-item-action {
 		cursor: pointer;
 	}
 
-	.empty-list .list-group-item {
+	.empty-list .list-group-item:last-child {
 		transform: none !important;
+	}
+
+	@media (min-width: 576px) { /* --breakpoint-sm */
+		.list-group .smooth-dnd-container {
+			height: 20em;
+			overflow-y: auto;
+		}
 	}
 </style>

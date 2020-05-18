@@ -2,7 +2,6 @@ MVP:
     fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
     language picker:
         https://github.com/kutlugsahin/vue-smooth-dnd
-        small column drop zone should be full height
         new library: handle the simple click
         new library: check on touch screens
         proper typescript definitions instead of ignoring (+ DropData type): https://github.com/kutlugsahin/vue-smooth-dnd/issues/44

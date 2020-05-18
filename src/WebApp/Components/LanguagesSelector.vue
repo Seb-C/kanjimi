@@ -108,14 +108,8 @@
 	import {
 		Container as DragAndDropContainer,
 		Draggable as DragAndDropItem,
-		// @ts-ignore
+		DropResult,
 	} from 'vue-smooth-dnd';
-
-	type DropData = {
-		removedIndex: number|null,
-		addedIndex: number|null,
-		payload: Language,
-	};
 
 	export default Vue.extend({
 		props: {
@@ -158,7 +152,7 @@
 			getSelectedListPayload(index: number): Language {
 				return this.selectedLanguages[index];
 			},
-			onAvailableListDrop({ removedIndex, addedIndex, payload: language }: DropData) {
+			onAvailableListDrop({ removedIndex, addedIndex, payload: language }: DropResult) {
 				if (removedIndex !== null) {
 					this.availableLanguages.splice(removedIndex, 1);
 				}
@@ -167,7 +161,7 @@
 					this.availableLanguages.splice(addedIndex, 0, language);
 				}
 			},
-			onSelectedListDrop({ removedIndex, addedIndex, payload: language }: DropData) {
+			onSelectedListDrop({ removedIndex, addedIndex, payload: language }: DropResult) {
 				if (removedIndex !== null) {
 					this.selectedLanguages.splice(removedIndex, 1);
 				}

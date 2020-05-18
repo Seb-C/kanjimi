@@ -1,7 +1,5 @@
 MVP:
     fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
-    language picker:
-        proper typescript definitions instead of ignoring (+ DropData type): https://github.com/kutlugsahin/vue-smooth-dnd/issues/44
     test the language picker control
     settings page
     test the settings page

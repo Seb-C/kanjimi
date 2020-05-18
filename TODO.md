@@ -2,10 +2,9 @@ MVP:
     fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
     language picker:
         proper typescript definitions instead of ignoring (+ DropData type): https://github.com/kutlugsahin/vue-smooth-dnd/issues/44
-        accessibility attributes
-        add info about the number of entries available
-    vim: fix indentation bug in vues -> do on PC too
-    settings page + test
+    test the language picker control
+    settings page
+    test the settings page
     404 page: test the button if logged out
     different menu if logged in (+ show account details) + test
     add an e2e test to show roman readings -> requires a settings page first

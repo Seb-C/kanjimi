@@ -6,7 +6,7 @@
 				'empty-list': availableLanguages.length === 0,
 			}">
 				<li class="list-group-item bg-light">
-					<h2 class="h5 m-0">Available languages</h2>
+					<h2 class="h5 m-0">Available dictionaries</h2>
 				</li>
 				<DragAndDropContainer
 					@drop="onAvailableListDrop"
@@ -23,8 +23,13 @@
 								'list-group-item-action': true,
 							}"
 							@click="selectLanguage(language)"
+							role="switch"
+							aria-checked="false"
 						>
-							{{ getLanguageTitle(language) }}
+							<span>
+								{{ getLanguageName(language) }}
+								<small>({{ getLanguageInfo(language) }})</small>
+							</span>
 						</li>
 					</DragAndDropItem>
 					<li
@@ -45,7 +50,7 @@
 				'empty-list': selectedLanguages.length === 0,
 			}">
 				<li class="list-group-item bg-light">
-					<h2 class="h5 m-0">Selected languages</h2>
+					<h2 class="h5 m-0">Selected dictionaries</h2>
 				</li>
 				<DragAndDropContainer
 					@drop="onSelectedListDrop"
@@ -65,8 +70,14 @@
 								'align-items-center': true,
 							}"
 							v-on:click="unselectLanguage(language)"
+							role="switch"
+							aria-checked="true"
 						>
-							{{ getLanguageTitle(language) }}
+							<span>
+								{{ getLanguageName(language) }}
+								<small>({{ getLanguageInfo(language) }})</small>
+							</span>
+
 							<span
 								v-if="isMainLanguage(language)"
 								class="badge badge-secondary badge-pill"
@@ -119,11 +130,14 @@
 			};
 		},
 		methods: {
-			getLanguageTitle(language: Language): string {
+			getLanguageName(language: Language): string {
 				return `
 					${Language.toUnicodeFlag(language)}
-					${LanguageTranslation[language]}
+					${LanguageTranslation.name[language]}
 				`;
+			},
+			getLanguageInfo(language: Language): string {
+				return LanguageTranslation.entries[language];
 			},
 			isMainLanguage(language: Language): boolean {
 				return this.selectedLanguages[0] === language;

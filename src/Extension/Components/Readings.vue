@@ -8,7 +8,7 @@
 			<div class="reading-translations">
 				<div v-for="[lang, words] of wordsByLanguage" class="reading-translation">
 					<span
-						v-bind:title="LanguageTranslation[lang] || ''"
+						v-bind:title="LanguageTranslation.name[lang] || ''"
 						class="reading-translation-flag"
 					>
 						{{ lang === null ? '' : Language.toUnicodeFlag(lang) }}

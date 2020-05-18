@@ -5,7 +5,6 @@ enum Language {
 	FRENCH = 'fr',
 	HUNGARIAN = 'hu',
 	DUTCH = 'nl',
-	PORTUGUESE = 'pt',
 	RUSSIAN = 'ru',
 	SLOVENIAN = 'sl',
 	SWEDISH = 'sv',

@@ -1,9 +1,7 @@
 MVP:
     fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
     language picker:
-        initial values for this component
         proper typescript definitions instead of ignoring (+ DropData type): https://github.com/kutlugsahin/vue-smooth-dnd/issues/44
-        separate code from the settings page
         accessibility attributes
         add info about the number of entries available
     vim: fix indentation bug in vues -> do on PC too

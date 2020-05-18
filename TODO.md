@@ -1,6 +1,5 @@
 MVP:
     settings page
-        - load the settings from the user
         - save the settings on any change (and add a loader and debounce)
         - handle the form submit event (or no form?)
         - test the language picker control

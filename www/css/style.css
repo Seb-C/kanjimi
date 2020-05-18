@@ -48,6 +48,9 @@ input {
 .text-primary {
 	color: var(--primary) !important;
 }
+.text-secondary {
+	color: var(--secondary) !important;
+}
 .text-gray {
 	color: var(--gray) !important;
 }

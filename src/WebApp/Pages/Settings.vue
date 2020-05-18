@@ -5,14 +5,22 @@
 
 			<fieldset class="form-group row my-4">
 				<div class="col-12 col-md-3 col-lg-2 col-form-label">
-					<h2 class="h5">
+					<h2 class="h5 d-inline-block">
 						Pronunciation
 						<small>(Furiganas)</small>
 					</h2>
+
+					<component v-bind:is="romanReadingStatus" />
 				</div>
 				<div class="col pt-md-2">
 					<label class="custom-control custom-switch">
-						<input type="checkbox" class="custom-control-input" v-model="romanReadings">
+						<input
+							type="checkbox"
+							class="custom-control-input"
+							v-model="romanReading"
+							v-on:change="changeRomanReading"
+							v-bind:disabled="isRomanReadingStatusDisabled"
+						/>
 						<span class="custom-control-label">Use roman characters for the pronunciation</span>
 					</label>
 
@@ -33,7 +41,9 @@
 
 			<fieldset class="form-group row my-4">
 				<div class="col-12 col-md-3 col-lg-2 col-form-label">
-					<h3 class="h5 mb-3">Languages</h3>
+					<h3 class="h5 mb-3 d-inline-block">Languages</h3>
+
+					<component v-bind:is="languagesStatus" />
 				</div>
 				<div class="col">
 					<LanguagesSelector v-model="languages" />
@@ -45,6 +55,9 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import LanguagesSelector from 'WebApp/Components/LanguagesSelector.vue';
+	import SavingSpinner from 'WebApp/Components/Spinners/Saving.vue';
+	import SavedSpinner from 'WebApp/Components/Spinners/Saved.vue';
+	import { update as updateUser } from 'Client/Routes/User';
 
 	export default Vue.extend({
 		created() {
@@ -54,13 +67,37 @@
 		},
 		data() {
 			return {
-				languages: [],
-				romanReadings: false,
+				romanReading: this.$root.user.romanReading,
+				languages: this.$root.user.languages,
+
+				romanReadingStatus: <Vue.VueConstructor|null>null,
+				languagesStatus: <Vue.VueConstructor|null>null,
 			};
 		},
 		computed: {
+			isRomanReadingStatusDisabled() {
+				return this.romanReadingStatus === SavingSpinner;
+			},
 			sampleFurigana() {
-				return this.romanReadings ? 'nihongo' : 'にほんご';
+				return this.romanReading ? 'nihongo' : 'にほんご';
+			},
+		},
+		methods: {
+			async changeRomanReading(event: Event) {
+				const checked: boolean = (<HTMLInputElement>event.target).checked;
+				this.romanReadingStatus = SavingSpinner;
+				const updatedUser = await updateUser(
+					this.$root.apiKey.key,
+					this.$root.user.id,
+					{ romanReading: checked },
+				);
+				// TODO handle errors
+				this.$root.setUser(updatedUser);
+				this.romanReadingStatus = SavedSpinner;
+				// TODO handle duplicate conflict with this time out
+				setTimeout(() => this.romanReadingStatus = null, 3000);
+				// TODO do the same for the languages
+				// TODO disable the languages as well
 			},
 		},
 		components: {

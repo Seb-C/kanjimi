@@ -1,12 +1,12 @@
 <template>
 	<div class="row">
-		<div class="col-12 order-2 order-sm-1 col-sm-6 col-md-5 col-lg-4">
+		<div class="col-12 order-2 order-sm-1 col-sm-6 col-lg-4">
 			<ul v-bind:class="{
 				'list-group': true,
 				'empty-list': availableLanguages.length === 0,
 			}">
 				<li class="list-group-item bg-light">
-					<h2 class="h5 m-0">Available dictionaries</h2>
+					<h3 class="h5 m-0">Available dictionaries</h3>
 				</li>
 				<DragAndDropContainer
 					@drop="onAvailableListDrop"
@@ -18,10 +18,7 @@
 						:key="language"
 					>
 						<li
-							v-bind:class="{
-								'list-group-item': true,
-								'list-group-item-action': true,
-							}"
+							class="list-group-item list-group-item-action"
 							@click="selectLanguage(language)"
 							role="switch"
 							aria-checked="false"
@@ -34,23 +31,20 @@
 					</DragAndDropItem>
 					<li
 						v-if="availableLanguages.length === 0"
-						v-bind:class="{
-							'list-group-item': true,
-							'list-group-item-light': true,
-						}"
+						class="list-group-item list-group-item-light"
 					>
 						No other language available
 					</li>
 				</DragAndDropContainer>
 			</ul>
 		</div>
-		<div class="col-12 order-1 order-sm-2 col-sm-6 col-md-5 col-lg-4">
+		<div class="col-12 order-1 order-sm-2 col-sm-6 col-lg-4">
 			<ul v-bind:class="{
 				'list-group': true,
 				'empty-list': selectedLanguages.length === 0,
 			}">
 				<li class="list-group-item bg-light">
-					<h2 class="h5 m-0">Selected dictionaries</h2>
+					<h3 class="h5 m-0">Selected dictionaries</h3>
 				</li>
 				<DragAndDropContainer
 					@drop="onSelectedListDrop"
@@ -62,13 +56,7 @@
 						:key="language"
 					>
 						<li
-							v-bind:class="{
-								'list-group-item': true,
-								'list-group-item-action': true,
-								'd-flex': true,
-								'justify-content-between': true,
-								'align-items-center': true,
-							}"
+							class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
 							v-on:click="unselectLanguage(language)"
 							role="switch"
 							aria-checked="true"
@@ -88,10 +76,7 @@
 					</DragAndDropItem>
 					<li
 						v-if="selectedLanguages.length === 0"
-						v-bind:class="{
-							'list-group-item': true,
-							'list-group-item-light': true,
-						}"
+						class="list-group-item list-group-item-light"
 					>
 						Please select at least one language
 					</li>

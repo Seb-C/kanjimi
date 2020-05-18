@@ -1,8 +1,12 @@
 MVP:
-    fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
-    test the language picker control
     settings page
-    test the settings page
+        - load the settings from the user
+        - save the settings on any change (and add a loader and debounce)
+        - handle the form submit event (or no form?)
+        - test the language picker control
+        - test the furigana switch that changes the example
+        - test the settings page
+    fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
     404 page: test the button if logged out
     different menu if logged in (+ show account details) + test
     add an e2e test to show roman readings -> requires a settings page first

@@ -1,7 +1,11 @@
 <template>
 	<div class="page-settings">
-		<form>
+		<form @submit="$event.preventDefault()">
 			<h1>Account settings</h1>
+
+			<div v-if="!!errors.top" class="invalid-feedback error-romanReading d-block">
+				{{ errors.top }}
+			</div>
 
 			<fieldset class="form-group row my-4">
 				<div class="col-12 col-md-3 col-lg-2 col-form-label">
@@ -16,13 +20,17 @@
 					<label class="custom-control custom-switch">
 						<input
 							type="checkbox"
-							class="custom-control-input"
+							v-bind:class="{ 'custom-control-input': true, 'is-invalid': !!errors.romanReading }"
 							v-model="romanReading"
 							v-on:change="changeRomanReading"
 							v-bind:disabled="isFormDisabled"
 						/>
 						<span class="custom-control-label">Use roman characters for the pronunciation</span>
 					</label>
+
+					<div v-if="!!errors.romanReading" class="invalid-feedback error-romanReading d-block pl-4 ml-3 mb-2">
+						{{ errors.romanReading }}
+					</div>
 
 					<div class="row">
 						<div class="col-3 col-sm-2 col-xl-1 align-self-center">
@@ -46,8 +54,13 @@
 					<component v-bind:is="languagesStatus" />
 				</div>
 				<div class="col">
+					<div v-if="!!errors.languages" class="invalid-feedback error-romanReading d-block mb-2">
+						{{ errors.languages }}
+					</div>
+
 					<LanguagesSelector
 						v-model="languages"
+						v-on:change="changeLanguages"
 						v-bind:disabled="isFormDisabled"
 					/>
 				</div>
@@ -62,6 +75,10 @@
 	import SavingSpinner from 'WebApp/Components/Spinners/Saving.vue';
 	import SavedSpinner from 'WebApp/Components/Spinners/Saved.vue';
 	import { update as updateUser } from 'Common/Client/Routes/User';
+	import ApiKey from 'Common/Models/ApiKey';
+	import ValidationError from 'Common/Client/Errors/Validation';
+	import AuthenticationError from 'Common/Client/Errors/Authentication';
+	import ServerError from 'Common/Client/Errors/Server';
 
 	export default Vue.extend({
 		created() {
@@ -74,34 +91,64 @@
 			return {
 				romanReading: user?.romanReading || false,
 				languages: user?.languages || [],
+				isFormDisabled: false,
 
 				romanReadingStatus: <Vue.VueConstructor|null>null,
 				languagesStatus: <Vue.VueConstructor|null>null,
+
+				errors: {
+					top: null,
+					romanReading: null,
+					languages: null,
+				},
 			};
 		},
 		computed: {
-			isFormDisabled() {
-				return this.romanReadingStatus === SavingSpinner;
-			},
 			sampleFurigana() {
 				return this.romanReading ? 'nihongo' : 'にほんご';
 			},
 		},
 		methods: {
 			async changeRomanReading(event: Event) {
-				const checked: boolean = (<HTMLInputElement>event.target).checked;
 				this.romanReadingStatus = SavingSpinner;
-				const updatedUser = await updateUser(
-					this.$root.apiKey.key,
-					this.$root.user.id,
-					{ romanReading: checked },
-				);
-				// TODO handle errors
-				this.$root.setUser(updatedUser);
+				this.errors.romanReading = null;
+				await this.saveUserChanges();
 				this.romanReadingStatus = SavedSpinner;
-				// TODO handle duplicate conflict with this time out
-				setTimeout(() => this.romanReadingStatus = null, 3000);
-				// TODO do the same for the languages
+			},
+			async changeLanguages(event: Event) {
+				this.languagesStatus = SavingSpinner;
+				this.errors.languages = null;
+				await this.saveUserChanges();
+				this.languagesStatus = SavedSpinner;
+			},
+			async saveUserChanges() {
+				this.formDisabled = true;
+
+				const apiKey = <ApiKey>((<Store><any>this.$root).apiKey);
+
+				try {
+					this.errors.top = null;
+
+					const updatedUser = await updateUser(apiKey.key, apiKey.userId, {
+						romanReading: this.romanReading,
+						languages: this.languages,
+					});
+
+					this.$root.setUser(updatedUser);
+				} catch (error) {
+					if (error instanceof ValidationError) {
+						this.errors = error.getFormErrors();
+					} else if (error instanceof AuthenticationError) {
+						this.errors = { top: error.error };
+					} else if (error instanceof ServerError) {
+						console.error('Server error during user settings change. Response body: ', error.body);
+						this.errors = { top: 'There have been an unknown error. Please try again in a little while' };
+					} else {
+						throw error;
+					}
+				} finally {
+					this.formDisabled = false;
+				}
 			},
 		},
 		components: {

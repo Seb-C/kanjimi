@@ -141,11 +141,13 @@
 				this.selectedLanguages.push(language);
 				this.availableLanguages = this.availableLanguages.filter((l: Language) => l !== language);
 				this.$emit('input', this.selectedLanguages);
+				this.$emit('change');
 			},
 			unselectLanguage(language: Language) {
 				this.selectedLanguages = this.selectedLanguages.filter((l: Language) => l !== language);
 				this.availableLanguages.push(language);
 				this.$emit('input', this.selectedLanguages);
+				this.$emit('change');
 			},
 			getAvailableListPayload(index: number): Language {
 				return this.availableLanguages[index];
@@ -171,7 +173,10 @@
 					this.selectedLanguages.splice(addedIndex, 0, language);
 				}
 
-				this.$emit('input', this.selectedLanguages);
+				if (removedIndex !== null || addedIndex !== null) {
+					this.$emit('input', this.selectedLanguages);
+					this.$emit('change');
+				}
 			},
 		},
 		components: {

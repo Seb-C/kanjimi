@@ -33,9 +33,15 @@ export default class Validation {
 			return 'This field is required';
 		}
 
+		if (error.keyword === 'minItems' && error.params.limit === 1) {
+			return 'Please select at least one';
+		}
+
 		if (error.keyword === 'format' && error.params.format === 'email') {
 			return 'Please enter a valid email';
 		}
+
+		console.log(error); // For debug purposes
 
 		return error.message;
 	}

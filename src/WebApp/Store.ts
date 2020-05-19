@@ -58,7 +58,7 @@ export default class Store {
 		}
 	}
 
-	public updateUser = (user: User) => {
+	public setUser = (user: User) => {
 		this.user = user;
 	}
 }

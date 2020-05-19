@@ -1,6 +1,5 @@
 MVP:
     settings page
-        - handle the form submit event (or no form?)
         - test the language picker control
         - test the furigana switch that changes the example
         - test the settings page

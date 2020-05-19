@@ -1,12 +1,19 @@
 MVP:
-    settings page
-        - test the language picker control
-        - test the furigana switch that changes the example
-        - test the settings page
-    fix inconsistency with the analysis route: languages filtered server side but romaji furigana handled by the client
+    test the saved spinner
+        - Disappears after 3 seconds
+        - Works if click many times before it disappears
+    test the language picker control itself
+        - click works to add a language
+        - click works to remove a language
+        - moving a language to the right and on the top works
+        - moving a language to the right and on the bottom works
+        - moving a language to the left works
+        - sorting a language already on the right works
     404 page: test the button if logged out
+    add an e2e test to show roman readings from settings in the extension code
+
+    filter languages in the analysis route via a GET parameter rather than automagically
     different menu if logged in (+ show account details) + test
-    add an e2e test to show roman readings -> requires a settings page first
     subscription process
     verify email process after subscription (and block login if not validated)
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)

@@ -17,10 +17,13 @@
 					<component v-bind:is="romanReadingStatus" />
 				</div>
 				<div class="col pt-md-2">
-					<label class="custom-control custom-switch">
+					<label class="custom-control custom-switch roman-reading-switch">
 						<input
 							type="checkbox"
-							v-bind:class="{ 'custom-control-input': true, 'is-invalid': !!errors.romanReading }"
+							v-bind:class="{
+								'custom-control-input': true,
+								'is-invalid': !!errors.romanReading,
+							}"
 							v-model="romanReading"
 							v-on:change="changeRomanReading"
 							v-bind:disabled="isFormDisabled"
@@ -74,6 +77,7 @@
 	import LanguagesSelector from 'WebApp/Components/LanguagesSelector.vue';
 	import SavingSpinner from 'WebApp/Components/Spinners/Saving.vue';
 	import SavedSpinner from 'WebApp/Components/Spinners/Saved.vue';
+	import FailedSpinner from 'WebApp/Components/Spinners/Failed.vue';
 	import { update as updateUser } from 'Common/Client/Routes/User';
 	import ApiKey from 'Common/Models/ApiKey';
 	import ValidationError from 'Common/Client/Errors/Validation';
@@ -113,13 +117,21 @@
 				this.romanReadingStatus = SavingSpinner;
 				this.errors.romanReading = null;
 				await this.saveUserChanges();
-				this.romanReadingStatus = SavedSpinner;
+				if (this.errors.romanReading === null) {
+					this.romanReadingStatus = SavedSpinner;
+				} else {
+					this.romanReadingStatus = FailedSpinner;
+				}
 			},
 			async changeLanguages(event: Event) {
 				this.languagesStatus = SavingSpinner;
 				this.errors.languages = null;
 				await this.saveUserChanges();
-				this.languagesStatus = SavedSpinner;
+				if (this.errors.languages === null) {
+					this.languagesStatus = SavedSpinner;
+				} else {
+					this.languagesStatus = FailedSpinner;
+				}
 			},
 			async saveUserChanges() {
 				this.formDisabled = true;

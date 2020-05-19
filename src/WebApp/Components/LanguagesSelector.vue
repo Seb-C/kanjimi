@@ -1,6 +1,6 @@
 <template>
-	<div class="row">
-		<div class="col-12 order-2 order-sm-1 col-sm-6 col-lg-4">
+	<div class="row languages-selector">
+		<div class="col-12 order-2 order-sm-1 col-sm-6 col-lg-4 languages-available">
 			<ul v-bind:class="{
 				'list-group': true,
 				'disabled': disabled,
@@ -44,7 +44,7 @@
 				</DragAndDropContainer>
 			</ul>
 		</div>
-		<div class="col-12 order-1 order-sm-2 col-sm-6 col-lg-4">
+		<div class="col-12 order-1 order-sm-2 col-sm-6 col-lg-4 languages-selected">
 			<ul v-bind:class="{
 				'list-group': true,
 				'disabled': disabled,

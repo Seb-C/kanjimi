@@ -1,6 +1,5 @@
 MVP:
     settings page
-        - save the settings on any change (and add a loader and debounce)
         - handle the form submit event (or no form?)
         - test the language picker control
         - test the furigana switch that changes the example

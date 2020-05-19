@@ -3,6 +3,7 @@
 		<div class="col-12 order-2 order-sm-1 col-sm-6 col-lg-4">
 			<ul v-bind:class="{
 				'list-group': true,
+				'disabled': disabled,
 				'empty-list': availableLanguages.length === 0,
 			}">
 				<li class="list-group-item bg-light">
@@ -12,13 +13,18 @@
 					@drop="onAvailableListDrop"
 					group-name="languages"
 					:get-child-payload="getAvailableListPayload"
+					:drag-handle-selector="disabled ? 'none' : undefined"
 				>
 					<DragAndDropItem
 						v-for="language in availableLanguages"
 						:key="language"
 					>
 						<li
-							class="list-group-item list-group-item-action"
+							v-bind:class="{
+								'list-group-item': true,
+								'list-group-item-action': true,
+								'disabled': disabled,
+							}"
 							@click="selectLanguage(language)"
 							role="switch"
 							aria-checked="false"
@@ -41,6 +47,7 @@
 		<div class="col-12 order-1 order-sm-2 col-sm-6 col-lg-4">
 			<ul v-bind:class="{
 				'list-group': true,
+				'disabled': disabled,
 				'empty-list': selectedLanguages.length === 0,
 			}">
 				<li class="list-group-item bg-light">
@@ -50,13 +57,21 @@
 					@drop="onSelectedListDrop"
 					group-name="languages"
 					:get-child-payload="getSelectedListPayload"
+					:drag-handle-selector="disabled ? 'none' : undefined"
 				>
 					<DragAndDropItem
 						v-for="language in selectedLanguages"
 						:key="language"
 					>
 						<li
-							class="list-group-item list-group-item-action d-flex justify-content-between align-items-center"
+							v-bind:class="{
+								'list-group-item': true,
+								'list-group-item-action': true,
+								'd-flex': true,
+								'justify-content-between': true,
+								'align-items-center': true,
+								'disabled': disabled,
+							}"
 							v-on:click="unselectLanguage(language)"
 							role="switch"
 							aria-checked="true"
@@ -99,6 +114,7 @@
 	export default Vue.extend({
 		props: {
 			value: { type: Array as () => Language[] },
+			disabled: { type: Boolean },
 		},
 		data() {
 			return {
@@ -182,5 +198,9 @@
 			height: 20em;
 			overflow-y: auto;
 		}
+	}
+
+	li.disabled, .disabled .smooth-dnd-draggable-wrapper {
+		cursor: not-allowed;
 	}
 </style>

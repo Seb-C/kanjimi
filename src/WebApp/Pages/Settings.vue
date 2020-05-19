@@ -19,7 +19,7 @@
 							class="custom-control-input"
 							v-model="romanReading"
 							v-on:change="changeRomanReading"
-							v-bind:disabled="isRomanReadingStatusDisabled"
+							v-bind:disabled="isFormDisabled"
 						/>
 						<span class="custom-control-label">Use roman characters for the pronunciation</span>
 					</label>
@@ -46,7 +46,10 @@
 					<component v-bind:is="languagesStatus" />
 				</div>
 				<div class="col">
-					<LanguagesSelector v-model="languages" />
+					<LanguagesSelector
+						v-model="languages"
+						v-bind:disabled="isFormDisabled"
+					/>
 				</div>
 			</fieldset>
 		</form>
@@ -54,10 +57,11 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
+	import Store from 'WebApp/Store';
 	import LanguagesSelector from 'WebApp/Components/LanguagesSelector.vue';
 	import SavingSpinner from 'WebApp/Components/Spinners/Saving.vue';
 	import SavedSpinner from 'WebApp/Components/Spinners/Saved.vue';
-	import { update as updateUser } from 'Client/Routes/User';
+	import { update as updateUser } from 'Common/Client/Routes/User';
 
 	export default Vue.extend({
 		created() {
@@ -66,16 +70,17 @@
 			}
 		},
 		data() {
+			const user = (<Store><any>this.$root).user;
 			return {
-				romanReading: this.$root.user.romanReading,
-				languages: this.$root.user.languages,
+				romanReading: user?.romanReading || false,
+				languages: user?.languages || [],
 
 				romanReadingStatus: <Vue.VueConstructor|null>null,
 				languagesStatus: <Vue.VueConstructor|null>null,
 			};
 		},
 		computed: {
-			isRomanReadingStatusDisabled() {
+			isFormDisabled() {
 				return this.romanReadingStatus === SavingSpinner;
 			},
 			sampleFurigana() {
@@ -97,7 +102,6 @@
 				// TODO handle duplicate conflict with this time out
 				setTimeout(() => this.romanReadingStatus = null, 3000);
 				// TODO do the same for the languages
-				// TODO disable the languages as well
 			},
 		},
 		components: {
@@ -129,5 +133,9 @@
 		line-height: 150%;
 		margin: 0 2px;
 		text-align: center;
+	}
+
+	input[disabled] ~ .custom-control-label {
+		cursor: not-allowed;
 	}
 </style>

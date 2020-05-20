@@ -1,4 +1,4 @@
-context('Settings', () => {
+context('LanguagesSelector', () => {
 	beforeEach(() => {
 		// Disabled because Cypress cannot capture fetch queries
 		// However it seems to work anyway ?!

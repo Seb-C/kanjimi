@@ -7,7 +7,6 @@ MVP:
     JLPT level at subscription, use it to define the default status of words
     retrieve password process
     possibility to change password in the patch route
-    disconnect process + also disconnect the extension and in the tests (cf cypress.commands.js)
     Fix the CI
     onboarding
     when there will be more links: add an e2e test to check that the menu links work
@@ -30,6 +29,7 @@ MVP:
     need to register a copyright?!
 
 After:
+    route to delete an api key + use it on explicit disconnect + wait properly before showing the confirm message (and show a loader)
     search and fix remaining TODOs
     cypress tests in typescript
     cypress tests related to settings: add a function that makes a hardcoded api call to reinitialize the settings everywhere it is necessary

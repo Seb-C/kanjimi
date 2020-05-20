@@ -1,5 +1,6 @@
 import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token';
+import User from 'Common/Models/User';
 import Store from 'Extension/Store';
 import { analyze } from 'Common/Client/Routes/Lexer';
 import {
@@ -142,7 +143,7 @@ export default class PageHandler {
 		if (strings.length > 0) {
 			try {
 				const data = await analyze(this.store.apiKey.key, {
-					languages: this.store.user.languages,
+					languages: [...(<User>this.store.user).languages],
 					strings,
 				});
 

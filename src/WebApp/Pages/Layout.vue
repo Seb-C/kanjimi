@@ -82,6 +82,7 @@
 				links: <{ url: string, title: string }[]>[
 					{ url: './app/settings', title: 'Settings' },
 					{ url: './app/login', title: 'Login' },
+					{ url: './app/logout', title: 'Logout' },
 				],
 			};
 		},

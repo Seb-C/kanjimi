@@ -5,7 +5,7 @@
   "homepage_url": "http://www.kanjimi.com/",
   "incognito": "spanning",
   "version": "1.0",
-  "description": "TODO",
+  "description": "Service helping you to learn Japanese by allowing you to read real content on internet",
   "icons": {
     "48": "./images/logo.png"
   },

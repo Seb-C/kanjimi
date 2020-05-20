@@ -1,12 +1,4 @@
 MVP:
-    test the language picker control itself
-        - click works to add a language
-        - click works to remove a language
-        - moving a language to the right and on the top works
-        - moving a language to the right and on the bottom works
-        - moving a language to the left works
-        - sorting a language already on the right works
-
     filter languages in the analysis route via a GET parameter rather than automagically
     different menu if logged in (+ show account details) + test
     subscription process
@@ -30,7 +22,6 @@ MVP:
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
     chrome compatibility (and test others as well as mobile)
-    search and fix remaining TODOs
     Block access to the test pages in production
     webpack => production mode whenever necessary
     include copyright somewhere in the site (and external resources used) -> mostly external resources used
@@ -39,6 +30,8 @@ MVP:
     need to register a copyright?!
 
 After:
+    search and fix remaining TODOs
+    cypress tests in typescript
     cypress tests related to settings: add a function that makes a hardcoded api call to reinitialize the settings everywhere it is necessary
     server side fetching of a page to be independent from the extension
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)

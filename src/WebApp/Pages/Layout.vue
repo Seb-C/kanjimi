@@ -1,7 +1,7 @@
 <template>
 	<div class="d-flex flex-column bg-white" style="min-height: 100vh">
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
-			<div class="navbar-brand text-white">
+			<div class="navbar-brand h1 my-0 text-white">
 				<img
 					src="./img/logo.svg"
 					width="30"
@@ -12,6 +12,10 @@
 				Kanjimi
 			</div>
 
+			<div class="d-none d-sm-block d-md-none text-gray mr-3 ml-auto">
+				<i class="fas fa-user mr-2"></i>
+				{{ userName }}
+			</div>
 			<button
 				class="navbar-toggler"
 				type="button"
@@ -31,14 +35,42 @@
 				}"
 				id="main-menu"
 			>
-				<ul class="navbar-nav ml-auto text-right">
-					<li v-for="(link, index) in links" class="nav-item">
+				<ul class="navbar-nav ml-auto mr-0">
+					<li
+						v-for="(link, index) in menuLinks"
+						v-bind:class="{ ...link.classes, 'nav-item': true }"
+					>
 						<a
 							v-bind:class="{ 'nav-link': true, 'active': link.active }"
 							v-bind:href="link.url"
 							v-on:click="navLinkClickHandler($event)"
-							:ref="'link-' + index"
+							:ref="'menu-link-' + index"
 						>{{ link.title }}</a>
+					</li>
+					<li
+						v-if="userLinks.length > 0"
+						class="nav-item dropdown ml-2 d-none d-md-block"
+					>
+						<span
+							class="nav-link dropdown-toggle user-menu-toggler"
+							role="button"
+							data-toggle="dropdown"
+							aria-haspopup="true"
+							v-bind:aria-expanded="isUserMenuOpened"
+							v-on:click="clickUserMenuToggler"
+						>
+							<i class="fas fa-user mr-1"></i>
+							{{ userName }}
+						</span>
+						<div v-bind:class="{ 'dropdown-menu': true, 'show': isUserMenuOpened }">
+							<a
+								v-for="(link, index) in userLinks"
+								v-bind:class="{ ...link.classes, 'dropdown-item': true, 'active': link.active }"
+								v-bind:href="link.url"
+								v-on:click="navLinkClickHandler($event)"
+								:ref="'user-link-' + index"
+							>{{ link.title }}</a>
+						</div>
 					</li>
 				</ul>
 			</div>
@@ -75,29 +107,83 @@
 <script lang="ts">
 	import Vue from 'vue';
 
+	type MenuLink = {
+		url: string,
+		title: string,
+		classes?: { [key: string]: boolean },
+	};
+
 	export default Vue.extend({
 		data() {
 			return {
 				isMobileMenuOpened: false,
-				links: <{ url: string, title: string }[]>[
-					{ url: './app/settings', title: 'Settings' },
-					{ url: './app/login', title: 'Login' },
-					{ url: './app/logout', title: 'Logout' },
-				],
+				isUserMenuOpened: false,
+				menuLinks: <MenuLink[]>[],
+				userLinks: <MenuLink[]>[],
 			};
 		},
+		created() {
+			document.body.addEventListener('click', (event: Event) => {
+				if (this.isMobileMenuOpened) {
+					event.preventDefault();
+					this.isUserMenuOpened = false;
+				}
+				if (this.isUserMenuOpened) {
+					event.preventDefault();
+					this.isUserMenuOpened = false;
+				}
+			});
+		},
 		mounted() {
-			this.updateActiveLink();
+			this.updateActiveMenuLinks();
+			this.updateActiveUserLinks();
 		},
 		beforeUpdate () {
-			this.updateActiveLink();
+			this.updateActiveMenuLinks();
+			this.updateActiveUserLinks();
 		},
 		methods: {
-			updateActiveLink() {
-				this.links = this.links.map((link: any, index: number) => {
+			updateActiveMenuLinks() {
+				if (this.$root.apiKey === null) {
+					this.menuLinks = [
+						{ url: './app/login', title: 'Login' },
+					];
+				} else {
+					this.menuLinks = [
+						{ url: './app', title: 'Home' },
+						{ url: './app/settings', title: 'Settings' },
+						{ url: './app/logout', title: 'Logout', 'classes': { 'd-md-none': true } },
+					];
+				}
+
+				this.menuLinks = this.menuLinks.map((link: any, index: number) => {
 					return {
 						...link,
-						active: (this.$root.url == this.$refs['link-' + index][0].href),
+						active: (
+							this.$refs['menu-link-' + index]
+							&& this.$refs['menu-link-' + index][0]
+							&& this.$root.router.url == this.$refs['menu-link-' + index][0].href
+						),
+					};
+				});
+			},
+			updateActiveUserLinks() {
+				if (this.$root.apiKey === null) {
+					this.userLinks = [];
+				} else {
+					this.userLinks = [
+						{ url: './app/logout', title: 'Logout' },
+					];
+				}
+
+				this.userLinks = this.userLinks.map((link: any, index: number) => {
+					return {
+						...link,
+						active: (
+							this.$refs['user-link-' + index]
+							&& this.$refs['user-link-' + index][0]
+							&& this.$root.router.url == this.$refs['user-link-' + index][0].href
+						),
 					};
 				});
 			},
@@ -107,7 +193,24 @@
 			navLinkClickHandler(event: Event) {
 				this.$root.router.changeRoute(event);
 			},
+			clickUserMenuToggler(event: Event) {
+				event.stopPropagation();
+				this.isUserMenuOpened = !this.isUserMenuOpened;
+			},
+		},
+		computed: {
+			userName() {
+				if (this.$root.user === null) {
+					return null;
+				}
+
+				return this.$root.user.email;
+			},
 		},
 	});
 </script>
-<style scoped></style>
+<style scoped>
+	.user-menu-toggler {
+		cursor: pointer;
+	}
+</style>

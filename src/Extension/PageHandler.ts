@@ -175,6 +175,7 @@ export default class PageHandler {
 
 				window.dispatchEvent(new Event('kanjimi-converted-sentences'));
 			} catch (e) {
+				// Not filtering the error type because all 3 are handled the same way
 				console.error('Exception: ', e.toString());
 				console.error('Strings: ', ...strings);
 

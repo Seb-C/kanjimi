@@ -10,4 +10,50 @@ context('Layout', () => {
 		cy.url().should('contain', 'app/login');
 		cy.get('.page-login').should('be.visible');
 	});
+
+	it('The navbar contains the user email if logged in', () => {
+		cy.setLoggedIn();
+		cy.visit('/app/')
+		cy.get('nav').should('contain', 'contact@kanjimi.com');
+	});
+
+	it('The navbar does not contain the user email if not logged in', () => {
+		cy.setLoggedOut();
+		cy.visit('/app/')
+		cy.get('nav').should('not.contain', 'contact@kanjimi.com');
+	});
+
+	it('The active menu link works', () => {
+		cy.setLoggedIn();
+		cy.visit('/app')
+		cy.get('nav a:contains(Settings)').should('have.class', 'active');
+		cy.get('nav a:contains(Home)').click();
+		cy.get('nav a:contains(Home)').should('have.class', 'active');
+		cy.get('nav a:contains(Settings)').click();
+		cy.get('nav a:contains(Settings)').should('have.class', 'active');
+	});
+
+	it('Links when logged in', () => {
+		cy.setLoggedIn();
+		cy.visit('/app')
+		cy.get('nav a:contains(Settings)').should('exist');
+		cy.get('nav a:contains(Logout)').should('exist');
+		cy.get('nav a:contains(Login)').should('not.exist');
+	});
+
+	it('Links when logged out', () => {
+		cy.setLoggedOut();
+		cy.visit('/app')
+		cy.get('nav a:contains(Settings)').should('not.exist');
+		cy.get('nav a:contains(Logout)').should('not.exist');
+		cy.get('nav a:contains(Login)').should('exist');
+	});
+
+	it('Test the user dropdown', () => {
+		cy.setLoggedIn();
+		cy.visit('/app')
+		cy.get('nav a:contains(Logout)').should('not.be.visible');
+		cy.get('nav .dropdown-toggle').should('be.visible').click();
+		cy.get('nav a:contains(Logout)').should('be.visible');
+	});
 });

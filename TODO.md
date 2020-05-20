@@ -1,14 +1,12 @@
 MVP:
-    different menu if logged in (+ show account details) + test
+    add a JLPT level setting, use it to define the default status of words
     subscription process
     verify email process after subscription (and block login if not validated)
-    handle the errors in the analyze route client side
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
-    JLPT level at subscription, use it to define the default status of words
     retrieve password process
     possibility to change password in the patch route
     Fix the CI
-    onboarding
+    onboarding (after subscription, install extension...)
     when there will be more links: add an e2e test to check that the menu links work
     Global vuejs error handling?
     Have the extension CSS match the website colours + unify the css with variables
@@ -29,6 +27,7 @@ MVP:
     need to register a copyright?!
 
 After:
+    separate the layout component: should have one menu component and one usermenu component
     route to delete an api key + use it on explicit disconnect + wait properly before showing the confirm message (and show a loader)
     search and fix remaining TODOs
     cypress tests in typescript

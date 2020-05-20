@@ -74,6 +74,9 @@ context('Settings', () => {
 
 		cy.visit('/app/settings');
 
+		// Should still be selected
+		cy.get('.languages-selected ul li:contains(English)').should('exist');
+
 		// Adding French
 		cy.get('.languages-available ul div:has(> li:contains(French))').click();
 		// cy.get('.languages-selector li:first').should('have.class', 'disabled');

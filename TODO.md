@@ -1,7 +1,4 @@
 MVP:
-    test the saved spinner
-        - Disappears after 3 seconds
-        - Works if click many times before it disappears
     test the language picker control itself
         - click works to add a language
         - click works to remove a language
@@ -44,6 +41,7 @@ MVP:
     need to register a copyright?!
 
 After:
+    cypress tests related to settings: add a function that makes a hardcoded api call to reinitialize the settings everywhere it is necessary
     server side fetching of a page to be independent from the extension
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
     share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/

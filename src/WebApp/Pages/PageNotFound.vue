@@ -8,7 +8,7 @@
 				v-if="!isLoggedIn"
 				v-on:click="goToLoginPageClickHandler($event)"
 				href="./app/login"
-				class="btn btn-primary"
+				class="btn btn-primary go-to-login"
 			>
 				Go to the login page
 			</a>

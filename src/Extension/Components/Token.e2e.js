@@ -24,7 +24,7 @@ context('Token', () => {
 		cy.get('#firstHeading .kanjimi-sentence .token .translation').should('exist').should('contain', 'Japon');
 	});
 
-	it('Furiganas are always in hiragana', () => {
+	it('Furiganas are never in katakana', () => {
 		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html');
 
@@ -64,5 +64,38 @@ context('Token', () => {
 			.click({ force: true })
 			.should('have.class', 'hidden');
 		cy.get('.token:contains(日本国) .translation.shown').should('not.exist');
+	});
+
+	it('The roman furiganas setting in honoured', () => {
+		// Disabled because Cypress cannot capture fetch queries
+		// However it seems to work anyway ?!
+		// cy.server();
+		// cy.route('PATCH', '**/user/**').as('updateUserRequest');
+		cy.setLoggedIn();
+
+		// Should be in hiragana for now
+		cy.visit('/test-pages/wikipedia.html');
+		cy.get('#firstHeading .kanjimi-sentence .token .furigana').should('contain', 'にほん');
+
+		// The setting should be in hiragana too
+		cy.visit('/app/settings');
+		cy.get('.roman-reading-switch').find('input').should('not.be.checked');
+
+		// Switching to romaji
+		cy.get('.roman-reading-switch').click();
+		// cy.wait('@updateUserRequest');
+
+		// Should be in romaji now
+		cy.visit('/test-pages/wikipedia.html');
+		cy.get('#firstHeading .kanjimi-sentence .token .furigana').should('contain', 'nihon');
+
+		// Switching back to hiragana
+		cy.visit('/app/settings');
+		cy.get('.roman-reading-switch').click();
+		// cy.wait('@updateUserRequest');
+
+		// Should be in romaji now
+		cy.visit('/test-pages/wikipedia.html');
+		cy.get('#firstHeading .kanjimi-sentence .token .furigana').should('contain', 'にほん');
 	});
 });

@@ -6,7 +6,6 @@ MVP:
         - moving a language to the right and on the bottom works
         - moving a language to the left works
         - sorting a language already on the right works
-    add an e2e test to show roman readings from settings in the extension code
 
     filter languages in the analysis route via a GET parameter rather than automagically
     different menu if logged in (+ show account details) + test

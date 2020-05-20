@@ -35,10 +35,13 @@ describe('LexerController', async () => {
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
 			},
-			body: JSON.stringify([
-				'テストのために、',
-				'この文を書きました。',
-			]),
+			body: JSON.stringify({
+				languages: [Language.FRENCH],
+				strings: [
+					'テストのために、',
+					'この文を書きました。',
+				],
+			}),
 		});
 		expect(response.status).toBe(200);
 		const responseData = await response.json();
@@ -177,10 +180,13 @@ describe('LexerController', async () => {
 			headers: {
 				Authorization: 'Bearer wrongtoken',
 			},
-			body: JSON.stringify([
-				'テストのために、',
-				'この文を書きました。',
-			]),
+			body: JSON.stringify({
+				languages: [Language.FRENCH],
+				strings: [
+					'テストのために、',
+					'この文を書きました。',
+				],
+			}),
 		});
 		expect(response.status).toBe(403);
 	});

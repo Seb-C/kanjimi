@@ -1,15 +1,19 @@
 import Token from 'Common/Models/Token';
+import Language from 'Common/Types/Language';
 import ValidationError from 'Common/Client/Errors/Validation';
 import AuthenticationError from 'Common/Client/Errors/Authentication';
 import ServerError from 'Common/Client/Errors/Server';
 
-export const analyze = async (key: string, strings: string[]): Promise<Token[][]> => {
+export const analyze = async (key: string, data: {
+	languages: Language[],
+	strings: string[],
+}): Promise<Token[][]> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/lexer/analyze`, {
 		method: 'POST',
 		headers: {
 			Authorization: `Bearer ${key}`,
 		},
-		body: JSON.stringify(strings),
+		body: JSON.stringify(data),
 	});
 	const responseData = await response.json();
 

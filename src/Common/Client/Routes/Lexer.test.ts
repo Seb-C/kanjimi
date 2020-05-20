@@ -35,7 +35,10 @@ describe('Client Lexer', () => {
 	});
 
 	it('analyze (normal case)', async () => {
-		const result = await analyze(apiKey.key, ['first sentence', 'second sentence']);
+		const result = await analyze(apiKey.key, {
+			languages: [Language.FRENCH],
+			strings: ['first sentence', 'second sentence'],
+		});
 
 		expect(result).toBeInstanceOf(Array);
 		expect(result.length).toBe(2);
@@ -49,7 +52,10 @@ describe('Client Lexer', () => {
 	it('analyze (validation error case)', async () => {
 		let error;
 		try {
-			await analyze(apiKey.key, []);
+			await analyze(apiKey.key, {
+				languages: [],
+				strings: [],
+			});
 		} catch (e) {
 			error = e;
 		}
@@ -60,7 +66,10 @@ describe('Client Lexer', () => {
 	it('analyze (authentication error case)', async () => {
 		let error;
 		try {
-			await analyze('wrongtoken', ['first sentence', 'second sentence']);
+			await analyze('wrongtoken', {
+				languages: [Language.FRENCH],
+				strings: ['first sentence', 'second sentence'],
+			});
 		} catch (e) {
 			error = e;
 		}

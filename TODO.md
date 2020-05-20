@@ -1,8 +1,8 @@
 MVP:
-    filter languages in the analysis route via a GET parameter rather than automagically
     different menu if logged in (+ show account details) + test
     subscription process
     verify email process after subscription (and block login if not validated)
+    handle the errors in the analyze route client side
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
     JLPT level at subscription, use it to define the default status of words
     retrieve password process

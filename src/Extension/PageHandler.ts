@@ -141,7 +141,10 @@ export default class PageHandler {
 
 		if (strings.length > 0) {
 			try {
-				const data = await analyze(this.store.apiKey.key, strings);
+				const data = await analyze(this.store.apiKey.key, {
+					languages: this.store.user.languages,
+					strings,
+				});
 
 				const words: Set<string> = new Set();
 				for (let i = 0; i < data.length; i++) {

@@ -36,8 +36,23 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 
 		next();
 	};
+	const logRequestMiddleware = (request: Request, response: Response, next: Function) => {
+		const startTime = +new Date();
+		response.on('finish', () => {
+			const responseTime = +new Date() - startTime;
+			let url = request.originalUrl;
+			const queryStringStart = url.indexOf('?');
+			if (queryStringStart >= 0) {
+				url = url.substring(0, queryStringStart) + '?[...]';
+			}
+
+			console.log(`HTTP ${request.method} ${url} = ${response.statusCode} (${responseTime}ms)`);
+		});
+		next();
+	};
 
 	const application = Express();
+	application.use(logRequestMiddleware);
 	application.use(waitForStartupMiddleware);
 	application.use(BodyParser.json({ type: () => true }));
 	application.use(jsonQueryStrings);

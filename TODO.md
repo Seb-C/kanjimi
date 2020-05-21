@@ -1,4 +1,8 @@
 MVP:
+    test errors to fix:
+        - active menus links (Layout e2e test)
+        - Token e2e test (timeouts problems + config not properly set
+        -> cypress tests related to settings: add a function that makes a hardcoded api call to reinitialize the settings everywhere it is necessary
     add a JLPT level setting, use it to define the default status of words
     subscription process
     verify email process after subscription (and block login if not validated)
@@ -27,11 +31,11 @@ MVP:
     need to register a copyright?!
 
 After:
+    add a test to the filter that does not translate the site itself (settings sample, homepage samples...)
     separate the layout component: should have one menu component and one usermenu component
     route to delete an api key + use it on explicit disconnect + wait properly before showing the confirm message (and show a loader)
     search and fix remaining TODOs
     cypress tests in typescript
-    cypress tests related to settings: add a function that makes a hardcoded api call to reinitialize the settings everywhere it is necessary
     server side fetching of a page to be independent from the extension
     copy/paste functionality on the website (can use the tool on any text, independently from the extension)
     share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/

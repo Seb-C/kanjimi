@@ -40,7 +40,7 @@
 							Example:
 						</div>
 						<div class="col">
-							<div class="furigana-sample border rounded p-1">
+							<div class="kanjimi-furigana-sample border rounded p-1">
 								<div class="furigana">{{ sampleFurigana }}</div>
 								<div class="word">日本語</div>
 								<div class="translation">Japanese</div>
@@ -169,24 +169,24 @@
 	});
 </script>
 <style scoped>
-	.furigana-sample {
+	.kanjimi-furigana-sample {
 		display: inline-block;
 		font-size: 1.3em;
 	}
 
-	.furigana-sample .furigana {
+	.kanjimi-furigana-sample .furigana {
 		font-size: 0.5em;
 		display: block;
 		line-height: 150%;
 		margin: 0 2px;
 		text-align: center;
 	}
-	.furigana-sample .word {
+	.kanjimi-furigana-sample .word {
 		line-height: 1em;
 		text-align: center;
 		margin: 0 0 0.1em 0;
 	}
-	.furigana-sample .translation {
+	.kanjimi-furigana-sample .translation {
 		font-size: 0.5em;
 		display: block;
 		line-height: 150%;

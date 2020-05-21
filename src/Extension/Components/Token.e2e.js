@@ -75,7 +75,7 @@ context('Token', () => {
 
 		// Should be in hiragana for now
 		cy.visit('/test-pages/wikipedia.html');
-		cy.get('#firstHeading .kanjimi-sentence .token .furigana').should('contain', 'にほん');
+		cy.get('#firstHeading .kanjimi-sentence .token .furigana:contains(にほん)').should('exist');
 
 		// The setting should be in hiragana too
 		cy.visit('/app/settings');
@@ -87,7 +87,7 @@ context('Token', () => {
 
 		// Should be in romaji now
 		cy.visit('/test-pages/wikipedia.html');
-		cy.get('#firstHeading .kanjimi-sentence .token .furigana').should('contain', 'nihon');
+		cy.get('#firstHeading .kanjimi-sentence .token .furigana:contains(nihon)').should('exist');
 
 		// Switching back to hiragana
 		cy.visit('/app/settings');
@@ -96,6 +96,6 @@ context('Token', () => {
 
 		// Should be in romaji now
 		cy.visit('/test-pages/wikipedia.html');
-		cy.get('#firstHeading .kanjimi-sentence .token .furigana').should('contain', 'にほん');
+		cy.get('#firstHeading .kanjimi-sentence .token .furigana:contains(にほん)').should('exist');
 	});
 });

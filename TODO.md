@@ -26,6 +26,7 @@ MVP:
     need to register a copyright?!
 
 After:
+    make the wikipedia test page faster (remove useless assets)
     move the cypress classes in the cypress directory
     add a test to the filter that does not translate the site itself (settings sample, homepage samples...)
     separate the layout component: should have one menu component and one usermenu component

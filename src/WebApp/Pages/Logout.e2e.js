@@ -19,6 +19,8 @@ context('Logout', () => {
 		cy.setLoggedIn();
 		cy.visit('/app/logout');
 
+		cy.get('.page-logout').should('exist');
+
 		expect(localStorage.getItem('key')).to.be.null;
 
 		// Can access the login page = currently disconnected

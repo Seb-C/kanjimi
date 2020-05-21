@@ -32,10 +32,10 @@ context('LanguagesSelector', () => {
 		cy.setLoggedIn();
 		cy.visit('/app/settings');
 
-		cy.get('.languages-available ul div:has(> li:contains(French))').click();
+		cy.get('.languages-available ul div:has(> li:contains(Spanish))').click();
 		// cy.wait('@updateUserRequest');
-		cy.get('.languages-available li:contains(French)').should('not.exist');
-		cy.get('.languages-selected li:contains(French)').should('exist');
+		cy.get('.languages-available li:contains(Spanish)').should('not.exist');
+		cy.get('.languages-selected li:contains(Spanish)').should('exist');
 	});
 
 	it('Dragging and dropping a language from the right to the left', () => {

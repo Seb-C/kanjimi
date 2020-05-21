@@ -133,6 +133,9 @@
 					this.isUserMenuOpened = false;
 				}
 			});
+
+			this.updateActiveMenuLinks();
+			this.updateActiveUserLinks();
 		},
 		mounted() {
 			this.updateActiveMenuLinks();

@@ -44,7 +44,10 @@ export default class PageHandler {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					if ((<Element>node).className.includes('kanjimi')) {
+					if (
+						typeof node.className === 'string'
+						&& node.className.includes('kanjimi')
+					) {
 						return NodeFilter.FILTER_REJECT;
 					}
 

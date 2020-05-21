@@ -26,8 +26,7 @@ MVP:
     need to register a copyright?!
 
 After:
-    make the wikipedia test page faster (remove useless assets)
-    move the cypress classes in the cypress directory
+    move the cypress config files in the cypress directory (from the root)
     add a test to the filter that does not translate the site itself (settings sample, homepage samples...)
     separate the layout component: should have one menu component and one usermenu component
     route to delete an api key + use it on explicit disconnect + wait properly before showing the confirm message (and show a loader)

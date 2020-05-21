@@ -14,6 +14,14 @@ $languageCodes = [
 	'swe' => 'sv',
 ];
 
+$additionalTags = [
+	'jlpt-1' => include(__DIR__ . '/jlpt/1.php'),
+	'jlpt-2' => include(__DIR__ . '/jlpt/2.php'),
+	'jlpt-3' => include(__DIR__ . '/jlpt/3.php'),
+	'jlpt-4' => include(__DIR__ . '/jlpt/4.php'),
+	'jlpt-5' => include(__DIR__ . '/jlpt/5.php'),
+];
+
 $wordsCsvPerLang = [];
 foreach ($languageCodes as $lang) {
 	$file = fopen(__DIR__ . "/../src/Server/Lexer/data/words-$lang.csv", "w");
@@ -170,6 +178,14 @@ while($xml->name === 'entry') {
 	}
 
 	foreach ($words as $word) {
+		$wordTags = array_keys($tags);
+
+		foreach ($additionalTags as $additionalTag => $additionalTagWords) {
+			if (array_key_exists($word['word'], $additionalTagWords)) {
+				$wordTags[] = $additionalTag;
+			}
+		}
+
 		foreach ($word['readings'] as $reading) {
 			foreach ($reading['senses'] as $sense) {
 				foreach ($sense['translations'] as $translation) {
@@ -177,7 +193,7 @@ while($xml->name === 'entry') {
 						$word['word'] === null ? $reading['reading'] : $word['word'],
 						$reading['reading'],
 						$translation['translation'],
-						implode('/', array_keys($tags)),
+						implode('/', $wordTags),
 					]);
 				}
 			}

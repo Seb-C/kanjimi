@@ -183,6 +183,11 @@ enum WordTag {
 	WHICH_TAKES_THE_VERB_SURU = 'vs',
 	YOJIJUKUGO = 'yoji',
 	ZOOLOGY = 'zool',
+	JLPT_1 = 'jlpt-1',
+	JLPT_2 = 'jlpt-2',
+	JLPT_3 = 'jlpt-3',
+	JLPT_4 = 'jlpt-4',
+	JLPT_5 = 'jlpt-5',
 }
 
 export default WordTag;

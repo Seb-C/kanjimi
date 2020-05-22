@@ -30,4 +30,4 @@ import { debounce } from 'ts-debounce';
 	window.addEventListener('scroll', debounce(() => {
 		pageHandler.convertSentences();
 	}, 300));
-})();
+})().catch(console.error);

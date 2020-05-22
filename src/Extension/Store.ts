@@ -6,6 +6,7 @@ import { createOrUpdate as putWordStatus } from 'Common/Client/Routes/WordStatus
 import { get as getApiKey } from 'Common/Client/Routes/ApiKey';
 import { get as getUser } from 'Common/Client/Routes/User';
 import Vue from 'vue';
+import AuthenticationError from 'Common/Client/Errors/Authentication';
 
 type TooltipData = {
 	token: Token,
@@ -86,13 +87,21 @@ export default class Store {
 			this.apiKey = null;
 			this.user = null;
 		} else {
-			const apiKey = await getApiKey(key);
-			const user = await getUser(key, apiKey.userId);
+			try {
+				const apiKey = await getApiKey(key);
+				const user = await getUser(key, apiKey.userId);
 
-			// Always setting the two at the same time, otherwise we may
-			// have inconsistencies since both operations are asynchronous
-			this.apiKey = apiKey;
-			this.user = user;
+				// Always setting the two at the same time, otherwise we may
+				// have inconsistencies since both operations are asynchronous
+				this.apiKey = apiKey;
+				this.user = user;
+			} catch (error) {
+				if (error instanceof AuthenticationError) {
+					await this.setApiKey(null);
+				} else {
+					throw error;
+				}
+			}
 		}
 
 		this.loadingApiDataAfterApiKeyChange = false;

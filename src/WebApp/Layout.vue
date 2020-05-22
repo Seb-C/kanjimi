@@ -58,6 +58,8 @@
 							aria-haspopup="true"
 							v-bind:aria-expanded="isUserMenuOpened"
 							v-on:click="clickUserMenuToggler"
+							tabindex="0"
+							v-on:keypress="keyPressUserMenuToggler"
 						>
 							<i class="fas fa-user mr-1"></i>
 							{{ userName }}
@@ -190,15 +192,21 @@
 					};
 				});
 			},
-			clickMobileMenuToggler() {
-				this.isMobileMenuOpened = !this.isMobileMenuOpened;
-			},
 			navLinkClickHandler(event: Event) {
 				this.$root.router.changeRoute(event);
+			},
+			clickMobileMenuToggler() {
+				this.isMobileMenuOpened = !this.isMobileMenuOpened;
 			},
 			clickUserMenuToggler(event: Event) {
 				event.stopPropagation();
 				this.isUserMenuOpened = !this.isUserMenuOpened;
+			},
+			keyPressUserMenuToggler(event: KeyboardEvent) {
+				if (event.keyCode === 13 || event.charCode === 32) {
+					event.stopPropagation();
+					this.isUserMenuOpened = !this.isUserMenuOpened;
+				}
 			},
 		},
 		computed: {

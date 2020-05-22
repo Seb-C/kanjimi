@@ -76,17 +76,25 @@
 	.jlpt-level-selector {
 		user-select: none;
 	}
+	.jlpt-level-selector .option-container:focus-within {
+		border: 1px dotted var(--black);
+		margin: -1px;
+	}
 	.jlpt-level-selector .radio-container {
 		position: relative;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 	.jlpt-level-selector .radio-container input {
-		display: none;
+		position: absolute;
+		opacity: 0;
 	}
 	.jlpt-level-selector .radio-container .radio-replacement {
 		position: relative;
 		display: block;
-		width: 2em;
-		height: 2em;
+		width: 32px;
+		height: 32px;
 		margin: auto;
 	}
 	.jlpt-level-selector .radio-container .radio-replacement .icon {
@@ -102,7 +110,7 @@
 	.jlpt-level-selector .radio-container input:checked ~ .radio-replacement .icon {
 		position: relative;
 		display: block;
-		font-size: 1.8em;
+		font-size: 28px;
 		color: var(--primary);
 	}
 

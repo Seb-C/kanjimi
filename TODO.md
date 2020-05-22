@@ -1,4 +1,6 @@
 MVP:
+    add tests for the keyboard-navigability?
+    make the extension interactions keyboard-navigable too (and have proper aria attributes)
     menus animation when opening (user + mobile) -> css transitions?
     subscription process
     verify email process after subscription (and block login if not validated)

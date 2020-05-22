@@ -14,6 +14,7 @@
 					group-name="languages"
 					:get-child-payload="getAvailableListPayload"
 					:drag-handle-selector="disabled ? 'none' : undefined"
+					tabindex="-1"
 				>
 					<DragAndDropItem
 						v-for="language in availableLanguages"
@@ -28,6 +29,8 @@
 							@click="selectLanguage(language)"
 							role="switch"
 							aria-checked="false"
+							tabindex="0"
+							v-on:keypress="onLanguageAvailableKeyPress($event, language)"
 						>
 							<span>
 								{{ getLanguageName(language) }}
@@ -58,6 +61,7 @@
 					group-name="languages"
 					:get-child-payload="getSelectedListPayload"
 					:drag-handle-selector="disabled ? 'none' : undefined"
+					tabindex="-1"
 				>
 					<DragAndDropItem
 						v-for="language in selectedLanguages"
@@ -75,6 +79,8 @@
 							v-on:click="unselectLanguage(language)"
 							role="switch"
 							aria-checked="true"
+							tabindex="0"
+							v-on:keypress="onLanguageSelectedKeyPress($event, language)"
 						>
 							<span>
 								{{ getLanguageName(language) }}
@@ -125,6 +131,16 @@
 			};
 		},
 		methods: {
+			onLanguageAvailableKeyPress(event: KeyboardEvent, language: Language) {
+				if (event.keyCode === 13 || event.charCode === 32) {
+					this.selectLanguage(language);
+				}
+			},
+			onLanguageSelectedKeyPress(event: KeyboardEvent, language: Language) {
+				if (event.keyCode === 13 || event.charCode === 32) {
+					this.unselectLanguage(language);
+				}
+			},
 			getLanguageName(language: Language): string {
 				return `
 					${Language.toUnicodeFlag(language)}

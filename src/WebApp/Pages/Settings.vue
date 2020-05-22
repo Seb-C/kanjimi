@@ -185,7 +185,7 @@
 				}
 			},
 			async saveUserChanges() {
-				this.formDisabled = true;
+				this.isFormDisabled = true;
 
 				const apiKey = <ApiKey>((<Store><any>this.$root).apiKey);
 
@@ -211,7 +211,7 @@
 						throw error;
 					}
 				} finally {
-					this.formDisabled = false;
+					this.isFormDisabled = false;
 				}
 			},
 		},

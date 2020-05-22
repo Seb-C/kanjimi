@@ -42,6 +42,51 @@ context('Settings', () => {
 		cy.get('.page-settings').should('contain', 'Saved');
 	});
 
+	it('JLPT level selector', () => {
+		cy.setLoggedIn();
+		cy.visit('/app/settings');
+
+		cy.get('.jlpt-level-selector')
+			.should('be.visible')
+			.find('input')
+			.should('exist');
+
+		cy.get('.jlpt-level-selector input').should('not.be.disabled');
+		cy.get('.jlpt-level-selector input[value=""]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="5"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="4"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="3"]').should('be.checked');
+		cy.get('.jlpt-level-selector input[value="2"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="1"]').should('not.be.checked');
+
+		cy.get('.jlpt-level-selector label:first-child').click();
+		// cy.get('.jlpt-level-selector input').should('be.disabled');
+		// cy.get('.page-settings').should('contain', 'Saving...');
+		// cy.wait('@updateUserRequest');
+		cy.get('.jlpt-level-selector input').should('not.be.disabled');
+		cy.get('.jlpt-level-selector input[value=""]').should('be.checked');
+		cy.get('.jlpt-level-selector input[value="5"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="4"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="3"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="2"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="1"]').should('not.be.checked');
+
+		cy.get('.page-settings').should('contain', 'Saved');
+
+		cy.get('.jlpt-level-selector label:last-child').click();
+		// cy.get('.jlpt-level-selector input').should('be.disabled');
+		// cy.get('.page-settings').should('contain', 'Saving...');
+		// cy.wait('@updateUserRequest');
+		cy.get('.jlpt-level-selector input').should('not.be.disabled');
+		cy.get('.jlpt-level-selector input[value=""]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="5"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="4"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="3"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="2"]').should('not.be.checked');
+		cy.get('.jlpt-level-selector input[value="1"]').should('be.checked');
+		cy.get('.page-settings').should('contain', 'Saved');
+	});
+
 	it('Changing and saving languages', () => {
 		cy.setLoggedIn();
 		cy.visit('/app/settings');

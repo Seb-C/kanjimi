@@ -1,5 +1,11 @@
 <template>
-	<div class="row jlpt-level-selector">
+	<div
+		v-bind:class="{
+			'row': true,
+			'jlpt-level-selector': true,
+			'disabled': disabled,
+		}"
+	>
 		<label
 			v-for="level in jlptLevels"
 			class="col-2 mx-0 px-0 text-center option-container"
@@ -12,6 +18,7 @@
 					v-bind:value="level.value"
 					v-model="selectedValue"
 					v-on:change="debouncedOnChange"
+					v-bind:disabled="disabled"
 				/>
 				<span class="radio-replacement">
 					<i v-bind:class="'icon ' + level.icon"></i>
@@ -58,7 +65,7 @@
 		},
 		methods: {
 			mouseMoveLabel(event: MouseEvent) {
-				if (event.buttons > 0) {
+				if (event.buttons > 0 && !this.disabled) {
 					(<HTMLElement>event.target).click();
 				}
 			},
@@ -97,6 +104,13 @@
 		display: block;
 		font-size: 1.8em;
 		color: var(--primary);
+	}
+
+	.jlpt-level-selector.disabled .radio-container input:checked ~ .radio-replacement {
+		background: var(--black);
+	}
+	.jlpt-level-selector.disabled .radio-container input:checked ~ .radio-replacement .icon {
+		color: var(--gray);
 	}
 
 	.jlpt-level-selector .radio-container::before {

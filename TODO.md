@@ -1,7 +1,4 @@
 MVP:
-    add a JLPT level setting, use it to define the default status of words
-        - settings screen
-        - test the settings screen
     menus animation when opening (user + mobile) -> css transitions?
     subscription process
     verify email process after subscription (and block login if not validated)

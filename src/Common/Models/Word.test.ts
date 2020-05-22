@@ -38,4 +38,30 @@ describe('Word', () => {
 		expect(output2.translationLang).toBe(null);
 		expect(output2.tags).toEqual([]);
 	});
+
+	it('getJlptLevel method', async () => {
+		let word = new Word('', '', Language.FRENCH, '', [WordTag.ADJECTIVE, WordTag.ADVERB]);
+		expect(word.getJlptLevel()).toBe(null);
+
+		word = new Word('', '', Language.FRENCH, '', [WordTag.ADJECTIVE, WordTag.JLPT_1]);
+		expect(word.getJlptLevel()).toBe(1);
+
+		word = new Word('', '', Language.FRENCH, '', [WordTag.JLPT_2, WordTag.ADVERB]);
+		expect(word.getJlptLevel()).toBe(2);
+
+		word = new Word('', '', Language.FRENCH, '', [WordTag.JLPT_3]);
+		expect(word.getJlptLevel()).toBe(3);
+
+		word = new Word('', '', Language.FRENCH, '', [WordTag.JLPT_4]);
+		expect(word.getJlptLevel()).toBe(4);
+
+		word = new Word('', '', Language.FRENCH, '', [WordTag.JLPT_5]);
+		expect(word.getJlptLevel()).toBe(5);
+
+		word = new Word('', '', Language.FRENCH, '', [WordTag.JLPT_3, WordTag.JLPT_4]);
+		expect(word.getJlptLevel()).toBe(4);
+
+		word = new Word('', '', Language.FRENCH, '', [WordTag.JLPT_4, WordTag.JLPT_3]);
+		expect(word.getJlptLevel()).toBe(4);
+	});
 });

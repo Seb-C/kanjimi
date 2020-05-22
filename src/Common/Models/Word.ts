@@ -45,4 +45,24 @@ export default class Word {
 			<ReadonlyArray<WordTag>>data.tags,
 		);
 	}
+
+	getJlptLevel(): number|null {
+		if (this.tags.includes(WordTag.JLPT_5)) {
+			return 5;
+		}
+		if (this.tags.includes(WordTag.JLPT_4)) {
+			return 4;
+		}
+		if (this.tags.includes(WordTag.JLPT_3)) {
+			return 3;
+		}
+		if (this.tags.includes(WordTag.JLPT_2)) {
+			return 2;
+		}
+		if (this.tags.includes(WordTag.JLPT_1)) {
+			return 1;
+		}
+
+		return null;
+	}
 }

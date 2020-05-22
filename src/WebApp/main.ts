@@ -1,5 +1,5 @@
 import Vue from 'vue';
-import Layout from 'WebApp/Pages/Layout.vue';
+import Layout from 'WebApp/Layout.vue';
 import Store from 'WebApp/Store';
 import Router from 'WebApp/Router';
 

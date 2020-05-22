@@ -9,7 +9,6 @@ MVP:
     retrieve password process
     possibility to change password in the patch route
     onboarding (after subscription, install extension...)
-    when there will be more links: add an e2e test to check that the menu links work
     Global vuejs error handling?
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile

@@ -11,6 +11,7 @@ import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
 import WordStatusRepository from 'Server/Repository/WordStatus';
 import Language from 'Common/Types/Language';
+import Dictionary from 'Server/Lexer/Dictionary';
 
 let user: User;
 let apiKey: ApiKey;
@@ -22,9 +23,10 @@ describe('Client WordStatus', () => {
 
 		// Clearing previous run if necessary
 		const db = new Database();
+		const dictionary = new Dictionary();
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
-		const wordStatusRepository = new WordStatusRepository(db);
+		const wordStatusRepository = new WordStatusRepository(db, dictionary);
 		await userRepository.deleteByEmail('unittest@example.com');
 		user = await userRepository.create({
 			email: 'unittest@example.com',

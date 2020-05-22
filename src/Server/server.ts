@@ -81,8 +81,8 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 	application.post('/api-key', ApiKeyController.create(db));
 	application.get('/api-key', ApiKeyController.get(db));
 
-	application.get('/word-status', WordStatusController.get(db));
-	application.put('/word-status', WordStatusController.createOrUpdate(db));
+	application.get('/word-status', WordStatusController.get(db, dictionary));
+	application.put('/word-status', WordStatusController.createOrUpdate(db, dictionary));
 
 	await dictionary.load();
 

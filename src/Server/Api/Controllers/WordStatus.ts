@@ -2,6 +2,7 @@ import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
+import Dictionary from 'Server/Lexer/Dictionary';
 import WordStatus from 'Common/Models/WordStatus';
 import UserRepository from 'Server/Repository/User';
 import WordStatusRepository from 'Server/Repository/WordStatus';
@@ -16,7 +17,7 @@ const wordStatusListValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const get = (db: Database) => async (request: Request, response: Response) => {
+export const get = (db: Database, dictionary: Dictionary) => async (request: Request, response: Response) => {
 	const user = await (new UserRepository(db)).getFromRequest(request);
 	if (user === null) {
 		return response.status(403).json('Invalid api key');
@@ -26,7 +27,7 @@ export const get = (db: Database) => async (request: Request, response: Response
 		return response.status(422).json(wordStatusListValidator.errors);
 	}
 
-	const wordStatusRepository = new WordStatusRepository(db);
+	const wordStatusRepository = new WordStatusRepository(db, dictionary);
 	const wordStatusList = await wordStatusRepository.getList(user, request.query);
 
 	const wordStatusMap: Map<string, WordStatus> = new Map();
@@ -38,16 +39,15 @@ export const get = (db: Database) => async (request: Request, response: Response
 	const output = [];
 	for (let j = 0; j < request.query.length; j++) {
 		const word = request.query[j];
+
+		let wordStatus: WordStatus;
 		if (wordStatusMap.has(word)) {
-			output.push((<WordStatus>wordStatusMap.get(word)).toApi());
+			wordStatus = <WordStatus>wordStatusMap.get(word);
 		} else {
-			output.push(new WordStatus({
-				userId: user.id,
-				word,
-				showFurigana: true,
-				showTranslation: true,
-			}).toApi());
+			wordStatus = wordStatusRepository.getDefaultWordStatus(user, word);
 		}
+
+		output.push(wordStatus.toApi());
 	}
 
 	return response.json(output);
@@ -74,7 +74,7 @@ const wordStatusValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const createOrUpdate = (db: Database) => async (request: Request, response: Response) => {
+export const createOrUpdate = (db: Database, dictionary: Dictionary) => async (request: Request, response: Response) => {
 	const user = await (new UserRepository(db)).getFromRequest(request);
 	if (user === null) {
 		return response.status(403).json('Invalid api key');
@@ -88,7 +88,7 @@ export const createOrUpdate = (db: Database) => async (request: Request, respons
 		return response.status(403).json('Invalid userId in object.');
 	}
 
-	const wordStatusRepository = new WordStatusRepository(db);
+	const wordStatusRepository = new WordStatusRepository(db, dictionary);
 	const wordStatus = await wordStatusRepository.createOrUpdate(
 		user,
 		request.body.word,

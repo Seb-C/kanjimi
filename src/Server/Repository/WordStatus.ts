@@ -1,12 +1,15 @@
 import Database from 'Server/Database/Database';
 import WordStatusModel from 'Common/Models/WordStatus';
 import User from 'Common/Models/User';
+import Dictionary from 'Server/Lexer/Dictionary';
 
 export default class WordStatus {
 	private db: Database;
+	private dictionary: Dictionary;
 
-	constructor (db: Database) {
+	constructor (db: Database, dictionary: Dictionary) {
 		this.db = db;
+		this.dictionary = dictionary;
 	}
 
 	async getList(user: User, words: string[]): Promise<WordStatusModel[]> {
@@ -69,5 +72,40 @@ export default class WordStatus {
 			showFurigana,
 			showTranslation,
 		});
+	}
+
+	getDefaultWordStatus(user: User, word: string): WordStatusModel {
+		const defaultWordStatus = () => new WordStatusModel({
+			userId: user.id,
+			word,
+			showFurigana: true,
+			showTranslation: true,
+		});
+
+		if (user.jlpt === null) {
+			return defaultWordStatus();
+		}
+
+		const dictionaryWords = this.dictionary.get(word, null);
+		if (dictionaryWords.length === 0) {
+			return defaultWordStatus();
+		}
+
+		// Using the first word, assuming all definitions have the same tags
+		const wordJlptLevel = dictionaryWords[0].getJlptLevel();
+		if (wordJlptLevel === null) {
+			return defaultWordStatus();
+		}
+
+		if (user.jlpt <= wordJlptLevel) {
+			return new WordStatusModel({
+				userId: user.id,
+				word,
+				showFurigana: false,
+				showTranslation: false,
+			});
+		} else {
+			return defaultWordStatus();
+		}
 	}
 }

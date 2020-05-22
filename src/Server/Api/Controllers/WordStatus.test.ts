@@ -2,6 +2,7 @@ import 'jasmine';
 import fetch from 'node-fetch';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
+import Dictionary from 'Server/Lexer/Dictionary';
 import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
 import WordStatusRepository from 'Server/Repository/WordStatus';
@@ -82,7 +83,8 @@ describe('WordStatus', async () => {
 
 		// Checking the db contents
 		const db = new Database();
-		const wordStatusRepository = new WordStatusRepository(db);
+		const dictionary = new Dictionary();
+		const wordStatusRepository = new WordStatusRepository(db, dictionary);
 		const dbWordStatus = await wordStatusRepository.get(user, 'word');
 		await db.close();
 
@@ -93,7 +95,8 @@ describe('WordStatus', async () => {
 
 	it('createOrUpdate (update case)', async () => {
 		const db = new Database();
-		const wordStatusRepository = new WordStatusRepository(db);
+		const dictionary = new Dictionary();
+		const wordStatusRepository = new WordStatusRepository(db, dictionary);
 		await wordStatusRepository.create(user, 'word', false, true);
 
 		const response = await fetch('http://localhost:3000/word-status', {
@@ -212,7 +215,8 @@ describe('WordStatus', async () => {
 
 	it('get (normal case)', async () => {
 		const db = new Database();
-		const wordStatusRepository = new WordStatusRepository(db);
+		const dictionary = new Dictionary();
+		const wordStatusRepository = new WordStatusRepository(db, dictionary);
 		await wordStatusRepository.create(user, 'word2', true, false);
 		await db.close();
 
@@ -266,9 +270,9 @@ describe('WordStatus', async () => {
 			.withContext(JSON.stringify(validator.errors))
 			.toBe(true);
 
-		expect(responseData[0].word).toBe('word1');
-		expect(responseData[0].showFurigana).toBe(true);
-		expect(responseData[0].showTranslation).toBe(true);
+		expect(WordStatus.fromApi(responseData[0])).toEqual(
+			wordStatusRepository.getDefaultWordStatus(user, 'word1'),
+		);
 
 		expect(responseData[1].word).toBe('word2');
 		expect(responseData[1].showFurigana).toBe(true);

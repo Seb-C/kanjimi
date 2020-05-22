@@ -25,6 +25,11 @@ MVP:
     free for beta
     CGU / RGPD ?
     need to register a copyright?!
+    post on producthunt
+    post on hackernews
+    post on reddit
+    post on linkedin
+    post on twitter
 
 After:
     move the cypress config files in the cypress directory (from the root)

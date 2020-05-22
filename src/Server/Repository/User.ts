@@ -49,11 +49,12 @@ export default class User {
 		password: string,
 		languages: Language[],
 		romanReading: boolean,
+		jlpt: number|null,
 	}): Promise<UserModel> {
 		const uuid = uuidv4();
 		return <UserModel>await this.db.get(UserModel, `
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "createdAt")
-			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, \${romanReading}, \${createdAt})
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "jlpt", "createdAt")
+			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, \${romanReading}, \${jlpt}, \${createdAt})
 			RETURNING *;
 		`, {
 			...attributes,
@@ -67,6 +68,7 @@ export default class User {
 		password?: string,
 		languages?: Language[],
 		romanReading?: boolean,
+		jlpt?: number|null,
 	}): Promise<UserModel> {
 		const params = {
 			...attributes,
@@ -80,6 +82,7 @@ export default class User {
 			'password',
 			'languages',
 			'romanReading',
+			'jlpt',
 		];
 
 		return <UserModel>await this.db.get(UserModel, `

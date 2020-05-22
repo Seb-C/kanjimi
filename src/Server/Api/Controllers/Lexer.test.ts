@@ -23,6 +23,7 @@ describe('LexerController', async () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
+			jlpt: null,
 		});
 		apiKey = await apiKeyRepository.create(user);
 

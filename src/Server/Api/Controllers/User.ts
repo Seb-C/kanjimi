@@ -21,7 +21,7 @@ export const get = (db: Database) => async (request: Request, response: Response
 
 const createUserValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
-	required: ['email', 'password', 'languages', 'romanReading'],
+	required: ['email', 'password', 'languages', 'romanReading', 'jlpt'],
 	additionalProperties: false,
 	properties: {
 		email: {
@@ -44,6 +44,11 @@ const createUserValidator = new Ajv({ allErrors: true }).compile({
 		},
 		romanReading: {
 			type: 'boolean',
+		},
+		jlpt: {
+			type: ['integer', 'null'],
+			minimum: 1,
+			maximum: 5,
 		},
 	},
 });
@@ -85,6 +90,11 @@ const updateUserValidator = new Ajv({ allErrors: true }).compile({
 		},
 		romanReading: {
 			type: 'boolean',
+		},
+		jlpt: {
+			type: ['integer', 'null'],
+			minimum: 1,
+			maximum: 5,
 		},
 	},
 });

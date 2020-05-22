@@ -30,6 +30,7 @@ describe('Client User', () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: true,
+			jlpt: null,
 		});
 		const apiKey = await apiKeyRepository.create(user);
 		await db.close();
@@ -57,6 +58,7 @@ describe('Client User', () => {
 			password: '123456',
 			languages: [Language.ENGLISH],
 			romanReading: false,
+			jlpt: null,
 		});
 
 		expect(result).toBeInstanceOf(User);
@@ -70,6 +72,7 @@ describe('Client User', () => {
 				password: '123456',
 				languages: [Language.ENGLISH],
 				romanReading: false,
+				jlpt: null,
 			});
 		} catch (e) {
 			error = e;
@@ -86,6 +89,7 @@ describe('Client User', () => {
 				password: '123456',
 				languages: [Language.ENGLISH],
 				romanReading: false,
+				jlpt: null,
 			});
 		} catch (e) {
 			error = e;
@@ -103,6 +107,7 @@ describe('Client User', () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: true,
+			jlpt: null,
 		});
 		const apiKey = await apiKeyRepository.create(user);
 		await db.close();
@@ -110,6 +115,7 @@ describe('Client User', () => {
 		const result = await update(apiKey.key, user.id, {
 			languages: [Language.ENGLISH, Language.FRENCH],
 			romanReading: false,
+			jlpt: null,
 		});
 
 		expect(result).toBeInstanceOf(User);
@@ -136,6 +142,7 @@ describe('Client User', () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
+			jlpt: null,
 		});
 		const apiKey = await apiKeyRepository.create(user);
 		await db.close();

@@ -16,6 +16,7 @@ const userResponseValidator = new Ajv({ allErrors: true }).compile({
 		'password',
 		'languages',
 		'romanReading',
+		'jlpt',
 		'createdAt',
 	],
 	additionalProperties: false,
@@ -46,6 +47,11 @@ const userResponseValidator = new Ajv({ allErrors: true }).compile({
 		},
 		romanReading: {
 			type: 'boolean',
+		},
+		jlpt: {
+			type: 'integer',
+			minimum: 2,
+			maximum: 2,
 		},
 		createdAt: {
 			type: 'string',
@@ -87,6 +93,7 @@ describe('UserController', async () => {
 			password: '123456',
 			languages: [Language.ENGLISH, Language.SPANISH],
 			romanReading: false,
+			jlpt: 2,
 		});
 		const apiKey = await apiKeyRepository.create(user);
 		await db.close();
@@ -115,12 +122,14 @@ describe('UserController', async () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
+			jlpt: 2,
 		});
 		const user2 = await userRepository.create({
 			email: 'unittest2@example.com',
 			password: '234567',
 			languages: [Language.ENGLISH],
 			romanReading: true,
+			jlpt: 2,
 		});
 		const apiKey = await apiKeyRepository.create(user);
 		await db.close();
@@ -151,6 +160,7 @@ describe('UserController', async () => {
 				password: '123456',
 				languages: ['en', 'es'],
 				romanReading: false,
+				jlpt: 2,
 			}),
 		});
 		expect(response.status).toBe(200);
@@ -179,6 +189,7 @@ describe('UserController', async () => {
 				password: '123456',
 				languages: ['en', 'es'],
 				romanReading: false,
+				jlpt: 2,
 			}),
 		});
 		expect(response2.status).toBe(409);
@@ -209,6 +220,7 @@ describe('UserController', async () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
+			jlpt: 1,
 		});
 		const apiKey = await apiKeyRepository.create(user);
 
@@ -220,6 +232,7 @@ describe('UserController', async () => {
 			body: JSON.stringify({
 				languages: ['en', 'es'],
 				romanReading: true,
+				jlpt: 2,
 			}),
 		});
 		expect(response.status).toBe(200);
@@ -236,6 +249,7 @@ describe('UserController', async () => {
 		expect(dbUser).not.toBe(null);
 		expect((<User>dbUser).languages).toEqual([Language.ENGLISH, Language.SPANISH]);
 		expect((<User>dbUser).romanReading).toBe(true);
+		expect((<User>dbUser).jlpt).toBe(2);
 
 		await db.close();
 	});
@@ -249,6 +263,7 @@ describe('UserController', async () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
+			jlpt: 2,
 		});
 		const apiKey = await apiKeyRepository.create(user);
 
@@ -281,12 +296,14 @@ describe('UserController', async () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
+			jlpt: 2,
 		});
 		const user2 = await userRepository.create({
 			email: 'unittest2@example.com',
 			password: '234567',
 			languages: [Language.ENGLISH],
 			romanReading: true,
+			jlpt: 2,
 		});
 		const apiKey = await apiKeyRepository.create(user);
 

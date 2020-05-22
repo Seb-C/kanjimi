@@ -51,6 +51,7 @@ describe('ApiKeyController', async () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
+			jlpt: null,
 		});
 		await db.close();
 	});

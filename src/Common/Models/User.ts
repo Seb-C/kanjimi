@@ -8,6 +8,7 @@ export default class User {
 	public readonly languages: ReadonlyArray<Language>;
 	public readonly createdAt: Date;
 	public readonly romanReading: boolean;
+	public readonly jlpt: number|null;
 
 	constructor(attributes: any) {
 		this.id = attributes.id;
@@ -17,6 +18,7 @@ export default class User {
 		this.languages = [...attributes.languages];
 		this.createdAt = attributes.createdAt;
 		this.romanReading = attributes.romanReading;
+		this.jlpt = attributes.jlpt;
 	}
 
 	toApi(): object {
@@ -27,6 +29,7 @@ export default class User {
 			password: null,
 			languages: this.languages,
 			romanReading: this.romanReading,
+			jlpt: this.jlpt,
 			createdAt: this.createdAt.toISOString(),
 		};
 	}

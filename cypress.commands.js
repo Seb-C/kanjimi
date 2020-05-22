@@ -17,6 +17,7 @@ Cypress.Commands.add('setLoggedIn', () => {
 		body: JSON.stringify({
 			languages: ['fr', 'en'],
 			romanReading: false,
+			jlpt: 3,
 		}),
 	});
 });

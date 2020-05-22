@@ -93,17 +93,20 @@
 		data() {
 			const user = (<Store><any>this.$root).user;
 			return {
-				romanReading: user?.romanReading || false,
 				languages: user?.languages || [],
+				romanReading: user?.romanReading || false,
+				jlpt: user?.jlpt || null,
 				isFormDisabled: false,
 
-				romanReadingStatus: <Vue.VueConstructor|null>null,
 				languagesStatus: <Vue.VueConstructor|null>null,
+				romanReadingStatus: <Vue.VueConstructor|null>null,
+				jlptStatus: <Vue.VueConstructor|null>null,
 
 				errors: {
 					top: null,
-					romanReading: null,
 					languages: null,
+					romanReading: null,
+					jlpt: null,
 				},
 			};
 		},
@@ -142,8 +145,9 @@
 					this.errors.top = null;
 
 					const updatedUser = await updateUser(apiKey.key, apiKey.userId, {
-						romanReading: this.romanReading,
 						languages: this.languages,
+						romanReading: this.romanReading,
+						jlpt: this.jlpt,
 					});
 
 					this.$root.setUser(updatedUser);

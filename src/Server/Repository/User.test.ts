@@ -19,8 +19,8 @@ describe('UserRepository', async () => {
 		const db = new Database();
 		const uuid = uuidv4();
 		await db.exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], TRUE, CURRENT_TIMESTAMP);
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "jlpt", "createdAt")
+			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], TRUE, 2, CURRENT_TIMESTAMP);
 		`, { uuid });
 		const userRepository = new UserRepository(db);
 		const user = await userRepository.getById(uuid);
@@ -30,6 +30,7 @@ describe('UserRepository', async () => {
 		expect((<User>user).id).toBe(uuid);
 		expect((<User>user).email).toBe('unittest@example.com');
 		expect((<User>user).romanReading).toBe(true);
+		expect((<User>user).jlpt).toBe(2);
 
 		await db.close();
 	});
@@ -38,8 +39,8 @@ describe('UserRepository', async () => {
 		const db = new Database();
 		const uuid = uuidv4();
 		await db.exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], FALSE, CURRENT_TIMESTAMP);
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "jlpt", "createdAt")
+			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], FALSE, 2, CURRENT_TIMESTAMP);
 		`, { uuid });
 		const userRepository = new UserRepository(db);
 		const user = await userRepository.getByEmail('unittest@example.com');
@@ -49,6 +50,7 @@ describe('UserRepository', async () => {
 		expect((<User>user).id).toBe(uuid);
 		expect((<User>user).email).toBe('unittest@example.com');
 		expect((<User>user).romanReading).toBe(false);
+		expect((<User>user).jlpt).toBe(2);
 
 		await db.close();
 	});
@@ -57,8 +59,8 @@ describe('UserRepository', async () => {
 		const db = new Database();
 		const uuid = uuidv4();
 		await db.exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], FALSE, CURRENT_TIMESTAMP);
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "jlpt", "createdAt")
+			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], FALSE, 2, CURRENT_TIMESTAMP);
 		`, { uuid });
 		await db.exec(`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
@@ -75,6 +77,7 @@ describe('UserRepository', async () => {
 		expect((<User>user).id).toBe(uuid);
 		expect((<User>user).email).toBe('unittest@example.com');
 		expect((<User>user).romanReading).toBe(false);
+		expect((<User>user).jlpt).toBe(2);
 
 		await db.close();
 	});
@@ -83,8 +86,8 @@ describe('UserRepository', async () => {
 		const db = new Database();
 		const uuid = uuidv4();
 		await db.exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], TRUE, CURRENT_TIMESTAMP);
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "jlpt", "createdAt")
+			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], TRUE, 2, CURRENT_TIMESTAMP);
 		`, { uuid });
 		await db.exec(`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
@@ -105,6 +108,7 @@ describe('UserRepository', async () => {
 		expect((<User>user).id).toBe(uuid);
 		expect((<User>user).email).toBe('unittest@example.com');
 		expect((<User>user).romanReading).toBe(true);
+		expect((<User>user).jlpt).toBe(2);
 
 		await db.close();
 	});
@@ -117,6 +121,7 @@ describe('UserRepository', async () => {
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: true,
+			jlpt: 1,
 		});
 		const dbUser = await db.get(User, `
 			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
@@ -132,6 +137,7 @@ describe('UserRepository', async () => {
 		expect(user.languages.length).toBe(1);
 		expect(user.languages[0]).toBe(Language.FRENCH);
 		expect(user.romanReading).toBe(true);
+		expect(user.jlpt).toBe(1);
 
 		await db.close();
 	});
@@ -142,13 +148,14 @@ describe('UserRepository', async () => {
 		const uuid = uuidv4();
 		const password = userRepository.hashPassword(uuid, '123456');
 		await db.exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, \${password}, ARRAY['fr'], FALSE, CURRENT_TIMESTAMP);
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "jlpt", "createdAt")
+			VALUES (\${uuid}, 'unittest@example.com', FALSE, \${password}, ARRAY['fr'], FALSE, NULL, CURRENT_TIMESTAMP);
 		`, { uuid, password });
 		const user = await userRepository.updateById(uuid, {
 			password: 'qwerty',
 			languages: [Language.ENGLISH, Language.GERMAN],
 			romanReading: true,
+			jlpt: null,
 		});
 		const dbUser = await db.get(User, `
 			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
@@ -169,8 +176,8 @@ describe('UserRepository', async () => {
 		const db = new Database();
 		const uuid = uuidv4();
 		await db.exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], TRUE, CURRENT_TIMESTAMP);
+			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "jlpt", "createdAt")
+			VALUES (\${uuid}, 'unittest@example.com', FALSE, 'password', ARRAY['fr'], TRUE, NULL, CURRENT_TIMESTAMP);
 		`, { uuid });
 		const userRepository = new UserRepository(db);
 		await userRepository.deleteByEmail('unittest@example.com');

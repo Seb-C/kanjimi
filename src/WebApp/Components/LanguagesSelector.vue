@@ -224,4 +224,8 @@
 	li.disabled, .disabled .smooth-dnd-draggable-wrapper {
 		cursor: not-allowed;
 	}
+
+	.smooth-dnd-draggable-wrapper:focus-within {
+		border: 1px dotted var(--black);
+	}
 </style>

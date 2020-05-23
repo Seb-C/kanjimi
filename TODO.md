@@ -1,7 +1,4 @@
 MVP:
-    add tests for the keyboard-navigability?
-    make the extension interactions keyboard-navigable too (and have proper aria attributes)
-    menus animation when opening (user + mobile) -> css transitions?
     subscription process
     verify email process after subscription (and block login if not validated)
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
@@ -12,17 +9,19 @@ MVP:
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
     bug with conjugated furiganas? Cf されて in the wikipedia test page
+    should not change the contents of textarea & contenteditable / wysiwyg
     test with a lot of different sites and texts
     test and debug with slack
     test and debug intensively the display of results
-    store visited urls to make recommendations later (except on mode incognito (window.incognito?))
+    store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
-    chrome compatibility (and test others as well as mobile)
+    chrome compatibility
+    firefox android compatibility
+    text other browsers
     Block access to the test pages in production
     webpack => production mode whenever necessary
-    include copyright somewhere in the site (and external resources used) -> mostly external resources used
-    free for beta
+    include references to external resources used somewhere in the site
     CGU / RGPD ?
     need to register a copyright?!
     post on producthunt
@@ -32,6 +31,11 @@ MVP:
     post on twitter
 
 After:
+    good pages recommendation system?
+    payment system and freemium for after the beta
+    menus animation when opening (user + mobile) -> css transitions?
+    make the extension interactions keyboard-navigable too (and have proper aria attributes)
+    add tests for the keyboard-navigability (settings, menus...)
     move the cypress config files in the cypress directory (from the root)
     add a test to the filter that does not translate the site itself (settings sample, homepage samples...)
     separate the layout component: should have one menu component and one usermenu component

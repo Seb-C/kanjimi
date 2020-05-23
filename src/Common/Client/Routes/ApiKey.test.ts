@@ -22,6 +22,7 @@ describe('Client ApiKey', () => {
 		await userRepository.deleteByEmail('unittest@example.com');
 		user = await userRepository.create({
 			email: 'unittest@example.com',
+			emailVerified: false,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,

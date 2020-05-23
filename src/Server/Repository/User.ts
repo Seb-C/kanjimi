@@ -46,6 +46,7 @@ export default class User {
 
 	async create (attributes: {
 		email: string,
+		emailVerified: boolean,
 		password: string,
 		languages: Language[],
 		romanReading: boolean,
@@ -54,7 +55,7 @@ export default class User {
 		const uuid = uuidv4();
 		return <UserModel>await this.db.get(UserModel, `
 			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "jlpt", "createdAt")
-			VALUES (\${id}, \${email}, FALSE, \${password}, \${languages}, \${romanReading}, \${jlpt}, \${createdAt})
+			VALUES (\${id}, \${email}, \${emailVerified}, \${password}, \${languages}, \${romanReading}, \${jlpt}, \${createdAt})
 			RETURNING *;
 		`, {
 			...attributes,
@@ -66,6 +67,7 @@ export default class User {
 
 	async updateById (uuid: string, attributes: {
 		password?: string,
+		emailVerified?: boolean,
 		languages?: Language[],
 		romanReading?: boolean,
 		jlpt?: number|null,
@@ -80,6 +82,7 @@ export default class User {
 
 		const allowedFieldsInSqlQuery = [
 			'password',
+			'emailVerified',
 			'languages',
 			'romanReading',
 			'jlpt',

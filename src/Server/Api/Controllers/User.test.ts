@@ -90,6 +90,7 @@ describe('UserController', async () => {
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
+			emailVerified: false,
 			password: '123456',
 			languages: [Language.ENGLISH, Language.SPANISH],
 			romanReading: false,
@@ -119,6 +120,7 @@ describe('UserController', async () => {
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
+			emailVerified: false,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
@@ -126,6 +128,7 @@ describe('UserController', async () => {
 		});
 		const user2 = await userRepository.create({
 			email: 'unittest2@example.com',
+			emailVerified: false,
 			password: '234567',
 			languages: [Language.ENGLISH],
 			romanReading: true,
@@ -180,6 +183,7 @@ describe('UserController', async () => {
 		expect((<User>dbUser).password).not.toBe(null);
 		expect((<User>dbUser).password).not.toBe('');
 		expect((<User>dbUser).password).not.toBe('123456');
+		expect((<User>dbUser).emailVerified).toBe(false);
 
 		// Trying again (it should fail)
 		const response2 = await fetch('http://localhost:3000/user', {
@@ -199,7 +203,7 @@ describe('UserController', async () => {
 		const response = await fetch('http://localhost:3000/user', {
 			method: 'POST',
 			body: JSON.stringify({
-				emailValidated: true,
+				emailVerified: true,
 				createdAt: new Date().toISOString(),
 			}),
 		});
@@ -217,6 +221,7 @@ describe('UserController', async () => {
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
+			emailVerified: false,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
@@ -249,6 +254,7 @@ describe('UserController', async () => {
 		expect(dbUser).not.toBe(null);
 		expect((<User>dbUser).languages).toEqual([Language.ENGLISH, Language.SPANISH]);
 		expect((<User>dbUser).romanReading).toBe(true);
+		expect((<User>dbUser).emailVerified).toBe(false);
 		expect((<User>dbUser).jlpt).toBe(2);
 
 		await db.close();
@@ -260,6 +266,7 @@ describe('UserController', async () => {
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
+			emailVerified: false,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
@@ -273,7 +280,7 @@ describe('UserController', async () => {
 				Authorization: `Bearer ${apiKey.key}`,
 			},
 			body: JSON.stringify({
-				emailValidated: true,
+				emailVerified: true,
 				createdAt: new Date().toISOString(),
 			}),
 		});
@@ -293,6 +300,7 @@ describe('UserController', async () => {
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
+			emailVerified: false,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
@@ -300,6 +308,7 @@ describe('UserController', async () => {
 		});
 		const user2 = await userRepository.create({
 			email: 'unittest2@example.com',
+			emailVerified: false,
 			password: '234567',
 			languages: [Language.ENGLISH],
 			romanReading: true,

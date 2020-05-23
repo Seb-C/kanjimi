@@ -60,7 +60,10 @@ export const create = (db: Database) => async (request: Request, response: Respo
 
 	try {
 		const userRepository = new UserRepository(db);
-		const user = await userRepository.create({ ...request.body });
+		const user = await userRepository.create({
+			...request.body,
+			emailVerified: false,
+		});
 
 		return response.json(user.toApi());
 	} catch (exception) {

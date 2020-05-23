@@ -118,6 +118,7 @@ describe('UserRepository', async () => {
 		const userRepository = new UserRepository(db);
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
+			emailVerified: true,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: true,
@@ -131,6 +132,7 @@ describe('UserRepository', async () => {
 		expect(dbUser).not.toBe(null);
 		expect(user).toBeInstanceOf(User);
 		expect(user.email).toBe('unittest@example.com');
+		expect(user.emailVerified).toBe(true);
 		expect(user.password).not.toBe('123456');
 		expect(user.password).toBe(userRepository.hashPassword(user.id, '123456'));
 		expect(user.id).not.toBe('');
@@ -152,6 +154,7 @@ describe('UserRepository', async () => {
 			VALUES (\${uuid}, 'unittest@example.com', FALSE, \${password}, ARRAY['fr'], FALSE, NULL, CURRENT_TIMESTAMP);
 		`, { uuid, password });
 		const user = await userRepository.updateById(uuid, {
+			emailVerified: true,
 			password: 'qwerty',
 			languages: [Language.ENGLISH, Language.GERMAN],
 			romanReading: true,
@@ -163,6 +166,7 @@ describe('UserRepository', async () => {
 
 		expect(user).toBeInstanceOf(User);
 		expect(dbUser).toEqual(user);
+		expect(user.emailVerified).toBe(true);
 		expect(user.password).not.toBe(password);
 		expect(user.password).toBe(userRepository.hashPassword(uuid, 'qwerty'));
 		expect(user.languages.length).toBe(2);

@@ -1,6 +1,16 @@
 MVP:
-    subscription process
-    verify email process after subscription (and block login if not validated)
+    email verification process:
+        - try to send a welcome email at subscription ( https://nodemailer.com/about/ )
+        - create a emailVerificationToken field in the user model/table
+        - make sure the token is never exported by the api/models
+        - generate and save the token at subscription
+        - email validation API route (separated and specific)
+        - email validation frontend page in the interface (with the proper arguments)
+        - add this link to the welcome email
+        - create a regular batch that removes non-validated users after a while
+        - if an email already exists and is not validated, try to send again the email (with the same token)
+        - block login and token creation if the email is not verified
+    subscription form/page with settings
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
     retrieve password process
     possibility to change password in the patch route
@@ -11,6 +21,8 @@ MVP:
     bug with conjugated furiganas? Cf されて in the wikipedia test page
     should not change the contents of textarea & contenteditable / wysiwyg
     test with a lot of different sites and texts
+    fix the red border not always properly placed (saw it on wikipedia in the book bordered box on the top)
+    make the tooltip close when clicking anywhere else
     test and debug with slack
     test and debug intensively the display of results
     store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))

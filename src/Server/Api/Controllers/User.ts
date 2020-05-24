@@ -4,6 +4,7 @@ import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repository/User';
+import * as NodeMailer from 'nodemailer';
 
 export const get = (db: Database) => async (request: Request, response: Response) => {
 	const userRepository = new UserRepository(db);
@@ -64,6 +65,59 @@ export const create = (db: Database) => async (request: Request, response: Respo
 			...request.body,
 			emailVerified: false,
 		});
+
+
+
+		// Generate test SMTP service account from ethereal.email
+		// Only needed if you don't have a real mail account for testing
+		let testAccount = await NodeMailer.createTestAccount();
+
+		let transporter = NodeMailer.createTransport({
+			host: 'smtp.ethereal.email',
+			port: 587,
+			secure: false,
+			auth: {
+				user: testAccount.user,
+				pass: testAccount.pass,
+			},
+		});
+
+		let info = await transporter.sendMail({
+			from: '"Kanjimi" <contact@kanjimi.com>',
+			to: "test@example.com",
+			subject: "Hello ✔",
+			text: "Hello world?",
+			html: "<b>Hello world?</b>",
+		});
+
+		console.log("Message sent: %s", info.messageId);
+		console.log("Preview URL: %s", NodeMailer.getTestMessageUrl(info));
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 		return response.json(user.toApi());
 	} catch (exception) {

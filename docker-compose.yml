@@ -22,11 +22,11 @@ services:
       - KANJIMI_DATABASE_DATABASE=test
       - KANJIMI_DATABASE_USER=test
       - KANJIMI_DATABASE_PASSWORD=test
-      - KANJIMI_SMTP_HOST=smtp.ethereal.email
-      - KANJIMI_SMTP_PORT=587
+      - KANJIMI_SMTP_HOST=smtp
+      - KANJIMI_SMTP_PORT=25
       - KANJIMI_SMTP_SECURE=false
-      - KANJIMI_SMTP_USER=geoffrey.marks@ethereal.email
-      - KANJIMI_SMTP_PASS=W4Bx3AEpwANh3zNDAK
+      #- KANJIMI_SMTP_USER=
+      #- KANJIMI_SMTP_PASS=
 
       # Only required by tests
       - KANJIMI_API_URL=http://localhost:3000
@@ -39,6 +39,7 @@ services:
       - "3000:3000"
     volumes:
       - $PWD:/app
+      - mails:/tmp/mails
   watch_extension_content:
     image: node:11
     restart: on-failure
@@ -67,5 +68,14 @@ services:
       "
     volumes:
       - $PWD:/app
+  smtp:
+    image: hmlio/spamsink
+    restart: on-failure
+    environment:
+      - SINK_PORT=25
+      - SINK_HOSTNAME=smtp
+    volumes:
+      - mails:/opt/spamsink/mails
 volumes:
   database:
+  mails:

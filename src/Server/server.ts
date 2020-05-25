@@ -70,14 +70,15 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
 
+	const smtpAuth = {
+		user: process.env.KANJIMI_SMTP_USER,
+		pass: process.env.KANJIMI_SMTP_PASS,
+	};
 	const mailer = NodeMailer.createTransport(<NodeMailer.TransportOptions>{
 		host: process.env.KANJIMI_SMTP_HOST,
 		port: parseInt(<string>process.env.KANJIMI_SMTP_PORT),
 		secure: (process.env.KANJIMI_SMTP_SECURE === 'true'),
-		auth: {
-			user: process.env.KANJIMI_SMTP_USER,
-			pass: process.env.KANJIMI_SMTP_PASS,
-		},
+		auth: smtpAuth.user ? smtpAuth : undefined,
 	}, { from: '"Kanjimi" <contact@kanjimi.com>' });
 
 	application.use('/www', Express.static('www'));

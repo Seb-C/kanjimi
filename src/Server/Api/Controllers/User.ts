@@ -85,10 +85,6 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 				+ "If you did not request this or if this is a mistake, please ignore this message.\r\n"
 			),
 		});
-		const testMessageUrl = NodeMailer.getTestMessageUrl(mail);
-		if (testMessageUrl) {
-			console.log("The test email can be seen here:", testMessageUrl);
-		}
 
 		return response.json(user.toApi());
 	} catch (exception) {

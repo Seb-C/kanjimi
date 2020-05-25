@@ -176,6 +176,8 @@ describe('UserController', async () => {
 			.withContext(JSON.stringify(userResponseValidator.errors))
 			.toBe(true);
 
+		// TODO how to test for the subscription email?
+
 		// Checking the db contents
 		const db = new Database();
 		const userRepository = new UserRepository(db);
@@ -187,6 +189,7 @@ describe('UserController', async () => {
 		expect((<User>dbUser).password).not.toBe('');
 		expect((<User>dbUser).password).not.toBe('123456');
 		expect((<User>dbUser).emailVerified).toBe(false);
+		expect((<User>dbUser).emailVerificationKey).not.toBeNull();
 
 		// Trying again (it should fail)
 		const response2 = await fetch('http://localhost:3000/user', {

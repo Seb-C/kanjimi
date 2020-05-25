@@ -12,8 +12,10 @@ MVP:
     possibility to change password in the patch route
     onboarding (after subscription, install extension...)
     Global vuejs error handling?
+    database and sendmail smtp config -> dependency injection from the main server file?
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
+    rename server/api/controllers to server/controllers (singular? plural?)
     bug with conjugated furiganas? Cf されて in the wikipedia test page
     should not change the contents of textarea & contenteditable / wysiwyg
     test with a lot of different sites and texts

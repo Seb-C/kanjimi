@@ -54,7 +54,7 @@ const createUserValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const create = (db: Database) => async (request: Request, response: Response) => {
+export const create = (db: Database, mailer: NodeMailer.Transporter) => async (request: Request, response: Response) => {
 	if (!createUserValidator(request.body)) {
 		return response.status(422).json(createUserValidator.errors);
 	}
@@ -62,64 +62,32 @@ export const create = (db: Database) => async (request: Request, response: Respo
 	try {
 		const userRepository = new UserRepository(db);
 		const emailVerificationKey = userRepository.generateEmailVerificationKey();
+
 		const user = await userRepository.create({
 			...request.body,
 			emailVerified: false,
 			emailVerificationKey,
 		});
 
-
-
-		// Generate test SMTP service account from ethereal.email
-		// Only needed if you don't have a real mail account for testing
-		let testAccount = await NodeMailer.createTestAccount();
-
-		let transporter = NodeMailer.createTransport({
-			host: 'smtp.ethereal.email',
-			port: 587,
-			secure: false,
-			auth: {
-				user: testAccount.user,
-				pass: testAccount.pass,
-			},
-		});
-
-		let info = await transporter.sendMail({
+		// TODO add a transaction and a rollback if the email throws an exception
+		const mail = await mailer.sendMail({
 			from: '"Kanjimi" <contact@kanjimi.com>',
-			to: "test@example.com",
-			subject: "Hello ✔",
-			text: "Hello world?",
-			html: "<b>Hello world?</b>",
+			to: user.email,
+			subject: 'Please confirm your account creation',
+			text: `
+				Welcome to Kanjimi!
+
+				Your new account has successfully been created.
+				To confirm your email address, please click on the following link:
+
+
+				If you did not request this or if this is a mistake, please ignore this message.
+			`,
 		});
-
-		console.log("Message sent: %s", info.messageId);
-		console.log("Preview URL: %s", NodeMailer.getTestMessageUrl(info));
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+		const testMessageUrl = NodeMailer.getTestMessageUrl(mail);
+		if (testMessageUrl) {
+			console.log("The test email can be seen here:", testMessageUrl);
+		}
 
 		return response.json(user.toApi());
 	} catch (exception) {

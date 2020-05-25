@@ -6,6 +6,7 @@ import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as BodyParser from 'body-parser';
 import * as URL from 'url';
+import * as NodeMailer from 'nodemailer';
 
 import * as LexerController from 'Server/Api/Controllers/Lexer';
 import * as UserController from 'Server/Api/Controllers/User';
@@ -69,12 +70,22 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
 
+	const mailer = NodeMailer.createTransport(<NodeMailer.TransportOptions>{
+		host: process.env.KANJIMI_SMTP_HOST,
+		port: process.env.KANJIMI_SMTP_PORT,
+		secure: process.env.KANJIMI_SMTP_SECURE,
+		auth: {
+			user: process.env.KANJIMI_SMTP_USER,
+			pass: process.env.KANJIMI_SMTP_PASS,
+		},
+	});
+
 	application.use('/www', Express.static('www'));
 	application.use('/www/app/*', Express.static('www/app/index.html'));
 
 	application.post('/lexer/analyze', LexerController.analyze(db, lexer));
 
-	application.post('/user', UserController.create(db));
+	application.post('/user', UserController.create(db, mailer));
 	application.patch('/user/:userId', UserController.update(db));
 	application.get('/user/:userId', UserController.get(db));
 

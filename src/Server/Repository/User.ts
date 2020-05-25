@@ -64,17 +64,17 @@ export default class User {
 				"languages",
 				"romanReading",
 				"jlpt",
-				"createdAt",
+				"createdAt"
 			) VALUES (
 				\${id},
 				\${email},
 				\${emailVerified},
-				\{emailVerificationKey},
+				\${emailVerificationKey},
 				\${password},
 				\${languages},
 				\${romanReading},
 				\${jlpt},
-				\${createdAt},
+				\${createdAt}
 			)
 			RETURNING *;
 		`, {

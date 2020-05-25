@@ -30,7 +30,6 @@ const userResponseValidator = new Ajv({ allErrors: true }).compile({
 		},
 		emailVerified: {
 			type: 'boolean',
-			const: false,
 		},
 		password: {
 			type: 'null',
@@ -38,20 +37,17 @@ const userResponseValidator = new Ajv({ allErrors: true }).compile({
 		languages: {
 			type: 'array',
 			uniqueItems: true,
-			minItems: 2,
-			maxItems: 2,
 			items: {
 				type: 'string',
-				enum: ['en', 'es'],
 			},
 		},
 		romanReading: {
 			type: 'boolean',
 		},
 		jlpt: {
-			type: 'integer',
-			minimum: 2,
-			maximum: 2,
+			type: ['integer', 'null'],
+			minimum: 1,
+			maximum: 5,
 		},
 		createdAt: {
 			type: 'string',
@@ -113,6 +109,9 @@ describe('UserController', async () => {
 			.withContext(JSON.stringify(userResponseValidator.errors))
 			.toBe(true);
 		expect(responseData.id).toEqual(user.id);
+		expect(responseData.emailVerified).toBe(false);
+		expect(responseData.languages).toEqual(['en', 'es']);
+		expect(responseData.jlpt).toBe(2);
 	});
 
 	it('get (authentication errors)', async () => {
@@ -175,6 +174,9 @@ describe('UserController', async () => {
 		expect(userResponseValidator(responseData))
 			.withContext(JSON.stringify(userResponseValidator.errors))
 			.toBe(true);
+		expect(responseData.emailVerified).toBe(false);
+		expect(responseData.languages).toEqual(['en', 'es']);
+		expect(responseData.jlpt).toBe(2);
 
 		// TODO how to test for the subscription email?
 
@@ -255,6 +257,9 @@ describe('UserController', async () => {
 			.withContext(JSON.stringify(userResponseValidator.errors))
 			.toBe(true);
 		expect(responseData.id).toBe(user.id);
+		expect(responseData.emailVerified).toBe(false);
+		expect(responseData.languages).toEqual(['en', 'es']);
+		expect(responseData.jlpt).toBe(2);
 
 		// Checking the db contents
 		const dbUser = await userRepository.getById(responseData.id);
@@ -368,7 +373,7 @@ describe('UserController', async () => {
 			emailVerified: false,
 			emailVerificationKey: 'qwerty',
 			password: '123456',
-			languages: [Language.FRENCH],
+			languages: [Language.ENGLISH, Language.SPANISH],
 			romanReading: false,
 			jlpt: 1,
 		});
@@ -427,7 +432,7 @@ describe('UserController', async () => {
 	});
 
 	it('verifyEmail (not found error)', async () => {
-		const response = await fetch(`http://localhost:3000/user/wrong-user-id/verify-email`, {
+		const response = await fetch(`http://localhost:3000/user/00000000-0000-0000-0000-000000000000/verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: '123456',

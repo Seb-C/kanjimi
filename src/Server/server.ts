@@ -72,13 +72,13 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 
 	const mailer = NodeMailer.createTransport(<NodeMailer.TransportOptions>{
 		host: process.env.KANJIMI_SMTP_HOST,
-		port: process.env.KANJIMI_SMTP_PORT,
-		secure: process.env.KANJIMI_SMTP_SECURE,
+		port: parseInt(<string>process.env.KANJIMI_SMTP_PORT),
+		secure: (process.env.KANJIMI_SMTP_SECURE === 'true'),
 		auth: {
 			user: process.env.KANJIMI_SMTP_USER,
 			pass: process.env.KANJIMI_SMTP_PASS,
 		},
-	});
+	}, { from: '"Kanjimi" <contact@kanjimi.com>' });
 
 	application.use('/www', Express.static('www'));
 	application.use('/www/app/*', Express.static('www/app/index.html'));

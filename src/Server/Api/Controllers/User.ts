@@ -73,18 +73,17 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 		// TODO add a transaction and a rollback if the email throws an exception
 		// Cannot send the email before creating the account because it would allow to spam duplicate emails
 		const mail = await mailer.sendMail({
-			from: '"Kanjimi" <contact@kanjimi.com>',
 			to: user.email,
 			subject: 'Please confirm your account creation',
-			text: `
-				Welcome to Kanjimi!
-
-				Your new account has successfully been created.
-				To confirm your email address, please click on the following link:
-
-
-				If you did not request this or if this is a mistake, please ignore this message.
-			`,
+			text: (
+				"Welcome to Kanjimi!\r\n"
+				+ "\r\n"
+				+ "Your new account has successfully been created.\r\n"
+				+ "To confirm your email address, please click on the following link:\r\n"
+				+ "\r\n"
+				+ "\r\n"
+				+ "If you did not request this or if this is a mistake, please ignore this message.\r\n"
+			),
 		});
 		const testMessageUrl = NodeMailer.getTestMessageUrl(mail);
 		if (testMessageUrl) {

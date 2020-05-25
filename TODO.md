@@ -1,6 +1,5 @@
 MVP:
     email verification process:
-        - unit test the emails via the files in `/tmp/mails/*`
         - email validation frontend page in the interface (with the proper arguments)
         - add this link to the welcome email
         - create a regular batch that removes non-validated users after a while

@@ -6,6 +6,7 @@ import UserRepository from 'Server/Repository/User';
 import ApiKeyRepository from 'Server/Repository/ApiKey';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
+import { promises as FileSystem } from 'fs';
 
 const userResponseValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
@@ -78,6 +79,11 @@ describe('UserController', async () => {
 		await userRepository.deleteByEmail('unittest@example.com');
 		await userRepository.deleteByEmail('unittest2@example.com');
 		await db.close();
+
+		const existingMails = await FileSystem.readdir('/tmp/mails');
+		await Promise.all(existingMails.map(async (mail) => {
+			return FileSystem.unlink('/tmp/mails/' + mail);
+		}));
 	});
 
 	it('get (normal case)', async () => {
@@ -178,7 +184,11 @@ describe('UserController', async () => {
 		expect(responseData.languages).toEqual(['en', 'es']);
 		expect(responseData.jlpt).toBe(2);
 
-		// TODO how to test for the subscription email?
+		const mails = await FileSystem.readdir('/tmp/mails');
+		expect(mails.length).toEqual(1);
+		const mail = await FileSystem.readFile('/tmp/mails/' + mails[0], { encoding: 'utf-8' });
+		expect(mail).toContain('To: unittest@example.com');
+		// TODO test the key and url
 
 		// Checking the db contents
 		const db = new Database();

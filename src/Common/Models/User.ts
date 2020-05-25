@@ -4,6 +4,7 @@ export default class User {
 	public readonly id: string;
 	public readonly email: string;
 	public readonly emailVerified: boolean;
+	public readonly emailVerificationKey: string|null;
 	public readonly password: string|null;
 	public readonly languages: ReadonlyArray<Language>;
 	public readonly createdAt: Date;
@@ -14,6 +15,7 @@ export default class User {
 		this.id = attributes.id;
 		this.email = attributes.email;
 		this.emailVerified = attributes.emailVerified;
+		this.emailVerificationKey = attributes.emailVerificationKey || null;
 		this.password = attributes.password;
 		this.languages = [...attributes.languages];
 		this.createdAt = attributes.createdAt;

@@ -1,8 +1,5 @@
 MVP:
     email verification process:
-        - try to send a welcome email at subscription ( https://nodemailer.com/about/ )
-        - create a emailVerificationToken field in the user model/table
-        - make sure the token is never exported by the api/models
         - generate and save the token at subscription
         - email validation API route (separated and specific)
         - email validation frontend page in the interface (with the proper arguments)

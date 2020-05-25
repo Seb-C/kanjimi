@@ -64,6 +64,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 		const user = await userRepository.create({
 			...request.body,
 			emailVerified: false,
+			emailVerificationKey: null,
 		});
 
 

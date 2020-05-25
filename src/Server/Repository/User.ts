@@ -47,6 +47,7 @@ export default class User {
 	async create (attributes: {
 		email: string,
 		emailVerified: boolean,
+		emailVerificationKey: string|null,
 		password: string,
 		languages: Language[],
 		romanReading: boolean,
@@ -54,8 +55,27 @@ export default class User {
 	}): Promise<UserModel> {
 		const uuid = uuidv4();
 		return <UserModel>await this.db.get(UserModel, `
-			INSERT INTO "User" ("id", "email", "emailVerified", "password", "languages", "romanReading", "jlpt", "createdAt")
-			VALUES (\${id}, \${email}, \${emailVerified}, \${password}, \${languages}, \${romanReading}, \${jlpt}, \${createdAt})
+			INSERT INTO "User" (
+				"id",
+				"email",
+				"emailVerified",
+				"emailVerificationKey",
+				"password",
+				"languages",
+				"romanReading",
+				"jlpt",
+				"createdAt",
+			) VALUES (
+				\${id},
+				\${email},
+				\${emailVerified},
+				\{emailVerificationKey},
+				\${password},
+				\${languages},
+				\${romanReading},
+				\${jlpt},
+				\${createdAt},
+			)
 			RETURNING *;
 		`, {
 			...attributes,
@@ -68,6 +88,7 @@ export default class User {
 	async updateById (uuid: string, attributes: {
 		password?: string,
 		emailVerified?: boolean,
+		emailVerificationKey?: string|null,
 		languages?: Language[],
 		romanReading?: boolean,
 		jlpt?: number|null,
@@ -83,6 +104,7 @@ export default class User {
 		const allowedFieldsInSqlQuery = [
 			'password',
 			'emailVerified',
+			'emailVerificationKey',
 			'languages',
 			'romanReading',
 			'jlpt',

@@ -2,6 +2,7 @@ CREATE TABLE "User" (
 	"id" UUID PRIMARY KEY NOT NULL,
 	"email" TEXT NOT NULL,
 	"emailVerified" BOOLEAN NOT NULL,
+	"emailVerificationKey" TEXT NULL,
 	"password" TEXT NOT NULL,
 	"languages" TEXT[] NOT NULL,
 	"romanReading" BOOLEAN NOT NULL,
@@ -16,6 +17,7 @@ INSERT INTO "User" VALUES (
 	'cef830cb-6e75-43ab-91d3-ae13c82bd836',
 	'contact@kanjimi.com',
 	TRUE,
+	NULL,
 	'XezyI+4BK2TS47Wfol4+DbXXNWvHKwbFtFlmpG3Q4L0=', -- YQPtL67gddfnkads
 	ARRAY['fr', 'en'],
 	FALSE,

@@ -15,11 +15,16 @@ describe('User', () => {
 			jlpt: 2,
 			createdAt: now,
 		});
-		const output = User.fromApi(JSON.parse(JSON.stringify(input.toApi())));
 
+		const apiData = <any>(input.toApi());
+		expect(apiData.password).toBe(null);
+		expect(apiData.emailVerificationKey).not.toBeDefined();
+
+		const output = User.fromApi(JSON.parse(JSON.stringify(apiData)));
 		expect(output.id).toBe('uuid');
 		expect(output.email).toBe('someone@example.com');
 		expect(output.emailVerified).toBe(false);
+		expect(output.emailVerificationKey).toBe(null);
 		expect(output.password).toBe(null);
 		expect(output.languages).toEqual([Language.FRENCH, Language.GERMAN]);
 		expect(output.romanReading).toBe(true);

@@ -49,6 +49,7 @@ describe('ApiKeyController', async () => {
 		user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
+			emailVerificationKey: null,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,

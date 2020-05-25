@@ -91,6 +91,7 @@ describe('UserController', async () => {
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
+			emailVerificationKey: null,
 			password: '123456',
 			languages: [Language.ENGLISH, Language.SPANISH],
 			romanReading: false,
@@ -121,6 +122,7 @@ describe('UserController', async () => {
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
+			emailVerificationKey: null,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
@@ -129,6 +131,7 @@ describe('UserController', async () => {
 		const user2 = await userRepository.create({
 			email: 'unittest2@example.com',
 			emailVerified: false,
+			emailVerificationKey: null,
 			password: '234567',
 			languages: [Language.ENGLISH],
 			romanReading: true,
@@ -204,6 +207,7 @@ describe('UserController', async () => {
 			method: 'POST',
 			body: JSON.stringify({
 				emailVerified: true,
+				emailVerificationKey: '123',
 				createdAt: new Date().toISOString(),
 			}),
 		});
@@ -222,6 +226,7 @@ describe('UserController', async () => {
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
+			emailVerificationKey: null,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
@@ -267,6 +272,7 @@ describe('UserController', async () => {
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
+			emailVerificationKey: null,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
@@ -281,6 +287,7 @@ describe('UserController', async () => {
 			},
 			body: JSON.stringify({
 				emailVerified: true,
+				emailVerificationKey: '123',
 				createdAt: new Date().toISOString(),
 			}),
 		});
@@ -301,6 +308,7 @@ describe('UserController', async () => {
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
+			emailVerificationKey: null,
 			password: '123456',
 			languages: [Language.FRENCH],
 			romanReading: false,
@@ -309,6 +317,7 @@ describe('UserController', async () => {
 		const user2 = await userRepository.create({
 			email: 'unittest2@example.com',
 			emailVerified: false,
+			emailVerificationKey: null,
 			password: '234567',
 			languages: [Language.ENGLISH],
 			romanReading: true,

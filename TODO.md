@@ -1,14 +1,12 @@
 MVP:
     email verification process:
+        - unit test the emails via the files in `/tmp/mails/*`
         - email validation frontend page in the interface (with the proper arguments)
         - add this link to the welcome email
         - create a regular batch that removes non-validated users after a while
         - if an email already exists and is not validated, try to send again the email (with the same token)
         - block login and token creation if the email is not verified
-    server: log all requests even in case of exception/timeout
-    check for promises not awaited -> handle exceptions manually
     have the validation objects in common
-    sql errors creates a timeout instead of triggering a 500
     handle 404 properly + triggers a sql error if not a proper uuid
     subscription form/page with settings
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)

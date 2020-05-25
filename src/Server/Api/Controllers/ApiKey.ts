@@ -23,7 +23,7 @@ const createApiKeyValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const create = (db: Database) => async (request: Request, response: Response) => {
+export const create = (db: Database) => async (request: Request, response: Response, next: Function) => {
 	if (!createApiKeyValidator(request.body)) {
 		return response.status(422).json(createApiKeyValidator.errors);
 	}
@@ -49,7 +49,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 		if (exception.constraint === 'ApiKey_key_unique') {
 			return response.status(500).json('Duplicated key');
 		} else {
-			throw exception;
+			return next(exception);
 		}
 	}
 };

@@ -55,7 +55,7 @@ const createUserValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const create = (db: Database, mailer: NodeMailer.Transporter) => async (request: Request, response: Response) => {
+export const create = (db: Database, mailer: NodeMailer.Transporter) => async (request: Request, response: Response, next: Function) => {
 	if (!createUserValidator(request.body)) {
 		return response.status(422).json(createUserValidator.errors);
 	}
@@ -72,7 +72,7 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 
 		// TODO add a transaction and a rollback if the email throws an exception
 		// Cannot send the email before creating the account because it would allow to spam duplicate emails
-		const mail = await mailer.sendMail({
+		await mailer.sendMail({
 			to: user.email,
 			subject: 'Please confirm your account creation',
 			text: (
@@ -97,7 +97,7 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 				'A member is already registered with this email',
 			);
 		} else {
-			throw exception;
+			return next(exception);
 		}
 	}
 };

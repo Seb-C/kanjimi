@@ -86,6 +86,7 @@ import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
 	application.post('/lexer/analyze', LexerController.analyze(db, lexer));
 
 	application.post('/user', UserController.create(db, mailer));
+	application.patch('/user/:userId/verify-email', UserController.verifyEmail(db));
 	application.patch('/user/:userId', UserController.update(db));
 	application.get('/user/:userId', UserController.get(db));
 

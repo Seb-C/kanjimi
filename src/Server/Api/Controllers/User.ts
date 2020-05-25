@@ -10,6 +10,7 @@ export const get = (db: Database) => async (request: Request, response: Response
 	const userRepository = new UserRepository(db);
 
 	const user = await userRepository.getFromRequest(request);
+	// TODO handle the 404 error
 	if (user === null) {
 		return response.status(403).json('Invalid api key');
 	}
@@ -70,6 +71,7 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 		});
 
 		// TODO add a transaction and a rollback if the email throws an exception
+		// Cannot send the email before creating the account because it would allow to spam duplicate emails
 		const mail = await mailer.sendMail({
 			from: '"Kanjimi" <contact@kanjimi.com>',
 			to: user.email,
@@ -99,6 +101,44 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 			throw exception;
 		}
 	}
+};
+
+const createEmailVerificationRequestValidator = new Ajv({ allErrors: true }).compile({
+	type: 'object',
+	required: ['emailVerificationKey'],
+	additionalProperties: false,
+	properties: {
+		emailVerificationKey: {
+			type: 'string',
+			minLength: 1,
+		},
+	},
+});
+
+export const verifyEmail = (db: Database) => async (request: Request, response: Response) => {
+	if (!createEmailVerificationRequestValidator(request.body)) {
+		return response.status(422).json(createEmailVerificationRequestValidator.errors);
+	}
+
+	const userRepository = new UserRepository(db);
+
+	const user = await userRepository.getById(request.params.userId);
+	if (user === null) {
+		return response.status(404).json('User not found');
+	}
+	if (user.emailVerified) {
+		return response.status(400).json('This email have already been verified.');
+	}
+	if (user.emailVerificationKey !== request.body.emailVerificationKey) {
+		return response.status(403).json('You are not allowed access to this object');
+	}
+
+	const updatedUser = await userRepository.updateById(user.id, {
+		emailVerified: true,
+		emailVerificationKey: null,
+	});
+
+	return response.json(updatedUser.toApi());
 };
 
 const updateUserValidator = new Ajv({ allErrors: true }).compile({
@@ -134,6 +174,7 @@ export const update = (db: Database) => async (request: Request, response: Respo
 	const userRepository = new UserRepository(db);
 
 	const user = await userRepository.getFromRequest(request);
+	// TODO handle the 404 error
 	if (user === null) {
 		return response.status(403).json('Invalid api key');
 	}

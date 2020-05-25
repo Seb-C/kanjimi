@@ -359,4 +359,128 @@ describe('UserController', async () => {
 
 		await db.close();
 	});
+
+	it('verifyEmail (normal case)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			emailVerified: false,
+			emailVerificationKey: 'qwerty',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+			jlpt: 1,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}/verify-email`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				emailVerificationKey: 'qwerty',
+			}),
+		});
+		expect(response.status).toBe(200);
+		const responseData = await response.json();
+
+		expect(userResponseValidator(responseData))
+			.withContext(JSON.stringify(userResponseValidator.errors))
+			.toBe(true);
+		expect(responseData.id).toBe(user.id);
+
+		// Checking the db contents
+		const dbUser = await userRepository.getById(responseData.id);
+
+		expect(dbUser).not.toBe(null);
+		expect((<User>dbUser).emailVerified).toBe(true);
+		expect((<User>dbUser).emailVerificationKey).toBe(null);
+
+		await db.close();
+	});
+
+	it('verifyEmail (validation errors)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			emailVerified: false,
+			emailVerificationKey: 'qwerty',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+			jlpt: 1,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}/verify-email`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				emailVerificationKey: null,
+			}),
+		});
+		expect(response.status).toBe(422);
+		const responseData = await response.json();
+
+		expect(validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(validationErrorResponseValidator.errors))
+			.toBe(true);
+
+		await db.close();
+	});
+
+	it('verifyEmail (not found error)', async () => {
+		const response = await fetch(`http://localhost:3000/user/wrong-user-id/verify-email`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				emailVerificationKey: '123456',
+			}),
+		});
+		expect(response.status).toBe(404);
+	});
+
+	it('verifyEmail (already verified error)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			emailVerified: true,
+			emailVerificationKey: 'qwerty',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+			jlpt: 1,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}/verify-email`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				emailVerificationKey: 'qwerty',
+			}),
+		});
+		expect(response.status).toBe(400);
+
+		await db.close();
+	});
+
+	it('verifyEmail (wrong key error)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			emailVerified: false,
+			emailVerificationKey: 'qwerty',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+			jlpt: 1,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}/verify-email`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				emailVerificationKey: 'not qwerty',
+			}),
+		});
+		expect(response.status).toBe(403);
+
+		await db.close();
+	});
 });

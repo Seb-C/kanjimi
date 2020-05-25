@@ -1,6 +1,5 @@
 MVP:
     email verification process:
-        - generate and save the token at subscription
         - email validation API route (separated and specific)
         - email validation frontend page in the interface (with the proper arguments)
         - add this link to the welcome email
@@ -19,6 +18,7 @@ MVP:
     should not change the contents of textarea & contenteditable / wysiwyg
     test with a lot of different sites and texts
     fix the red border not always properly placed (saw it on wikipedia in the book bordered box on the top)
+    create a user factory/test model to simplify the test code?
     make the tooltip close when clicking anywhere else
     test and debug with slack
     test and debug intensively the display of results

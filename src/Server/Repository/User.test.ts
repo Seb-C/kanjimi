@@ -206,4 +206,13 @@ describe('UserRepository', async () => {
 		expect(userRepository.hashPassword('a', 'a')).not.toEqual(userRepository.hashPassword('a', 'b'));
 		await db.close();
 	});
+
+	it('generateEmailVerificationKey', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		expect(userRepository.generateEmailVerificationKey()).not.toEqual(userRepository.generateEmailVerificationKey());
+		expect(userRepository.generateEmailVerificationKey()).not.toBeNull();
+		expect(userRepository.generateEmailVerificationKey().length).not.toEqual(0);
+		await db.close();
+	});
 });

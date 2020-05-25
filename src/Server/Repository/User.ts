@@ -132,4 +132,8 @@ export default class User {
 		hash.update(password + uuid);
 		return hash.digest('base64');
 	}
+
+	generateEmailVerificationKey(): string {
+		return Crypto.randomBytes(64).toString('base64');
+	}
 }

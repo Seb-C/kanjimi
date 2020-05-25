@@ -61,10 +61,11 @@ export const create = (db: Database) => async (request: Request, response: Respo
 
 	try {
 		const userRepository = new UserRepository(db);
+		const emailVerificationKey = userRepository.generateEmailVerificationKey();
 		const user = await userRepository.create({
 			...request.body,
 			emailVerified: false,
-			emailVerificationKey: null,
+			emailVerificationKey,
 		});
 
 

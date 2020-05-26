@@ -4,7 +4,6 @@ MVP:
         - add this link to the welcome email
         - block login and token creation if the email is not verified
     have the validation objects in common
-    create a user factory/test model to simplify the test code?
     database config -> dependency injection from the main server file
     handle 404 properly + triggers a sql error if not a proper uuid
     subscription form/page with settings

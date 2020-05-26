@@ -16,15 +16,7 @@ describe('Client Lexer', async function() {
 	beforeEach(async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
-		user = await userRepository.create({
-			email: 'unittest@example.com',
-			emailVerified: false,
-			emailVerificationKey: null,
-			password: '123456',
-			languages: [Language.FRENCH],
-			romanReading: false,
-			jlpt: null,
-		});
+		user = await userRepository.create({ ...this.testUser });
 		apiKey = await apiKeyRepository.create(user);
 	});
 

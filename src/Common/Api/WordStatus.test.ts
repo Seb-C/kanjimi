@@ -8,7 +8,6 @@ import WordStatus from 'Common/Models/WordStatus';
 import UserRepository from 'Server/Repositories/User';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
 import WordStatusRepository from 'Server/Repositories/WordStatus';
-import Language from 'Common/Types/Language';
 import Dictionary from 'Server/Lexer/Dictionary';
 
 let user: User;
@@ -21,15 +20,7 @@ describe('Client WordStatus', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
-		user = await userRepository.create({
-			email: 'unittest@example.com',
-			emailVerified: false,
-			emailVerificationKey: null,
-			password: '123456',
-			languages: [Language.FRENCH],
-			romanReading: false,
-			jlpt: null,
-		});
+		user = await userRepository.create({ ...this.testUser });
 		apiKey = await apiKeyRepository.create(user);
 		wordStatus = await wordStatusRepository.create(user, 'word', true, false);
 	});

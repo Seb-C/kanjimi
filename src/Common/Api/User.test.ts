@@ -13,15 +13,7 @@ describe('Client User', async function() {
 	it('get (normal case)', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
-		const user = await userRepository.create({
-			email: 'unittest@example.com',
-			emailVerified: false,
-			emailVerificationKey: null,
-			password: '123456',
-			languages: [Language.FRENCH],
-			romanReading: true,
-			jlpt: null,
-		});
+		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.create(user);
 
 		const result = await get(apiKey.key, user.id);
@@ -90,13 +82,9 @@ describe('Client User', async function() {
 	it('verifyEmail (normal case)', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.create({
-			email: 'unittest@example.com',
+			...this.testUser,
 			emailVerified: false,
 			emailVerificationKey: 'verification_key',
-			password: '123456',
-			languages: [Language.FRENCH],
-			romanReading: true,
-			jlpt: null,
 		});
 
 		const result = await verifyEmail(user.id, 'verification_key');
@@ -108,13 +96,9 @@ describe('Client User', async function() {
 	it('verifyEmail (authentication error case)', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.create({
-			email: 'unittest@example.com',
+			...this.testUser,
 			emailVerified: false,
 			emailVerificationKey: 'verification_key',
-			password: '123456',
-			languages: [Language.FRENCH],
-			romanReading: false,
-			jlpt: null,
 		});
 
 		let error;
@@ -130,13 +114,9 @@ describe('Client User', async function() {
 	it('verifyEmail (validation error case)', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.create({
-			email: 'unittest@example.com',
+			...this.testUser,
 			emailVerified: false,
 			emailVerificationKey: 'verification_key',
-			password: '123456',
-			languages: [Language.FRENCH],
-			romanReading: false,
-			jlpt: null,
 		});
 
 		let error;
@@ -152,13 +132,9 @@ describe('Client User', async function() {
 	it('verifyEmail (already done error case)', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.create({
-			email: 'unittest@example.com',
+			...this.testUser,
 			emailVerified: true,
 			emailVerificationKey: null,
-			password: '123456',
-			languages: [Language.FRENCH],
-			romanReading: false,
-			jlpt: null,
 		});
 
 		let error;
@@ -186,10 +162,7 @@ describe('Client User', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({
-			email: 'unittest@example.com',
-			emailVerified: false,
-			emailVerificationKey: null,
-			password: '123456',
+			...this.testUser,
 			languages: [Language.FRENCH],
 			romanReading: true,
 			jlpt: null,
@@ -220,15 +193,7 @@ describe('Client User', async function() {
 	it('update (validation error case)', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
-		const user = await userRepository.create({
-			email: 'unittest@example.com',
-			emailVerified: false,
-			emailVerificationKey: null,
-			password: '123456',
-			languages: [Language.FRENCH],
-			romanReading: false,
-			jlpt: null,
-		});
+		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.create(user);
 
 		let error;

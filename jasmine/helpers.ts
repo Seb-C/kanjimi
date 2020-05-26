@@ -2,6 +2,7 @@ import 'jasmine';
 import fetch from 'node-fetch';
 import Database from 'Server/Database/Database';
 import { promises as FileSystem } from 'fs';
+import Language from 'Common/Types/Language';
 
 let database: Database|null = null;
 
@@ -30,5 +31,15 @@ beforeEach(async function() {
 			database = new Database();
 		}
 		return <Database>database;
+	};
+
+	this.testUser = {
+		email: 'unittest@example.com',
+		emailVerified: false,
+		emailVerificationKey: null,
+		password: '123456',
+		languages: [Language.FRENCH],
+		romanReading: false,
+		jlpt: null,
 	};
 });

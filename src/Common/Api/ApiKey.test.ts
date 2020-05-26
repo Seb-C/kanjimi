@@ -6,22 +6,13 @@ import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
 import UserRepository from 'Server/Repositories/User';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
-import Language from 'Common/Types/Language';
 
 let user: User;
 
 describe('Client ApiKey', async function() {
 	beforeEach(async function() {
 		const userRepository = new UserRepository(this.getDatabase());
-		user = await userRepository.create({
-			email: 'unittest@example.com',
-			emailVerified: false,
-			emailVerificationKey: null,
-			password: '123456',
-			languages: [Language.FRENCH],
-			romanReading: false,
-			jlpt: null,
-		});
+		user = await userRepository.create({ ...this.testUser });
 	});
 
 	it('create (normal case)', async function() {

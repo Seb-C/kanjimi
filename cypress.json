@@ -4,7 +4,7 @@
   "fixturesFolder": false,
   "integrationFolder": "src",
   "testFiles": "**/*.e2e.*",
-  "pluginsFile": "cypress.plugins.js",
-  "supportFile": "cypress.commands.js",
+  "pluginsFile": "cypress/cypress.plugins.js",
+  "supportFile": "cypress/cypress.commands.js",
   "defaultCommandTimeout": 10000
 }

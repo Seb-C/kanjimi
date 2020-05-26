@@ -2,7 +2,6 @@ MVP:
     email verification process:
         - email validation frontend page in the interface (with the proper arguments)
         - add this link to the welcome email
-        - if an email already exists and is not validated, try to send again the email (with the same token)
         - block login and token creation if the email is not verified
     have the validation objects in common
     create a user factory/test model to simplify the test code?
@@ -41,13 +40,13 @@ MVP:
     post on twitter
 
 After:
+    if an email already exists and is not validated, try to send again the email at subscription time (with the same token)
     create a regular batch that removes non-validated users after a week
     good pages recommendation system?
     payment system and freemium for after the beta
     menus animation when opening (user + mobile) -> css transitions?
     make the extension interactions keyboard-navigable too (and have proper aria attributes)
     add tests for the keyboard-navigability (settings, menus...)
-    move the cypress config files in the cypress directory (from the root)
     add a test to the filter that does not translate the site itself (settings sample, homepage samples...)
     separate the layout component: should have one menu component and one usermenu component
     route to delete an api key + use it on explicit disconnect + wait properly before showing the confirm message (and show a loader)

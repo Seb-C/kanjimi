@@ -16,8 +16,16 @@ beforeEach(async function() {
 		database = null;
 	}
 
+	this.databaseConfiguration = {
+		host: process.env.KANJIMI_DATABASE_HOST,
+		port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
+		database: process.env.KANJIMI_DATABASE_DATA,
+		user: process.env.KANJIMI_DATABASE_USER,
+		password: process.env.KANJIMI_DATABASE_PASSWORD,
+	};
+
 	// Deleting data from previous runs if necessary)
-	const db = new Database();
+	const db = new Database(this.databaseConfiguration);
 	await db.exec('DELETE FROM "User" WHERE "email" <> \'contact@kanjimi.com\'');
 	await db.close();
 
@@ -28,7 +36,7 @@ beforeEach(async function() {
 
 	this.getDatabase = (): Database => {
 		if (database === null) {
-			database = new Database();
+			database = new Database(this.databaseConfiguration);
 		}
 		return <Database>database;
 	};

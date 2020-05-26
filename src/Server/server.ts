@@ -66,7 +66,13 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 		}
 	});
 
-	const db = new Database();
+	const db = new Database({
+		host: <string>process.env.KANJIMI_DATABASE_HOST,
+		port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
+		database: <string>process.env.KANJIMI_DATABASE_DATA,
+		user: <string>process.env.KANJIMI_DATABASE_USER,
+		password: <string>process.env.KANJIMI_DATABASE_PASSWORD,
+	});
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
 

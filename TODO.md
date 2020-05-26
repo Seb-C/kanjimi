@@ -4,7 +4,6 @@ MVP:
         - add this link to the welcome email
         - block login and token creation if the email is not verified
     have the validation objects in common
-    database config -> dependency injection from the main server file
     handle 404 properly + triggers a sql error if not a proper uuid
     subscription form/page with settings
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)

@@ -25,7 +25,7 @@ let db: Database|null = null;
 
 describe('Database', async function() {
 	beforeEach(async function() {
-		db = new Database();
+		db = new Database(this.databaseConfiguration);
 		await db.exec(`
 			CREATE TEMPORARY TABLE "Test" (
 				"id" SERIAL PRIMARY KEY NOT NULL,

@@ -8,14 +8,14 @@ type Params = { [key: string]: any; };
 export default class Database {
 	private db: PgPromise.IDatabase<void>;
 
-	constructor() {
-		this.db = PgPromise()({
-			host: process.env.KANJIMI_DATABASE_HOST,
-			port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
-			database: process.env.KANJIMI_DATABASE_DATA,
-			user: process.env.KANJIMI_DATABASE_USER,
-			password: process.env.KANJIMI_DATABASE_PASSWORD,
-		});
+	constructor(config: {
+		host: string,
+		port: number,
+		database: string,
+		user: string,
+		password: string,
+	}) {
+		this.db = PgPromise()(config);
 	}
 
 	async exec(sql: string, params: Params = {}): Promise<void> {

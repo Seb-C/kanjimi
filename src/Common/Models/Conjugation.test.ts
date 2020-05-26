@@ -2,8 +2,8 @@ import 'jasmine';
 import Conjugation from 'Common/Models/Conjugation';
 import ConjugationType from 'Common/Types/ConjugationType';
 
-describe('Conjugation', () => {
-	it('API formatting methods', async () => {
+describe('Conjugation', function() {
+	it('API formatting methods', function() {
 		const input = new Conjugation(
 			'conjugation',
 			'dictionary form',

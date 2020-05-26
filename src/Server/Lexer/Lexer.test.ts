@@ -11,8 +11,8 @@ import Language from 'Common/Types/Language';
 jasmine.DEFAULT_TIMEOUT_INTERVAL = 30000;
 
 let lexer: Lexer;
-describe('Lexer', async () => {
-	beforeEach(() => {
+describe('Lexer', async function() {
+	beforeEach(function() {
 		const dictionary = new Dictionary();
 		dictionary.add(new Word('私', '', Language.ENGLISH, '', []));
 		dictionary.add(new Word('申す', '', Language.ENGLISH, '', []));
@@ -61,10 +61,10 @@ describe('Lexer', async () => {
 		});
 	}
 
-	it('Basic sentence tokenization', () => {
+	it('Basic sentence tokenization', function() {
 		testTokensText(['私', 'は', 'セバスティアン', 'と', '申します', '。']);
 	});
-	it('Token types recognition', () => {
+	it('Token types recognition', function() {
 		const result = lexer.analyze('私はセバスティアンと申します。');
 		expect(result[0].type).toBe(TokenType.WORD);
 		expect(result[1].type).toBe(TokenType.PARTICLE);
@@ -72,19 +72,19 @@ describe('Lexer', async () => {
 		expect(result[4].type).toBe(TokenType.VERB);
 		expect(result[5].type).toBe(TokenType.PUNCTUATION);
 	});
-	it('Verb parts', () => {
+	it('Verb parts', function() {
 		const result = lexer.analyze('私はセバスティアンと申します。');
 		expect(result[4].type).toBe(TokenType.VERB);
 		expect(result[4].conjugation).toBe('します');
 		expect(result[4].verb).toBe('申');
 		expect(result[4].forms.map(v => v.dictionaryForm)).toContain('す');
 	});
-	it('Dictionary words', () => {
+	it('Dictionary words', function() {
 		const result = lexer.analyze('私はセバスティアンと申します。');
 		expect(result[0].words.length > 0).toBe(true);
 		expect(result[4].words.length > 0).toBe(true);
 	});
-	it('Test searchMeaning', () => {
+	it('Test searchMeaning', function() {
 		const result = <Token>lexer.searchMeaning('食べました');
 		expect(result.type).toBe(TokenType.VERB);
 		expect(result.verb).toBe('食');
@@ -96,7 +96,7 @@ describe('Lexer', async () => {
 		const result3 = lexer.searchMeaning('あいうえおしています');
 		expect(result3).toBe(null);
 	});
-	it('Test splitByDictionarySearches', () => {
+	it('Test splitByDictionarySearches', function() {
 		const tokens: Token[] = Array.from(
 			lexer.splitByDictionarySearches('日本の食べ物が好き'),
 		);
@@ -107,30 +107,30 @@ describe('Lexer', async () => {
 		expect(tokens[3].text).toBe('が');
 		expect(tokens[4].text).toBe('好き');
 	});
-	it('Multi-token kanji sequences', () => {
+	it('Multi-token kanji sequences', function() {
 		testTokensText([
 			'国立', '女性美', '術', '館', 'と', '日本', '大帝', '国憲法', 'と', '合衆国', '最高裁判所',
 			'は', 'たくさん', '感じ', 'が', 'ある', '言葉', '。',
 		]);
 	});
-	it('Specific case with katakana after a kanji', async () => {
+	it('Specific case with katakana after a kanji', async function() {
 		testTokensText(['東', 'アジア']);
 	});
-	it('Hiragana chains with a particle at the end', async () => {
+	it('Hiragana chains with a particle at the end', async function() {
 		testTokensText(['そんな', 'こと', 'で', '行きます']);
 	});
-	it('Hiragana chains with a particle at the beginning', async () => {
+	it('Hiragana chains with a particle at the beginning', async function() {
 		testTokensText(['私', 'は', 'そんな', '物', 'を', '食べる']);
 	});
 
-	it('Conjugated i-adjective recognition', async () => {
+	it('Conjugated i-adjective recognition', async function() {
 		const result = lexer.analyze('このイベントは高かったです。');
 		expect(result[3].type).toBe(TokenType.VERB);
 		expect(result[3].conjugation).toBe('かった');
 		expect(result[3].verb).toBe('高');
 		expect(result[3].forms.map(v => v.dictionaryForm)).toContain('い');
 	});
-	it('Conjugated shii-adjective recognition', async () => {
+	it('Conjugated shii-adjective recognition', async function() {
 		const result = lexer.analyze('このイベントは楽しかったです。');
 		expect(result[3].type).toBe(TokenType.VERB);
 		expect(result[3].conjugation).toBe('しかった');
@@ -138,7 +138,7 @@ describe('Lexer', async () => {
 		expect(result[3].forms.map(v => v.dictionaryForm)).toContain('しい');
 	});
 
-	it('Testing splitTextByCharType: the tokens text', () => {
+	it('Testing splitTextByCharType: the tokens text', function() {
 		const dictionary = new Dictionary();
 		const tokenizer = new Lexer(dictionary);
 		const result = tokenizer.splitTextByCharType('私はセバスティアンと申します。');
@@ -151,7 +151,7 @@ describe('Lexer', async () => {
 		expect(result[5].text).toBe('します');
 		expect(result[6].text).toBe('。');
 	});
-	it('Testing splitTextByCharType: the tokens type', () => {
+	it('Testing splitTextByCharType: the tokens type', function() {
 		const dictionary = new Dictionary();
 		const tokenizer = new Lexer(dictionary);
 		const result = tokenizer.splitTextByCharType('私はセバスティアンと申します。');
@@ -164,7 +164,7 @@ describe('Lexer', async () => {
 		expect(result[5].type).toBe(CharType.HIRAGANA);
 		expect(result[6].type).toBe(CharType.PUNCTUATION);
 	});
-	it('Testing the search by dictionary reading', () => {
+	it('Testing the search by dictionary reading', function() {
 		const result = lexer.analyze('私については');
 		expect(result.length).toBe(3);
 		expect(result[1].type).toBe(TokenType.WORD);

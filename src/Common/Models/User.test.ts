@@ -2,8 +2,8 @@ import 'jasmine';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 
-describe('User', () => {
-	it('API formatting methods', async () => {
+describe('User', function() {
+	it('API formatting methods', function() {
 		const now = new Date();
 		const input = new User({
 			id: 'uuid',

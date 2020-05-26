@@ -3,8 +3,8 @@ import Word from 'Common/Models/Word';
 import Language from 'Common/Types/Language';
 import WordTag from 'Common/Types/WordTag';
 
-describe('Word', () => {
-	it('getShortTranslation method', async () => {
+describe('Word', function() {
+	it('getShortTranslation method', function() {
 		const test = (translation: string) => (
 			new Word('', '', Language.ENGLISH, translation, [])
 		).getShortTranslation();
@@ -16,7 +16,7 @@ describe('Word', () => {
 		expect(test('foo bar {baz')).toBe('foo bar');
 	});
 
-	it('API formatting methods', async () => {
+	it('API formatting methods', function() {
 		const input = new Word(
 			'word',
 			'reading',
@@ -39,7 +39,7 @@ describe('Word', () => {
 		expect(output2.tags).toEqual([]);
 	});
 
-	it('getJlptLevel method', async () => {
+	it('getJlptLevel method', function() {
 		let word = new Word('', '', Language.FRENCH, '', [WordTag.ADJECTIVE, WordTag.ADVERB]);
 		expect(word.getJlptLevel()).toBe(null);
 

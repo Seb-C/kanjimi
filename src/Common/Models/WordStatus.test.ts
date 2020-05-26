@@ -1,8 +1,8 @@
 import 'jasmine';
 import WordStatus from 'Common/Models/WordStatus';
 
-describe('WordStatus', () => {
-	it('API formatting methods', async () => {
+describe('WordStatus', function() {
+	it('API formatting methods', async function() {
 		const input = new WordStatus({
 			userId: 'useruuid',
 			word: 'word',

@@ -2,7 +2,6 @@ import 'jasmine';
 import { get, createOrUpdate } from 'Common/Api/WordStatus';
 import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
-import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
 import WordStatus from 'Common/Models/WordStatus';
@@ -16,13 +15,12 @@ let user: User;
 let apiKey: ApiKey;
 let wordStatus: WordStatus;
 
-describe('Client WordStatus', () => {
-	beforeEach(async () => {
-		const db = new Database();
+describe('Client WordStatus', async function() {
+	beforeEach(async function() {
 		const dictionary = new Dictionary();
-		const userRepository = new UserRepository(db);
-		const apiKeyRepository = new ApiKeyRepository(db);
-		const wordStatusRepository = new WordStatusRepository(db, dictionary);
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
 		user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
@@ -34,11 +32,9 @@ describe('Client WordStatus', () => {
 		});
 		apiKey = await apiKeyRepository.create(user);
 		wordStatus = await wordStatusRepository.create(user, 'word', true, false);
-
-		await db.close();
 	});
 
-	it('get (normal case)', async () => {
+	it('get (normal case)', async function() {
 		const apiWordStatuses = await get(apiKey.key, ['word']);
 
 		expect(apiWordStatuses).toBeInstanceOf(Array);
@@ -48,7 +44,7 @@ describe('Client WordStatus', () => {
 		// No need to test further because it is already done in the models and API tests
 	});
 
-	it('get (validation error case)', async () => {
+	it('get (validation error case)', async function() {
 		let error;
 		try {
 			await get(apiKey.key, []);
@@ -59,7 +55,7 @@ describe('Client WordStatus', () => {
 		expect(error).toBeInstanceOf(ValidationError);
 	});
 
-	it('get (authentication error case)', async () => {
+	it('get (authentication error case)', async function() {
 		let error;
 		try {
 			await get('wrongtoken', ['word']);
@@ -70,7 +66,7 @@ describe('Client WordStatus', () => {
 		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 
-	it('createOrUpdate (normal case)', async () => {
+	it('createOrUpdate (normal case)', async function() {
 		const newWordStatusData = new WordStatus({
 			userId: user.id,
 			word: 'word',
@@ -83,7 +79,7 @@ describe('Client WordStatus', () => {
 		expect(apiWordStatus).toEqual(newWordStatusData);
 	});
 
-	it('get (validation error case)', async () => {
+	it('get (validation error case)', async function() {
 		let error;
 		try {
 			await createOrUpdate(apiKey.key, new WordStatus({}));
@@ -94,7 +90,7 @@ describe('Client WordStatus', () => {
 		expect(error).toBeInstanceOf(ValidationError);
 	});
 
-	it('get (authentication error case)', async () => {
+	it('get (authentication error case)', async function() {
 		let error;
 		try {
 			const newWordStatusData = new WordStatus({
@@ -111,7 +107,7 @@ describe('Client WordStatus', () => {
 		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 
-	it('get (authentication error because of wrong userId case)', async () => {
+	it('get (authentication error because of wrong userId case)', async function() {
 		let error;
 		try {
 			const newWordStatusData = new WordStatus({

@@ -3,8 +3,8 @@ import Dictionary from 'Server/Lexer/Dictionary';
 import Word from 'Common/Models/Word';
 import Language from 'Common/Types/Language';
 
-describe('Dictionary', () => {
-	it('parseCsvLine method', async () => {
+describe('Dictionary', async function() {
+	it('parseCsvLine method', async function() {
 		const dictionary = new Dictionary();
 		const word = dictionary.parseCsvLine(
 			'あいうえお,aiueo,"""definition""","tag1/tag2/"""""',
@@ -21,7 +21,7 @@ describe('Dictionary', () => {
 		expect(word.tags[2]).toBe('""');
 	});
 
-	it('Get specific langs', async () => {
+	it('Get specific langs', async function() {
 		const dictionary = new Dictionary();
 		dictionary.add(new Word('ア', 'あ', Language.ENGLISH, 'translation en', []));
 		dictionary.add(new Word('ア', 'あ', Language.SPANISH, 'translation es', []));
@@ -45,7 +45,7 @@ describe('Dictionary', () => {
 		expect(multiLangResult[2].translation).toBe('translation en');
 	});
 
-	it('Get words not associated to a lang', async () => {
+	it('Get words not associated to a lang', async function() {
 		const dictionary = new Dictionary();
 		dictionary.add(new Word('ア', 'あ', Language.ENGLISH, 'en', []));
 		dictionary.add(new Word('ア', 'あ', null, 'no lang', []));
@@ -56,7 +56,7 @@ describe('Dictionary', () => {
 		expect(dictionary.get('ア', [Language.FRENCH])[0].translationLang).toBe(null);
 	});
 
-	it('Get words by reading', async () => {
+	it('Get words by reading', async function() {
 		const dictionary = new Dictionary();
 		dictionary.add(new Word('ア', 'あ', null, 'a', []));
 		dictionary.add(new Word('イ', 'い', null, 'i', []));

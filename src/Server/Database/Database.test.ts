@@ -23,8 +23,8 @@ class Test {
 
 let db: Database|null = null;
 
-describe('Database', () => {
-	beforeEach(async () => {
+describe('Database', async function() {
+	beforeEach(async function() {
 		db = new Database();
 		await db.exec(`
 			CREATE TEMPORARY TABLE "Test" (
@@ -45,13 +45,13 @@ describe('Database', () => {
 		`);
 	});
 
-	afterEach(async () => {
+	afterEach(async function() {
 		await (<Database>db).exec('DROP TABLE "Test";');
 		await (<Database>db).close();
 		db = null;
 	});
 
-	it('Simple query', async () => {
+	it('Simple query', async function() {
 		const resultNullable = await (<Database>db).get(
 			Test,
 			'SELECT * FROM "Test" WHERE "id" = ${id}',
@@ -68,7 +68,7 @@ describe('Database', () => {
 		expect(result.dateNullable).toBeInstanceOf(Date);
 	});
 
-	it('Array query', async () => {
+	it('Array query', async function() {
 		const result = await (<Database>db).array(Test, 'SELECT * FROM "Test"');
 		expect(result.length).toBe(4);
 		expect(result[0].id).toBeGreaterThan(0);
@@ -77,7 +77,7 @@ describe('Database', () => {
 		expect(result[3].id).toBeGreaterThan(0);
 	});
 
-	it('Function query', async () => {
+	it('Function query', async function() {
 		let count = 0;
 		const metIds: number[] = [];
 		await (<Database>db).iterate(

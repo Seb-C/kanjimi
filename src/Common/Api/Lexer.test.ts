@@ -3,7 +3,6 @@ import { analyze } from 'Common/Api/Lexer';
 import Token from 'Common/Models/Token';
 import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
-import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
 import UserRepository from 'Server/Repositories/User';
@@ -13,11 +12,10 @@ import Language from 'Common/Types/Language';
 let user: User;
 let apiKey: ApiKey;
 
-describe('Client Lexer', () => {
-	beforeEach(async () => {
-		const db = new Database();
-		const userRepository = new UserRepository(db);
-		const apiKeyRepository = new ApiKeyRepository(db);
+describe('Client Lexer', async function() {
+	beforeEach(async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
@@ -28,11 +26,9 @@ describe('Client Lexer', () => {
 			jlpt: null,
 		});
 		apiKey = await apiKeyRepository.create(user);
-
-		await db.close();
 	});
 
-	it('analyze (normal case)', async () => {
+	it('analyze (normal case)', async function() {
 		const result = await analyze(apiKey.key, {
 			languages: [Language.FRENCH],
 			strings: ['first sentence', 'second sentence'],
@@ -47,7 +43,7 @@ describe('Client Lexer', () => {
 		// No need to test further because it is already done in the models and API tests
 	});
 
-	it('analyze (validation error case)', async () => {
+	it('analyze (validation error case)', async function() {
 		let error;
 		try {
 			await analyze(apiKey.key, {
@@ -61,7 +57,7 @@ describe('Client Lexer', () => {
 		expect(error).toBeInstanceOf(ValidationError);
 	});
 
-	it('analyze (authentication error case)', async () => {
+	it('analyze (authentication error case)', async function() {
 		let error;
 		try {
 			await analyze('wrongtoken', {

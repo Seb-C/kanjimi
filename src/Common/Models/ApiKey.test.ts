@@ -1,8 +1,8 @@
 import 'jasmine';
 import ApiKey from 'Common/Models/ApiKey';
 
-describe('ApiKey', () => {
-	it('API formatting methods', async () => {
+describe('ApiKey', function() {
+	it('API formatting methods', function() {
 		const now = new Date();
 		const expires = new Date();
 		expires.setDate(expires.getDate() + 1);

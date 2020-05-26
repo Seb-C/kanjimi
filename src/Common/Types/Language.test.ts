@@ -1,8 +1,8 @@
 import 'jasmine';
 import Language from 'Common/Types/Language';
 
-describe('Language', () => {
-	it('toUnicodeFlag', () => {
+describe('Language', function() {
+	it('toUnicodeFlag', function() {
 		expect(Language.toUnicodeFlag(Language.GERMAN)).toBe('🇩🇪');
 		expect(Language.toUnicodeFlag(Language.ENGLISH)).toBe('🇬🇧');
 		expect(Language.toUnicodeFlag(Language.SPANISH)).toBe('🇪🇸');
@@ -12,7 +12,7 @@ describe('Language', () => {
 		expect(Language.toUnicodeFlag(Language.SLOVENIAN)).toBe('🇸🇮');
 		expect(Language.toUnicodeFlag(Language.SWEDISH)).toBe('🇸🇪');
 	});
-	it('LIST', () => {
+	it('LIST', function() {
 		expect(Language.LIST).toContain(Language.GERMAN);
 		expect(Language.LIST).toContain(Language.SWEDISH);
 		expect(Language.LIST).toContain(Language.FRENCH);

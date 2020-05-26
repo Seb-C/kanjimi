@@ -3,8 +3,8 @@ import Conjugation from 'Common/Models/Conjugation';
 import Conjugations from 'Server/Lexer/Conjugations';
 import ConjugationType from 'Common/Types/ConjugationType';
 
-describe('Conjugations', async () => {
-	it('existing verb forms', async () => {
+describe('Conjugations', async function() {
+	it('existing verb forms', async function() {
 		const checkForm = (conjugation: string, plain: string, type: ConjugationType) => {
 			const forms = Conjugations.getForms(conjugation);
 			const found = forms.some((form: Conjugation): boolean => {
@@ -67,7 +67,7 @@ describe('Conjugations', async () => {
 		checkForm('くありませんでした', 'い', ConjugationType.ADJECTIVE_POLITE_NEGATIVE_PAST);
 	});
 
-	it('conjugate with complex forms', async () => {
+	it('conjugate with complex forms', async function() {
 		const checkForm = (conjugation: string, plain: string, type: ConjugationType) => {
 			const forms = Conjugations.conjugate(plain, type);
 			const doesContainTheForm = forms.some((form: string) => form === conjugation);

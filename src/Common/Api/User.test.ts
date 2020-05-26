@@ -6,15 +6,13 @@ import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
 import ConflictError from 'Common/Api/Errors/Conflict';
 import NotFoundError from 'Common/Api/Errors/NotFound';
-import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repositories/User';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
 
-describe('Client User', () => {
-	it('get (normal case)', async () => {
-		const db = new Database();
-		const userRepository = new UserRepository(db);
-		const apiKeyRepository = new ApiKeyRepository(db);
+describe('Client User', async function() {
+	it('get (normal case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
@@ -25,7 +23,6 @@ describe('Client User', () => {
 			jlpt: null,
 		});
 		const apiKey = await apiKeyRepository.create(user);
-		await db.close();
 
 		const result = await get(apiKey.key, user.id);
 
@@ -33,7 +30,7 @@ describe('Client User', () => {
 		expect(result.id).toEqual(user.id);
 	});
 
-	it('get (authentication error case)', async () => {
+	it('get (authentication error case)', async function() {
 		let error;
 		try {
 			await get('wrongtoken', 'any id should fail');
@@ -44,7 +41,7 @@ describe('Client User', () => {
 		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 
-	it('create (normal and duplicate error cases)', async () => {
+	it('create (normal and duplicate error cases)', async function() {
 		const result = await create({
 			email: 'unittest@example.com',
 			password: '123456',
@@ -73,7 +70,7 @@ describe('Client User', () => {
 		expect(error).toBeInstanceOf(ConflictError);
 	});
 
-	it('create (validation error case)', async () => {
+	it('create (validation error case)', async function() {
 		let error;
 		try {
 			await create({
@@ -90,9 +87,8 @@ describe('Client User', () => {
 		expect(error).toBeInstanceOf(ValidationError);
 	});
 
-	it('verifyEmail (normal case)', async () => {
-		const db = new Database();
-		const userRepository = new UserRepository(db);
+	it('verifyEmail (normal case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
@@ -102,7 +98,6 @@ describe('Client User', () => {
 			romanReading: true,
 			jlpt: null,
 		});
-		await db.close();
 
 		const result = await verifyEmail(user.id, 'verification_key');
 
@@ -110,9 +105,8 @@ describe('Client User', () => {
 		expect(result.emailVerified).toEqual(true);
 	});
 
-	it('verifyEmail (authentication error case)', async () => {
-		const db = new Database();
-		const userRepository = new UserRepository(db);
+	it('verifyEmail (authentication error case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
@@ -122,7 +116,6 @@ describe('Client User', () => {
 			romanReading: false,
 			jlpt: null,
 		});
-		await db.close();
 
 		let error;
 		try {
@@ -134,9 +127,8 @@ describe('Client User', () => {
 		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 
-	it('verifyEmail (validation error case)', async () => {
-		const db = new Database();
-		const userRepository = new UserRepository(db);
+	it('verifyEmail (validation error case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
@@ -146,7 +138,6 @@ describe('Client User', () => {
 			romanReading: false,
 			jlpt: null,
 		});
-		await db.close();
 
 		let error;
 		try {
@@ -158,9 +149,8 @@ describe('Client User', () => {
 		expect(error).toBeInstanceOf(ValidationError);
 	});
 
-	it('verifyEmail (already done error case)', async () => {
-		const db = new Database();
-		const userRepository = new UserRepository(db);
+	it('verifyEmail (already done error case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: true,
@@ -170,7 +160,6 @@ describe('Client User', () => {
 			romanReading: false,
 			jlpt: null,
 		});
-		await db.close();
 
 		let error;
 		try {
@@ -182,7 +171,7 @@ describe('Client User', () => {
 		expect(error).toBeInstanceOf(ConflictError);
 	});
 
-	it('verifyEmail (not found error case)', async () => {
+	it('verifyEmail (not found error case)', async function() {
 		let error;
 		try {
 			await verifyEmail('00000000-0000-0000-0000-000000000000', 'verification_key');
@@ -193,10 +182,9 @@ describe('Client User', () => {
 		expect(error).toBeInstanceOf(NotFoundError);
 	});
 
-	it('update (normal case)', async () => {
-		const db = new Database();
-		const userRepository = new UserRepository(db);
-		const apiKeyRepository = new ApiKeyRepository(db);
+	it('update (normal case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
@@ -207,7 +195,6 @@ describe('Client User', () => {
 			jlpt: null,
 		});
 		const apiKey = await apiKeyRepository.create(user);
-		await db.close();
 
 		const result = await update(apiKey.key, user.id, {
 			languages: [Language.ENGLISH, Language.FRENCH],
@@ -219,7 +206,7 @@ describe('Client User', () => {
 		expect(result.languages).toEqual([Language.ENGLISH, Language.FRENCH]);
 	});
 
-	it('update (authentication error case)', async () => {
+	it('update (authentication error case)', async function() {
 		let error;
 		try {
 			await update('wrongtoken', 'any id should fail', { languages: [Language.FRENCH] });
@@ -230,10 +217,9 @@ describe('Client User', () => {
 		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 
-	it('update (validation error case)', async () => {
-		const db = new Database();
-		const userRepository = new UserRepository(db);
-		const apiKeyRepository = new ApiKeyRepository(db);
+	it('update (validation error case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
@@ -244,7 +230,6 @@ describe('Client User', () => {
 			jlpt: null,
 		});
 		const apiKey = await apiKeyRepository.create(user);
-		await db.close();
 
 		let error;
 		try {

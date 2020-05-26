@@ -4,17 +4,15 @@ import ApiKey from 'Common/Models/ApiKey';
 import User from 'Common/Models/User';
 import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
-import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repositories/User';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
 import Language from 'Common/Types/Language';
 
 let user: User;
 
-describe('Client ApiKey', () => {
-	beforeEach(async () => {
-		const db = new Database();
-		const userRepository = new UserRepository(db);
+describe('Client ApiKey', async function() {
+	beforeEach(async function() {
+		const userRepository = new UserRepository(this.getDatabase());
 		user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,
@@ -24,10 +22,9 @@ describe('Client ApiKey', () => {
 			romanReading: false,
 			jlpt: null,
 		});
-		await db.close();
 	});
 
-	it('create (normal case)', async () => {
+	it('create (normal case)', async function() {
 		const result = await create({
 			email: 'unittest@example.com',
 			password: '123456',
@@ -37,7 +34,7 @@ describe('Client ApiKey', () => {
 		// No need to test further this response because it is already done in the models and API tests
 	});
 
-	it('create (validation error case)', async () => {
+	it('create (validation error case)', async function() {
 		let error;
 		try {
 			await create({
@@ -51,7 +48,7 @@ describe('Client ApiKey', () => {
 		expect(error).toBeInstanceOf(ValidationError);
 	});
 
-	it('create (invalid credentials case)', async () => {
+	it('create (invalid credentials case)', async function() {
 		let error;
 		try {
 			await create({
@@ -65,18 +62,16 @@ describe('Client ApiKey', () => {
 		expect(error).toBeInstanceOf(AuthenticationError);
 	});
 
-	it('get (normal case)', async () => {
-		const db = new Database();
-		const apiKeyRepository = new ApiKeyRepository(db);
+	it('get (normal case)', async function() {
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const apiKey = await apiKeyRepository.create(user);
-		await db.close();
 
 		const resultApiKey = await get(apiKey.key);
 
 		expect(resultApiKey).toEqual(apiKey);
 	});
 
-	it('get (invalid token case)', async () => {
+	it('get (invalid token case)', async function() {
 		let error;
 		try {
 			await get('invalidtoken');

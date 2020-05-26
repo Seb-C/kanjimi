@@ -2,7 +2,7 @@ Dictionary/xml/
 node_modules/
 extension/*.build.js
 extension/*.build.css
-server/
 firefox-profile/
+/server/
 www/js/*.build.js
 www/css/*.build.css

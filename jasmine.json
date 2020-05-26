@@ -3,6 +3,9 @@
   "spec_files": [
     "**/*.test.ts"
   ],
+  "helpers": [
+    "../jasmine/helpers.ts"
+  ],
   "stopSpecOnExpectationFailure": false,
   "random": false
 }

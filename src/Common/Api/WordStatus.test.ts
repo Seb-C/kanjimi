@@ -1,6 +1,5 @@
 import 'jasmine';
 import { get, createOrUpdate } from 'Common/Api/WordStatus';
-import fetch from 'node-fetch';
 import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
 import Database from 'Server/Database/Database';
@@ -19,15 +18,11 @@ let wordStatus: WordStatus;
 
 describe('Client WordStatus', () => {
 	beforeEach(async () => {
-		(<any>global).fetch = fetch;
-
-		// Clearing previous run if necessary
 		const db = new Database();
 		const dictionary = new Dictionary();
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const wordStatusRepository = new WordStatusRepository(db, dictionary);
-		await userRepository.deleteByEmail('unittest@example.com');
 		user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,

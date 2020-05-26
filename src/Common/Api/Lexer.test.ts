@@ -1,7 +1,6 @@
 import 'jasmine';
 import { analyze } from 'Common/Api/Lexer';
 import Token from 'Common/Models/Token';
-import fetch from 'node-fetch';
 import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
 import Database from 'Server/Database/Database';
@@ -16,13 +15,9 @@ let apiKey: ApiKey;
 
 describe('Client Lexer', () => {
 	beforeEach(async () => {
-		(<any>global).fetch = fetch;
-
-		// Clearing previous run if necessary
 		const db = new Database();
 		const userRepository = new UserRepository(db);
 		const apiKeyRepository = new ApiKeyRepository(db);
-		await userRepository.deleteByEmail('unittest@example.com');
 		user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: false,

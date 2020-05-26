@@ -2,7 +2,6 @@ import 'jasmine';
 import { get, create, verifyEmail, update } from 'Common/Api/User';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
-import fetch from 'node-fetch';
 import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
 import ConflictError from 'Common/Api/Errors/Conflict';
@@ -12,16 +11,6 @@ import UserRepository from 'Server/Repositories/User';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
 
 describe('Client User', () => {
-	beforeEach(async () => {
-		(<any>global).fetch = fetch;
-
-		// Clearing previous run if necessary
-		const db = new Database();
-		const userRepository = new UserRepository(db);
-		await userRepository.deleteByEmail('unittest@example.com');
-		await db.close();
-	});
-
 	it('get (normal case)', async () => {
 		const db = new Database();
 		const userRepository = new UserRepository(db);

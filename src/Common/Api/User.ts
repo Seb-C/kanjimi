@@ -1,7 +1,7 @@
-import ValidationError from 'Common/Client/Errors/Validation';
-import AuthenticationError from 'Common/Client/Errors/Authentication';
-import DuplicateError from 'Common/Client/Errors/Duplicate';
-import ServerError from 'Common/Client/Errors/Server';
+import ValidationError from 'Common/Api/Errors/Validation';
+import AuthenticationError from 'Common/Api/Errors/Authentication';
+import DuplicateError from 'Common/Api/Errors/Duplicate';
+import ServerError from 'Common/Api/Errors/Server';
 import Language from 'Common/Types/Language';
 import User from 'Common/Models/User';
 

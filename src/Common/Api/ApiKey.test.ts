@@ -1,13 +1,13 @@
 import 'jasmine';
-import { create, get } from 'Common/Client/Routes/ApiKey';
+import { create, get } from 'Common/Api/ApiKey';
 import ApiKey from 'Common/Models/ApiKey';
 import User from 'Common/Models/User';
 import fetch from 'node-fetch';
-import ValidationError from 'Common/Client/Errors/Validation';
-import AuthenticationError from 'Common/Client/Errors/Authentication';
+import ValidationError from 'Common/Api/Errors/Validation';
+import AuthenticationError from 'Common/Api/Errors/Authentication';
 import Database from 'Server/Database/Database';
-import UserRepository from 'Server/Repository/User';
-import ApiKeyRepository from 'Server/Repository/ApiKey';
+import UserRepository from 'Server/Repositories/User';
+import ApiKeyRepository from 'Server/Repositories/ApiKey';
 import Language from 'Common/Types/Language';
 
 let user: User;

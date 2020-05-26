@@ -1,6 +1,6 @@
-import ValidationError from 'Common/Client/Errors/Validation';
-import AuthenticationError from 'Common/Client/Errors/Authentication';
-import ServerError from 'Common/Client/Errors/Server';
+import ValidationError from 'Common/Api/Errors/Validation';
+import AuthenticationError from 'Common/Api/Errors/Authentication';
+import ServerError from 'Common/Api/Errors/Server';
 import ApiKey from 'Common/Models/ApiKey';
 
 export const create = async (attributes: {

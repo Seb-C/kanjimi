@@ -1,9 +1,9 @@
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
-import { get as getApiKey } from 'Common/Client/Routes/ApiKey';
-import { get as getUser } from 'Common/Client/Routes/User';
+import { get as getApiKey } from 'Common/Api/ApiKey';
+import { get as getUser } from 'Common/Api/User';
 import Router from 'WebApp/Router';
-import AuthenticationError from 'Common/Client/Errors/Authentication';
+import AuthenticationError from 'Common/Api/Errors/Authentication';
 
 export default class Store {
 	public router: Router;

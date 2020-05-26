@@ -111,11 +111,11 @@
 	import SavingSpinner from 'WebApp/Components/Spinners/Saving.vue';
 	import SavedSpinner from 'WebApp/Components/Spinners/Saved.vue';
 	import FailedSpinner from 'WebApp/Components/Spinners/Failed.vue';
-	import { update as updateUser } from 'Common/Client/Routes/User';
+	import { update as updateUser } from 'Common/Api/User';
 	import ApiKey from 'Common/Models/ApiKey';
-	import ValidationError from 'Common/Client/Errors/Validation';
-	import AuthenticationError from 'Common/Client/Errors/Authentication';
-	import ServerError from 'Common/Client/Errors/Server';
+	import ValidationError from 'Common/Api/Errors/Validation';
+	import AuthenticationError from 'Common/Api/Errors/Authentication';
+	import ServerError from 'Common/Api/Errors/Server';
 
 	export default Vue.extend({
 		created() {

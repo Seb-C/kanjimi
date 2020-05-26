@@ -1,14 +1,14 @@
 import 'jasmine';
-import { get, create, update } from 'Common/Client/Routes/User';
+import { get, create, update } from 'Common/Api/User';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import fetch from 'node-fetch';
-import ValidationError from 'Common/Client/Errors/Validation';
-import AuthenticationError from 'Common/Client/Errors/Authentication';
-import DuplicateError from 'Common/Client/Errors/Duplicate';
+import ValidationError from 'Common/Api/Errors/Validation';
+import AuthenticationError from 'Common/Api/Errors/Authentication';
+import DuplicateError from 'Common/Api/Errors/Duplicate';
 import Database from 'Server/Database/Database';
-import UserRepository from 'Server/Repository/User';
-import ApiKeyRepository from 'Server/Repository/ApiKey';
+import UserRepository from 'Server/Repositories/User';
+import ApiKeyRepository from 'Server/Repositories/ApiKey';
 
 describe('Client User', () => {
 	beforeEach(async () => {

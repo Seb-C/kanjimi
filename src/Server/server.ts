@@ -8,10 +8,10 @@ import * as BodyParser from 'body-parser';
 import * as URL from 'url';
 import * as NodeMailer from 'nodemailer';
 
-import * as LexerController from 'Server/Api/Controllers/Lexer';
-import * as UserController from 'Server/Api/Controllers/User';
-import * as ApiKeyController from 'Server/Api/Controllers/ApiKey';
-import * as WordStatusController from 'Server/Api/Controllers/WordStatus';
+import * as LexerController from 'Server/Controllers/Lexer';
+import * as UserController from 'Server/Controllers/User';
+import * as ApiKeyController from 'Server/Controllers/ApiKey';
+import * as WordStatusController from 'Server/Controllers/WordStatus';
 
 (async () => {
 	const startupWaiters: Function[] = [];

@@ -11,7 +11,7 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import Token from 'Common/Models/Token';
-	import ConjugationTranslation from 'Common/Translation/Conjugation';
+	import ConjugationTranslation from 'Common/Translations/Conjugation';
 
 	export default Vue.extend({
 		props: {

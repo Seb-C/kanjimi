@@ -1,11 +1,13 @@
 MVP:
     email verification process:
+        - client code for the new route
         - email validation frontend page in the interface (with the proper arguments)
         - add this link to the welcome email
-        - create a regular batch that removes non-validated users after a while
         - if an email already exists and is not validated, try to send again the email (with the same token)
         - block login and token creation if the email is not verified
     have the validation objects in common
+    create a user factory/test model to simplify the test code?
+    database config -> dependency injection from the main server file
     handle 404 properly + triggers a sql error if not a proper uuid
     subscription form/page with settings
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
@@ -13,15 +15,12 @@ MVP:
     possibility to change password in the patch route
     onboarding (after subscription, install extension...)
     Global vuejs error handling?
-    database and sendmail smtp config -> dependency injection from the main server file?
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
-    rename server/api/controllers to server/controllers (singular? plural?)
     bug with conjugated furiganas? Cf されて in the wikipedia test page
     should not change the contents of textarea & contenteditable / wysiwyg
     test with a lot of different sites and texts
     fix the red border not always properly placed (saw it on wikipedia in the book bordered box on the top)
-    create a user factory/test model to simplify the test code?
     make the tooltip close when clicking anywhere else
     test and debug with slack
     test and debug intensively the display of results
@@ -43,6 +42,7 @@ MVP:
     post on twitter
 
 After:
+    create a regular batch that removes non-validated users after a week
     good pages recommendation system?
     payment system and freemium for after the beta
     menus animation when opening (user + mobile) -> css transitions?

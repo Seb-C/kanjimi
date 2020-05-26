@@ -1,15 +1,15 @@
 import 'jasmine';
-import { get, createOrUpdate } from 'Common/Client/Routes/WordStatus';
+import { get, createOrUpdate } from 'Common/Api/WordStatus';
 import fetch from 'node-fetch';
-import ValidationError from 'Common/Client/Errors/Validation';
-import AuthenticationError from 'Common/Client/Errors/Authentication';
+import ValidationError from 'Common/Api/Errors/Validation';
+import AuthenticationError from 'Common/Api/Errors/Authentication';
 import Database from 'Server/Database/Database';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
 import WordStatus from 'Common/Models/WordStatus';
-import UserRepository from 'Server/Repository/User';
-import ApiKeyRepository from 'Server/Repository/ApiKey';
-import WordStatusRepository from 'Server/Repository/WordStatus';
+import UserRepository from 'Server/Repositories/User';
+import ApiKeyRepository from 'Server/Repositories/ApiKey';
+import WordStatusRepository from 'Server/Repositories/WordStatus';
 import Language from 'Common/Types/Language';
 import Dictionary from 'Server/Lexer/Dictionary';
 

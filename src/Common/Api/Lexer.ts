@@ -1,8 +1,8 @@
 import Token from 'Common/Models/Token';
 import Language from 'Common/Types/Language';
-import ValidationError from 'Common/Client/Errors/Validation';
-import AuthenticationError from 'Common/Client/Errors/Authentication';
-import ServerError from 'Common/Client/Errors/Server';
+import ValidationError from 'Common/Api/Errors/Validation';
+import AuthenticationError from 'Common/Api/Errors/Authentication';
+import ServerError from 'Common/Api/Errors/Server';
 
 export const analyze = async (key: string, data: {
 	languages: Language[],

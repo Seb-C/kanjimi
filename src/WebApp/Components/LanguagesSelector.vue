@@ -109,7 +109,7 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import Language from 'Common/Types/Language';
-	import LanguageTranslation from 'Common/Translation/Language';
+	import LanguageTranslation from 'Common/Translations/Language';
 
 	import {
 		Container as DragAndDropContainer,

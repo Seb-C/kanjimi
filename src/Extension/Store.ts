@@ -2,11 +2,11 @@ import WordStatus from 'Common/Models/WordStatus';
 import Token from 'Common/Models/Token';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
-import { createOrUpdate as putWordStatus } from 'Common/Client/Routes/WordStatus';
-import { get as getApiKey } from 'Common/Client/Routes/ApiKey';
-import { get as getUser } from 'Common/Client/Routes/User';
+import { createOrUpdate as putWordStatus } from 'Common/Api/WordStatus';
+import { get as getApiKey } from 'Common/Api/ApiKey';
+import { get as getUser } from 'Common/Api/User';
 import Vue from 'vue';
-import AuthenticationError from 'Common/Client/Errors/Authentication';
+import AuthenticationError from 'Common/Api/Errors/Authentication';
 
 type TooltipData = {
 	token: Token,

@@ -2,10 +2,10 @@ import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token';
 import User from 'Common/Models/User';
 import Store from 'Extension/Store';
-import { analyze } from 'Common/Client/Routes/Lexer';
+import { analyze } from 'Common/Api/Lexer';
 import {
 	get as getWordStatuses,
-} from 'Common/Client/Routes/WordStatus';
+} from 'Common/Api/WordStatus';
 import Vue from 'vue';
 import UIContainer from 'Extension/Components/UIContainer.vue';
 import Sentence from 'Extension/Components/Sentence.vue';

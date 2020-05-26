@@ -3,8 +3,6 @@ MVP:
         - email validation frontend page in the interface (with the proper arguments)
         - add this link to the welcome email
         - block login and token creation if the email is not verified
-    update user + verify email routes -> validate the userId format (uuid)
-    update user controller -> add 404 if the requested id is wrong
     subscription form/page with settings
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
     retrieve password process

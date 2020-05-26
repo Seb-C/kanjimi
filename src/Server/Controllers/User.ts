@@ -108,30 +108,38 @@ const createEmailVerificationRequestValidator = new Ajv({ allErrors: true }).com
 		},
 	},
 });
-export const verifyEmail = (db: Database) => async (request: Request, response: Response) => {
+export const verifyEmail = (db: Database) => async (request: Request, response: Response, next: Function) => {
 	if (!createEmailVerificationRequestValidator(request.body)) {
 		return response.status(422).json(createEmailVerificationRequestValidator.errors);
 	}
 
 	const userRepository = new UserRepository(db);
 
-	const user = await userRepository.getById(request.params.userId);
-	if (user === null) {
-		return response.status(404).json('User not found');
-	}
-	if (user.emailVerified) {
-		return response.status(409).json('This email have already been verified.');
-	}
-	if (user.emailVerificationKey !== request.body.emailVerificationKey) {
-		return response.status(403).json('You are not allowed access to this object');
-	}
+	try {
+		const user = await userRepository.getById(request.params.userId);
+		if (user === null) {
+			return response.status(404).json('User not found');
+		}
+		if (user.emailVerified) {
+			return response.status(409).json('This email have already been verified.');
+		}
+		if (user.emailVerificationKey !== request.body.emailVerificationKey) {
+			return response.status(403).json('You are not allowed access to this object');
+		}
 
-	const updatedUser = await userRepository.updateById(user.id, {
-		emailVerified: true,
-		emailVerificationKey: null,
-	});
+		const updatedUser = await userRepository.updateById(user.id, {
+			emailVerified: true,
+			emailVerificationKey: null,
+		});
 
-	return response.json(updatedUser.toApi());
+		return response.json(updatedUser.toApi());
+	} catch (error) {
+		if (error.routine === 'string_to_uuid') {
+			return response.status(404).json('Invalid id');
+		} else {
+			return next(error);
+		}
+	}
 };
 
 const updateUserValidator = new Ajv({ allErrors: true }).compile({
@@ -158,23 +166,35 @@ const updateUserValidator = new Ajv({ allErrors: true }).compile({
 		},
 	},
 });
-export const update = (db: Database) => async (request: Request, response: Response) => {
+export const update = (db: Database) => async (request: Request, response: Response, next: Function) => {
 	if (!updateUserValidator(request.body)) {
 		return response.status(422).json(updateUserValidator.errors);
 	}
 
 	const userRepository = new UserRepository(db);
 
-	const user = await userRepository.getFromRequest(request);
-	// TODO handle the 404 error
-	if (user === null) {
+	const authenticatedUser = await userRepository.getFromRequest(request);
+	if (authenticatedUser === null) {
 		return response.status(403).json('Invalid api key');
 	}
-	if (!request.params.userId || request.params.userId !== user.id) {
-		return response.status(403).json('You are not allowed access to this object');
+
+	try {
+		const requestedUser = await userRepository.getById(request.params.userId);
+		if (requestedUser === null) {
+			return response.status(404).json('User not found');
+		}
+		if (requestedUser.id !== authenticatedUser.id) {
+			return response.status(403).json('You are not allowed access to this object');
+		}
+
+		const updatedUser = await userRepository.updateById(requestedUser.id, { ...request.body });
+
+		return response.json(updatedUser.toApi());
+	} catch (error) {
+		if (error.routine === 'string_to_uuid') {
+			return response.status(404).json('Invalid id');
+		} else {
+			return next(error);
+		}
 	}
-
-	const updatedUser = await userRepository.updateById(user.id, { ...request.body });
-
-	return response.json(updatedUser.toApi());
 };

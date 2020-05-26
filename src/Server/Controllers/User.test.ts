@@ -248,6 +248,58 @@ describe('UserController', async function() {
 			.toBe(true);
 	});
 
+	it('update (not found error)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const user = await userRepository.create({ ...this.testUser });
+		const apiKey = await apiKeyRepository.create(user);
+
+		const response = await fetch(`http://localhost:3000/user/00000000-0000-0000-0000-000000000000`, {
+			method: 'PATCH',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: JSON.stringify({
+				romanReading: true,
+			}),
+		});
+		expect(response.status).toBe(404);
+	});
+	it('update (not found + not a uuid)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const user = await userRepository.create({ ...this.testUser });
+		const apiKey = await apiKeyRepository.create(user);
+
+		const response = await fetch(`http://localhost:3000/user/wrong_id`, {
+			method: 'PATCH',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: JSON.stringify({
+				romanReading: true,
+			}),
+		});
+		expect(response.status).toBe(404);
+	});
+	it('update (empty id)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const user = await userRepository.create({ ...this.testUser });
+		const apiKey = await apiKeyRepository.create(user);
+
+		const response = await fetch(`http://localhost:3000/user/`, {
+			method: 'PATCH',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: JSON.stringify({
+				romanReading: true,
+			}),
+		});
+		expect(response.status).toBe(404);
+	});
+
 	it('update (authentication errors)', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
@@ -347,6 +399,24 @@ describe('UserController', async function() {
 
 	it('verifyEmail (not found error)', async function() {
 		const response = await fetch(`http://localhost:3000/user/00000000-0000-0000-0000-000000000000/verify-email`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				emailVerificationKey: '123456',
+			}),
+		});
+		expect(response.status).toBe(404);
+	});
+	it('verifyEmail (not found + not a uuid)', async function() {
+		const response = await fetch(`http://localhost:3000/user/wrong_id/verify-email`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				emailVerificationKey: '123456',
+			}),
+		});
+		expect(response.status).toBe(404);
+	});
+	it('verifyEmail (empty id)', async function() {
+		const response = await fetch(`http://localhost:3000/user//verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: '123456',

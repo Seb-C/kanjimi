@@ -1,4 +1,4 @@
-export default class Duplicate {
+export default class NotFound {
 	public readonly error: string;
 
 	constructor(error: string) {

@@ -1,6 +1,5 @@
 MVP:
     email verification process:
-        - client code for the new route
         - email validation frontend page in the interface (with the proper arguments)
         - add this link to the welcome email
         - if an email already exists and is not validated, try to send again the email (with the same token)

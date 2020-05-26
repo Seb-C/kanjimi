@@ -1,11 +1,12 @@
 import 'jasmine';
-import { get, create, update } from 'Common/Api/User';
+import { get, create, verifyEmail, update } from 'Common/Api/User';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import fetch from 'node-fetch';
 import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
-import DuplicateError from 'Common/Api/Errors/Duplicate';
+import ConflictError from 'Common/Api/Errors/Conflict';
+import NotFoundError from 'Common/Api/Errors/NotFound';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repositories/User';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
@@ -80,7 +81,7 @@ describe('Client User', () => {
 			error = e;
 		}
 
-		expect(error).toBeInstanceOf(DuplicateError);
+		expect(error).toBeInstanceOf(ConflictError);
 	});
 
 	it('create (validation error case)', async () => {
@@ -98,6 +99,109 @@ describe('Client User', () => {
 		}
 
 		expect(error).toBeInstanceOf(ValidationError);
+	});
+
+	it('verifyEmail (normal case)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			emailVerified: false,
+			emailVerificationKey: 'verification_key',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: true,
+			jlpt: null,
+		});
+		await db.close();
+
+		const result = await verifyEmail(user.id, 'verification_key');
+
+		expect(result).toBeInstanceOf(User);
+		expect(result.emailVerified).toEqual(true);
+	});
+
+	it('verifyEmail (authentication error case)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			emailVerified: false,
+			emailVerificationKey: 'verification_key',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+			jlpt: null,
+		});
+		await db.close();
+
+		let error;
+		try {
+			await verifyEmail(user.id, 'wrong_verification_key');
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(AuthenticationError);
+	});
+
+	it('verifyEmail (validation error case)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			emailVerified: false,
+			emailVerificationKey: 'verification_key',
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+			jlpt: null,
+		});
+		await db.close();
+
+		let error;
+		try {
+			await verifyEmail(user.id, <string><any>null);
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(ValidationError);
+	});
+
+	it('verifyEmail (already done error case)', async () => {
+		const db = new Database();
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.create({
+			email: 'unittest@example.com',
+			emailVerified: true,
+			emailVerificationKey: null,
+			password: '123456',
+			languages: [Language.FRENCH],
+			romanReading: false,
+			jlpt: null,
+		});
+		await db.close();
+
+		let error;
+		try {
+			await verifyEmail(user.id, 'verification_key');
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(ConflictError);
+	});
+
+	it('verifyEmail (not found error case)', async () => {
+		let error;
+		try {
+			await verifyEmail('00000000-0000-0000-0000-000000000000', 'verification_key');
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(NotFoundError);
 	});
 
 	it('update (normal case)', async () => {

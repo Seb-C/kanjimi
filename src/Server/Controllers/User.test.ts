@@ -56,20 +56,6 @@ const userResponseValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-const validationErrorResponseValidator = new Ajv({ allErrors: true }).compile({
-	type: 'array',
-	items: {
-		type: 'object',
-		additionalProperties: true,
-		required: ['message'],
-		properties: {
-			message: {
-				type: 'string',
-			},
-		},
-	},
-});
-
 describe('UserController', async function() {
 	it('get (normal case)', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
@@ -191,8 +177,8 @@ describe('UserController', async function() {
 		expect(response.status).toBe(422);
 		const responseData = await response.json();
 
-		expect(validationErrorResponseValidator(responseData))
-			.withContext(JSON.stringify(validationErrorResponseValidator.errors))
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
 			.toBe(true);
 	});
 
@@ -257,8 +243,8 @@ describe('UserController', async function() {
 		expect(response.status).toBe(422);
 		const responseData = await response.json();
 
-		expect(validationErrorResponseValidator(responseData))
-			.withContext(JSON.stringify(validationErrorResponseValidator.errors))
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
 			.toBe(true);
 	});
 
@@ -354,8 +340,8 @@ describe('UserController', async function() {
 		expect(response.status).toBe(422);
 		const responseData = await response.json();
 
-		expect(validationErrorResponseValidator(responseData))
-			.withContext(JSON.stringify(validationErrorResponseValidator.errors))
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
 			.toBe(true);
 	});
 

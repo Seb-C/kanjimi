@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import Database from 'Server/Database/Database';
 import { promises as FileSystem } from 'fs';
 import Language from 'Common/Types/Language';
+import * as Ajv from 'ajv';
 
 let database: Database|null = null;
 
@@ -50,4 +51,18 @@ beforeEach(async function() {
 		romanReading: false,
 		jlpt: null,
 	};
+
+	this.validationErrorResponseValidator = new Ajv({ allErrors: true }).compile({
+		type: 'array',
+		items: {
+			type: 'object',
+			additionalProperties: true,
+			required: ['message'],
+			properties: {
+				message: {
+					type: 'string',
+				},
+			},
+		},
+	});
 });

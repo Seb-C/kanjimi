@@ -54,7 +54,6 @@ const createUserValidator = new Ajv({ allErrors: true }).compile({
 		},
 	},
 });
-
 export const create = (db: Database, mailer: NodeMailer.Transporter) => async (request: Request, response: Response, next: Function) => {
 	if (!createUserValidator(request.body)) {
 		return response.status(422).json(createUserValidator.errors);
@@ -109,7 +108,6 @@ const createEmailVerificationRequestValidator = new Ajv({ allErrors: true }).com
 		},
 	},
 });
-
 export const verifyEmail = (db: Database) => async (request: Request, response: Response) => {
 	if (!createEmailVerificationRequestValidator(request.body)) {
 		return response.status(422).json(createEmailVerificationRequestValidator.errors);
@@ -160,7 +158,6 @@ const updateUserValidator = new Ajv({ allErrors: true }).compile({
 		},
 	},
 });
-
 export const update = (db: Database) => async (request: Request, response: Response) => {
 	if (!updateUserValidator(request.body)) {
 		return response.status(422).json(updateUserValidator.errors);

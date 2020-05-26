@@ -7,7 +7,7 @@ import Language from 'Common/Types/Language';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repositories/User';
 
-const validator = new Ajv({ allErrors: true }).compile({
+const analyzeRequestValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
 	required: ['languages', 'strings'],
 	additionalProperties: false,
@@ -39,8 +39,8 @@ export const analyze = (db: Database, lexer: Lexer) => (
 			return response.status(403).json('Invalid api key');
 		}
 
-		if (!validator(request.body)) {
-			return response.status(422).json(validator.errors);
+		if (!analyzeRequestValidator(request.body)) {
+			return response.status(422).json(analyzeRequestValidator.errors);
 		}
 
 		const languages: Language[] = request.body.languages;

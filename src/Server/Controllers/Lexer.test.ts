@@ -7,6 +7,97 @@ import ApiKeyRepository from 'Server/Repositories/ApiKey';
 import Language from 'Common/Types/Language';
 import * as Ajv from 'ajv';
 
+const lexerResponseValidator = new Ajv({ allErrors: true }).compile({
+	type: 'array',
+	items: {
+		type: 'array',
+		minItems: 1,
+		items: {
+			type: 'object',
+			additionalProperties: false,
+			required: [
+				'type',
+				'text',
+				'words',
+				'verb',
+				'conjugation',
+				'forms',
+			],
+			properties: {
+				type: {
+					type: 'string',
+				},
+				text: {
+					type: 'string',
+				},
+				words: {
+					type: 'array',
+					items: {
+						type: 'object',
+						additionalProperties: false,
+						required: [
+							'word',
+							'reading',
+							'translationLang',
+							'translation',
+							'tags',
+						],
+						properties: {
+							word: {
+								type: 'string',
+							},
+							reading: {
+								type: 'string',
+							},
+							translationLang: {
+								type: ['string', 'null'],
+							},
+							translation: {
+								type: 'string',
+							},
+							tags: {
+								type: 'array',
+								items: {
+									type: 'string',
+								},
+							},
+						},
+					},
+				},
+				verb: {
+					type: ['string', 'null'],
+				},
+				conjugation: {
+					type: ['string', 'null'],
+				},
+				forms: {
+					type: 'array',
+					items: {
+						type: 'object',
+						additionalProperties: false,
+						required: [
+							'conjugation',
+							'dictionaryForm',
+							'type',
+						],
+						properties: {
+							conjugation: {
+								type: 'string',
+							},
+							dictionaryForm: {
+								type: 'string',
+							},
+							type: {
+								type: 'string',
+							},
+						},
+					},
+				},
+			},
+		},
+	},
+});
+
 let user: User;
 let apiKey: ApiKey;
 
@@ -35,102 +126,10 @@ describe('LexerController', async function() {
 		expect(response.status).toBe(200);
 		const responseData = await response.json();
 
-		const validator = new Ajv({ allErrors: true }).compile({
-			type: 'array',
-			minItems: 2,
-			maxItems: 2,
-			items: {
-				type: 'array',
-				minItems: 1,
-				items: {
-					type: 'object',
-					additionalProperties: false,
-					required: [
-						'type',
-						'text',
-						'words',
-						'verb',
-						'conjugation',
-						'forms',
-					],
-					properties: {
-						type: {
-							type: 'string',
-						},
-						text: {
-							type: 'string',
-						},
-						words: {
-							type: 'array',
-							items: {
-								type: 'object',
-								additionalProperties: false,
-								required: [
-									'word',
-									'reading',
-									'translationLang',
-									'translation',
-									'tags',
-								],
-								properties: {
-									word: {
-										type: 'string',
-									},
-									reading: {
-										type: 'string',
-									},
-									translationLang: {
-										type: ['string', 'null'],
-									},
-									translation: {
-										type: 'string',
-									},
-									tags: {
-										type: 'array',
-										items: {
-											type: 'string',
-										},
-									},
-								},
-							},
-						},
-						verb: {
-							type: ['string', 'null'],
-						},
-						conjugation: {
-							type: ['string', 'null'],
-						},
-						forms: {
-							type: 'array',
-							items: {
-								type: 'object',
-								additionalProperties: false,
-								required: [
-									'conjugation',
-									'dictionaryForm',
-									'type',
-								],
-								properties: {
-									conjugation: {
-										type: 'string',
-									},
-									dictionaryForm: {
-										type: 'string',
-									},
-									type: {
-										type: 'string',
-									},
-								},
-							},
-						},
-					},
-				},
-			},
-		});
-
-		expect(validator(responseData))
-			.withContext(JSON.stringify(validator.errors))
+		expect(lexerResponseValidator(responseData))
+			.withContext(JSON.stringify(lexerResponseValidator.errors))
 			.toBe(true);
+		expect(responseData.length).toBe(2);
 	});
 
 	it('analyze (validation errors)', async function() {
@@ -144,22 +143,8 @@ describe('LexerController', async function() {
 		expect(response.status).toBe(422);
 		const responseData = await response.json();
 
-		const validator = new Ajv({ allErrors: true }).compile({
-			type: 'array',
-			items: {
-				type: 'object',
-				additionalProperties: true,
-				required: ['message'],
-				properties: {
-					message: {
-						type: 'string',
-					},
-				},
-			},
-		});
-
-		expect(validator(responseData))
-			.withContext(JSON.stringify(validator.errors))
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
 			.toBe(true);
 	});
 

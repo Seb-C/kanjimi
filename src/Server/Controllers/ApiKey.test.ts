@@ -36,6 +36,7 @@ const apiKeyResponseValidator = new Ajv({ allErrors: true }).compile({
 		},
 	},
 });
+
 let user: User;
 
 describe('ApiKeyController', async function() {
@@ -75,22 +76,8 @@ describe('ApiKeyController', async function() {
 		expect(response.status).toBe(422);
 		const responseData = await response.json();
 
-		const validator = new Ajv({ allErrors: true }).compile({
-			type: 'array',
-			items: {
-				type: 'object',
-				additionalProperties: true,
-				required: ['message'],
-				properties: {
-					message: {
-						type: 'string',
-					},
-				},
-			},
-		});
-
-		expect(validator(responseData))
-			.withContext(JSON.stringify(validator.errors))
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
 			.toBe(true);
 	});
 

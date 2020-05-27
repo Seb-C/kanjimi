@@ -1,6 +1,5 @@
 MVP:
     email verification process:
-        - add this link to the welcome email
         - block login and token creation if the email is not verified
     subscription form/page with settings
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)

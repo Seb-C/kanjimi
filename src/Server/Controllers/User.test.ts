@@ -6,6 +6,7 @@ import ApiKeyRepository from 'Server/Repositories/ApiKey';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import { promises as FileSystem } from 'fs';
+import * as QuotedPrintable from 'quoted-printable';
 
 const userResponseValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
@@ -134,22 +135,27 @@ describe('UserController', async function() {
 		expect(responseData.languages).toEqual(['en', 'es']);
 		expect(responseData.jlpt).toBe(2);
 
-		const mails = await FileSystem.readdir('/tmp/mails');
-		expect(mails.length).toEqual(1);
-		const mail = await FileSystem.readFile('/tmp/mails/' + mails[0], { encoding: 'utf-8' });
-		expect(mail).toContain('To: unittest@example.com');
-		// TODO test the key and url
-
 		// Checking the db contents
 		const userRepository = new UserRepository(this.getDatabase());
-		const dbUser = await userRepository.getById(responseData.id);
+		const dbUser = <User>(await userRepository.getById(responseData.id));
 
-		expect(dbUser).not.toBe(null);
-		expect((<User>dbUser).password).not.toBe(null);
-		expect((<User>dbUser).password).not.toBe('');
-		expect((<User>dbUser).password).not.toBe('123456');
-		expect((<User>dbUser).emailVerified).toBe(false);
-		expect((<User>dbUser).emailVerificationKey).not.toBeNull();
+		expect(<User|null>dbUser).not.toBe(null);
+		expect(dbUser.id).toBe(responseData.id);
+		expect(dbUser.password).not.toBe(null);
+		expect(dbUser.password).not.toBe('');
+		expect(dbUser.password).not.toBe('123456');
+		expect(dbUser.emailVerified).toBe(false);
+		expect(dbUser.emailVerificationKey).not.toBeNull();
+
+		const mails = await FileSystem.readdir('/tmp/mails');
+		expect(mails.length).toEqual(1);
+		const mail = QuotedPrintable.decode(
+			await FileSystem.readFile('/tmp/mails/' + mails[0], { encoding: 'utf-8' })
+		);
+		expect(mail).toContain('To: unittest@example.com');
+		expect(mail).toContain(
+			`http://localhost:3000/www/app/verify-email?userId=${dbUser.id}&emailVerificationKey=${dbUser.emailVerificationKey}`
+		);
 
 		// Trying again (it should fail)
 		const response2 = await fetch('http://localhost:3000/user', {

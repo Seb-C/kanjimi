@@ -10,7 +10,6 @@ export const get = (db: Database) => async (request: Request, response: Response
 	const userRepository = new UserRepository(db);
 
 	const user = await userRepository.getFromRequest(request);
-	// TODO handle the 404 error
 	if (user === null) {
 		return response.status(403).json('Invalid api key');
 	}
@@ -80,6 +79,7 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 				+ "Your new account has successfully been created.\r\n"
 				+ "To confirm your email address, please click on the following link:\r\n"
 				+ "\r\n"
+				+ `${process.env.KANJIMI_WWW_URL}/app/verify-email?userId=${user.id}&emailVerificationKey=${emailVerificationKey}\r\n`
 				+ "\r\n"
 				+ "If you did not request this or if this is a mistake, please ignore this message.\r\n"
 			),

@@ -27,9 +27,8 @@ services:
       - KANJIMI_SMTP_SECURE=false
       #- KANJIMI_SMTP_USER=
       #- KANJIMI_SMTP_PASS=
-
-      # Only required by tests
       - KANJIMI_API_URL=http://localhost:3000
+      - KANJIMI_WWW_URL=http://localhost:3000/www
     command: >
       bash -c "
         ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts &

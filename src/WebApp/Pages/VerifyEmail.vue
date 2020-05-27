@@ -1,5 +1,5 @@
 <template>
-	<div class="page-logout text-center mt-5">
+	<div class="page-verify-email text-center mt-5">
 		<template v-if="loading">
 			<div class="spinner-border mb-4" role="status"></div>
 			<div>

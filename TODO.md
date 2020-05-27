@@ -1,6 +1,5 @@
 MVP:
     email verification process:
-        - e2e test for the email verification page
         - add this link to the welcome email
         - block login and token creation if the email is not verified
     subscription form/page with settings

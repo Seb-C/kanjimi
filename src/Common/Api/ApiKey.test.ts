@@ -12,7 +12,10 @@ let user: User;
 describe('Client ApiKey', async function() {
 	beforeEach(async function() {
 		const userRepository = new UserRepository(this.getDatabase());
-		user = await userRepository.create({ ...this.testUser });
+		user = await userRepository.create({
+			...this.testUser,
+			emailVerified: true,
+		});
 	});
 
 	it('create (normal case)', async function() {

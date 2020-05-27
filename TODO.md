@@ -1,12 +1,9 @@
 MVP:
-    email verification process:
-        - block login and token creation if the email is not verified
     subscription form/page with settings
     after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
     retrieve password process
     possibility to change password in the patch route
     onboarding (after subscription, install extension...)
-    Global vuejs error handling?
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
     bug with conjugated furiganas? Cf されて in the wikipedia test page
@@ -34,11 +31,14 @@ MVP:
     post on twitter
 
 After:
+    click on logo = go home
+    animations on the tooltip (appear/disappear)
+    Global vuejs error handling?
     if an email already exists and is not validated, try to send again the email at subscription time (with the same token)
     create a regular batch that removes non-validated users after a week
     good pages recommendation system?
     payment system and freemium for after the beta
-    menus animation when opening (user + mobile) -> css transitions?
+    menus animation when opening (user + mobile) -> css transitions? with vue transitions?
     make the extension interactions keyboard-navigable too (and have proper aria attributes)
     add tests for the keyboard-navigability (settings, menus...)
     add a test to the filter that does not translate the site itself (settings sample, homepage samples...)

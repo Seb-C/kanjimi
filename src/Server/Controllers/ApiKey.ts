@@ -39,6 +39,9 @@ export const create = (db: Database) => async (request: Request, response: Respo
 	) {
 		return response.status(403).json('Invalid email or password');
 	}
+	if (!user.emailVerified) {
+		return response.status(403).json('The account has not been verified yet. Please check your emails.');
+	}
 
 	try {
 		const apiKeyRepository = new ApiKeyRepository(db);

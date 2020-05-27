@@ -42,7 +42,10 @@ let user: User;
 describe('ApiKeyController', async function() {
 	beforeEach(async function() {
 		const userRepository = new UserRepository(this.getDatabase());
-		user = await userRepository.create({ ...this.testUser });
+		user = await userRepository.create({
+			...this.testUser,
+			emailVerified: true,
+		});
 	});
 
 	it('create (normal and duplicate case)', async function() {
@@ -98,6 +101,20 @@ describe('ApiKeyController', async function() {
 			body: JSON.stringify({
 				email: 'unittest@example.com',
 				password: 'wrong password',
+			}),
+		});
+		expect(response.status).toBe(403);
+	});
+
+	it('create (email not yet verified)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		user = await userRepository.updateById(user.id, { emailVerified: false });
+
+		const response = await fetch('http://localhost:3000/api-key', {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'unittest@example.com',
+				password: '123456',
 			}),
 		});
 		expect(response.status).toBe(403);

@@ -35,6 +35,10 @@ export default class Router {
 			absoluteUrl = this.baseUrl + absoluteUrl;
 		}
 
+		if (absoluteUrl.includes('?')) {
+			absoluteUrl = absoluteUrl.substring(0, absoluteUrl.indexOf('?'));
+		}
+
 		if (absoluteUrl.substring(absoluteUrl.length - 1) === '/') {
 			// Removing trailing slash if necessary
 			return absoluteUrl.substring(0, absoluteUrl.length - 1);

@@ -3,6 +3,7 @@ import Layout from 'WebApp/Layout.vue';
 import Store from 'WebApp/Store';
 import Router from 'WebApp/Router';
 
+import SignUp from 'WebApp/Pages/SignUp.vue';
 import VerifyEmail from 'WebApp/Pages/VerifyEmail.vue';
 import Login from 'WebApp/Pages/Login.vue';
 import Logout from 'WebApp/Pages/Logout.vue';
@@ -11,6 +12,7 @@ import Home from 'WebApp/Pages/Home.vue';
 
 window.addEventListener('load', async function () {
 	const router = new Router([
+		{ url: 'app/sign-up', component: SignUp, title: 'Sign Up' },
 		{ url: 'app/verify-email', component: VerifyEmail, title: 'Email Verification' },
 		{ url: 'app/login', component: Login, title: 'Login' },
 		{ url: 'app/logout', component: Logout, title: 'Logout' },

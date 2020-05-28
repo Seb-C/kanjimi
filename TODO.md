@@ -1,9 +1,11 @@
 MVP:
-    subscription form/page with settings
-    after the subscription page is done: add links to the index page to the account (changing depending on the localStorage key)
+    after the sign-up page is done: add links to the index page to the account (changing depending on the localStorage key)
+    test the sign-up page
+    test the FuriganaSample component
+    debug the CI
     retrieve password process
     possibility to change password in the patch route
-    onboarding (after subscription, install extension...)
+    onboarding (after sign-up, install extension...)
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
     bug with conjugated furiganas? Cf されて in the wikipedia test page
@@ -16,9 +18,9 @@ MVP:
     store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
-    chrome compatibility
-    firefox android compatibility
-    text other browsers
+    chrome compatibility (+ add to CI)
+    firefox android compatibility (+ add mobile to CI)
+    test other browsers
     Block access to the test pages in production
     webpack => production mode whenever necessary
     include references to external resources used somewhere in the site
@@ -34,7 +36,7 @@ After:
     click on logo = go home
     animations on the tooltip (appear/disappear)
     Global vuejs error handling?
-    if an email already exists and is not validated, try to send again the email at subscription time (with the same token)
+    if an email already exists and is not validated, try to send again the email at sign-up time (with the same token)
     create a regular batch that removes non-validated users after a week
     good pages recommendation system?
     payment system and freemium for after the beta

@@ -1,12 +1,12 @@
 <template>
 	<div class="row languages-selector">
-		<div class="col-12 order-2 order-sm-1 col-sm-6 col-lg-4 languages-available">
+		<div class="col-12 order-2 order-sm-1 col-sm-6 languages-available">
 			<ul v-bind:class="{
 				'list-group': true,
 				'disabled': disabled,
 				'empty-list': availableLanguages.length === 0,
 			}">
-				<li class="list-group-item bg-light">
+				<li class="list-group-item bg-primary-50">
 					<h3 class="h5 m-0">Available dictionaries</h3>
 				</li>
 				<DragAndDropContainer
@@ -34,7 +34,7 @@
 						>
 							<span>
 								{{ getLanguageName(language) }}
-								<small>({{ getLanguageInfo(language) }})</small>
+								<small class="text-nowrap">({{ getLanguageInfo(language) }})</small>
 							</span>
 						</li>
 					</DragAndDropItem>
@@ -47,13 +47,13 @@
 				</DragAndDropContainer>
 			</ul>
 		</div>
-		<div class="col-12 order-1 order-sm-2 col-sm-6 col-lg-4 languages-selected">
+		<div class="col-12 order-1 order-sm-2 col-sm-6 languages-selected">
 			<ul v-bind:class="{
 				'list-group': true,
 				'disabled': disabled,
 				'empty-list': selectedLanguages.length === 0,
 			}">
-				<li class="list-group-item bg-light">
+				<li class="list-group-item bg-primary-50">
 					<h3 class="h5 m-0">Selected dictionaries</h3>
 				</li>
 				<DragAndDropContainer
@@ -84,7 +84,7 @@
 						>
 							<span>
 								{{ getLanguageName(language) }}
-								<small>({{ getLanguageInfo(language) }})</small>
+								<small class="text-nowrap">({{ getLanguageInfo(language) }})</small>
 							</span>
 
 							<span
@@ -210,6 +210,10 @@
 		cursor: pointer;
 	}
 
+	.smooth-dnd-container {
+		outline: none;
+	}
+
 	.empty-list .list-group-item:last-child {
 		transform: none !important;
 	}
@@ -223,6 +227,8 @@
 
 	li.disabled, .disabled .smooth-dnd-draggable-wrapper {
 		cursor: not-allowed;
+		color: var(--dark-50);
+		filter: grayscale(100%);
 	}
 
 	.smooth-dnd-draggable-wrapper:focus-within {

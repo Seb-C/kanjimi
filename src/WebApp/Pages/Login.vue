@@ -10,7 +10,7 @@
 					<div class="bg-light p-3 rounded-circle border border-dark kanjimi-login-icon">
 						<img src="./img/logo.svg" alt="Logo" class="mw-100" />
 					</div>
-					<h1 class="mt-1 mb-0">Sign in</h1>
+					<h1 class="mt-1 mb-0">Log in</h1>
 				</div>
 
 				<div class="col-12">
@@ -139,5 +139,9 @@
 
 	.invalid-feedback {
 		padding-left: 3.5em;
+	}
+
+	button[disabled] {
+		cursor: not-allowed;
 	}
 </style>

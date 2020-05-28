@@ -75,16 +75,21 @@
 <style scoped>
 	.jlpt-level-selector {
 		user-select: none;
+		margin-left: 0;
+		margin-right: 0;
 	}
 	.jlpt-level-selector .option-container:focus-within {
-		border: 1px dotted var(--black);
-		margin: -1px;
+		outline: 1px dotted var(--black);
 	}
 	.jlpt-level-selector .radio-container {
 		position: relative;
 		display: flex;
 		align-items: center;
 		justify-content: center;
+		cursor: pointer;
+	}
+	.jlpt-level-selector.disabled .radio-container {
+		cursor: not-allowed;
 	}
 	.jlpt-level-selector .radio-container input {
 		position: absolute;

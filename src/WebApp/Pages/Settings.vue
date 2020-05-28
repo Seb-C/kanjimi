@@ -35,18 +35,7 @@
 						{{ errors.romanReading }}
 					</div>
 
-					<div class="row">
-						<div class="col-3 col-sm-2 col-xl-1 align-self-center">
-							Example:
-						</div>
-						<div class="col">
-							<div class="kanjimi-furigana-sample border rounded p-1">
-								<div class="furigana">{{ sampleFurigana }}</div>
-								<div class="word">日本語</div>
-								<div class="translation">Japanese</div>
-							</div>
-						</div>
-					</div>
+					<FuriganaSample v-bind:hasRomanReading="romanReading" />
 				</div>
 			</fieldset>
 
@@ -93,11 +82,15 @@
 						{{ errors.languages }}
 					</div>
 
-					<LanguagesSelector
-						v-model="languages"
-						v-on:change="changeLanguages"
-						v-bind:disabled="isFormDisabled"
-					/>
+					<div class="row">
+						<div class="col-12 col-lg-8">
+							<LanguagesSelector
+								v-model="languages"
+								v-on:change="changeLanguages"
+								v-bind:disabled="isFormDisabled"
+							/>
+						</div>
+					</div>
 				</div>
 			</fieldset>
 		</form>
@@ -107,6 +100,7 @@
 	import Vue from 'vue';
 	import Store from 'WebApp/Store';
 	import LanguagesSelector from 'WebApp/Components/LanguagesSelector.vue';
+	import FuriganaSample from 'WebApp/Components/FuriganaSample.vue';
 	import JlptLevelSelector from 'WebApp/Components/JlptLevelSelector.vue';
 	import SavingSpinner from 'WebApp/Components/Spinners/Saving.vue';
 	import SavedSpinner from 'WebApp/Components/Spinners/Saved.vue';
@@ -142,11 +136,6 @@
 					jlpt: null,
 				},
 			};
-		},
-		computed: {
-			sampleFurigana() {
-				return this.romanReading ? 'nihongo' : 'にほんご';
-			},
 		},
 		methods: {
 			mouseMoveJlptLabel(event: MouseEvent) {
@@ -217,36 +206,12 @@
 		},
 		components: {
 			LanguagesSelector,
+			FuriganaSample,
 			JlptLevelSelector,
 		},
 	});
 </script>
 <style scoped>
-	.kanjimi-furigana-sample {
-		display: inline-block;
-		font-size: 1.3em;
-	}
-
-	.kanjimi-furigana-sample .furigana {
-		font-size: 0.5em;
-		display: block;
-		line-height: 150%;
-		margin: 0 2px;
-		text-align: center;
-	}
-	.kanjimi-furigana-sample .word {
-		line-height: 1em;
-		text-align: center;
-		margin: 0 0 0.1em 0;
-	}
-	.kanjimi-furigana-sample .translation {
-		font-size: 0.5em;
-		display: block;
-		line-height: 150%;
-		margin: 0 2px;
-		text-align: center;
-	}
-
 	input[disabled] ~ .custom-control-label {
 		cursor: not-allowed;
 	}

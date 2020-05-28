@@ -132,3 +132,9 @@ input {
 	background-color: var(--secondary);
 	color: var(--white);
 }
+
+.custom-control-input:checked ~ .custom-control-label::before {
+	color: #fff;
+	border-color: var(--secondary);
+	background-color: var(--secondary);
+}

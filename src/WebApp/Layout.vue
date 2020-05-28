@@ -151,6 +151,7 @@
 			updateActiveMenuLinks() {
 				if (this.$root.apiKey === null) {
 					this.menuLinks = [
+						{ url: './app/sign-up', title: 'Sign Up' },
 						{ url: './app/login', title: 'Login' },
 					];
 				} else {

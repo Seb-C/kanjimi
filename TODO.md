@@ -1,7 +1,6 @@
 MVP:
-    after the sign-up page is done: add links to the index page to the account (changing depending on the localStorage key)
     test the sign-up page
-    test the FuriganaSample component
+    after the sign-up page is done: add links to the index page to the account (changing depending on the localStorage key)
     retrieve password process
     possibility to change password in the patch route
     onboarding (after sign-up, install extension...)
@@ -12,6 +11,7 @@ MVP:
     test with a lot of different sites and texts
     fix the red border not always properly placed (saw it on wikipedia in the book bordered box on the top)
     make the tooltip close when clicking anywhere else
+    save all words and sentences to show up later?
     test and debug with slack
     test and debug intensively the display of results
     store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
@@ -32,6 +32,7 @@ MVP:
     post on twitter
 
 After:
+    analyzer: any way to regroup sentences and then split again based on the original string index in the array?
     Remove google Analytics tracking, analyze nginx logs instead
     remove twitter tracking, use the API + static content (or via a cached API route?)
     click on logo = go home

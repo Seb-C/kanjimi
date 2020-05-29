@@ -6,10 +6,16 @@ context('Settings', () => {
 		// cy.route('PATCH', '**/user/**').as('updateUserRequest');
 	});
 
-	it('Page is accessible', () => {
+	it('Not accessible if logged-out', () => {
+		cy.setLoggedOut();
+		cy.visit('/app/settings');
+		cy.url().should('not.contain', 'app/settings');
+		cy.get('.page-settings').should('not.exist');
+	});
+
+	it('Accessible if logged-in', () => {
 		cy.setLoggedIn();
 		cy.visit('/app/settings');
-
 		cy.get('.page-settings').should('be.visible');
 	});
 

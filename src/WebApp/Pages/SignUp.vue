@@ -92,7 +92,7 @@
 							/>
 						</div>
 
-						<div v-if="!!errors.password" class="invalid-feedback error-password-block">
+						<div v-if="!!errors.password" class="invalid-feedback error-password">
 							{{ errors.password}}
 						</div>
 					</div>
@@ -160,7 +160,7 @@
 						<h3 class="h5 mb-3 d-inline-block">Languages</h3>
 					</div>
 					<div class="col">
-						<div v-if="!!errors.languages" class="invalid-feedback error-romanReading d-block mb-2 pl-0">
+						<div v-if="!!errors.languages" class="invalid-feedback error-languages d-block mb-2 pl-0">
 							{{ errors.languages }}
 						</div>
 

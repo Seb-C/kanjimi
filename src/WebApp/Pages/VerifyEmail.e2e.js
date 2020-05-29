@@ -13,6 +13,7 @@ context('VerifyEmail', () => {
 	});
 
 	it('The page structure is visible', () => {
+		cy.setLoggedOut();
 		cy.visit('/app/verify-email');
 
 		cy.get('.page-verify-email').should('exist').should('be.visible');
@@ -22,6 +23,7 @@ context('VerifyEmail', () => {
 	});
 
 	it('With an already validated account id', () => {
+		cy.setLoggedOut();
 		cy.visit('/app/verify-email?userId=cef830cb-6e75-43ab-91d3-ae13c82bd836&emailVerificationKey=fake_key');
 		// cy.wait('@verifyEmailRequest');
 
@@ -32,6 +34,7 @@ context('VerifyEmail', () => {
 	});
 
 	it('With a wrong id', () => {
+		cy.setLoggedOut();
 		cy.visit('/app/verify-email?userId=wrong_id');
 		// cy.wait('@verifyEmailRequest');
 
@@ -42,6 +45,7 @@ context('VerifyEmail', () => {
 	});
 
 	it('Does not contains a login button if it fails', () => {
+		cy.setLoggedOut();
 		cy.visit('/app/verify-email?userId=wrong_id');
 		// cy.wait('@verifyEmailRequest');
 
@@ -49,6 +53,7 @@ context('VerifyEmail', () => {
 	});
 
 	it('Does contain a login button if it succeeds', () => {
+		cy.setLoggedOut();
 		cy.visit('/app/verify-email?userId=cef830cb-6e75-43ab-91d3-ae13c82bd836&emailVerificationKey=fake_key');
 		// cy.wait('@verifyEmailRequest');
 

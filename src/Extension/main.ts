@@ -2,32 +2,49 @@ import PageHandler from 'Extension/PageHandler';
 import Store from 'Extension/Store';
 import { debounce } from 'ts-debounce';
 
+const store = new Store();
+const pageHandler = new PageHandler(store);
+
 (async () => {
-	const store = new Store();
-	await store.loadApiKeyFromStorage();
-	store.notifyIfLoggedOut();
-
-	const pageHandler = new PageHandler(store);
-	pageHandler.injectUIContainer();
-	pageHandler.injectLoaderCss();
-	pageHandler.convertSentences();
-
-	// Changing the key whenever it changes on the kanjimi website
-	window.addEventListener('kanjimi-set-api-key', async (event: Event) => {
-		const origin = (<Window>event.target).location.href;
-		const expectedOrigin = process.env.KANJIMI_WWW_URL + '/';
-		if (origin.substring(0, expectedOrigin.length) === expectedOrigin) {
-			await store.setApiKey((<CustomEvent>event).detail);
+	try {
+		await store.loadApiKeyFromStorage();
+		store.notifyIfLoggedOut();
+		if (store.apiKey !== null) {
+			await pageHandler.convertSentences();
 		}
-	}, false);
+	} catch (error) {
+		console.error(error);
+	}
+})();
 
-	// Handling the login from a different tab
-	browser.storage.onChanged.addListener(async () => {
+pageHandler.injectUIContainer();
+pageHandler.injectLoaderCss();
+
+// Changing the key whenever it changes on the kanjimi website
+window.addEventListener('kanjimi-set-api-key', async (event: Event) => {
+	const origin = (<Window>event.target).location.href;
+	const expectedOrigin = process.env.KANJIMI_WWW_URL + '/';
+	if (origin.substring(0, expectedOrigin.length) === expectedOrigin) {
+		await store.setApiKey((<CustomEvent>event).detail);
+	}
+}, false);
+
+// Handling the login from a different tab
+browser.storage.onChanged.addListener(async () => {
+	try {
 		await store.loadApiKeyFromStorage.bind(this);
-		pageHandler.convertSentences();
-	});
+		await pageHandler.convertSentences();
+	} catch (error) {
+		console.error(error);
+	}
+});
 
-	window.addEventListener('scroll', debounce(() => {
-		pageHandler.convertSentences();
-	}, 300));
-})().catch(console.error);
+const convertSentencesAsynchronously = async () => {
+	try {
+		await pageHandler.convertSentences();
+	} catch (error) {
+		console.error(error);
+	}
+};
+window.addEventListener('load', convertSentencesAsynchronously);
+window.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300));

@@ -1,6 +1,7 @@
 {
   "baseUrl": "http://localhost:3000/www/",
   "video": true,
+  "videoUploadOnPasses": false,
   "fixturesFolder": false,
   "integrationFolder": "src",
   "testFiles": "**/*.e2e.*",

@@ -10,6 +10,13 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - run: sudo apt-get install firefox
+    - uses: actions/cache@v2
+      with:
+        path: |
+          **/node_modules
+          ~/.cache/Cypress
+          ~/.npm
+        key: ${{ runner.os }}-cache-node-modules-${{ hashFiles('**/package-lock.json') }}
     - run: npm install
     - run: docker-compose up -d --build
     - run: make test
@@ -18,9 +25,8 @@ jobs:
     - run: make e2e
     - run: docker-compose logs
       if: failure()
-    - name: Uploads the cypress videos
+    - uses: actions/upload-artifact@v1
       if: failure()
-      uses: actions/upload-artifact@v1
       with:
         name: cypress-videos
         path: cypress/videos

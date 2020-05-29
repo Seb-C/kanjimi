@@ -13,7 +13,13 @@ browser.runtime.onMessage.addListener(async (message) => {
 
 			notificationOnClickUrls[message.notificationId] = message.onClickUrl;
 		}
-		await browser.notifications.create(message.notificationId, message.options);
+
+		try {
+			await browser.notifications.create(message.notificationId, message.options);
+		} catch (error) {
+			// Might happen in headless CI
+			console.error(error);
+		}
 	} else if (message.action === 'close-opened-login-tabs') {
 		try {
 			await browser.tabs.remove(openedLoginTabIds);

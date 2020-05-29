@@ -2,7 +2,6 @@ MVP:
     after the sign-up page is done: add links to the index page to the account (changing depending on the localStorage key)
     test the sign-up page
     test the FuriganaSample component
-    debug the CI
     retrieve password process
     possibility to change password in the patch route
     onboarding (after sign-up, install extension...)
@@ -33,6 +32,8 @@ MVP:
     post on twitter
 
 After:
+    Remove google Analytics tracking, analyze nginx logs instead
+    remove twitter tracking, use the API + static content (or via a cached API route?)
     click on logo = go home
     animations on the tooltip (appear/disappear)
     Global vuejs error handling?
@@ -59,7 +60,6 @@ After:
     paid member
     Have the home page js also built with webpack
     Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
-    Avoid Google Analytics tracking?
     Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
     translate the landing page (french?) and interface and add the supported languages list somewhere
     Cypress commands should run in a docker as well

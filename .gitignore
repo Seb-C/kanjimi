@@ -6,3 +6,5 @@ firefox-profile/
 /server/
 www/js/*.build.js
 www/css/*.build.css
+/cypress/screenshots/
+/cypress/videos/

@@ -464,3 +464,41 @@ footer {
 		left: 25%;
 	}
 }
+
+.show-logged-out {
+	display: flex;
+}
+.show-logged-in {
+	display: none;
+}
+
+.btn-open-kanjimi {
+	color: var(--primary) !important;
+    border-color: var(--primary);
+	border-width: 2px;
+	font-weight: bold;
+}
+.btn-open-kanjimi:hover,
+.btn-open-kanjimi.focus,
+.btn-open-kanjimi:focus {
+    background: var(--primary);
+    border-color: var(--primary);
+	color: var(--black) !important;
+}
+
+.btn-sign-up-kanjimi {
+	color: var(--primary) !important;
+    border-color: var(--primary);
+	border-width: 2px;
+	padding-top: 0.25rem;
+	padding-bottom: 0.25rem;
+	margin-top: 0.25rem;
+	margin-bottom: 0.25rem;
+}
+.btn-sign-up-kanjimi:hover,
+.btn-sign-up-kanjimi.focus,
+.btn-sign-up-kanjimi:focus {
+    background: var(--primary);
+    border-color: var(--primary);
+	color: var(--black) !important;
+}

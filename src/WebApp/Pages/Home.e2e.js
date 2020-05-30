@@ -11,4 +11,11 @@ context('Home', () => {
 		cy.url().should('not.contain', 'app/login');
 		cy.get('.page-home').should('be.visible');
 	});
+	it('Access from the homepage', () => {
+		cy.setLoggedIn();
+		cy.visit('/');
+		cy.get('a:contains(Open Kanjimi)').should('be.visible').click();
+		cy.url().should('contain', 'app/');
+		cy.get('.page-home').should('be.visible');
+	});
 });

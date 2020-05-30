@@ -1,5 +1,4 @@
 MVP:
-    after the sign-up page is done: add links to the index page to the account (changing depending on the localStorage key)
     retrieve password process
     possibility to change password in the patch route
     onboarding (after sign-up, install extension...)

@@ -33,7 +33,7 @@
 	<body data-spy="scroll" data-target="#main-menu">
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
 			<div
-				class="navbar-brand h1 m-0 text-white"
+				class="navbar-brand h1 my-0 text-white"
 				data-aos="slide-right"
 				data-aos-anchor="#top"
 				data-aos-anchor-placement="top-center"
@@ -70,7 +70,7 @@
 				data-aos-anchor="#top"
 				data-aos-anchor-placement="top-center"
 			>
-				<ul class="navbar-nav ml-auto text-right">
+				<ul class="navbar-nav mr-auto text-left">
 					<li class="nav-item">
 						<a class="nav-link" href="#top">Top</a>
 					</li>
@@ -88,6 +88,20 @@
 					</li>
 					<li class="nav-item">
 						<a class="nav-link" href="#twitter"><i class="fab fa-twitter"></i> Follow us</a>
+					</li>
+				</ul>
+
+				<ul class="navbar-nav ml-auto text-right show-logged-out">
+					<li class="nav-item">
+						<a class="nav-link" href="./app/login">Login</a>
+					</li>
+					<li class="nav-item ml-2">
+						<a class="nav-link btn btn-outline-primary rounded btn-sign-up-kanjimi" href="./app/sign-up">Sign-Up</a>
+					</li>
+				</ul>
+				<ul class="navbar-nav ml-auto text-right show-logged-in">
+					<li class="nav-item">
+						<a class="nav-link btn btn-outline-primary rounded-pill px-3 btn-open-kanjimi" href="./app/">Open Kanjimi</a>
 					</li>
 				</ul>
 			</div>

@@ -18,6 +18,14 @@ context('Login', () => {
 		cy.url().should('contain', 'app/login');
 		cy.get('.page-login').should('be.visible');
 	});
+	it('Access from the homepage', () => {
+		cy.setLoggedOut();
+		cy.visit('/');
+		cy.get('a:contains(Login)').should('be.visible').click();
+		cy.url().should('contain', 'app/login');
+		cy.get('.page-login').should('be.visible');
+	});
+
 	it('Errors if empty', () => {
 		cy.setLoggedOut();
 		cy.visit('/app/login');

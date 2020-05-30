@@ -17,12 +17,20 @@ context('SignUp', () => {
 		cy.visit('/app/sign-up');
 		cy.get('.page-sign-up').should('be.visible');
 	});
+	it('Accessible from the homepage', () => {
+		cy.setLoggedOut();
+		cy.visit('/');
+		cy.get('a:contains(Sign-Up)').should('be.visible').click();
+		cy.get('.page-sign-up').should('be.visible');
+		cy.url().should('contain', 'app/sign-up');
+	});
 
 	it('Normal process should work', () => {
 		cy.setLoggedOut();
 		cy.visit('/app/sign-up');
 
-		cy.get('input[name="email"]').type('test@kanjimi.com');
+		const random = Math.random().toString().replace('.', '');
+		cy.get('input[name="email"]').type('test-' + random + '@kanjimi.com');
 		cy.get('input[name="password"]').type('123456');
 		cy.get('input[name="passwordConfirmation"]').type('123456');
 		cy.get('.languages-available ul div:has(> li:contains(English))').click();

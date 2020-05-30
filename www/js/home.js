@@ -18,6 +18,11 @@
 			scrollTop: $(this.hash).offset().top - navBarHeight,
 		}, 500);
 	});
+
+	if (localStorage.getItem('key')) {
+		$('.show-logged-out').hide();
+		$('.show-logged-in').show();
+	}
 })(jQuery);
 
 window.addEventListener('load', function () {

@@ -19,6 +19,7 @@ describe('User', function() {
 		const apiData = <any>(input.toApi());
 		expect(apiData.password).toBe(null);
 		expect(apiData.emailVerificationKey).not.toBeDefined();
+		expect(apiData.passwordRenewalKey).not.toBeDefined();
 
 		const output = User.fromApi(JSON.parse(JSON.stringify(apiData)));
 		expect(output.id).toBe('uuid');
@@ -26,6 +27,7 @@ describe('User', function() {
 		expect(output.emailVerified).toBe(false);
 		expect(output.emailVerificationKey).toBe(null);
 		expect(output.password).toBe(null);
+		expect(output.passwordRenewalKey).toBe(null);
 		expect(output.languages).toEqual([Language.FRENCH, Language.GERMAN]);
 		expect(output.romanReading).toBe(true);
 		expect(output.jlpt).toBe(2);

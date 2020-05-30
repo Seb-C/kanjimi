@@ -49,6 +49,7 @@ export default class User {
 		emailVerified: boolean,
 		emailVerificationKey: string|null,
 		password: string,
+		passwordRenewalKey: string|null,
 		languages: Language[],
 		romanReading: boolean,
 		jlpt: number|null,
@@ -62,6 +63,7 @@ export default class User {
 				"emailVerificationKey",
 				"password",
 				"languages",
+				"passwordRenewalKey",
 				"romanReading",
 				"jlpt",
 				"createdAt"
@@ -71,6 +73,7 @@ export default class User {
 				\${emailVerified},
 				\${emailVerificationKey},
 				\${password},
+				\${passwordRenewalKey},
 				\${languages},
 				\${romanReading},
 				\${jlpt},
@@ -87,6 +90,7 @@ export default class User {
 
 	async updateById (uuid: string, attributes: {
 		password?: string,
+		passwordRenewalKey?: string|null,
 		emailVerified?: boolean,
 		emailVerificationKey?: string|null,
 		languages?: Language[],
@@ -103,6 +107,7 @@ export default class User {
 
 		const allowedFieldsInSqlQuery = [
 			'password',
+			'passwordRenewalKey',
 			'emailVerified',
 			'emailVerificationKey',
 			'languages',

@@ -4,6 +4,7 @@ CREATE TABLE "User" (
 	"emailVerified" BOOLEAN NOT NULL,
 	"emailVerificationKey" TEXT NULL,
 	"password" TEXT NOT NULL,
+	"passwordRenewalKey" TEXT NULL,
 	"languages" TEXT[] NOT NULL,
 	"romanReading" BOOLEAN NOT NULL,
 	"jlpt" SMALLINT NULL,
@@ -19,6 +20,7 @@ INSERT INTO "User" VALUES (
 	TRUE,
 	NULL,
 	'XezyI+4BK2TS47Wfol4+DbXXNWvHKwbFtFlmpG3Q4L0=', -- YQPtL67gddfnkads
+	NULL,
 	ARRAY['fr', 'en'],
 	FALSE,
 	3,

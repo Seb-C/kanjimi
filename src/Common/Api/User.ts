@@ -55,7 +55,7 @@ export const verifyEmail = async (userId: string, emailVerificationKey: string):
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/user/${userId}/verify-email`, {
 		method: 'PATCH',
 		body: JSON.stringify({
-			emailVerificationKey
+			emailVerificationKey,
 		}),
 	});
 	const responseData = await response.json();

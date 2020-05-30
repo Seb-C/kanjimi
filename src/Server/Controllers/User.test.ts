@@ -146,6 +146,7 @@ describe('UserController', async function() {
 		expect(dbUser.password).not.toBe('123456');
 		expect(dbUser.emailVerified).toBe(false);
 		expect(dbUser.emailVerificationKey).not.toBeNull();
+		expect(dbUser.passwordRenewalKey).not.toBeNull();
 
 		const mails = await FileSystem.readdir('/tmp/mails');
 		expect(mails.length).toEqual(1);
@@ -177,6 +178,7 @@ describe('UserController', async function() {
 			body: JSON.stringify({
 				emailVerified: true,
 				emailVerificationKey: '123',
+				passwordRenewalKey: '123',
 				createdAt: new Date().toISOString(),
 			}),
 		});
@@ -243,6 +245,7 @@ describe('UserController', async function() {
 			body: JSON.stringify({
 				emailVerified: true,
 				emailVerificationKey: '123',
+				passwordRenewalKey: '123',
 				createdAt: new Date().toISOString(),
 			}),
 		});

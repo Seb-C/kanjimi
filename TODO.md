@@ -1,6 +1,12 @@
 MVP:
     retrieve password process
-    possibility to change password in the patch route
+        - route to ask for it by email (+ send the email) -> reuse it if already exists? Add an expiration date?
+        - API endpoint to change password using the passwordRenewalKey
+        - remove the passwordRenewalKey when used
+        - interface to change the password on password renewal request
+    change password process
+        - API endpoint to change password when logged in
+        - interface to change the password from the settings page
     onboarding (after sign-up, install extension...)
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile
@@ -30,6 +36,7 @@ MVP:
     post on twitter
 
 After:
+    vocabulary review
     analyzer: any way to regroup sentences and then split again based on the original string index in the array?
     Remove google Analytics tracking, analyze nginx logs instead
     remove twitter tracking, use the API + static content (or via a cached API route?)

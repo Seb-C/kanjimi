@@ -1,5 +1,6 @@
 import 'jasmine';
 import UserRepository from 'Server/Repositories/User';
+import ApiKeyRepository from 'Server/Repositories/ApiKey';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import { Request } from 'express';
@@ -9,8 +10,31 @@ describe('UserRepository', async function() {
 	it('getById', async function() {
 		const uuid = uuidv4();
 		await this.getDatabase().exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "emailVerificationKey", "password", "passwordRenewalKey", "languages", "romanReading", "jlpt", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, NULL, 'password', NULL, ARRAY['fr'], TRUE, 2, CURRENT_TIMESTAMP);
+			INSERT INTO "User" (
+				"id",
+				"email",
+				"emailVerified",
+				"emailVerificationKey",
+				"password",
+				"passwordRenewalKey",
+				"passwordRenewalKeyCreatedAt",
+				"languages",
+				"romanReading",
+				"jlpt",
+				"createdAt"
+			) VALUES (
+				\${uuid},
+				'unittest@example.com',
+				FALSE,
+				NULL,
+				'password',
+				NULL,
+				NULL,
+				ARRAY['fr'],
+				TRUE,
+				2,
+				CURRENT_TIMESTAMP
+			);
 		`, { uuid });
 		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.getById(uuid);
@@ -26,8 +50,31 @@ describe('UserRepository', async function() {
 	it('getByEmail', async function() {
 		const uuid = uuidv4();
 		await this.getDatabase().exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "emailVerificationKey", "password", "passwordRenewalKey", "languages", "romanReading", "jlpt", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, NULL, 'password', NULL, ARRAY['fr'], FALSE, 2, CURRENT_TIMESTAMP);
+			INSERT INTO "User" (
+				"id",
+				"email",
+				"emailVerified",
+				"emailVerificationKey",
+				"password",
+				"passwordRenewalKey",
+				"passwordRenewalKeyCreatedAt",
+				"languages",
+				"romanReading",
+				"jlpt",
+				"createdAt"
+			) VALUES (
+				\${uuid},
+				'unittest@example.com',
+				FALSE,
+				NULL,
+				'password',
+				NULL,
+				NULL,
+				ARRAY['fr'],
+				FALSE,
+				2,
+				CURRENT_TIMESTAMP
+			);
 		`, { uuid });
 		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.getByEmail('unittest@example.com');
@@ -43,18 +90,36 @@ describe('UserRepository', async function() {
 	it('getByApiKey', async function() {
 		const uuid = uuidv4();
 		await this.getDatabase().exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "emailVerificationKey", "password", "passwordRenewalKey", "languages", "romanReading", "jlpt", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, NULL, 'password', NULL, ARRAY['fr'], FALSE, 2, CURRENT_TIMESTAMP);
+			INSERT INTO "User" (
+				"id",
+				"email",
+				"emailVerified",
+				"emailVerificationKey",
+				"password",
+				"passwordRenewalKey",
+				"passwordRenewalKeyCreatedAt",
+				"languages",
+				"romanReading",
+				"jlpt",
+				"createdAt"
+			) VALUES (
+				\${uuid},
+				'unittest@example.com',
+				FALSE,
+				NULL,
+				'password',
+				NULL,
+				NULL,
+				ARRAY['fr'],
+				FALSE,
+				2,
+				CURRENT_TIMESTAMP
+			);
 		`, { uuid });
-		await this.getDatabase().exec(`
-			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
-			VALUES (\${id}, 'fakeapikey', \${userId}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-		`, {
-			id: uuidv4(),
-			userId: uuid,
-		});
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const apiKey = await apiKeyRepository.create(uuid);
 		const userRepository = new UserRepository(this.getDatabase());
-		const user = await userRepository.getByApiKey('fakeapikey');
+		const user = await userRepository.getByApiKey(apiKey.key);
 
 		expect(user).not.toBe(null);
 		expect((<User>user)).toBeInstanceOf(User);
@@ -67,20 +132,38 @@ describe('UserRepository', async function() {
 	it('getFromRequest', async function() {
 		const uuid = uuidv4();
 		await this.getDatabase().exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "emailVerificationKey", "password", "passwordRenewalKey", "languages", "romanReading", "jlpt", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, NULL, 'password', NULL, ARRAY['fr'], TRUE, 2, CURRENT_TIMESTAMP);
+			INSERT INTO "User" (
+				"id",
+				"email",
+				"emailVerified",
+				"emailVerificationKey",
+				"password",
+				"passwordRenewalKey",
+				"passwordRenewalKeyCreatedAt",
+				"languages",
+				"romanReading",
+				"jlpt",
+				"createdAt"
+			) VALUES (
+				\${uuid},
+				'unittest@example.com',
+				FALSE,
+				NULL,
+				'password',
+				NULL,
+				NULL,
+				ARRAY['fr'],
+				TRUE,
+				2,
+				CURRENT_TIMESTAMP
+			);
 		`, { uuid });
-		await this.getDatabase().exec(`
-			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
-			VALUES (\${id}, 'fakeapikey', \${userId}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
-		`, {
-			id: uuidv4(),
-			userId: uuid,
-		});
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const apiKey = await apiKeyRepository.create(uuid);
 		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.getFromRequest(<Request><any>{
 			headers: {
-				authorization: 'Bearer fakeapikey',
+				authorization: 'Bearer ' + apiKey.key,
 			},
 		});
 
@@ -94,12 +177,14 @@ describe('UserRepository', async function() {
 
 	it('create', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
+		const date = new Date();
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
 			emailVerified: true,
 			emailVerificationKey: 'test email key',
 			password: '123456',
 			passwordRenewalKey: 'test password key',
+			passwordRenewalKeyCreatedAt: date,
 			languages: [Language.FRENCH],
 			romanReading: true,
 			jlpt: 1,
@@ -116,7 +201,8 @@ describe('UserRepository', async function() {
 		expect(user.emailVerificationKey).toBe('test email key');
 		expect(user.password).not.toBe('123456');
 		expect(user.password).toBe(userRepository.hashPassword(user.id, '123456'));
-		expect(user.passwordRenewalKey).toBe('test passsword key');
+		expect(user.passwordRenewalKey).toBe('test password key');
+		expect(user.passwordRenewalKeyCreatedAt).toEqual(date);
 		expect(user.id).not.toBe('');
 		expect(user.languages.length).toBe(1);
 		expect(user.languages[0]).toBe(Language.FRENCH);
@@ -128,15 +214,40 @@ describe('UserRepository', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const uuid = uuidv4();
 		const password = userRepository.hashPassword(uuid, '123456');
+		const date = new Date();
 		await this.getDatabase().exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "emailVerificationKey", "password", "passwordRenewalKey", "languages", "romanReading", "jlpt", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, NULL, \${password}, NULL, ARRAY['fr'], FALSE, NULL, CURRENT_TIMESTAMP);
+			INSERT INTO "User" (
+				"id",
+				"email",
+				"emailVerified",
+				"emailVerificationKey",
+				"password",
+				"passwordRenewalKey",
+				"passwordRenewalKeyCreatedAt",
+				"languages",
+				"romanReading",
+				"jlpt",
+				"createdAt"
+			) VALUES (
+				\${uuid},
+				'unittest@example.com',
+				FALSE,
+				NULL,
+				\${password},
+				NULL,
+				NULL,
+				ARRAY['fr'],
+				FALSE,
+				NULL,
+				CURRENT_TIMESTAMP
+			);
 		`, { uuid, password });
 		const user = await userRepository.updateById(uuid, {
 			emailVerified: true,
 			emailVerificationKey: 'test email key',
 			password: 'qwerty',
 			passwordRenewalKey: 'test password key',
+			passwordRenewalKeyCreatedAt: date,
 			languages: [Language.ENGLISH, Language.GERMAN],
 			romanReading: true,
 			jlpt: null,
@@ -152,6 +263,7 @@ describe('UserRepository', async function() {
 		expect(user.password).not.toBe(password);
 		expect(user.password).toBe(userRepository.hashPassword(uuid, 'qwerty'));
 		expect(user.passwordRenewalKey).toBe('test password key');
+		expect(user.passwordRenewalKeyCreatedAt).toEqual(date);
 		expect(user.languages.length).toBe(2);
 		expect(user.languages[0]).toBe(Language.ENGLISH);
 		expect(user.languages[1]).toBe(Language.GERMAN);
@@ -160,8 +272,31 @@ describe('UserRepository', async function() {
 	it('deleteByEmail', async function() {
 		const uuid = uuidv4();
 		await this.getDatabase().exec(`
-			INSERT INTO "User" ("id", "email", "emailVerified", "emailVerificationKey", "password", "passwordRenewalKey", "languages", "romanReading", "jlpt", "createdAt")
-			VALUES (\${uuid}, 'unittest@example.com', FALSE, NULL, 'password', NULL, ARRAY['fr'], TRUE, NULL, CURRENT_TIMESTAMP);
+			INSERT INTO "User" (
+				"id",
+				"email",
+				"emailVerified",
+				"emailVerificationKey",
+				"password",
+				"passwordRenewalKey",
+				"passwordRenewalKeyCreatedAt",
+				"languages",
+				"romanReading",
+				"jlpt",
+				"createdAt"
+			) VALUES (
+				\${uuid},
+				'unittest@example.com',
+				FALSE,
+				NULL,
+				'password',
+				NULL,
+				NULL,
+				ARRAY['fr'],
+				TRUE,
+				NULL,
+				CURRENT_TIMESTAMP
+			);
 		`, { uuid });
 		const userRepository = new UserRepository(this.getDatabase());
 		await userRepository.deleteByEmail('unittest@example.com');

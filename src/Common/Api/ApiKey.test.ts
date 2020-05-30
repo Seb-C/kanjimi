@@ -58,7 +58,7 @@ describe('Client ApiKey', async function() {
 
 	it('get (normal case)', async function() {
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const resultApiKey = await get(apiKey.key);
 

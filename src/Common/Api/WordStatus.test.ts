@@ -21,7 +21,7 @@ describe('Client WordStatus', async function() {
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
 		user = await userRepository.create({ ...this.testUser });
-		apiKey = await apiKeyRepository.create(user);
+		apiKey = await apiKeyRepository.create(user.id);
 		wordStatus = await wordStatusRepository.create(user, 'word', true, false);
 	});
 

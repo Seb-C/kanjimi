@@ -67,6 +67,7 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 			emailVerified: false,
 			emailVerificationKey,
 			passwordRenewalKey: null,
+			passwordRenewalKeyCreatedAt: null,
 		});
 
 		// TODO add a transaction and a rollback if the email throws an exception

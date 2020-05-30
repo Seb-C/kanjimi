@@ -106,7 +106,7 @@ describe('LexerController', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		user = await userRepository.create({ ...this.testUser });
-		apiKey = await apiKeyRepository.create(user);
+		apiKey = await apiKeyRepository.create(user.id);
 	});
 
 	it('analyze (checking results)', async function() {

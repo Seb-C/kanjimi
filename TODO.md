@@ -1,6 +1,6 @@
 MVP:
     retrieve password process
-        - route to ask for it by email (+ send the email) -> reuse it if already exists? Add an expiration date?
+        - route to ask for it by email (+ send the email) -> reuse it if already exists and recent (passwordRenewalKeyCreatedAt)
         - API endpoint to change password using the passwordRenewalKey
         - remove the passwordRenewalKey when used
         - interface to change the password on password renewal request

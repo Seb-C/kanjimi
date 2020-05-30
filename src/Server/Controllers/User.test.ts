@@ -66,7 +66,7 @@ describe('UserController', async function() {
 			languages: [Language.ENGLISH, Language.SPANISH],
 			jlpt: 2,
 		});
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const response = await fetch(`http://localhost:3000/user/${user.id}`, {
 			method: 'GET',
@@ -94,7 +94,7 @@ describe('UserController', async function() {
 			...this.testUser,
 			email: 'unittest2@example.com',
 		});
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const response = await fetch(`http://localhost:3000/user/${user2.id}`, {
 			method: 'GET',
@@ -146,7 +146,8 @@ describe('UserController', async function() {
 		expect(dbUser.password).not.toBe('123456');
 		expect(dbUser.emailVerified).toBe(false);
 		expect(dbUser.emailVerificationKey).not.toBeNull();
-		expect(dbUser.passwordRenewalKey).not.toBeNull();
+		expect(dbUser.passwordRenewalKey).toBeNull();
+		expect(dbUser.passwordRenewalKeyCreatedAt).toBeNull();
 
 		const mails = await FileSystem.readdir('/tmp/mails');
 		expect(mails.length).toEqual(1);
@@ -179,6 +180,7 @@ describe('UserController', async function() {
 				emailVerified: true,
 				emailVerificationKey: '123',
 				passwordRenewalKey: '123',
+				passwordRenewalKeyCreatedAt: new Date(),
 				createdAt: new Date().toISOString(),
 			}),
 		});
@@ -199,7 +201,7 @@ describe('UserController', async function() {
 			romanReading: false,
 			jlpt: 1,
 		});
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const response = await fetch(`http://localhost:3000/user/${user.id}`, {
 			method: 'PATCH',
@@ -235,7 +237,7 @@ describe('UserController', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const response = await fetch(`http://localhost:3000/user/${user.id}`, {
 			method: 'PATCH',
@@ -246,6 +248,7 @@ describe('UserController', async function() {
 				emailVerified: true,
 				emailVerificationKey: '123',
 				passwordRenewalKey: '123',
+				passwordRenewalKeyCreatedAt: new Date(),
 				createdAt: new Date().toISOString(),
 			}),
 		});
@@ -261,7 +264,7 @@ describe('UserController', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const response = await fetch(`http://localhost:3000/user/00000000-0000-0000-0000-000000000000`, {
 			method: 'PATCH',
@@ -278,7 +281,7 @@ describe('UserController', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const response = await fetch(`http://localhost:3000/user/wrong_id`, {
 			method: 'PATCH',
@@ -295,7 +298,7 @@ describe('UserController', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const response = await fetch(`http://localhost:3000/user/`, {
 			method: 'PATCH',
@@ -322,7 +325,7 @@ describe('UserController', async function() {
 			password: '234567',
 			languages: [Language.ENGLISH],
 		});
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const response = await fetch(`http://localhost:3000/user/${user2.id}`, {
 			method: 'PATCH',

@@ -14,7 +14,7 @@ describe('Client User', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const result = await get(apiKey.key, user.id);
 
@@ -167,7 +167,7 @@ describe('Client User', async function() {
 			romanReading: true,
 			jlpt: null,
 		});
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		const result = await update(apiKey.key, user.id, {
 			languages: [Language.ENGLISH, Language.FRENCH],
@@ -194,7 +194,7 @@ describe('Client User', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user);
+		const apiKey = await apiKeyRepository.create(user.id);
 
 		let error;
 		try {

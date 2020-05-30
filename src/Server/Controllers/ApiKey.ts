@@ -45,7 +45,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 
 	try {
 		const apiKeyRepository = new ApiKeyRepository(db);
-		const apiKey = await apiKeyRepository.create(<User>user);
+		const apiKey = await apiKeyRepository.create((<User>user).id);
 
 		return response.json(apiKey.toApi());
 	} catch (exception) {

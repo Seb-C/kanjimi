@@ -1,7 +1,6 @@
 import { Request } from 'express';
 import Database from 'Server/Database/Database';
 import ApiKeyModel from 'Common/Models/ApiKey';
-import User from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -35,7 +34,7 @@ export default class ApiKey {
 		return this.getByKey(key);
 	}
 
-	async create (user: User): Promise<ApiKeyModel> {
+	async create (userId: string): Promise<ApiKeyModel> {
 		const expiresAt = new Date();
 		expiresAt.setDate(expiresAt.getDate() + 365);
 
@@ -46,7 +45,7 @@ export default class ApiKey {
 		`, {
 			id: uuidv4(),
 			key: Crypto.randomBytes(64).toString('base64'),
-			userId: user.id,
+			userId,
 			createdAt: new Date(),
 			expiresAt,
 		});

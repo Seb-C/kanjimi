@@ -1,6 +1,6 @@
 MVP:
     retrieve password process
-        - route to ask for it by email (+ send the email) -> reuse it if already exists and recent (passwordRenewalKeyCreatedAt)
+        - route to ask for it by email (+ send the email) -> reuse it if already exists and recent (passwordRenewalKeyExpiresAt)
         - API endpoint to change password using the passwordRenewalKey
         - remove the passwordRenewalKey when used
         - interface to change the password on password renewal request
@@ -36,6 +36,7 @@ MVP:
     post on twitter
 
 After:
+    force dates to utc server side (instead of `new Date()`)
     vocabulary review
     analyzer: any way to regroup sentences and then split again based on the original string index in the array?
     Remove google Analytics tracking, analyze nginx logs instead

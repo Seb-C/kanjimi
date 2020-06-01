@@ -5,7 +5,7 @@ CREATE TABLE "User" (
 	"emailVerificationKey" TEXT NULL,
 	"password" TEXT NOT NULL,
 	"passwordRenewalKey" TEXT NULL,
-	"passwordRenewalKeyCreatedAt" TIMESTAMP NULL,
+	"passwordRenewalKeyExpiresAt" TIMESTAMP NULL,
 	"languages" TEXT[] NOT NULL,
 	"romanReading" BOOLEAN NOT NULL,
 	"jlpt" SMALLINT NULL,

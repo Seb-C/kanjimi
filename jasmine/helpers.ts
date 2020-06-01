@@ -48,7 +48,7 @@ beforeEach(async function() {
 		emailVerificationKey: null,
 		password: '123456',
 		passwordRenewalKey: null,
-		passwordRenewalKeyCreatedAt: null,
+		passwordRenewalKeyExpiresAt: null,
 		languages: [Language.FRENCH],
 		romanReading: false,
 		jlpt: null,

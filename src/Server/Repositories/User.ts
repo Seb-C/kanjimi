@@ -50,7 +50,7 @@ export default class User {
 		emailVerificationKey: string|null,
 		password: string,
 		passwordRenewalKey: string|null,
-		passwordRenewalKeyCreatedAt: Date|null,
+		passwordRenewalKeyExpiresAt: Date|null,
 		languages: Language[],
 		romanReading: boolean,
 		jlpt: number|null,
@@ -64,7 +64,7 @@ export default class User {
 				"emailVerificationKey",
 				"password",
 				"passwordRenewalKey",
-				"passwordRenewalKeyCreatedAt",
+				"passwordRenewalKeyExpiresAt",
 				"languages",
 				"romanReading",
 				"jlpt",
@@ -76,7 +76,7 @@ export default class User {
 				\${emailVerificationKey},
 				\${password},
 				\${passwordRenewalKey},
-				\${passwordRenewalKeyCreatedAt},
+				\${passwordRenewalKeyExpiresAt},
 				\${languages},
 				\${romanReading},
 				\${jlpt},
@@ -94,7 +94,7 @@ export default class User {
 	async updateById (uuid: string, attributes: {
 		password?: string,
 		passwordRenewalKey?: string|null,
-		passwordRenewalKeyCreatedAt?: Date|null,
+		passwordRenewalKeyExpiresAt?: Date|null,
 		emailVerified?: boolean,
 		emailVerificationKey?: string|null,
 		languages?: Language[],
@@ -112,7 +112,7 @@ export default class User {
 		const allowedFieldsInSqlQuery = [
 			'password',
 			'passwordRenewalKey',
-			'passwordRenewalKeyCreatedAt',
+			'passwordRenewalKeyExpiresAt',
 			'emailVerified',
 			'emailVerificationKey',
 			'languages',
@@ -145,5 +145,18 @@ export default class User {
 
 	generateEmailVerificationKey(): string {
 		return Crypto.randomBytes(64).toString('base64');
+	}
+
+	generatePasswordRenewalKey(): {
+		passwordRenewalKey: string,
+		passwordRenewalKeyExpiresAt: Date,
+	} {
+		const expiresAt = new Date();
+		expiresAt.setHours(expiresAt.getHours() + 1);
+
+		return {
+			passwordRenewalKey: Crypto.randomBytes(64).toString('base64'),
+			passwordRenewalKeyExpiresAt: expiresAt,
+		};
 	}
 }

@@ -84,6 +84,10 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 				+ `${process.env.KANJIMI_WWW_URL}/app/verify-email?userId=${user.id}&emailVerificationKey=${emailVerificationKey}\r\n`
 				+ "\r\n"
 				+ "If you did not request this or if this is a mistake, please ignore this message.\r\n"
+				+ "\r\n"
+				+ "Thanks,\r\n"
+				+ "\r\n"
+				+ "Kanjimi"
 			),
 		});
 
@@ -200,3 +204,68 @@ export const update = (db: Database) => async (request: Request, response: Respo
 		}
 	}
 };
+
+const requestResetPasswordRequestValidator = new Ajv({ allErrors: true }).compile({
+	type: 'object',
+	required: ['email'],
+	additionalProperties: false,
+	properties: {
+		email: {
+			type: 'string',
+			minLength: 1,
+		},
+	},
+});
+export const requestResetPassword = (db: Database, mailer: NodeMailer.Transporter) => async (request: Request, response: Response, next: Function) => {
+	if (!requestResetPasswordRequestValidator(request.body)) {
+		return response.status(422).json(requestResetPasswordRequestValidator.errors);
+	}
+
+	const userRepository = new UserRepository(db);
+
+	try {
+		const user = await userRepository.getByEmail(request.body.email);
+		if (
+			user !== null
+			&& user.emailVerified
+			&& (
+				user.passwordRenewalKeyExpiresAt === null
+				|| new Date() > user.passwordRenewalKeyExpiresAt
+			)
+		) {
+			const {
+				passwordRenewalKey,
+				passwordRenewalKeyExpiresAt,
+			} = userRepository.generatePasswordRenewalKey();
+
+			// Sending the email before so that we don't modify the database if it fails
+			await mailer.sendMail({
+				to: user.email,
+				subject: 'Reset your password',
+				text: (
+					+ "We received a request to reset the password of your Kanjimi account.\r\n"
+					+ "To do so, please click on the following link and set the new password:\r\n"
+					+ "\r\n"
+					+ `${process.env.KANJIMI_WWW_URL}/app/reset-password?userId=${user.id}&passwordRenewalKey=${passwordRenewalKey}\r\n`
+					+ "\r\n"
+					+ "This link will expire in 1 hour. If you did not request this, please ignore this message.\r\n"
+					+ "\r\n"
+					+ "Thanks,\r\n"
+					+ "\r\n"
+					+ "Kanjimi"
+				),
+			});
+
+			await userRepository.updateById(user.id, {
+				passwordRenewalKey,
+				passwordRenewalKeyExpiresAt,
+			});
+		}
+
+		// Sending the same neutral response in every case for security
+		return response.json('If this address exist, it will an email with instructions to set a new password.');
+	} catch (error) {
+		return next(error);
+	}
+};
+

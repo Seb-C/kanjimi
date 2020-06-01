@@ -19,8 +19,8 @@ export default class User {
 		this.emailVerified = attributes.emailVerified;
 		this.emailVerificationKey = attributes.emailVerificationKey || null;
 		this.password = attributes.password;
-		this.passwordResetKey = attributes.papasswordResety || null;
-		this.passwordResetKeyExpiresAt = attributes.papasswordResetyExpiresAt || null;
+		this.passwordResetKey = attributes.passwordResetKey || null;
+		this.passwordResetKeyExpiresAt = attributes.passwordResetKeyExpiresAt || null;
 		this.languages = [...attributes.languages];
 		this.createdAt = attributes.createdAt;
 		this.romanReading = attributes.romanReading;

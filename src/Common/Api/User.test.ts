@@ -221,7 +221,11 @@ describe('Client User', async function() {
 
 		let error;
 		try {
-			await update(apiKey.key, 'wrong id that should fail', {});
+			await update(apiKey.key, '00000000-0000-0000-0000-000000000000', {
+				languages: [Language.ENGLISH, Language.FRENCH],
+				romanReading: false,
+				jlpt: null,
+			});
 		} catch (e) {
 			error = e;
 		}
@@ -247,7 +251,7 @@ describe('Client User', async function() {
 	it('requestResetPassword (validation error case)', async function() {
 		let error;
 		try {
-			await requestResetPassword('unittest@example.com');
+			await requestResetPassword(<string><any>null);
 		} catch (e) {
 			error = e;
 		}
@@ -257,7 +261,7 @@ describe('Client User', async function() {
 
 	it('resetPassword (normal case)', async function() {
 		const expiresAt = new Date();
-		expiresAt.setHours(expiresAt.getHours() - 1);
+		expiresAt.setHours(expiresAt.getHours() + 24);
 
 		const userRepository = new UserRepository(this.getDatabase());
 		const user = await userRepository.create({

@@ -32,8 +32,10 @@ MVP:
     post on reddit
     post on linkedin
     post on twitter
+    check that the distributed clients cannot contain server-side code
 
 After:
+    don't restart server if a server test file has changed
     unit test for the user controller -> create some common code to reduce the number of lines of code
     url encoding of query strings is not necessary? should be lighter and more readable
     force dates to utc server side (instead of `new Date()`)

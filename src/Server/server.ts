@@ -95,6 +95,7 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	application.post('/user', UserController.create(db, mailer));
 	application.post('/user/request-reset-password', UserController.requestResetPassword(db, mailer));
 	application.patch('/user/:userId/verify-email', UserController.verifyEmail(db));
+	application.patch('/user/:userId/reset-password', UserController.resetPassword(db));
 	application.patch('/user/:userId', UserController.update(db));
 	application.get('/user/:userId', UserController.get(db));
 

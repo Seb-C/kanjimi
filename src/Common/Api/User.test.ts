@@ -1,5 +1,12 @@
 import 'jasmine';
-import { get, create, verifyEmail, update, requestResetPassword } from 'Common/Api/User';
+import {
+	get,
+	create,
+	verifyEmail,
+	update,
+	requestResetPassword,
+	resetPassword,
+} from 'Common/Api/User';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import ValidationError from 'Common/Api/Errors/Validation';
@@ -206,6 +213,22 @@ describe('Client User', async function() {
 		expect(error).toBeInstanceOf(ValidationError);
 	});
 
+	it('update (not found error case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const user = await userRepository.create({ ...this.testUser });
+		const apiKey = await apiKeyRepository.create(user.id);
+
+		let error;
+		try {
+			await update(apiKey.key, 'wrong id that should fail', {});
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(NotFoundError);
+	});
+
 	it('requestResetPassword (normal case)', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		await userRepository.create({
@@ -230,5 +253,75 @@ describe('Client User', async function() {
 		}
 
 		expect(error).toBeInstanceOf(ValidationError);
+	});
+
+	it('resetPassword (normal case)', async function() {
+		const expiresAt = new Date();
+		expiresAt.setHours(expiresAt.getHours() - 1);
+
+		const userRepository = new UserRepository(this.getDatabase());
+		const user = await userRepository.create({
+			...this.testUser,
+			password: '123456',
+			passwordResetKey: 'test_key',
+			passwordResetKeyExpiresAt: expiresAt,
+		});
+
+		const result = await resetPassword(user.id, {
+			password: 'qwerty',
+			passwordResetKey: 'test_key',
+		});
+
+		expect(result).toBeInstanceOf(User);
+	});
+
+	it('resetPassword (authentication error case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const user = await userRepository.create({
+			...this.testUser,
+			password: '123456',
+			passwordResetKey: 'test_key',
+			passwordResetKeyExpiresAt: new Date(),
+		});
+
+		let error;
+		try {
+			await resetPassword(user.id, {
+				password: 'qwerty',
+				passwordResetKey: 'wrong_key',
+			});
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(AuthenticationError);
+	});
+
+	it('resetPassword (validation error case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const user = await userRepository.create({ ...this.testUser });
+
+		let error;
+		try {
+			await resetPassword(user.id, <any>{});
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(ValidationError);
+	});
+
+	it('resetPassword (not found error case)', async function() {
+		let error;
+		try {
+			await resetPassword('wrong id', {
+				password: 'qwerty',
+				passwordResetKey: 'wrong_key',
+			});
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(NotFoundError);
 	});
 });

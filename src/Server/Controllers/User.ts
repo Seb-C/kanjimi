@@ -130,7 +130,7 @@ export const verifyEmail = (db: Database) => async (request: Request, response: 
 			return response.status(409).json('This email have already been verified.');
 		}
 		if (user.emailVerificationKey !== request.body.emailVerificationKey) {
-			return response.status(403).json('You are not allowed access to this object');
+			return response.status(403).json('The verification key is invalid.');
 		}
 
 		const updatedUser = await userRepository.updateById(user.id, {
@@ -213,6 +213,7 @@ const requestResetPasswordRequestValidator = new Ajv({ allErrors: true }).compil
 		email: {
 			type: 'string',
 			minLength: 1,
+			format: 'email',
 		},
 	},
 });
@@ -269,3 +270,56 @@ export const requestResetPassword = (db: Database, mailer: NodeMailer.Transporte
 	}
 };
 
+const resetPasswordValidator = new Ajv({ allErrors: true }).compile({
+	type: 'object',
+	required: ['passwordResetKey', 'password'],
+	additionalProperties: false,
+	minProperties: 1,
+	properties: {
+		passwordResetKey: {
+			type: 'string',
+			minLength: 1,
+		},
+		password: {
+			type: 'string',
+			minLength: 1,
+		},
+	},
+});
+export const resetPassword = (db: Database) => async (request: Request, response: Response, next: Function) => {
+	if (!resetPasswordValidator(request.body)) {
+		return response.status(422).json(resetPasswordValidator.errors);
+	}
+
+	const userRepository = new UserRepository(db);
+
+	try {
+		const requestedUser = await userRepository.getById(request.params.userId);
+		if (requestedUser === null) {
+			return response.status(404).json('User not found');
+		}
+		if (request.body.passwordResetKey !== requestedUser.passwordResetKey) {
+			return response.status(403).json('The key is invalid');
+		}
+		if (
+			requestedUser.passwordResetKeyExpiresAt !== null
+			&& requestedUser.passwordResetKeyExpiresAt < new Date()
+		) {
+			return response.status(403).json('This key has expired');
+		}
+
+		const updatedUser = await userRepository.updateById(requestedUser.id, {
+			password: request.body.password,
+			passwordResetKey: null,
+			passwordResetKeyExpiresAt: null,
+		});
+
+		return response.json(updatedUser.toApi());
+	} catch (error) {
+		if (error.routine === 'string_to_uuid') {
+			return response.status(404).json('Invalid id');
+		} else {
+			return next(error);
+		}
+	}
+};

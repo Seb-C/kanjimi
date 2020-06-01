@@ -99,6 +99,9 @@ export const update = async (key: string, userId: string, attributes: {
 	if (response.status === 403) {
 		throw new AuthenticationError(responseData);
 	}
+	if (response.status === 404) {
+		throw new NotFoundError(responseData);
+	}
 	if (response.status >= 500 && response.status < 600) {
 		throw new ServerError(await response.text());
 	}
@@ -121,4 +124,30 @@ export const requestResetPassword = async (email: string) => {
 	}
 
 	return <string>responseData;
+};
+
+export const resetPassword = async (userId: string, attributes: {
+	passwordResetKey: string,
+	password: string,
+}): Promise<User> => {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/user/${userId}/reset-password`, {
+		method: 'PATCH',
+		body: JSON.stringify(attributes),
+	});
+	const responseData = await response.json();
+
+	if (response.status === 422) {
+		throw new ValidationError(responseData);
+	}
+	if (response.status === 403) {
+		throw new AuthenticationError(responseData);
+	}
+	if (response.status === 404) {
+		throw new NotFoundError(responseData);
+	}
+	if (response.status >= 500 && response.status < 600) {
+		throw new ServerError(await response.text());
+	}
+
+	return User.fromApi(responseData);
 };

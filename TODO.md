@@ -1,7 +1,5 @@
 MVP:
     retrieve password process
-        - API endpoint to change password using the passwordResetKey (+ test + client side)
-        - remove the passwordResetKey when used
         - interface to request the password reset
         - interface to change the password on password renewal request
     change password process
@@ -36,6 +34,8 @@ MVP:
     post on twitter
 
 After:
+    unit test for the user controller -> create some common code to reduce the number of lines of code
+    url encoding of query strings is not necessary? should be lighter and more readable
     force dates to utc server side (instead of `new Date()`)
     vocabulary review
     analyzer: any way to regroup sentences and then split again based on the original string index in the array?

@@ -574,4 +574,140 @@ describe('UserController', async function() {
 		expect(user.passwordResetKey).toBe('test');
 		expect(user.passwordResetKeyExpiresAt).toEqual(expiresAt);
 	});
+
+	it('resetPassword (normal case)', async function() {
+		const expiresAt = new Date();
+		expiresAt.setHours(expiresAt.getHours() + 24);
+
+		const userRepository = new UserRepository(this.getDatabase());
+		const user = await userRepository.create({
+			...this.testUser,
+			password: '123456',
+			passwordResetKey: 'test_key',
+			passwordResetKeyExpiresAt: expiresAt,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}/reset-password`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				password: 'qwerty',
+				passwordResetKey: 'test_key',
+			}),
+		});
+		expect(response.status).toBe(200);
+		const responseData = await response.json();
+
+		expect(userResponseValidator(responseData))
+			.withContext(JSON.stringify(userResponseValidator.errors))
+			.toBe(true);
+		expect(responseData.id).toBe(user.id);
+
+		// Checking the db contents
+		const dbUser = await userRepository.getById(responseData.id);
+
+		expect((<User>dbUser).password).toEqual(userRepository.hashPassword(user.id, 'qwerty'));
+		expect((<User>dbUser).passwordResetKey).toBe(null);
+		expect((<User>dbUser).passwordResetKeyExpiresAt).toBe(null);
+	});
+
+	it('resetPassword (validation errors)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const user = await userRepository.create({ ...this.testUser });
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}/reset-password`, {
+			method: 'PATCH',
+			body: JSON.stringify({}),
+		});
+		expect(response.status).toBe(422);
+		const responseData = await response.json();
+
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
+			.toBe(true);
+	});
+
+	it('resetPassword (not found error)', async function() {
+		const response = await fetch(`http://localhost:3000/user/00000000-0000-0000-0000-000000000000/reset-password`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				password: 'qwerty',
+				passwordResetKey: 'test_key',
+			}),
+		});
+		expect(response.status).toBe(404);
+	});
+	it('resetPassword (not found + not a uuid)', async function() {
+		const response = await fetch(`http://localhost:3000/user/wrong_id/reset-password`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				password: 'qwerty',
+				passwordResetKey: 'test_key',
+			}),
+		});
+		expect(response.status).toBe(404);
+	});
+	it('resetPassword (empty id)', async function() {
+		const response = await fetch(`http://localhost:3000/user//reset-password`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				password: 'qwerty',
+				passwordResetKey: 'test_key',
+			}),
+		});
+		expect(response.status).toBe(404);
+	});
+
+	it('resetPassword (invalid key error)', async function() {
+		const expiresAt = new Date();
+		expiresAt.setHours(expiresAt.getHours() + 24);
+
+		const userRepository = new UserRepository(this.getDatabase());
+		const user = await userRepository.create({
+			...this.testUser,
+			password: '123456',
+			passwordResetKey: 'test_key',
+			passwordResetKeyExpiresAt: expiresAt,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}/reset-password`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				password: 'qwerty',
+				passwordResetKey: 'wrong_key',
+			}),
+		});
+		expect(response.status).toBe(403);
+
+		// Reloading the user from the database
+		const user2 = await userRepository.getById(user.id);
+
+		expect(user2).toEqual(user);
+	});
+
+	it('resetPassword (expired key error)', async function() {
+		const expiresAt = new Date();
+		expiresAt.setHours(expiresAt.getHours() - 1);
+
+		const userRepository = new UserRepository(this.getDatabase());
+		const user = await userRepository.create({
+			...this.testUser,
+			password: '123456',
+			passwordResetKey: 'test_key',
+			passwordResetKeyExpiresAt: expiresAt,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}/reset-password`, {
+			method: 'PATCH',
+			body: JSON.stringify({
+				password: 'qwerty',
+				passwordResetKey: 'test_key',
+			}),
+		});
+		expect(response.status).toBe(403);
+
+		// Reloading the user from the database
+		const user2 = await userRepository.getById(user.id);
+
+		expect(user2).toEqual(user);
+	});
 });

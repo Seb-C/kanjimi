@@ -109,6 +109,7 @@
 	import ApiKey from 'Common/Models/ApiKey';
 	import ValidationError from 'Common/Api/Errors/Validation';
 	import AuthenticationError from 'Common/Api/Errors/Authentication';
+	import NotFoundError from 'Common/Api/Errors/NotFound';
 	import ServerError from 'Common/Api/Errors/Server';
 
 	export default Vue.extend({
@@ -193,6 +194,8 @@
 						this.errors = error.getFormErrors();
 					} else if (error instanceof AuthenticationError) {
 						this.errors = { top: error.error };
+					} else if (error instanceof NotFoundError) {
+						this.errors = { top: 'We were unable to find your account. Please try to refresh the page.' };
 					} else if (error instanceof ServerError) {
 						console.error('Server error during user settings change. Response body: ', error.body);
 						this.errors = { top: 'There have been an unknown error. Please try again in a little while' };

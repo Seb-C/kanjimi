@@ -49,8 +49,8 @@ export default class User {
 		emailVerified: boolean,
 		emailVerificationKey: string|null,
 		password: string,
-		passwordRenewalKey: string|null,
-		passwordRenewalKeyExpiresAt: Date|null,
+		passwordResetKey: string|null,
+		passwordResetKeyExpiresAt: Date|null,
 		languages: Language[],
 		romanReading: boolean,
 		jlpt: number|null,
@@ -63,8 +63,8 @@ export default class User {
 				"emailVerified",
 				"emailVerificationKey",
 				"password",
-				"passwordRenewalKey",
-				"passwordRenewalKeyExpiresAt",
+				"passwordResetKey",
+				"passwordResetKeyExpiresAt",
 				"languages",
 				"romanReading",
 				"jlpt",
@@ -75,8 +75,8 @@ export default class User {
 				\${emailVerified},
 				\${emailVerificationKey},
 				\${password},
-				\${passwordRenewalKey},
-				\${passwordRenewalKeyExpiresAt},
+				\${passwordResetKey},
+				\${passwordResetKeyExpiresAt},
 				\${languages},
 				\${romanReading},
 				\${jlpt},
@@ -93,8 +93,8 @@ export default class User {
 
 	async updateById (uuid: string, attributes: {
 		password?: string,
-		passwordRenewalKey?: string|null,
-		passwordRenewalKeyExpiresAt?: Date|null,
+		passwordResetKey?: string|null,
+		passwordResetKeyExpiresAt?: Date|null,
 		emailVerified?: boolean,
 		emailVerificationKey?: string|null,
 		languages?: Language[],
@@ -111,8 +111,8 @@ export default class User {
 
 		const allowedFieldsInSqlQuery = [
 			'password',
-			'passwordRenewalKey',
-			'passwordRenewalKeyExpiresAt',
+			'passwordResetKey',
+			'passwordResetKeyExpiresAt',
 			'emailVerified',
 			'emailVerificationKey',
 			'languages',
@@ -148,15 +148,15 @@ export default class User {
 	}
 
 	generatePasswordRenewalKey(): {
-		passwordRenewalKey: string,
-		passwordRenewalKeyExpiresAt: Date,
+		passwordResetKey: string,
+		passwordResetKeyExpiresAt: Date,
 	} {
 		const expiresAt = new Date();
 		expiresAt.setHours(expiresAt.getHours() + 1);
 
 		return {
-			passwordRenewalKey: Crypto.randomBytes(64).toString('base64'),
-			passwordRenewalKeyExpiresAt: expiresAt,
+			passwordResetKey: Crypto.randomBytes(64).toString('base64'),
+			passwordResetKeyExpiresAt: expiresAt,
 		};
 	}
 }

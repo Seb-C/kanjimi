@@ -16,8 +16,8 @@ describe('UserRepository', async function() {
 				"emailVerified",
 				"emailVerificationKey",
 				"password",
-				"passwordRenewalKey",
-				"passwordRenewalKeyExpiresAt",
+				"passwordResetKey",
+				"passwordResetKeyExpiresAt",
 				"languages",
 				"romanReading",
 				"jlpt",
@@ -56,8 +56,8 @@ describe('UserRepository', async function() {
 				"emailVerified",
 				"emailVerificationKey",
 				"password",
-				"passwordRenewalKey",
-				"passwordRenewalKeyExpiresAt",
+				"passwordResetKey",
+				"passwordResetKeyExpiresAt",
 				"languages",
 				"romanReading",
 				"jlpt",
@@ -96,8 +96,8 @@ describe('UserRepository', async function() {
 				"emailVerified",
 				"emailVerificationKey",
 				"password",
-				"passwordRenewalKey",
-				"passwordRenewalKeyExpiresAt",
+				"passwordResetKey",
+				"passwordResetKeyExpiresAt",
 				"languages",
 				"romanReading",
 				"jlpt",
@@ -138,8 +138,8 @@ describe('UserRepository', async function() {
 				"emailVerified",
 				"emailVerificationKey",
 				"password",
-				"passwordRenewalKey",
-				"passwordRenewalKeyExpiresAt",
+				"passwordResetKey",
+				"passwordResetKeyExpiresAt",
 				"languages",
 				"romanReading",
 				"jlpt",
@@ -183,8 +183,8 @@ describe('UserRepository', async function() {
 			emailVerified: true,
 			emailVerificationKey: 'test email key',
 			password: '123456',
-			passwordRenewalKey: 'test password key',
-			passwordRenewalKeyExpiresAt: date,
+			passwordResetKey: 'test password key',
+			passwordResetKeyExpiresAt: date,
 			languages: [Language.FRENCH],
 			romanReading: true,
 			jlpt: 1,
@@ -201,8 +201,8 @@ describe('UserRepository', async function() {
 		expect(user.emailVerificationKey).toBe('test email key');
 		expect(user.password).not.toBe('123456');
 		expect(user.password).toBe(userRepository.hashPassword(user.id, '123456'));
-		expect(user.passwordRenewalKey).toBe('test password key');
-		expect(user.passwordRenewalKeyExpiresAt).toEqual(date);
+		expect(user.passwordResetKey).toBe('test password key');
+		expect(user.passwordResetKeyExpiresAt).toEqual(date);
 		expect(user.id).not.toBe('');
 		expect(user.languages.length).toBe(1);
 		expect(user.languages[0]).toBe(Language.FRENCH);
@@ -222,8 +222,8 @@ describe('UserRepository', async function() {
 				"emailVerified",
 				"emailVerificationKey",
 				"password",
-				"passwordRenewalKey",
-				"passwordRenewalKeyExpiresAt",
+				"passwordResetKey",
+				"passwordResetKeyExpiresAt",
 				"languages",
 				"romanReading",
 				"jlpt",
@@ -246,8 +246,8 @@ describe('UserRepository', async function() {
 			emailVerified: true,
 			emailVerificationKey: 'test email key',
 			password: 'qwerty',
-			passwordRenewalKey: 'test password key',
-			passwordRenewalKeyExpiresAt: date,
+			passwordResetKey: 'test password key',
+			passwordResetKeyExpiresAt: date,
 			languages: [Language.ENGLISH, Language.GERMAN],
 			romanReading: true,
 			jlpt: null,
@@ -262,8 +262,8 @@ describe('UserRepository', async function() {
 		expect(user.emailVerificationKey).toBe('test email key');
 		expect(user.password).not.toBe(password);
 		expect(user.password).toBe(userRepository.hashPassword(uuid, 'qwerty'));
-		expect(user.passwordRenewalKey).toBe('test password key');
-		expect(user.passwordRenewalKeyExpiresAt).toEqual(date);
+		expect(user.passwordResetKey).toBe('test password key');
+		expect(user.passwordResetKeyExpiresAt).toEqual(date);
 		expect(user.languages.length).toBe(2);
 		expect(user.languages[0]).toBe(Language.ENGLISH);
 		expect(user.languages[1]).toBe(Language.GERMAN);
@@ -278,8 +278,8 @@ describe('UserRepository', async function() {
 				"emailVerified",
 				"emailVerificationKey",
 				"password",
-				"passwordRenewalKey",
-				"passwordRenewalKeyExpiresAt",
+				"passwordResetKey",
+				"passwordResetKeyExpiresAt",
 				"languages",
 				"romanReading",
 				"jlpt",
@@ -323,12 +323,12 @@ describe('UserRepository', async function() {
 
 	it('generatePasswordRenewalKey', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
-		expect(userRepository.generatePasswordRenewalKey().passwordRenewalKey).not.toEqual(
-			userRepository.generatePasswordRenewalKey().passwordRenewalKey,
+		expect(userRepository.generatePasswordRenewalKey().passwordResetKey).not.toEqual(
+			userRepository.generatePasswordRenewalKey().passwordResetKey,
 		);
-		expect(userRepository.generatePasswordRenewalKey().passwordRenewalKey).not.toBeNull();
-		expect(userRepository.generatePasswordRenewalKey().passwordRenewalKey.length).not.toEqual(0);
+		expect(userRepository.generatePasswordRenewalKey().passwordResetKey).not.toBeNull();
+		expect(userRepository.generatePasswordRenewalKey().passwordResetKey.length).not.toEqual(0);
 
-		expect(userRepository.generatePasswordRenewalKey().passwordRenewalKeyExpiresAt > new Date()).toEqual(true);
+		expect(userRepository.generatePasswordRenewalKey().passwordResetKeyExpiresAt > new Date()).toEqual(true);
 	});
 });

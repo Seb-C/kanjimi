@@ -6,8 +6,8 @@ export default class User {
 	public readonly emailVerified: boolean;
 	public readonly emailVerificationKey: string|null;
 	public readonly password: string|null;
-	public readonly passwordRenewalKey: string|null;
-	public readonly passwordRenewalKeyExpiresAt: Date|null;
+	public readonly passwordResetKey: string|null;
+	public readonly passwordResetKeyExpiresAt: Date|null;
 	public readonly languages: ReadonlyArray<Language>;
 	public readonly createdAt: Date;
 	public readonly romanReading: boolean;
@@ -19,8 +19,8 @@ export default class User {
 		this.emailVerified = attributes.emailVerified;
 		this.emailVerificationKey = attributes.emailVerificationKey || null;
 		this.password = attributes.password;
-		this.passwordRenewalKey = attributes.passwordRenewalKey || null;
-		this.passwordRenewalKeyExpiresAt = attributes.passwordRenewalKeyExpiresAt || null;
+		this.passwordResetKey = attributes.papasswordResety || null;
+		this.passwordResetKeyExpiresAt = attributes.papasswordResetyExpiresAt || null;
 		this.languages = [...attributes.languages];
 		this.createdAt = attributes.createdAt;
 		this.romanReading = attributes.romanReading;

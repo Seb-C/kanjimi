@@ -66,8 +66,8 @@ export const create = (db: Database, mailer: NodeMailer.Transporter) => async (r
 			...request.body,
 			emailVerified: false,
 			emailVerificationKey,
-			passwordRenewalKey: null,
-			passwordRenewalKeyCreatedAt: null,
+			passwordResetKey: null,
+			passwordResetKeyCreatedAt: null,
 		});
 
 		// TODO add a transaction and a rollback if the email throws an exception
@@ -229,13 +229,13 @@ export const requestResetPassword = (db: Database, mailer: NodeMailer.Transporte
 			user !== null
 			&& user.emailVerified
 			&& (
-				user.passwordRenewalKeyExpiresAt === null
-				|| new Date() > user.passwordRenewalKeyExpiresAt
+				user.passwordResetKeyExpiresAt === null
+				|| new Date() > user.passwordResetKeyExpiresAt
 			)
 		) {
 			const {
-				passwordRenewalKey,
-				passwordRenewalKeyExpiresAt,
+				passwordResetKey,
+				passwordResetKeyExpiresAt,
 			} = userRepository.generatePasswordRenewalKey();
 
 			// Sending the email before so that we don't modify the database if it fails
@@ -246,7 +246,7 @@ export const requestResetPassword = (db: Database, mailer: NodeMailer.Transporte
 					+ "We received a request to reset the password of your Kanjimi account.\r\n"
 					+ "To do so, please click on the following link and set the new password:\r\n"
 					+ "\r\n"
-					+ `${process.env.KANJIMI_WWW_URL}/app/reset-password?userId=${user.id}&passwordRenewalKey=${passwordRenewalKey}\r\n`
+					+ `${process.env.KANJIMI_WWW_URL}/app/reset-password?userId=${user.id}&passwordResetKey=${papasswordResety}\r\n`
 					+ "\r\n"
 					+ "This link will expire in 1 hour. If you did not request this, please ignore this message.\r\n"
 					+ "\r\n"
@@ -257,8 +257,8 @@ export const requestResetPassword = (db: Database, mailer: NodeMailer.Transporte
 			});
 
 			await userRepository.updateById(user.id, {
-				passwordRenewalKey,
-				passwordRenewalKeyExpiresAt,
+				passwordResetKey,
+				passwordResetKeyExpiresAt,
 			});
 		}
 

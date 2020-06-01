@@ -1,5 +1,5 @@
 import 'jasmine';
-import { get, create, verifyEmail, update } from 'Common/Api/User';
+import { get, create, verifyEmail, update, requestResetPassword } from 'Common/Api/User';
 import User from 'Common/Models/User';
 import Language from 'Common/Types/Language';
 import ValidationError from 'Common/Api/Errors/Validation';
@@ -199,6 +199,32 @@ describe('Client User', async function() {
 		let error;
 		try {
 			await update(apiKey.key, user.id, {});
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).toBeInstanceOf(ValidationError);
+	});
+
+	it('requestResetPassword (normal case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		await userRepository.create({
+			...this.testUser,
+			email: 'unittest@example.com',
+			emailVerified: true,
+			passwordResetKey: null,
+			passwordResetKeyExpiresAt: null,
+		});
+
+		const result = await requestResetPassword('unittest@example.com');
+
+		expect(typeof result).toBe('string');
+	});
+
+	it('requestResetPassword (validation error case)', async function() {
+		let error;
+		try {
+			await requestResetPassword('unittest@example.com');
 		} catch (e) {
 			error = e;
 		}

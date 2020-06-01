@@ -105,3 +105,20 @@ export const update = async (key: string, userId: string, attributes: {
 
 	return User.fromApi(responseData);
 };
+
+export const requestResetPassword = async (email: string) => {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/user/request-reset-password`, {
+		method: 'POST',
+		body: JSON.stringify({ email }),
+	});
+	const responseData = await response.json();
+
+	if (response.status === 422) {
+		throw new ValidationError(responseData);
+	}
+	if (response.status >= 500 && response.status < 600) {
+		throw new ServerError(await response.text());
+	}
+
+	return <string>responseData;
+};

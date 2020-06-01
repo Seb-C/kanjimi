@@ -470,4 +470,108 @@ describe('UserController', async function() {
 		});
 		expect(response.status).toBe(403);
 	});
+
+	it('requestResetPassword (normal case)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		let user = await userRepository.create({
+			...this.testUser,
+			email: 'unittest@example.com',
+			emailVerified: true,
+			passwordResetKey: null,
+			passwordResetKeyExpiresAt: null,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/request-reset-password`, {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'unittest@example.com',
+			}),
+		});
+		expect(response.status).toBe(200);
+
+		// Reloading data from the DB
+		user = <User>(await userRepository.getById(user.id));
+
+		expect(user.passwordResetKey).not.toBe(null);
+		expect((<string>(user.passwordResetKey)).length > 0).toBe(true);
+
+		expect(user.passwordResetKeyExpiresAt).not.toBe(null);
+		expect(<Date>(user.passwordResetKeyExpiresAt) > new Date()).toBe(true);
+	});
+
+	it('requestResetPassword (validation error)', async function() {
+		const response = await fetch(`http://localhost:3000/user/request-reset-password`, {
+			method: 'POST',
+			body: JSON.stringify({}),
+		});
+		expect(response.status).toBe(422);
+		const responseData = await response.json();
+
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
+			.toBe(true);
+	});
+
+	it('requestResetPassword (unknown user)', async function() {
+		const response = await fetch(`http://localhost:3000/user/request-reset-password`, {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'nobody@example.com',
+			}),
+		});
+		expect(response.status).toBe(200);
+	});
+
+	it('requestResetPassword (non-verified email)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		let user = await userRepository.create({
+			...this.testUser,
+			email: 'unittest@example.com',
+			emailVerified: false,
+			passwordResetKey: null,
+			passwordResetKeyExpiresAt: null,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/request-reset-password`, {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'nobody@example.com',
+			}),
+		});
+		expect(response.status).toBe(200);
+
+		// Reloading data from the DB
+		user = <User>(await userRepository.getById(user.id));
+
+		expect(user.passwordResetKey).toBe(null);
+		expect(user.passwordResetKeyExpiresAt).toBe(null);
+	});
+
+	it('requestResetPassword (password reset already requested)', async function() {
+		const expiresAt = new Date();
+		expiresAt.setHours(expiresAt.getHours() + 24);
+
+		const userRepository = new UserRepository(this.getDatabase());
+		let user = await userRepository.create({
+			...this.testUser,
+			email: 'unittest@example.com',
+			emailVerified: true,
+			passwordResetKey: 'test',
+			passwordResetKeyExpiresAt: expiresAt,
+		});
+
+		const response = await fetch(`http://localhost:3000/user/request-reset-password`, {
+			method: 'POST',
+			body: JSON.stringify({
+				email: 'unittest@example.com',
+			}),
+		});
+		expect(response.status).toBe(200);
+
+		// Reloading data from the DB
+		user = <User>(await userRepository.getById(user.id));
+
+		expect(user.passwordResetKey).toBe('test');
+		expect(user.passwordResetKeyExpiresAt).toEqual(expiresAt);
+	});
 });

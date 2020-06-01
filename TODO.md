@@ -1,8 +1,8 @@
 MVP:
     retrieve password process
-        - route to ask for it by email (+ send the email) -> reuse it if already exists and recent (passwordResetKeyExpiresAt)
-        - API endpoint to change password using the passwordResetKey
+        - API endpoint to change password using the passwordResetKey (+ test + client side)
         - remove the passwordResetKey when used
+        - interface to request the password reset
         - interface to change the password on password renewal request
     change password process
         - API endpoint to change password when logged in

@@ -21,6 +21,10 @@ input {
 	filter: none;
 }
 
+a {
+	color: var(--secondary);
+}
+
 .btn-primary,
 .btn-primary:hover,
 .btn-primary.focus,

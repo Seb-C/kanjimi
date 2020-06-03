@@ -76,6 +76,18 @@
 						</template>
 					</button>
 				</div>
+
+				<div class="col-12 mt-2 text-center">
+					<a
+						href="./app/request-reset-password"
+						v-on:click="onClickRequestResetPasswordLink"
+					>Forgot your password?</a>
+					<span class="mx-2">·</span>
+					<a
+						href="./app/sign-up"
+						v-on:click="onClickSignUpLink"
+					>Sign Up for Kanjimi</a>
+				</div>
 			</form>
 		</div>
 	</div>
@@ -102,6 +114,12 @@
 			};
 		},
 		methods: {
+			onClickRequestResetPasswordLink(event: Event) {
+				this.$root.router.changeRoute(event);
+			},
+			onClickSignUpLink(event: Event) {
+				this.$root.router.changeRoute(event);
+			},
 			async submit(event: Event) {
 				event.preventDefault();
 				this.loading = true;

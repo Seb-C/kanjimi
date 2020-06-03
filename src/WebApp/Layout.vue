@@ -2,14 +2,16 @@
 	<div class="d-flex flex-column bg-white" style="min-height: 100vh">
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
 			<div class="navbar-brand h1 my-0 text-white">
-				<img
-					src="./img/logo.svg"
-					width="30"
-					height="30"
-					class="d-inline-block align-top bg-white rounded mr-2"
-					alt="Logo"
-				/>
-				Kanjimi
+				<a href="/" class="text-white">
+					<img
+						src="./img/logo.svg"
+						width="30"
+						height="30"
+						class="d-inline-block align-top bg-white rounded mr-2"
+						alt="Logo"
+					/>
+					Kanjimi
+				</a>
 			</div>
 
 			<div class="d-none d-sm-block d-md-none text-gray mr-3 ml-auto">

@@ -264,7 +264,7 @@ export const requestResetPassword = (db: Database, mailer: NodeMailer.Transporte
 		}
 
 		// Sending the same neutral response in every case for security
-		return response.json('If this address exist, it will an email with instructions to set a new password.');
+		return response.json('If this address exist, it will receive an email with instructions to set a new password.');
 	} catch (error) {
 		return next(error);
 	}

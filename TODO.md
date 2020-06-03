@@ -1,6 +1,5 @@
 MVP:
     retrieve password process
-        - test the request password page
         - interface to change the password on password renewal request
     change password process
         - API endpoint to change password when logged in

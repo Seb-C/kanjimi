@@ -5,7 +5,6 @@ MVP:
         - API endpoint to change password when logged in
         - interface to change the password from the settings page
     navigation: going back with the browser buttons should work
-    test the two links at the bottom of the login page
     round logo on some screens: shared component
     onboarding (after sign-up, install extension...)
     Have the extension CSS match the website colours + unify the css with variables

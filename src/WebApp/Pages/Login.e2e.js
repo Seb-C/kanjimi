@@ -87,6 +87,21 @@ context('Login', () => {
 		cy.url().should('not.contain', 'app/login');
 	});
 
+	it('Forgot password link', () => {
+		cy.setLoggedOut();
+		cy.visit('/app/login');
+		cy.get('a:contains(Forgot your password)').should('be.visible').click();
+		cy.url().should('contain', 'app/request-reset-password');
+		cy.get('.page-request-reset-password').should('be.visible');
+	});
+	it('Sign up link', () => {
+		cy.setLoggedOut();
+		cy.visit('/app/login');
+		cy.get('.page-login a:contains(Sign Up)').should('be.visible').click();
+		cy.url().should('contain', 'app/sign-up');
+		cy.get('.page-sign-up').should('be.visible');
+	});
+
 	// Note: the local server is too fast to intercept this, so the test is disabled...
 	it.skip('Visual feedback while loading', () => {
 		cy.setLoggedOut();

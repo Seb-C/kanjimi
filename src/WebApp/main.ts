@@ -7,6 +7,7 @@ import SignUp from 'WebApp/Pages/SignUp.vue';
 import VerifyEmail from 'WebApp/Pages/VerifyEmail.vue';
 import Login from 'WebApp/Pages/Login.vue';
 import RequestResetPassword from 'WebApp/Pages/RequestResetPassword.vue';
+import ResetPassword from 'WebApp/Pages/ResetPassword.vue';
 import Logout from 'WebApp/Pages/Logout.vue';
 import Settings from 'WebApp/Pages/Settings.vue';
 import Home from 'WebApp/Pages/Home.vue';
@@ -17,6 +18,7 @@ window.addEventListener('load', async function () {
 		{ url: 'app/verify-email', component: VerifyEmail, title: 'Email Verification' },
 		{ url: 'app/login', component: Login, title: 'Login' },
 		{ url: 'app/request-reset-password', component: RequestResetPassword, title: 'Password reset' },
+		{ url: 'app/reset-password', component: ResetPassword, title: 'Password reset' },
 		{ url: 'app/logout', component: Logout, title: 'Logout' },
 		{ url: 'app/settings', component: Settings, title: 'Settings' },
 		{ url: 'app', component: Home, title: 'Home' },

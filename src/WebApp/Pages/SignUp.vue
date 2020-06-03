@@ -250,7 +250,7 @@
 					} else if (error instanceof ConflictError) {
 						this.errors = { bottom: error.error };
 					} else if (error instanceof ServerError) {
-						console.error('Server error during login. Response body: ', error.body);
+						console.error('Server error during the user creation request. Response body: ', error.body);
 						this.errors = { bottom: 'There have been an unknown error. Please try again in a little while' };
 					} else {
 						throw error;

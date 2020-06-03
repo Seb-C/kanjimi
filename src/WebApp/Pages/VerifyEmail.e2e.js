@@ -5,11 +5,11 @@ context('VerifyEmail', () => {
 		// cy.route('PATCH', '**/user/*/verify-email').as('verifyEmailRequest');
 	});
 
-	it('Not accessible if logged-in', () => {
+	it('Accessible even if logged-in', () => {
 		cy.setLoggedIn();
 		cy.visit('/app/verify-email');
-		cy.url().should('not.contain', 'app/verify-email');
-		cy.get('.page-verify-email').should('not.exist');
+		cy.url().should('contain', 'app/verify-email');
+		cy.get('.page-verify-email').should('exist');
 	});
 
 	it('The page structure is visible', () => {

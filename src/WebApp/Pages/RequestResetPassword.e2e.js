@@ -30,6 +30,8 @@ context('RequestResetPassword', () => {
 		cy.visit('/app/request-reset-password');
 
 		cy.get('button[type="submit"]').click();
+		// cy.get('button[type="submit"]').should('be.disabled');
+		// cy.get('input[name="email"]').should('be.disabled');
 		// cy.wait('@requestResetPasswordRequest');
 
 		cy.get('input[name="email"]').should('have.class', 'is-invalid');
@@ -41,6 +43,8 @@ context('RequestResetPassword', () => {
 
 		cy.get('input[name="email"]').type('not an email');
 		cy.get('button[type="submit"]').click();
+		// cy.get('button[type="submit"]').should('be.disabled');
+		// cy.get('input[name="email"]').should('be.disabled');
 		// cy.wait('@requestResetPasswordRequest');
 
 		cy.get('input[name="email"]').should('have.class', 'is-invalid');
@@ -52,6 +56,8 @@ context('RequestResetPassword', () => {
 		cy.visit('/app/request-reset-password');
 		cy.get('input[name="email"]').type('contact@kanjimi.com');
 		cy.get('button[type="submit"]').click();
+		// cy.get('button[type="submit"]').should('be.disabled');
+		// cy.get('input[name="email"]').should('be.disabled');
 		// cy.wait('@requestResetPasswordRequest');
 	});
 	it('Works with an unknown email', () => {
@@ -59,7 +65,21 @@ context('RequestResetPassword', () => {
 		cy.visit('/app/request-reset-password');
 		cy.get('input[name="email"]').type('invalid@kanjimi.com');
 		cy.get('button[type="submit"]').click();
+		// cy.get('button[type="submit"]').should('be.disabled');
+		// cy.get('input[name="email"]').should('be.disabled');
 		// cy.wait('@requestResetPasswordRequest');
+	});
+
+	it('The try again link works', () => {
+		cy.setLoggedOut();
+		cy.visit('/app/request-reset-password');
+		cy.get('input[name="email"]').type('invalid@kanjimi.com');
+		cy.get('button[type="submit"]').click();
+		// cy.wait('@requestResetPasswordRequest');
+		cy.get('a:contains(Try again)').click();
+		cy.url().should('contain', 'app/request-reset-password');
+		cy.get('.page-request-reset-password').should('be.visible');
+		cy.get('input[name="email"]').should('be.visible');
 	});
 
 	// Note: the local server is too fast to intercept this, so the test is disabled...

@@ -55,11 +55,6 @@
 				emailVerificationKey: query.get('emailVerificationKey'),
 			};
 		},
-		async created() {
-			if (this.$root.apiKey !== null) {
-				this.$root.router.changeRoute('./app');
-			}
-		},
 		async mounted() {
 			try {
 				await verifyEmail(this.userId, this.emailVerificationKey);

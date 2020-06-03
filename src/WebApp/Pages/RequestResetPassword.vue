@@ -13,7 +13,7 @@
 					<h1 class="mt-1 mb-0">Password reset</h1>
 				</div>
 
-				<template v-if="sent" class="col text-center">
+				<template v-if="done" class="col text-center">
 					<div class="mb-4 text-success display-3 text-center w-100">
 						<i class="far fa-check-circle"></i>
 					</div>
@@ -74,6 +74,7 @@
 	import Vue from 'vue';
 	import { requestResetPassword } from 'Common/Api/User';
 	import ValidationError from 'Common/Api/Errors/Validation';
+	import ServerError from 'Common/Api/Errors/Server';
 
 	export default Vue.extend({
 		created() {
@@ -86,25 +87,25 @@
 				email: '',
 				errors: {},
 				loading: false,
-				sent: false,
+				done: false,
 			};
 		},
 		methods: {
 			onClickTryAgain(event: Event) {
 				event.preventDefault();
-				this.sent = false;
+				this.done = false;
 			},
 			async submit(event: Event) {
 				event.preventDefault();
 				this.loading = true;
 				try {
 					await requestResetPassword(this.email);
-					this.sent = true;
+					this.done = true;
 				} catch (error) {
 					if (error instanceof ValidationError) {
 						this.errors = error.getFormErrors();
 					} else if (error instanceof ServerError) {
-						console.error('Server error during login. Response body: ', error.body);
+						console.error('Server error during the request reset password request. Response body: ', error.body);
 						this.errors = { bottom: 'There have been an unknown error. Please try again in a little while' };
 					} else {
 						throw error;

@@ -8,8 +8,8 @@ type Route = {
 };
 
 export default class Router {
-	public url: string;
-	public component: Vue.VueConstructor;
+	public url: string = '';
+	public component: Vue.VueConstructor = PageNotFound;
 
 	private routes: { [key: string]: Route } = {};
 	private baseUrl: string;
@@ -21,10 +21,7 @@ export default class Router {
 			this.routes[normalizedUrl] = route;
 		});
 
-		const currentUrl = this.normalizeUrl(window.location.href);
-		document.title = this.getTitle(currentUrl);
-		this.url = currentUrl;
-		this.component = this.getComponent(currentUrl);
+		this.setRouteWithoutPushState(window.location.href);
 	}
 
 	normalizeUrl(url: string): string {
@@ -72,13 +69,14 @@ export default class Router {
 			url = object;
 		}
 
-		url = this.normalizeUrl(url);
+		this.setRouteWithoutPushState(url);
+		window.history.pushState(null, this.getTitle(url), url);
+	}
 
-		const title = this.getTitle(url);
-
-		this.url = url;
-		Vue.set(this, 'component', this.getComponent(url));
-		document.title = title;
-		window.history.pushState(null, title, url);
+	setRouteWithoutPushState(url: string) {
+		const currentUrl = this.normalizeUrl(url);
+		document.title = this.getTitle(currentUrl);
+		this.url = currentUrl;
+		Vue.set(this, 'component', this.getComponent(currentUrl));
 	}
 }

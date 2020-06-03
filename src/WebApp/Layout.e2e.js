@@ -56,4 +56,24 @@ context('Layout', () => {
 		cy.get('nav .dropdown-toggle').should('be.visible').click();
 		cy.get('nav a:contains(Logout)').should('be.visible');
 	});
+
+	it('Can go back and forth using the browser buttons', () => {
+		cy.setLoggedOut();
+
+		cy.visit('/app/login')
+		cy.url().should('contain', 'app/login');
+		cy.get('.page-login').should('be.visible');
+
+		cy.get('a:contains(Forgot your password)').click();
+		cy.url().should('contain', 'app/request-reset-password');
+		cy.get('.page-request-reset-password').should('be.visible');
+
+		cy.go('back');
+		cy.url().should('contain', 'app/login');
+		cy.get('.page-login').should('be.visible');
+
+		cy.go('forward');
+		cy.url().should('contain', 'app/request-reset-password');
+		cy.get('.page-request-reset-password').should('be.visible');
+	});
 });

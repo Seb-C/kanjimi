@@ -21,6 +21,10 @@ window.addEventListener('load', async function () {
 		{ url: 'app/settings', component: Settings, title: 'Settings' },
 		{ url: 'app', component: Home, title: 'Home' },
 	]);
+	window.addEventListener('popstate', function () {
+		router.setRouteWithoutPushState(window.location.href);
+	});
+
 	const store = new Store(router);
 	await store.loadApiKeyFromStorage();
 

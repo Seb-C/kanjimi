@@ -6,12 +6,7 @@
 				v-on:submit="submit"
 				novalidate
 			>
-				<div class="col-12 text-center px-5 mb-3">
-					<div class="bg-light p-3 rounded-circle border border-dark kanjimi-reset-password-icon">
-						<img src="./img/logo.svg" alt="Logo" class="mw-100" />
-					</div>
-					<h1 class="mt-1 mb-0">New password</h1>
-				</div>
+				<RoundLogo title="New password" />
 
 				<template v-if="done" class="col text-center">
 					<div class="mb-4 text-success display-3 text-center w-100">
@@ -85,6 +80,7 @@
 	import AuthenticationError from 'Common/Api/Errors/Authentication';
 	import NotFoundError from 'Common/Api/Errors/NotFound';
 	import ServerError from 'Common/Api/Errors/Server';
+	import RoundLogo from 'WebApp/Components/RoundLogo.vue';
 
 	export default Vue.extend({
 		data() {
@@ -142,16 +138,9 @@
 				}
 			},
 		},
+		components: {
+			RoundLogo,
+		},
 	});
 </script>
-<style scoped>
-	.kanjimi-reset-password-icon {
-		width: 100px;
-		margin: auto;
-		margin-top: -50px;
-	}
-
-	button[disabled] {
-		cursor: not-allowed;
-	}
-</style>
+<style scoped></style>

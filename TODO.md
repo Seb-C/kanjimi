@@ -1,8 +1,8 @@
 MVP:
     change password process
-        - API endpoint to change password when logged in
-        - interface to change the password from the settings page
-    round logo on some screens: shared component
+        - API endpoint to change password when logged in -> reuse the same but add an argument for the old password
+        - interface to change the password from the settings page -> different page
+    sign-up page: use the yellow block instead, adjust everything
     onboarding (after sign-up, install extension...)
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile

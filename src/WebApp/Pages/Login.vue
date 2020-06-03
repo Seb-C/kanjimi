@@ -6,12 +6,7 @@
 				v-on:submit="submit"
 				novalidate
 			>
-				<div class="col-12 text-center px-5 mb-3">
-					<div class="bg-light p-3 rounded-circle border border-dark kanjimi-login-icon">
-						<img src="./img/logo.svg" alt="Logo" class="mw-100" />
-					</div>
-					<h1 class="mt-1 mb-0">Log in</h1>
-				</div>
+				<RoundLogo title="Log in" />
 
 				<div class="col-12">
 					<div class="input-group">
@@ -98,6 +93,7 @@
 	import ValidationError from 'Common/Api/Errors/Validation';
 	import AuthenticationError from 'Common/Api/Errors/Authentication';
 	import ServerError from 'Common/Api/Errors/Server';
+	import RoundLogo from 'WebApp/Components/RoundLogo.vue';
 
 	export default Vue.extend({
 		created() {
@@ -146,20 +142,13 @@
 				}
 			},
 		},
+		components: {
+			RoundLogo,
+		},
 	});
 </script>
 <style scoped>
-	.kanjimi-login-icon {
-		width: 100px;
-		margin: auto;
-		margin-top: -50px;
-	}
-
 	.invalid-feedback {
 		padding-left: 3.5em;
-	}
-
-	button[disabled] {
-		cursor: not-allowed;
 	}
 </style>

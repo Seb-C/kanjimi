@@ -15,12 +15,7 @@
 			class="col-12 col-xl-8 offset-xl-2 bg-light rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5"
 		>
 			<form v-on:submit="submit" novalidate>
-				<div class="col-12 text-center px-5 mb-3">
-					<div class="bg-light p-3 rounded-circle border border-dark kanjimi-sign-up-icon">
-						<img src="./img/logo.svg" alt="Logo" class="mw-100" />
-					</div>
-					<h1 class="mt-1 mb-0">Sign Up</h1>
-				</div>
+				<RoundLogo title="Sign Up" />
 
 				<fieldset class="form-group row my-4">
 					<div class="col-12 col-md-3">
@@ -203,6 +198,7 @@
 	import LanguagesSelector from 'WebApp/Components/LanguagesSelector.vue';
 	import FuriganaSample from 'WebApp/Components/FuriganaSample.vue';
 	import JlptLevelSelector from 'WebApp/Components/JlptLevelSelector.vue';
+	import RoundLogo from 'WebApp/Components/RoundLogo.vue';
 
 	export default Vue.extend({
 		created() {
@@ -264,22 +260,13 @@
 			LanguagesSelector,
 			FuriganaSample,
 			JlptLevelSelector,
+			RoundLogo,
 		},
 	});
 </script>
 <style scoped>
-	.kanjimi-sign-up-icon {
-		width: 100px;
-		margin: auto;
-		margin-top: -50px;
-	}
-
 	.invalid-feedback {
 		display: block;
 		padding-left: 3.5em;
-	}
-
-	button[disabled] {
-		cursor: not-allowed;
 	}
 </style>

@@ -25,6 +25,10 @@ a {
 	color: var(--secondary);
 }
 
+button[disabled] {
+	cursor: not-allowed;
+}
+
 .btn-primary,
 .btn-primary:hover,
 .btn-primary.focus,

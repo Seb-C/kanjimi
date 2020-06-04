@@ -15,7 +15,7 @@
 				class="tooltip-close-button"
 				v-bind:style="closeButtonStyles"
 				v-on:click="handleCloseButtonClick"
-			>❌</div>
+			></div>
 		</div>
 		<div
 			class="tooltip-tip"
@@ -207,12 +207,12 @@
 
 	.tooltip {
 		position: absolute;
-		background: #eae4ce;
+		background: var(--primary);
 		z-index: 999999;
 		box-sizing: border-box;
 		border-radius: 5px;
-		border: 1px solid black;
-		color: black;
+		border: 1px solid var(--black);
+		color: var(--black);
 		padding: 5px;
 	}
 
@@ -225,17 +225,18 @@
 
 	.tooltip-tip {
 		position: absolute;
-		background: #eae4ce;
+		background: var(--primary);
 		z-index: 999998;
 		transform-origin: center;
 		transform: rotate(45deg);
-		border: 1px solid black;
+		border: 1px solid var(--black);
 	}
 
 	.tooltip-cursor {
 		box-sizing: border-box;
 		position: absolute;
-		border: 2px dashed #C53A3A;
+		border: 2px dashed var(--red);;
+		outline: 2px dashed var(--secondary);
 		pointer-events: none;
 	}
 
@@ -245,7 +246,30 @@
 		right: 0;
 		padding: 5px;
 		line-height: 1rem;
-		background: #eae4ce;
+		background: var(--primary);
+		color: var(--red);
 		border-radius: 5px;
+		width: 1em;
+		height: 1em;
+	}
+
+	.tooltip-close-button::before,
+	.tooltip-close-button::after {
+		cursor: pointer;
+		content: "";
+		height: 0.2em;
+		width: 1.3em;
+		top: 0.7em;
+		left: 0.2em;
+		background-color: var(--red);
+		position: absolute;
+		border-radius: 2px;
+		transform-origin: center;
+	}
+	.tooltip-close-button::before {
+		transform: rotate(45deg);
+	}
+	.tooltip-close-button::after {
+		transform: rotate(-45deg);
 	}
 </style>

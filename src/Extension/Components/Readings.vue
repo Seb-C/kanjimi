@@ -130,7 +130,7 @@
 		display: inline-block;
 		padding-left: 0.5em;
 		margin-left: 0.5em;
-		border-left: 2px solid #AAA;
+		border-left: 2px solid var(--dark);
 		flex-grow: 1;
 	}
 

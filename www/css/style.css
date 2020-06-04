@@ -86,6 +86,12 @@ button[disabled] {
 	color: var(--primary);
 }
 
+.navbar .dropdown-menu .dropdown-item.active,
+.navbar .dropdown-menu .dropdown-item:focus {
+	color: var(--dark);
+	background: var(--primary);
+}
+
 .bg-black {
     background-color: var(--black) !important;
 }

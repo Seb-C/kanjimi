@@ -1,5 +1,4 @@
 MVP:
-    sign-up page: use the yellow block instead, adjust everything
     onboarding (after sign-up, install extension...)
     Have the extension CSS match the website colours + unify the css with variables
     Landing page: better sync of the parallax on mobile

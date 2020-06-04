@@ -12,7 +12,7 @@
 		</div>
 		<div
 			v-else
-			class="col-12 col-xl-8 offset-xl-2 bg-light rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5"
+			class="col-12 col-xl-8 offset-xl-2 bg-primary rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5"
 		>
 			<form v-on:submit="submit" novalidate>
 				<RoundLogo title="Sign Up" />
@@ -268,5 +268,32 @@
 	.invalid-feedback {
 		display: block;
 		padding-left: 3.5em;
+	}
+
+	.page-sign-up >>> .kanjimi-furigana-sample {
+		background: var(--white);
+		border-color: var(--dark) !important;
+	}
+
+	.page-sign-up >>> .roman-reading-switch .custom-control-label::before {
+		background: var(--white);
+	}
+	.page-sign-up >>> .custom-control-input:checked ~ .custom-control-label::before {
+		background: var(--secondary);
+	}
+
+	.page-sign-up >>> input {
+		background: var(--white);
+	}
+
+	.page-sign-up >>> .jlpt-level-selector .radio-container::before {
+		background: var(--white);
+	}
+
+	.page-sign-up >>> .languages-selector .list-group-item {
+		background: var(--white);
+	}
+	.page-sign-up >>> .languages-selector .list-group > .list-group-item:first-child {
+		background: var(--light-50) !important;
 	}
 </style>

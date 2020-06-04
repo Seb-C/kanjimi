@@ -1,8 +1,6 @@
 MVP:
     onboarding (after sign-up, install extension...)
-    Landing page: better sync of the parallax on mobile
     bug with conjugated furiganas? Cf されて in the wikipedia test page
-    should not change the contents of textarea & contenteditable / wysiwyg
     test with a lot of different sites and texts
     fix the red border not always properly placed (saw it on wikipedia in the book bordered box on the top)
     make the tooltip close when clicking anywhere else

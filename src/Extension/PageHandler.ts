@@ -37,9 +37,9 @@ export default class PageHandler {
 					if (
 						node.tagName === 'SCRIPT'
 						|| node.tagName === 'STYLE'
-						|| node.tagName === 'NOSCRIPT'
 						|| node.tagName === 'TEXTAREA'
 						|| node.tagName === 'BUTTON'
+						|| node.tagName === 'SELECT'
 					) {
 						return NodeFilter.FILTER_REJECT;
 					}
@@ -48,6 +48,10 @@ export default class PageHandler {
 						typeof node.className === 'string'
 						&& node.className.includes('kanjimi')
 					) {
+						return NodeFilter.FILTER_REJECT;
+					}
+
+					if ((<HTMLElement>node).contentEditable) {
 						return NodeFilter.FILTER_REJECT;
 					}
 

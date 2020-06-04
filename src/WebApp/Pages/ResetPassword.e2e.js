@@ -17,8 +17,6 @@ context('RequestResetPassword', () => {
 		cy.get('input[name="password"]').type('123456');
 		cy.get('input[name="passwordConfirmation"]').type('123456');
 		cy.get('button[type="submit"]').click();
-		// cy.get('button[type="submit"]').should('be.disabled');
-		// cy.get('input[name="email"]').should('be.disabled');
 		// cy.wait('@resetPasswordRequest');
 		cy.get('.error-bottom').should('be.visible');
 	});
@@ -28,8 +26,6 @@ context('RequestResetPassword', () => {
 		cy.get('input[name="password"]').type('123456');
 		cy.get('input[name="passwordConfirmation"]').type('123456');
 		cy.get('button[type="submit"]').click();
-		// cy.get('button[type="submit"]').should('be.disabled');
-		// cy.get('input[name="email"]').should('be.disabled');
 		// cy.wait('@resetPasswordRequest');
 		cy.get('.error-bottom').should('be.visible');
 	});
@@ -39,8 +35,6 @@ context('RequestResetPassword', () => {
 		cy.get('input[name="password"]').clear();
 		cy.get('input[name="passwordConfirmation"]').clear();
 		cy.get('button[type="submit"]').click();
-		// cy.get('button[type="submit"]').should('be.disabled');
-		// cy.get('input[name="email"]').should('be.disabled');
 		// cy.wait('@resetPasswordRequest');
 		cy.get('.error-password').should('be.visible');
 	});
@@ -58,8 +52,6 @@ context('RequestResetPassword', () => {
 		cy.get('input[name="password"]').type('123456');
 		cy.get('input[name="passwordConfirmation"]').type('123456');
 		cy.get('button[type="submit"]').click();
-		// cy.get('button[type="submit"]').should('be.disabled');
-		// cy.get('input[name="email"]').should('be.disabled');
 		// cy.wait('@resetPasswordRequest');
 		cy.get('.page-reset-password').should('contain', 'successfully');
 	});
@@ -70,12 +62,22 @@ context('RequestResetPassword', () => {
 		cy.get('input[name="password"]').type('123456');
 		cy.get('input[name="passwordConfirmation"]').type('123456');
 		cy.get('button[type="submit"]').click();
-		// cy.get('button[type="submit"]').should('be.disabled');
-		// cy.get('input[name="email"]').should('be.disabled');
 		// cy.wait('@resetPasswordRequest');
 
 		cy.get('.go-to-login').should('exist').click();
 		cy.url().should('contain', 'app/login');
 		cy.get('.page-login').should('be.visible');
+	});
+
+	// Note: the local server is too fast to intercept this, so the test is disabled...
+	it.skip('Visual feedback while loading', () => {
+		cy.setLoggedOut();
+		cy.visit('/app/reset-password?userId=cef830cb-6e75-43ab-91d3-ae13c82bd836&passwordResetKey=cypress');
+
+		cy.get('button[type="submit"]').click();
+
+		cy.get('input[name="email"]').should('be.disabled');
+		cy.get('button[type="submit"]').should('be.disabled');
+		cy.get('button[type="submit"] .spinner-border').should('be.visible');
 	});
 });

@@ -1,7 +1,7 @@
 <template>
 	<div class="page-settings">
 		<form @submit="$event.preventDefault()">
-			<h1>Account settings</h1>
+			<h1>Settings</h1>
 
 			<div v-if="!!errors.top" class="invalid-feedback error-romanReading d-block">
 				{{ errors.top }}

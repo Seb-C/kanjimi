@@ -1,6 +1,4 @@
 MVP:
-    change password process
-        - interface to change the password from the settings page -> different page
     sign-up page: use the yellow block instead, adjust everything
     onboarding (after sign-up, install extension...)
     Have the extension CSS match the website colours + unify the css with variables
@@ -32,6 +30,9 @@ MVP:
     check that the distributed clients cannot contain server-side code
 
 After:
+    commented cypress lines (about disabled fields during loading) -> remove and merge in a separate skipped tests (already done in most test suites)
+    test the links in the user dropdown
+    assets update -> browser will not update it?
     don't restart server if a server test file has changed
     unit test for the user controller -> create some common code to reduce the number of lines of code
     url encoding of query strings is not necessary? should be lighter and more readable

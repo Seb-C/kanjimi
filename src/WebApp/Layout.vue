@@ -180,6 +180,7 @@
 					this.userLinks = [];
 				} else {
 					this.userLinks = [
+						{ url: './app/change-password', title: 'Change my password' },
 						{ url: './app/logout', title: 'Logout' },
 					];
 				}

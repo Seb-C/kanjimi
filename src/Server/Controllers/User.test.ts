@@ -200,6 +200,7 @@ describe('UserController', async function() {
 			languages: [Language.FRENCH],
 			romanReading: false,
 			jlpt: 1,
+			password: '123456',
 		});
 		const apiKey = await apiKeyRepository.create(user.id);
 
@@ -212,6 +213,8 @@ describe('UserController', async function() {
 				languages: ['en', 'es'],
 				romanReading: true,
 				jlpt: 2,
+				oldPassword: '123456',
+				password: 'qwerty',
 			}),
 		});
 		expect(response.status).toBe(200);
@@ -225,12 +228,13 @@ describe('UserController', async function() {
 		expect(responseData.jlpt).toBe(2);
 
 		// Checking the db contents
-		const dbUser = await userRepository.getById(responseData.id);
+		const dbUser = <User>(await userRepository.getById(responseData.id));
 
-		expect(dbUser).not.toBe(null);
-		expect((<User>dbUser).languages).toEqual([Language.ENGLISH, Language.SPANISH]);
-		expect((<User>dbUser).romanReading).toBe(true);
-		expect((<User>dbUser).jlpt).toBe(2);
+		expect(<User|null>dbUser).not.toBe(null);
+		expect(dbUser.languages).toEqual([Language.ENGLISH, Language.SPANISH]);
+		expect(dbUser.romanReading).toBe(true);
+		expect(dbUser.jlpt).toBe(2);
+		expect(dbUser.password).toEqual(userRepository.hashPassword(dbUser.id, 'qwerty'));
 	});
 
 	it('update (validation errors)', async function() {
@@ -258,6 +262,54 @@ describe('UserController', async function() {
 		expect(this.validationErrorResponseValidator(responseData))
 			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
 			.toBe(true);
+	});
+
+	it('update (old password required if new specified)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const user = await userRepository.create({
+			...this.testUser,
+			password: '123456',
+		});
+		const apiKey = await apiKeyRepository.create(user.id);
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}`, {
+			method: 'PATCH',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: JSON.stringify({
+				password: 'qwerty',
+			}),
+		});
+		expect(response.status).toBe(422);
+		const responseData = await response.json();
+
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
+			.toBe(true);
+	});
+
+	it('update (error if the old password does not match)', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const user = await userRepository.create({
+			...this.testUser,
+			password: '123456',
+		});
+		const apiKey = await apiKeyRepository.create(user.id);
+
+		const response = await fetch(`http://localhost:3000/user/${user.id}`, {
+			method: 'PATCH',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: JSON.stringify({
+				oldPassword: '456789',
+				password: 'qwerty',
+			}),
+		});
+		expect(response.status).toBe(403);
 	});
 
 	it('update (not found error)', async function() {

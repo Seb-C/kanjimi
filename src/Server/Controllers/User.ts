@@ -152,6 +152,9 @@ const updateUserValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
 	additionalProperties: false,
 	minProperties: 1,
+	dependencies: {
+		password: ['oldPassword'],
+	},
 	properties: {
 		languages: {
 			type: 'array',
@@ -161,6 +164,14 @@ const updateUserValidator = new Ajv({ allErrors: true }).compile({
 				type: 'string',
 				enum: Object.values(Language),
 			},
+		},
+		password: {
+			type: 'string',
+			minLength: 1,
+		},
+		oldPassword: {
+			type: 'string',
+			minLength: 1,
 		},
 		romanReading: {
 			type: 'boolean',
@@ -193,7 +204,20 @@ export const update = (db: Database) => async (request: Request, response: Respo
 			return response.status(403).json('You are not allowed access to this object');
 		}
 
-		const updatedUser = await userRepository.updateById(requestedUser.id, { ...request.body });
+		if (
+			request.body.password
+			&& requestedUser.password !== userRepository.hashPassword(
+				requestedUser.id,
+				request.body.oldPassword,
+			)
+		) {
+			return response.status(403).json('The old password is invalid');
+		}
+
+		const updatedUser = await userRepository.updateById(requestedUser.id, {
+			...request.body,
+			oldPassword: undefined,
+		});
 
 		return response.json(updatedUser.toApi());
 	} catch (error) {

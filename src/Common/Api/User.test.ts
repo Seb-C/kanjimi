@@ -173,6 +173,7 @@ describe('Client User', async function() {
 			languages: [Language.FRENCH],
 			romanReading: true,
 			jlpt: null,
+			password: '123456',
 		});
 		const apiKey = await apiKeyRepository.create(user.id);
 
@@ -180,6 +181,8 @@ describe('Client User', async function() {
 			languages: [Language.ENGLISH, Language.FRENCH],
 			romanReading: false,
 			jlpt: null,
+			oldPassword: '123456',
+			password: 'qwerty',
 		});
 
 		expect(result).toBeInstanceOf(User);

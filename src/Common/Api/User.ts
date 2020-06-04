@@ -83,6 +83,8 @@ export const update = async (key: string, userId: string, attributes: {
 	languages?: Language[],
 	romanReading?: boolean,
 	jlpt?: number|null,
+	password?: string,
+	oldPassword?: string,
 }): Promise<User> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/user/${userId}`, {
 		method: 'PATCH',

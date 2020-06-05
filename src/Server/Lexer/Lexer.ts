@@ -162,8 +162,13 @@ export default class Lexer {
 				const prefix = text.substring(0, i);
 
 				const words: Word[] = [];
+				const matchingForms: Conjugation[] = [];
 				forms.forEach((form: Conjugation) => {
-					words.push(...this.dictionary.get(prefix + form.dictionaryForm, langs));
+					const wordsFound = this.dictionary.get(prefix + form.dictionaryForm, langs);
+					words.push(...wordsFound);
+					if (wordsFound.length > 0) {
+						matchingForms.push(form);
+					}
 				});
 
 				if (words.length > 0) {
@@ -173,7 +178,7 @@ export default class Lexer {
 						words,
 						prefix,
 						conjugation,
-						forms,
+						matchingForms,
 					);
 				}
 			}

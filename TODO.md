@@ -1,20 +1,20 @@
 MVP:
-    onboarding (after sign-up, install extension...)
-    bug with conjugated furiganas? Cf されて in the wikipedia test page
     test with a lot of different sites and texts
     fix the red border not always properly placed (saw it on wikipedia in the book bordered box on the top) -> re-test on laptop, can't reproduce
-    save all words and sentences to show up later?
     test and debug with slack
     test and debug intensively the display of results
-    store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
-    save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     only apply conjugations to the words with verb tags
+    test other browsers
     chrome compatibility (+ add to CI)
     firefox android compatibility (+ add mobile to CI)
-    test other browsers
+    store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
+    save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
+    save all words and sentences to show up later?
     Block access to the test pages in production
-    webpack => production mode whenever necessary
     include references to external resources used somewhere in the site
+    onboarding (after sign-up, install extension...)
+    webpack => production mode whenever necessary
+    check that the distributed clients cannot contain server-side code
     CGU / RGPD ?
     need to register a copyright?!
     post on producthunt
@@ -22,7 +22,6 @@ MVP:
     post on reddit
     post on linkedin
     post on twitter
-    check that the distributed clients cannot contain server-side code
 
 After:
     commented cypress lines (about disabled fields during loading) -> remove and merge in a separate skipped tests (already done in most test suites)

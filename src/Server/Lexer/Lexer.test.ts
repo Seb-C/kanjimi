@@ -170,4 +170,13 @@ describe('Lexer', async function() {
 		expect(result[1].type).toBe(TokenType.WORD);
 		expect(result[1].text).toBe('について');
 	});
+	it('Specific case (teru conjugation getting matched for all te forms)', function() {
+		const dictionary = new Dictionary();
+		dictionary.add(new Word('される', 'される', Language.ENGLISH, '', []));
+		lexer = new Lexer(dictionary);
+
+		const result = lexer.analyze('されて');
+		const forms = result[0].forms.map(form => form.dictionaryForm);
+		expect(forms).not.toContain('てる');
+	});
 });

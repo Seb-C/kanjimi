@@ -179,4 +179,12 @@ describe('Lexer', async function() {
 		const forms = result[0].forms.map(form => form.dictionaryForm);
 		expect(forms).not.toContain('てる');
 	});
+	it('Teiru forms', function() {
+		const dictionary = new Dictionary();
+		dictionary.add(new Word('示す', 'しめす', Language.ENGLISH, '', []));
+		lexer = new Lexer(dictionary);
+
+		const result = lexer.analyze('示されていない');
+		expect(result.length).toBe(1);
+	});
 });

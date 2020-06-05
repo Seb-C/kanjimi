@@ -11,26 +11,38 @@ class ConjugationsClass {
 	> = new Map([
 		[ConjugationType.PASSIVE, new Map<ConjugationType, ConjugationType>([
 			[ConjugationType.NEGATIVE, ConjugationType.PASSIVE_NEGATIVE],
+			[ConjugationType.TEIRU_NEGATIVE, ConjugationType.PASSIVE_NEGATIVE],
 			[ConjugationType.POLITE, ConjugationType.PASSIVE_POLITE],
+			[ConjugationType.TEIRU_POLITE, ConjugationType.PASSIVE_POLITE],
 			[ConjugationType.PAST, ConjugationType.PASSIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE_PAST, ConjugationType.PASSIVE_POLITE_NEGATIVE_PAST],
+			[ConjugationType.TEIRU_POLITE_NEGATIVE_PAST, ConjugationType.PASSIVE_POLITE_NEGATIVE_PAST],
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.PASSIVE_NEGATIVE_PAST],
+			[ConjugationType.TEIRU_NEGATIVE_PAST, ConjugationType.PASSIVE_NEGATIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE, ConjugationType.PASSIVE_POLITE_NEGATIVE],
+			[ConjugationType.TEIRU_POLITE_NEGATIVE, ConjugationType.PASSIVE_POLITE_NEGATIVE],
 		])],
 		[ConjugationType.CAUSATIVE, new Map<ConjugationType, ConjugationType>([
 			[ConjugationType.NEGATIVE, ConjugationType.CAUSATIVE_NEGATIVE],
+			[ConjugationType.TEIRU_NEGATIVE, ConjugationType.CAUSATIVE_NEGATIVE],
 			[ConjugationType.POLITE, ConjugationType.CAUSATIVE_POLITE],
+			[ConjugationType.TEIRU_POLITE, ConjugationType.CAUSATIVE_POLITE],
 			[ConjugationType.PAST, ConjugationType.CAUSATIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE_PAST, ConjugationType.CAUSATIVE_POLITE_NEGATIVE_PAST],
+			[ConjugationType.TEIRU_POLITE_NEGATIVE_PAST, ConjugationType.CAUSATIVE_POLITE_NEGATIVE_PAST],
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.CAUSATIVE_NEGATIVE_PAST],
+			[ConjugationType.TEIRU_NEGATIVE_PAST, ConjugationType.CAUSATIVE_NEGATIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE, ConjugationType.CAUSATIVE_POLITE_NEGATIVE],
+			[ConjugationType.TEIRU_POLITE_NEGATIVE, ConjugationType.CAUSATIVE_POLITE_NEGATIVE],
 		])],
 		[ConjugationType.POTENTIAL, new Map<ConjugationType, ConjugationType>([
 			[ConjugationType.NEGATIVE, ConjugationType.POTENTIAL_NEGATIVE],
+			[ConjugationType.TEIRU_NEGATIVE, ConjugationType.POTENTIAL_NEGATIVE],
 			[ConjugationType.POLITE, ConjugationType.POTENTIAL_POLITE],
 			[ConjugationType.PAST, ConjugationType.POTENTIAL_PAST],
 			[ConjugationType.POLITE_NEGATIVE_PAST, ConjugationType.POTENTIAL_POLITE_NEGATIVE_PAST],
 			[ConjugationType.NEGATIVE_PAST, ConjugationType.POTENTIAL_NEGATIVE_PAST],
+			[ConjugationType.TEIRU_NEGATIVE_PAST, ConjugationType.POTENTIAL_NEGATIVE_PAST],
 			[ConjugationType.POLITE_NEGATIVE, ConjugationType.POTENTIAL_POLITE_NEGATIVE],
 		])],
 		[ConjugationType.PASSIVE_POLITE, new Map<ConjugationType, ConjugationType>([
@@ -121,8 +133,6 @@ class ConjugationsClass {
 
 	addTeBasedForms (teForm: string, dictionaryForm: string) {
 		this.addFormAndDerivates(new Conjugation(teForm, dictionaryForm, ConjugationType.TE));
-		this.addFormAndDerivates(new Conjugation(teForm + 'いる', dictionaryForm, ConjugationType.TEIRU));
-		this.addFormAndDerivates(new Conjugation(teForm + 'る', dictionaryForm, ConjugationType.TEIRU));
 		this.addFormAndDerivates(new Conjugation(teForm + 'おく', dictionaryForm, ConjugationType.TEOKU));
 
 		// Teoku short = toku/doku
@@ -133,6 +143,28 @@ class ConjugationsClass {
 			tokuForm = teForm.substring(0, teForm.length - 1) + 'とく';
 		}
 		this.addFormAndDerivates(new Conjugation(tokuForm, dictionaryForm, ConjugationType.TEOKU));
+
+		this.addFormAndDerivates(new Conjugation(teForm + 'いる', dictionaryForm, ConjugationType.TEIRU));
+		this.addFormAndDerivates(new Conjugation(teForm + 'いない', dictionaryForm, ConjugationType.TEIRU_NEGATIVE));
+		this.addFormAndDerivates(new Conjugation(teForm + 'いなかった', dictionaryForm, ConjugationType.TEIRU_NEGATIVE_PAST));
+		this.addFormAndDerivates(new Conjugation(teForm + 'いなくて', dictionaryForm, ConjugationType.TEIRU_NEGATIVE_TE));
+		this.addFormAndDerivates(new Conjugation(teForm + 'います', dictionaryForm, ConjugationType.TEIRU_POLITE));
+		this.addFormAndDerivates(new Conjugation(teForm + 'いませんでした', dictionaryForm, ConjugationType.TEIRU_POLITE_NEGATIVE_PAST));
+		this.addFormAndDerivates(new Conjugation(teForm + 'いません', dictionaryForm, ConjugationType.TEIRU_POLITE_NEGATIVE));
+		this.addFormAndDerivates(new Conjugation(teForm + 'いましょう', dictionaryForm, ConjugationType.TEIRU_POLITE_VOLITIONAL));
+		this.addFormAndDerivates(new Conjugation(teForm + 'いました', dictionaryForm, ConjugationType.TEIRU_POLITE_PAST));
+		this.addFormAndDerivates(new Conjugation(teForm + 'いたい', dictionaryForm, ConjugationType.TEIRU_WISH));
+
+		this.addFormAndDerivates(new Conjugation(teForm + 'る', dictionaryForm, ConjugationType.TEIRU));
+		this.addFormAndDerivates(new Conjugation(teForm + 'ない', dictionaryForm, ConjugationType.TEIRU_NEGATIVE));
+		this.addFormAndDerivates(new Conjugation(teForm + 'なかった', dictionaryForm, ConjugationType.TEIRU_NEGATIVE_PAST));
+		this.addFormAndDerivates(new Conjugation(teForm + 'なくて', dictionaryForm, ConjugationType.TEIRU_NEGATIVE_TE));
+		this.addFormAndDerivates(new Conjugation(teForm + 'ます', dictionaryForm, ConjugationType.TEIRU_POLITE));
+		this.addFormAndDerivates(new Conjugation(teForm + 'ませんでした', dictionaryForm, ConjugationType.TEIRU_POLITE_NEGATIVE_PAST));
+		this.addFormAndDerivates(new Conjugation(teForm + 'ません', dictionaryForm, ConjugationType.TEIRU_POLITE_NEGATIVE));
+		this.addFormAndDerivates(new Conjugation(teForm + 'ましょう', dictionaryForm, ConjugationType.TEIRU_POLITE_VOLITIONAL));
+		this.addFormAndDerivates(new Conjugation(teForm + 'ました', dictionaryForm, ConjugationType.TEIRU_POLITE_PAST));
+		this.addFormAndDerivates(new Conjugation(teForm + 'たい', dictionaryForm, ConjugationType.TEIRU_WISH));
 	}
 
 	hasForm(form: string): boolean {

@@ -40,6 +40,36 @@ context('Tooltip', () => {
 		cy.get('.kanjimi-tooltip-container .tooltip:contains(導入)').should('exist');
 	});
 
+	it('Closing with a click outside', () => {
+		cy.setLoggedIn();
+		cy.visit('/test-pages/wikipedia.html')
+
+		cy.get('#firstHeading .kanjimi-sentence .word').click();
+		cy.get('.kanjimi-tooltip-container .tooltip:contains(日本)').should('exist');
+		cy.get('body #content').click({ force: true });
+		cy.get('.kanjimi-tooltip-container .tooltip:contains(日本)').should('not.exist');
+	});
+
+	it('Not closing with a click inside', () => {
+		cy.setLoggedIn();
+		cy.visit('/test-pages/wikipedia.html')
+
+		cy.get('#firstHeading .kanjimi-sentence .word').click();
+		cy.get('.kanjimi-tooltip-container .tooltip:contains(日本)').should('exist');
+		cy.get('.kanjimi-tooltip-container .tooltip').click();
+		cy.get('.kanjimi-tooltip-container .tooltip:contains(日本)').should('exist');
+	});
+
+	it('Closing with the escape key', () => {
+		cy.setLoggedIn();
+		cy.visit('/test-pages/wikipedia.html')
+
+		cy.get('#firstHeading .kanjimi-sentence .word').click();
+		cy.get('.kanjimi-tooltip-container .tooltip:contains(日本)').should('exist');
+		cy.get('body #searchInput').type('{esc}');
+		cy.get('.kanjimi-tooltip-container .tooltip:contains(日本)').should('not.exist');
+	});
+
 	it('Tip is also visible', () => {
 		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')

@@ -1,6 +1,4 @@
 MVP:
-    test that pressing escape or clicking anywhere closes the user menu
-    test that pressing escape or clicking anywhere closes the tooltip (except clicking inside the tooltip and clicking on another word)
     onboarding (after sign-up, install extension...)
     bug with conjugated furiganas? Cf されて in the wikipedia test page
     test with a lot of different sites and texts

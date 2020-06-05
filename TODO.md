@@ -1,9 +1,10 @@
 MVP:
+    test that pressing escape or clicking anywhere closes the user menu
+    test that pressing escape or clicking anywhere closes the tooltip (except clicking inside the tooltip and clicking on another word)
     onboarding (after sign-up, install extension...)
     bug with conjugated furiganas? Cf されて in the wikipedia test page
     test with a lot of different sites and texts
-    fix the red border not always properly placed (saw it on wikipedia in the book bordered box on the top)
-    make the tooltip close when clicking anywhere else
+    fix the red border not always properly placed (saw it on wikipedia in the book bordered box on the top) -> re-test on laptop, can't reproduce
     save all words and sentences to show up later?
     test and debug with slack
     test and debug intensively the display of results

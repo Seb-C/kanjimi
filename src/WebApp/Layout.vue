@@ -127,14 +127,22 @@
 			};
 		},
 		created() {
-			document.body.addEventListener('click', (event: Event) => {
+			const closeMenus = (event: Event) => {
 				if (this.isMobileMenuOpened) {
 					event.preventDefault();
-					this.isUserMenuOpened = false;
+					event.stopPropagation();
+					this.isMobileMenuOpened = false;
 				}
 				if (this.isUserMenuOpened) {
 					event.preventDefault();
+					event.stopPropagation();
 					this.isUserMenuOpened = false;
+				}
+			};
+			document.body.addEventListener('click', closeMenus);
+			document.body.addEventListener('keyup', (event: KeyboardEvent) => {
+				if (event.key === 'Escape') {
+					closeMenus(event);
 				}
 			});
 
@@ -199,7 +207,8 @@
 			navLinkClickHandler(event: Event) {
 				this.$root.router.changeRoute(event);
 			},
-			clickMobileMenuToggler() {
+			clickMobileMenuToggler(event: Event) {
+				event.stopPropagation();
 				this.isMobileMenuOpened = !this.isMobileMenuOpened;
 			},
 			clickUserMenuToggler(event: Event) {

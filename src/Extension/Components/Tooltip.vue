@@ -1,5 +1,5 @@
 <template>
-	<div class="kanjimi kanjimi-tooltip-container">
+	<div class="kanjimi kanjimi-tooltip-container" v-on:click="onTooltipRootElementClick">
 		<div
 			ref="tooltip"
 			class="tooltip"
@@ -58,6 +58,8 @@
 			window.addEventListener('resize', this.updateTargetPos);
 			window.addEventListener('kanjimi-converted-sentences', this.updateTargetPos);
 			document.addEventListener('keyup', this.keyPressHandler);
+			document.body.addEventListener('click', this.onBodyClick);
+			document.body.addEventListener('keyup', this.onBodyKeyPress);
 		},
 		beforeUpdate() {
 			this.updateTargetPos();
@@ -66,8 +68,26 @@
 			window.removeEventListener('resize', this.updateTargetPos);
 			window.removeEventListener('kanjimi-converted-sentences', this.updateTargetPos);
 			document.removeEventListener('keyup', this.keyPressHandler);
+			document.body.removeEventListener('click', this.onBodyClick);
+			document.body.removeEventListener('keyup', this.onBodyKeyPress);
 		},
 		methods: {
+			onTooltipRootElementClick(event: Event) {
+				// Preventing the propagation to the body
+				event.stopPropagation();
+			},
+			onBodyClick(event: Event) {
+				event.preventDefault();
+				event.stopPropagation();
+				this.$root.setTooltip(null);
+			},
+			onBodyKeyPress(event: KeyboardEvent) {
+				if (event.key === 'Escape') {
+					event.preventDefault();
+					event.stopPropagation();
+					this.$root.setTooltip(null);
+				}
+			},
 			keyPressHandler(event: KeyboardEvent) {
 				if (event.key === 'Escape') {
 					event.preventDefault();

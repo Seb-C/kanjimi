@@ -57,6 +57,24 @@ context('Layout', () => {
 		cy.get('nav a:contains(Logout)').should('be.visible');
 	});
 
+	it('Closing the user dropdown with a click outside', () => {
+		cy.setLoggedIn();
+		cy.visit('/app')
+		cy.get('nav .dropdown-toggle').click();
+		cy.get('nav a:contains(Logout)').should('be.visible');
+		cy.get('body').click();
+		cy.get('nav a:contains(Logout)').should('not.be.visible');
+	});
+
+	it('Closing the user dropdown with the escape key', () => {
+		cy.setLoggedIn();
+		cy.visit('/app')
+		cy.get('nav .dropdown-toggle').click();
+		cy.get('nav a:contains(Logout)').should('be.visible');
+		cy.get('body').type('{esc}');
+		cy.get('nav a:contains(Logout)').should('not.be.visible');
+	});
+
 	it('Can go back and forth using the browser buttons', () => {
 		cy.setLoggedOut();
 

@@ -104,6 +104,8 @@
 	import NotFoundError from 'Common/Api/Errors/NotFound';
 	import ServerError from 'Common/Api/Errors/Server';
 	import RoundLogo from 'WebApp/Components/RoundLogo.vue';
+	import Store from 'WebApp/Store';
+	import ApiKey from 'Common/Models/ApiKey';
 
 	export default Vue.extend({
 		async created() {

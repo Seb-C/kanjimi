@@ -51,7 +51,7 @@ export default class PageHandler {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					if ((<HTMLElement>node).contentEditable) {
+					if ((<HTMLElement>node).contentEditable === 'true') {
 						return NodeFilter.FILTER_REJECT;
 					}
 

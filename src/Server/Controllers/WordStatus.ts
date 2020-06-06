@@ -37,18 +37,18 @@ const wordStatusValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const get = (db: Database, dictionary: Dictionary) => async (request: Request, response: Response) => {
+export const search = (db: Database, dictionary: Dictionary) => async (request: Request, response: Response) => {
 	const user = await (new UserRepository(db)).getFromRequest(request);
 	if (user === null) {
 		return response.status(403).json('Invalid api key');
 	}
 
-	if (!wordArrayValidator(request.query)) {
+	if (!wordArrayValidator(request.body)) {
 		return response.status(422).json(wordArrayValidator.errors);
 	}
 
 	const wordStatusRepository = new WordStatusRepository(db, dictionary);
-	const wordStatusList = await wordStatusRepository.getList(user, request.query);
+	const wordStatusList = await wordStatusRepository.getList(user, request.body);
 
 	const wordStatusMap: Map<string, WordStatus> = new Map();
 	for (let i = 0; i < wordStatusList.length; i++) {
@@ -57,8 +57,8 @@ export const get = (db: Database, dictionary: Dictionary) => async (request: Req
 	}
 
 	const output = [];
-	for (let j = 0; j < request.query.length; j++) {
-		const word = request.query[j];
+	for (let j = 0; j < request.body.length; j++) {
+		const word = request.body[j];
 
 		let wordStatus: WordStatus;
 		if (wordStatusMap.has(word)) {

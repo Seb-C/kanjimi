@@ -163,23 +163,18 @@ describe('WordStatus', async function() {
 		expect(response.status).toBe(403);
 	});
 
-	it('get (normal case)', async function() {
+	it('search (normal case)', async function() {
 		const dictionary = new Dictionary();
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
 		await wordStatusRepository.create(user, 'word2', true, false);
 
-		const response = await fetch(
-			`http://localhost:3000/word-status?${escape(JSON.stringify([
-				'word1',
-				'word2',
-			]))}`,
-			{
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${apiKey.key}`,
-				},
+		const response = await fetch('http://localhost:3000/word-status/search', {
+			method: 'POST',
+			body: JSON.stringify(['word1', 'word2']),
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
 			},
-		);
+		});
 		expect(response.status).toBe(200);
 		const responseData = await response.json();
 
@@ -199,16 +194,14 @@ describe('WordStatus', async function() {
 		expect(responseData[1].showTranslation).toBe(false);
 	});
 
-	it('get (validation errors)', async function() {
-		const response = await fetch(
-			`http://localhost:3000/word-status?${escape(JSON.stringify([]))}`,
-			{
-				method: 'GET',
-				headers: {
-					Authorization: `Bearer ${apiKey.key}`,
-				},
+	it('search (validation errors)', async function() {
+		const response = await fetch('http://localhost:3000/word-status/search', {
+			method: 'POST',
+			body: JSON.stringify([]),
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
 			},
-		);
+		});
 		expect(response.status).toBe(422);
 		const responseData = await response.json();
 
@@ -217,18 +210,14 @@ describe('WordStatus', async function() {
 			.toBe(true);
 	});
 
-	it('get (authentication error)', async function() {
-		const response = await fetch(
-			`http://localhost:3000/word-status?${escape(JSON.stringify([
-				'word',
-			]))}`,
-			{
-				method: 'GET',
-				headers: {
-					Authorization: 'Bearer wrongtoken',
-				},
+	it('search (authentication error)', async function() {
+		const response = await fetch('http://localhost:3000/word-status/search', {
+			method: 'POST',
+			body: JSON.stringify(['word']),
+			headers: {
+				Authorization: 'Bearer wrongtoken',
 			},
-		);
+		});
 		expect(response.status).toBe(403);
 	});
 });

@@ -3,16 +3,14 @@ import AuthenticationError from 'Common/Api/Errors/Authentication';
 import ServerError from 'Common/Api/Errors/Server';
 import WordStatus from 'Common/Models/WordStatus';
 
-export const get = async (key: string, strings: string[]): Promise<WordStatus[]> => {
-	const response = await fetch(
-		`${process.env.KANJIMI_API_URL}/word-status?${escape(JSON.stringify(strings))}`,
-		{
-			method: 'GET',
-			headers: {
-				Authorization: `Bearer ${key}`,
-			},
+export const search = async (key: string, strings: string[]): Promise<WordStatus[]> => {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/word-status/search`, {
+		method: 'POST',
+		body: JSON.stringify(strings),
+		headers: {
+			Authorization: `Bearer ${key}`,
 		},
-	);
+	});
 	const responseData = await response.json();
 
 	if (response.status === 422) {

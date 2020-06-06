@@ -5,7 +5,6 @@ import * as Express from 'express';
 import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as BodyParser from 'body-parser';
-import * as URL from 'url';
 import * as NodeMailer from 'nodemailer';
 
 import * as LexerController from 'Server/Controllers/Lexer';
@@ -22,20 +21,6 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 		} else {
 			startupWaiters.push(next);
 		}
-	};
-	const jsonQueryStrings = (request: Request, response: Response, next: Function) => {
-		const query = URL.parse(request.originalUrl).query;
-		if (query) {
-			try {
-				request.query = JSON.parse(unescape(query));
-			} catch {
-				request.query = null;
-			}
-		} else {
-			request.query = null;
-		}
-
-		next();
 	};
 	const logRequestMiddleware = (request: Request, response: Response, next: Function) => {
 		const startTime = +new Date();
@@ -56,7 +41,6 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	application.use(logRequestMiddleware);
 	application.use(waitForStartupMiddleware);
 	application.use(BodyParser.json({ type: () => true }));
-	application.use(jsonQueryStrings);
 	const serverClosed = new Promise((resolve, reject) => {
 		try {
 			const server = application.listen(3000);
@@ -102,7 +86,7 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	application.post('/api-key', ApiKeyController.create(db));
 	application.get('/api-key', ApiKeyController.get(db));
 
-	application.get('/word-status', WordStatusController.get(db, dictionary));
+	application.post('/word-status/search', WordStatusController.search(db, dictionary));
 	application.put('/word-status', WordStatusController.createOrUpdate(db, dictionary));
 
 	await dictionary.load();

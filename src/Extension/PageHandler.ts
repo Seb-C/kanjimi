@@ -4,7 +4,7 @@ import User from 'Common/Models/User';
 import Store from 'Extension/Store';
 import { analyze } from 'Common/Api/Lexer';
 import {
-	get as getWordStatuses,
+	search as searchWordStatuses,
 } from 'Common/Api/WordStatus';
 import Vue from 'vue';
 import UIContainer from 'Extension/Components/UIContainer.vue';
@@ -168,7 +168,7 @@ export default class PageHandler {
 				}
 
 				if (words.size > 0) {
-					const wordStatuses = await getWordStatuses(this.store.apiKey.key, Array.from(words.values()));
+					const wordStatuses = await searchWordStatuses(this.store.apiKey.key, Array.from(words.values()));
 					for (let i = 0; i < wordStatuses.length; i++) {
 						const wordStatus = wordStatuses[i];
 						Vue.set(this.store.wordStatuses, wordStatus.word, wordStatus);

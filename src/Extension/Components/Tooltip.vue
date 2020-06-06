@@ -96,20 +96,15 @@
 				}
 			},
 			updateTargetPos() {
-				let top = 0;
-				let left = 0;
-				let currentNode = this.tokenElement;
-				do {
-					top += currentNode.offsetTop || 0;
-					left += currentNode.offsetLeft || 0;
-					currentNode = <HTMLElement>currentNode.offsetParent;
-				} while (currentNode);
+				const rect = this.tokenElement.getBoundingClientRect();
+				const left = window.scrollX + rect.left;
+				const top = window.scrollY + rect.top;
 
 				this.targetPos = {
 					left: left,
 					top: top,
-					right: left + this.tokenElement.offsetWidth,
-					bottom: top + this.tokenElement.offsetHeight,
+					right: left + rect.width,
+					bottom: top + rect.height,
 				};
 			},
 			getTipDiagonal(): number {

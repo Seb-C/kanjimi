@@ -1,6 +1,5 @@
 MVP:
     test with a lot of different sites and texts
-    fix the red border not always properly placed (saw it on wikipedia in the book bordered box on the top) -> re-test on laptop, can't reproduce
     test and debug with slack
     test and debug intensively the display of results
     only apply conjugations to the words with verb tags

@@ -12,6 +12,7 @@
   "content_scripts": [
     {
       "all_frames": false,
+      "run_at": "document_end",
       "matches": ["<all_urls>"],
       "js": ["/content.build.js"],
       "css": ["/content.build.css"]

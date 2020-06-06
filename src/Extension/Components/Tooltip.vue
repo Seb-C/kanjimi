@@ -253,6 +253,7 @@
 		border: 2px dashed var(--red);;
 		outline: 2px dashed var(--secondary);
 		pointer-events: none;
+		z-index: 999999;
 	}
 
 	.tooltip-close-button {

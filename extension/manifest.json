@@ -11,7 +11,7 @@
   },
   "content_scripts": [
     {
-      "all_frames": true,
+      "all_frames": false,
       "matches": ["<all_urls>"],
       "js": ["/content.build.js"],
       "css": ["/content.build.css"]

@@ -15,6 +15,7 @@ export const analyze = async (key: string, data: {
 		},
 		body: JSON.stringify(data),
 	});
+
 	const responseData = await response.json();
 
 	if (response.status === 422) {

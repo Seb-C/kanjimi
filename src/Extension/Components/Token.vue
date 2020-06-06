@@ -1,5 +1,5 @@
 <template>
-	<span class="token" ref="tokenElement">
+	<span class="token" ref="tokenElement" v-on:click="handleTokenClick">
 		<span
 			v-bind:class="{
 				'furigana': true,
@@ -73,6 +73,10 @@
 					});
 				}
 			},
+			handleTokenClick (event: Event) {
+				event.preventDefault();
+				event.stopPropagation();
+			},
 			getFurigana() {
 				let furigana = this.token.getFurigana();
 				if (furigana === null) {
@@ -119,6 +123,11 @@
 	.token {
 		display: inline-block;
 		line-height: 100%;
+		width: auto;
+
+		/** Required to disallow click on the sentence between tokens */
+		padding: 0;
+		margin: 0;
 	}
 
 	.token .furigana {
@@ -129,6 +138,7 @@
 		text-align: center;
 		white-space: nowrap;
 		cursor: pointer;
+		padding: 0;
 	}
 
 	.token .furigana.hidden {
@@ -153,6 +163,7 @@
 		white-space: nowrap;
 		margin: 0 0 0.1em 0;
 		cursor: zoom-in;
+		padding: 0;
 	}
 
 	.token .translation {
@@ -163,6 +174,7 @@
 		text-align: center;
 		white-space: nowrap;
 		cursor: pointer;
+		padding: 0;
 	}
 
 	.token .translation.hidden {

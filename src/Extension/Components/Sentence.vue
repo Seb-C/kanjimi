@@ -25,6 +25,7 @@
 	.kanjimi-sentence {
 		clear: both;
 		display: inline;
+		text-shadow: none;
 	}
 
 	a .kanjimi-sentence:after {

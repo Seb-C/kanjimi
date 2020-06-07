@@ -1,9 +1,10 @@
 MVP:
+    aria attributes on hidden furigana/translations
+    aria attributes on tooltip
+    keyboard navigation for tokens (token only + keystrokes explained in the tooltip?)
     test and debug with slack
     test with inner scrolling
     only apply conjugations to the words with verb tags
-    improve the ergonomy of the words when clicking (and add shortcuts?)
-    option to get a normal sized furigana and translation?
     test other browsers
     chrome compatibility (+ add to CI)
     firefox android compatibility (+ add mobile to CI)
@@ -24,6 +25,7 @@ MVP:
     post on twitter
 
 After:
+    underline and overline (text-decoration) for sentence parts?
     hiding furigana and definitions -> stay visible if currentColor has an alpha channel -> needs to use JS
     commented cypress lines (about disabled fields during loading) -> remove and merge in a separate skipped tests (already done in most test suites)
     test the links in the user dropdown

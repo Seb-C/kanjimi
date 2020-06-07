@@ -1,5 +1,13 @@
 <template>
-	<span class="token" ref="tokenElement" v-on:click="handleTokenClick">
+	<span
+		class="token"
+		ref="tokenElement"
+		v-on:click="handleTokenClick"
+		v-bind:style="{
+			backgroundColor: tokenBackground,
+			color: tokenColor,
+		}"
+	>
 		<span
 			v-bind:class="{
 				'furigana': true,
@@ -116,6 +124,14 @@
 
 				return (<WordStatus>this.$root.wordStatuses[this.token.text]).showTranslation;
 			},
+
+			tokenColor() {
+				// TODO remove the alpha channel (rgba(x, x, x, a), hsla(x, x, x, a), #xxxxxxaa)
+				return window.getComputedStyle(this.$root.$el).getPropertyValue('color');
+			},
+			tokenBackground() {
+				return window.getComputedStyle(this.$root.$el).getPropertyValue('background-color');
+			},
 		},
 	});
 </script>
@@ -124,6 +140,8 @@
 		display: inline-block;
 		line-height: 100%;
 		width: auto;
+		text-align: center;
+		position: relative;
 
 		/** Required to disallow click on the sentence between tokens */
 		padding: 0;
@@ -131,6 +149,7 @@
 	}
 
 	.token .furigana {
+		border-radius: 0.3em;
 		font-size: 0.5em;
 		display: block;
 		line-height: 150%;
@@ -139,12 +158,25 @@
 		white-space: nowrap;
 		cursor: pointer;
 		padding: 0;
+		background-color: inherit;
+	}
+
+	.token .furigana:hover {
+		z-index: 1;
+		transform: scale(2);
+		background-color: var(--primary);
+		color: var(--black);
+		box-shadow: 0px 0px 0px 2px var(--black);
 	}
 
 	.token .furigana.hidden {
 		/* Hide it but keep the pointer reactivity and bounding-box */
 		background-color: currentColor;
 		color: currentColor;
+	}
+	.token .furigana.hidden:hover {
+		transform: none;
+		box-shadow: none;
 	}
 
 	.token .furigana.none {
@@ -161,12 +193,22 @@
 		display: block;
 		text-align: center;
 		white-space: nowrap;
-		margin: 0 0 0.1em 0;
+		margin: 0 0 0 0;
 		cursor: zoom-in;
-		padding: 0;
+		padding: 0 0 0.1em 0;
+		background-color: inherit;
+	}
+
+	.token .word:hover {
+		z-index: 1;
+		transform: scale(2);
+		background-color: var(--primary);
+		color: var(--black);
+		box-shadow: 0px 0px 0px 2px var(--black);
 	}
 
 	.token .translation {
+		border-radius: 0.3em;
 		font-size: 0.5em;
 		display: block;
 		line-height: 150%;
@@ -175,6 +217,15 @@
 		white-space: nowrap;
 		cursor: pointer;
 		padding: 0;
+		background-color: inherit;
+	}
+
+	.token .translation:hover {
+		z-index: 1;
+		transform: scale(2);
+		background-color: var(--primary);
+		color: var(--black);
+		box-shadow: 0px 0px 0px 2px var(--black);
 	}
 
 	.token .translation.hidden {
@@ -183,6 +234,10 @@
 		 */
 		background-color: currentColor;
 		color: currentColor;
+	}
+	.token .translation.hidden:hover {
+		transform: none;
+		box-shadow: none;
 	}
 
 	.token .translation.none {

@@ -148,7 +148,7 @@
 	}
 
 	.token .furigana:hover {
-		z-index: 1;
+		z-index: 999999;
 		transform: scale(2);
 		transform-origin: center 130%;
 		background-color: var(--primary);
@@ -207,7 +207,7 @@
 	}
 
 	.token .translation:hover {
-		z-index: 1;
+		z-index: 999999;
 		transform: scale(2);
 		transform-origin: center -30%;
 		background-color: var(--primary);

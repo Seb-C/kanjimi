@@ -8,6 +8,7 @@
 				'none': !hasFurigana,
 			}"
 			v-on:click="handleFuriganaClick($event)"
+			v-bind:aria-hidden="!hasFurigana || !showFurigana"
 		>{{
 			getFurigana() || '&nbsp;'
 		}}</span>
@@ -22,6 +23,7 @@
 				'none': !hasTranslation,
 			}"
 			v-on:click="handleTranslationClick($event)"
+			v-bind:aria-hidden="!hasTranslation || !showTranslation"
 		>{{
 			getTranslation() || '&nbsp;'
 		}}</span>

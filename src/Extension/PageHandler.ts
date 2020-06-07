@@ -59,8 +59,14 @@ export default class PageHandler {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					if (!this.isElementOnScreen(<HTMLElement>node)) {
-						if ((<HTMLElement>node).offsetWidth === 0 || (<HTMLElement>node).offsetHeight === 0) {
+					const boundingBox = (<HTMLElement>node).getBoundingClientRect();
+					if (
+						boundingBox.top > window.innerHeight
+						|| boundingBox.bottom < 0
+						|| boundingBox.left > window.innerWidth
+						|| boundingBox.right < 0
+					) {
+						if (boundingBox.width === 0 || boundingBox.height === 0) {
 							// Rejecting would include absolute elements being
 							// inside elements that are outside screen
 							return NodeFilter.FILTER_SKIP;
@@ -105,24 +111,6 @@ export default class PageHandler {
 			node.style.opacity !== '0'
 			&& node.style.display !== 'none'
 			&& node.style.visibility !== 'hidden'
-		);
-	}
-
-	isElementOnScreen (node: HTMLElement): boolean {
-		let top = 0;
-		let left = 0;
-		let currentNode = node;
-		do {
-			top += currentNode.offsetTop || 0;
-			left += currentNode.offsetLeft || 0;
-			currentNode = <HTMLElement>currentNode.offsetParent;
-		} while (currentNode);
-
-		return !(
-			top > window.scrollY + window.innerHeight
-			|| top + node.offsetHeight < window.scrollY
-			|| left > window.scrollX + window.innerWidth
-			|| left + node.offsetWidth < window.scrollX
 		);
 	}
 

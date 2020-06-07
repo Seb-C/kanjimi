@@ -1,10 +1,9 @@
 MVP:
-    test and debug with slack
-    test with inner scrolling
-    only apply conjugations to the words with verb tags
     test other browsers
     chrome compatibility (+ add to CI)
     firefox android compatibility (+ add mobile to CI)
+    only apply conjugations to the words with verb tags
+    simplify showing some tags in the beginning of definitions (should be grouped too?)
     improve the structure and display of contents in the tooltip
     store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words

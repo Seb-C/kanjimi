@@ -157,6 +157,10 @@
 	}
 
 	.token .furigana.hidden {
+		display: block;
+		visibility: visible;
+		opacity: 100%;
+
 		/* Hide it but keep the pointer reactivity and bounding-box */
 		background-color: currentColor;
 		color: currentColor;
@@ -216,9 +220,11 @@
 	}
 
 	.token .translation.hidden {
-		/*
-		 * Hide it but keep the pointer reactivity and bounding-box
-		 */
+		display: block;
+		visibility: visible;
+		opacity: 100%;
+
+		/* Hide it but keep the pointer reactivity and bounding-box */
 		background-color: currentColor;
 		color: currentColor;
 	}

@@ -57,5 +57,10 @@ if (
 		}
 	};
 	window.addEventListener('load', convertSentencesAsynchronously);
+
+	// Scrolling the body
 	window.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300));
+
+	// Scrolling any other element (and use capture, necessary for many web apps)
+	document.body.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300), true);
 }

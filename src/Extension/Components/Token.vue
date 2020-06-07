@@ -1,13 +1,5 @@
 <template>
-	<span
-		class="token"
-		ref="tokenElement"
-		v-on:click="handleTokenClick"
-		v-bind:style="{
-			backgroundColor: tokenBackground,
-			color: tokenColor,
-		}"
-	>
+	<span class="token" ref="tokenElement" v-on:click="handleTokenClick">
 		<span
 			v-bind:class="{
 				'furigana': true,
@@ -16,9 +8,9 @@
 				'none': !hasFurigana,
 			}"
 			v-on:click="handleFuriganaClick($event)"
-		>
-			{{ getFurigana() || '&nbsp;' }}
-		</span>
+		>{{
+			getFurigana() || '&nbsp;'
+		}}</span>
 		<span class="word" v-on:click="handleWordClick($event)">
 			{{ token.text || '&nbsp;' }}
 		</span>
@@ -30,9 +22,9 @@
 				'none': !hasTranslation,
 			}"
 			v-on:click="handleTranslationClick($event)"
-		>
-			{{ getTranslation() || '&nbsp;' }}
-		</span>
+		>{{
+			getTranslation() || '&nbsp;'
+		}}</span>
 	</span>
 </template>
 <script lang="ts">
@@ -124,14 +116,6 @@
 
 				return (<WordStatus>this.$root.wordStatuses[this.token.text]).showTranslation;
 			},
-
-			tokenColor() {
-				// TODO remove the alpha channel (rgba(x, x, x, a), hsla(x, x, x, a), #xxxxxxaa)
-				return window.getComputedStyle(this.$root.$el).getPropertyValue('color');
-			},
-			tokenBackground() {
-				return window.getComputedStyle(this.$root.$el).getPropertyValue('background-color');
-			},
 		},
 	});
 </script>
@@ -174,7 +158,14 @@
 		background-color: currentColor;
 		color: currentColor;
 	}
-	.token .furigana.hidden:hover {
+	.token .furigana.hidden::first-line {
+		/* Making the text invisible without affecting the currentColor */
+		color: rgba(0, 0, 0, 0);
+	}
+
+	.token .furigana.hidden:hover,
+	.token .furigana:empty {
+		/* No zooming if empty or hidden */
 		transform: none;
 		box-shadow: none;
 	}
@@ -200,6 +191,7 @@
 	}
 
 	.token .word:hover {
+		border-radius: 0.15em;
 		z-index: 1;
 		transform: scale(2);
 		background-color: var(--primary);
@@ -234,6 +226,9 @@
 		 */
 		background-color: currentColor;
 		color: currentColor;
+	}
+	.token .translation.hidden::first-line {
+		color: rgba(0, 0, 0, 0);
 	}
 	.token .translation.hidden:hover {
 		transform: none;

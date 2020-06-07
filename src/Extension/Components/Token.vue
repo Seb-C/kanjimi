@@ -150,6 +150,7 @@
 	.token .furigana:hover {
 		z-index: 1;
 		transform: scale(2);
+		transform-origin: center 130%;
 		background-color: var(--primary);
 		color: var(--black);
 		box-shadow: 0px 0px 0px 2px var(--black);
@@ -192,15 +193,6 @@
 		background-color: inherit;
 	}
 
-	.token .word:hover {
-		border-radius: 0.15em;
-		z-index: 1;
-		transform: scale(2);
-		background-color: var(--primary);
-		color: var(--black);
-		box-shadow: 0px 0px 0px 2px var(--black);
-	}
-
 	.token .translation {
 		border-radius: 0.3em;
 		font-size: 0.5em;
@@ -217,6 +209,7 @@
 	.token .translation:hover {
 		z-index: 1;
 		transform: scale(2);
+		transform-origin: center -30%;
 		background-color: var(--primary);
 		color: var(--black);
 		box-shadow: 0px 0px 0px 2px var(--black);

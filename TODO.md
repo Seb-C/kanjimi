@@ -1,12 +1,11 @@
 MVP:
-    aria attributes on tooltip (modal dialog attributes?)
-    keyboard navigation for tokens (token only + keystrokes explained in the tooltip?)
     test and debug with slack
     test with inner scrolling
     only apply conjugations to the words with verb tags
     test other browsers
     chrome compatibility (+ add to CI)
     firefox android compatibility (+ add mobile to CI)
+    improve the structure and display of contents in the tooltip
     store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     save all words and sentences to show up later?
@@ -24,6 +23,8 @@ MVP:
     post on twitter
 
 After:
+    aria attributes on tooltip (modal dialog attributes?)
+    keyboard navigation for tokens (token only + keystrokes explained in the tooltip?)
     underline and overline (text-decoration) for sentence parts?
     commented cypress lines (about disabled fields during loading) -> remove and merge in a separate skipped tests (already done in most test suites)
     test the links in the user dropdown

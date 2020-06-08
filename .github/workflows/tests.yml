@@ -38,13 +38,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        include:
-          - browser: firefox
-            install-command: sudo apt-get install firefox
-          - browser: chrome
-            install-command: |
-              wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-              sudo apt install ./google-chrome-stable_current_amd64.deb
+        browser: [firefox, chrome]
     steps:
     - uses: actions/checkout@v2
     - uses: actions/cache@v2
@@ -62,7 +56,6 @@ jobs:
         key: ${{ runner.os }}-cache-node-modules-${{ hashFiles('**/package-lock.json') }}
     - run: npm install
     - run: docker-compose up -d --build
-    - run: ${{ matrix.install-command }}
     - run: ./node_modules/.bin/cypress run --browser=${{ matrix.browser }}
     - run: docker-compose logs
       if: failure()

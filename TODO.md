@@ -1,7 +1,7 @@
 MVP:
+    Debug with a mobile resolution (otherwise it works on Firefox android)
+    replace the use of notifications with popins (testable + works with everything in the future)
     test Edge via the CI
-    Split the website and extension tests
-    firefox android compatibility (+ add mobile to CI)
     only apply conjugations to the words with verb tags
     simplify showing some tags in the beginning of definitions (should be grouped too?)
     improve the structure and display of contents in the tooltip
@@ -22,6 +22,7 @@ MVP:
     post on twitter
 
 After:
+    possible to test the Firefox version on CI? (it works but need to forward the 3000 port from the emulator)
     bookmarklet
     aria attributes on tooltip (modal dialog attributes?)
     keyboard navigation for tokens (token only + keystrokes explained in the tooltip?)

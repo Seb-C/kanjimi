@@ -1,5 +1,4 @@
 MVP:
-    add google chrome to CI
     test other browsers
     firefox android compatibility (+ add mobile to CI)
     only apply conjugations to the words with verb tags

@@ -5,11 +5,11 @@ on:
   pull_request:
     branches: [ master ]
 jobs:
-  tests:
+  unit_tests:
+    name: Unit tests
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - run: sudo apt-get install firefox
     - uses: actions/cache@v2
       with:
         path: |
@@ -20,9 +20,35 @@ jobs:
     - run: npm install
     - run: docker-compose up -d --build
     - run: make test
+    - run: docker-compose logs
+      if: failure()
+  cypress_tests:
+    name: Cypress tests
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        include:
+          - browser: firefox
+            install-command: sudo apt-get install firefox
+          - browser: chrome
+            install-command: |
+              wget https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+              sudo apt install ./google-chrome-stable_current_amd64.deb
+    steps:
+    - uses: actions/checkout@v2
+    - run: ${{ matrix.install-command }}
+    - uses: actions/cache@v2
+      with:
+        path: |
+          **/node_modules
+          ~/.cache/Cypress
+          ~/.npm
+        key: ${{ runner.os }}-cache-node-modules-${{ hashFiles('**/package-lock.json') }}
+    - run: npm install
+    - run: docker-compose up -d --build
     - run: while [ ! -f ./extension/content.build.js ]; do sleep 1; done; ls -R ./extension
     - run: while [ ! -f ./www/js/app.build.js ]; do sleep 1; done; ls -R ./www
-    - run: make e2e
+    - run: ./node_modules/.bin/cypress run --browser=${{ matrix.browser }}
     - run: docker-compose logs
       if: failure()
     - uses: actions/upload-artifact@v1

@@ -1,6 +1,6 @@
 MVP:
+    add google chrome to CI
     test other browsers
-    chrome compatibility (+ add to CI)
     firefox android compatibility (+ add mobile to CI)
     only apply conjugations to the words with verb tags
     simplify showing some tags in the beginning of definitions (should be grouped too?)
@@ -22,6 +22,7 @@ MVP:
     post on twitter
 
 After:
+    bookmarklet
     aria attributes on tooltip (modal dialog attributes?)
     keyboard navigation for tokens (token only + keystrokes explained in the tooltip?)
     underline and overline (text-decoration) for sentence parts?

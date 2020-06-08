@@ -12,6 +12,12 @@ if (
 		<string>process.env.KANJIMI_API_URL
 	)
 ) {
+	// Fix for chrome
+	if (typeof browser === 'undefined') {
+		// @ts-ignore
+		window.browser = require('webextension-polyfill');
+	}
+
 	const store = new Store();
 	const pageHandler = new PageHandler(store);
 

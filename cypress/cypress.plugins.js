@@ -8,6 +8,6 @@ module.exports = (on, config) => {
 	});
 
 	return {
-		browsers: config.browsers.filter(browser => browser.family === 'firefox'),
+		browsers: config.browsers.filter(browser => browser.name !== 'electron'),
 	};
 }

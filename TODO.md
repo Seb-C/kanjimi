@@ -1,6 +1,8 @@
 MVP:
-    Debug with a mobile resolution (otherwise it works on Firefox android)
     replace the use of notifications with popins (testable + works with everything in the future)
+    dependency-injection for all the browser.xxx APIs from the main script
+    bookmarklet
+    instructions to either install the extension or the bookmarklet
     test Edge via the CI
     only apply conjugations to the words with verb tags
     simplify showing some tags in the beginning of definitions (should be grouped too?)
@@ -23,7 +25,6 @@ MVP:
 
 After:
     possible to test the Firefox version on CI? (it works but need to forward the 3000 port from the emulator)
-    bookmarklet
     aria attributes on tooltip (modal dialog attributes?)
     keyboard navigation for tokens (token only + keystrokes explained in the tooltip?)
     underline and overline (text-decoration) for sentence parts?

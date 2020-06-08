@@ -49,8 +49,8 @@
 
 				// Values that only should not be affected by future dom changes
 				windowScrollY: window.scrollY,
+				windowWidth: window.innerWidth,
 				windowHeight: window.innerHeight,
-				bodyWidth: document.body.offsetWidth,
 			};
 		},
 		created() {
@@ -110,6 +110,19 @@
 			getTipDiagonal(): number {
 				return Math.sqrt((TIP_SIZE * TIP_SIZE) * 2);
 			},
+			getTooltipWidth(): number {
+				if (this.windowWidth >= 1200) { // Bootstrap xl breakpoint
+					return Math.round(this.windowWidth * 0.4);
+				} else if (this.windowWidth >= 992) { // Bootstrap lg breakpoint
+					return Math.round(this.windowWidth * 0.5);
+				} else if (this.windowWidth >= 768) { // Bootstrap md breakpoint
+					return Math.round(this.windowWidth * 0.6);
+				} else if (this.windowWidth >= 576) { // Bootstrap sm breakpoint
+					return Math.round(this.windowWidth * 0.8);
+				} else { // Bootstrap xs breakpoint
+					return Math.round(this.windowWidth * 1);
+				}
+			},
 			getTooltipHeight(): number {
 				return Math.round(this.windowHeight / 2);
 			},
@@ -131,7 +144,7 @@
 		computed: {
 			tooltipStyles() {
 				const tipDiagonal = this.getTipDiagonal();
-				const tooltipWidth = Math.round(this.bodyWidth * 0.4); // Mobile: should take 100%?
+				const tooltipWidth = this.getTooltipWidth();
 				const tooltipHeight = this.getTooltipHeight();
 
 				let left = this.targetPos.left - ((tooltipWidth - (this.targetPos.right - this.targetPos.left)) / 2);
@@ -141,9 +154,9 @@
 				}
 
 				let right = left + tooltipWidth;
-				if (right >= this.bodyWidth) {
+				if (right >= this.windowWidth) {
 					// Making sure it does not go outside the document on the right
-					left -= (right - this.bodyWidth);
+					left -= (right - this.windowWidth);
 					right = left + tooltipWidth;
 				}
 

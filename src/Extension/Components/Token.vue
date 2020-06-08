@@ -138,7 +138,7 @@
 		border-radius: 0.3em;
 		font-size: 0.5em;
 		display: block;
-		line-height: 150%;
+		line-height: 1.5em;
 		margin: 0 2px;
 		text-align: center;
 		white-space: nowrap;
@@ -187,21 +187,22 @@
 	}
 
 	.token .word {
-		line-height: 1em;
+		line-height: 1.1em;
 		display: block;
 		text-align: center;
 		white-space: nowrap;
-		margin: 0 0 0 0;
+		margin: 1px 0 1px 0;
 		cursor: zoom-in;
-		padding: 0 0 0.1em 0;
+		padding: 0;
 		background-color: inherit;
+		font-size: 1em;
 	}
 
 	.token .translation {
 		border-radius: 0.3em;
 		font-size: 0.5em;
 		display: block;
-		line-height: 150%;
+		line-height: 1.5em;
 		margin: 0px 2px;
 		text-align: center;
 		white-space: nowrap;

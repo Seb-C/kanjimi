@@ -141,11 +141,15 @@
 	.reading-translation-flag {
 		margin-top: 0.3em;
 		float: left;
+		line-height: 1em;
 	}
 
 	.reading-translation ol {
 		flex-grow: 1;
 		margin-left: 0.5em;
+		margin-top: 0.2em;
+		margin-bottom: 0.2em;
+		padding: 0;
 	}
 
 	.reading-translation ol li {

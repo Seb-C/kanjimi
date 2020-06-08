@@ -1,5 +1,6 @@
 MVP:
-    test other browsers
+    test Edge via the CI
+    Split the website and extension tests
     firefox android compatibility (+ add mobile to CI)
     only apply conjugations to the words with verb tags
     simplify showing some tags in the beginning of definitions (should be grouped too?)

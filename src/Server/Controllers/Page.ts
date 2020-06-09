@@ -40,7 +40,7 @@ export const get = (db: Database) => async (request: Request, response: Response
 			},
 		});
 
-		response.writeHead(data.status, {
+		response.writeHead(200, {
 			'Content-Type': <string>(data.headers.get('Content-Type')),
 			'Cache-Control': 'max-age=3600',
 		});

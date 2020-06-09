@@ -1,4 +1,5 @@
 MVP:
+    Test the page endpoint
     fix the CI test
     finish the proxy reading feature
     only apply conjugations to the words with verb tags

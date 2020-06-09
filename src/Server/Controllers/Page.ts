@@ -29,22 +29,43 @@ export const get = (db: Database) => async (request: Request, response: Response
 		return response.status(403).json('Invalid api key');
 	}
 
-	const data = await fetch(request.query.url, {
-		method: 'GET',
-		redirect: 'error',
-		headers: {
-			'User-Agent': <string>(request.get('User-Agent')),
-			'X-Forwarded-For': request.ip,
-			'X-Forwarded-Host': <string>(URL.parse(<string>process.env.KANJIMI_API_URL).host),
-		},
-	});
+	try {
+		const data = await fetch(request.query.url, {
+			method: 'GET',
+			redirect: 'error',
+			headers: {
+				'User-Agent': <string>(request.get('User-Agent')),
+				'X-Forwarded-For': request.ip,
+				'X-Forwarded-Host': <string>(URL.parse(<string>process.env.KANJIMI_API_URL).host),
+			},
+		});
 
-	// TODO filter the size
-	// TODO transfer content
-	// TODO fix errors, test in a sandboxed iframe, handle properly all the cache headers
+		response.writeHead(data.status, {
+			'Content-Type': <string>(data.headers.get('Content-Type')),
+			'Cache-Control': 'max-age=3600',
+		});
 
-	response.set('Content-Type', data.headers['Content-Type']);
-	response.set('Cache-Control', 'max-age=3600');
-	response.status(data.status);
-	return response.send(buffer);
+		const streamingResponse = new Promise((resolve) => {
+			let sentBytes = 0;
+			data.body.on('data', function(buffer) {
+				response.write(buffer);
+				sentBytes += buffer.length
+
+				if (sentBytes > 1000000) {
+					response.end();
+					(<any>data).body.destroy();
+					resolve();
+					console.error(`The page [${request.query.url}] got truncated bacause it was too big.`);
+				}
+			});
+			data.body.on('end', function() {
+				response.end();
+				resolve();
+			});
+		});
+
+		return streamingResponse;
+	} catch (error) {
+		return response.status(500).json(error.message);
+	}
 };

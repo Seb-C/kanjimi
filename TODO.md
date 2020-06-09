@@ -1,10 +1,8 @@
 MVP:
-    replace the use of notifications with popins (testable + works with everything in the future)
-    dependency-injection for all the browser.xxx APIs from the main script
-    bookmarklet
-    instructions to either install the extension or the bookmarklet
-    test Edge via the CI
+    fix the CI test
+    finish the proxy reading feature
     only apply conjugations to the words with verb tags
+    extension and site update scheme
     simplify showing some tags in the beginning of definitions (should be grouped too?)
     improve the structure and display of contents in the tooltip
     store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
@@ -16,6 +14,8 @@ MVP:
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code
     CGU / RGPD ?
+    test Edge via the CI
+    test other browsers
     need to register a copyright?!
     post on producthunt
     post on hackernews
@@ -24,6 +24,9 @@ MVP:
     post on twitter
 
 After:
+    replace the use of notifications with popins (testable + works with everything in the future)
+    dependency-injection for all the browser.xxx APIs from the main script
+    bookmarklet that redirects to the site?
     possible to test the Firefox version on CI? (it works but need to forward the 3000 port from the emulator)
     aria attributes on tooltip (modal dialog attributes?)
     keyboard navigation for tokens (token only + keystrokes explained in the tooltip?)

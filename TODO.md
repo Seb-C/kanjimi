@@ -1,7 +1,7 @@
 MVP:
     Iframe:
         - Inject the Kanjimi script
-        - Handle the links (change current url on click)
+        - Handle the links (change current url on click) and GET forms
         - Buttons to go back and forth?
         - Security for browsers without sandbox
         - Improve the interface (and move the container div in the pages)
@@ -12,7 +12,7 @@ MVP:
         - Handle malformed URLs
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions
-        - Fix remaining JS and path errors
+        - Fix remaining JS and path errors (= those that are in sub-resources?)
     Test the page endpoint
     Test the page client method
     fix the CI test
@@ -40,6 +40,7 @@ MVP:
     post on twitter
 
 After:
+    Dictionary: split definitions and reading/tags?
     replace the use of notifications with popins (testable + works with everything in the future)
     dependency-injection for all the browser.xxx APIs from the main script
     bookmarklet that redirects to the site?

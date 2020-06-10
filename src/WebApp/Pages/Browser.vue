@@ -48,6 +48,13 @@
 		methods: {
 			iframeLoaded(event: Event) {
 				this.pageLoaded = true;
+				window.addEventListener('message', (event: MessageEvent) => {
+					const { action, payload } = <{
+						action: string,
+						payload: any,
+					}>event.data;
+					console.log(action, payload);
+				});
 			},
 			async onFormSubmit(event: Event) {
 				event.preventDefault();
@@ -79,6 +86,18 @@
 						element.setAttribute('src', pageUrl.origin + src);
 					}
 				});
+
+				// Injecting some scripts to make the browser work
+				const script = doc.createElement('script');
+				script.appendChild(doc.createTextNode(`
+					setTimeout(function () {
+						window.parent.postMessage({
+							action: 'navigate',
+							payload: 'TODO new url',
+						}, '${process.env.KANJIMI_WWW_URL}');
+					}, 1000);
+				`));
+				doc.head.prepend(script);
 
 				if (!charset) {
 					const metaTags = doc.head.getElementsByTagName('meta');

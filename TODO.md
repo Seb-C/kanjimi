@@ -1,8 +1,9 @@
 MVP:
     Iframe:
-        - Check if there is a way to enable a sandboxed JS and force the document URL
+        - Need to set a base href for relative paths?
+        - Inject the Kanjimi script
         - Security for browsers without sandbox
-        - Improve the interface
+        - Improve the interface (and move the container div in the pages)
         - Test all
         - Move that to a proper page
         - Have the url in the query string to use it later (mobile share, bookmarklet...)

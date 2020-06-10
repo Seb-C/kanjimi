@@ -1,5 +1,5 @@
 <template>
-	<div class="page-home">
+	<div class="page-home d-flex flex-column">
 		<input
 			type="text"
 			v-model="url"
@@ -7,12 +7,22 @@
 			placeholder="URL"
 			class="input-url mb-3"
 		/>
-		<iframe
-			v-if="page !== null"
-			class="iframe-page"
-			sandbox
-			v-bind:src="page"
-		/>
+		<template v-if="page !== null">
+			<iframe
+				class="iframe-page"
+				sandbox="allow-scripts"
+				v-bind:src="page"
+				@load="iframeLoaded"
+				v-bind:class="{
+					'loading': !pageLoaded,
+				}"
+			/>
+
+			<div v-if="!pageLoaded" class="d-flex flex-fill justify-content-center">
+				<span class="spinner-border iframe-loading-spinner" role="status" aria-hidden="true"></span>
+				<span class="sr-only">Loading...</span>
+			</div>
+		</template>
 	</div>
 </template>
 <script lang="ts">
@@ -24,6 +34,7 @@
 			return {
 				url: <string|null>null,
 				page: <string|null>null,
+				pageLoaded: false,
 			};
 		},
 		created() {
@@ -32,6 +43,9 @@
 			}
 		},
 		methods: {
+			iframeLoaded() {
+				this.pageLoaded = true;
+			},
 			async changeUrl(event: Event) {
 				const response = await getPage(this.$root.apiKey.key, this.url);
 				const page = response.content;
@@ -53,6 +67,7 @@
 				}
 
 				this.page = `data:text/html;charset=${charset},` + encodeURIComponent(page);
+				this.pageLoaded = false;
 			},
 		},
 	});
@@ -66,5 +81,15 @@
 	.iframe-page {
 		width: 100%;
 		height: 500px; /* TODO */
+	}
+
+	.iframe-page.loading {
+		visibility: hidden;
+		height: 0;
+	}
+
+	.iframe-loading-spinner {
+		width: 5em;
+		height: 5em;
 	}
 </style>

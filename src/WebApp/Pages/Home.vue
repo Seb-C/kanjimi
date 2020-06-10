@@ -1,15 +1,17 @@
 <template>
-	<div class="container flex-fill py-2 page-home d-flex flex-column">
-		<input
-			type="text"
-			v-model="url"
-			v-on:change="changeUrl"
-			placeholder="URL"
-			class="input-url mb-3"
-		/>
+	<div class="flex-fill p-0 m-0 page-home d-flex flex-column">
+		<div class="p-2">
+			<input
+				type="text"
+				v-model="url"
+				v-on:change="changeUrl"
+				placeholder="URL"
+				class="input-url"
+			/>
+		</div>
 		<template v-if="page !== null">
 			<iframe
-				class="iframe-page"
+				class="iframe-page flex-fill border-0"
 				sandbox="allow-scripts"
 				v-bind:src="page"
 				@load="iframeLoaded"
@@ -43,7 +45,7 @@
 			}
 		},
 		methods: {
-			iframeLoaded() {
+			iframeLoaded(event: Event) {
 				this.pageLoaded = true;
 			},
 			async changeUrl(event: Event) {
@@ -95,7 +97,6 @@
 
 	.iframe-page {
 		width: 100%;
-		height: 500px; /* TODO */
 	}
 
 	.iframe-page.loading {

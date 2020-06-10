@@ -1,5 +1,7 @@
 MVP:
     Iframe:
+        - Hide the footer
+        - Reduce the size of the header?
         - Inject the Kanjimi script
         - Handle the links (change current url on click)
         - Buttons to go back and forth?

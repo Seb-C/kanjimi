@@ -1,12 +1,17 @@
 MVP:
     Iframe:
-        - Need to set a base href for relative paths?
         - Inject the Kanjimi script
+        - Handle the links (change current url on click)
+        - Buttons to go back and forth?
         - Security for browsers without sandbox
         - Improve the interface (and move the container div in the pages)
         - Test all
         - Move that to a proper page
         - Have the url in the query string to use it later (mobile share, bookmarklet...)
+        - Allow redirects (server side), but with a max amount
+        - Handle malformed URLs
+        - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
+        - Properly handle the exceptions
     Test the page endpoint
     Test the page client method
     fix the CI test

@@ -51,9 +51,26 @@
 				const page = response.content;
 				let charset = response.charset
 
+				const domParser = new DOMParser();
+				const doc = domParser.parseFromString(page, 'text/html');
+
+				// Converting links to absolute
+				const pageOrigin = (new URL(this.url)).origin;
+
+				doc.querySelectorAll('[href]').forEach((element) => {
+					const href = element.getAttribute('href');
+					if (href[0] === '/') {
+						element.setAttribute('href', pageOrigin + href);
+					}
+				});
+				doc.querySelectorAll('[src]').forEach((element) => {
+					const src = element.getAttribute('src');
+					if (src[0] === '/') {
+						element.setAttribute('src', pageOrigin + src);
+					}
+				});
+
 				if (!charset) {
-					const domParser = new DOMParser();
-					const doc = domParser.parseFromString(page, 'text/html');
 					const metaTags = doc.head.getElementsByTagName('meta');
 					for (let i = 0; i < metaTags.length; i++) {
 						if (metaTags[i].hasAttribute('charset')) {
@@ -62,11 +79,9 @@
 						}
 					}
 				}
-				if (!charset) {
-					charset = 'utf-8';
-				}
 
-				this.page = `data:text/html;charset=${charset},` + encodeURIComponent(page);
+				const modifiedPage = new XMLSerializer().serializeToString(doc);
+				this.page = `data:text/html;charset=${charset || 'utf-8'},` + encodeURIComponent(modifiedPage);
 				this.pageLoaded = false;
 			},
 		},

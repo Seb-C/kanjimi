@@ -1,7 +1,5 @@
 MVP:
     Iframe:
-        - Hide the footer
-        - Reduce the size of the header?
         - Inject the Kanjimi script
         - Handle the links (change current url on click)
         - Buttons to go back and forth?
@@ -14,6 +12,7 @@ MVP:
         - Handle malformed URLs
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions
+        - Fix remaining JS and path errors
     Test the page endpoint
     Test the page client method
     fix the CI test

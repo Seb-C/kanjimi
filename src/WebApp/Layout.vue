@@ -82,7 +82,7 @@
 
 		<component v-bind:is="$root.router.component" />
 
-		<footer class="bg-dark text-white">
+		<footer v-if="showFooter" class="bg-dark text-white">
 			<div class="container p-3">
 				<div class="row">
 					<div
@@ -108,6 +108,7 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
+	import Browser from 'WebApp/Pages/Browser.vue';
 
 	type MenuLink = {
 		url: string,
@@ -165,6 +166,7 @@
 				} else {
 					this.menuLinks = [
 						{ url: './app', title: 'Home' },
+						{ url: './app/browser', title: 'Browser' },
 						{ url: './app/settings', title: 'Settings' },
 						{ url: './app/logout', title: 'Logout', 'classes': { 'd-md-none': true } },
 					];
@@ -227,6 +229,9 @@
 				}
 
 				return this.$root.user.email;
+			},
+			showFooter() {
+				return this.$root.router.component !== Browser;
 			},
 		},
 	});

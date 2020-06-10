@@ -11,7 +11,7 @@
 			v-if="page !== null"
 			class="iframe-page"
 			sandbox
-			v-bind:srcdoc="page"
+			v-bind:src="page"
 		/>
 	</div>
 </template>
@@ -33,7 +33,26 @@
 		},
 		methods: {
 			async changeUrl(event: Event) {
-				this.page = await getPage(this.$root.apiKey.key, this.url);
+				const response = await getPage(this.$root.apiKey.key, this.url);
+				const page = response.content;
+				let charset = response.charset
+
+				if (!charset) {
+					const domParser = new DOMParser();
+					const doc = domParser.parseFromString(page, 'text/html');
+					const metaTags = doc.head.getElementsByTagName('meta');
+					for (let i = 0; i < metaTags.length; i++) {
+						if (metaTags[i].hasAttribute('charset')) {
+							charset = metaTags[i].getAttribute('charset');
+							break;
+						}
+					}
+				}
+				if (!charset) {
+					charset = 'utf-8';
+				}
+
+				this.page = `data:text/html;charset=${charset},` + encodeURIComponent(page);
 			},
 		},
 	});

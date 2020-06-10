@@ -2,7 +2,10 @@ import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
 import ServerError from 'Common/Api/Errors/Server';
 
-export const get = async (key: string, url: string): Promise<string> => {
+export const get = async (key: string, url: string): Promise<{
+	content: string,
+	charset: string|null,
+}> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/page?url=${url}`, {
 		method: 'GET',
 		headers: {
@@ -20,5 +23,13 @@ export const get = async (key: string, url: string): Promise<string> => {
 		throw new ServerError(await response.text());
 	}
 
-	return response.text();
+	const contentType = response.headers.get('Content-Type');
+	let charset = null;
+	if (contentType && contentType.includes('charset=')) {
+		charset = contentType.replace(/.*charset=([a-zA-Z0-9-_]*).*/, '$1');
+	}
+
+	const content = await response.text();
+
+	return { content, charset };
 };

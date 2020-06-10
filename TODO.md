@@ -1,7 +1,7 @@
 MVP:
     Iframe:
-        - Fix the encoding problem (ex: Rakuten), probably mishandled between the fetch response conversion and/or srcdoc
         - Check if there is a way to enable a sandboxed JS and force the document URL
+        - Security for browsers without sandbox
         - Improve the interface
         - Test all
         - Move that to a proper page

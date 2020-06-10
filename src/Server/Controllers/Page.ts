@@ -40,8 +40,13 @@ export const get = (db: Database) => async (request: Request, response: Response
 			},
 		});
 
+		const contentType = data.headers.get('Content-Type');
+		if (typeof contentType === 'string' && !contentType.startsWith('text/html')) {
+			return response.status(403).json('Access to this type of resource is not allowed (only text/html).');
+		}
+
 		response.writeHead(200, {
-			'Content-Type': <string>(data.headers.get('Content-Type')),
+			'Content-Type': <string>contentType,
 			'Cache-Control': 'max-age=3600',
 		});
 

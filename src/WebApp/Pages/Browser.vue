@@ -53,7 +53,9 @@
 						action: string,
 						payload: any,
 					}>event.data;
-					console.log(action, payload);
+					if (action === 'navigate' && typeof(payload) === 'string') {
+						this.changeUrl(payload);
+					}
 				});
 			},
 			async onFormSubmit(event: Event) {
@@ -90,12 +92,16 @@
 				// Injecting some scripts to make the browser work
 				const script = doc.createElement('script');
 				script.appendChild(doc.createTextNode(`
-					setTimeout(function () {
-						window.parent.postMessage({
-							action: 'navigate',
-							payload: 'TODO new url',
-						}, '${process.env.KANJIMI_WWW_URL}');
-					}, 1000);
+					window.addEventListener('load', function () {
+						document.body.addEventListener('click', function (event) {
+							if (event.target.tagName === 'A') {
+								window.parent.postMessage({
+									action: 'navigate',
+									payload: event.target.href,
+								}, '${process.env.KANJIMI_WWW_URL}');
+							}
+						});
+					});
 				`));
 				doc.head.prepend(script);
 
@@ -109,7 +115,7 @@
 					}
 				}
 
-				const modifiedPage = new XMLSerializer().serializeToString(doc);
+				const modifiedPage = `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
 				this.url = url;
 				this.page = `data:text/html;charset=${charset || 'utf-8'},` + encodeURIComponent(modifiedPage);
 				this.pageLoaded = false;

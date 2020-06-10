@@ -32,7 +32,6 @@ export const get = (db: Database) => async (request: Request, response: Response
 	try {
 		const data = await fetch(request.query.url, {
 			method: 'GET',
-			redirect: 'error',
 			headers: {
 				'User-Agent': <string>(request.get('User-Agent')),
 				'X-Forwarded-For': request.ip,

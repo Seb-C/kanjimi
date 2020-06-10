@@ -1,89 +1,91 @@
 <template>
-	<div class="row mt-5 page-login">
-		<div class="col-12 col-sm-10 col-md-8 col-xl-6 offset-sm-1 offset-md-2 offset-xl-3">
-			<form
-				class="form-row bg-primary-50 rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5"
-				v-on:submit="submit"
-				novalidate
-			>
-				<RoundLogo title="Log in" />
+	<div class="container flex-fill py-2">
+		<div class="row mt-5 page-login">
+			<div class="col-12 col-sm-10 col-md-8 col-xl-6 offset-sm-1 offset-md-2 offset-xl-3">
+				<form
+					class="form-row bg-primary-50 rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5"
+					v-on:submit="submit"
+					novalidate
+				>
+					<RoundLogo title="Log in" />
 
-				<div class="col-12">
-					<div class="input-group">
-						<div class="input-group-prepend bg-gray text-black">
-							<div class="input-group-text bg-gray text-black">
-								<i class="fas fa-at"></i>
+					<div class="col-12">
+						<div class="input-group">
+							<div class="input-group-prepend bg-gray text-black">
+								<div class="input-group-text bg-gray text-black">
+									<i class="fas fa-at"></i>
+								</div>
 							</div>
+							<input
+								type="text"
+								v-bind:class="{ 'form-control': true, 'is-invalid': !!errors.email }"
+								name="email"
+								placeholder="Email"
+								title="Account email"
+								v-model.trim="email"
+								:disabled="loading"
+							/>
 						</div>
-						<input
-							type="text"
-							v-bind:class="{ 'form-control': true, 'is-invalid': !!errors.email }"
-							name="email"
-							placeholder="Email"
-							title="Account email"
-							v-model.trim="email"
-							:disabled="loading"
-						/>
+						<div v-if="!!errors.email" class="invalid-feedback error-email d-block">
+							{{ errors.email }}
+						</div>
 					</div>
-					<div v-if="!!errors.email" class="invalid-feedback error-email d-block">
-						{{ errors.email }}
-					</div>
-				</div>
 
-				<div class="col-12 mt-3">
-					<div class="input-group">
-						<div class="input-group-prepend bg-gray text-black">
-							<div class="input-group-text bg-gray text-black">
-								<i class="fas fa-key"></i>
+					<div class="col-12 mt-3">
+						<div class="input-group">
+							<div class="input-group-prepend bg-gray text-black">
+								<div class="input-group-text bg-gray text-black">
+									<i class="fas fa-key"></i>
+								</div>
 							</div>
+							<input
+								type="password"
+								v-bind:class="{ 'form-control': true, 'is-invalid': !!errors.password }"
+								name="password"
+								placeholder="Password"
+								title="Account password"
+								v-model="password"
+								:disabled="loading"
+							/>
 						</div>
-						<input
-							type="password"
-							v-bind:class="{ 'form-control': true, 'is-invalid': !!errors.password }"
-							name="password"
-							placeholder="Password"
-							title="Account password"
-							v-model="password"
+						<div v-if="!!errors.password" class="invalid-feedback error-password d-block">
+							{{ errors.password }}
+						</div>
+					</div>
+
+					<div v-if="!!errors.bottom" class="col-12 mt-3 text-danger error-bottom">
+						{{ errors.bottom }}
+					</div>
+
+					<div class="col-12 mt-3">
+						<button
+							type="submit"
+							class="btn btn-secondary btn-lg w-100"
 							:disabled="loading"
-						/>
+						>
+							<div v-if="loading" class="d-flex justify-content-center">
+								<span class="spinner-border" role="status" aria-hidden="true"></span>
+								<span class="sr-only">Loading...</span>
+							</div>
+							<template v-else>
+								Login
+							</template>
+						</button>
 					</div>
-					<div v-if="!!errors.password" class="invalid-feedback error-password d-block">
-						{{ errors.password }}
+
+					<div class="col-12 mt-2 text-center">
+						<a
+							href="./app/request-reset-password"
+							v-on:click="onClickRequestResetPasswordLink"
+						>Forgot your password?</a>
+						<span class="mx-2">·</span>
+						<a
+							href="./app/sign-up"
+							v-on:click="onClickSignUpLink"
+						>Sign Up for Kanjimi</a>
 					</div>
-				</div>
-
-				<div v-if="!!errors.bottom" class="col-12 mt-3 text-danger error-bottom">
-					{{ errors.bottom }}
-				</div>
-
-				<div class="col-12 mt-3">
-					<button
-						type="submit"
-						class="btn btn-secondary btn-lg w-100"
-						:disabled="loading"
-					>
-						<div v-if="loading" class="d-flex justify-content-center">
-							<span class="spinner-border" role="status" aria-hidden="true"></span>
-							<span class="sr-only">Loading...</span>
-						</div>
-						<template v-else>
-							Login
-						</template>
-					</button>
-				</div>
-
-				<div class="col-12 mt-2 text-center">
-					<a
-						href="./app/request-reset-password"
-						v-on:click="onClickRequestResetPasswordLink"
-					>Forgot your password?</a>
-					<span class="mx-2">·</span>
-					<a
-						href="./app/sign-up"
-						v-on:click="onClickSignUpLink"
-					>Sign Up for Kanjimi</a>
-				</div>
-			</form>
+				</form>
+			</div>
 		</div>
 	</div>
 </template>

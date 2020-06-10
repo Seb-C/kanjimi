@@ -80,9 +80,7 @@
 			</div>
 		</nav>
 
-		<div class="container flex-fill py-2">
-			<component v-bind:is="$root.router.component" />
-		</div>
+		<component v-bind:is="$root.router.component" />
 
 		<footer class="bg-dark text-white">
 			<div class="container p-3">

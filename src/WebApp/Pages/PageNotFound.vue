@@ -1,17 +1,19 @@
 <template>
-	<div class="page-not-found text-center mt-5">
-		<div class="mb-4">
-			The requested page was not found
-		</div>
-		<div>
-			<a
-				v-if="!isLoggedIn"
-				v-on:click="goToLoginPageClickHandler($event)"
-				href="./app/login"
-				class="btn btn-primary go-to-login"
-			>
-				Go to the login page
-			</a>
+	<div class="container flex-fill py-2">
+		<div class="page-not-found text-center mt-5">
+			<div class="mb-4">
+				The requested page was not found
+			</div>
+			<div>
+				<a
+					v-if="!isLoggedIn"
+					v-on:click="goToLoginPageClickHandler($event)"
+					href="./app/login"
+					class="btn btn-primary go-to-login"
+				>
+					Go to the login page
+				</a>
+			</div>
 		</div>
 	</div>
 </template>

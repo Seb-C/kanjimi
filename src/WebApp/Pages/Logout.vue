@@ -1,16 +1,18 @@
 <template>
-	<div class="page-logout text-center mt-5">
-		<div class="mb-4">
-			You have successfully been disconnected
-		</div>
-		<div>
-			<a
-				v-on:click="goToLoginPageClickHandler($event)"
-				href="./app/login"
-				class="btn btn-primary go-to-login"
-			>
-				Click here to login again
-			</a>
+	<div class="container flex-fill py-2">
+		<div class="page-logout text-center mt-5">
+			<div class="mb-4">
+				You have successfully been disconnected
+			</div>
+			<div>
+				<a
+					v-on:click="goToLoginPageClickHandler($event)"
+					href="./app/login"
+					class="btn btn-primary go-to-login"
+				>
+					Click here to login again
+				</a>
+			</div>
 		</div>
 	</div>
 </template>

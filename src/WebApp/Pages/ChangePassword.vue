@@ -1,98 +1,100 @@
 <template>
-	<div class="row mt-5 page-change-password">
-		<div class="col-12 col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
-			<form
-				class="form-row bg-primary-50 rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5"
-				v-on:submit="submit"
-				novalidate
-			>
-				<RoundLogo title="Change my password" />
+	<div class="container flex-fill py-2">
+		<div class="row mt-5 page-change-password">
+			<div class="col-12 col-lg-10 col-xl-8 offset-lg-1 offset-xl-2">
+				<form
+					class="form-row bg-primary-50 rounded pb-4 px-3 pb-sm-5 px-sm-5 my-5"
+					v-on:submit="submit"
+					novalidate
+				>
+					<RoundLogo title="Change my password" />
 
-				<template v-if="done" class="col text-center">
-					<div class="mb-4 text-success display-3 text-center w-100">
-						<i class="far fa-check-circle"></i>
-					</div>
-					<div class="text-center w-100">
-						<p>Your password has successfully been changed.</p>
-					</div>
-				</template>
-				<template v-else>
-					<fieldset class="form-group row w-100 mx-0 mt-3 mb-0">
-						<div class="col-12 col-md-5 col-lg-4 col-form-label">
-							<h2 class="h5 d-inline-block">
-								Current password
-							</h2>
+					<template v-if="done" class="col text-center">
+						<div class="mb-4 text-success display-3 text-center w-100">
+							<i class="far fa-check-circle"></i>
 						</div>
-						<div class="col pt-md-2">
-							<input
-								type="password"
-								v-bind:class="{ 'form-control': true, 'mb-1': true, 'is-invalid': !!errors.oldPassword }"
-								name="oldPassword"
-								placeholder="Current password"
-								title="Current password"
-								v-model="oldPassword"
-								:disabled="loading"
-							/>
-
-							<div v-if="!!errors.oldPassword" class="invalid-feedback error-oldPassword d-block">
-								{{ errors.oldPassword }}
+						<div class="text-center w-100">
+							<p>Your password has successfully been changed.</p>
+						</div>
+					</template>
+					<template v-else>
+						<fieldset class="form-group row w-100 mx-0 mt-3 mb-0">
+							<div class="col-12 col-md-5 col-lg-4 col-form-label">
+								<h2 class="h5 d-inline-block">
+									Current password
+								</h2>
 							</div>
-						</div>
-					</fieldset>
+							<div class="col pt-md-2">
+								<input
+									type="password"
+									v-bind:class="{ 'form-control': true, 'mb-1': true, 'is-invalid': !!errors.oldPassword }"
+									name="oldPassword"
+									placeholder="Current password"
+									title="Current password"
+									v-model="oldPassword"
+									:disabled="loading"
+								/>
 
-					<fieldset class="form-group row w-100 mx-0 mt-2 mb-3">
-						<div class="col-12 col-md-5 col-lg-4 col-form-label">
-							<h2 class="h5 d-inline-block">
-								New password
-							</h2>
-						</div>
-						<div class="col pt-md-2">
-							<input
-								type="password"
-								v-bind:class="{ 'form-control': true, 'mb-1': true, 'is-invalid': !!errors.password }"
-								name="password"
-								placeholder="New password"
-								title="New password"
-								v-model="password"
-								:disabled="loading"
-							/>
-							<input
-								type="password"
-								v-bind:class="{ 'form-control': true, 'is-invalid': !!errors.password}"
-								name="passwordConfirmation"
-								placeholder="New password (confirm)"
-								title="New password (confirm)"
-								v-model="passwordConfirmation"
-								:disabled="loading"
-							/>
-
-							<div v-if="!!errors.password" class="invalid-feedback error-password d-block">
-								{{ errors.password }}
+								<div v-if="!!errors.oldPassword" class="invalid-feedback error-oldPassword d-block">
+									{{ errors.oldPassword }}
+								</div>
 							</div>
-						</div>
-					</fieldset>
+						</fieldset>
 
-					<div v-if="!!errors.bottom" class="col-12 mt-3 text-danger error-bottom">
-						{{ errors.bottom }}
-					</div>
-
-					<div class="col-12 mt-3">
-						<button
-							type="submit"
-							class="btn btn-secondary btn-lg w-100"
-							:disabled="loading"
-						>
-							<div v-if="loading" class="d-flex justify-content-center">
-								<span class="spinner-border" role="status" aria-hidden="true"></span>
-								<span class="sr-only">Loading...</span>
+						<fieldset class="form-group row w-100 mx-0 mt-2 mb-3">
+							<div class="col-12 col-md-5 col-lg-4 col-form-label">
+								<h2 class="h5 d-inline-block">
+									New password
+								</h2>
 							</div>
-							<template v-else>
-								Confirm
-							</template>
-						</button>
-					</div>
-				</template>
-			</form>
+							<div class="col pt-md-2">
+								<input
+									type="password"
+									v-bind:class="{ 'form-control': true, 'mb-1': true, 'is-invalid': !!errors.password }"
+									name="password"
+									placeholder="New password"
+									title="New password"
+									v-model="password"
+									:disabled="loading"
+								/>
+								<input
+									type="password"
+									v-bind:class="{ 'form-control': true, 'is-invalid': !!errors.password}"
+									name="passwordConfirmation"
+									placeholder="New password (confirm)"
+									title="New password (confirm)"
+									v-model="passwordConfirmation"
+									:disabled="loading"
+								/>
+
+								<div v-if="!!errors.password" class="invalid-feedback error-password d-block">
+									{{ errors.password }}
+								</div>
+							</div>
+						</fieldset>
+
+						<div v-if="!!errors.bottom" class="col-12 mt-3 text-danger error-bottom">
+							{{ errors.bottom }}
+						</div>
+
+						<div class="col-12 mt-3">
+							<button
+								type="submit"
+								class="btn btn-secondary btn-lg w-100"
+								:disabled="loading"
+							>
+								<div v-if="loading" class="d-flex justify-content-center">
+									<span class="spinner-border" role="status" aria-hidden="true"></span>
+									<span class="sr-only">Loading...</span>
+								</div>
+								<template v-else>
+									Confirm
+								</template>
+							</button>
+						</div>
+					</template>
+				</form>
+			</div>
 		</div>
 	</div>
 </template>

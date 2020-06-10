@@ -1,99 +1,101 @@
 <template>
-	<div class="page-settings">
-		<form @submit="$event.preventDefault()">
-			<h1>Settings</h1>
+	<div class="container flex-fill py-2">
+		<div class="page-settings">
+			<form @submit="$event.preventDefault()">
+				<h1>Settings</h1>
 
-			<div v-if="!!errors.top" class="invalid-feedback error-romanReading d-block">
-				{{ errors.top }}
-			</div>
-
-			<fieldset class="form-group row my-4">
-				<div class="col-12 col-md-3 col-lg-2 col-form-label">
-					<h2 class="h5 d-inline-block">
-						Pronunciation
-						<small>(Furiganas)</small>
-					</h2>
-
-					<component v-bind:is="romanReadingStatus" />
+				<div v-if="!!errors.top" class="invalid-feedback error-romanReading d-block">
+					{{ errors.top }}
 				</div>
-				<div class="col pt-md-2">
-					<label class="custom-control custom-switch roman-reading-switch">
-						<input
-							type="checkbox"
-							v-bind:class="{
-								'custom-control-input': true,
-								'is-invalid': !!errors.romanReading,
-							}"
-							v-model="romanReading"
-							v-on:change="changeRomanReading"
-							v-bind:disabled="isFormDisabled"
-						/>
-						<span class="custom-control-label">Use roman characters for the pronunciation</span>
-					</label>
 
-					<div v-if="!!errors.romanReading" class="invalid-feedback error-romanReading d-block pl-4 ml-3 mb-2">
-						{{ errors.romanReading }}
+				<fieldset class="form-group row my-4">
+					<div class="col-12 col-md-3 col-lg-2 col-form-label">
+						<h2 class="h5 d-inline-block">
+							Pronunciation
+							<small>(Furiganas)</small>
+						</h2>
+
+						<component v-bind:is="romanReadingStatus" />
 					</div>
+					<div class="col pt-md-2">
+						<label class="custom-control custom-switch roman-reading-switch">
+							<input
+								type="checkbox"
+								v-bind:class="{
+									'custom-control-input': true,
+									'is-invalid': !!errors.romanReading,
+								}"
+								v-model="romanReading"
+								v-on:change="changeRomanReading"
+								v-bind:disabled="isFormDisabled"
+							/>
+							<span class="custom-control-label">Use roman characters for the pronunciation</span>
+						</label>
 
-					<FuriganaSample v-bind:hasRomanReading="romanReading" />
-				</div>
-			</fieldset>
+						<div v-if="!!errors.romanReading" class="invalid-feedback error-romanReading d-block pl-4 ml-3 mb-2">
+							{{ errors.romanReading }}
+						</div>
 
-			<fieldset class="form-group row my-4">
-				<div class="col-12 col-md-3 col-lg-2 col-form-label">
-					<h2 class="h5 d-inline-block">
-						Current level
-						<small>(JLPT)</small>
-					</h2>
-
-					<component v-bind:is="jlptStatus" />
-				</div>
-				<div class="col pt-md-2">
-					<div class="mb-2">
-						<JlptLevelSelector
-							v-model="jlpt"
-							v-on:change="changeJlpt"
-							v-bind:disabled="isFormDisabled"
-						/>
+						<FuriganaSample v-bind:hasRomanReading="romanReading" />
 					</div>
+				</fieldset>
 
-					<div v-if="!!errors.jlpt" class="invalid-feedback error-jlpt d-block mb-2">
-						{{ errors.jlpt }}
+				<fieldset class="form-group row my-4">
+					<div class="col-12 col-md-3 col-lg-2 col-form-label">
+						<h2 class="h5 d-inline-block">
+							Current level
+							<small>(JLPT)</small>
+						</h2>
+
+						<component v-bind:is="jlptStatus" />
 					</div>
-
-					<div>
-						<small>
-							This will be used to hide the readings and translations for the words of this level.
-							<br />
-							(you can still show it whenever you need)
-						</small>
-					</div>
-				</div>
-			</fieldset>
-
-			<fieldset class="form-group row my-4">
-				<div class="col-12 col-md-3 col-lg-2 col-form-label">
-					<h3 class="h5 mb-3 d-inline-block">Languages</h3>
-
-					<component v-bind:is="languagesStatus" />
-				</div>
-				<div class="col">
-					<div v-if="!!errors.languages" class="invalid-feedback error-romanReading d-block mb-2">
-						{{ errors.languages }}
-					</div>
-
-					<div class="row">
-						<div class="col-12 col-lg-8">
-							<LanguagesSelector
-								v-model="languages"
-								v-on:change="changeLanguages"
+					<div class="col pt-md-2">
+						<div class="mb-2">
+							<JlptLevelSelector
+								v-model="jlpt"
+								v-on:change="changeJlpt"
 								v-bind:disabled="isFormDisabled"
 							/>
 						</div>
+
+						<div v-if="!!errors.jlpt" class="invalid-feedback error-jlpt d-block mb-2">
+							{{ errors.jlpt }}
+						</div>
+
+						<div>
+							<small>
+								This will be used to hide the readings and translations for the words of this level.
+								<br />
+								(you can still show it whenever you need)
+							</small>
+						</div>
 					</div>
-				</div>
-			</fieldset>
-		</form>
+				</fieldset>
+
+				<fieldset class="form-group row my-4">
+					<div class="col-12 col-md-3 col-lg-2 col-form-label">
+						<h3 class="h5 mb-3 d-inline-block">Languages</h3>
+
+						<component v-bind:is="languagesStatus" />
+					</div>
+					<div class="col">
+						<div v-if="!!errors.languages" class="invalid-feedback error-romanReading d-block mb-2">
+							{{ errors.languages }}
+						</div>
+
+						<div class="row">
+							<div class="col-12 col-lg-8">
+								<LanguagesSelector
+									v-model="languages"
+									v-on:change="changeLanguages"
+									v-bind:disabled="isFormDisabled"
+								/>
+							</div>
+						</div>
+					</div>
+				</fieldset>
+			</form>
+		</div>
 	</div>
 </template>
 <script lang="ts">

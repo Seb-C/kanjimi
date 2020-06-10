@@ -1,38 +1,40 @@
 <template>
-	<div class="page-verify-email text-center mt-5">
-		<template v-if="loading">
-			<div class="spinner-border mb-4" role="status"></div>
-			<div>
-				Please wait while we check your data...
-			</div>
-		</template>
-		<template v-else-if="error !== null">
-			<div class="mb-4 text-danger display-3">
-				<i class="far fa-times-circle"></i>
-			</div>
-			<div class="mb-4">
-				<p>Sorry, we could not verify your account</p>
-				<p>{{ error }}</p>
-			</div>
-		</template>
-		<template v-else>
-			<div class="mb-4 text-success display-3">
-				<i class="far fa-check-circle"></i>
-			</div>
-			<div class="mb-4">
-				<p>Your email have been successfully validated.</p>
-				<p>You can now use your account.</p>
-			</div>
-			<div>
-				<a
-					v-on:click="goToLoginPageClickHandler($event)"
-					href="./app/login"
-					class="btn btn-primary go-to-login"
-				>
-					Click here to go to the login page
-				</a>
-			</div>
-		</template>
+	<div class="container flex-fill py-2">
+		<div class="page-verify-email text-center mt-5">
+			<template v-if="loading">
+				<div class="spinner-border mb-4" role="status"></div>
+				<div>
+					Please wait while we check your data...
+				</div>
+			</template>
+			<template v-else-if="error !== null">
+				<div class="mb-4 text-danger display-3">
+					<i class="far fa-times-circle"></i>
+				</div>
+				<div class="mb-4">
+					<p>Sorry, we could not verify your account</p>
+					<p>{{ error }}</p>
+				</div>
+			</template>
+			<template v-else>
+				<div class="mb-4 text-success display-3">
+					<i class="far fa-check-circle"></i>
+				</div>
+				<div class="mb-4">
+					<p>Your email have been successfully validated.</p>
+					<p>You can now use your account.</p>
+				</div>
+				<div>
+					<a
+						v-on:click="goToLoginPageClickHandler($event)"
+						href="./app/login"
+						class="btn btn-primary go-to-login"
+					>
+						Click here to go to the login page
+					</a>
+				</div>
+			</template>
+		</div>
 	</div>
 </template>
 <script lang="ts">

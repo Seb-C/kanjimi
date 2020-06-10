@@ -1,5 +1,5 @@
 <template>
-	<div class="page-home d-flex flex-column">
+	<div class="container flex-fill py-2 page-home d-flex flex-column">
 		<input
 			type="text"
 			v-model="url"
@@ -58,13 +58,13 @@
 				const pageOrigin = (new URL(this.url)).origin;
 
 				doc.querySelectorAll('[href]').forEach((element) => {
-					const href = element.getAttribute('href');
+					const href = <string>(element.getAttribute('href'));
 					if (href[0] === '/') {
 						element.setAttribute('href', pageOrigin + href);
 					}
 				});
 				doc.querySelectorAll('[src]').forEach((element) => {
-					const src = element.getAttribute('src');
+					const src = <string>(element.getAttribute('src'));
 					if (src[0] === '/') {
 						element.setAttribute('src', pageOrigin + src);
 					}

@@ -1,12 +1,7 @@
 MVP:
-    only apply conjugations to the words with verb tags
     extension and site update scheme
     simplify showing some tags in the beginning of definitions (should be grouped too?)
     improve the structure and display of contents in the tooltip
-    store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
-    save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
-    save all words and sentences to show up later?
-    Block access to the test pages in production
     include references to external resources used somewhere in the site
     onboarding (after sign-up, install extension...)
     webpack => production mode whenever necessary
@@ -22,6 +17,11 @@ MVP:
     post on twitter
 
 After:
+    store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
+    save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
+    save all words and sentences to show up later?
+    only apply conjugations to the words with verb tags
+    conjugations that depends on the verb tags
     Iframe browser:
         - Reenable the server route, client route and layout menu link
         - Handle errors appearing in the console

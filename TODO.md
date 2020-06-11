@@ -1,25 +1,4 @@
 MVP:
-    Should not continue the browser feature before the end of the MVP?
-    Iframe browser:
-        - Handle errors appearing in the console
-        - Need to remove the loader before the load event. Check for any appropriate time
-        - Inject the Kanjimi script
-        - Handle the GET forms
-        - Handle the error case (iframe blocked, for example link to store from google home)
-        - Buttons to go back and forth?
-        - Security for browsers without sandbox
-        - Improve the interface (and move the container div in the pages)
-        - Test all
-        - Move that to a proper page
-        - Have the url in the query string to use it later (mobile share, bookmarklet...)
-        - Allowed redirects (server side), but need a max amount
-        - Handle malformed URLs
-        - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
-        - Properly handle the exceptions
-        - Fix remaining JS and path errors (= those that are in sub-resources?)
-        - Test the Page endpoint
-        - Test the Page client method
-        - Test the browser with Cypress
     fix the CI test
     only apply conjugations to the words with verb tags
     extension and site update scheme
@@ -44,6 +23,27 @@ MVP:
     post on twitter
 
 After:
+    Iframe browser:
+        - Reenable the server route, client route and layout menu link
+        - Handle errors appearing in the console
+        - Need to remove the loader before the load event. Check for any appropriate time
+        - Inject the Kanjimi script
+        - Handle the GET forms
+        - Handle the error case (iframe blocked, for example link to store from google home)
+        - Buttons to go back and forth?
+        - Security for browsers without sandbox
+        - Improve the interface (and move the container div in the pages)
+        - Test all
+        - Move that to a proper page
+        - Have the url in the query string to use it later (mobile share, bookmarklet...)
+        - Allowed redirects (server side), but need a max amount
+        - Handle malformed URLs
+        - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
+        - Properly handle the exceptions
+        - Fix remaining JS and path errors (= those that are in sub-resources?)
+        - Test the Page endpoint
+        - Test the Page client method
+        - Test the browser with Cypress
     Dictionary: split definitions and reading/tags?
     replace the use of notifications with popins (testable + works with everything in the future)
     dependency-injection for all the browser.xxx APIs from the main script

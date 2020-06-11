@@ -12,7 +12,7 @@ import ChangePassword from 'WebApp/Pages/ChangePassword.vue';
 import Logout from 'WebApp/Pages/Logout.vue';
 import Settings from 'WebApp/Pages/Settings.vue';
 import Home from 'WebApp/Pages/Home.vue';
-import Browser from 'WebApp/Pages/Browser.vue';
+//import Browser from 'WebApp/Pages/Browser.vue';
 
 window.addEventListener('load', async function () {
 	const router = new Router([
@@ -24,7 +24,7 @@ window.addEventListener('load', async function () {
 		{ url: 'app/change-password', component: ChangePassword, title: 'Change my password' },
 		{ url: 'app/logout', component: Logout, title: 'Logout' },
 		{ url: 'app/settings', component: Settings, title: 'Settings' },
-		{ url: 'app/browser', component: Browser, title: 'Browser' },
+		//{ url: 'app/browser', component: Browser, title: 'Browser' },
 		{ url: 'app', component: Home, title: 'Home' },
 	]);
 	window.addEventListener('popstate', function () {

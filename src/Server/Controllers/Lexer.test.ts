@@ -110,7 +110,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (checking results)', async function() {
-		const response = await fetch('http://localhost:3000/lexer/analyze', {
+		const response = await fetch('http://localhost:3000/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -133,7 +133,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (validation errors)', async function() {
-		const response = await fetch('http://localhost:3000/lexer/analyze', {
+		const response = await fetch('http://localhost:3000/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -149,7 +149,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (authentication error)', async function() {
-		const response = await fetch('http://localhost:3000/lexer/analyze', {
+		const response = await fetch('http://localhost:3000/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: 'Bearer wrongtoken',

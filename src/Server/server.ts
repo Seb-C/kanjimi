@@ -82,22 +82,22 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	application.use('/www', Express.static('www'));
 	application.use('/www/app/*', Express.static('www/app/index.html'));
 
-	application.post('/lexer/analyze', LexerController.analyze(db, lexer));
+	application.post('/api/lexer/analyze', LexerController.analyze(db, lexer));
 
-	application.post('/user', UserController.create(db, mailer));
-	application.post('/user/request-reset-password', UserController.requestResetPassword(db, mailer));
-	application.patch('/user/:userId/verify-email', UserController.verifyEmail(db));
-	application.patch('/user/:userId/reset-password', UserController.resetPassword(db));
-	application.patch('/user/:userId', UserController.update(db));
-	application.get('/user/:userId', UserController.get(db));
+	application.post('/api/user', UserController.create(db, mailer));
+	application.post('/api/user/request-reset-password', UserController.requestResetPassword(db, mailer));
+	application.patch('/api/user/:userId/verify-email', UserController.verifyEmail(db));
+	application.patch('/api/user/:userId/reset-password', UserController.resetPassword(db));
+	application.patch('/api/user/:userId', UserController.update(db));
+	application.get('/api/user/:userId', UserController.get(db));
 
-	application.post('/api-key', ApiKeyController.create(db));
-	application.get('/api-key', ApiKeyController.get(db));
+	application.post('/api/api-key', ApiKeyController.create(db));
+	application.get('/api/api-key', ApiKeyController.get(db));
 
-	application.post('/word-status/search', WordStatusController.search(db, dictionary));
-	application.put('/word-status', WordStatusController.createOrUpdate(db, dictionary));
+	application.post('/api/word-status/search', WordStatusController.search(db, dictionary));
+	application.put('/api/word-status', WordStatusController.createOrUpdate(db, dictionary));
 
-	//application.get('/page', PageController.get(db));
+	//application.get('/api/page', PageController.get(db));
 
 	await dictionary.load();
 

@@ -28,7 +28,7 @@ services:
       - KANJIMI_SMTP_SECURE=false
       #- KANJIMI_SMTP_USER=
       #- KANJIMI_SMTP_PASS=
-      - KANJIMI_API_URL=http://localhost:3000
+      - KANJIMI_API_URL=http://localhost:3000/api
       - KANJIMI_WWW_URL=http://localhost:3000/www
     command: >
       bash -c "
@@ -45,7 +45,7 @@ services:
     restart: on-failure
     working_dir: /app
     environment:
-      - KANJIMI_API_URL=http://localhost:3000
+      - KANJIMI_API_URL=http://localhost:3000/api
       - KANJIMI_WWW_URL=http://localhost:3000/www
     command: >
       bash -c "
@@ -59,7 +59,7 @@ services:
     restart: on-failure
     working_dir: /app
     environment:
-      - KANJIMI_API_URL=http://localhost:3000
+      - KANJIMI_API_URL=http://localhost:3000/api
       - KANJIMI_WWW_URL=http://localhost:3000/www
     command: >
       bash -c "

@@ -10,7 +10,7 @@ Cypress.Commands.add('setLoggedIn', () => {
 	// Restoring the default preferences
 	cy.request({
 		method: 'PATCH',
-		url: 'http://localhost:3000/user/cef830cb-6e75-43ab-91d3-ae13c82bd836',
+		url: 'http://localhost:3000/api/user/cef830cb-6e75-43ab-91d3-ae13c82bd836',
 		headers: {
 			Authorization: `Bearer ${apiKey}`,
 		},

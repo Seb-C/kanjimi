@@ -1,5 +1,6 @@
 MVP:
-    extension and site update scheme
+    test the autoupdate for firefox
+    test the autoupdate for chrome
     simplify showing some tags in the beginning of definitions (should be grouped too?)
     improve the structure and display of contents in the tooltip
     include references to external resources used somewhere in the site
@@ -7,6 +8,7 @@ MVP:
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code
     CGU / RGPD ?
+    update the appid of the chrome updater after publication
     test Edge via the CI
     test other browsers
     need to register a copyright?!
@@ -17,6 +19,7 @@ MVP:
     post on twitter
 
 After:
+    cross browser testing
     store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words
     save all words and sentences to show up later?

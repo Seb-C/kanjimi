@@ -4,7 +4,7 @@
   "author": "Sébastien Caparros",
   "homepage_url": "http://www.kanjimi.com/",
   "incognito": "spanning",
-  "version": "1.0",
+  "version": "0.1",
   "description": "Service helping you to learn Japanese by allowing you to read real content on internet",
   "icons": {
     "48": "./images/logo.png"
@@ -25,6 +25,8 @@
   },
   "permissions": [
     "*://localhost/*",
+    "*://kanjimi.com/*",
+    "*://*.kanjimi.com/*",
     "storage",
     "notifications",
     "tabs"
@@ -34,7 +36,9 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "extension@kanjimi.com"
+      "id": "extension@kanjimi.com",
+      "update_url": "https://www.kanjimi.com/extension/updates.json"
     }
-  }
+  },
+  "update_url": "https://www.kanjimi.com/extension/updates.xml"
 }

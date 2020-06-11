@@ -1,4 +1,4 @@
-name: tests
+name: Tests
 on:
   push:
     branches: [ master ]
@@ -26,10 +26,6 @@ jobs:
     - run: npm install
     - run: docker-compose up -d --build
     - run: make test
-    - name: Waiting for the files to be built
-      run: |
-        while [ ! -f ./extension/content.build.js ]; do sleep 1; done; ls -R ./extension
-        while [ ! -f ./www/js/app.build.js ]; do sleep 1; done; ls -R ./www
     - run: docker-compose logs
       if: failure()
   cypress_tests:
@@ -56,6 +52,10 @@ jobs:
         key: ${{ runner.os }}-cache-node-modules-${{ hashFiles('**/package-lock.json') }}
     - run: npm install
     - run: docker-compose up -d --build
+    - name: Waiting for the files to be built
+      run: |
+        while [ ! -f ./extension/content.build.js ]; do sleep 1; done; ls -R ./extension
+        while [ ! -f ./www/js/app.build.js ]; do sleep 1; done; ls -R ./www
     - run: ./node_modules/.bin/cypress run --browser=${{ matrix.browser }}
     - run: docker-compose logs
       if: failure()

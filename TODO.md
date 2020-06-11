@@ -1,5 +1,4 @@
 MVP:
-    fix the CI test
     only apply conjugations to the words with verb tags
     extension and site update scheme
     simplify showing some tags in the beginning of definitions (should be grouped too?)

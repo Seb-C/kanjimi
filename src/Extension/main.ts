@@ -2,6 +2,12 @@ import PageHandler from 'Extension/PageHandler';
 import Store from 'Extension/Store';
 import { debounce } from 'ts-debounce';
 
+// Fix for chrome and blink browsers
+if (typeof browser === 'undefined') {
+	// @ts-ignore
+	window.browser = require('webextension-polyfill');
+}
+
 const store = new Store();
 
 const isWebsite = window.location.href.startsWith(
@@ -22,12 +28,6 @@ if (isWebsite) {
 }
 
 if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {
-	// Fix for chrome
-	if (typeof browser === 'undefined') {
-		// @ts-ignore
-		window.browser = require('webextension-polyfill');
-	}
-
 	const pageHandler = new PageHandler(store);
 
 	(async () => {

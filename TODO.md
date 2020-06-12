@@ -6,7 +6,6 @@ MVP:
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code
     CGU / RGPD ?
-    update the appid of the chrome updater after publication
     test Edge via the CI
     test other browsers
     need to register a copyright?!

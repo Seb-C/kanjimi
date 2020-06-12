@@ -39,6 +39,7 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	};
 
 	const application = Express();
+	application.disable('etag'); // Disable caching
 	application.use(logRequestMiddleware);
 	application.use(waitForStartupMiddleware);
 	application.use(BodyParser.json({ type: () => true }));
@@ -81,6 +82,11 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	});
 	application.use('/www', Express.static('www'));
 	application.use('/www/app/*', Express.static('www/app/index.html'));
+
+	application.all('/api/*', (request: Request, response: Response, next: Function) => {
+		response.set('Access-Control-Allow-Origin', '*');
+		return next();
+	});
 
 	application.post('/api/lexer/analyze', LexerController.analyze(db, lexer));
 

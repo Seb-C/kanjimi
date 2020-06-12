@@ -89,6 +89,9 @@ export default class Store {
 					message: `The extension have been connected with your Kanjimi account (${(<User>this.user).email}).`,
 					link: null,
 				};
+				setTimeout(() => {
+					this.notification = null;
+				}, 5000);
 
 				if (openedLoginWindow !== null) {
 					openedLoginWindow.close();

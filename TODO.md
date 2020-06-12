@@ -1,5 +1,4 @@
 MVP:
-    add a delay for the notification disappearance
     test the notifications
     fix the reset all css not applied to sub-childrens (and then clean the useless notification sub-element)
     firefox crashing when update_url is set?
@@ -70,6 +69,8 @@ After:
     remove twitter tracking, use the API + static content (or via a cached API route?)
     click on logo = go home
     animations on the tooltip (appear/disappear)
+    animations on the notification (appear/disappear)
+    animations on the webapp (everywhere even if no natural delay)
     Global vuejs error handling?
     if an email already exists and is not validated, try to send again the email at sign-up time (with the same token)
     create a regular batch that removes non-validated users after a week

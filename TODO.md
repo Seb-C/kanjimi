@@ -1,4 +1,7 @@
 MVP:
+    autogenerate the contents of the manifest json ( https://webpack.js.org/plugins/copy-webpack-plugin/ )
+    move the webpack configs in src
+    rename the webpack configs and simplify the names of the watched containers
     test the autoupdate for firefox
     test the autoupdate for chrome
     simplify showing some tags in the beginning of definitions (should be grouped too?)

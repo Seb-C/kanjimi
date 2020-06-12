@@ -1,6 +1,4 @@
 MVP:
-    move the webpack configs in src
-    rename the webpack configs and simplify the names of the watched containers
     replace the use of notifications with popins (testable + works with everything in the future)
         -> this will fix the errors in chrome (need to remove background.js)
     test the autoupdate for firefox

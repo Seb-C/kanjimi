@@ -2,7 +2,6 @@ var path = require('path');
 const webpack = require('webpack');
 const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
-const CopyPlugin = require('copy-webpack-plugin');
 
 module.exports = {
 	target: 'web',
@@ -29,6 +28,15 @@ module.exports = {
 			{
 				test: /\.vue$/,
 				loader: 'vue-loader',
+				options: {
+					transformAssetUrls: {
+						video: null,
+						source: null,
+						img: null,
+						image: null,
+						use: null,
+					},
+				},
 			},
 			{
 				test: /\.css$/i,
@@ -43,16 +51,16 @@ module.exports = {
 		],
 	},
 	entry: {
-		main: './src/Extension/main.ts',
+		main: './src/WebApp/main.ts',
 	},
 	output: {
-		path: path.resolve(__dirname, './extension'),
-		filename: 'content.build.js',
+		path: path.resolve('./www'),
+		filename: 'js/app.build.js',
 	},
 	plugins: [
 		new VueLoaderPlugin(),
 		new MiniCssExtractPlugin({
-			filename: 'content.build.css',
+			filename: 'css/app.build.css',
 		}),
 		new webpack.DefinePlugin(
 			Object.fromEntries(
@@ -61,24 +69,6 @@ module.exports = {
 				)),
 			),
 		),
-		new CopyPlugin({
-			patterns: [
-				{
-					from: path.resolve(__dirname, './src/Extension/manifest.json'),
-					to: path.resolve(__dirname, './extension/manifest.json'),
-					transform(content) {
-						let modifiedContent = content.toString();
-						Object.keys(process.env).forEach((key) => {
-							modifiedContent = modifiedContent.replace(
-								new RegExp(`\{\{ *${key} *\}\}`, 'g'),
-								process.env[key],
-							);
-						});
-						return new Buffer(modifiedContent);
-					},
-				},
-			],
-		}),
 	],
 
 	// Makes mini-css-extract-plugin output everything in a single file

@@ -49,7 +49,7 @@ services:
     volumes:
       - $PWD:/app
       - mails:/tmp/mails
-  watch_extension_content:
+  extension:
     image: node:14
     restart: on-failure
     working_dir: /app
@@ -58,12 +58,12 @@ services:
       - KANJIMI_WWW_URL=http://localhost:3000/www
     command: >
       bash -c "
-        ./node_modules/.bin/webpack --color --config=webpack.extensionContent.config.js --build;
-        ./node_modules/.bin/webpack --color --config=webpack.extensionContent.config.js --watch
+        ./node_modules/.bin/webpack --color --config=src/Extension/webpack.config.js --build;
+        ./node_modules/.bin/webpack --color --config=src/Extension/webpack.config.js --watch
       "
     volumes:
       - $PWD:/app
-  watch_web_app:
+  webapp:
     image: node:14
     restart: on-failure
     working_dir: /app
@@ -72,8 +72,8 @@ services:
       - KANJIMI_WWW_URL=http://localhost:3000/www
     command: >
       bash -c "
-        ./node_modules/.bin/webpack --color --config=webpack.webApp.config.js --build;
-        ./node_modules/.bin/webpack --color --config=webpack.webApp.config.js --watch
+        ./node_modules/.bin/webpack --color --config=src/WebApp/webpack.config.js --build;
+        ./node_modules/.bin/webpack --color --config=src/WebApp/webpack.config.js --watch
       "
     volumes:
       - $PWD:/app

@@ -54,20 +54,16 @@ export default class Store {
 		await this.loadApiDataAfterApiKeyChange(key);
 	}
 
-	public loadApiKeyFromStorage = async () => {
-		await this.loadApiDataAfterApiKeyChange((await browser.storage.local.get('key')).key || null);
+	public loadApiKeyFromStorage = async (notifyLogin: boolean = true) => {
+		const key = (await browser.storage.local.get('key')).key || null;
+		await this.loadApiDataAfterApiKeyChange(key, notifyLogin);
 	}
 
 	// Used to avoid double loading on setApiKey because it
 	// triggers the browser storage onChange method
 	private loadingApiDataAfterApiKeyChange = false;
 
-	private async loadApiDataAfterApiKeyChange(key: string|null) {
-		if (this.loadingApiDataAfterApiKeyChange) {
-			return;
-		}
-		this.loadingApiDataAfterApiKeyChange = true;
-
+	private async loadApiDataAfterApiKeyChange(key: string|null, notifyLogin: boolean = true) {
 		if (key === null) {
 			this.apiKey = null;
 			this.user = null;
@@ -77,6 +73,11 @@ export default class Store {
 			};
 		} else {
 			try {
+				if (this.loadingApiDataAfterApiKeyChange) {
+					return;
+				}
+				this.loadingApiDataAfterApiKeyChange = true;
+
 				const apiKey = await getApiKey(key);
 				const user = await getUser(key, apiKey.userId);
 
@@ -85,13 +86,15 @@ export default class Store {
 				this.apiKey = apiKey;
 				this.user = user;
 
-				this.notification = {
-					message: `The extension have been connected with your Kanjimi account (${(<User>this.user).email}).`,
-					link: null,
-				};
-				setTimeout(() => {
-					this.notification = null;
-				}, 5000);
+				if (notifyLogin) {
+					this.notification = {
+						message: `The extension have been connected with your Kanjimi account (${(<User>this.user).email}).`,
+						link: null,
+					};
+					setTimeout(() => {
+						this.notification = null;
+					}, 5000);
+				}
 
 				if (openedLoginWindow !== null) {
 					openedLoginWindow.close();
@@ -103,10 +106,10 @@ export default class Store {
 				} else {
 					throw error;
 				}
+			} finally {
+				this.loadingApiDataAfterApiKeyChange = false;
 			}
 		}
-
-		this.loadingApiDataAfterApiKeyChange = false;
 	}
 
 	public setTooltip = (tooltipData: TooltipData|null) => {

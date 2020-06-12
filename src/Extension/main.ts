@@ -4,21 +4,24 @@ import { debounce } from 'ts-debounce';
 
 const store = new Store();
 
-if (window.location.href.startsWith(<string>process.env.KANJIMI_WWW_URL + '/app')) {
-	// Webapp: the extension should not analyze the page, but react to the login
+const isWebsite = window.location.href.startsWith(
+	<string>process.env.KANJIMI_WWW_URL + '/',
+);
+const isTestPage = window.location.href.startsWith(
+	<string>process.env.KANJIMI_WWW_URL + '/test-pages/',
+);
+const isCypressInterface = window.parent.location.href.startsWith(
+	(new URL(<string>process.env.KANJIMI_WWW_URL)).origin,
+);
+const isMainWindow = window.parent === window;
+
+if (isWebsite) {
 	window.addEventListener('kanjimi-set-api-key', async (event: Event) => {
 		await store.setApiKey((<CustomEvent>event).detail);
 	}, false);
-} else if (
-	// Only executing it for the main window. We do not want it
-	// to be executed for any iframe containing ads or trackers
-	window.parent === window
+}
 
-	// Checking if the parent frame is the Cypress interface
-	|| window.parent.location.href.startsWith(
-		(new URL(<string>process.env.KANJIMI_WWW_URL)).origin
-	)
-) {
+if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {
 	// Fix for chrome
 	if (typeof browser === 'undefined') {
 		// @ts-ignore
@@ -29,7 +32,7 @@ if (window.location.href.startsWith(<string>process.env.KANJIMI_WWW_URL + '/app'
 
 	(async () => {
 		try {
-			await store.loadApiKeyFromStorage();
+			await store.loadApiKeyFromStorage(false);
 			store.notifyIfLoggedOut();
 			if (store.apiKey !== null) {
 				await pageHandler.convertSentences();
@@ -45,7 +48,7 @@ if (window.location.href.startsWith(<string>process.env.KANJIMI_WWW_URL + '/app'
 	// Handling the login from a different tab
 	browser.storage.onChanged.addListener(async () => {
 		try {
-			await store.loadApiKeyFromStorage();
+			await store.loadApiKeyFromStorage(true);
 			await pageHandler.convertSentences();
 		} catch (error) {
 			console.error(error);

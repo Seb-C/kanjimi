@@ -1,11 +1,13 @@
 <template>
-	<div v-if="showTooltip" class="kanjimi-ui-container">
-		<Tooltip v-bind="getTooltipProps" />
+	<div v-if="showNotification || showTooltip" class="kanjimi-ui-container">
+		<Tooltip v-if="showTooltip" v-bind="getTooltipProps" />
+		<Notification v-if="showNotification" v-bind="getNotificationProps" />
 	</div>
 </template>
 <script lang="ts">
 	import Vue from 'vue';
 	import Tooltip from 'Extension/Components/Tooltip.vue';
+	import Notification from 'Extension/Components/Notification.vue';
 
 	export default Vue.extend({
 		data() {
@@ -15,16 +17,30 @@
 			showTooltip() {
 				return this.$root.tooltip !== null;
 			},
+			showNotification() {
+				return this.$root.notification !== null;
+			},
 			getTooltipProps() {
 				return this.$root.tooltip;
+			},
+			getNotificationProps() {
+				return this.$root.notification;
 			},
 		},
 		components: {
 			Tooltip,
+			Notification,
 		},
 	});
 </script>
 <style scoped>
+	.kanjimi-ui-container,
+	.kanjimi-ui-container *,
+	.kanjimi-ui-container *::before,
+	.kanjimi-ui-container *::after {
+		all: initial;
+	}
+
 	.kanjimi-ui-container {
 		--primary: #FFC857;
 		--primary-50: rgba(255, 200, 87, 0.8);

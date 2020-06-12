@@ -4,9 +4,7 @@ context('UIContainer', () => {
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
-		cy.get('.kanjimi-tooltip-container .tooltip').should('exist');
-		cy.get('.kanjimi-tooltip-container').should('exist');
-		cy.get('.kanjimi-tooltip-container').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip').should('exist');
 	});
 
 	it('The UIContainer has no dom node itself when empty', () => {
@@ -21,7 +19,7 @@ context('UIContainer', () => {
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('#firstHeading .kanjimi-sentence .word').click();
-		cy.get('body > .kanjimi-ui-container .kanjimi-tooltip-container').should('exist');
+		cy.get('body > .kanjimi-ui-container .tooltip').should('exist');
 		cy.get('body > * > .kanjimi-ui-container').should('not.exist');
 	});
 });

@@ -5,8 +5,8 @@ context('Readings', () => {
 
 		cy.get('.word:contains(導入):first').click();
 
-		cy.get('.kanjimi-tooltip-container .furigana').should('contain', 'どうにゅう');
-		cy.get('.kanjimi-tooltip-container .word').should('contain', '導入');
+		cy.get('.kanjimi-ui-container .tooltip .furigana').should('contain', 'どうにゅう');
+		cy.get('.kanjimi-ui-container .tooltip .word').should('contain', '導入');
 	});
 
 	it('Correct furigana for conjugated verb', () => {
@@ -14,7 +14,7 @@ context('Readings', () => {
 		cy.visit('/test-pages/wikipedia.html')
 
 		cy.get('.word:contains(されている):first').click();
-		cy.get('.kanjimi-tooltip-container .furigana').should('contain', 'される');
+		cy.get('.kanjimi-ui-container .tooltip .furigana').should('contain', 'される');
 	});
 
 	it('Flags display', () => {
@@ -23,8 +23,8 @@ context('Readings', () => {
 
 		cy.get('.word:contains(導入):first').click();
 
-		cy.get('.kanjimi-tooltip-container .reading-translation-flag[title="English"]').should('exist');
-		cy.get('.kanjimi-tooltip-container .reading-translation-flag[title="French"]').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip .reading-translation-flag[title="English"]').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip .reading-translation-flag[title="French"]').should('exist');
 	});
 
 	it('French translations display', () => {
@@ -33,8 +33,8 @@ context('Readings', () => {
 
 		cy.get('.word:contains(参照):first').click();
 
-		cy.get('.kanjimi-tooltip-container .reading-translations li:contains(comparer)').should('exist');
-		cy.get('.kanjimi-tooltip-container .reading-translations li:contains(référence)').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip .reading-translations li:contains(comparer)').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip .reading-translations li:contains(référence)').should('exist');
 	});
 
 	it('English translations display', () => {
@@ -43,8 +43,8 @@ context('Readings', () => {
 
 		cy.get('.word:contains(参照):first').click();
 
-		cy.get('.kanjimi-tooltip-container .reading-translations li:contains(reference)').should('exist');
-		cy.get('.kanjimi-tooltip-container .reading-translations li:contains(consultation)').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip .reading-translations li:contains(reference)').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip .reading-translations li:contains(consultation)').should('exist');
 	});
 
 	it('Multi-lang translations display', () => {
@@ -53,6 +53,6 @@ context('Readings', () => {
 
 		cy.get('.word:contains(導入):first').click();
 
-		cy.get('.kanjimi-tooltip-container .reading-translations li:contains(introduction)').its('length').should('be', 2);
+		cy.get('.kanjimi-ui-container .tooltip .reading-translations li:contains(introduction)').its('length').should('be', 2);
 	});
 });

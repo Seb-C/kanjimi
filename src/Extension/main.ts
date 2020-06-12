@@ -2,14 +2,21 @@ import PageHandler from 'Extension/PageHandler';
 import Store from 'Extension/Store';
 import { debounce } from 'ts-debounce';
 
-if (
+const store = new Store();
+
+if (window.location.href.startsWith(<string>process.env.KANJIMI_WWW_URL + '/app')) {
+	// Webapp: the extension should not analyze the page, but react to the login
+	window.addEventListener('kanjimi-set-api-key', async (event: Event) => {
+		await store.setApiKey((<CustomEvent>event).detail);
+	}, false);
+} else if (
 	// Only executing it for the main window. We do not want it
 	// to be executed for any iframe containing ads or trackers
 	window.parent === window
 
 	// Checking if the parent frame is the Cypress interface
 	|| window.parent.location.href.startsWith(
-		<string>process.env.KANJIMI_API_URL
+		(new URL(<string>process.env.KANJIMI_WWW_URL)).origin
 	)
 ) {
 	// Fix for chrome
@@ -18,7 +25,6 @@ if (
 		window.browser = require('webextension-polyfill');
 	}
 
-	const store = new Store();
 	const pageHandler = new PageHandler(store);
 
 	(async () => {
@@ -36,19 +42,10 @@ if (
 	pageHandler.injectUIContainer();
 	pageHandler.injectLoaderCss();
 
-	// Changing the key whenever it changes on the kanjimi website
-	window.addEventListener('kanjimi-set-api-key', async (event: Event) => {
-		const origin = (<Window>event.target).location.href;
-		const expectedOrigin = process.env.KANJIMI_WWW_URL + '/';
-		if (origin.substring(0, expectedOrigin.length) === expectedOrigin) {
-			await store.setApiKey((<CustomEvent>event).detail);
-		}
-	}, false);
-
 	// Handling the login from a different tab
 	browser.storage.onChanged.addListener(async () => {
 		try {
-			await store.loadApiKeyFromStorage.bind(this);
+			await store.loadApiKeyFromStorage();
 			await pageHandler.convertSentences();
 		} catch (error) {
 			console.error(error);

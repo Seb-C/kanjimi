@@ -1,6 +1,8 @@
 MVP:
-    replace the use of notifications with popins (testable + works with everything in the future)
-        -> this will fix the errors in chrome (need to remove background.js)
+    add a delay for the notification disappearance
+    test the notifications
+    fix the reset all css not applied to sub-childrens (and then clean the useless notification sub-element)
+    firefox crashing when update_url is set?
     test the autoupdate for firefox
     test the autoupdate for chrome
     simplify showing some tags in the beginning of definitions (should be grouped too?)

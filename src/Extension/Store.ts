@@ -12,6 +12,17 @@ type TooltipData = {
 	token: Token,
 	tokenElement: HTMLElement,
 };
+type NotificationData = {
+	message: string,
+	link: {
+		text: string,
+		onClick: Function,
+	}|null,
+};
+
+// Must be outside the store, otherwise Vue.js tries to
+// access the properties and triggers a cross-origin error.
+let openedLoginWindow: Window|null = null;
 
 export default class Store {
 	public apiKey: ApiKey|null = null;
@@ -19,54 +30,28 @@ export default class Store {
 	public tooltip: TooltipData|null = null;
 	public wordStatuses: { [key: string]: WordStatus } = {};
 
+	public notification: NotificationData|null = null;
+
 	public notifyIfLoggedOut = () => {
 		if (this.apiKey === null) {
-			// Handled by the background script
-			browser.runtime.sendMessage({
-				action: 'notify',
-				notificationId: 'kanjimi-notify-not-logged-in',
-				onClickUrl: `${process.env.KANJIMI_WWW_URL}/app/login`,
-				options: {
-					type: 'basic',
-					message: "The extension is not connected yet.\n\nClick here to connect it.",
-					title: 'Kanjimi',
-					iconUrl: browser.runtime.getURL('/images/logo.svg'),
+			this.notification = {
+				message: 'The extension is not connected yet.',
+				link: {
+					text: 'Click here to connect it.',
+					onClick: () => {
+						openedLoginWindow = window.open(
+							`${process.env.KANJIMI_WWW_URL}/app/login`,
+							'kanjimi-login-window',
+						);
+					},
 				},
-			});
+			};
 		}
 	}
 
 	public setApiKey = async (key: string|null) => {
 		await browser.storage.local.set({ key });
 		await this.loadApiDataAfterApiKeyChange(key);
-
-		if (key === null) {
-			browser.runtime.sendMessage({
-				action: 'notify',
-				notificationId: 'kanjimi-notify-logged-out',
-				options: {
-					type: 'basic',
-					message: 'The extension have been disconnected from your Kanjimi account.',
-					title: 'Kanjimi',
-					iconUrl: browser.runtime.getURL('/images/logo.svg'),
-				},
-			});
-		} else {
-			browser.runtime.sendMessage({
-				action: 'notify',
-				notificationId: 'kanjimi-notify-logged-in',
-				options: {
-					type: 'basic',
-					message: `The extension have been connected with your Kanjimi account (${(<User>this.user).email}).`,
-					title: 'Kanjimi',
-					iconUrl: browser.runtime.getURL('/images/logo.svg'),
-				},
-			});
-
-			browser.runtime.sendMessage({
-				action: 'close-opened-login-tabs',
-			});
-		}
 	}
 
 	public loadApiKeyFromStorage = async () => {
@@ -86,6 +71,10 @@ export default class Store {
 		if (key === null) {
 			this.apiKey = null;
 			this.user = null;
+			this.notification = {
+				message: 'The extension have been disconnected from your Kanjimi account.',
+				link: null,
+			};
 		} else {
 			try {
 				const apiKey = await getApiKey(key);
@@ -95,6 +84,16 @@ export default class Store {
 				// have inconsistencies since both operations are asynchronous
 				this.apiKey = apiKey;
 				this.user = user;
+
+				this.notification = {
+					message: `The extension have been connected with your Kanjimi account (${(<User>this.user).email}).`,
+					link: null,
+				};
+
+				if (openedLoginWindow !== null) {
+					openedLoginWindow.close();
+					openedLoginWindow = null;
+				}
 			} catch (error) {
 				if (error instanceof AuthenticationError) {
 					await this.setApiKey(null);

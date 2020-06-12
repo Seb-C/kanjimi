@@ -1,5 +1,5 @@
 <template>
-	<div class="kanjimi kanjimi-tooltip-container" v-on:click="onTooltipRootElementClick">
+	<div class="kanjimi" v-on:click="onTooltipRootElementClick">
 		<div
 			ref="tooltip"
 			class="tooltip"
@@ -226,13 +226,6 @@
 	});
 </script>
 <style scoped>
-	.kanjimi-tooltip-container,
-	.kanjimi-tooltip-container *,
-	.kanjimi-tooltip-container *::before,
-	.kanjimi-tooltip-container *::after {
-		all: initial;
-	}
-
 	.tooltip {
 		position: absolute;
 		background: var(--primary);

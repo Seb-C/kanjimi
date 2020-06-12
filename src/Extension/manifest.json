@@ -18,11 +18,6 @@
       "css": ["/content.build.css"]
     }
   ],
-  "background": {
-    "scripts": [
-      "/background.js"
-    ]
-  },
   "permissions": [
     "*://localhost/*",
     "*://kanjimi.com/*",

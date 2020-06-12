@@ -8,9 +8,9 @@ context('Kanjis', () => {
 			.should('contain', '日本')
 			.click();
 
-		cy.get('.kanjimi-tooltip-container .kanjis').should('exist');
-		cy.get('.kanjimi-tooltip-container .kanji').its('length').should('equal', 2);
-		cy.get('.kanjimi-tooltip-container .kanji:contains(日)').should('exist');
-		cy.get('.kanjimi-tooltip-container .kanji:contains(本)').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip .kanjis').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip .kanji').its('length').should('equal', 2);
+		cy.get('.kanjimi-ui-container .tooltip .kanji:contains(日)').should('exist');
+		cy.get('.kanjimi-ui-container .tooltip .kanji:contains(本)').should('exist');
 	});
 });

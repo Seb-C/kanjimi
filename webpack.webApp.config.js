@@ -62,10 +62,13 @@ module.exports = {
 		new MiniCssExtractPlugin({
 			filename: 'css/app.build.css',
 		}),
-		new webpack.DefinePlugin({
-			"process.env.KANJIMI_API_URL": JSON.stringify(process.env.KANJIMI_API_URL),
-			"process.env.KANJIMI_WWW_URL": JSON.stringify(process.env.KANJIMI_WWW_URL),
-		}),
+		new webpack.DefinePlugin(
+			Object.fromEntries(
+				Object.keys(process.env).map((key) => (
+					[`process.env.${key}`, JSON.stringify(process.env[key])]
+				)),
+			),
+		),
 	],
 
 	// Makes mini-css-extract-plugin output everything in a single file

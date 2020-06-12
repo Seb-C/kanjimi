@@ -50,11 +50,10 @@
 	.notification {
 		position: fixed;
 		top: 1em;
-		width: 20em;
+		width: 25em;
 		max-width: 100vw;
 		background: var(--dark);
 		border: 1px solid var(--white);
-		color: var(--white);
 		font-family: sans-serif;
 		text-align: center;
 		left: 50vw;
@@ -72,12 +71,13 @@
 		background: var(--white);
 	}
 
-	.notification-text-container {
+	.notification .notification-text-container {
 		display: block;
 		margin: 0.3em;
 	}
 
 	.notification-message {
+		color: var(--white);
 		display: block;
 	}
 

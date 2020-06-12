@@ -1,5 +1,4 @@
 MVP:
-    fix the reset all css not applied to sub-childrens (and then clean the useless notification sub-element)
     firefox crashing when update_url is set?
     test the autoupdate for firefox
     test the autoupdate for chrome

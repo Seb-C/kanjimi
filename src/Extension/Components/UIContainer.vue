@@ -34,10 +34,14 @@
 	});
 </script>
 <style scoped>
+	/**
+	 * Using the class here would make the selector more
+	 * specific than anything else
+	 */
 	.kanjimi-ui-container,
-	.kanjimi-ui-container *,
-	.kanjimi-ui-container *::before,
-	.kanjimi-ui-container *::after {
+	>>> *,
+	>>> *::before,
+	>>> *::after {
 		all: initial;
 	}
 

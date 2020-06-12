@@ -13,7 +13,7 @@ services:
     volumes:
       - database:/var/lib/postgresql/data
   server:
-    image: node:11
+    image: node:14
     restart: on-failure
     working_dir: /app
     environment:
@@ -41,7 +41,7 @@ services:
       - $PWD:/app
       - mails:/tmp/mails
   watch_extension_content:
-    image: node:11
+    image: node:14
     restart: on-failure
     working_dir: /app
     environment:
@@ -55,7 +55,7 @@ services:
     volumes:
       - $PWD:/app
   watch_web_app:
-    image: node:11
+    image: node:14
     restart: on-failure
     working_dir: /app
     environment:

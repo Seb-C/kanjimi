@@ -2,7 +2,7 @@
   "manifest_version": 2,
   "name": "Kanjimi",
   "author": "Sébastien Caparros",
-  "homepage_url": "http://www.kanjimi.com/",
+  "homepage_url": "{{ KANJIMI_WWW_URL }}",
   "incognito": "spanning",
   "version": "0.1",
   "description": "Service helping you to learn Japanese by allowing you to read real content on internet",
@@ -31,9 +31,7 @@
   ],
   "browser_specific_settings": {
     "gecko": {
-      "id": "extension@kanjimi.com",
-      "update_url": "{{ KANJIMI_WWW_URL }}/extension/updates.json"
+      "id": "extension@kanjimi.com"
     }
-  },
-  "update_url": "{{ KANJIMI_WWW_URL }}/extension/updates.xml"
+  }
 }

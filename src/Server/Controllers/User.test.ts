@@ -480,7 +480,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(404);
 	});
 	it('verifyEmail (empty id)', async function() {
-		const response = await fetch(`http://localhost:3000/api/user/verify-email`, {
+		const response = await fetch(`http://localhost:3000/api/user//verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: '123456',
@@ -699,7 +699,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(404);
 	});
 	it('resetPassword (empty id)', async function() {
-		const response = await fetch(`http://localhost:3000/api/user/reset-password`, {
+		const response = await fetch(`http://localhost:3000/api/user//reset-password`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				password: 'qwerty',

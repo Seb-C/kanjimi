@@ -1,5 +1,6 @@
 Dictionary/xml/
 node_modules/
+extension/manifest.json
 extension/*.build.js
 extension/*.build.css
 firefox-profile/

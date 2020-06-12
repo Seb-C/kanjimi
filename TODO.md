@@ -1,7 +1,8 @@
 MVP:
-    autogenerate the contents of the manifest json ( https://webpack.js.org/plugins/copy-webpack-plugin/ )
     move the webpack configs in src
     rename the webpack configs and simplify the names of the watched containers
+    replace the use of notifications with popins (testable + works with everything in the future)
+        -> this will fix the errors in chrome (need to remove background.js)
     test the autoupdate for firefox
     test the autoupdate for chrome
     simplify showing some tags in the beginning of definitions (should be grouped too?)
@@ -50,7 +51,6 @@ After:
         - Test the Page client method
         - Test the browser with Cypress
     Dictionary: split definitions and reading/tags?
-    replace the use of notifications with popins (testable + works with everything in the future)
     dependency-injection for all the browser.xxx APIs from the main script
     bookmarklet that redirects to the site?
     possible to test the Firefox version on CI? (it works but need to forward the 3000 port from the emulator)

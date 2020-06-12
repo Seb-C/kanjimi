@@ -37,8 +37,8 @@
   "browser_specific_settings": {
     "gecko": {
       "id": "extension@kanjimi.com",
-      "update_url": "https://www.kanjimi.com/extension/updates.json"
+      "update_url": "{{ KANJIMI_WWW_URL }}/extension/updates.json"
     }
   },
-  "update_url": "https://www.kanjimi.com/extension/updates.xml"
+  "update_url": "{{ KANJIMI_WWW_URL }}/extension/updates.xml"
 }

@@ -4,9 +4,9 @@ import Word from 'Common/Models/Word';
 import Language from 'Common/Types/Language';
 
 describe('Dictionary', async function() {
-	it('parseCsvLine method', async function() {
+	it('csvLineToWord method', async function() {
 		const dictionary = new Dictionary();
-		const word = dictionary.parseCsvLine(
+		const word = dictionary.csvLineToWord(
 			'あいうえお,aiueo,"""definition""","tag1/tag2/"""""',
 			Language.ENGLISH,
 		);
@@ -19,6 +19,20 @@ describe('Dictionary', async function() {
 		expect(word.tags[0]).toBe('tag1');
 		expect(word.tags[1]).toBe('tag2');
 		expect(word.tags[2]).toBe('""');
+	});
+
+	it('parseCsvLine method', async function() {
+		const dictionary = new Dictionary();
+		const columns = dictionary.parseCsvLine(
+			'あいうえお,aiueo,"""definition""","tag1/tag2/"""""',
+		);
+
+		expect(columns).toEqual([
+			'あいうえお',
+			'aiueo',
+			'"definition"',
+			'tag1/tag2/""',
+		]);
 	});
 
 	it('Get specific langs', async function() {

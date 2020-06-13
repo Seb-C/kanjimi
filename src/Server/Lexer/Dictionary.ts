@@ -38,7 +38,7 @@ export default class Dictionary {
 						return;
 					}
 
-					this.add(this.parseCsvLine(line, file.lang));
+					this.add(this.csvLineToWord(line, file.lang));
 				});
 
 				dictionaryFileIterator.on('close', resolve);
@@ -48,13 +48,14 @@ export default class Dictionary {
 		return Promise.all(loaders);
 	}
 
-	parseCsvLine (line: string, lang: Language|null): Word {
-		let word: string = '';
-		let reading: string = '';
-		let translation: string = '';
-		let tags: WordTag[] = [];
+	csvLineToWord (line: string, lang: Language|null): Word {
+		const col = this.parseCsvLine(line);
+		return new Word(col[0], col[1], lang, col[2], <WordTag[]>col[3].split('/'));
+	}
 
-		let colIndex = 0;
+	parseCsvLine (line: string): string[] {
+		const columns = [];
+
 		let colValue = '';
 		let index = 0;
 		const length = line.length;
@@ -68,18 +69,9 @@ export default class Dictionary {
 					colValue = colValue.replace(/""/g, '"');
 				}
 
-				if (colIndex === 0) {
-					word = colValue;
-				} else if (colIndex === 1) {
-					reading = colValue;
-				} else if (colIndex === 2) {
-					translation = colValue;
-				} else if (colIndex === 3) {
-					tags = <WordTag[]>colValue.split('/');
-				}
+				columns.push(colValue);
 
 				// Going to the next column
-				colIndex++;
 				colValue = '';
 			} else {
 				colValue += line[index];
@@ -88,7 +80,7 @@ export default class Dictionary {
 			index++;
 		} while (index <= length);
 
-		return new Word(word, reading, lang, translation, tags);
+		return columns;
 	}
 
 	add (word: Word) {

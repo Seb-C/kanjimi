@@ -24,7 +24,7 @@ $additionalTags = [
 
 $definitionsCsvPerLang = [];
 foreach ($languageCodes as $lang) {
-	$file = fopen(__DIR__ . "/../src/Server/Lexer/data/words-$lang.csv", "w");
+	$file = fopen(__DIR__ . "/../src/Server/Lexer/data/definitions-$lang.csv", "w");
 	$definitionsCsvPerLang[$lang] = $file;
 }
 
@@ -66,19 +66,13 @@ while($xml->name === 'entry') {
 		$restr = $r->getElementsByTagName('re_restr');
 		if (count($restr) == 0) {
 			foreach ($words as $i => $word) {
-				$words[$i]['readings'][] = [
-					'reading' => $reading,
-					'senses' => [],
-				];
+				$words[$i]['readings'][] = $reading;
 			}
 		} else {
 			foreach ($restr as $x) {
 				foreach ($words as $i => $word) {
 					if ($word['word'] == $x->nodeValue) {
-						$words[$i]['readings'][] = [
-							'reading' => $reading,
-							'senses' => [],
-						];
+						$words[$i]['readings'][] = $reading;
 						break;
 					}
 				}
@@ -86,90 +80,51 @@ while($xml->name === 'entry') {
 		}
 	}
 
+	if (count($words) === 1 && $words[0]['word'] === null) {
+		$readings = $words[0]['readings'];
+		$words = [];
+		foreach ($readings as $reading) {
+			$words[] = [
+				'word' => $reading,
+				'readings' => [$reading],
+			];
+		}
+	}
+
 	$tags = [];
-	foreach ($entry->getElementsByTagName('sense') as $sense) {
-		foreach ($sense->getElementsByTagName('pos') as $x) {
-			$child = $x->childNodes[0];
-			if ($child instanceof DOMEntityReference) {
-				$tags[$child->nodeName] = true;
-			} else {
-				die('err');
-			}
+	foreach ($entry->getElementsByTagName('pos') as $x) {
+		$child = $x->childNodes[0];
+		if ($child instanceof DOMEntityReference) {
+			$tags[$child->nodeName] = true;
+		} else {
+			die('err');
 		}
-		foreach ($sense->getElementsByTagName('misc') as $x) {
-			$child = $x->childNodes[0];
-			if ($child instanceof DOMEntityReference) {
-				$tags[$child->nodeName] = true;
-			} else {
-				die('err');
-			}
+	}
+	foreach ($entry->getElementsByTagName('misc') as $x) {
+		$child = $x->childNodes[0];
+		if ($child instanceof DOMEntityReference) {
+			$tags[$child->nodeName] = true;
+		} else {
+			die('err');
 		}
+	}
 
-		$translations = [];
-		foreach ($sense->getElementsByTagName('lsource') as $x) {
-			$translation = $x->nodeValue;
-			if (empty($translation)) continue;
-			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
-			if (array_key_exists($lang, $languageCodes)) {
-				$lang = $languageCodes[$lang];
-				$translations[] = compact('lang', 'translation');
-			}
+	$translations = [];
+	foreach ($entry->getElementsByTagName('lsource') as $x) {
+		$translation = $x->nodeValue;
+		if (empty($translation)) continue;
+		$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
+		if (array_key_exists($lang, $languageCodes)) {
+			$lang = $languageCodes[$lang];
+			$translations[] = compact('lang', 'translation');
 		}
-		foreach ($sense->getElementsByTagName('gloss') as $x) {
-			$translation = $x->nodeValue;
-			$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
-			if (array_key_exists($lang, $languageCodes)) {
-				$lang = $languageCodes[$lang];
-				$translations[] = compact('lang', 'translation');
-			}
-		}
-
-		$senseArray = compact('translations');
-
-		$stagk = $sense->getElementsByTagName('stagk');
-		if (count($stagk) > 0) {
-			foreach ($stagk as $x) {
-				$wordIndex = null;
-				foreach ($words as $i => $word) {
-					if ($word['word'] == $x->nodeValue) {
-						$wordIndex = $i;
-						break;
-					}
-				}
-
-				if ($wordIndex !== null) {
-					foreach ($words[$wordIndex]['readings'] as $i => $reading) {
-						$words[$wordIndex]['readings'][$i]['senses'][] = $senseArray;
-					}
-				}
-			}
-		}
-
-		$stagr = $sense->getElementsByTagName('stagr');
-		if (count($stagr) > 0) {
-			foreach ($stagr as $x) {
-				foreach ($words as $i => $word) {
-					$readingIndex = null;
-					foreach ($word['readings'] as $j => $reading) {
-						if ($reading['reading'] == $x->nodeValue) {
-							$readingIndex = $j;
-							break;
-						}
-					}
-
-					if ($readingIndex !== null) {
-						$words[$i]['readings'][$readingIndex]['senses'][] = $senseArray;
-					}
-				}
-			}
-		}
-
-		if (count($stagr) == 0 && count($stagk) == 0) {
-			foreach ($words as $i => $word) {
-				foreach ($words[$i]['readings'] as $j => $reading) {
-					$words[$i]['readings'][$j]['senses'][] = $senseArray;
-				}
-			}
+	}
+	foreach ($entry->getElementsByTagName('gloss') as $x) {
+		$translation = $x->nodeValue;
+		$lang = empty($x->getAttribute('xml:lang')) ? 'eng' : $x->getAttribute('xml:lang') ;
+		if (array_key_exists($lang, $languageCodes)) {
+			$lang = $languageCodes[$lang];
+			$translations[] = compact('lang', 'translation');
 		}
 	}
 
@@ -183,22 +138,26 @@ while($xml->name === 'entry') {
 		}
 
 		foreach ($word['readings'] as $reading) {
-			foreach ($reading['senses'] as $sense) {
-				foreach ($sense['translations'] as $translation) {
-					fputcsv($definitionsCsvPerLang[$translation['lang']], [
-						$word['word'] === null ? $reading['reading'] : $word['word'],
-						$reading['reading'],
-						$translation['translation'],
-						implode('/', $wordTags),
-					]);
-				}
-			}
-
 			fputcsv($wordsFile, [
-				$word['word'] === null ? $reading['reading'] : $word['word'],
-				$reading['reading'],
+				$word['word'],
+				$reading,
 				implode('/', $wordTags),
 			]);
+		}
+
+		$alreadyOutputtedTranslations = [];
+		foreach ($translations as $translation) {
+			$lang = $translation['lang'];
+			$trans = $translation['translation'];
+			if (!array_key_exists($lang, $alreadyOutputtedTranslations)) {
+				$alreadyOutputtedTranslations[$lang] = [];
+			}
+			if (array_key_exists($trans, $alreadyOutputtedTranslations[$lang])) {
+				continue;
+			}
+
+			fputcsv($definitionsCsvPerLang[$lang], [$word['word'], $trans]);
+			$alreadyOutputtedTranslations[$lang][$trans] = true;
 		}
 	}
 

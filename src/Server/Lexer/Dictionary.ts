@@ -26,15 +26,15 @@ export default class Dictionary {
 
 		await Promise.all(
 			[
-				{ lang: Language.GERMAN, path: Path.join(__dirname, './data/words-de.csv') },
-				{ lang: Language.ENGLISH, path: Path.join(__dirname, './data/words-en.csv') },
-				{ lang: Language.SPANISH, path: Path.join(__dirname, './data/words-es.csv') },
-				{ lang: Language.FRENCH, path: Path.join(__dirname, './data/words-fr.csv') },
-				{ lang: Language.HUNGARIAN, path: Path.join(__dirname, './data/words-hu.csv') },
-				{ lang: Language.DUTCH, path: Path.join(__dirname, './data/words-nl.csv') },
-				{ lang: Language.RUSSIAN, path: Path.join(__dirname, './data/words-ru.csv') },
-				{ lang: Language.SLOVENIAN, path: Path.join(__dirname, './data/words-sl.csv') },
-				{ lang: Language.SWEDISH, path: Path.join(__dirname, './data/words-sv.csv') },
+				{ lang: Language.GERMAN, path: Path.join(__dirname, './data/definitions-de.csv') },
+				{ lang: Language.ENGLISH, path: Path.join(__dirname, './data/definitions-en.csv') },
+				{ lang: Language.SPANISH, path: Path.join(__dirname, './data/definitions-es.csv') },
+				{ lang: Language.FRENCH, path: Path.join(__dirname, './data/definitions-fr.csv') },
+				{ lang: Language.HUNGARIAN, path: Path.join(__dirname, './data/definitions-hu.csv') },
+				{ lang: Language.DUTCH, path: Path.join(__dirname, './data/definitions-nl.csv') },
+				{ lang: Language.RUSSIAN, path: Path.join(__dirname, './data/definitions-ru.csv') },
+				{ lang: Language.SLOVENIAN, path: Path.join(__dirname, './data/definitions-sl.csv') },
+				{ lang: Language.SWEDISH, path: Path.join(__dirname, './data/definitions-sv.csv') },
 			].map((file) => new Promise((resolve) => {
 				const dictionaryFileIterator = ReadLine.createInterface({
 					input: FileSystem.createReadStream(file.path),
@@ -52,7 +52,7 @@ export default class Dictionary {
 						col[0],
 						wordWithoutDefinition[0],
 						file.lang,
-						col[2],
+						col[1],
 						wordWithoutDefinition[1],
 					));
 				});

@@ -22,7 +22,7 @@ $additionalTags = [
 	'jlpt-5' => include(__DIR__ . '/jlpt/5.php'),
 ];
 
-$wordsCsvPerLang = [];
+$definitionsCsvPerLang = [];
 foreach ($languageCodes as $lang) {
 	$file = fopen(__DIR__ . "/../src/Server/Lexer/data/words-$lang.csv", "w");
 	fputcsv($file, [
@@ -31,8 +31,11 @@ foreach ($languageCodes as $lang) {
 		'translation',
 		'tags',
 	]);
-	$wordsCsvPerLang[$lang] = $file;
+	$definitionsCsvPerLang[$lang] = $file;
 }
+
+$wordsFile = fopen(__DIR__ . "/../src/Server/Lexer/data/words.csv", "w");
+fputcsv($wordsFile, ['word', 'reading', 'tags']);
 
 $xml = new XMLReader();
 $xml->open(__DIR__.'/xml/Dictionary.xml');
@@ -189,7 +192,7 @@ while($xml->name === 'entry') {
 		foreach ($word['readings'] as $reading) {
 			foreach ($reading['senses'] as $sense) {
 				foreach ($sense['translations'] as $translation) {
-					fputcsv($wordsCsvPerLang[$translation['lang']], [
+					fputcsv($definitionsCsvPerLang[$translation['lang']], [
 						$word['word'] === null ? $reading['reading'] : $word['word'],
 						$reading['reading'],
 						$translation['translation'],
@@ -197,6 +200,12 @@ while($xml->name === 'entry') {
 					]);
 				}
 			}
+
+			fputcsv($wordsFile, [
+				$word['word'] === null ? $reading['reading'] : $word['word'],
+				$reading['reading'],
+				implode('/', $wordTags),
+			]);
 		}
 	}
 

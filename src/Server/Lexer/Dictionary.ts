@@ -8,43 +8,80 @@ import * as ReadLine from 'readline';
 export default class Dictionary {
 	private readonly words: Map<string, Word[]> = new Map();
 
-	async load(): Promise<void[]> {
-		const langAndFiles: { lang: Language|null, path: string }[] = [
-			{ lang: Language.GERMAN, path: Path.join(__dirname, './data/words-de.csv') },
-			{ lang: Language.ENGLISH, path: Path.join(__dirname, './data/words-en.csv') },
-			{ lang: Language.SPANISH, path: Path.join(__dirname, './data/words-es.csv') },
-			{ lang: Language.FRENCH, path: Path.join(__dirname, './data/words-fr.csv') },
-			{ lang: Language.HUNGARIAN, path: Path.join(__dirname, './data/words-hu.csv') },
-			{ lang: Language.DUTCH, path: Path.join(__dirname, './data/words-nl.csv') },
-			{ lang: Language.RUSSIAN, path: Path.join(__dirname, './data/words-ru.csv') },
-			{ lang: Language.SLOVENIAN, path: Path.join(__dirname, './data/words-sl.csv') },
-			{ lang: Language.SWEDISH, path: Path.join(__dirname, './data/words-sv.csv') },
-			{ lang: null, path: Path.join(__dirname, './data/names.csv') },
-		];
+	async load() {
+		// Loading words (word => [reading, tag[]])
+		const wordsWithoutDefinitions: Map<string, [string, WordTag[]]> = new Map();
+		await new Promise((resolve) => {
+			const dictionaryFileIterator = ReadLine.createInterface({
+				input: FileSystem.createReadStream(
+					Path.join(__dirname, './data/words.csv'),
+				),
+			});
+			dictionaryFileIterator.on('line', (line) => {
+				const col = this.parseCsvLine(line);
+				wordsWithoutDefinitions.set(col[0], [col[1], <WordTag[]>col[2].split('/')]);
+			});
+			dictionaryFileIterator.on('close', resolve);
+		});
 
-		const loaders: Promise<void>[] = langAndFiles.map((file: {
-			lang: Language|null,
-			path: string,
-		}) => {
-			return new Promise((resolve) => {
+		await Promise.all(
+			[
+				{ lang: Language.GERMAN, path: Path.join(__dirname, './data/words-de.csv') },
+				{ lang: Language.ENGLISH, path: Path.join(__dirname, './data/words-en.csv') },
+				{ lang: Language.SPANISH, path: Path.join(__dirname, './data/words-es.csv') },
+				{ lang: Language.FRENCH, path: Path.join(__dirname, './data/words-fr.csv') },
+				{ lang: Language.HUNGARIAN, path: Path.join(__dirname, './data/words-hu.csv') },
+				{ lang: Language.DUTCH, path: Path.join(__dirname, './data/words-nl.csv') },
+				{ lang: Language.RUSSIAN, path: Path.join(__dirname, './data/words-ru.csv') },
+				{ lang: Language.SLOVENIAN, path: Path.join(__dirname, './data/words-sl.csv') },
+				{ lang: Language.SWEDISH, path: Path.join(__dirname, './data/words-sv.csv') },
+			].map((file) => new Promise((resolve) => {
 				const dictionaryFileIterator = ReadLine.createInterface({
 					input: FileSystem.createReadStream(file.path),
 				});
 
 				dictionaryFileIterator.on('line', (line) => {
-					this.add(this.csvLineToWord(line, file.lang));
+					const col = this.parseCsvLine(line);
+					const wordWithoutDefinition = wordsWithoutDefinitions.get(col[0]);
+					if (!wordWithoutDefinition) {
+						console.error('Word has a definition but does not exists');
+						return;
+					}
+
+					this.add(new Word(
+						col[0],
+						wordWithoutDefinition[0],
+						file.lang,
+						col[2],
+						wordWithoutDefinition[1],
+					));
 				});
 
 				dictionaryFileIterator.on('close', resolve);
+			}))
+		);
+
+		// Loading names
+		await new Promise((resolve) => {
+			const dictionaryFileIterator = ReadLine.createInterface({
+				input: FileSystem.createReadStream(
+					Path.join(__dirname, './data/names.csv'),
+				),
 			});
+			dictionaryFileIterator.on('line', (line) => {
+				const col = this.parseCsvLine(line);
+				this.add(
+					new Word(
+						col[0],
+						col[1],
+						null,
+						col[2],
+						<WordTag[]>col[3].split('/'),
+					)
+				);
+			});
+			dictionaryFileIterator.on('close', resolve);
 		});
-
-		return Promise.all(loaders);
-	}
-
-	csvLineToWord (line: string, lang: Language|null): Word {
-		const col = this.parseCsvLine(line);
-		return new Word(col[0], col[1], lang, col[2], <WordTag[]>col[3].split('/'));
 	}
 
 	parseCsvLine (line: string): string[] {

@@ -4,23 +4,6 @@ import Word from 'Common/Models/Word';
 import Language from 'Common/Types/Language';
 
 describe('Dictionary', async function() {
-	it('csvLineToWord method', async function() {
-		const dictionary = new Dictionary();
-		const word = dictionary.csvLineToWord(
-			'あいうえお,aiueo,"""definition""","tag1/tag2/"""""',
-			Language.ENGLISH,
-		);
-
-		expect(word.word).toBe('あいうえお');
-		expect(word.reading).toBe('aiueo');
-		expect(word.translationLang).toBe(Language.ENGLISH);
-		expect(word.translation).toBe('"definition"');
-		expect(word.tags.length).toBe(3);
-		expect(word.tags[0]).toBe('tag1');
-		expect(word.tags[1]).toBe('tag2');
-		expect(word.tags[2]).toBe('""');
-	});
-
 	it('parseCsvLine method', async function() {
 		const dictionary = new Dictionary();
 		const columns = dictionary.parseCsvLine(

@@ -16,6 +16,7 @@ MVP:
     post on twitter
 
 After:
+    test the dictionary load method
     cross browser testing
     store visited urls and the number of characters/words per page (except on mode incognito (window.incognito?))
     save the watched words and stats about it (frequency, webpage, clicked...) and stats about toggling the words

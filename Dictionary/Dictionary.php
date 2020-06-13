@@ -25,17 +25,10 @@ $additionalTags = [
 $definitionsCsvPerLang = [];
 foreach ($languageCodes as $lang) {
 	$file = fopen(__DIR__ . "/../src/Server/Lexer/data/words-$lang.csv", "w");
-	fputcsv($file, [
-		'word',
-		'reading',
-		'translation',
-		'tags',
-	]);
 	$definitionsCsvPerLang[$lang] = $file;
 }
 
 $wordsFile = fopen(__DIR__ . "/../src/Server/Lexer/data/words.csv", "w");
-fputcsv($wordsFile, ['word', 'reading', 'tags']);
 
 $xml = new XMLReader();
 $xml->open(__DIR__.'/xml/Dictionary.xml');

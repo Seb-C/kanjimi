@@ -31,13 +31,7 @@ export default class Dictionary {
 					input: FileSystem.createReadStream(file.path),
 				});
 
-				let headerLine = true;
 				dictionaryFileIterator.on('line', (line) => {
-					if (headerLine) {
-						headerLine = false;
-						return;
-					}
-
 					this.add(this.csvLineToWord(line, file.lang));
 				});
 

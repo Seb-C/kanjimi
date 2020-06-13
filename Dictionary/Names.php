@@ -3,12 +3,6 @@
 // From: http://ftp.monash.edu/pub/nihongo/JMnedict.xml.gz
 
 $namesFile = fopen(__DIR__ . "/../src/Server/Lexer/data/names.csv", "w");
-fputcsv($namesFile, [
-	'name',
-	'reading',
-	'meaning',
-	'tags',
-]);
 
 $xml = new XMLReader();
 $xml->open(__DIR__.'/xml/Names.xml');

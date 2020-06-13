@@ -5,12 +5,10 @@
 $languageCodes = ['en', 'fr', 'pt', 'es'];
 
 $readingsCsv = fopen(__DIR__ . "/../src/Server/Lexer/data/kanjis-readings.csv", "w");
-fputcsv($readingsCsv, ['kanji', 'reading']);
 
 $meaningsCsvPerLang = [];
 foreach ($languageCodes as $lang) {
 	$file = fopen(__DIR__ . "/../src/Server/Lexer/data/kanjis-meanings-$lang.csv", "w");
-	fputcsv($file, ['kanji', 'meaning']);
 	$meaningsCsvPerLang[$lang] = $file;
 }
 

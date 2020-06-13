@@ -1,7 +1,7 @@
 context('Notification', () => {
 	it('Not displayed on the webapp', () => {
 		cy.setLoggedOut();
-		cy.visit('/test-pages/wikipedia.html')
+		cy.visit('/app/login')
 		cy.get('.kanjimi.notification').should('not.exist');
 	});
 

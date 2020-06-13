@@ -1,4 +1,5 @@
 MVP:
+    invalid JSON syntax triggers a non-standard HTML error
     simplify showing some tags in the beginning of definitions (should be grouped too?)
     improve the structure and display of contents in the tooltip
     include references to external resources used somewhere in the site

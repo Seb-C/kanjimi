@@ -10,7 +10,8 @@ export default class Dictionary {
 
 	async load() {
 		// Loading words (word => [reading, tag[]])
-		const wordsWithoutDefinitions: Map<string, [string, WordTag[]]> = new Map();
+		type TempWord = [string, WordTag[]];
+		const wordsWithoutDefinitions: Map<string, TempWord[]> = new Map();
 		await new Promise((resolve) => {
 			const dictionaryFileIterator = ReadLine.createInterface({
 				input: FileSystem.createReadStream(
@@ -19,7 +20,14 @@ export default class Dictionary {
 			});
 			dictionaryFileIterator.on('line', (line) => {
 				const col = this.parseCsvLine(line);
-				wordsWithoutDefinitions.set(col[0], [col[1], <WordTag[]>col[2].split('/')]);
+				const key = col[0];
+				const value: TempWord = [col[1], <WordTag[]>col[2].split('/')];
+
+				if (wordsWithoutDefinitions.has(key)) {
+					(<TempWord[]>wordsWithoutDefinitions.get(key)).push(value);
+				} else {
+					wordsWithoutDefinitions.set(key, [value]);
+				}
 			});
 			dictionaryFileIterator.on('close', resolve);
 		});
@@ -48,13 +56,15 @@ export default class Dictionary {
 						return;
 					}
 
-					this.add(new Word(
-						col[0],
-						wordWithoutDefinition[0],
-						file.lang,
-						col[1],
-						wordWithoutDefinition[1],
-					));
+					for (let i = 0; i < wordWithoutDefinition.length; i++) {
+						this.add(new Word(
+							col[0],
+							wordWithoutDefinition[i][0],
+							file.lang,
+							col[1],
+							wordWithoutDefinition[i][1],
+						));
+					}
 				});
 
 				dictionaryFileIterator.on('close', resolve);

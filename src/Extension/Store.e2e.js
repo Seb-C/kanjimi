@@ -2,7 +2,7 @@ context('Store', () => {
 	it('Login on the website also logs in the extension', () => {
 		cy.setLoggedOut();
 
-		cy.visit('/www/app/login');
+		cy.visit('/app/login');
 
 		// Logging in
 		cy.get('input[name="email"]').type('contact@kanjimi.com');

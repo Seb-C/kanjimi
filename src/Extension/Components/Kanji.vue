@@ -1,7 +1,5 @@
 <template>
-	<div v-if="svg === null" class="kanjimi-loader">
-		Loading...
-	</div>
+	<div v-if="svg === null" class="kanjimi-loader" />
 	<div v-else class="kanji">
 		<svg v-html="svg" />
 	</div>

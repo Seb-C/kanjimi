@@ -103,6 +103,11 @@
 	.tab-content {
 		position: relative;
 		display: block;
+		overflow-y: auto;
 		padding-top: 0.5em;
+		max-height: calc(100% - 2.3em);
+		background: var(--light-50);
+		border: 1px solid var(--gray);
+		border-radius: 0.4em;
 	}
 </style>

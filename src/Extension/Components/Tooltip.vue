@@ -230,7 +230,6 @@
 	}
 
 	.tooltip-content {
-		overflow-y: auto;
 		width: 100%;
 		height: 100%;
 		display: block;
@@ -262,7 +261,7 @@
 		line-height: 1rem;
 		background: var(--primary);
 		color: var(--red);
-		border-radius: 5px;
+		border-radius: 0 5px 0 5px;
 		width: 1em;
 		height: 1em;
 	}

@@ -1,9 +1,10 @@
 MVP:
+    tabs style -> continue to improve
+        TODO content border, content border with the upper tab...
     kanji -> the root should not be an svg, but a div -> parse the document and remove comments
-    animated loader for Kanjis
     fix and improve tests for the Kanji component
     add unit test : reading of nihon should be first, nippon should be after (test via the api unit tests?)
-    invalid JSON syntax triggers a non-standard HTML error
+    invalid JSON syntax in the request body triggers a non-standard HTML error from the API
     simplify showing some tags in the beginning of definitions (should be grouped too?)
     improve the structure and display of contents in the tooltip
     include references to external resources used somewhere in the site

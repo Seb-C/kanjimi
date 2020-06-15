@@ -59,4 +59,30 @@
 		--light-50: rgba(255, 248, 232, 0.8);
 		--red: #C53A3A;
 	}
+
+	.kanjimi-ui-container >>> .kanjimi-loader {
+		content: "";
+		position: absolute;
+
+		border-radius: 50%;
+		border: 0.25em solid var(--black);
+		border-right-color: transparent;
+
+		width: 1em;
+		height: 1em;
+
+		left: calc(50% - 0.5em);
+		top: calc(50% - 0.5em);
+
+		animation: kanjimi-loader-animation 0.75s linear infinite;
+		transform-origin: center;
+	}
+	@keyframes kanjimi-loader-animation {
+		from {
+			transform: rotate(0deg);
+		}
+		to {
+			transform: rotate(360deg);
+		}
+	}
 </style>

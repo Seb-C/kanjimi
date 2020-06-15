@@ -6,9 +6,7 @@
 			v-bind:style="tooltipStyles"
 		>
 			<div class="tooltip-content">
-				<Readings v-bind:token="token" />
-				<Conjugations v-if="token.type === TokenType.VERB" v-bind:token="token" />
-				<Kanjis v-bind:token="token" />
+				<Tabs v-bind:token="token" />
 			</div>
 
 			<div
@@ -29,11 +27,8 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import TokenType from 'Common/Types/TokenType';
 	import Token from 'Common/Models/Token';
-	import Kanjis from 'Extension/Components/Kanjis.vue';
-	import Readings from 'Extension/Components/Readings.vue';
-	import Conjugations from 'Extension/Components/Conjugations.vue';
+	import Tabs from 'Extension/Components/Tabs.vue';
 
 	const TIP_SIZE = 15;
 
@@ -45,7 +40,6 @@
 		data() {
 			return {
 				targetPos: {},
-				TokenType,
 
 				// Values that only should not be affected by future dom changes
 				windowScrollY: window.scrollY,
@@ -219,9 +213,7 @@
 			},
 		},
 		components: {
-			Kanjis,
-			Readings,
-			Conjugations,
+			Tabs,
 		},
 	});
 </script>

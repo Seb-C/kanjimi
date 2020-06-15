@@ -14,7 +14,10 @@
 		</div>
 
 		<div class="tab-content" role="tabpanel">
-			<component v-bind:is="tabs[selectedTabIndex].component" v-bind:token="token" />
+			<component
+				v-bind:is="tabs[selectedTabIndex].component"
+				v-bind="{ token, ...tabs[selectedTabIndex].props }"
+			/>
 		</div>
 	</div>
 </template>
@@ -22,7 +25,8 @@
 	import Vue from 'vue';
 	import Token from 'Common/Models/Token';
 	import TokenType from 'Common/Types/TokenType';
-	import Kanjis from 'Extension/Components/Kanjis.vue';
+	import CharType from 'Common/Types/CharType';
+	import Kanji from 'Extension/Components/Kanji.vue';
 	import Readings from 'Extension/Components/Readings.vue';
 	import Conjugations from 'Extension/Components/Conjugations.vue';
 
@@ -36,7 +40,18 @@
 			if (this.token.type === TokenType.VERB) {
 				tabs.push({ label: 'Conjugations', component: Conjugations });
 			}
-			tabs.push({ label: 'Kanjis', component: Kanjis });
+
+			this.token.text.split('').forEach((char: string) => {
+				if (CharType.of(char) === CharType.KANJI) {
+					tabs.push({
+						label: char,
+						component: Kanji,
+						props: {
+							kanji: char,
+						},
+					});
+				}
+			});
 
 			return {
 				tabs,

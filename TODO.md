@@ -1,4 +1,5 @@
 MVP:
+    kanji -> the root should not be an svg, but a div -> parse the document and remove comments
     test for the tabs + fix existing tests
     animated loader for Kanjis
     fix and improve tests for the Kanji component

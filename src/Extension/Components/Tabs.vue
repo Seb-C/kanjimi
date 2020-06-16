@@ -86,6 +86,7 @@
 		padding: 0.1em 0.6em;
 		background: var(--white-50);
 		z-index: 2;
+		line-height: 1.2em;
 	}
 
 	.tabs .tab.active {

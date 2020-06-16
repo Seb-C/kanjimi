@@ -1,5 +1,4 @@
 MVP:
-    kanji -> the root should not be an svg, but a div -> parse the document and remove comments
     fix and improve tests for the Kanji component
     add unit test : reading of nihon should be first, nippon should be after (test via the api unit tests?)
     invalid JSON syntax in the request body triggers a non-standard HTML error from the API
@@ -10,6 +9,7 @@ MVP:
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code
     CGU / RGPD ?
+    auto-login right after install
     test Edge via the CI
     test other browsers
     need to register a copyright?!

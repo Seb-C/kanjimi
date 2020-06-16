@@ -14,10 +14,12 @@
 		</div>
 
 		<div class="tab-content" role="tabpanel">
-			<component
-				v-bind:is="tabs[selectedTabIndex].component"
-				v-bind="{ token, ...tabs[selectedTabIndex].props }"
-			/>
+			<div class="tab-content-scrollable-area">
+				<component
+					v-bind:is="tabs[selectedTabIndex].component"
+					v-bind="{ token, ...tabs[selectedTabIndex].props }"
+				/>
+			</div>
 		</div>
 	</div>
 </template>
@@ -108,11 +110,17 @@
 		z-index: 0;
 		position: relative;
 		display: block;
-		overflow-y: auto;
-		padding-top: 0.5em;
-		height: calc(100% - 2.55em);
+		height: calc(100% - 2em);
 		background: var(--light);
 		border: 0.15em solid var(--gray);
 		border-radius: 0 0.3em 0.3em 0.3em;
+	}
+
+	.tab-content .tab-content-scrollable-area {
+		display: block;
+		padding: 0.5em;
+		overflow-y: auto;
+		height: 100%;
+		box-sizing: border-box;
 	}
 </style>

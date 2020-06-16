@@ -36,3 +36,5 @@
 		},
 	});
 </script>
+<style scoped>
+</style>

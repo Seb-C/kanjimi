@@ -1,5 +1,5 @@
 <template>
-	<div>
+	<div class="tabs-container">
 		<div class="tabs" role="tablist">
 			<div
 				v-for="(tab, tabIndex) in tabs"
@@ -68,6 +68,10 @@
 	});
 </script>
 <style scoped>
+	.tabs-container {
+		height: 100%;
+	}
+
 	.tabs {
 		display: block;
 		position: relative;
@@ -101,6 +105,11 @@
 		z-index: 3;
 		padding-top: 0.4em;
 		transform: translateY(0.1475em);
+	}
+
+	.tabs .tab:active,
+	.tabs .tab:focus {
+		outline: 0;
 	}
 
 	.tabs .tab.active:first-child {

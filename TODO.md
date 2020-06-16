@@ -1,5 +1,5 @@
 MVP:
-    fix the Kanji SVG display messed-up on Google Chrome
+    button to close notifications
     add unit test : reading of nihon should be first, nippon should be after (test via the api unit tests?)
     invalid JSON syntax in the request body triggers a non-standard HTML error from the API
     simplify showing some tags in the beginning of definitions (should be grouped too?)

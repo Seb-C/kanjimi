@@ -37,11 +37,6 @@
 	});
 </script>
 <style scoped>
-	.kanji >>> svg,
-	.kanji >>> svg * {
-		all: unset;
-	}
-
 	.kanji {
 		display: block;
 		min-height: 100%;

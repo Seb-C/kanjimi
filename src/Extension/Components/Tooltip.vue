@@ -248,9 +248,9 @@
 	.tooltip-close-button {
 		cursor: pointer;
 		position: absolute;
-		top: 0;
-		right: 0;
-		padding: 5px;
+		top: 1px;
+		right: 1px;
+		padding: 4px;
 		line-height: 1rem;
 		background: var(--primary);
 		color: var(--red);

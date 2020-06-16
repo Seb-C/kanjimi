@@ -58,6 +58,7 @@
 		text-align: center;
 		left: 50vw;
 		transform: translateX(-50%);
+		z-index: 999999;
 	}
 
 	.notification-icon {

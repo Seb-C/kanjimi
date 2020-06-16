@@ -34,12 +34,8 @@
 	});
 </script>
 <style scoped>
-	/**
-	 * Using the class here would make the selector more
-	 * specific than anything else
-	 */
 	.kanjimi-ui-container,
-	>>> *,
+	>>> *:not(svg, svg *),
 	>>> *::before,
 	>>> *::after {
 		all: initial;
@@ -61,6 +57,7 @@
 	}
 
 	.kanjimi-ui-container >>> .kanjimi-loader {
+		all: initial;
 		content: "";
 		position: absolute;
 

@@ -69,31 +69,35 @@
 	.tabs {
 		display: block;
 		position: relative;
-		border-bottom: 1px solid var(--gray);
 		height: auto;
+		z-index: 1;
+		margin-top: -3px;
 	}
 
 	.tabs .tab {
 		position: relative;
 		display: inline-block;
-		border: 1px solid var(--gray);
+		border: 0.075em solid var(--gray);
+		border-bottom: 0;
 		cursor: pointer;
 		border-radius: 0.4em 0.4em 0 0;
 		padding: 0.1em 0.6em;
-		background: var(--light);
-		z-index: 0;
+		background: var(--white-50);
+		z-index: 2;
 	}
 
 	.tabs .tab.active {
 		font-weight: bold;
-		background: var(--white-50);
-		border-top: 3px solid var(--gray);
-		border-right: 3px solid var(--dark);
-		border-bottom: 1px solid var(--gray);
-		border-left: 3px solid var(--gray);
+		background: var(--light);
+		border-top: 0.15em solid var(--gray);
+		border-right: 0.15em solid var(--dark);
+		border-bottom: 0;
+		border-left: 0.15em solid var(--gray);
 		margin-left: -0.3em;
 		margin-right: -0.3em;
-		z-index: 1;
+		z-index: 3;
+		padding-top: 0.4em;
+		transform: translateY(0.1475em);
 	}
 
 	.tabs .tab.active:first-child {
@@ -101,13 +105,14 @@
 	}
 
 	.tab-content {
+		z-index: 0;
 		position: relative;
 		display: block;
 		overflow-y: auto;
 		padding-top: 0.5em;
-		max-height: calc(100% - 2.3em);
-		background: var(--light-50);
-		border: 1px solid var(--gray);
-		border-radius: 0.4em;
+		height: calc(100% - 2.55em);
+		background: var(--light);
+		border: 0.15em solid var(--gray);
+		border-radius: 0 0.3em 0.3em 0.3em;
 	}
 </style>

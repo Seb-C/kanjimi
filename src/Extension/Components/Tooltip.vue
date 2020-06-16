@@ -11,7 +11,6 @@
 
 			<div
 				class="tooltip-close-button"
-				v-bind:style="closeButtonStyles"
 				v-on:click="handleCloseButtonClick"
 			></div>
 		</div>
@@ -204,13 +203,6 @@
 					height: (this.targetPos.bottom - this.targetPos.top) + 'px',
 				};
 			},
-			closeButtonStyles() {
-				if (this.showTooltipOnTop()) {
-					return { bottom: 0 };
-				} else {
-					return { top: 0 };
-				}
-			},
 		},
 		components: {
 			Tabs,
@@ -256,6 +248,7 @@
 	.tooltip-close-button {
 		cursor: pointer;
 		position: absolute;
+		top: 0;
 		right: 0;
 		padding: 5px;
 		line-height: 1rem;
@@ -264,6 +257,7 @@
 		border-radius: 0 5px 0 5px;
 		width: 1em;
 		height: 1em;
+		z-index: 999999;
 	}
 
 	.tooltip-close-button::before,

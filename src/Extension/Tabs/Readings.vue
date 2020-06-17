@@ -1,20 +1,22 @@
 <template>
 	<ul class="readings">
-		<li v-for="[reading, wordsByLanguage] of wordsByReadingAndLanguage">
-			<span class="token">
-				<span class="furigana">{{ reading == wordText ? '&nbsp;' : formatReading(reading) }}</span>
-				<span class="word">{{ wordText }}</span>
-			</span>
+		<li v-for="entry of entries">
+			<div class="tokens">
+				<span v-for="reading of entry.readings" class="token">
+					<span class="furigana">{{ reading == wordText ? '&nbsp;' : formatReading(reading) }}</span>
+					<span class="word">{{ wordText }}</span>
+				</span>
+			</div>
 			<div class="reading-translations">
-				<div v-for="[lang, words] of wordsByLanguage" class="reading-translation">
+				<div v-for="languageAndWords of entry.subEntry" class="reading-translation">
 					<span
-						v-bind:title="LanguageTranslation.name[lang] || ''"
+						v-bind:title="LanguageTranslation.name[languageAndWords.translationLang] || ''"
 						class="reading-translation-flag"
 					>
-						{{ lang === null ? '' : Language.toUnicodeFlag(lang) }}
+						{{ languageAndWords.translationLang === null ? '' : Language.toUnicodeFlag(languageAndWords.translationLang) }}
 					</span>
 					<ol>
-						<li v-for="word in words">
+						<li v-for="word in languageAndWords.words">
 							<template v-for="tag in word.tags">
 								<b v-if="WordTagTranslation[tag]">
 									({{ WordTagTranslation[tag] }})
@@ -34,9 +36,23 @@
 	import Language from 'Common/Types/Language';
 	import Token from 'Common/Models/Token';
 	import TokenType from 'Common/Types/TokenType';
+	import WordTag from 'Common/Types/WordTag';
 	import CharType from 'Common/Types/CharType';
 	import LanguageTranslation from 'Common/Translations/Language';
 	import WordTagTranslation from 'Common/Translations/WordTag';
+
+	type SubEntryTranslation = {
+		translation: string,
+		tags: WordTag[],
+	};
+	type SubEntry = {
+		translationLang: Language|null,
+		words: SubEntryTranslation[],
+	};
+	type Entry = {
+		readings: string[],
+		subEntry: SubEntry[],
+	};
 
 	export default Vue.extend({
 		props: {
@@ -59,24 +75,62 @@
 			},
 		},
 		computed: {
-			wordsByReadingAndLanguage() {
-				const wordsByReadingAndLanguage: Map<string, Map<Language|null, Word[]>> = new Map();
+			entries() {
+				const entries: Entry[] = [];
 				this.token.words.forEach((word: Word) => {
 					const reading = CharType.katakanaToHiragana(word.reading);
-					if (!wordsByReadingAndLanguage.has(reading)) {
-						wordsByReadingAndLanguage.set(reading, new Map());
-					}
-					const wordsByLanguage = (<Map<Language|null, Word[]>>wordsByReadingAndLanguage.get(reading));
 
-					if (!wordsByLanguage.has(word.translationLang)) {
-						wordsByLanguage.set(word.translationLang, []);
+					let entry: Entry|null = null;
+					entries.forEach((currentEntry: Entry) => {
+						if (currentEntry.readings.includes(reading)) {
+							entry = currentEntry;
+						}
+					});
+					if (entry === null) {
+						entry = {
+							readings: [reading],
+							subEntry: [],
+						};
+						entries.push(entry);
 					}
-					const words = (<Word[]>wordsByLanguage.get(word.translationLang));
 
-					words.push(word);
+					let subEntry: SubEntry|null = null;
+					entry.subEntry.forEach((currentSubEntry: SubEntry) => {
+						if (currentSubEntry.translationLang === word.translationLang) {
+							subEntry = currentSubEntry;
+						}
+					});
+					if (subEntry === null) {
+						subEntry = {
+							translationLang: word.translationLang,
+							words: [],
+						};
+						entry.subEntry.push(subEntry);
+					}
+
+					subEntry.words.push({
+						translation: word.translation,
+						tags: word.tags,
+					});
 				});
 
-				return wordsByReadingAndLanguage;
+				// Merging entries with different readings but same content
+				for (let i = 0; i < entries.length; i++) {
+					for (let j = i + 1; j < entries.length; j++) {
+						// Deep-comparing the contents and merging the identical entries
+						if (
+							JSON.stringify(Array.from(entries[i].subEntry.entries()))
+							===
+							JSON.stringify(Array.from(entries[j].subEntry.entries()))
+						) {
+							entries[i].readings.push(...entries[j].readings);
+							entries.splice(j, 1);
+							j--;
+						}
+					}
+				}
+
+				return entries;
 			},
 			wordText() {
 				let wordText = this.token.text;
@@ -91,8 +145,9 @@
 </script>
 <style scoped>
 	.token {
-		display: inline-block;
+		display: block;
 		line-height: 100%;
+		margin-bottom: 0.3em;
 	}
 
 	.token .furigana {

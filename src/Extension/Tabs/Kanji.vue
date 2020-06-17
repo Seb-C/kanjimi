@@ -31,7 +31,7 @@
 				const domParser = new DOMParser();
 				const svgDocument = domParser.parseFromString(svg, 'image/svg+xml');
 
-				this.svg = svgDocument.rootElement.outerHTML;
+				this.svg = svgDocument.documentElement.outerHTML;
 			},
 		},
 	});

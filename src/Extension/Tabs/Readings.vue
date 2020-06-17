@@ -148,6 +148,8 @@
 		display: block;
 		line-height: 100%;
 		margin-bottom: 0.3em;
+		position: sticky;
+		top: 0;
 	}
 
 	.token .furigana {

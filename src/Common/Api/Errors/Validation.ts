@@ -19,9 +19,11 @@ export default class Validation {
 		const errors = <{ [key: string]: string }>{};
 
 		this.data.forEach((error) => {
-			const fieldName = error.dataPath.substring(1);
-			if (!errors[fieldName]) {
-				errors[fieldName] = this.getErrorMessage(error);
+			if (error.dataPath) {
+				const fieldName = error.dataPath.substring(1);
+				if (!errors[fieldName]) {
+					errors[fieldName] = this.getErrorMessage(error);
+				}
 			}
 		});
 

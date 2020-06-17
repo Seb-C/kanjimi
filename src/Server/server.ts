@@ -43,6 +43,17 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	application.use(logRequestMiddleware);
 	application.use(waitForStartupMiddleware);
 	application.use(BodyParser.json({ type: () => true }));
+	application.use(function (error: any, request: Request, response: Response, next: Function) {
+		if (error.type === 'entity.parse.failed' && request.url.startsWith('/api/')) {
+			return response.status(422).json([{
+				keyword: 'JSON syntax',
+				message: error.message
+			}]);
+		} else {
+			return next(error);
+		}
+	});
+
 	const serverClosed = new Promise((resolve, reject) => {
 		try {
 			const server = application.listen(3000);

@@ -164,4 +164,20 @@ describe('LexerController', async function() {
 		});
 		expect(response.status).toBe(403);
 	});
+
+	it('analyze (invalid JSON should get a proper error)', async function() {
+		const response = await fetch('http://localhost:3000/api/lexer/analyze', {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: 'not a JSON',
+		});
+		expect(response.status).toBe(422);
+		const responseData = await response.json();
+
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
+			.toBe(true);
+	});
 });

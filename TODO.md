@@ -1,4 +1,5 @@
 MVP:
+    API to describe Kanjis and return the svg URL
     include references to external resources used somewhere in the site
     onboarding (after sign-up, install extension...)
     webpack => production mode whenever necessary
@@ -16,6 +17,7 @@ MVP:
     post on twitter
 
 After:
+    add the zoom on readings inside the popup
     simplify showing tags in definitions -> any way to group it? Show everything in another tab?
     merge definitions in all cases (see kotoba in the home samples test page -> there is a name so contents does not get merged)
     add the Kanji radicals information

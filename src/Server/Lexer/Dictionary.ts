@@ -52,8 +52,7 @@ export default class Dictionary {
 					const col = this.parseCsvLine(line);
 					const wordWithoutDefinition = wordsWithoutDefinitions.get(col[0]);
 					if (!wordWithoutDefinition) {
-						console.error('Word has a definition but does not exists');
-						return;
+						throw new Error(`Word ${col[0]} (${file.lang}) has a definition but does not exists.`);
 					}
 
 					for (let i = 0; i < wordWithoutDefinition.length; i++) {

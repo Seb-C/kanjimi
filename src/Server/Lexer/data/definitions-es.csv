@@ -1801,12 +1801,12 @@
 すうっと,recto
 すうっと,rápido
 すうっと,resfrescante
-すばしこい,rápido
-すばしこい,ágil
-すばしこい,ligero
 すばしっこい,rápido
 すばしっこい,ágil
 すばしっこい,ligero
+すばしこい,rápido
+すばしこい,ágil
+すばしこい,ligero
 すやすや,plácidamente
 スラスラ,fluidamente
 スラスラ,"sin dificultades"
@@ -54185,6 +54185,9 @@
 紛争,conflicto
 紛争,disputa
 紛争,guerra
+紛諍,conflicto
+紛諍,disputa
+紛諍,guerra
 雰囲気,"atmósfera (ej. musical)"
 雰囲気,ambiente
 ふんい気,"atmósfera (ej. musical)"
@@ -72839,10 +72842,6 @@
 真ん中,centro
 真ん中,"en el medio"
 真ん中,"medio camino"
-真中,medio
-真中,centro
-真中,"en el medio"
-真中,"medio camino"
 まん中,medio
 まん中,centro
 まん中,"en el medio"
@@ -82470,12 +82469,18 @@
 入換,sustitución
 納戸色,"azul cobalto"
 納金,pago
-訥訥,tartamudear
-訥訥,balbucear
-訥訥,"hablar de modo entrecortado"
 訥々,tartamudear
 訥々,balbucear
 訥々,"hablar de modo entrecortado"
+訥訥,tartamudear
+訥訥,balbucear
+訥訥,"hablar de modo entrecortado"
+吶々,tartamudear
+吶々,balbucear
+吶々,"hablar de modo entrecortado"
+吶吶,tartamudear
+吶吶,balbucear
+吶吶,"hablar de modo entrecortado"
 南極観測,"exploración Antártica"
 男心,"instintos masculinos"
 男心,"frivolidad masculina"
@@ -86807,16 +86812,6 @@
 一寸先は闇,"El futuro es un libro cerrado"
 英国民,británico
 英国民,"ciudadano británico"
-負わせる,imputar
-負わせる,cargar
-負わせる,"hacer cargar con"
-負わせる,atribuir
-負わせる,colgar
-負わせる,arrogar
-負わせる,endosar
-負わせる,endilgar
-負わせる,enjaretar
-負わせる,emplumar
 嬉し泣き,"llanto de felicidad"
 うれし泣き,"llanto de felicidad"
 嬉泣き,"llanto de felicidad"
@@ -100767,3 +100762,7 @@
 桑実胚,mórula
 浪漫,romántico
 浪曼,romántico
+真中,medio
+真中,centro
+真中,"en el medio"
+真中,"medio camino"

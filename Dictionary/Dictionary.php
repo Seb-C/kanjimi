@@ -80,6 +80,14 @@ while($xml->name === 'entry') {
 		}
 	}
 
+	// Fallback if no readings at all
+	foreach ($words as $i => $word) {
+		if (count($word['readings']) === 0 && !empty($reading)) {
+			$words[$i]['readings'][] = $entry->getElementsByTagName('reb')[0]->nodeValue;
+			break;
+		}
+	}
+
 	if (count($words) === 1 && $words[0]['word'] === null) {
 		$readings = $words[0]['readings'];
 		$words = [];

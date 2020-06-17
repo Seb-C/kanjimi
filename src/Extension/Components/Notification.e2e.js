@@ -85,4 +85,12 @@ context('Notification', () => {
 			.should('exist')
 			.should('contain', 'have been disconnected');
 	});
+
+	it('The notification can be closed', () => {
+		cy.setLoggedOut();
+		cy.visit('/test-pages/wikipedia.html');
+
+		cy.get('.kanjimi.notification .notification-close-button').should('exist').click();
+		cy.get('.kanjimi.notification').should('not.exist');
+	});
 });

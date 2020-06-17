@@ -251,7 +251,7 @@
 		top: 1px;
 		right: 1px;
 		padding: 4px;
-		line-height: 1rem;
+		line-height: 1em;
 		background: var(--primary);
 		color: var(--red);
 		border-radius: 0 5px 0 5px;

@@ -19,6 +19,10 @@
 					{{ link.text }}
 				</a>
 			</div>
+			<div
+				class="notification-close-button"
+				v-on:click="onClickCloseButton"
+			/>
 		</div>
 	</div>
 </template>
@@ -42,6 +46,10 @@
 			onClickLink(event: Event) {
 				event.preventDefault();
 				this.link.onClick();
+			},
+			onClickCloseButton(event: Event) {
+				event.preventDefault();
+				this.$root.setNotification(null);
 			},
 		},
 	});
@@ -87,5 +95,37 @@
 		text-decoration: underline;
 		color: var(--primary);
 		cursor: pointer;
+	}
+
+	.notification-close-button {
+		cursor: pointer;
+		position: absolute;
+		top: 0;
+		right: 0;
+		background: var(--dark);
+		color: var(--red);
+		width: 0.7em;
+		height: 0.7em;
+		z-index: 999999;
+	}
+
+	.notification-close-button::before,
+	.notification-close-button::after {
+		cursor: pointer;
+		content: "";
+		height: 0.15em;
+		width: 0.8em;
+		top: 0.3em;
+		right: 0;
+		background-color: var(--white);
+		position: absolute;
+		border-radius: 2px;
+		transform-origin: center;
+	}
+	.notification-close-button::before {
+		transform: rotate(45deg);
+	}
+	.notification-close-button::after {
+		transform: rotate(-45deg);
 	}
 </style>

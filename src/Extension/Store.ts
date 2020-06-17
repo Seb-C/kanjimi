@@ -34,7 +34,7 @@ export default class Store {
 
 	public notifyIfLoggedOut = () => {
 		if (this.apiKey === null) {
-			this.notification = {
+			this.setNotification({
 				message: 'The extension is not connected yet.',
 				link: {
 					text: 'Click here to connect it.',
@@ -45,7 +45,7 @@ export default class Store {
 						);
 					},
 				},
-			};
+			});
 		}
 	}
 
@@ -67,10 +67,10 @@ export default class Store {
 		if (key === null) {
 			this.apiKey = null;
 			this.user = null;
-			this.notification = {
+			this.setNotification({
 				message: 'The extension have been disconnected from your Kanjimi account.',
 				link: null,
-			};
+			});
 		} else {
 			try {
 				if (this.loadingApiDataAfterApiKeyChange) {
@@ -87,12 +87,12 @@ export default class Store {
 				this.user = user;
 
 				if (notifyLogin) {
-					this.notification = {
+					this.setNotification({
 						message: `The extension have been connected with your Kanjimi account (${(<User>this.user).email}).`,
 						link: null,
-					};
+					});
 					setTimeout(() => {
-						this.notification = null;
+						this.setNotification(null);
 					}, 5000);
 				}
 
@@ -114,6 +114,10 @@ export default class Store {
 
 	public setTooltip = (tooltipData: TooltipData|null) => {
 		this.tooltip = tooltipData;
+	}
+
+	public setNotification = (notification: NotificationData|null) => {
+		this.notification = notification;
 	}
 
 	public setWordStatus = async (wordStatus: WordStatus, attributes: any) => {

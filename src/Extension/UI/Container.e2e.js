@@ -1,4 +1,4 @@
-context('UIContainer', () => {
+context('Container', () => {
 	it('The tooltip exists in the dom', () => {
 		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')

@@ -10,7 +10,7 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import TokenModel from 'Common/Models/Token';
-	import Token from 'Extension/Components/Token.vue';
+	import Token from 'Extension/PageTexts/Token.vue';
 
 	export default Vue.extend({
 		props: {

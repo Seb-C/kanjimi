@@ -7,8 +7,8 @@ import {
 	search as searchWordStatuses,
 } from 'Common/Api/WordStatus';
 import Vue from 'vue';
-import UIContainer from 'Extension/Components/UIContainer.vue';
-import Sentence from 'Extension/Components/Sentence.vue';
+import UIContainer from 'Extension/UI/Container.vue';
+import Sentence from 'Extension/PageTexts/Sentence.vue';
 
 export default class PageHandler {
 	private processing: boolean = false;

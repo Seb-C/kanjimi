@@ -6,8 +6,8 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import Tooltip from 'Extension/Components/Tooltip.vue';
-	import Notification from 'Extension/Components/Notification.vue';
+	import Tooltip from 'Extension/UI/Tooltip.vue';
+	import Notification from 'Extension/UI/Notification.vue';
 
 	export default Vue.extend({
 		data() {

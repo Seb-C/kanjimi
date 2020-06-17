@@ -28,9 +28,9 @@
 	import Token from 'Common/Models/Token';
 	import TokenType from 'Common/Types/TokenType';
 	import CharType from 'Common/Types/CharType';
-	import Kanji from 'Extension/Components/Kanji.vue';
-	import Readings from 'Extension/Components/Readings.vue';
-	import Conjugations from 'Extension/Components/Conjugations.vue';
+	import Kanji from 'Extension/Tabs/Kanji.vue';
+	import Readings from 'Extension/Tabs/Readings.vue';
+	import Conjugations from 'Extension/Tabs/Conjugations.vue';
 
 	export default Vue.extend({
 		props: {

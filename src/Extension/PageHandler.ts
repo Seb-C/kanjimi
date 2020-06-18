@@ -9,6 +9,7 @@ import {
 import Vue from 'vue';
 import UIContainer from 'Extension/UI/Container.vue';
 import Sentence from 'Extension/PageTexts/Sentence.vue';
+import * as Hash from 'hash.js';
 
 export default class PageHandler {
 	private processing: boolean = false;
@@ -137,10 +138,14 @@ export default class PageHandler {
 
 		if (strings.length > 0) {
 			try {
-				const data = await analyze(this.store.apiKey.key, {
-					languages: [...(<User>this.store.user).languages],
-					strings,
-				});
+				const data = await analyze(
+					this.store.apiKey.key,
+					{
+						languages: [...(<User>this.store.user).languages],
+						strings,
+					},
+					this.getPageUri(),
+				);
 
 				const words: Set<string> = new Set();
 				for (let i = 0; i < data.length; i++) {
@@ -233,5 +238,22 @@ export default class PageHandler {
 			}
 		`;
 		document.getElementsByTagName('head')[0].appendChild(style);
+	}
+
+	getPageUri(): string {
+		const canonicalTag = document.querySelector('link[rel="canonical"]');
+
+		const documentUrl = canonicalTag
+			? (<any>canonicalTag).href
+			: document.location.href;
+
+		if (browser.extension.inIncognitoContext) {
+			const hashedUrl = Hash.sha256()
+				.update(`kanjimi+${documentUrl}`)
+				.digest('hex');
+			return `incognito://${hashedUrl}`;
+		} else {
+			return documentUrl;
+		}
 	}
 }

@@ -34,6 +34,7 @@ const analyzeRequestValidator = new Ajv({ allErrors: true }).compile({
 
 export const analyze = (db: Database, lexer: Lexer) => (
 	async (request: Request, response: Response) => {
+		console.log(request.headers['x-kanjimi-page-uri'] || null);
 		const user = await (new UserRepository(db)).getFromRequest(request);
 		if (user === null) {
 			return response.status(403).json('Invalid api key');

@@ -4,14 +4,19 @@ import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
 import ServerError from 'Common/Api/Errors/Server';
 
-export const analyze = async (key: string, data: {
-	languages: Language[],
-	strings: string[],
-}): Promise<Token[][]> => {
+export const analyze = async (
+	key: string,
+	data: {
+		languages: Language[],
+		strings: string[],
+	},
+	pageUri?: string,
+): Promise<Token[][]> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/lexer/analyze`, {
 		method: 'POST',
-		headers: {
+		headers: <any>{
 			Authorization: `Bearer ${key}`,
+			'X-Kanjimi-Page-Uri': pageUri,
 		},
 		body: JSON.stringify(data),
 	});

@@ -1,6 +1,6 @@
 MVP:
-    store visited urls and the number of characters/words per api call (except on mode incognito (window.incognito?))
-        -> use it for future stats about the usage
+    store visited urls and the number of characters/words per api call
+        -> use it for future stats about the usage (save sessions in db)
         -> implement client side the possibility of a refusal of analyzing (notification with error)
     API to describe Kanjis and return the svg URL
     compare basic script execution time inside and outside of docker

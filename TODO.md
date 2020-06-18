@@ -3,12 +3,15 @@ MVP:
         -> store sessions anonymously (hash url + user id)
         -> store urls with popularity (if session not extended, upsert and increase score)
         -> implement client side the possibility of a refusal of analyzing (notification with error)
-    API to describe Kanjis and return the svg URL
+    API to describe Kanjis and return the svg URL (+ translations & readings)
     configure docker logging ( https://docs.docker.com/config/containers/logging/local/ )
     docker healthchecks + remove waits in the ci scripts
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code
     include references to external resources used somewhere in the site
+    Remove google Analytics tracking, analyze nginx logs instead
+    assets update -> browser will not update it?
+    Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
     onboarding (after sign-up, install extension...)
     script to generate a directory to upload for the extension review process
     DB transactions (add methods + check TODOs)
@@ -28,6 +31,7 @@ MVP:
 
 After:
     move the lexer in a worker?
+    replace API with websockets?
     future free plan -> block after x mojis, but allow to continue a session on same page for x minutes
     add the zoom on readings inside the popup
     simplify showing tags in definitions -> any way to group it? Show everything in another tab?
@@ -64,22 +68,17 @@ After:
     Dictionary: split definitions and reading/tags?
     dependency-injection for all the browser.xxx APIs from the main script
     bookmarklet that redirects to the site?
-    possible to test the Firefox version on CI? (it works but need to forward the 3000 port from the emulator)
+    url that takes text in the url (like the browser but only with text)
+    possible to test the Firefox for Android version on CI? (it works but need to forward the 3000 port from the emulator)
     aria attributes on tooltip (modal dialog attributes?)
-    keyboard navigation for tokens (token only + keystrokes explained in the tooltip?)
-    underline and overline (text-decoration) for sentence parts?
+    keyboard navigation for tokens and tooltip (token only + keystrokes explained in the tooltip?)
+    underline and overline (text-decoration) for sentence parts / grammar?
     commented cypress lines (about disabled fields during loading) -> remove and merge in a separate skipped tests (already done in most test suites)
     test the links in the user dropdown
-    assets update -> browser will not update it?
     don't restart server if a server test file has changed
-    unit test for the user controller -> create some common code to reduce the number of lines of code
-    url encoding of query strings is not necessary? should be lighter and more readable
     force dates to utc server side (instead of `new Date()`)
     vocabulary review
     analyzer: any way to regroup sentences and then split again based on the original string index in the array?
-    Remove google Analytics tracking, analyze nginx logs instead
-    remove twitter tracking, use the API + static content (or via a cached API route?)
-    click on logo = go home
     animations on the tooltip (appear/disappear)
     animations on the notification (appear/disappear)
     animations on the webapp (everywhere even if no natural delay)
@@ -92,8 +91,10 @@ After:
     make the extension interactions keyboard-navigable too (and have proper aria attributes)
     add tests for the keyboard-navigability (settings, menus...)
     add a test to the filter that does not translate the site itself (settings sample, homepage samples...)
+    translate the interface in french (+ add a multi-lang / labels system)
     separate the layout component: should have one menu component and one usermenu component
     route to delete an api key + use it on explicit disconnect + wait properly before showing the confirm message (and show a loader)
+    auto remove expired api keys
     search and fix remaining TODOs
     cypress tests in typescript
     server side fetching of a page to be independent from the extension
@@ -105,30 +106,25 @@ After:
     OVH: try again to create a secondary account?
     free plan?
     paid member
-    Have the home page js also built with webpack
-    Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
+    Have the home page js also built with webpack?
+    Use a proper css build system instead of overwriting variables
     Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
     translate the landing page (french?) and interface and add the supported languages list somewhere
     Cypress commands should run in a docker as well
-    automatic updates (https://extensionworkshop.com/documentation/manage/updating-your-extension/)
     search better dictionaries? -> extract wiktionary (https://dumps.wikimedia.org/backup-index.html)
-    disconnect (delete api key route)
+    delete api key when disconnecting (need to create a route)
     change email process
     error handling properly in express (500 and 404, should always be an API response?)
     recommend words to hide depending on the statistics
-    fix the broken indentation and folding for typescript
     fix typescript vs vue components (vue 3.0? + store not typed?)
-    implement down migrations? or not do it and remove related code
     hide and show kanjis by reading (and remember)
     example of words using the same kanjis and that have been seen before
     route to explain a word (split kanji and contextualized reading of every kanji)
-    Kanjis translation and readings
-    use kanjis svg instead of a font (proper sizing + animatable?)
-    also show old kanji writings to provide a visual help
+    animate kanjis drawing
+    show knji part and roots and explain everything (+ color different parts)
+    also show antique kanji writings (pictograms) to provide a visual help? Or make a more practical image database (I saw a twitter user doing this)?
     half width characters? full-width roman chars and letters?
     extension hot-reload -> supported by vue.js, but the current instances are not migrated
-    replace API with websockets?
-    properly implement all the JSONApi spec (+ relationships, client already fixed)
     optimize server performance by compiling properly
     counters?
     store unfound words?

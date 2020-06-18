@@ -58,7 +58,7 @@ describe('WordStatus', async function() {
 			},
 			body: JSON.stringify({
 				userId: user.id,
-				word: 'word',
+				word: '日本',
 				showFurigana: true,
 				showTranslation: false,
 			}),
@@ -70,14 +70,14 @@ describe('WordStatus', async function() {
 			.withContext(JSON.stringify(wordStatusValidator.errors))
 			.toBe(true);
 		expect(responseData.userId).toBe(user.id);
-		expect(responseData.word).toBe('word');
+		expect(responseData.word).toBe('日本');
 		expect(responseData.showFurigana).toBe(true);
 		expect(responseData.showTranslation).toBe(false);
 
 		// Checking the db contents
 		const dictionary = new Dictionary();
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
-		const dbWordStatus = await wordStatusRepository.get(user, 'word');
+		const dbWordStatus = await wordStatusRepository.get(user, '日本');
 
 		expect(dbWordStatus).not.toBe(null);
 		expect((<WordStatus>dbWordStatus).showFurigana).toBe(true);
@@ -87,7 +87,7 @@ describe('WordStatus', async function() {
 	it('createOrUpdate (update case)', async function() {
 		const dictionary = new Dictionary();
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
-		await wordStatusRepository.create(user, 'word', false, true);
+		await wordStatusRepository.create(user, '日本', false, true);
 
 		const response = await fetch('http://localhost:3000/api/word-status', {
 			method: 'PUT',
@@ -96,7 +96,7 @@ describe('WordStatus', async function() {
 			},
 			body: JSON.stringify({
 				userId: user.id,
-				word: 'word',
+				word: '日本',
 				showFurigana: true,
 				showTranslation: false,
 			}),
@@ -108,12 +108,12 @@ describe('WordStatus', async function() {
 			.withContext(JSON.stringify(wordStatusValidator.errors))
 			.toBe(true);
 		expect(responseData.userId).toBe(user.id);
-		expect(responseData.word).toBe('word');
+		expect(responseData.word).toBe('日本');
 		expect(responseData.showFurigana).toBe(true);
 		expect(responseData.showTranslation).toBe(false);
 
 		// Checking the db contents
-		const dbWordStatus = await wordStatusRepository.get(user, 'word');
+		const dbWordStatus = await wordStatusRepository.get(user, '日本');
 
 		expect(dbWordStatus).not.toBe(null);
 		expect((<WordStatus>dbWordStatus).showFurigana).toBe(true);
@@ -128,7 +128,7 @@ describe('WordStatus', async function() {
 			},
 			body: JSON.stringify({
 				userId: 'wrong uuid',
-				word: 'word',
+				word: '日本',
 				showFurigana: true,
 				showTranslation: true,
 			}),
@@ -152,13 +152,34 @@ describe('WordStatus', async function() {
 			.toBe(true);
 	});
 
+	it('createOrUpdate (word not in dictionaty)', async function() {
+		const response = await fetch('http://localhost:3000/api/word-status', {
+			method: 'PUT',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: JSON.stringify({
+				userId: user.id,
+				word: 'word that cannot be in the dictionary',
+				showFurigana: true,
+				showTranslation: false,
+			}),
+		});
+		expect(response.status).toBe(422);
+		const responseData = await response.json();
+
+		expect(this.validationErrorResponseValidator(responseData))
+			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
+			.toBe(true);
+	});
+
 	it('createOrUpdate (authentication error)', async function() {
 		const response = await fetch('http://localhost:3000/api/word-status', {
 			method: 'PUT',
 			headers: {
 				Authorization: 'Bearer wrongtoken',
 			},
-			body: JSON.stringify(['word']),
+			body: JSON.stringify(['日本']),
 		});
 		expect(response.status).toBe(403);
 	});
@@ -166,11 +187,11 @@ describe('WordStatus', async function() {
 	it('search (normal case)', async function() {
 		const dictionary = new Dictionary();
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
-		await wordStatusRepository.create(user, 'word2', true, false);
+		await wordStatusRepository.create(user, '食べる', true, false);
 
 		const response = await fetch('http://localhost:3000/api/word-status/search', {
 			method: 'POST',
-			body: JSON.stringify(['word1', 'word2']),
+			body: JSON.stringify(['日本', '食べる']),
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
 			},
@@ -186,10 +207,10 @@ describe('WordStatus', async function() {
 		expect(responseData[1].userId).toBe(user.id);
 
 		expect(WordStatus.fromApi(responseData[0])).toEqual(
-			wordStatusRepository.getDefaultWordStatus(user, 'word1'),
+			wordStatusRepository.getDefaultWordStatus(user, '日本'),
 		);
 
-		expect(responseData[1].word).toBe('word2');
+		expect(responseData[1].word).toBe('食べる');
 		expect(responseData[1].showFurigana).toBe(true);
 		expect(responseData[1].showTranslation).toBe(false);
 	});
@@ -213,7 +234,7 @@ describe('WordStatus', async function() {
 	it('search (authentication error)', async function() {
 		const response = await fetch('http://localhost:3000/api/word-status/search', {
 			method: 'POST',
-			body: JSON.stringify(['word']),
+			body: JSON.stringify(['日本']),
 			headers: {
 				Authorization: 'Bearer wrongtoken',
 			},

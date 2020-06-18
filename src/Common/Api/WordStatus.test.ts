@@ -22,11 +22,11 @@ describe('Client WordStatus', async function() {
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
 		user = await userRepository.create({ ...this.testUser });
 		apiKey = await apiKeyRepository.create(user.id);
-		wordStatus = await wordStatusRepository.create(user, 'word', true, false);
+		wordStatus = await wordStatusRepository.create(user, '日本', true, false);
 	});
 
 	it('search (normal case)', async function() {
-		const apiWordStatuses = await search(apiKey.key, ['word']);
+		const apiWordStatuses = await search(apiKey.key, ['日本']);
 
 		expect(apiWordStatuses).toBeInstanceOf(Array);
 		expect(apiWordStatuses.length).toBe(1);
@@ -49,7 +49,7 @@ describe('Client WordStatus', async function() {
 	it('search (authentication error case)', async function() {
 		let error;
 		try {
-			await search('wrongtoken', ['word']);
+			await search('wrongtoken', ['日本']);
 		} catch (e) {
 			error = e;
 		}
@@ -60,7 +60,7 @@ describe('Client WordStatus', async function() {
 	it('createOrUpdate (normal case)', async function() {
 		const newWordStatusData = new WordStatus({
 			userId: user.id,
-			word: 'word',
+			word: '日本',
 			showFurigana: true,
 			showTranslation: true,
 		});
@@ -86,7 +86,7 @@ describe('Client WordStatus', async function() {
 		try {
 			const newWordStatusData = new WordStatus({
 				userId: user.id,
-				word: 'word',
+				word: '日本',
 				showFurigana: true,
 				showTranslation: true,
 			});
@@ -103,7 +103,7 @@ describe('Client WordStatus', async function() {
 		try {
 			const newWordStatusData = new WordStatus({
 				userId: 'wrongid',
-				word: 'word',
+				word: '日本',
 				showFurigana: true,
 				showTranslation: true,
 			});

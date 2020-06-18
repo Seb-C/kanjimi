@@ -47,7 +47,7 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 		if (error.type === 'entity.parse.failed' && request.url.startsWith('/api/')) {
 			return response.status(422).json([{
 				keyword: 'JSON syntax',
-				message: error.message
+				message: error.message,
 			}]);
 		} else {
 			return next(error);

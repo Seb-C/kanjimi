@@ -83,6 +83,14 @@ export const createOrUpdate = (db: Database, dictionary: Dictionary) => async (r
 		return response.status(422).json(wordStatusValidator.errors);
 	}
 
+	if (!dictionary.has(request.body.word)) {
+		return response.status(422).json([{
+			keyword: 'unknown',
+			dataPath: '.word',
+			message: 'The provided word is not in the dictionary',
+		}]);
+	}
+
 	if (request.body.userId !== user.id) {
 		return response.status(403).json('Invalid userId in object.');
 	}

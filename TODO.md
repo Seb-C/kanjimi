@@ -1,5 +1,4 @@
 MVP:
-    wordstatus -> check that the word is in the dictionary (to not store random useless strings)
     store visited urls and the number of characters/words per api call (except on mode incognito (window.incognito?))
         -> use it for future stats about the usage
         -> implement client side the possibility of a refusal of analyzing (notification with error)

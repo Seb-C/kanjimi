@@ -10,13 +10,13 @@ export const analyze = async (
 		languages: Language[],
 		strings: string[],
 	},
-	pageUri?: string,
+	pageUrl?: string,
 ): Promise<Token[][]> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/lexer/analyze`, {
 		method: 'POST',
 		headers: <any>{
 			Authorization: `Bearer ${key}`,
-			'X-Kanjimi-Page-Uri': pageUri,
+			'X-Kanjimi-Page-Url': pageUrl,
 		},
 		body: JSON.stringify(data),
 	});

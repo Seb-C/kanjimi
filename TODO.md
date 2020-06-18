@@ -1,9 +1,9 @@
 MVP:
     store visited urls and the number of characters/words per api call
-        -> use it for future stats about the usage (save sessions in db)
+        -> store sessions anonymously (hash url + user id)
+        -> store urls with popularity (if session not extended, upsert and increase score)
         -> implement client side the possibility of a refusal of analyzing (notification with error)
     API to describe Kanjis and return the svg URL
-    compare basic script execution time inside and outside of docker
     configure docker logging ( https://docs.docker.com/config/containers/logging/local/ )
     docker healthchecks + remove waits in the ci scripts
     webpack => production mode whenever necessary
@@ -11,11 +11,14 @@ MVP:
     include references to external resources used somewhere in the site
     onboarding (after sign-up, install extension...)
     script to generate a directory to upload for the extension review process
+    DB transactions (add methods + check TODOs)
+    remove the DB abstraction layer
     CGU / RGPD ?
     auto-login right after install
     test Edge via the CI
     test other browsers
     test charge
+    test server autoupdate
     need to register a copyright?!
     post on producthunt
     post on hackernews

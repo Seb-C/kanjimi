@@ -4,6 +4,9 @@ MVP:
         -> use it for future stats about the usage
         -> implement client side the possibility of a refusal of analyzing (notification with error)
     API to describe Kanjis and return the svg URL
+    compare basic script execution time inside and outside of docker
+    configure docker logging ( https://docs.docker.com/config/containers/logging/local/ )
+    docker healthchecks + remove waits in the ci scripts
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code
     include references to external resources used somewhere in the site

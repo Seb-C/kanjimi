@@ -4,6 +4,8 @@ MVP:
         -> store urls with popularity (if session not extended, upsert and increase score)
         -> implement client side the possibility of a refusal of analyzing (notification with error)
     API to describe Kanjis and return the svg URL (+ translations & readings)
+    don't analyze the page for background tabs, only active
+    compare basic script execution time inside and outside of docker
     configure docker logging ( https://docs.docker.com/config/containers/logging/local/ )
     docker healthchecks + remove waits in the ci scripts
     webpack => production mode whenever necessary
@@ -31,7 +33,11 @@ MVP:
 
 After:
     move the lexer in a worker?
+<<<<<<< HEAD
     replace API with websockets?
+=======
+    show similar words with shared kanjis to explain better the meaning
+>>>>>>> 79ccf8a... Created new stats tables
     future free plan -> block after x mojis, but allow to continue a session on same page for x minutes
     add the zoom on readings inside the popup
     simplify showing tags in definitions -> any way to group it? Show everything in another tab?

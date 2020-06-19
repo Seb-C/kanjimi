@@ -22,7 +22,8 @@
     "*://localhost/*",
     "*://kanjimi.com/*",
     "*://*.kanjimi.com/*",
-    "storage"
+    "storage",
+    "tabs"
   ],
   "web_accessible_resources": [
     "*"

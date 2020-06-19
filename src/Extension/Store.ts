@@ -7,6 +7,7 @@ import { get as getApiKey } from 'Common/Api/ApiKey';
 import { get as getUser } from 'Common/Api/User';
 import Vue from 'vue';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
+import { v4 as uuidv4 } from 'uuid';
 
 type TooltipData = {
 	token: Token,
@@ -29,7 +30,6 @@ export default class Store {
 	public user: User|null = null;
 	public tooltip: TooltipData|null = null;
 	public wordStatuses: { [key: string]: WordStatus } = {};
-
 	public notification: NotificationData|null = null;
 
 	public notifyIfLoggedOut = () => {
@@ -130,5 +130,35 @@ export default class Store {
 			...attributes,
 		}));
 		Vue.set(this.wordStatuses, newWordStatus.word, newWordStatus);
+	}
+
+	public async getSessionId(): string {
+		let {
+			sessionId,
+			sessionIdExpiresAt,
+		} = await browser.storage.local.get([
+			'sessionId',
+			'sessionIdExpiresAt',
+		]);
+
+		const newExpiresAt = new Date();
+		newExpiresAt.setMinutes(newExpiresAt.getMinutes() + 30);
+
+		if (!sessionId || (sessionIdExpiresAt && parseInt(sessionIdExpiresAt) < (new Date()).getTime())) {
+			// No session or it has expired -> creating one
+
+			sessionId = uuidv4();
+			sessionIdExpiresAt = newExpiresAt.getTime();
+			await browser.storage.local.set({ sessionId, sessionIdExpiresAt });
+
+			return sessionId;
+		} else {
+			// Active session -> refreshing the expiry date
+			await browser.storage.local.set({
+				sessionIdExpiresAt: newExpiresAt.getTime(),
+			});
+
+			return sessionId;
+		}
 	}
 }

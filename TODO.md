@@ -1,7 +1,9 @@
 MVP:
-    insert data in UserActivity whenever necessary (+ test)
-    insert data in AnalyzeLog whenever necessary (+ test)
-    implement client side the possibility of a refusal of analyzing (notification with error)
+    test the store getSessionId by injecting a fake storage in the global object
+        -> test all methods by injecting required stuff
+    insert data in UserActivity when the lexer is called (+ test)
+    insert data in AnalyzeLog when the lexer is called with a sessionId and a pageUrl (+ test)
+    implement client side the possibility that the server refuses the analyze because the free plan has expired (notification with error)
     API to describe Kanjis and return the svg URL (+ translations & readings)
     don't analyze the page for background tabs, only active
     configure docker logging ( https://docs.docker.com/config/containers/logging/local/ )

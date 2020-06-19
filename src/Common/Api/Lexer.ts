@@ -9,14 +9,14 @@ export const analyze = async (
 	data: {
 		languages: Language[],
 		strings: string[],
+		pageUrl?: string,
+		sessionId?: string,
 	},
-	pageUrl?: string,
 ): Promise<Token[][]> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/lexer/analyze`, {
 		method: 'POST',
-		headers: <any>{
+		headers: {
 			Authorization: `Bearer ${key}`,
-			'X-Kanjimi-Page-Url': pageUrl,
 		},
 		body: JSON.stringify(data),
 	});

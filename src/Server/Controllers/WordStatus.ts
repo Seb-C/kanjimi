@@ -23,6 +23,7 @@ const wordStatusValidator = new Ajv({ allErrors: true }).compile({
 	properties: {
 		userId: {
 			type: 'string',
+			format: 'uuid',
 		},
 		word: {
 			type: 'string',

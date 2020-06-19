@@ -138,17 +138,17 @@ export default class PageHandler {
 		if (strings.length > 0) {
 			try {
 				const canonicalTag = document.querySelector('link[rel="canonical"]');
-				const pageUrl =  canonicalTag
-					? (<any>canonicalTag).href
-					: document.location.href;
+				const pageUrl = canonicalTag ? (<any>canonicalTag).href : document.location.href;
+				const sessionId = await this.store.getSessionId();
 
 				const data = await analyze(
 					this.store.apiKey.key,
 					{
 						languages: [...(<User>this.store.user).languages],
 						strings,
+						pageUrl,
+						sessionId,
 					},
-					pageUrl,
 				);
 
 				const words: Set<string> = new Set();

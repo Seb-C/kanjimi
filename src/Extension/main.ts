@@ -46,12 +46,14 @@ if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {
 	pageHandler.injectLoaderCss();
 
 	// Handling the login from a different tab
-	browser.storage.onChanged.addListener(async () => {
-		try {
-			await store.loadApiKeyFromStorage(true);
-			await pageHandler.convertSentences();
-		} catch (error) {
-			console.error(error);
+	browser.storage.onChanged.addListener(async (changes: any) => {
+		if (changes.key) {
+			try {
+				await store.loadApiKeyFromStorage(true);
+				await pageHandler.convertSentences();
+			} catch (error) {
+				console.error(error);
+			}
 		}
 	});
 

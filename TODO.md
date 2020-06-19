@@ -5,6 +5,7 @@ MVP:
     insert data in AnalyzeLog when the lexer is called with a sessionId and a pageUrl (+ test)
     implement client side the possibility that the server refuses the analyze because the free plan has expired (notification with error)
     API to describe Kanjis and return the svg URL (+ translations & readings)
+    fix the CI error
     don't analyze the page for background tabs, only active
     configure docker logging ( https://docs.docker.com/config/containers/logging/local/ )
     docker healthchecks + remove waits in the ci scripts

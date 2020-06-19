@@ -3,6 +3,10 @@ import AnalyzeLogRepository from 'Server/Repositories/AnalyzeLog';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('AnalyzeLogRepository', async function() {
+	beforeEach(async function() {
+		await this.getDatabase().exec(`TRUNCATE "AnalyzeLog";`);
+	});
+
 	it('create', async function() {
 		const sessionId = uuidv4();
 		const date = new Date();

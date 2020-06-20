@@ -52,12 +52,7 @@ jobs:
     - run: npm install
     - run: docker-compose up -d --build
     - name: Waiting for the dockers to be ready
-      run: |
-        timeout 1m bash -c "while [ ! -f ./extension/content.build.js ]; do sleep 1; done"
-        ls -R ./extension
-        timeout 1m bash -c "while [ ! -f ./www/js/app.build.js ]; do sleep 1; done"
-        ls -R ./www
-        timeout 1m bash -c 'until $(curl --output /dev/null --silent --head --fail http://localhost:3000/www); do sleep 1; done'
+      run: timeout 1m bash -c 'until [[ "$(docker ps --filter health=starting -q | wc -l)" == "0" ]]; do sleep 1; done'
     - run: ./node_modules/.bin/cypress run --browser=${{ matrix.browser }}
     - run: docker-compose logs
       if: failure()

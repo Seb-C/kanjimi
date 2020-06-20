@@ -1,5 +1,4 @@
 MVP:
-    insert data in AnalyzeLog when the lexer is called with a sessionId and a pageUrl (+ test)
     add the right indexes
     implement client side the possibility that the server refuses the analyze because the free plan has expired (notification with error)
     cypress in docker to remove the randomness of failure

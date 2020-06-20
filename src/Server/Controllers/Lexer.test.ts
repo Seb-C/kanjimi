@@ -7,6 +7,7 @@ import UserActivityRepository from 'Server/Repositories/UserActivity';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
 import Language from 'Common/Types/Language';
 import * as Ajv from 'ajv';
+import { v4 as uuidv4 } from 'uuid';
 
 const lexerResponseValidator = new Ajv({ allErrors: true }).compile({
 	type: 'array',
@@ -148,6 +149,29 @@ describe('LexerController', async function() {
 		const userActivityRepository = new UserActivityRepository(this.getDatabase());
 		const activity = await userActivityRepository.get(user.id, new Date());
 		expect(activity.characters).toBe(7);
+	});
+
+	it('analyze (inserts into the AnalyzeLog table)', async function() {
+		const sessionId = uuidv4();
+		await fetch('http://localhost:3000/api/lexer/analyze', {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: JSON.stringify({
+				languages: [Language.FRENCH],
+				strings: ['テスト', 'test'],
+				pageUrl: 'https://kanjimi.com/fake-url',
+				sessionId: sessionId,
+			}),
+		});
+
+		const analyzeLog = await this.getDatabase().get(Object, `
+			SELECT * FROM "AnalyzeLog" WHERE "sessionId" = \${sessionId};
+		`, { sessionId });
+		expect(analyzeLog.url).toBe('https://kanjimi.com/fake-url');
+		expect(analyzeLog.characters).toBe(7);
+		expect(analyzeLog.requestedAt).not.toBe(null);
 	});
 
 	it('analyze (validation errors)', async function() {

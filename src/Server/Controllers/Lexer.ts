@@ -7,10 +7,15 @@ import Language from 'Common/Types/Language';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repositories/User';
 import UserActivityRepository from 'Server/Repositories/UserActivity';
+import AnalyzeLogRepository from 'Server/Repositories/AnalyzeLog';
 
 const analyzeRequestValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
 	required: ['languages', 'strings'],
+	dependencies: {
+		pageUrl: ['sessionId'],
+		sessionId: ['pageUrl'],
+	},
 	additionalProperties: false,
 	properties: {
 		languages: {
@@ -62,14 +67,23 @@ export const analyze = (db: Database, lexer: Lexer) => (
 			result.push(tokens.map(token => token.toApi()));
 		}
 
-		response.json(result);
-
 		await (new UserActivityRepository(db)).createOrIncrement(
 			user.id,
 			new Date(),
 			characters,
 		);
 
-		return response;
+		const pageUrl = request.body.pageUrl || null;
+		const sessionId = request.body.sessionId || null;
+		if (pageUrl !== null && sessionId !== null) {
+			await (new AnalyzeLogRepository(db)).create(
+				sessionId,
+				pageUrl,
+				characters,
+				new Date(),
+			);
+		}
+
+		return response.json(result);
 	}
 );

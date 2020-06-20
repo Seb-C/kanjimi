@@ -1,16 +1,16 @@
 MVP:
+    Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
+    assets update -> browser will not update it?
+    include references to external resources used somewhere in the site
+    disconnect notification: add link to connect
+    remove the DB abstraction layer
+    DB transactions (add methods + check TODOs)
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code
-    include references to external resources used somewhere in the site
-    Remove google Analytics tracking, analyze nginx logs instead
-    assets update -> browser will not update it?
-    Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
     onboarding (after sign-up, install extension...)
-    script to generate a directory to upload for the extension review process
-    DB transactions (add methods + check TODOs)
-    remove the DB abstraction layer
-    CGU / RGPD ?
     auto-login right after install
+    script to generate a directory to upload for the extension review process
+    CGU / RGPD ?
     test Edge via the CI
     test other browsers
     test charge
@@ -23,6 +23,7 @@ MVP:
     post on twitter
 
 After:
+    tool to analyze nginx logs
     ping endpoint to use for healthcheck (also tests the db)
     ask for all urls permission, if refused, switch to an optIn using a page action and activeTab
     API to describe Kanjis and return the svg URL (+ translations & readings)

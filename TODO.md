@@ -1,5 +1,4 @@
 MVP:
-    CI scripts: add conditions as healthcheck also for builds
     CI script: use the healthcheck status to wait until all containers are ready/started
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code

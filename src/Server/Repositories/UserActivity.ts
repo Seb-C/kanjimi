@@ -23,4 +23,22 @@ export default class UserActivity {
 			characters,
 		});
 	}
+
+	async get (userId: string, date: Date): Promise<{ characters: number }> {
+		const activity: any = await this.db.get(Object, `
+			SELECT *
+			FROM "UserActivity"
+			WHERE "userId" = \${userId}
+			AND "date" = \${date};
+		`, { userId, date });
+		if (activity === null) {
+			return {
+				characters: 0,
+			};
+		}
+
+		return {
+			characters: activity.characters,
+		};
+	}
 }

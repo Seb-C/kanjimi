@@ -3,6 +3,7 @@ import fetch from 'node-fetch';
 import User from 'Common/Models/User';
 import ApiKey from 'Common/Models/ApiKey';
 import UserRepository from 'Server/Repositories/User';
+import UserActivityRepository from 'Server/Repositories/UserActivity';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
 import Language from 'Common/Types/Language';
 import * as Ajv from 'ajv';
@@ -130,6 +131,23 @@ describe('LexerController', async function() {
 			.withContext(JSON.stringify(lexerResponseValidator.errors))
 			.toBe(true);
 		expect(responseData.length).toBe(2);
+	});
+
+	it('analyze (increments the UserActivity table)', async function() {
+		await fetch('http://localhost:3000/api/lexer/analyze', {
+			method: 'POST',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+			body: JSON.stringify({
+				languages: [Language.FRENCH],
+				strings: ['テスト', 'test'],
+			}),
+		});
+
+		const userActivityRepository = new UserActivityRepository(this.getDatabase());
+		const activity = await userActivityRepository.get(user.id, new Date());
+		expect(activity.characters).toBe(7);
 	});
 
 	it('analyze (validation errors)', async function() {

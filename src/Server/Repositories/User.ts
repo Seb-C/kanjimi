@@ -13,11 +13,19 @@ export default class User {
 	}
 
 	async getById (id: string): Promise<UserModel|null> {
-		return this.db.get(UserModel, 'SELECT * FROM "User" WHERE id = ${id};', { id });
+		return this.db.get(UserModel, `
+			SELECT *
+			FROM "User"
+			WHERE "id" = \${id};
+		`, { id });
 	}
 
 	async getByEmail (email: string): Promise<UserModel|null> {
-		return this.db.get(UserModel, 'SELECT * FROM "User" WHERE email = ${email};', { email });
+		return this.db.get(UserModel, `
+			SELECT *
+			FROM "User"
+			WHERE "email" = \${email};
+		`, { email });
 	}
 
 	async getByApiKey (key: string): Promise<UserModel|null> {

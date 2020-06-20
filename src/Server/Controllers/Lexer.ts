@@ -6,6 +6,7 @@ import Lexer from 'Server/Lexer/Lexer';
 import Language from 'Common/Types/Language';
 import Database from 'Server/Database/Database';
 import UserRepository from 'Server/Repositories/User';
+import UserActivityRepository from 'Server/Repositories/UserActivity';
 
 const analyzeRequestValidator = new Ajv({ allErrors: true }).compile({
 	type: 'object',
@@ -53,12 +54,22 @@ export const analyze = (db: Database, lexer: Lexer) => (
 
 		const languages: Language[] = request.body.languages;
 		const sentences: string[] = request.body.strings;
+		let characters = 0;
 		const result: any[] = [];
 		for (let i = 0; i < sentences.length; i++) {
+			characters += sentences[i].length;
 			const tokens: Token[] = lexer.analyze(sentences[i].trim(), languages);
 			result.push(tokens.map(token => token.toApi()));
 		}
 
-		return response.json(result);
+		response.json(result);
+
+		await (new UserActivityRepository(db)).createOrIncrement(
+			user.id,
+			new Date(),
+			characters,
+		);
+
+		return response;
 	}
 );

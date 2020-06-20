@@ -73,4 +73,29 @@ describe('UserActivityRepository', async function() {
 		expect(userActivity.characters).toEqual(5);
 		expect(userActivity2.characters).toEqual(2);
 	});
+
+	it('get (row exists case)', async function() {
+		const date = new Date();
+		const userActivityRepository = new UserActivityRepository(this.getDatabase());
+		await this.getDatabase().exec(`
+			INSERT INTO "UserActivity" ("userId", "date", "characters")
+			VALUES (\${userId}, \${date}, \${characters});
+		`, {
+			userId: user.id,
+			date,
+			characters: 2,
+		});
+
+		const activity = await userActivityRepository.get(user.id, date);
+
+		expect(activity).toEqual({ characters: 2 });
+	});
+
+	it('get (empty case)', async function() {
+		const date = new Date();
+		const userActivityRepository = new UserActivityRepository(this.getDatabase());
+		const activity = await userActivityRepository.get(user.id, date);
+
+		expect(activity).toEqual({ characters: 0 });
+	});
 });

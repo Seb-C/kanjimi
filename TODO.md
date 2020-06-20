@@ -1,7 +1,8 @@
 MVP:
-    insert data in UserActivity when the lexer is called (+ test)
     insert data in AnalyzeLog when the lexer is called with a sessionId and a pageUrl (+ test)
+    add the right indexes
     implement client side the possibility that the server refuses the analyze because the free plan has expired (notification with error)
+    cypress in docker to remove the randomness of failure
     API to describe Kanjis and return the svg URL (+ translations & readings)
     fix the CI error
     don't analyze the page for background tabs, only active
@@ -31,6 +32,8 @@ MVP:
     post on twitter
 
 After:
+    create a model class for UserActivity
+    create a model class for AnalyzeLog
     unit tests: replace loose variables with this.xxx
     unit test all store methods by injecting required global stuff
     show similar words with shared kanjis to explain better the meaning

@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 
 services:
   database:
@@ -12,6 +12,12 @@ services:
       - "5432:5432"
     volumes:
       - database:/var/lib/postgresql/data
+    # logging:
+    #   driver: local
+    #   options:
+    #     max-size: "20m"
+    #     max-file: "10"
+    #     compress: "false"
   server:
     image: node:14
     restart: on-failure
@@ -49,6 +55,12 @@ services:
     volumes:
       - $PWD:/app
       - mails:/tmp/mails
+    #logging:
+    #  driver: local
+    #  options:
+    #    max-size: "20m"
+    #    max-file: "10"
+    #    compress: "false"
   extension:
     image: node:14
     restart: on-failure

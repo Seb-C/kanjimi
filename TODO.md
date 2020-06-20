@@ -1,5 +1,4 @@
 MVP:
-    configure docker logging ( https://docs.docker.com/config/containers/logging/local/ )
     docker healthchecks + remove waits in the ci scripts
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code

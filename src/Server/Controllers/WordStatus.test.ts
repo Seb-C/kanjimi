@@ -127,7 +127,7 @@ describe('WordStatus', async function() {
 				Authorization: `Bearer ${apiKey.key}`,
 			},
 			body: JSON.stringify({
-				userId: 'wrong uuid',
+				userId: '00000000-0000-0000-0000-000000000000',
 				word: '日本',
 				showFurigana: true,
 				showTranslation: true,

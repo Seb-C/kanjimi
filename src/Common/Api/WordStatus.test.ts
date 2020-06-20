@@ -102,7 +102,7 @@ describe('Client WordStatus', async function() {
 		let error;
 		try {
 			const newWordStatusData = new WordStatus({
-				userId: 'wrongid',
+				userId: '00000000-0000-0000-0000-000000000000',
 				word: '日本',
 				showFurigana: true,
 				showTranslation: true,

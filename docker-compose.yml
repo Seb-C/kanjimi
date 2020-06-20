@@ -22,6 +22,8 @@ services:
     image: node:14
     restart: on-failure
     working_dir: /app
+    depends_on:
+      - database
     environment:
       - KANJIMI_DATABASE_HOST=database
       - KANJIMI_DATABASE_PORT=5432
@@ -50,6 +52,12 @@ services:
           -r tsconfig-paths/register \
           src/Server/server.ts
       "
+    healthcheck:
+      test: curl http://localhost:3000/www/
+      interval: 15s
+      timeout: 3s
+      retries: 3
+      start_period: 45s
     ports:
       - "3000:3000"
     volumes:

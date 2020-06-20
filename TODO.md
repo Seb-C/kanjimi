@@ -1,5 +1,6 @@
 MVP:
-    docker healthchecks + remove waits in the ci scripts
+    CI scripts: add conditions as healthcheck also for builds
+    CI script: use the healthcheck status to wait until all containers are ready/started
     webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code
     include references to external resources used somewhere in the site
@@ -24,6 +25,7 @@ MVP:
     post on twitter
 
 After:
+    ping endpoint to use for healthcheck (also tests the db)
     ask for all urls permission, if refused, switch to an optIn using a page action and activeTab
     API to describe Kanjis and return the svg URL (+ translations & readings)
     cypress in docker to remove the randomness of failure?

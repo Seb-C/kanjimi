@@ -3,6 +3,7 @@ import Language from 'Common/Types/Language';
 import ValidationError from 'Common/Api/Errors/Validation';
 import AuthenticationError from 'Common/Api/Errors/Authentication';
 import ServerError from 'Common/Api/Errors/Server';
+import PaymentRequiredError from 'Common/Api/Errors/PaymentRequired';
 
 export const analyze = async (
 	key: string,
@@ -31,6 +32,9 @@ export const analyze = async (
 	}
 	if (response.status >= 500 && response.status < 600) {
 		throw new ServerError(await response.text());
+	}
+	if (response.status === 402) {
+		throw new PaymentRequiredError(responseData);
 	}
 
 	return responseData.map((tokenList: any) => {

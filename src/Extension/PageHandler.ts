@@ -9,6 +9,7 @@ import {
 import Vue from 'vue';
 import UIContainer from 'Extension/UI/Container.vue';
 import Sentence from 'Extension/PageTexts/Sentence.vue';
+import PaymentRequiredError from 'Common/Api/Errors/PaymentRequired';
 
 export default class PageHandler {
 	private processing: boolean = false;
@@ -178,10 +179,15 @@ export default class PageHandler {
 				}
 
 				window.dispatchEvent(new Event('kanjimi-converted-sentences'));
-			} catch (e) {
-				// Not filtering the error type because all 3 are handled the same way
-				console.error('Exception: ', e.toString());
-				console.error('Strings: ', ...strings);
+			} catch (error) {
+				if (error instanceof PaymentRequiredError) {
+					this.store.setNotification({
+						message: error.error,
+						link: null,
+					});
+				} else {
+					console.error('Exception: ', error.toString());
+				}
 
 				for (let i = 0; i < nodes.length; i++) {
 					(<Element>nodes[i].parentNode).classList.remove('kanjimi-loader');

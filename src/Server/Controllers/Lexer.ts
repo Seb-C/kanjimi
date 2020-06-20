@@ -67,6 +67,8 @@ export const analyze = (db: Database, lexer: Lexer) => (
 			result.push(tokens.map(token => token.toApi()));
 		}
 
+		// Note: if not allowed (exceeded free plan), should return 402
+		// with the notification message in the json body
 		await (new UserActivityRepository(db)).createOrIncrement(
 			user.id,
 			new Date(),

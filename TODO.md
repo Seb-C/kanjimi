@@ -1,9 +1,7 @@
 MVP:
-    add the right indexes
-    implement client side the possibility that the server refuses the analyze because the free plan has expired (notification with error)
     cypress in docker to remove the randomness of failure
-    API to describe Kanjis and return the svg URL (+ translations & readings)
     fix the CI error
+    API to describe Kanjis and return the svg URL (+ translations & readings)
     don't analyze the page for background tabs, only active
     configure docker logging ( https://docs.docker.com/config/containers/logging/local/ )
     docker healthchecks + remove waits in the ci scripts

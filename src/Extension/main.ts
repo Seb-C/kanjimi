@@ -34,7 +34,7 @@ if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {
 		try {
 			await store.loadApiKeyFromStorage(false);
 			store.notifyIfLoggedOut();
-			if (store.apiKey !== null) {
+			if (store.apiKey !== null && document.visibilityState === 'visible') {
 				await pageHandler.convertSentences();
 			}
 		} catch (error) {
@@ -65,6 +65,12 @@ if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {
 		}
 	};
 	window.addEventListener('load', convertSentencesAsynchronously);
+
+	document.addEventListener('visibilitychange', () => {
+		if (document.visibilityState === 'visible') {
+			convertSentencesAsynchronously();
+		}
+	});
 
 	// Scrolling the body
 	window.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300));

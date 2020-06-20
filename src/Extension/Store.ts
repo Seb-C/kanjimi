@@ -132,7 +132,7 @@ export default class Store {
 		Vue.set(this.wordStatuses, newWordStatus.word, newWordStatus);
 	}
 
-	public async getSessionId(): string {
+	public async getSessionId(): Promise<string> {
 		let {
 			sessionId,
 			sessionIdExpiresAt,

@@ -1,6 +1,4 @@
 MVP:
-    test the store getSessionId by injecting a fake storage in the global object
-        -> test all methods by injecting required stuff
     insert data in UserActivity when the lexer is called (+ test)
     insert data in AnalyzeLog when the lexer is called with a sessionId and a pageUrl (+ test)
     implement client side the possibility that the server refuses the analyze because the free plan has expired (notification with error)
@@ -33,6 +31,8 @@ MVP:
     post on twitter
 
 After:
+    unit tests: replace loose variables with this.xxx
+    unit test all store methods by injecting required global stuff
     show similar words with shared kanjis to explain better the meaning
     move the lexer in a worker?
     replace API with websockets?

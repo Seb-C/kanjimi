@@ -145,6 +145,8 @@ while($xml->name === 'entry') {
 			}
 		}
 
+		sort($wordTags); // Useful to optimize the dictionary loading and avoid conflicts
+
 		foreach ($word['readings'] as $reading) {
 			fputcsv($wordsFile, [
 				$word['word'],

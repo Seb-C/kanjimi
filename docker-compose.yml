@@ -78,7 +78,7 @@ services:
     command: >
       bash -c "
         node -r tsconfig-paths/register ./server/Server/migrate.js &
-        ./node_modules/.bin/nodemon -w ./server -x node server/Server/server.js
+        ./node_modules/.bin/nodemon -w ./server -x node --expose-gc server/Server/server.js
       "
     healthcheck:
       test: curl http://localhost:3000/www/

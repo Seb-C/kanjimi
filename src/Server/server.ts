@@ -118,6 +118,10 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 
 	await dictionary.load();
 
+	if (global.gc) {
+		global.gc();
+	}
+
 	// Ready, processing pending requests
 	started = true;
 	startupWaiters.forEach(f => f());

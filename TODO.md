@@ -1,8 +1,8 @@
 MVP:
     Node: test memory with prod mode and without tsnode. Why higher than the 100Mo of raw data?
         -> sort tags and reuse the same unique arrays
-        -> gc force during the load process
-    Migrations in a different container + fix it to work with typescript (path to the SQL is probably wrong)
+        -> other tools to find memory leaks (it should not take so much memory)
+        - Migrations in a different container + fix it to work with typescript (path to the SQL is probably wrong)
     merge env variables for all local containers?
     Use typescript --watch for the build container instead of nodemon
     Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking

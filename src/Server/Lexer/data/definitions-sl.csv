@@ -816,14 +816,14 @@
 スーッと,nenadno
 すうっと,hitro
 すうっと,nenadno
-すばしっこい,spreten
-すばしっこい,uren
-すばしっこい,hiter
-すばしっこい,bister
 すばしこい,spreten
 すばしこい,uren
 すばしこい,hiter
 すばしこい,bister
+すばしっこい,spreten
+すばしっこい,uren
+すばしっこい,hiter
+すばしっこい,bister
 すやすや,"mirno {spati}"
 スラスラ,"gladko {govoriti}"
 すらすら,"gladko {govoriti}"
@@ -22015,9 +22015,6 @@
 紛争,prepir
 紛争,spor
 紛争,razprtija
-紛諍,prepir
-紛諍,spor
-紛諍,razprtija
 雰囲気,atmosfera
 雰囲気,ambient
 雰囲気,vzdušje
@@ -29322,6 +29319,8 @@
 満点,"vse točke"
 真ん中,sredina
 真ん中,center
+真中,sredina
+真中,center
 まん中,sredina
 まん中,center
 真ん丸,"popoln krog"

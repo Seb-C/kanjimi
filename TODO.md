@@ -1,7 +1,7 @@
 MVP:
     Node: test memory with prod mode and without tsnode. Why higher than the 100Mo of raw data?
         -> sort tags and reuse the same unique arrays
-        -> other tools to find memory leaks (it should not take so much memory)
+        -> map takes a lot of memory by creating millions of arrays
         - Migrations in a different container + fix it to work with typescript (path to the SQL is probably wrong)
     merge env variables for all local containers?
     Use typescript --watch for the build container instead of nodemon

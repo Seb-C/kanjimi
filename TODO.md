@@ -1,17 +1,14 @@
 MVP:
     Node: test memory with prod mode and without tsnode. Why higher than the 100Mo of raw data?
-        -> node typescript = only ~100Mb less -> compile in a different container
-        -> sort tags and reuse unique arrays
+        -> sort tags and reuse the same unique arrays
         -> gc force during the load process
-        -> loose objects instead of Word reduces the memory massively
-    webpack => production mode whenever necessary
-        -> make server
-        -> NODE_PATH=server/ node ./server/Server/server.js
-        -> copy data files?!
-        -> tsconfig -> split client/server + server should use es2019
+    Migrations in a different container + fix it to work with typescript (path to the SQL is probably wrong)
+    merge env variables for all local containers?
+    Use typescript --watch for the build container instead of nodemon
     Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
         -> https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
     assets update -> browser will not update it?
+    webpack => production mode whenever necessary
     include references to external resources used somewhere in the site
     disconnect notification: add link to connect
     remove the DB abstraction layer
@@ -38,6 +35,7 @@ MVP:
         - add nodejs caching in memory for common requests (tokens...)
 
 After:
+    tsconfig: split client/server? Or always explicit the target?
     add a specific type (subset of string) to identify the ids used in the repository methods
     tool to analyze nginx logs
     ping endpoint to use for healthcheck (also tests the db)

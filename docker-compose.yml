@@ -18,6 +18,38 @@ services:
     #     max-size: "20m"
     #     max-file: "10"
     #     compress: "false"
+  server_watch:
+    image: node:14
+    restart: on-failure
+    working_dir: /app
+    environment:
+      - KANJIMI_DATABASE_HOST=database
+      - KANJIMI_DATABASE_PORT=5432
+      - KANJIMI_DATABASE_DATABASE=test
+      - KANJIMI_DATABASE_USER=test
+      - KANJIMI_DATABASE_PASSWORD=test
+      - KANJIMI_ALLOW_TEST_PAGES=true
+      - KANJIMI_SMTP_HOST=smtp
+      - KANJIMI_SMTP_PORT=25
+      - KANJIMI_SMTP_SECURE=false
+      #- KANJIMI_SMTP_USER=
+      #- KANJIMI_SMTP_PASS=
+      - KANJIMI_API_URL=http://localhost:3000/api
+      - KANJIMI_WWW_URL=http://localhost:3000/www
+    command: >
+      bash -c "
+        ./node_modules/.bin/nodemon \
+          -e ts \
+          -w ./src \
+          --ignore ./src/Extension \
+          --ignore ./src/WebApp \
+          --ignore './src/**/*.test.*' \
+          --ignore './src/**/*.e2e.*' \
+          -x ./node_modules/.bin/tsc \
+          -p ./src/Server/tsconfig.json
+      "
+    volumes:
+      - $PWD:/app
   server:
     image: node:14
     restart: on-failure
@@ -25,6 +57,7 @@ services:
     depends_on:
       - database
     environment:
+      - NODE_PATH=server/
       - KANJIMI_DATABASE_HOST=database
       - KANJIMI_DATABASE_PORT=5432
       - KANJIMI_DATABASE_DATABASE=test
@@ -44,17 +77,8 @@ services:
     #    memory: 512M
     command: >
       bash -c "
-        ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts &
-        ./node_modules/.bin/nodemon \
-          -e ts \
-          -w ./src \
-          --ignore ./src/Extension \
-          --ignore ./src/WebApp \
-          --ignore './src/**/*.test.*' \
-          --ignore './src/**/*.e2e.*' \
-          -x ./node_modules/.bin/ts-node \
-          -r tsconfig-paths/register \
-          src/Server/server.ts
+        node -r tsconfig-paths/register ./server/Server/migrate.js &
+        ./node_modules/.bin/nodemon -w ./server -x node server/Server/server.js
       "
     healthcheck:
       test: curl http://localhost:3000/www/

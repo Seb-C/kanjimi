@@ -17,8 +17,6 @@ kanjis:
 names:
 	docker run -v ${PWD}:/app:delegated -w /app -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Names.php
 
-server:
-	docker-compose exec server ./node_modules/.bin/tsc
 db:
 	docker-compose exec database psql -h localhost -U test -d test
 migrate:

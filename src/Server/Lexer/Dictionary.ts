@@ -14,7 +14,7 @@ export default class Dictionary {
 		const wordsWithoutDefinitions: Map<string, TempWord[]> = new Map();
 		await new Promise((resolve) => {
 			const dictionaryFileReadStream = FileSystem.createReadStream(
-				Path.join(__dirname, './data/words.csv'),
+				Path.join(process.cwd(), './src/Server/Lexer/data/words.csv'),
 			);
 			const dictionaryFileIterator = ReadLine.createInterface({
 				input: dictionaryFileReadStream,
@@ -38,15 +38,15 @@ export default class Dictionary {
 
 		await Promise.all(
 			[
-				{ lang: Language.GERMAN, path: Path.join(__dirname, './data/definitions-de.csv') },
-				{ lang: Language.ENGLISH, path: Path.join(__dirname, './data/definitions-en.csv') },
-				{ lang: Language.SPANISH, path: Path.join(__dirname, './data/definitions-es.csv') },
-				{ lang: Language.FRENCH, path: Path.join(__dirname, './data/definitions-fr.csv') },
-				{ lang: Language.HUNGARIAN, path: Path.join(__dirname, './data/definitions-hu.csv') },
-				{ lang: Language.DUTCH, path: Path.join(__dirname, './data/definitions-nl.csv') },
-				{ lang: Language.RUSSIAN, path: Path.join(__dirname, './data/definitions-ru.csv') },
-				{ lang: Language.SLOVENIAN, path: Path.join(__dirname, './data/definitions-sl.csv') },
-				{ lang: Language.SWEDISH, path: Path.join(__dirname, './data/definitions-sv.csv') },
+				{ lang: Language.GERMAN, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-de.csv') },
+				{ lang: Language.ENGLISH, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-en.csv') },
+				{ lang: Language.SPANISH, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-es.csv') },
+				{ lang: Language.FRENCH, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-fr.csv') },
+				{ lang: Language.HUNGARIAN, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-hu.csv') },
+				{ lang: Language.DUTCH, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-nl.csv') },
+				{ lang: Language.RUSSIAN, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-ru.csv') },
+				{ lang: Language.SLOVENIAN, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-sl.csv') },
+				{ lang: Language.SWEDISH, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-sv.csv') },
 			].map((file) => new Promise((resolve) => {
 				const dictionaryFileReadStream = FileSystem.createReadStream(file.path);
 				const dictionaryFileIterator = ReadLine.createInterface({
@@ -81,7 +81,7 @@ export default class Dictionary {
 		// Loading names
 		await new Promise((resolve) => {
 			const dictionaryFileReadStream = FileSystem.createReadStream(
-				Path.join(__dirname, './data/names.csv'),
+				Path.join(process.cwd(), './src/Server/Lexer/data/names.csv'),
 			);
 			const dictionaryFileIterator = ReadLine.createInterface({
 				input: dictionaryFileReadStream,

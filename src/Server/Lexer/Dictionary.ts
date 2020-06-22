@@ -13,10 +13,11 @@ export default class Dictionary {
 		type TempWord = [string, WordTag[]];
 		const wordsWithoutDefinitions: Map<string, TempWord[]> = new Map();
 		await new Promise((resolve) => {
+			const dictionaryFileReadStream = FileSystem.createReadStream(
+				Path.join(__dirname, './data/words.csv'),
+			);
 			const dictionaryFileIterator = ReadLine.createInterface({
-				input: FileSystem.createReadStream(
-					Path.join(__dirname, './data/words.csv'),
-				),
+				input: dictionaryFileReadStream,
 			});
 			dictionaryFileIterator.on('line', (line) => {
 				const col = this.parseCsvLine(line);
@@ -29,7 +30,10 @@ export default class Dictionary {
 					wordsWithoutDefinitions.set(key, [value]);
 				}
 			});
-			dictionaryFileIterator.on('close', resolve);
+			dictionaryFileIterator.on('close', () => {
+				dictionaryFileReadStream.destroy();
+				resolve();
+			});
 		});
 
 		await Promise.all(
@@ -44,8 +48,9 @@ export default class Dictionary {
 				{ lang: Language.SLOVENIAN, path: Path.join(__dirname, './data/definitions-sl.csv') },
 				{ lang: Language.SWEDISH, path: Path.join(__dirname, './data/definitions-sv.csv') },
 			].map((file) => new Promise((resolve) => {
+				const dictionaryFileReadStream = FileSystem.createReadStream(file.path);
 				const dictionaryFileIterator = ReadLine.createInterface({
-					input: FileSystem.createReadStream(file.path),
+					input: dictionaryFileReadStream,
 				});
 
 				dictionaryFileIterator.on('line', (line) => {
@@ -66,16 +71,20 @@ export default class Dictionary {
 					}
 				});
 
-				dictionaryFileIterator.on('close', resolve);
+				dictionaryFileIterator.on('close', () => {
+					dictionaryFileReadStream.destroy();
+					resolve();
+				});
 			}))
 		);
 
 		// Loading names
 		await new Promise((resolve) => {
+			const dictionaryFileReadStream = FileSystem.createReadStream(
+				Path.join(__dirname, './data/names.csv'),
+			);
 			const dictionaryFileIterator = ReadLine.createInterface({
-				input: FileSystem.createReadStream(
-					Path.join(__dirname, './data/names.csv'),
-				),
+				input: dictionaryFileReadStream,
 			});
 			dictionaryFileIterator.on('line', (line) => {
 				const col = this.parseCsvLine(line);
@@ -89,7 +98,10 @@ export default class Dictionary {
 					)
 				);
 			});
-			dictionaryFileIterator.on('close', resolve);
+			dictionaryFileIterator.on('close', () => {
+				dictionaryFileReadStream.destroy();
+				resolve();
+			});
 		});
 	}
 

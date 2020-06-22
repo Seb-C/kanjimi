@@ -1,11 +1,21 @@
 MVP:
+    Node: test memory with prod mode and without tsnode. Why higher than the 100Mo of raw data?
+        -> node typescript = only ~100Mb less -> compile in a different container
+        -> sort tags and reuse unique arrays
+        -> gc force during the load process
+        -> loose objects instead of Word reduces the memory massively
+    webpack => production mode whenever necessary
+        -> make server
+        -> NODE_PATH=server/ node ./server/Server/server.js
+        -> copy data files?!
+        -> tsconfig -> split client/server + server should use es2019
     Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
+        -> https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
     assets update -> browser will not update it?
     include references to external resources used somewhere in the site
     disconnect notification: add link to connect
     remove the DB abstraction layer
     DB transactions (add methods + check TODOs)
-    webpack => production mode whenever necessary
     check that the distributed clients cannot contain server-side code
     onboarding (after sign-up, install extension...)
     auto-login right after install
@@ -21,8 +31,14 @@ MVP:
     post on reddit
     post on linkedin
     post on twitter
+    infra:
+        - Cloudflare: reverse proxy, load balancing, cdn
+        - lightsail: VPS instances
+        - aws RDS: database (single without replication)
+        - add nodejs caching in memory for common requests (tokens...)
 
 After:
+    add a specific type (subset of string) to identify the ids used in the repository methods
     tool to analyze nginx logs
     ping endpoint to use for healthcheck (also tests the db)
     ask for all urls permission, if refused, switch to an optIn using a page action and activeTab

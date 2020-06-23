@@ -22,20 +22,6 @@ services:
     image: node:14
     restart: on-failure
     working_dir: /app
-    environment:
-      - KANJIMI_DATABASE_HOST=database
-      - KANJIMI_DATABASE_PORT=5432
-      - KANJIMI_DATABASE_DATABASE=test
-      - KANJIMI_DATABASE_USER=test
-      - KANJIMI_DATABASE_PASSWORD=test
-      - KANJIMI_ALLOW_TEST_PAGES=true
-      - KANJIMI_SMTP_HOST=smtp
-      - KANJIMI_SMTP_PORT=25
-      - KANJIMI_SMTP_SECURE=false
-      #- KANJIMI_SMTP_USER=
-      #- KANJIMI_SMTP_PASS=
-      - KANJIMI_API_URL=http://localhost:3000/api
-      - KANJIMI_WWW_URL=http://localhost:3000/www
     command: >
       bash -c "
         ./node_modules/.bin/nodemon \
@@ -75,12 +61,8 @@ services:
     #  limits:
     #    cpus: "1.0"
     #    memory: 512M
-    command: >
-      bash -c "
-        node -r tsconfig-paths/register ./server/Server/migrate.js &
-        ./node_modules/.bin/nodemon -w ./server --expose-gc server/Server/server.js
-        #./node_modules/.bin/nodemon -w ./server -x node --inspect=0.0.0.0:9229 --expose-gc server/Server/server.js
-      "
+    command: ./node_modules/.bin/nodemon -w ./server --expose-gc server/Server/server.js
+    #command: ./node_modules/.bin/nodemon -w ./server --inspect=0.0.0.0:9229 --expose-gc server/Server/server.js
     healthcheck:
       test: curl http://localhost:3000/www/
       interval: 15s
@@ -99,6 +81,22 @@ services:
     #    max-size: "20m"
     #    max-file: "10"
     #    compress: "false"
+  migrate:
+    image: node:14
+    restart: on-failure
+    working_dir: /app
+    depends_on:
+      - database
+    environment:
+      - NODE_PATH=server/
+      - KANJIMI_DATABASE_HOST=database
+      - KANJIMI_DATABASE_PORT=5432
+      - KANJIMI_DATABASE_DATABASE=test
+      - KANJIMI_DATABASE_USER=test
+      - KANJIMI_DATABASE_PASSWORD=test
+    command: node server/Server/migrate.js
+    volumes:
+      - $PWD:/app
   extension:
     image: node:14
     restart: on-failure

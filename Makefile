@@ -1,4 +1,4 @@
-.PHONY: migrate test e2e cypress dictionary kanjis names browser db deploy-landing-page server
+.PHONY: test e2e cypress dictionary kanjis names browser db deploy-landing-page
 
 test:
 	docker-compose exec -T server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
@@ -19,8 +19,6 @@ names:
 
 db:
 	docker-compose exec database psql -h localhost -U test -d test
-migrate:
-	docker-compose exec server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./src/Server/migrate.ts
 
 deploy-landing-page:
 	# Does not work for now because the sftp of OVH does not allow SSH connexions

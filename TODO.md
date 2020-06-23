@@ -1,6 +1,4 @@
 MVP:
-    merge env variables for all local containers?
-    Migrations in a different container + fix it to work with typescript (path to the SQL is probably wrong)
     have an independent server container, and rebuild/restart it instead of mount?
     Use typescript --watch for the build container instead of nodemon
     Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
@@ -14,6 +12,7 @@ MVP:
     check that the distributed clients cannot contain server-side code
     onboarding (after sign-up, install extension...)
     auto-login right after install
+    env files for the server containers? Can extend depending on the env? ( see https://docs.docker.com/compose/environment-variables/ )
     script to generate a directory to upload for the extension review process
     CGU / RGPD ?
     test Edge via the CI

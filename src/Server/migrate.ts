@@ -72,4 +72,9 @@ const runMigration = async (migration: string): Promise<void> => {
 	for (let i = 0; i < migrationsToDo.length; i++) {
 		await runMigration(migrationsToDo[i]);
 	}
-})().then(() => db.close());
+
+	db.close();
+})().catch((error: Error) => {
+	console.error(error);
+	process.exit(1);
+});

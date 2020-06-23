@@ -18,6 +18,24 @@ services:
     #     max-size: "20m"
     #     max-file: "10"
     #     compress: "false"
+  test_watch:
+    build: ./docker/watch
+    restart: on-failure
+    working_dir: /app
+    command: >
+      bash -c "
+        inotifywait \
+          -e modify,move,create,delete \
+          -m \
+          -r /app/src \
+          --exclude '(Extension|WebApp|\.test\.|\.e2e\.)' \
+        | while read event path; do
+          docker-compose up -d --build --no-deps server
+        done
+      "
+    volumes:
+      - $PWD:/app
+      - /var/run/docker.sock:/var/run/docker.sock
   server_watch:
     image: node:14
     restart: on-failure
@@ -71,7 +89,7 @@ services:
       start_period: 45s
     ports:
       - "3000:3000"
-      - "9229:9229"
+      #- "9229:9229"
     volumes:
       - $PWD:/app
       - mails:/tmp/mails

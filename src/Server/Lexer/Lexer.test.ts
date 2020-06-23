@@ -4,7 +4,6 @@ import TokenType from 'Common/Types/TokenType';
 import WordTag from 'Common/Types/WordTag';
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
-import Word from 'Common/Models/Word';
 import Token from 'Common/Models/Token';
 import Language from 'Common/Types/Language';
 
@@ -14,41 +13,41 @@ let lexer: Lexer;
 describe('Lexer', async function() {
 	beforeEach(function() {
 		const dictionary = new Dictionary();
-		dictionary.add(new Word('私', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('申す', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('国立', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('女性美', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('術', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('館', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('日本', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('大帝', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('国憲法', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('合衆国', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('最高裁判所', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('東', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('ア', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('アジア', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('そんな', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('こと', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('行く', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('物', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('食べる', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('食べ物', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('たくさん', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('感じ', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('ある', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('言葉', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('好き', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('楽しい', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('高い', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('この', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('です', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('に就いて', 'について', Language.ENGLISH, '', [WordTag.ONLY_KANA]));
+		dictionary.add('私', '', Language.ENGLISH, '', []);
+		dictionary.add('申す', '', Language.ENGLISH, '', []);
+		dictionary.add('国立', '', Language.ENGLISH, '', []);
+		dictionary.add('女性美', '', Language.ENGLISH, '', []);
+		dictionary.add('術', '', Language.ENGLISH, '', []);
+		dictionary.add('館', '', Language.ENGLISH, '', []);
+		dictionary.add('日本', '', Language.ENGLISH, '', []);
+		dictionary.add('大帝', '', Language.ENGLISH, '', []);
+		dictionary.add('国憲法', '', Language.ENGLISH, '', []);
+		dictionary.add('合衆国', '', Language.ENGLISH, '', []);
+		dictionary.add('最高裁判所', '', Language.ENGLISH, '', []);
+		dictionary.add('東', '', Language.ENGLISH, '', []);
+		dictionary.add('ア', '', Language.ENGLISH, '', []);
+		dictionary.add('アジア', '', Language.ENGLISH, '', []);
+		dictionary.add('そんな', '', Language.ENGLISH, '', []);
+		dictionary.add('こと', '', Language.ENGLISH, '', []);
+		dictionary.add('行く', '', Language.ENGLISH, '', []);
+		dictionary.add('物', '', Language.ENGLISH, '', []);
+		dictionary.add('食べる', '', Language.ENGLISH, '', []);
+		dictionary.add('食べ物', '', Language.ENGLISH, '', []);
+		dictionary.add('たくさん', '', Language.ENGLISH, '', []);
+		dictionary.add('感じ', '', Language.ENGLISH, '', []);
+		dictionary.add('ある', '', Language.ENGLISH, '', []);
+		dictionary.add('言葉', '', Language.ENGLISH, '', []);
+		dictionary.add('好き', '', Language.ENGLISH, '', []);
+		dictionary.add('楽しい', '', Language.ENGLISH, '', []);
+		dictionary.add('高い', '', Language.ENGLISH, '', []);
+		dictionary.add('この', '', Language.ENGLISH, '', []);
+		dictionary.add('です', '', Language.ENGLISH, '', []);
+		dictionary.add('に就いて', 'について', Language.ENGLISH, '', [WordTag.ONLY_KANA]);
 
 		// Adding some particles to the dictionary to assert that
 		// it is well recognized as a particle and not as a word
-		dictionary.add(new Word('は', '', Language.ENGLISH, '', []));
-		dictionary.add(new Word('と', '', Language.ENGLISH, '', []));
+		dictionary.add('は', '', Language.ENGLISH, '', []);
+		dictionary.add('と', '', Language.ENGLISH, '', []);
 
 		lexer = new Lexer(dictionary);
 	});
@@ -172,7 +171,7 @@ describe('Lexer', async function() {
 	});
 	it('Specific case (teru conjugation getting matched for all te forms)', function() {
 		const dictionary = new Dictionary();
-		dictionary.add(new Word('される', 'される', Language.ENGLISH, '', []));
+		dictionary.add('される', 'される', Language.ENGLISH, '', []);
 		lexer = new Lexer(dictionary);
 
 		const result = lexer.analyze('されて');
@@ -181,7 +180,7 @@ describe('Lexer', async function() {
 	});
 	it('Teiru forms', function() {
 		const dictionary = new Dictionary();
-		dictionary.add(new Word('示す', 'しめす', Language.ENGLISH, '', []));
+		dictionary.add('示す', 'しめす', Language.ENGLISH, '', []);
 		lexer = new Lexer(dictionary);
 
 		const result = lexer.analyze('示されていない');

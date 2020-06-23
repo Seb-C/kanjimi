@@ -5,8 +5,15 @@ import * as FileSystem from 'fs';
 import * as Path from 'path';
 import * as ReadLine from 'readline';
 
+class LinkedListWord extends Word {
+	public next: LinkedListWord|null = null;
+}
+class LinkedListFirstWord extends LinkedListWord {
+	public last: LinkedListWord = this;
+}
+
 export default class Dictionary {
-	private readonly words: Map<string, Word[]> = new Map();
+	private readonly words: Map<string, LinkedListFirstWord> = new Map();
 
 	async load() {
 		// Function used to de-duplicate those structures in memory
@@ -72,13 +79,13 @@ export default class Dictionary {
 					}
 
 					for (let i = 0; i < wordWithoutDefinition.length; i++) {
-						this.add(new Word(
+						this.add(
 							col[0],
 							wordWithoutDefinition[i][0],
 							file.lang,
 							col[1],
 							wordWithoutDefinition[i][1],
-						));
+						);
 					}
 				});
 
@@ -100,13 +107,11 @@ export default class Dictionary {
 			dictionaryFileIterator.on('line', (line) => {
 				const col = this.parseCsvLine(line);
 				this.add(
-					new Word(
-						col[0],
-						col[1],
-						null,
-						col[2],
-						getSplittedTagArray(col[3]),
-					)
+					col[0],
+					col[1],
+					null,
+					col[2],
+					getSplittedTagArray(col[3]),
 				);
 			});
 			dictionaryFileIterator.on('close', () => {
@@ -146,25 +151,41 @@ export default class Dictionary {
 		return columns;
 	}
 
-	add (word: Word) {
-		if (this.words.has(word.word)) {
-			(<Word[]>this.words.get(word.word)).push(word);
+	add (
+		wordString: string,
+		reading: string,
+		translationLang: Language|null,
+		translation: string,
+		tags: ReadonlyArray<WordTag>,
+	) {
+		if (this.words.has(wordString)) {
+			const firstWord = <LinkedListFirstWord>this.words.get(wordString);
+			const word = new LinkedListWord(wordString, reading, translationLang, translation, tags);
+			firstWord.last.next = word;
+			firstWord.last = word;
 		} else {
-			this.words.set(word.word, [word]);
+			const word = new LinkedListFirstWord(wordString, reading, translationLang, translation, tags);
+			word.last = word;
+			this.words.set(wordString, word);
 		}
 
 		if (
-			word.word !== word.reading
-			&& word.tags.some(tag => (
+			wordString !== reading
+			&& tags.some(tag => (
 				tag === WordTag.ONLY_KANA
 				|| tag === WordTag.ONLY_KANA_WRITING
 			))
 		) {
 			// Indexing by reading
-			if (this.words.has(word.reading)) {
-				(<Word[]>this.words.get(word.reading)).push(word);
+			if (this.words.has(reading)) {
+				const firstWord = <LinkedListFirstWord>this.words.get(reading);
+				const word = new LinkedListWord(wordString, reading, translationLang, translation, tags);
+				firstWord.last.next = word;
+				firstWord.last = word;
 			} else {
-				this.words.set(word.reading, [word]);
+				const word = new LinkedListFirstWord(wordString, reading, translationLang, translation, tags);
+				word.last = word;
+				this.words.set(reading, word);
 			}
 		}
 	}
@@ -195,10 +216,18 @@ export default class Dictionary {
 	}
 
 	get (text: string, langs: Language[]|null): ReadonlyArray<Word> {
-		return this.filterAndSortLangs(
-			this.words.get(text) || [],
-			langs,
-		);
+		if (!this.has(text)) {
+			return [];
+		}
+
+		// Converting the words list to an array
+		const words: Word[] = [];
+		let currentWord = <LinkedListWord|null>this.words.get(text);
+		do {
+			words.push(<Word>currentWord);
+		} while ((currentWord = (<LinkedListWord>currentWord).next) !== null);
+
+		return this.filterAndSortLangs(words, langs);
 	}
 
 	has (text: string): boolean {

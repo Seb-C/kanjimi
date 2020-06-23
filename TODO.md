@@ -1,9 +1,7 @@
 MVP:
-    Node: test memory with prod mode and without tsnode. Why higher than the 100Mo of raw data?
-        -> map takes a lot of memory by creating millions of arrays
-        - Migrations in a different container + fix it to work with typescript (path to the SQL is probably wrong)
-    have an independent server container, and rebuild/restart it instead of mount?
     merge env variables for all local containers?
+    Migrations in a different container + fix it to work with typescript (path to the SQL is probably wrong)
+    have an independent server container, and rebuild/restart it instead of mount?
     Use typescript --watch for the build container instead of nodemon
     Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
         -> https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
@@ -32,6 +30,7 @@ MVP:
         - Cloudflare: reverse proxy, load balancing, cdn
         - digitalocean: VPS instances
         - db: digitalocean (+ add backups?) with read-only nodes
+        - better emails (ovh spam filter sucks...)?
 
 After:
     tsconfig: split client/server? Or always explicit the target?

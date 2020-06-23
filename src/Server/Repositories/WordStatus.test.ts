@@ -6,7 +6,6 @@ import User from 'Common/Models/User';
 import WordStatus from 'Common/Models/WordStatus';
 import Language from 'Common/Types/Language';
 import WordTag from 'Common/Types/WordTag';
-import Word from 'Common/Models/Word';
 
 let user: User;
 
@@ -144,7 +143,7 @@ describe('WordStatusRepository', async function() {
 		expect(wordStatus.showTranslation).toBe(true);
 
 		// Word higher level than user
-		dictionary.add(new Word('word', '', Language.ENGLISH, '', [WordTag.JLPT_1]));
+		dictionary.add('word', '', Language.ENGLISH, '', [WordTag.JLPT_1]);
 		wordStatus = wordStatusRepository.getDefaultWordStatus(user, 'word');
 		expect(wordStatus.userId).toBe(user.id);
 		expect(wordStatus.word).toBe('word');
@@ -152,7 +151,7 @@ describe('WordStatusRepository', async function() {
 		expect(wordStatus.showTranslation).toBe(true);
 
 		// Word same level than user
-		dictionary.add(new Word('word2', '', Language.ENGLISH, '', [WordTag.JLPT_3]));
+		dictionary.add('word2', '', Language.ENGLISH, '', [WordTag.JLPT_3]);
 		wordStatus = wordStatusRepository.getDefaultWordStatus(user, 'word2');
 		expect(wordStatus.userId).toBe(user.id);
 		expect(wordStatus.word).toBe('word2');
@@ -160,7 +159,7 @@ describe('WordStatusRepository', async function() {
 		expect(wordStatus.showTranslation).toBe(false);
 
 		// Word inferior level than user
-		dictionary.add(new Word('word3', '', Language.ENGLISH, '', [WordTag.JLPT_4]));
+		dictionary.add('word3', '', Language.ENGLISH, '', [WordTag.JLPT_4]);
 		wordStatus = wordStatusRepository.getDefaultWordStatus(user, 'word3');
 		expect(wordStatus.userId).toBe(user.id);
 		expect(wordStatus.word).toBe('word3');

@@ -1,6 +1,5 @@
 import 'jasmine';
 import Dictionary from 'Server/Lexer/Dictionary';
-import Word from 'Common/Models/Word';
 import Language from 'Common/Types/Language';
 
 describe('Dictionary', async function() {
@@ -20,10 +19,10 @@ describe('Dictionary', async function() {
 
 	it('Get specific langs', async function() {
 		const dictionary = new Dictionary();
-		dictionary.add(new Word('ア', 'あ', Language.ENGLISH, 'translation en', []));
-		dictionary.add(new Word('ア', 'あ', Language.SPANISH, 'translation es', []));
-		dictionary.add(new Word('ア', 'あ', Language.FRENCH, 'translation fr', []));
-		dictionary.add(new Word('ア', 'あ', Language.FRENCH, 'translation fr 2', []));
+		dictionary.add('ア', 'あ', Language.ENGLISH, 'translation en', []);
+		dictionary.add('ア', 'あ', Language.SPANISH, 'translation es', []);
+		dictionary.add('ア', 'あ', Language.FRENCH, 'translation fr', []);
+		dictionary.add('ア', 'あ', Language.FRENCH, 'translation fr 2', []);
 
 		expect(dictionary.get('ア', null).length).toBe(4);
 		expect(dictionary.get('ア', [Language.FRENCH]).length).toBe(2);
@@ -44,8 +43,8 @@ describe('Dictionary', async function() {
 
 	it('Get words not associated to a lang', async function() {
 		const dictionary = new Dictionary();
-		dictionary.add(new Word('ア', 'あ', Language.ENGLISH, 'en', []));
-		dictionary.add(new Word('ア', 'あ', null, 'no lang', []));
+		dictionary.add('ア', 'あ', Language.ENGLISH, 'en', []);
+		dictionary.add('ア', 'あ', null, 'no lang', []);
 
 		expect(dictionary.get('ア', null).length).toBe(2);
 		expect(dictionary.get('ア', [Language.ENGLISH]).length).toBe(2);
@@ -55,12 +54,12 @@ describe('Dictionary', async function() {
 
 	it('Get words by reading', async function() {
 		const dictionary = new Dictionary();
-		dictionary.add(new Word('ア', 'あ', null, 'a', []));
-		dictionary.add(new Word('イ', 'い', null, 'i', []));
-		dictionary.add(new Word('ア', '', null, 'a', []));
-		dictionary.add(new Word('イ', '', null, 'i', []));
-		dictionary.add(new Word('', 'あ', null, 'a', []));
-		dictionary.add(new Word('', 'い', null, 'i', []));
+		dictionary.add('ア', 'あ', null, 'a', []);
+		dictionary.add('イ', 'い', null, 'i', []);
+		dictionary.add('ア', '', null, 'a', []);
+		dictionary.add('イ', '', null, 'i', []);
+		dictionary.add('', 'あ', null, 'a', []);
+		dictionary.add('', 'い', null, 'i', []);
 
 		expect(dictionary.get('ア', null).length).toBe(2);
 		expect(dictionary.get('イ', null).length).toBe(2);

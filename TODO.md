@@ -1,8 +1,8 @@
 MVP:
     Node: test memory with prod mode and without tsnode. Why higher than the 100Mo of raw data?
-        -> sort tags and reuse the same unique arrays
         -> map takes a lot of memory by creating millions of arrays
         - Migrations in a different container + fix it to work with typescript (path to the SQL is probably wrong)
+    have an independent server container, and rebuild/restart it instead of mount?
     merge env variables for all local containers?
     Use typescript --watch for the build container instead of nodemon
     Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
@@ -30,9 +30,8 @@ MVP:
     post on twitter
     infra:
         - Cloudflare: reverse proxy, load balancing, cdn
-        - lightsail: VPS instances
-        - aws RDS: database (single without replication)
-        - add nodejs caching in memory for common requests (tokens...)
+        - digitalocean: VPS instances
+        - db: digitalocean (+ add backups?) with read-only nodes
 
 After:
     tsconfig: split client/server? Or always explicit the target?

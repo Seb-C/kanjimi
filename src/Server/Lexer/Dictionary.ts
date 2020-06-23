@@ -9,8 +9,19 @@ export default class Dictionary {
 	private readonly words: Map<string, Word[]> = new Map();
 
 	async load() {
+		// Function used to de-duplicate those structures in memory
+		const splittedTagArrays: Map<string, ReadonlyArray<WordTag>> = new Map();
+		const getSplittedTagArray = (tags: string): ReadonlyArray<WordTag> => {
+			if (!splittedTagArrays.has(tags)) {
+				const tagsArray = <ReadonlyArray<WordTag>>tags.split('/');
+				splittedTagArrays.set(tags, tagsArray);
+			}
+
+			return <ReadonlyArray<WordTag>>splittedTagArrays.get(tags);
+		};
+
 		// Loading words (word => [reading, tag[]])
-		type TempWord = [string, WordTag[]];
+		type TempWord = [string, ReadonlyArray<WordTag>];
 		const wordsWithoutDefinitions: Map<string, TempWord[]> = new Map();
 		await new Promise((resolve) => {
 			const dictionaryFileReadStream = FileSystem.createReadStream(
@@ -22,7 +33,7 @@ export default class Dictionary {
 			dictionaryFileIterator.on('line', (line) => {
 				const col = this.parseCsvLine(line);
 				const key = col[0];
-				const value: TempWord = [col[1], <WordTag[]>col[2].split('/')];
+				const value: TempWord = [col[1], getSplittedTagArray(col[2])];
 
 				if (wordsWithoutDefinitions.has(key)) {
 					(<TempWord[]>wordsWithoutDefinitions.get(key)).push(value);
@@ -94,7 +105,7 @@ export default class Dictionary {
 						col[1],
 						null,
 						col[2],
-						<WordTag[]>col[3].split('/'),
+						getSplittedTagArray(col[3]),
 					)
 				);
 			});

@@ -31,6 +31,7 @@ MVP:
         - better emails (ovh spam filter sucks...)?
 
 After:
+    cypress: try to use the --experimentalFetchPolyfill option
     tsconfig: split client/server? Or always explicit the target?
     add a specific type (subset of string) to identify the ids used in the repository methods
     tool to analyze nginx logs

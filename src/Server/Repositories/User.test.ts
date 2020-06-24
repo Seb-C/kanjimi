@@ -211,6 +211,40 @@ describe('UserRepository', async function() {
 		expect(user.jlpt).toBe(1);
 	});
 
+	it('create with a successfull callback', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		const user = await userRepository.create({ ...this.testUser }, async () => {});
+
+		const dbUser = await this.getDatabase().oneOrNone(`
+			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
+		`);
+		expect(dbUser).not.toBe(null);
+		expect(dbUser.id).toEqual(user.id);
+	});
+	it('create with a failed callback', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		try {
+			await userRepository.create({ ...this.testUser }, async () => {
+				throw new Error('Testing failure');
+			});
+		} catch (e) {}
+
+		const dbUser = await this.getDatabase().oneOrNone(`
+			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
+		`);
+		expect(dbUser).toBe(null);
+	});
+	it('create does not callback if failed', async function() {
+		const userRepository = new UserRepository(this.getDatabase());
+		await userRepository.create({ ...this.testUser });
+		const callback = jasmine.createSpy('callback');
+		try {
+			await userRepository.create({ ...this.testUser }, callback);
+		} catch (e) {}
+
+		expect(callback).not.toHaveBeenCalled();
+	});
+
 	it('updateById', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const uuid = uuidv4();

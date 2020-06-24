@@ -5,6 +5,8 @@ import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
+type TransactionCallback = () => Promise<void>;
+
 export default class User {
 	private db: PgPromise.IDatabase<void>;
 
@@ -67,50 +69,62 @@ export default class User {
 		return this.getByApiKey(key);
 	}
 
-	async create (attributes: {
-		email: string,
-		emailVerified: boolean,
-		emailVerificationKey: string|null,
-		password: string,
-		passwordResetKey: string|null,
-		passwordResetKeyExpiresAt: Date|null,
-		languages: Language[],
-		romanReading: boolean,
-		jlpt: number|null,
-	}): Promise<UserModel> {
+	async create (
+		attributes: {
+			email: string,
+			emailVerified: boolean,
+			emailVerificationKey: string|null,
+			password: string,
+			passwordResetKey: string|null,
+			passwordResetKeyExpiresAt: Date|null,
+			languages: Language[],
+			romanReading: boolean,
+			jlpt: number|null,
+		},
+		transactionCallback: TransactionCallback|null = null,
+	): Promise<UserModel> {
 		const uuid = uuidv4();
-		const result = await this.db.oneOrNone(`
-			INSERT INTO "User" (
-				"id",
-				"email",
-				"emailVerified",
-				"emailVerificationKey",
-				"password",
-				"passwordResetKey",
-				"passwordResetKeyExpiresAt",
-				"languages",
-				"romanReading",
-				"jlpt",
-				"createdAt"
-			) VALUES (
-				\${id},
-				\${email},
-				\${emailVerified},
-				\${emailVerificationKey},
-				\${password},
-				\${passwordResetKey},
-				\${passwordResetKeyExpiresAt},
-				\${languages},
-				\${romanReading},
-				\${jlpt},
-				\${createdAt}
-			)
-			RETURNING *;
-		`, {
-			...attributes,
-			id: uuid,
-			password: this.hashPassword(uuid, attributes.password),
-			createdAt: new Date(),
+
+		const result = await this.db.tx(async (transaction: PgPromise.ITask<void>) => {
+			const result = await transaction.oneOrNone(`
+				INSERT INTO "User" (
+					"id",
+					"email",
+					"emailVerified",
+					"emailVerificationKey",
+					"password",
+					"passwordResetKey",
+					"passwordResetKeyExpiresAt",
+					"languages",
+					"romanReading",
+					"jlpt",
+					"createdAt"
+				) VALUES (
+					\${id},
+					\${email},
+					\${emailVerified},
+					\${emailVerificationKey},
+					\${password},
+					\${passwordResetKey},
+					\${passwordResetKeyExpiresAt},
+					\${languages},
+					\${romanReading},
+					\${jlpt},
+					\${createdAt}
+				)
+				RETURNING *;
+			`, {
+				...attributes,
+				id: uuid,
+				password: this.hashPassword(uuid, attributes.password),
+				createdAt: new Date(),
+			});
+
+			if (transactionCallback !== null) {
+				await transactionCallback();
+			}
+
+			return result;
 		});
 
 		return new UserModel(result);

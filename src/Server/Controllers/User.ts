@@ -68,27 +68,26 @@ export const create = (db: PgPromise.IDatabase<void>, mailer: NodeMailer.Transpo
 			emailVerificationKey,
 			passwordResetKey: null,
 			passwordResetKeyExpiresAt: null,
-		});
-
-		// TODO add a transaction and a rollback if the email throws an exception
-		// Cannot send the email before creating the account because it would allow to spam duplicate emails
-		await mailer.sendMail({
-			to: user.email,
-			subject: 'Please confirm your account creation',
-			text: (
-				"Welcome to Kanjimi!\r\n"
-				+ "\r\n"
-				+ "Your new account has successfully been created.\r\n"
-				+ "To confirm your email address, please click on the following link:\r\n"
-				+ "\r\n"
-				+ `${process.env.KANJIMI_WWW_URL}/app/verify-email?userId=${user.id}&emailVerificationKey=${emailVerificationKey}\r\n`
-				+ "\r\n"
-				+ "If you did not request this or if this is a mistake, please ignore this message.\r\n"
-				+ "\r\n"
-				+ "Thanks,\r\n"
-				+ "\r\n"
-				+ "Kanjimi"
-			),
+		}, async () => {
+			// Cannot send the email before creating the account because it would allow to spam duplicate emails
+			await mailer.sendMail({
+				to: user.email,
+				subject: 'Please confirm your account creation',
+				text: (
+					"Welcome to Kanjimi!\r\n"
+					+ "\r\n"
+					+ "Your new account has successfully been created.\r\n"
+					+ "To confirm your email address, please click on the following link:\r\n"
+					+ "\r\n"
+					+ `${process.env.KANJIMI_WWW_URL}/app/verify-email?userId=${user.id}&emailVerificationKey=${emailVerificationKey}\r\n`
+					+ "\r\n"
+					+ "If you did not request this or if this is a mistake, please ignore this message.\r\n"
+					+ "\r\n"
+					+ "Thanks,\r\n"
+					+ "\r\n"
+					+ "Kanjimi"
+				),
+			});
 		});
 
 		return response.json(user.toApi());

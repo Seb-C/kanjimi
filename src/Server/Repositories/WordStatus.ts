@@ -47,18 +47,29 @@ export default class WordStatus {
 		showFurigana: boolean,
 		showTranslation: boolean,
 	): Promise<WordStatusModel> {
-		// TODO add a transaction for those two queries
+		const result = await this.db.tx(async (transaction: PgPromise.ITask<void>) => {
+			await transaction.none(`
+				DELETE FROM "WordStatus"
+				WHERE "userId" = \${userId}
+				AND "word" = \${word};
+			`, {
+				userId: user.id,
+				word,
+			});
 
-		await this.db.none(`
-			DELETE FROM "WordStatus"
-			WHERE "userId" = \${userId}
-			AND "word" = \${word};
-		`, {
-			userId: user.id,
-			word,
+			return transaction.oneOrNone(`
+				INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
+				VALUES (\${userId}, \${word}, \${showFurigana}, \${showTranslation})
+				RETURNING *;
+			`, {
+				userId: user.id,
+				word,
+				showFurigana,
+				showTranslation,
+			});
 		});
 
-		return this.create(user, word, showFurigana, showTranslation);
+		return new WordStatusModel(result);
 	}
 
 	async create (

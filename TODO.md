@@ -1,5 +1,6 @@
 MVP:
-    add DB transactions now that the db abstraction layer have been removed (check TODOs)
+    console.log is blocking?
+    db pool = how many connections?
     env files for the server containers? Can extend depending on the env? ( see https://docs.docker.com/compose/environment-variables/ )
     include references to external resources used somewhere in the site
     check that the distributed clients cannot contain server-side code

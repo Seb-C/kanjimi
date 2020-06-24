@@ -2,7 +2,6 @@ MVP:
     assets update -> browser will not update it?
     webpack => production mode whenever necessary
     include references to external resources used somewhere in the site
-    disconnect notification: add link to connect
     remove the DB abstraction layer
     DB transactions (add methods + check TODOs)
     check that the distributed clients cannot contain server-side code

@@ -84,6 +84,7 @@ context('Notification', () => {
 		cy.get('.kanjimi.notification')
 			.should('exist')
 			.should('contain', 'have been disconnected');
+		cy.get('.kanjimi.notification a').should('exist');
 	});
 
 	it('The notification can be closed', () => {

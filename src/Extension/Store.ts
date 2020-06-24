@@ -69,7 +69,15 @@ export default class Store {
 			this.user = null;
 			this.setNotification({
 				message: 'The extension have been disconnected from your Kanjimi account.',
-				link: null,
+				link: {
+					text: 'Click here to reconnect it.',
+					onClick: () => {
+						openedLoginWindow = window.open(
+							`${process.env.KANJIMI_WWW_URL}/app/login`,
+							'kanjimi-login-window',
+						);
+					},
+				},
 			});
 		} else {
 			try {

@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 import User from 'Common/Models/User';
 import UserRepository from 'Server/Repositories/User';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
@@ -23,7 +23,7 @@ const createApiKeyValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const create = (db: Database) => async (request: Request, response: Response, next: Function) => {
+export const create = (db: PgPromise.IDatabase<void>) => async (request: Request, response: Response, next: Function) => {
 	if (!createApiKeyValidator(request.body)) {
 		return response.status(422).json(createApiKeyValidator.errors);
 	}
@@ -57,7 +57,7 @@ export const create = (db: Database) => async (request: Request, response: Respo
 	}
 };
 
-export const get = (db: Database) => async (request: Request, response: Response) => {
+export const get = (db: PgPromise.IDatabase<void>) => async (request: Request, response: Response) => {
 	const apiKey = await (new ApiKeyRepository(db)).getFromRequest(request);
 	if (apiKey === null) {
 		return response.status(403).json('Invalid api key');

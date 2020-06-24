@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { Request } from 'Server/Request';
 import fetch from 'node-fetch';
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 import UserRepository from 'Server/Repositories/User';
 import * as Ajv from 'ajv';
 import * as URL from 'url';
@@ -19,7 +19,7 @@ const getPageQueryValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const get = (db: Database) => async (request: Request, response: Response) => {
+export const get = (db: PgPromise.IDatabase<void>) => async (request: Request, response: Response) => {
 	if (!getPageQueryValidator(request.query)) {
 		return response.status(422).json(getPageQueryValidator.errors);
 	}

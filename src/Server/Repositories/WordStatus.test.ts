@@ -17,11 +17,11 @@ describe('WordStatusRepository', async function() {
 
 	it('getList', async function() {
 		const dictionary = new Dictionary();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
 			VALUES (\${userId}, 'word1', TRUE, FALSE);
 		`, { userId: user.id });
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
 			VALUES (\${userId}, 'word3', FALSE, TRUE);
 		`, { userId: user.id });
@@ -45,7 +45,7 @@ describe('WordStatusRepository', async function() {
 
 	it('get', async function() {
 		const dictionary = new Dictionary();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
 			VALUES (\${userId}, 'word', TRUE, FALSE);
 		`, { userId: user.id });
@@ -66,12 +66,12 @@ describe('WordStatusRepository', async function() {
 
 		// Create case
 		let wordStatus = await wordStatusRepository.createOrUpdate(user, 'word', false, true);
-		let dbWordStatus = <WordStatus>await this.getDatabase().get(WordStatus, `
+		let dbWordStatus = new WordStatus(await this.getDatabase().oneOrNone(`
 			SELECT *
 			FROM "WordStatus"
 			WHERE "userId" = \${userId}
 			AND "word" = 'word';
-		`, { userId: user.id });
+		`, { userId: user.id }));
 		expect(wordStatus).toBeInstanceOf(WordStatus);
 		expect(dbWordStatus).toEqual(wordStatus);
 		expect(wordStatus.userId).toBe(user.id);
@@ -80,12 +80,12 @@ describe('WordStatusRepository', async function() {
 		expect(wordStatus.showTranslation).toBe(true);
 
 		wordStatus = await wordStatusRepository.createOrUpdate(user, 'word', true, false);
-		dbWordStatus = <WordStatus>await this.getDatabase().get(WordStatus, `
+		dbWordStatus = new WordStatus(await this.getDatabase().oneOrNone(`
 			SELECT *
 			FROM "WordStatus"
 			WHERE "userId" = \${userId}
 			AND "word" = 'word';
-		`, { userId: user.id });
+		`, { userId: user.id }));
 		expect(wordStatus).toBeInstanceOf(WordStatus);
 		expect(dbWordStatus).toEqual(wordStatus);
 		expect(wordStatus.userId).toBe(user.id);
@@ -99,12 +99,12 @@ describe('WordStatusRepository', async function() {
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
 
 		const wordStatus = await wordStatusRepository.createOrUpdate(user, 'word', false, true);
-		const dbWordStatus = <WordStatus>await this.getDatabase().get(WordStatus, `
+		const dbWordStatus = new WordStatus(await this.getDatabase().oneOrNone(`
 			SELECT *
 			FROM "WordStatus"
 			WHERE "userId" = \${userId}
 			AND "word" = 'word';
-		`, { userId: user.id });
+		`, { userId: user.id }));
 
 		expect(wordStatus).toBeInstanceOf(WordStatus);
 		expect(dbWordStatus).toEqual(wordStatus);

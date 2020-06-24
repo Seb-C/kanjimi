@@ -4,7 +4,7 @@ import { v4 as uuidv4 } from 'uuid';
 
 describe('AnalyzeLogRepository', async function() {
 	beforeEach(async function() {
-		await this.getDatabase().exec(`TRUNCATE "AnalyzeLog";`);
+		await this.getDatabase().none(`TRUNCATE "AnalyzeLog";`);
 	});
 
 	it('create', async function() {
@@ -17,7 +17,7 @@ describe('AnalyzeLogRepository', async function() {
 			42,
 			date,
 		);
-		const analyzeLog = await this.getDatabase().get(Object, `
+		const analyzeLog = await this.getDatabase().oneOrNone(`
 			SELECT * FROM "AnalyzeLog" WHERE "sessionId" = \${sessionId};
 		`, { sessionId });
 

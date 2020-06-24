@@ -1,22 +1,32 @@
 import { Request } from 'express';
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 import ApiKeyModel from 'Common/Models/ApiKey';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
 export default class ApiKey {
-	private db: Database;
+	private db: PgPromise.IDatabase<void>;
 
-	constructor (db: Database) {
+	constructor (db: PgPromise.IDatabase<void>) {
 		this.db = db;
 	}
 
 	async getById (id: string): Promise<ApiKeyModel|null> {
-		return this.db.get(ApiKeyModel, 'SELECT * FROM "ApiKey" WHERE id = ${id};', { id });
+		const result = await this.db.oneOrNone('SELECT * FROM "ApiKey" WHERE id = ${id};', { id });
+		if (!result) {
+			return null;
+		} else {
+			return new ApiKeyModel(result);
+		}
 	}
 
 	async getByKey (key: string): Promise<ApiKeyModel|null> {
-		return this.db.get(ApiKeyModel, 'SELECT * FROM "ApiKey" WHERE key = ${key};', { key });
+		const result = await this.db.oneOrNone('SELECT * FROM "ApiKey" WHERE key = ${key};', { key });
+		if (!result) {
+			return null;
+		} else {
+			return new ApiKeyModel(result);
+		}
 	}
 
 	async getFromRequest (request: Request): Promise<ApiKeyModel|null> {
@@ -38,7 +48,7 @@ export default class ApiKey {
 		const expiresAt = new Date();
 		expiresAt.setDate(expiresAt.getDate() + 365);
 
-		return <ApiKeyModel>await this.db.get(ApiKeyModel, `
+		const result = await this.db.oneOrNone(`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
 			VALUES (\${id}, \${key}, \${userId}, \${createdAt}, \${expiresAt})
 			RETURNING *;
@@ -49,5 +59,7 @@ export default class ApiKey {
 			createdAt: new Date(),
 			expiresAt,
 		});
+
+		return new ApiKeyModel(result);
 	}
 }

@@ -16,7 +16,7 @@ describe('ApiKeyRepository', async function() {
 
 	it('getById', async function() {
 		const uuid = uuidv4();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
 			VALUES (\${id}, 'fakeapikey', \${userId}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		`, {
@@ -35,7 +35,7 @@ describe('ApiKeyRepository', async function() {
 
 	it('getByKey', async function() {
 		const uuid = uuidv4();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
 			VALUES (\${id}, 'fakeapikey', \${userId}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		`, {
@@ -54,7 +54,7 @@ describe('ApiKeyRepository', async function() {
 
 	it('getFromRequest', async function() {
 		const uuid = uuidv4();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
 			VALUES (\${id}, 'fakeapikey', \${userId}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		`, {
@@ -78,14 +78,15 @@ describe('ApiKeyRepository', async function() {
 	it('create', async function() {
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
 		const apiKey = await apiKeyRepository.create(user.id);
-		const dbApiKey = await this.getDatabase().get(ApiKey, `
-			SELECT * FROM "ApiKey" WHERE "userId" = \${userId};
-		`, { userId: user.id });
+		const dbApiKey = new ApiKey(
+			await this.getDatabase().oneOrNone(`
+				SELECT * FROM "ApiKey" WHERE "userId" = \${userId};
+			`, { userId: user.id })
+		);
 
 		expect(apiKey.expiresAt > apiKey.createdAt).toEqual(true);
 		expect(apiKey.key.length > 32).toEqual(true);
 		expect(dbApiKey).toEqual(apiKey);
-		expect(dbApiKey).not.toBe(null);
 		expect(apiKey).toBeInstanceOf(ApiKey);
 		expect(apiKey.key).not.toBe('');
 		expect(apiKey.id).not.toBe('');

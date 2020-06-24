@@ -1,9 +1,9 @@
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 
 export default class AnalyzeLog {
-	private db: Database;
+	private db: PgPromise.IDatabase<void>;
 
-	constructor (db: Database) {
+	constructor (db: PgPromise.IDatabase<void>) {
 		this.db = db;
 	}
 
@@ -13,7 +13,7 @@ export default class AnalyzeLog {
 		characters: number,
 		requestedAt: Date,
 	) {
-		await this.db.exec(`
+		await this.db.none(`
 			INSERT INTO "AnalyzeLog" ("id", "sessionId", "url", "characters", "requestedAt")
 			VALUES (DEFAULT, \${sessionId}, \${url}, \${characters}, \${requestedAt});
 		`, {

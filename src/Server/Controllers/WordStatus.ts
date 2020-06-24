@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 import Dictionary from 'Server/Lexer/Dictionary';
 import WordStatus from 'Common/Models/WordStatus';
 import UserRepository from 'Server/Repositories/User';
@@ -38,7 +38,7 @@ const wordStatusValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const search = (db: Database, dictionary: Dictionary) => async (request: Request, response: Response) => {
+export const search = (db: PgPromise.IDatabase<void>, dictionary: Dictionary) => async (request: Request, response: Response) => {
 	const user = await (new UserRepository(db)).getFromRequest(request);
 	if (user === null) {
 		return response.status(403).json('Invalid api key');
@@ -74,7 +74,7 @@ export const search = (db: Database, dictionary: Dictionary) => async (request: 
 	return response.json(output);
 };
 
-export const createOrUpdate = (db: Database, dictionary: Dictionary) => async (request: Request, response: Response) => {
+export const createOrUpdate = (db: PgPromise.IDatabase<void>, dictionary: Dictionary) => async (request: Request, response: Response) => {
 	const user = await (new UserRepository(db)).getFromRequest(request);
 	if (user === null) {
 		return response.status(403).json('Invalid api key');

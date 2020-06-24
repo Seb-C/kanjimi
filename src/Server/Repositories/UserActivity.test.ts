@@ -15,7 +15,7 @@ describe('UserActivityRepository', async function() {
 		const date = new Date();
 		const userActivityRepository = new UserActivityRepository(this.getDatabase());
 		await userActivityRepository.createOrIncrement(user.id, date, 2);
-		const userActivity = await this.getDatabase().get(Object, `
+		const userActivity = await this.getDatabase().oneOrNone(`
 			SELECT *
 			FROM "UserActivity"
 			WHERE "userId" = \${userId}
@@ -33,7 +33,7 @@ describe('UserActivityRepository', async function() {
 		const date2 = new Date();
 		date2.setDate(date2.getDate() + 1);
 		const userActivityRepository = new UserActivityRepository(this.getDatabase());
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "UserActivity" ("userId", "date", "characters")
 			VALUES (\${userId}, \${date}, \${characters});
 		`, {
@@ -41,7 +41,7 @@ describe('UserActivityRepository', async function() {
 			date,
 			characters: 2,
 		});
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "UserActivity" ("userId", "date", "characters")
 			VALUES (\${userId}, \${date}, \${characters});
 		`, {
@@ -51,7 +51,7 @@ describe('UserActivityRepository', async function() {
 		});
 
 		await userActivityRepository.createOrIncrement(user.id, date, 3);
-		const userActivity = await this.getDatabase().get(Object, `
+		const userActivity = await this.getDatabase().oneOrNone(`
 			SELECT *
 			FROM "UserActivity"
 			WHERE "userId" = \${userId}
@@ -60,7 +60,7 @@ describe('UserActivityRepository', async function() {
 			userId: user.id,
 			date,
 		});
-		const userActivity2 = await this.getDatabase().get(Object, `
+		const userActivity2 = await this.getDatabase().oneOrNone(`
 			SELECT *
 			FROM "UserActivity"
 			WHERE "userId" = \${userId}
@@ -77,7 +77,7 @@ describe('UserActivityRepository', async function() {
 	it('get (row exists case)', async function() {
 		const date = new Date();
 		const userActivityRepository = new UserActivityRepository(this.getDatabase());
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "UserActivity" ("userId", "date", "characters")
 			VALUES (\${userId}, \${date}, \${characters});
 		`, {

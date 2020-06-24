@@ -1,9 +1,9 @@
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 import * as fs from 'fs';
 
 const getMigrations = (): Promise<string[]> => {
 	return new Promise((resolve, reject) => {
-		fs.readdir('./src/Server/Database/Migrations', (error, files) => {
+		fs.readdir('./src/Server/Migrations', (error, files) => {
 			if (error !== null) {
 				reject(error);
 			} else {
@@ -17,7 +17,7 @@ const getMigrations = (): Promise<string[]> => {
 
 const getMigrationScript = (migration: string): Promise<string> => {
 	return new Promise((resolve, reject) => {
-		fs.readFile(`./src/Server/Database/Migrations/${migration}`, (error, content) => {
+		fs.readFile(`./src/Server/Migrations/${migration}`, (error, content) => {
 			if (error !== null) {
 				reject(error);
 			} else {
@@ -27,7 +27,7 @@ const getMigrationScript = (migration: string): Promise<string> => {
 	});
 };
 
-const db = new Database({
+const db = PgPromise()({
 	host: <string>process.env.KANJIMI_DATABASE_HOST,
 	port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
 	database: <string>process.env.KANJIMI_DATABASE_DATA,
@@ -38,7 +38,7 @@ const db = new Database({
 const runMigration = async (migration: string): Promise<void> => {
 	console.log(`Starting migration "${migration}"`);
 	const migrationScript = await getMigrationScript(migration);
-	await db.exec(`
+	await db.none(`
 		BEGIN;
 		${migrationScript}
 		INSERT INTO "Migrations" VALUES (\${name});
@@ -50,14 +50,14 @@ const runMigration = async (migration: string): Promise<void> => {
 };
 
 (async () => {
-	await db.exec(`
+	await db.none(`
 		CREATE TABLE IF NOT EXISTS "Migrations" (
 			"name" TEXT PRIMARY KEY NOT NULL
 		);
 	`);
 
 	const migrations = (await getMigrations()).sort();
-	const migrationsDone = (await db.array(Object, `
+	const migrationsDone = (await db.manyOrNone(`
 		SELECT "name"
 		FROM "Migrations"
 		ORDER BY "name";
@@ -73,7 +73,7 @@ const runMigration = async (migration: string): Promise<void> => {
 		await runMigration(migrationsToDo[i]);
 	}
 
-	db.close();
+	await db.$pool.end();
 })().catch((error: Error) => {
 	console.error(error);
 	process.exit(1);

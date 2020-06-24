@@ -4,7 +4,7 @@ import * as Ajv from 'ajv';
 import Token from 'Common/Models/Token';
 import Lexer from 'Server/Lexer/Lexer';
 import Language from 'Common/Types/Language';
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 import UserRepository from 'Server/Repositories/User';
 import UserActivityRepository from 'Server/Repositories/UserActivity';
 import AnalyzeLogRepository from 'Server/Repositories/AnalyzeLog';
@@ -46,7 +46,7 @@ const analyzeRequestValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const analyze = (db: Database, lexer: Lexer) => (
+export const analyze = (db: PgPromise.IDatabase<void>, lexer: Lexer) => (
 	async (request: Request, response: Response) => {
 		const user = await (new UserRepository(db)).getFromRequest(request);
 		if (user === null) {

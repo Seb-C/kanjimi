@@ -1,19 +1,19 @@
-import Database from 'Server/Database/Database';
 import WordStatusModel from 'Common/Models/WordStatus';
 import User from 'Common/Models/User';
 import Dictionary from 'Server/Lexer/Dictionary';
+import * as PgPromise from 'pg-promise';
 
 export default class WordStatus {
-	private db: Database;
+	private db: PgPromise.IDatabase<void>;
 	private dictionary: Dictionary;
 
-	constructor (db: Database, dictionary: Dictionary) {
+	constructor (db: PgPromise.IDatabase<void>, dictionary: Dictionary) {
 		this.db = db;
 		this.dictionary = dictionary;
 	}
 
 	async getList(user: User, words: string[]): Promise<WordStatusModel[]> {
-		return await this.db.array(WordStatusModel, `
+		return (await this.db.manyOrNone(`
 			SELECT *
 			FROM "WordStatus"
 			WHERE "userId" = \${userId}
@@ -21,11 +21,11 @@ export default class WordStatus {
 		`, {
 			userId: user.id,
 			words,
-		});
+		})).map((row: any) => new WordStatusModel(row));
 	}
 
 	async get(user: User, word: string): Promise<WordStatusModel|null> {
-		return await this.db.get(WordStatusModel, `
+		const result = await this.db.oneOrNone(`
 			SELECT *
 			FROM "WordStatus"
 			WHERE "userId" = \${userId}
@@ -34,6 +34,11 @@ export default class WordStatus {
 			userId: user.id,
 			word,
 		});
+		if (!result) {
+			return null;
+		} else {
+			return new WordStatusModel(result);
+		}
 	}
 
 	async createOrUpdate (
@@ -44,7 +49,7 @@ export default class WordStatus {
 	): Promise<WordStatusModel> {
 		// TODO add a transaction for those two queries
 
-		await this.db.exec(`
+		await this.db.none(`
 			DELETE FROM "WordStatus"
 			WHERE "userId" = \${userId}
 			AND "word" = \${word};
@@ -62,7 +67,7 @@ export default class WordStatus {
 		showFurigana: boolean,
 		showTranslation: boolean,
 	): Promise<WordStatusModel> {
-		return <WordStatusModel>await this.db.get(WordStatusModel, `
+		const result = await this.db.oneOrNone(`
 			INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
 			VALUES (\${userId}, \${word}, \${showFurigana}, \${showTranslation})
 			RETURNING *;
@@ -72,6 +77,8 @@ export default class WordStatus {
 			showFurigana,
 			showTranslation,
 		});
+
+		return new WordStatusModel(result);
 	}
 
 	getDefaultWordStatus(user: User, word: string): WordStatusModel {

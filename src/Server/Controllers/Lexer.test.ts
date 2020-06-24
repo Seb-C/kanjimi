@@ -166,7 +166,7 @@ describe('LexerController', async function() {
 			}),
 		});
 
-		const analyzeLog = await this.getDatabase().get(Object, `
+		const analyzeLog = await this.getDatabase().oneOrNone(`
 			SELECT * FROM "AnalyzeLog" WHERE "sessionId" = \${sessionId};
 		`, { sessionId });
 		expect(analyzeLog.url).toBe('https://kanjimi.com/fake-url');

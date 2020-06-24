@@ -1,13 +1,11 @@
 MVP:
-    assets update -> browser will not update it?
-    webpack => production mode whenever necessary
+    add DB transactions now that the db abstraction layer have been removed (check TODOs)
+    env files for the server containers? Can extend depending on the env? ( see https://docs.docker.com/compose/environment-variables/ )
     include references to external resources used somewhere in the site
-    remove the DB abstraction layer
-    DB transactions (add methods + check TODOs)
     check that the distributed clients cannot contain server-side code
     onboarding (after sign-up, install extension...)
-    auto-login right after install
-    env files for the server containers? Can extend depending on the env? ( see https://docs.docker.com/compose/environment-variables/ )
+        + auto-login right after install
+    webpack => production mode whenever necessary
     script to generate a directory to upload for the extension review process
     server container -> build a full independent image (ts: with --incremental?)
     CGU / RGPD ?
@@ -26,8 +24,10 @@ MVP:
         - digitalocean: VPS instances
         - db: digitalocean (+ add backups?) with read-only nodes
         - better emails (ovh spam filter sucks...)?
+    cloudflare: how to handle assets refresh after change? What about client side (need a cachebuster?)
 
 After:
+    move migrations out of server? in a docker?
     changelog page
     presentation video? show it on the homepage?
     cypress: try to use the --experimentalFetchPolyfill option

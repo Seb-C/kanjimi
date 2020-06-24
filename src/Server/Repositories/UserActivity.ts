@@ -1,9 +1,9 @@
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 
 export default class UserActivity {
-	private db: Database;
+	private db: PgPromise.IDatabase<void>;
 
-	constructor (db: Database) {
+	constructor (db: PgPromise.IDatabase<void>) {
 		this.db = db;
 	}
 
@@ -12,7 +12,7 @@ export default class UserActivity {
 		date: Date,
 		characters: number,
 	) {
-		await this.db.exec(`
+		await this.db.none(`
 			INSERT INTO "UserActivity" ("userId", "date", "characters")
 			VALUES (\${userId}, \${date}, \${characters})
 			ON CONFLICT ON CONSTRAINT "UserActivity_primary_key" DO UPDATE
@@ -25,7 +25,7 @@ export default class UserActivity {
 	}
 
 	async get (userId: string, date: Date): Promise<{ characters: number }> {
-		const activity: any = await this.db.get(Object, `
+		const activity: any = await this.db.oneOrNone(`
 			SELECT *
 			FROM "UserActivity"
 			WHERE "userId" = \${userId}

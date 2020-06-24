@@ -1,6 +1,6 @@
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 import * as Express from 'express';
 import { Response } from 'express';
 import { Request } from 'Server/Request';
@@ -63,7 +63,7 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 		}
 	});
 
-	const db = new Database({
+	const db = <PgPromise.IDatabase<void>>PgPromise()({
 		host: <string>process.env.KANJIMI_DATABASE_HOST,
 		port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
 		database: <string>process.env.KANJIMI_DATABASE_DATA,
@@ -128,5 +128,5 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	console.log('Server started');
 
 	await serverClosed;
-	await db.close();
+	await db.$pool.end();
 })().catch(console.error);

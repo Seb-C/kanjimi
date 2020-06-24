@@ -9,7 +9,7 @@ import { v4 as uuidv4 } from 'uuid';
 describe('UserRepository', async function() {
 	it('getById', async function() {
 		const uuid = uuidv4();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -49,7 +49,7 @@ describe('UserRepository', async function() {
 
 	it('getByEmail', async function() {
 		const uuid = uuidv4();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -89,7 +89,7 @@ describe('UserRepository', async function() {
 
 	it('getByApiKey', async function() {
 		const uuid = uuidv4();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -131,7 +131,7 @@ describe('UserRepository', async function() {
 
 	it('getFromRequest', async function() {
 		const uuid = uuidv4();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -189,12 +189,13 @@ describe('UserRepository', async function() {
 			romanReading: true,
 			jlpt: 1,
 		});
-		const dbUser = await this.getDatabase().get(User, `
-			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
-		`);
+		const dbUser = new User(
+			await this.getDatabase().oneOrNone(`
+				SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
+			`)
+		);
 
 		expect(dbUser).toEqual(user);
-		expect(dbUser).not.toBe(null);
 		expect(user).toBeInstanceOf(User);
 		expect(user.email).toBe('unittest@example.com');
 		expect(user.emailVerified).toBe(true);
@@ -215,7 +216,7 @@ describe('UserRepository', async function() {
 		const uuid = uuidv4();
 		const password = userRepository.hashPassword(uuid, '123456');
 		const date = new Date();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -252,9 +253,11 @@ describe('UserRepository', async function() {
 			romanReading: true,
 			jlpt: null,
 		});
-		const dbUser = await this.getDatabase().get(User, `
-			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
-		`);
+		const dbUser = new User(
+			await this.getDatabase().oneOrNone(`
+				SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
+			`)
+		);
 
 		expect(user).toBeInstanceOf(User);
 		expect(dbUser).toEqual(user);
@@ -271,7 +274,7 @@ describe('UserRepository', async function() {
 
 	it('deleteByEmail', async function() {
 		const uuid = uuidv4();
-		await this.getDatabase().exec(`
+		await this.getDatabase().none(`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -300,7 +303,7 @@ describe('UserRepository', async function() {
 		`, { uuid });
 		const userRepository = new UserRepository(this.getDatabase());
 		await userRepository.deleteByEmail('unittest@example.com');
-		const dbUser = await this.getDatabase().get(User, `
+		const dbUser = await this.getDatabase().oneOrNone(`
 			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
 		`);
 

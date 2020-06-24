@@ -1,40 +1,55 @@
 import Language from 'Common/Types/Language';
 import { Request } from 'express';
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
 export default class User {
-	private db: Database;
+	private db: PgPromise.IDatabase<void>;
 
-	constructor (db: Database) {
+	constructor (db: PgPromise.IDatabase<void>) {
 		this.db = db;
 	}
 
 	async getById (id: string): Promise<UserModel|null> {
-		return this.db.get(UserModel, `
+		const result = await this.db.oneOrNone(`
 			SELECT *
 			FROM "User"
 			WHERE "id" = \${id};
 		`, { id });
+		if (!result) {
+			return null;
+		} else {
+			return new UserModel(result);
+		}
 	}
 
 	async getByEmail (email: string): Promise<UserModel|null> {
-		return this.db.get(UserModel, `
+		const result = await this.db.oneOrNone(`
 			SELECT *
 			FROM "User"
 			WHERE "email" = \${email};
 		`, { email });
+		if (!result) {
+			return null;
+		} else {
+			return new UserModel(result);
+		}
 	}
 
 	async getByApiKey (key: string): Promise<UserModel|null> {
-		return this.db.get(UserModel, `
+		const result = await this.db.oneOrNone(`
 			SELECT "User".*
 			FROM "ApiKey"
 			INNER JOIN "User" ON "User"."id" = "ApiKey"."userId"
 			WHERE "ApiKey"."key" = \${key};
 		`, { key });
+		if (!result) {
+			return null;
+		} else {
+			return new UserModel(result);
+		}
 	}
 
 	async getFromRequest (request: Request): Promise<UserModel|null> {
@@ -64,7 +79,7 @@ export default class User {
 		jlpt: number|null,
 	}): Promise<UserModel> {
 		const uuid = uuidv4();
-		return <UserModel>await this.db.get(UserModel, `
+		const result = await this.db.oneOrNone(`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -97,6 +112,8 @@ export default class User {
 			password: this.hashPassword(uuid, attributes.password),
 			createdAt: new Date(),
 		});
+
+		return new UserModel(result);
 	}
 
 	async updateById (uuid: string, attributes: {
@@ -128,7 +145,7 @@ export default class User {
 			'jlpt',
 		];
 
-		return <UserModel>await this.db.get(UserModel, `
+		const result = await this.db.oneOrNone(`
 			UPDATE "User"
 			SET ${
 				allowedFieldsInSqlQuery
@@ -139,10 +156,12 @@ export default class User {
 			WHERE "id" = \${id}
 			RETURNING *;
 		`, params);
+
+		return new UserModel(result);
 	}
 
 	async deleteByEmail (email: string): Promise<void> {
-		await this.db.exec('DELETE FROM "User" WHERE "email" = ${email};', { email });
+		await this.db.none('DELETE FROM "User" WHERE "email" = ${email};', { email });
 	}
 
 	hashPassword (uuid: string, password: string): string {

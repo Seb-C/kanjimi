@@ -1,11 +1,11 @@
 import 'jasmine';
 import fetch from 'node-fetch';
-import Database from 'Server/Database/Database';
+import * as PgPromise from 'pg-promise';
 import { promises as FileSystem } from 'fs';
 import Language from 'Common/Types/Language';
 import * as Ajv from 'ajv';
 
-let database: Database|null = null;
+let database: PgPromise.IDatabase<void>|null = null;
 
 beforeEach(async function() {
 	(<any>global).fetch = fetch;
@@ -13,7 +13,7 @@ beforeEach(async function() {
 	// Destroying the previous instance here because otherwise
 	// jasmine does not await the afterEach function
 	if (database !== null) {
-		await database.close();
+		await database.$pool.end();
 		database = null;
 	}
 
@@ -26,20 +26,20 @@ beforeEach(async function() {
 	};
 
 	// Deleting data from previous runs if necessary)
-	const db = new Database(this.databaseConfiguration);
-	await db.exec('DELETE FROM "User" WHERE "email" <> \'contact@kanjimi.com\'');
-	await db.close();
+	const db = PgPromise()(this.databaseConfiguration);
+	await db.none('DELETE FROM "User" WHERE "email" <> \'contact@kanjimi.com\'');
+	await db.$pool.end();
 
 	const existingMails = await FileSystem.readdir('/tmp/mails');
 	await Promise.all(existingMails.map(async (mail) => {
 		return FileSystem.unlink('/tmp/mails/' + mail);
 	}));
 
-	this.getDatabase = (): Database => {
+	this.getDatabase = (): PgPromise.IDatabase<void> => {
 		if (database === null) {
-			database = new Database(this.databaseConfiguration);
+			database = PgPromise()(this.databaseConfiguration);
 		}
-		return <Database>database;
+		return <PgPromise.IDatabase<void>>database;
 	};
 
 	this.testUser = {

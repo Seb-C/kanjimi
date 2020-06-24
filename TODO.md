@@ -39,7 +39,6 @@ After:
     ask for all urls permission, if refused, switch to an optIn using a page action and activeTab
     API to describe Kanjis and return the svg URL (+ translations & readings)
     cypress in docker to remove the randomness of failure?
-    fix the CI error
     create a model class for UserActivity
     create a model class for AnalyzeLog
     unit tests: replace loose variables with this.xxx

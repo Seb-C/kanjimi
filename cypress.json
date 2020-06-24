@@ -7,5 +7,9 @@
   "testFiles": "**/*.e2e.*",
   "pluginsFile": "cypress/cypress.plugins.js",
   "supportFile": "cypress/cypress.commands.js",
-  "defaultCommandTimeout": 10000
+  "defaultCommandTimeout": 10000,
+  "firefoxGcInterval": {
+    "runMode": null,
+    "openMode": null
+  }
 }

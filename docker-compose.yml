@@ -33,7 +33,7 @@ services:
           # Debounce
           jobs -p | xargs kill -9 &> /dev/null || true
 
-          docker-compose up -d --build --no-deps server &
+          docker-compose up -d --build server &
         done
       "
     volumes:
@@ -159,7 +159,7 @@ services:
     volumes:
       - $PWD:/app
   smtp:
-    image: hmlio/spamsink
+    build: ./docker/smtp
     restart: on-failure
     environment:
       - SINK_PORT=25

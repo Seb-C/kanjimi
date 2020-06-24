@@ -18,27 +18,6 @@ services:
     #     max-size: "20m"
     #     max-file: "10"
     #     compress: "false"
-  test_watch:
-    build: ./docker/watch
-    restart: on-failure
-    working_dir: /app
-    command: >
-      bash -c "
-        inotifywait \
-          -e modify,move,create \
-          -m \
-          -r /app/src \
-          --exclude '(Extension|WebApp|\.test\.|\.e2e\.)' \
-        | while read event; do
-          # Debounce
-          jobs -p | xargs kill -9 &> /dev/null || true
-
-          docker-compose up -d --build server &
-        done
-      "
-    volumes:
-      - $PWD:/app
-      - /var/run/docker.sock:/var/run/docker.sock
   server_watch:
     image: node:14
     restart: on-failure

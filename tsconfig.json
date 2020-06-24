@@ -25,6 +25,7 @@
     "noFallthroughCasesInSwitch": true,
     "noImplicitReturns": true,
     "noUnusedLocals": true,
+    "preserveWatchOutput":true,
     "baseUrl": "./src"
   },
   "include": [

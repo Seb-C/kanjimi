@@ -5,5 +5,11 @@
     "module": "CommonJS",
     "moduleResolution": "node",
     "target": "es2019"
-  }
+  },
+  "exclude": [
+    "../../src/Extension",
+    "../../src/WebApp",
+    "../../src/**/*.test.*",
+    "../../src/**/*.e2e.*"
+  ]
 }

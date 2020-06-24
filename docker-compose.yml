@@ -18,22 +18,11 @@ services:
     #     max-size: "20m"
     #     max-file: "10"
     #     compress: "false"
-  server_watch:
+  watch:
     image: node:14
     restart: on-failure
     working_dir: /app
-    command: >
-      bash -c "
-        ./node_modules/.bin/nodemon \
-          -e ts \
-          -w ./src \
-          --ignore ./src/Extension \
-          --ignore ./src/WebApp \
-          --ignore './src/**/*.test.*' \
-          --ignore './src/**/*.e2e.*' \
-          -x ./node_modules/.bin/tsc \
-          -p ./src/Server/tsconfig.json
-      "
+    command: ./node_modules/.bin/tsc --watch -p ./src/Server/tsconfig.json
     volumes:
       - $PWD:/app
   server:

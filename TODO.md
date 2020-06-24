@@ -1,6 +1,4 @@
 MVP:
-    have an independent server container, and rebuild/restart it instead of mount?
-    Use typescript --watch for the build container instead of nodemon
     Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
         -> https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
     assets update -> browser will not update it?
@@ -14,6 +12,7 @@ MVP:
     auto-login right after install
     env files for the server containers? Can extend depending on the env? ( see https://docs.docker.com/compose/environment-variables/ )
     script to generate a directory to upload for the extension review process
+    server container -> build a full independent image (ts: with --incremental?)
     CGU / RGPD ?
     test Edge via the CI
     test other browsers

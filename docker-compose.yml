@@ -25,12 +25,15 @@ services:
     command: >
       bash -c "
         inotifywait \
-          -e modify,move,create,delete \
+          -e modify,move,create \
           -m \
           -r /app/src \
           --exclude '(Extension|WebApp|\.test\.|\.e2e\.)' \
-        | while read event path; do
-          docker-compose up -d --build --no-deps server
+        | while read event; do
+          # Debounce
+          jobs -p | xargs kill -9 &> /dev/null || true
+
+          docker-compose up -d --build --no-deps server &
         done
       "
     volumes:

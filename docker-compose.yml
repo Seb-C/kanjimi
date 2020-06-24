@@ -51,7 +51,14 @@ services:
     #  limits:
     #    cpus: "1.0"
     #    memory: 512M
-    command: ./node_modules/.bin/nodemon -w ./server --expose-gc server/Server/server.js
+    command: >
+      bash -c "
+        while [ ! -f ./server/Server/server.js ]; do
+          echo 'Waiting for the server source files...'
+          sleep 1
+        done;
+        ./node_modules/.bin/nodemon -w ./server --expose-gc server/Server/server.js
+      "
     #command: ./node_modules/.bin/nodemon -w ./server --inspect=0.0.0.0:9229 --expose-gc server/Server/server.js
     healthcheck:
       test: curl http://localhost:3000/www/

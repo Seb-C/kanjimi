@@ -138,7 +138,7 @@ services:
     volumes:
       - $PWD:/app
   smtp:
-    build: ./docker/smtp
+    image: hmlio/spamsink
     restart: on-failure
     environment:
       - SINK_PORT=25

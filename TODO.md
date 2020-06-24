@@ -1,6 +1,4 @@
 MVP:
-    Load twitter timeline properly via an endpoint (which retrieves and cache the data) to avoid tracking
-        -> https://developer.twitter.com/en/docs/tweets/timelines/api-reference/get-statuses-home_timeline
     assets update -> browser will not update it?
     webpack => production mode whenever necessary
     include references to external resources used somewhere in the site
@@ -31,6 +29,8 @@ MVP:
         - better emails (ovh spam filter sucks...)?
 
 After:
+    changelog page
+    presentation video? show it on the homepage?
     cypress: try to use the --experimentalFetchPolyfill option
     tsconfig: split client/server? Or always explicit the target?
     add a specific type (subset of string) to identify the ids used in the repository methods

@@ -1,9 +1,6 @@
 MVP:
-    console.log is blocking?
-    db pool = how many connections?
     env files for the server containers? Can extend depending on the env? ( see https://docs.docker.com/compose/environment-variables/ )
     include references to external resources used somewhere in the site
-    check that the distributed clients cannot contain server-side code
     onboarding (after sign-up, install extension...)
         + auto-login right after install
     webpack => production mode whenever necessary
@@ -28,6 +25,8 @@ MVP:
     cloudflare: how to handle assets refresh after change? What about client side (need a cachebuster?)
 
 After:
+    pool is set to max 5 connections, will it work with digitalocean (max 22 per node)?
+    is console.log blocking when used in a docker with file logging option?
     move migrations out of server? in a docker?
     changelog page
     presentation video? show it on the homepage?

@@ -213,7 +213,9 @@ describe('UserRepository', async function() {
 
 	it('create with a successfull callback', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
-		const user = await userRepository.create({ ...this.testUser }, async () => {});
+		const user = await userRepository.create({ ...this.testUser }, async (user: User) => {
+			expect(user).toBeInstanceOf(User);
+		});
 
 		const dbUser = await this.getDatabase().oneOrNone(`
 			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
@@ -224,7 +226,8 @@ describe('UserRepository', async function() {
 	it('create with a failed callback', async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		try {
-			await userRepository.create({ ...this.testUser }, async () => {
+			await userRepository.create({ ...this.testUser }, async (user: User) => {
+				expect(user).toBeInstanceOf(User);
 				throw new Error('Testing failure');
 			});
 		} catch (e) {}

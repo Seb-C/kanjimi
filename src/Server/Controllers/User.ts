@@ -4,6 +4,7 @@ import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
 import * as PgPromise from 'pg-promise';
 import UserRepository from 'Server/Repositories/User';
+import User from 'Common/Models/User';
 import * as NodeMailer from 'nodemailer';
 
 export const get = (db: PgPromise.IDatabase<void>) => async (request: Request, response: Response) => {
@@ -68,7 +69,7 @@ export const create = (db: PgPromise.IDatabase<void>, mailer: NodeMailer.Transpo
 			emailVerificationKey,
 			passwordResetKey: null,
 			passwordResetKeyExpiresAt: null,
-		}, async () => {
+		}, async (user: User) => {
 			// Cannot send the email before creating the account because it would allow to spam duplicate emails
 			await mailer.sendMail({
 				to: user.email,

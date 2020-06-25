@@ -5,8 +5,6 @@ import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
-type TransactionCallback = () => Promise<void>;
-
 export default class User {
 	private db: PgPromise.IDatabase<void>;
 
@@ -81,11 +79,10 @@ export default class User {
 			romanReading: boolean,
 			jlpt: number|null,
 		},
-		transactionCallback: TransactionCallback|null = null,
+		transactionCallback: ((user: UserModel) => Promise<void>)|null = null,
 	): Promise<UserModel> {
-		const uuid = uuidv4();
-
-		const result = await this.db.tx(async (transaction: PgPromise.ITask<void>) => {
+		return this.db.tx(async (transaction: PgPromise.ITask<void>) => {
+			const uuid = uuidv4();
 			const result = await transaction.oneOrNone(`
 				INSERT INTO "User" (
 					"id",
@@ -120,14 +117,14 @@ export default class User {
 				createdAt: new Date(),
 			});
 
+			const user = new UserModel(result);
+
 			if (transactionCallback !== null) {
-				await transactionCallback();
+				await transactionCallback(user);
 			}
 
-			return result;
+			return user;
 		});
-
-		return new UserModel(result);
 	}
 
 	async updateById (uuid: string, attributes: {

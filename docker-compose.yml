@@ -12,12 +12,6 @@ services:
       - "5432:5432"
     volumes:
       - database:/var/lib/postgresql/data
-    # logging:
-    #   driver: local
-    #   options:
-    #     max-size: "20m"
-    #     max-file: "10"
-    #     compress: "false"
   watch:
     image: node:14
     restart: on-failure
@@ -32,21 +26,8 @@ services:
     depends_on:
       - database
       - watch
-    environment:
-      - NODE_PATH=server/
-      - KANJIMI_DATABASE_HOST=database
-      - KANJIMI_DATABASE_PORT=5432
-      - KANJIMI_DATABASE_DATABASE=test
-      - KANJIMI_DATABASE_USER=test
-      - KANJIMI_DATABASE_PASSWORD=test
-      - KANJIMI_ALLOW_TEST_PAGES=true
-      - KANJIMI_SMTP_HOST=smtp
-      - KANJIMI_SMTP_PORT=25
-      - KANJIMI_SMTP_SECURE=false
-      #- KANJIMI_SMTP_USER=
-      #- KANJIMI_SMTP_PASS=
-      - KANJIMI_API_URL=http://localhost:3000/api
-      - KANJIMI_WWW_URL=http://localhost:3000/www
+    env_file:
+      - docker-compose.env
     #resources:
     #  limits:
     #    cpus: "1.0"
@@ -84,13 +65,8 @@ services:
     working_dir: /app
     depends_on:
       - database
-    environment:
-      - NODE_PATH=server/
-      - KANJIMI_DATABASE_HOST=database
-      - KANJIMI_DATABASE_PORT=5432
-      - KANJIMI_DATABASE_DATABASE=test
-      - KANJIMI_DATABASE_USER=test
-      - KANJIMI_DATABASE_PASSWORD=test
+    env_file:
+      - docker-compose.env
     command: node server/Server/migrate.js
     volumes:
       - $PWD:/app
@@ -98,9 +74,8 @@ services:
     image: node:14
     restart: on-failure
     working_dir: /app
-    environment:
-      - KANJIMI_API_URL=http://localhost:3000/api
-      - KANJIMI_WWW_URL=http://localhost:3000/www
+    env_file:
+      - docker-compose.env
     command: >
       bash -c "
         ./node_modules/.bin/webpack --color --config=src/Extension/webpack.config.js --build;
@@ -118,9 +93,8 @@ services:
     image: node:14
     restart: on-failure
     working_dir: /app
-    environment:
-      - KANJIMI_API_URL=http://localhost:3000/api
-      - KANJIMI_WWW_URL=http://localhost:3000/www
+    env_file:
+      - docker-compose.env
     command: >
       bash -c "
         ./node_modules/.bin/webpack --color --config=src/WebApp/webpack.config.js --build;

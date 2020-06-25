@@ -1,5 +1,4 @@
 MVP:
-    env files for the server containers? Can extend depending on the env? ( see https://docs.docker.com/compose/environment-variables/ )
     include references to external resources used somewhere in the site
     onboarding (after sign-up, install extension...)
         + auto-login right after install

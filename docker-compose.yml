@@ -65,9 +65,17 @@ services:
     working_dir: /app
     depends_on:
       - database
+      - watch
     env_file:
       - docker-compose.env
-    command: node server/Server/migrate.js
+    command: >
+      bash -c "
+        while [ ! -f ./server/Server/migrate.js ]; do
+          echo 'Waiting for the migrate source files...'
+          sleep 1
+        done;
+        node server/Server/migrate.js
+      "
     volumes:
       - $PWD:/app
   extension:

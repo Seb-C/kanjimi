@@ -2,8 +2,8 @@ CREATE TABLE "ApiKey" (
 	"id" UUID PRIMARY KEY NOT NULL,
 	"key" TEXT NOT NULL,
 	"userId" UUID NOT NULL,
-	"createdAt" TIMESTAMPZ NOT NULL,
-	"expiresAt" TIMESTAMPZ NOT NULL,
+	"createdAt" TIMESTAMPTZ NOT NULL,
+	"expiresAt" TIMESTAMPTZ NOT NULL,
 	CONSTRAINT "ApiKey_key_unique" UNIQUE ("key"),
 	CONSTRAINT "Token_userId_foreignKey"
 		FOREIGN KEY ("userId")

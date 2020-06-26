@@ -5,11 +5,11 @@ CREATE TABLE "User" (
 	"emailVerificationKey" TEXT NULL,
 	"password" TEXT NOT NULL,
 	"passwordResetKey" TEXT NULL,
-	"passwordResetKeyExpiresAt" TIMESTAMPZ NULL,
+	"passwordResetKeyExpiresAt" TIMESTAMPTZ NULL,
 	"languages" TEXT[] NOT NULL,
 	"romanReading" BOOLEAN NOT NULL,
 	"jlpt" SMALLINT NULL,
-	"createdAt" TIMESTAMPZ NOT NULL,
+	"createdAt" TIMESTAMPTZ NOT NULL,
 	CONSTRAINT "User_email_unique" UNIQUE ("email")
 );
 

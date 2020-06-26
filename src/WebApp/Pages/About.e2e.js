@@ -13,6 +13,7 @@ context('About', () => {
 	});
 	it('Access from the homepage', () => {
 		cy.visit('/');
+		cy.scrollTo('bottom');
 		cy.get('a:contains(About Kanjimi)').should('be.visible').click();
 		cy.url().should('contain', 'app/about');
 		cy.get('.page-about').should('be.visible');

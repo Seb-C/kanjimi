@@ -12,10 +12,12 @@ import ChangePassword from 'WebApp/Pages/Authentication/ChangePassword.vue';
 import Logout from 'WebApp/Pages/Authentication/Logout.vue';
 import Settings from 'WebApp/Pages/Settings.vue';
 import Home from 'WebApp/Pages/Home.vue';
+import About from 'WebApp/Pages/About.vue';
 //import Browser from 'WebApp/Pages/Browser.vue';
 
 window.addEventListener('load', async function () {
 	const router = new Router([
+		{ url: 'app/about', component: About, title: 'About Kanjimi - Contact' },
 		{ url: 'app/sign-up', component: SignUp, title: 'Sign Up' },
 		{ url: 'app/verify-email', component: VerifyEmail, title: 'Email Verification' },
 		{ url: 'app/login', component: Login, title: 'Login' },

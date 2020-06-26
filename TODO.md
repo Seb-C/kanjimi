@@ -1,5 +1,4 @@
 MVP:
-    include references to external resources used somewhere in the site
     onboarding (after sign-up, install extension...) + set-up the user home page (and add ideas of links)
         + auto-login right after install
     webpack => production mode whenever necessary

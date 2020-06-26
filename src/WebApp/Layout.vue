@@ -91,7 +91,11 @@
 						data-aos-anchor="#twitter"
 						data-aos-anchor-placement="top-center"
 					>
-						<a href="mailto:contact@kanjimi.com" class="text-white">contact@kanjimi.com</a>
+						<a
+							href="./app/about"
+							v-on:click="aboutLinkClickHandler($event)"
+							class="text-white"
+						>About Kanjimi - Contact</a>
 					</div>
 					<div
 						class="col-12 col-md-6 text-center text-md-right mt-3 mt-md-0"
@@ -203,6 +207,9 @@
 						),
 					};
 				});
+			},
+			aboutLinkClickHandler(event: Event) {
+				this.$root.router.changeRoute(event);
 			},
 			navLinkClickHandler(event: Event) {
 				this.$root.router.changeRoute(event);

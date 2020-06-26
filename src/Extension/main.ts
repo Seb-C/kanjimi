@@ -25,6 +25,18 @@ if (isWebsite) {
 	window.addEventListener('kanjimi-set-api-key', async (event: Event) => {
 		await store.setApiKey((<CustomEvent>event).detail);
 	}, false);
+
+	(async () => {
+		try {
+			const extensionKey = await store.getApiKeyFromStorage();
+			const siteKey = localStorage.getItem('key');
+			if (siteKey !== extensionKey) {
+				store.setApiKey(siteKey);
+			}
+		} catch (error) {
+			console.error(error);
+		}
+	})();
 }
 
 if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {

@@ -54,8 +54,12 @@ export default class Store {
 		await this.loadApiDataAfterApiKeyChange(key);
 	}
 
+	public getApiKeyFromStorage = async (): Promise<string|null> => {
+		return (await browser.storage.local.get('key')).key || null;
+	}
+
 	public loadApiKeyFromStorage = async (notifyLogin: boolean = true) => {
-		const key = (await browser.storage.local.get('key')).key || null;
+		const key = await this.getApiKeyFromStorage();
 		await this.loadApiDataAfterApiKeyChange(key, notifyLogin);
 	}
 

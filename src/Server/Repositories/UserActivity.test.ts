@@ -74,6 +74,19 @@ describe('UserActivityRepository', async function() {
 		expect(userActivity2.characters).toEqual(2);
 	});
 
+	it('createOrIncrement (checking timezone)', async function() {
+		const date = new Date('Fri Jun 26 2020 23:00:00 GMT-0900');
+		const userActivityRepository = new UserActivityRepository(this.getDatabase());
+		await userActivityRepository.createOrIncrement(user.id, date, 2);
+		const userActivity = await this.getDatabase().oneOrNone(`
+			SELECT *
+			FROM "UserActivity"
+			WHERE "userId" = \${userId};
+		`, { userId: user.id });
+
+		expect(userActivity.date.toUTCString()).toContain('27 Jun');
+	});
+
 	it('get (row exists case)', async function() {
 		const date = new Date();
 		const userActivityRepository = new UserActivityRepository(this.getDatabase());

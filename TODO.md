@@ -24,6 +24,7 @@ MVP:
     cloudflare: how to handle assets refresh after change? What about client side (need a cachebuster?)
 
 After:
+    don't create repository objects at every request?
     pool is set to max 5 connections, will it work with digitalocean (max 22 per node)?
     is console.log blocking when used in a docker with file logging option?
     move migrations out of server? in a docker?
@@ -88,7 +89,6 @@ After:
     commented cypress lines (about disabled fields during loading) -> remove and merge in a separate skipped tests (already done in most test suites)
     test the links in the user dropdown
     don't restart server if a server test file has changed
-    force dates to utc server side (instead of `new Date()`)
     vocabulary review
     analyzer: any way to regroup sentences and then split again based on the original string index in the array?
     animations on the tooltip (appear/disappear)
@@ -123,7 +123,7 @@ After:
     Possible to fix this? https://github.com/Seb-C/kanjimi/network/alert/package-lock.json/minimist/closed
     translate the landing page (french?) and interface and add the supported languages list somewhere
     Cypress commands should run in a docker as well
-    search better dictionaries? -> extract wiktionary (https://dumps.wikimedia.org/backup-index.html)
+    search better dictionaries? -> extract wiktionary (https://dumps.wikimedia.org/backup-index.html) + synonyms, examples...
     delete api key when disconnecting (need to create a route)
     change email process
     error handling properly in express (500 and 404, should always be an API response?)

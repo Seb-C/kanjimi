@@ -3,5 +3,5 @@ CREATE TABLE "AnalyzeLog" (
 	"sessionId" UUID NOT NULL,
 	"url" TEXT NOT NULL,
 	"characters" INTEGER NOT NULL,
-	"requestedAt" TIMESTAMP NOT NULL
+	"requestedAt" TIMESTAMPZ NOT NULL
 );

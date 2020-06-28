@@ -1,5 +1,7 @@
 MVP:
-    onboarding (install extension...) + set-up the user home page (and add ideas of links)
+    add the "free beta" name in the logo
+    detect the installed extension and change the data on the home page depending on it (+ test)
+    extension options -> open the webapp settings page
     webpack => production mode whenever necessary
     script to generate a directory to upload for the extension review process
     server container -> build a full independent image (ts: with --incremental?)
@@ -21,12 +23,12 @@ MVP:
         - better emails (ovh spam filter sucks...)?
     cloudflare: how to handle assets refresh after change? What about client side (need a cachebuster?)
     cloudflare has logs analytics?
+    add the extension links ("coming soon") in the logged-in homepage
 
 After:
     don't create repository objects at every request?
     pool is set to max 10 connections, will it work with digitalocean (max 22 per node)?
     is console.log blocking when used in a docker with file logging option?
-    move migrations out of server? in a docker?
     changelog page
     presentation video? show it on the homepage?
     cypress: try to use the --experimentalFetchPolyfill option

@@ -142,6 +142,15 @@ button[disabled] {
 	border-color: var(--dark) !important;
 }
 
+.alert-primary {
+    background-color: var(--primary);
+	color: var(--dark);
+}
+.alert-light {
+    background-color: var(--light);
+	color: var(--dark);
+}
+
 .badge-primary {
 	background-color: var(--primary);
 	color: var(--black);

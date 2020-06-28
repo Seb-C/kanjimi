@@ -26,6 +26,7 @@ if (isWebsite) {
 		await store.setApiKey((<CustomEvent>event).detail);
 	}, false);
 
+	// Synchronizing the keys
 	(async () => {
 		try {
 			const extensionKey = await store.getApiKeyFromStorage();
@@ -37,6 +38,9 @@ if (isWebsite) {
 			console.error(error);
 		}
 	})();
+
+	// Declaring that the extension is installed
+	document.body.setAttribute('data-extension-installed', true);
 }
 
 if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {

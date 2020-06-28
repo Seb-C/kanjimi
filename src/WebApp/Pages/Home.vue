@@ -34,7 +34,7 @@
 	export default Vue.extend({
 		data() {
 			return {
-				installed: false,
+				installed: document.body.hasAttribute('data-extension-installed'),
 			};
 		}
 		created() {

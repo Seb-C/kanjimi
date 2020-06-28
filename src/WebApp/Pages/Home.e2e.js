@@ -18,4 +18,25 @@ context('Home', () => {
 		cy.url().should('contain', 'app/');
 		cy.get('.page-home').should('be.visible');
 	});
+	it('Properly detects installed extension', () => {
+		cy.setLoggedIn();
+		cy.visit('/app');
+		cy.get('.page-home').should('contain', 'Kanjimi is installed');
+		cy.get('.page-home a:contains(Wikipedia)').should('exist');
+		cy.get('.page-home a:contains(news)').should('exist');
+	});
+	it('Properly shows links if the extension is uninstalled', () => {
+		cy.setLoggedIn();
+		cy.visit('/app');
+
+		// Hacking the data to test this case
+		cy.window().then((win) => {
+			win.document.body.removeAttribute('data-extension-installed');
+		});
+		cy.get('.navbar a:contains(Settings)').click();
+		cy.get('.navbar a:contains(Home)').click();
+
+		cy.get('.page-home').should('contain', 'browser extension');
+		// TODO test for the links to the stores
+	});
 });

@@ -80,6 +80,12 @@ button[disabled] {
 	color: var(--dark);
 }
 
+.navbar-brand small {
+	font-size: 0.75em;
+	color: var(--gray);
+	padding-left: 0.2em;
+}
+
 .navbar-dark .navbar-nav .nav-link {
 	color: var(--white);
 }

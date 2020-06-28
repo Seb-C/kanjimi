@@ -12,6 +12,7 @@
 					/>
 					Kanjimi
 				</a>
+				<small>Free Beta</small>
 			</div>
 
 			<div class="d-none d-sm-block d-md-none text-gray mr-3 ml-auto">

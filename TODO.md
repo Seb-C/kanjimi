@@ -1,5 +1,4 @@
 MVP:
-    add the "free beta" name in the logo
     detect the installed extension and change the data on the home page depending on it (+ test)
     extension options -> open the webapp settings page
     webpack => production mode whenever necessary

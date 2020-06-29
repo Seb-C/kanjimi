@@ -25,4 +25,4 @@ deploy-landing-page:
 	# docker run -v ${PWD}:/app -w /app -it --rm instrumentisto/rsync-ssh rsync --port=21 -urv ./landing-page/ kanjimicak@ftp.cluster029.hosting.ovh.net:/home/kanjimicak/www --delete -vvv
 
 docker-prod:
-	docker build -t kanjimi-server -f ./docker/server/Dockerfile .
+	docker build -t kanjimi-server -f ./production/Dockerfile .

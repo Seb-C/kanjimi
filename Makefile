@@ -1,4 +1,4 @@
-.PHONY: test e2e cypress dictionary kanjis names browser db deploy-landing-page
+.PHONY: test e2e cypress dictionary kanjis names browser db deploy-landing-page docker-prod
 
 test:
 	docker-compose exec -T server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
@@ -23,3 +23,6 @@ db:
 deploy-landing-page:
 	# Does not work for now because the sftp of OVH does not allow SSH connexions
 	# docker run -v ${PWD}:/app -w /app -it --rm instrumentisto/rsync-ssh rsync --port=21 -urv ./landing-page/ kanjimicak@ftp.cluster029.hosting.ovh.net:/home/kanjimicak/www --delete -vvv
+
+docker-prod:
+	docker build -t kanjimi-server -f ./docker/server/Dockerfile .

@@ -56,7 +56,9 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 
 	const serverClosed = new Promise((resolve, reject) => {
 		try {
-			const server = application.listen(3000);
+			const server = application.listen(
+				parseInt(<string>process.env.KANJIMI_SERVER_PORT),
+			);
 			server.on('close', resolve);
 		} catch (error) {
 			reject(error);

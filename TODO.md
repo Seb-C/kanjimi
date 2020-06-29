@@ -1,7 +1,5 @@
 MVP:
-    webpack => production mode whenever necessary
     script to generate a directory to upload for the extension review process
-    server container -> build a full independent image (ts: with --incremental?)
     CGU / RGPD ? Iubenda ? Termsfeed?
     test Edge via the CI
     test other browsers

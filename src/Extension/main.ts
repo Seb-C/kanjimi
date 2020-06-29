@@ -40,7 +40,7 @@ if (isWebsite) {
 	})();
 
 	// Declaring that the extension is installed
-	document.body.setAttribute('data-extension-installed', true);
+	document.body.setAttribute('data-extension-installed', 'true');
 }
 
 if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {

@@ -36,7 +36,7 @@
 			return {
 				installed: document.body.hasAttribute('data-extension-installed'),
 			};
-		}
+		},
 		created() {
 			if (this.$root.apiKey === null) {
 				this.$root.router.changeRoute('./app/login');

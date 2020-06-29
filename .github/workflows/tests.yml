@@ -26,7 +26,9 @@ jobs:
     - run: npm install
     - run: docker-compose up -d --build
     - name: Waiting for the dockers to be ready
-      run: timeout 1m bash -c 'until [[ "$(docker ps --filter health=starting -q | wc -l)" == "0" ]]; do sleep 1; done'
+      run: timeout 3m bash -c 'until [[ "$(docker ps --filter health=starting -q | wc -l)" == "0" ]]; do sleep 1; done' && docker ps
+    - run: docker ps
+      if: failure()
     - run: make test
     - run: docker-compose logs
       if: failure()
@@ -54,7 +56,9 @@ jobs:
     - run: npm install
     - run: docker-compose up -d --build
     - name: Waiting for the dockers to be ready
-      run: timeout 1m bash -c 'until [[ "$(docker ps --filter health=starting -q | wc -l)" == "0" ]]; do sleep 1; done'
+      run: timeout 3m bash -c 'until [[ "$(docker ps --filter health=starting -q | wc -l)" == "0" ]]; do sleep 1; done'
+    - run: docker ps
+      if: failure()
     - run: ./node_modules/.bin/cypress run --browser=${{ matrix.browser }}
     - run: docker-compose logs
       if: failure()

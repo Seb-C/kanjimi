@@ -42,11 +42,11 @@ services:
       "
     #command: ./node_modules/.bin/nodemon -w ./server --inspect=0.0.0.0:9229 --expose-gc server/Server/server.js
     healthcheck:
-      test: curl http://localhost:3000/www/
+      test: wget -q http://localhost:3000/www/
       interval: 15s
       timeout: 3s
       retries: 3
-      start_period: 45s
+      start_period: 2m
     ports:
       - "3000:3000"
       #- "9229:9229"

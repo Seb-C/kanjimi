@@ -2,7 +2,7 @@ MVP:
     CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
     test charge
     test server autoupdate
-    need to register a copyright?!
+    need to register a copyright?! trademark?
     script to generate a directory to upload for the extension review process
     post on producthunt
     post on hackernews
@@ -14,6 +14,8 @@ MVP:
         - digitalocean: VPS instances
         - db: digitalocean (+ add backups?) with read-only nodes
         - better emails (ovh spam filter sucks...)?
+    business address (phone?)
+    bank OK?
     cloudflare: how to handle assets refresh after change? What about client side (need a cachebuster?)
     cloudflare has logs analytics?
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test

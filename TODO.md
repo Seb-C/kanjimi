@@ -1,11 +1,9 @@
 MVP:
-    script to generate a directory to upload for the extension review process
-    CGU / RGPD ? Iubenda ? Termsfeed?
-    test Edge via the CI
-    test other browsers
+    CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
     test charge
     test server autoupdate
     need to register a copyright?!
+    script to generate a directory to upload for the extension review process
     post on producthunt
     post on hackernews
     post on reddit
@@ -21,6 +19,8 @@ MVP:
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
 
 After:
+    test other browsers
+    when edge is available on linux -> add it to the CI
     use the omnibox option to allow translating a string ( https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/omnibox )
     don't create repository objects at every request?
     pool is set to max 10 connections, will it work with digitalocean (max 22 per node)?

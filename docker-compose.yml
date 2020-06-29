@@ -33,7 +33,7 @@ services:
     #    cpus: "1.0"
     #    memory: 512M
     command: >
-      bash -c "
+      sh -c "
         while [ ! -f ./server/Server/server.js ]; do
           echo 'Waiting for the server source files...'
           sleep 1
@@ -69,7 +69,7 @@ services:
     env_file:
       - docker-compose.env
     command: >
-      bash -c "
+      sh -c "
         while [ ! -f ./server/Server/migrate.js ]; do
           echo 'Waiting for the migrate source files...'
           sleep 1
@@ -85,7 +85,7 @@ services:
     env_file:
       - docker-compose.env
     command: >
-      bash -c "
+      sh -c "
         ./node_modules/.bin/webpack --color --config=src/Extension/webpack.config.js --build;
         ./node_modules/.bin/webpack --color --config=src/Extension/webpack.config.js --watch
       "
@@ -104,7 +104,7 @@ services:
     env_file:
       - docker-compose.env
     command: >
-      bash -c "
+      sh -c "
         ./node_modules/.bin/webpack --color --config=src/WebApp/webpack.config.js --build;
         ./node_modules/.bin/webpack --color --config=src/WebApp/webpack.config.js --watch
       "

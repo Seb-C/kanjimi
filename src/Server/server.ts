@@ -61,8 +61,8 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	const serverClosed = new Promise((resolve, reject) => {
 		try {
 			const server = Https.createServer({
-				key: FileSystem.readFileSync(Path.join(process.cwd(), './server/localhost.key')).toString(),
-				cert: FileSystem.readFileSync(Path.join(process.cwd(), './server/localhost.crt')).toString(),
+				key: FileSystem.readFileSync(Path.join(process.cwd(), <string>process.env.KANJIMI_SERVER_CERTIFICATE_KEY)).toString(),
+				cert: FileSystem.readFileSync(Path.join(process.cwd(), <string>process.env.KANJIMI_SERVER_CERTIFICATE_CRT)).toString(),
 			}, application);
 
 			server.listen(parseInt(<string>process.env.KANJIMI_SERVER_PORT));

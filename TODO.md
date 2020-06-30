@@ -1,10 +1,9 @@
 MVP:
-    make the certificate configuration based on env variables
-    debug the tests on cypress firefox?
-    if no env variable for https -> set to http?
     https in the published docker image for production?
+        -> generate it in the image + renewal in the container
     env directly in the docker image?
     digitalocean:
+        - which distribution?
         - get two instances
         - get the database
         - set the db backups?
@@ -20,14 +19,16 @@ MVP:
         build image locally
         make archive from image
         for each server
-            - set env configuration
-            - upload image
+            - upload docker image
+            - set env configuration (variables)
             - apt-get update
             - apt-get upgrade
             - apt-get dist-upgrade
+            - suspend instance in the load balancer
             - apply image to docker
             - migrate database
             - wait for the new container to be ready
+            - reenable the instance in the load balancer
         empty cloudflare cache
     CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
     test charge

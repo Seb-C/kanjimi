@@ -45,6 +45,7 @@ MVP:
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
 
 After:
+    reenable the docker_image test (fails because the healthcheck does not have a database)
     test other browsers
     when edge is available on linux -> add it to the CI
     use the omnibox option to allow translating a string ( https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/omnibox )

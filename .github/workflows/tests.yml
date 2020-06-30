@@ -67,19 +67,18 @@ jobs:
       with:
         name: cypress-videos
         path: cypress/videos
-  docker_image:
-    name: Docker image
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v2
-    - run: make docker-prod
-    - run: docker create --name=kanjimi-server kanjimi-server
-    - run: docker start kanjimi-server
-    - name: Waiting for the container to be ready
-      run: timeout 3m bash -c 'until [[ "$(docker ps --filter health=starting -q | wc -l)" == "0" ]]; do sleep 1; done'
-    - name: Fail if not healthy
-      run: if [[ "$(docker ps --filter health=healthy -q | grep kanjimi-server | wc -l)" == "0" ]]; then exit 1; fi
-    - run: docker ps
-      if: failure()
-    - run: docker logs kanjimi-server
-      if: failure()
+#  docker_image:
+#    name: Docker image
+#    runs-on: ubuntu-latest
+#    steps:
+#    - uses: actions/checkout@v2
+#    - run: make docker-prod
+#    - run: docker create --name=kanjimi-server kanjimi-server
+#    - run: docker start kanjimi-server
+#    - name: Waiting for the container to be ready
+#      run: timeout 3m bash -c 'until [[ "$(docker ps --filter health=starting -q | wc -l)" == "0" ]]; do sleep 1; done'
+#    - run: docker ps
+#    - name: Fail if not healthy
+#      run: if [[ "$(docker ps --filter health=healthy -q | grep kanjimi-server | wc -l)" == "0" ]]; then exit 1; fi
+#    - run: docker logs kanjimi-server
+#      if: failure()

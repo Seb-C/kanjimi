@@ -94,15 +94,15 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 		auth: smtpAuth.user ? smtpAuth : undefined,
 	}, { from: '"Kanjimi" <contact@kanjimi.com>' });
 
-	application.all('/www/test-pages/*', (request: Request, response: Response, next: Function) => {
+	application.all('/test-pages/*', (request: Request, response: Response, next: Function) => {
 		if (process.env.KANJIMI_ALLOW_TEST_PAGES === 'true') {
 			return next();
 		} else {
 			return response.status(403).end();
 		}
 	});
-	application.use('/www', Express.static('www'));
-	application.use('/www/app/*', Express.static('www/app/index.html'));
+	application.use('', Express.static('www'));
+	application.use('/app/*', Express.static('www/app/index.html'));
 
 	application.all('/api/*', (request: Request, response: Response, next: Function) => {
 		response.set('Access-Control-Allow-Origin', '*');

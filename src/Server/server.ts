@@ -7,6 +7,7 @@ import { Request } from 'Server/Request';
 import * as BodyParser from 'body-parser';
 import * as NodeMailer from 'nodemailer';
 
+import * as HealthCheckController from 'Server/Controllers/HealthCheck';
 import * as LexerController from 'Server/Controllers/Lexer';
 import * as UserController from 'Server/Controllers/User';
 import * as ApiKeyController from 'Server/Controllers/ApiKey';
@@ -100,6 +101,8 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 		response.set('Access-Control-Allow-Origin', '*');
 		return next();
 	});
+
+	application.get('/api/health-check', HealthCheckController.get(db, mailer));
 
 	application.post('/api/lexer/analyze', LexerController.analyze(db, lexer));
 

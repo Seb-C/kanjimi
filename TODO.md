@@ -1,4 +1,30 @@
 MVP:
+    https for local and from cloudflare
+    digitalocean:
+        - get two instances
+        - get the database
+        - set the db backups?
+        - add ssh keys
+    cloudflare config
+        - api endpoints
+        - www endpoints
+        - cache www
+        - rate limiting api
+        - load balancing
+        - need cache bursting for js/css?
+    server update script:
+        build image locally
+        make archive from image
+        for each server
+            - set env configuration
+            - upload image
+            - apt-get update
+            - apt-get upgrade
+            - apt-get dist-upgrade
+            - apply image to docker
+            - migrate database
+            - wait for the new container to be ready
+        empty cloudflare cache
     CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
     test charge
     test server autoupdate
@@ -14,10 +40,8 @@ MVP:
         - digitalocean: VPS instances
         - db: digitalocean (+ add backups?) with read-only nodes
         - better emails (ovh spam filter sucks...)?
-    business address (phone?)
+    business address?
     bank OK?
-    cloudflare: how to handle assets refresh after change? What about client side (need a cachebuster?)
-    cloudflare has logs analytics?
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
 
 After:

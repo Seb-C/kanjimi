@@ -72,10 +72,9 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Building the prod image
-      run: make docker-prod
-    - name: Starting the container
-      run: docker run kanjimi-server
+    - run: make docker-prod
+    - run: docker create --name=kanjimi-server kanjimi-server
+    - run: docker start kanjimi-server
     - name: Waiting for the container to be ready
       run: timeout 3m bash -c 'until [[ "$(docker ps --filter health=starting -q | wc -l)" == "0" ]]; do sleep 1; done'
     - name: Fail if not healthy

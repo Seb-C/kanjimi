@@ -26,7 +26,6 @@ ENV KANJIMI_API_URL=https://api.kanjimi.com
 ENV KANJIMI_WWW_URL=https://www.kanjimi.com
 
 USER kanjimi
-ENTRYPOINT node
 CMD node --expose-gc server/Server/server.js
 HEALTHCHECK --interval=15s --timeout=3s --retries=3 --start-period=2m CMD wget -q http://localhost:3000/www/ -O /dev/null
 EXPOSE 80

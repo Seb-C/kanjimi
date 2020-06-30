@@ -1,5 +1,6 @@
 {
-  "baseUrl": "http://localhost:3000/www/",
+  "baseUrl": "https://localhost:3000/www/",
+  "chromeWebSecurity": false,
   "video": true,
   "videoUploadOnPasses": false,
   "fixturesFolder": false,

@@ -9,7 +9,7 @@ const healthCheckResponseValidator = new Ajv({ allErrors: true }).compile({
 
 describe('HealthCheckController', async function() {
 	it('get', async function() {
-		const response = await fetch('http://localhost:3000/api/health-check');
+		const response = await fetch('https://localhost:3000/api/health-check');
 		expect(response.status).toBe(200);
 		const responseData = await response.json();
 

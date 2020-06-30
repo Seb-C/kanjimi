@@ -51,7 +51,7 @@ describe('WordStatus', async function() {
 	});
 
 	it('createOrUpdate (create case)', async function() {
-		const response = await fetch('http://localhost:3000/api/word-status', {
+		const response = await fetch('https://localhost:3000/api/word-status', {
 			method: 'PUT',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -89,7 +89,7 @@ describe('WordStatus', async function() {
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
 		await wordStatusRepository.create(user, '日本', false, true);
 
-		const response = await fetch('http://localhost:3000/api/word-status', {
+		const response = await fetch('https://localhost:3000/api/word-status', {
 			method: 'PUT',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -121,7 +121,7 @@ describe('WordStatus', async function() {
 	});
 
 	it('createOrUpdate (wrong userId case)', async function() {
-		const response = await fetch('http://localhost:3000/api/word-status', {
+		const response = await fetch('https://localhost:3000/api/word-status', {
 			method: 'PUT',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -137,7 +137,7 @@ describe('WordStatus', async function() {
 	});
 
 	it('createOrUpdate (validation errors)', async function() {
-		const response = await fetch('http://localhost:3000/api/word-status', {
+		const response = await fetch('https://localhost:3000/api/word-status', {
 			method: 'PUT',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -153,7 +153,7 @@ describe('WordStatus', async function() {
 	});
 
 	it('createOrUpdate (word not in dictionaty)', async function() {
-		const response = await fetch('http://localhost:3000/api/word-status', {
+		const response = await fetch('https://localhost:3000/api/word-status', {
 			method: 'PUT',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -174,7 +174,7 @@ describe('WordStatus', async function() {
 	});
 
 	it('createOrUpdate (authentication error)', async function() {
-		const response = await fetch('http://localhost:3000/api/word-status', {
+		const response = await fetch('https://localhost:3000/api/word-status', {
 			method: 'PUT',
 			headers: {
 				Authorization: 'Bearer wrongtoken',
@@ -189,7 +189,7 @@ describe('WordStatus', async function() {
 		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
 		await wordStatusRepository.create(user, '食べる', true, false);
 
-		const response = await fetch('http://localhost:3000/api/word-status/search', {
+		const response = await fetch('https://localhost:3000/api/word-status/search', {
 			method: 'POST',
 			body: JSON.stringify(['日本', '食べる']),
 			headers: {
@@ -216,7 +216,7 @@ describe('WordStatus', async function() {
 	});
 
 	it('search (validation errors)', async function() {
-		const response = await fetch('http://localhost:3000/api/word-status/search', {
+		const response = await fetch('https://localhost:3000/api/word-status/search', {
 			method: 'POST',
 			body: JSON.stringify([]),
 			headers: {
@@ -232,7 +232,7 @@ describe('WordStatus', async function() {
 	});
 
 	it('search (authentication error)', async function() {
-		const response = await fetch('http://localhost:3000/api/word-status/search', {
+		const response = await fetch('https://localhost:3000/api/word-status/search', {
 			method: 'POST',
 			body: JSON.stringify(['日本']),
 			headers: {

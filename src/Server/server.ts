@@ -1,3 +1,6 @@
+import * as Https from 'https';
+import * as FileSystem from 'fs';
+import * as Path from 'path';
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import * as PgPromise from 'pg-promise';
@@ -57,9 +60,13 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 
 	const serverClosed = new Promise((resolve, reject) => {
 		try {
-			const server = application.listen(
-				parseInt(<string>process.env.KANJIMI_SERVER_PORT),
-			);
+			const server = Https.createServer({
+				key: FileSystem.readFileSync(Path.join(process.cwd(), './server/localhost.key')).toString(),
+				cert: FileSystem.readFileSync(Path.join(process.cwd(), './server/localhost.crt')).toString(),
+			}, application);
+
+			server.listen(parseInt(<string>process.env.KANJIMI_SERVER_PORT));
+
 			server.on('close', resolve);
 		} catch (error) {
 			reject(error);

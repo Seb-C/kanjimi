@@ -1,5 +1,9 @@
 MVP:
-    https for local and from cloudflare
+    make the certificate configuration based on env variables
+    debug the tests on cypress firefox?
+    if no env variable for https -> set to http?
+    https in the published docker image for production?
+    env directly in the docker image?
     digitalocean:
         - get two instances
         - get the database
@@ -45,6 +49,7 @@ MVP:
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
 
 After:
+    investigate the slow starting time of Jasmine
     reenable the docker_image test (fails because the healthcheck does not have a database)
     test other browsers
     when edge is available on linux -> add it to the CI

@@ -112,7 +112,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (checking results)', async function() {
-		const response = await fetch('http://localhost:3000/api/lexer/analyze', {
+		const response = await fetch('https://localhost:3000/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -135,7 +135,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (increments the UserActivity table)', async function() {
-		await fetch('http://localhost:3000/api/lexer/analyze', {
+		await fetch('https://localhost:3000/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -153,7 +153,7 @@ describe('LexerController', async function() {
 
 	it('analyze (inserts into the AnalyzeLog table)', async function() {
 		const sessionId = uuidv4();
-		await fetch('http://localhost:3000/api/lexer/analyze', {
+		await fetch('https://localhost:3000/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -175,7 +175,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (validation errors)', async function() {
-		const response = await fetch('http://localhost:3000/api/lexer/analyze', {
+		const response = await fetch('https://localhost:3000/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -191,7 +191,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (authentication error)', async function() {
-		const response = await fetch('http://localhost:3000/api/lexer/analyze', {
+		const response = await fetch('https://localhost:3000/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: 'Bearer wrongtoken',
@@ -208,7 +208,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (invalid JSON should get a proper error)', async function() {
-		const response = await fetch('http://localhost:3000/api/lexer/analyze', {
+		const response = await fetch('https://localhost:3000/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,

@@ -1,5 +1,5 @@
 Cypress.Commands.add('setLoggedIn', () => {
-	cy.visit('https://localhost:3000/www/app/');
+	cy.visit('https://localhost:3000/app/');
 
 	const apiKey = 'PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==';
 	localStorage.setItem('key', apiKey);
@@ -23,7 +23,7 @@ Cypress.Commands.add('setLoggedIn', () => {
 });
 
 Cypress.Commands.add('setLoggedOut', () => {
-	cy.visit('https://localhost:3000/www/app/');
+	cy.visit('https://localhost:3000/app/');
 
 	// Disconnecting from the website
 	localStorage.removeItem('key');

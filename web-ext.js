@@ -3,7 +3,7 @@ module.exports = {
 	run: {
 		browserConsole: false,
 		startUrl: [
-			'https://localhost:3000/www/test-pages',
+			'https://localhost:3000/test-pages',
 		],
 	},
 };

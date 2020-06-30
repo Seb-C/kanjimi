@@ -156,7 +156,7 @@ describe('UserController', async function() {
 		);
 		expect(mail).toContain('To: unittest@example.com');
 		expect(mail).toContain(
-			`https://localhost:3000/www/app/verify-email?userId=${dbUser.id}&emailVerificationKey=${dbUser.emailVerificationKey}`
+			`https://localhost:3000/app/verify-email?userId=${dbUser.id}&emailVerificationKey=${dbUser.emailVerificationKey}`
 		);
 
 		// Trying again (it should fail)

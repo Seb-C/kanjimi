@@ -1,5 +1,5 @@
 {
-  "baseUrl": "https://localhost:3000/www/",
+  "baseUrl": "https://localhost:3000/",
   "chromeWebSecurity": false,
   "video": true,
   "videoUploadOnPasses": false,

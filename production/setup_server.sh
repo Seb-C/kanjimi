@@ -4,23 +4,43 @@ set -e
 
 SERVER=$1
 
-scp ./kanjimi-server.tar $SERVER:~/kanjimi-server.tar
-scp ./kanjimi-server.env $SERVER:~/kanjimi-server.env
+# Installing rsync on the server if necessary
+ssh -i ./production/ssh_key root@$SERVER apt-get install -y rsync
 
-ssh $SERVER /bin/bash << EOF
-    apt-get install unattended-upgrades
+# Uploading files
+docker run -v ${PWD}:/app -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /app -it --rm instrumentisto/rsync-ssh \
+    rsync \
+    --delete \
+    --progress \
+    --info=progress2 \
+    --exclude .git \
+    --exclude .github \
+    --exclude Dictionary \
+    --exclude firefox-profile \
+    --exclude node_modules \
+    --exclude production/ssh_key \
+    --exclude production/ssh_key.pub \
+    -urv \
+    -e 'ssh -i /app/production/ssh_key' \
+    ./ \
+    root@$SERVER:/kanjimi
 
-    mkdir -p ~/kanjimi-server-certificate
+ssh -i ./ssh_key root@$SERVER /bin/bash << EOF
+    cd /kanjimi
+
+    apt-get install -y unattended-upgrades
+
+    mkdir -p ./kanjimi-server-certificate
     openssl req -nodes \
         -newkey rsa:2048 \
-        -keyout ~/kanjimi-server-certificate/kanjimi.key \
+        -keyout ./kanjimi-server-certificate/kanjimi.key \
         -out ./kanjimi-server-certificate/kanjimi.crt \
-        -subj "/C=JP/ST=Tokyo/L=Tokyo/O=Kanjimi/OU=Kanjimi/CN=$(hostname)"
+        -subj "/C=JP/ST=Tokyo/L=Tokyo/O=Kanjimi/OU=Kanjimi/CN=$SERVER"
 
-    docker load -i ~/kanjimi-server.tar
+    docker build -t kanjimi-server -f ./production/Dockerfile .
 
     docker run \
-        --env-file ~/kanjimi-server.env \
+        --env-file ./kanjimi-server.env \
         --init \
         --interactive \
         --rm \
@@ -31,11 +51,11 @@ ssh $SERVER /bin/bash << EOF
     docker rm kanjimi-server
     docker create \
         --name kanjimi-server \
-        --env-file ~/kanjimi-server.env \
+        --env-file ./kanjimi-server.env \
         --restart always \
         --publish 443:3000 \
         --log-driver journald \
-        --volume ~/kanjimi-server-certificate:~/kanjimi-server-certificate:ro \
+        --volume ./kanjimi-server-certificate:./kanjimi-server-certificate:ro \
         kanjimi-server
     docker start kanjimi-server
 

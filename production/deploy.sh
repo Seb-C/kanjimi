@@ -2,12 +2,14 @@
 
 set -e
 
-if [ ! -f ./kanjimi-server.env ]; then
+if [ ! -f ./production/kanjimi-server.env ]; then
     echo 'Missing kanjimi-server.env file'
     exit 1
 fi
 
-docker build -t kanjimi-server -f ./production/Dockerfile .
-docker save -o ./kanjimi-server.tar kanjimi-server
+if [ ! -f ./production/ssh_key ]; then
+    echo 'Missing ssh_key file'
+    exit 1
+fi
 
-./setup_server.sh example.com
+./production/setup_server.sh s1.kanjimi.com

@@ -22,10 +22,8 @@ ENV NODE_ENV=production
 ENV NODE_PATH=server/
 ENV KANJIMI_SERVER_PORT=3000
 ENV KANJIMI_ALLOW_TEST_PAGES=false
-ENV KANJIMI_API_URL=https://api.kanjimi.com
-ENV KANJIMI_WWW_URL=https://www.kanjimi.com
 
 USER kanjimi
 CMD node --expose-gc server/Server/server.js
 HEALTHCHECK --interval=15s --timeout=3s --retries=3 --start-period=2m CMD wget -q https://localhost:3000/api/health-check/ -O /dev/null --no-check-certificate
-EXPOSE 80
+EXPOSE 3000

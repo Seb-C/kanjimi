@@ -1,9 +1,13 @@
 MVP:
-    https in the published docker image for production?
-        -> generate it in the image + renewal in the container
-    env directly in the docker image?
+    create droplet with debian and test installation script
+    add the certificate in the project (not commited) + use it in the ssh/scp commands
+    check the unattended-upgrades defaults ( https://wiki.debian.org/UnattendedUpgrades )
+    check with systemctl that the logs are preserved properly
+    openssl generation should be done in a container?
+    set server list in the script
+    need to clear cloudflare cache after deploy?
     digitalocean:
-        - which distribution?
+        - which distribution? -> debian
         - get two instances
         - get the database
         - set the db backups?
@@ -15,24 +19,8 @@ MVP:
         - rate limiting api
         - load balancing
         - need cache bursting for js/css?
-    server update script:
-        build image locally
-        make archive from image
-        for each server
-            - upload docker image
-            - set env configuration (variables)
-            - apt-get update
-            - apt-get upgrade
-            - apt-get dist-upgrade
-            - suspend instance in the load balancer
-            - apply image to docker
-            - migrate database
-            - wait for the new container to be ready
-            - reenable the instance in the load balancer
-        empty cloudflare cache
     CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
     test charge
-    test server autoupdate
     need to register a copyright?! trademark?
     script to generate a directory to upload for the extension review process
     post on producthunt
@@ -50,6 +38,7 @@ MVP:
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
 
 After:
+    2FA for cloudflare
     investigate the slow starting time of Jasmine
     reenable the docker_image test (fails because the healthcheck does not have a database)
     test other browsers

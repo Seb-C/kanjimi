@@ -28,10 +28,6 @@ services:
       - watch
     env_file:
       - docker-compose.env
-    #resources:
-    #  limits:
-    #    cpus: "1.0"
-    #    memory: 512M
     command: >
       sh -c "
         while [ ! -f ./server/Server/server.js ]; do
@@ -53,12 +49,6 @@ services:
     volumes:
       - $PWD:/app
       - mails:/tmp/mails
-    #logging:
-    #  driver: local
-    #  options:
-    #    max-size: "20m"
-    #    max-file: "10"
-    #    compress: "false"
   migrate:
     image: node:14-alpine
     restart: on-failure

@@ -1,4 +1,4 @@
-.PHONY: test e2e cypress dictionary kanjis names browser db
+.PHONY: test e2e cypress dictionary kanjis names browser db extension
 
 test:
 	docker-compose exec -T --env NODE_TLS_REJECT_UNAUTHORIZED="0" server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
@@ -20,3 +20,6 @@ names:
 
 db:
 	docker-compose exec database psql -h localhost -U test -d test
+
+extension:
+	./src/Extension/build.sh

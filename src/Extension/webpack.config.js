@@ -4,6 +4,12 @@ const VueLoaderPlugin = require('vue-loader/lib/plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const CopyPlugin = require('copy-webpack-plugin');
 
+const destPath = (
+	process.env.NODE_ENV === 'production'
+		? './dist/extension-prod'
+		: './dist/extension'
+);
+
 module.exports = {
 	target: 'web',
 	mode: process.env.NODE_ENV,
@@ -46,7 +52,7 @@ module.exports = {
 		main: './src/Extension/main.ts',
 	},
 	output: {
-		path: path.resolve('./dist/extension'),
+		path: path.resolve(destPath),
 		filename: 'content.build.js',
 	},
 	plugins: [
@@ -65,7 +71,7 @@ module.exports = {
 			patterns: [
 				{
 					from: path.resolve('./src/Extension/manifest.json'),
-					to: path.resolve('./dist/extension/manifest.json'),
+					to: path.resolve(destPath + '/manifest.json'),
 					transform(content) {
 						let modifiedContent = content.toString();
 						Object.keys(process.env).forEach((key) => {
@@ -76,6 +82,9 @@ module.exports = {
 						});
 						return new Buffer(modifiedContent);
 					},
+				}, {
+					from: path.resolve('./src/Extension/images'),
+					to: path.resolve(destPath + '/images'),
 				},
 			],
 		}),

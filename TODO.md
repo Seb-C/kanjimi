@@ -3,6 +3,7 @@ MVP:
     get and install servers
     get and install database
     setup smtp
+    wait for the load balancer before updating the next server
     check the database backups
     check that unattended-upgrades works (wait for friday~saturday)
     cloudflare: setup load balancer

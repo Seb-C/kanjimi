@@ -46,7 +46,7 @@ ssh -i ./production/ssh_key root@$SERVER_HOSTNAME /bin/bash << EOF
         --interactive \
         --rm \
         server \
-        node server/Server/migrate.js
+        node dist/server/Server/migrate.js
 
     if [[ "$(docker ps --filter name=server -q | wc -l)" == "1" ]]; then
         docker stop server --time 30

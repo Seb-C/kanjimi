@@ -30,13 +30,13 @@ services:
       - docker-compose.env
     command: >
       sh -c "
-        while [ ! -f ./server/Server/server.js ]; do
+        while [ ! -f ./dist/server/Server/server.js ]; do
           echo 'Waiting for the server source files...'
           sleep 1
         done;
-        ./node_modules/.bin/nodemon -w ./server --expose-gc server/Server/server.js
+        ./node_modules/.bin/nodemon -w ./server --expose-gc dist/server/Server/server.js
       "
-    #command: ./node_modules/.bin/nodemon -w ./server --inspect=0.0.0.0:9229 --expose-gc server/Server/server.js
+    #command: ./node_modules/.bin/nodemon -w ./server --inspect=0.0.0.0:9229 --expose-gc dist/server/Server/server.js
     healthcheck:
       test: wget -q https://localhost:3000/api/health-check/ -O /dev/null --no-check-certificate
       interval: 15s
@@ -60,11 +60,11 @@ services:
       - docker-compose.env
     command: >
       sh -c "
-        while [ ! -f ./server/Server/migrate.js ]; do
+        while [ ! -f ./dist/server/Server/migrate.js ]; do
           echo 'Waiting for the migrate source files...'
           sleep 1
         done;
-        node server/Server/migrate.js
+        node dist/server/Server/migrate.js
       "
     volumes:
       - $PWD:/kanjimi

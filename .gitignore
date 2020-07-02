@@ -4,7 +4,7 @@ extension/manifest.json
 extension/*.build.js
 extension/*.build.css
 firefox-profile/
-/server/
+/dist/server/
 www/js/*.build.js
 www/css/*.build.css
 /cypress/screenshots/

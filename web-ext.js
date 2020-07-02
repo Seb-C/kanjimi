@@ -1,5 +1,5 @@
 module.exports = {
-	sourceDir: './extension/',
+	sourceDir: './dist/extension/',
 	run: {
 		browserConsole: false,
 		startUrl: [

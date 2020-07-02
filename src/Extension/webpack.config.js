@@ -46,7 +46,7 @@ module.exports = {
 		main: './src/Extension/main.ts',
 	},
 	output: {
-		path: path.resolve('./extension'),
+		path: path.resolve('./dist/extension'),
 		filename: 'content.build.js',
 	},
 	plugins: [
@@ -65,7 +65,7 @@ module.exports = {
 			patterns: [
 				{
 					from: path.resolve('./src/Extension/manifest.json'),
-					to: path.resolve('./extension/manifest.json'),
+					to: path.resolve('./dist/extension/manifest.json'),
 					transform(content) {
 						let modifiedContent = content.toString();
 						Object.keys(process.env).forEach((key) => {

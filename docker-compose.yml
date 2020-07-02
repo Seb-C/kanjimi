@@ -80,7 +80,7 @@ services:
         ./node_modules/.bin/webpack --color --config=src/Extension/webpack.config.js --watch
       "
     healthcheck:
-      test: cat ./extension/content.build.js
+      test: cat ./dist/extension/content.build.js
       interval: 3s
       timeout: 1s
       retries: 3

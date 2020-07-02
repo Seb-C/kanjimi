@@ -1,8 +1,8 @@
 Dictionary/xml/
 node_modules/
-extension/manifest.json
-extension/*.build.js
-extension/*.build.css
+dist/extension/manifest.json
+dist/extension/*.build.js
+dist/extension/*.build.css
 firefox-profile/
 /dist/server/
 www/js/*.build.js

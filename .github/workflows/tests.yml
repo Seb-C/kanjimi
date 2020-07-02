@@ -21,7 +21,7 @@ jobs:
       with:
         path: |
           www/**/*.build.*
-          extension/*.build.*
+          dist/extension/*.build.*
         key: cache-build-${{ github.run_id }}-${{ github.run_number }}
     - run: npm install
     - run: docker-compose up -d --build
@@ -44,7 +44,7 @@ jobs:
       with:
         path: |
           www/**/*.build.*
-          extension/*.build.*
+          dist/extension/*.build.*
         key: cache-build-${{ github.run_id }}-${{ github.run_number }}
     - uses: actions/cache@v2
       with:

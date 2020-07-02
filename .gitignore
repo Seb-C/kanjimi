@@ -7,6 +7,7 @@ www/css/*.build.css
 /cypress/screenshots/
 /cypress/videos/
 /dist/extension
+/dist/*.zip
 /dist/extension-prod
 /dist/production/server.env
 /dist/production/ssh_key

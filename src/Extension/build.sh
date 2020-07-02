@@ -16,3 +16,8 @@ docker run \
     --config=src/Extension/webpack.config.js \
     --color \
     --build
+
+./node_modules/.bin/web-ext build \
+    --source-dir ./dist/extension-prod/ \
+    --overwrite-dest \
+    --artifacts-dir ./dist/

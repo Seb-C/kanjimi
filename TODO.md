@@ -1,5 +1,7 @@
 MVP:
     script to generate a directory to upload for the extension review process
+    disable links from the homepage temporarily
+    change homepage wording ("we are building")
     get and install servers
     get and install database
     setup smtp

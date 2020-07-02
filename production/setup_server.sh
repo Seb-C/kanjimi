@@ -17,11 +17,11 @@ docker run -v ${PWD}:/kanjimi -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /k
     --delete \
     --progress \
     --info=progress2 \
+    --exclude .firefox-profile \
     --exclude .git \
     --exclude .github \
     --exclude cypress \
     --exclude Dictionary \
-    --exclude firefox-profile \
     --exclude node_modules \
     --exclude production/ssh_key \
     --exclude production/ssh_key.pub \

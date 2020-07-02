@@ -9,7 +9,7 @@ e2e:
 cypress:
 	./node_modules/.bin/cypress open
 browser:
-	./node_modules/.bin/web-ext --config=web-ext.js run --firefox-profile ./firefox-profile --keep-profile-changes
+	./node_modules/.bin/web-ext --config=web-ext.js run --firefox-profile ./.firefox-profile --keep-profile-changes
 
 dictionary:
 	docker run -v ${PWD}:/kanjimi:delegated -w /kanjimi -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Dictionary.php

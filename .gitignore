@@ -3,7 +3,7 @@ node_modules/
 dist/extension/manifest.json
 dist/extension/*.build.js
 dist/extension/*.build.css
-firefox-profile/
+.firefox-profile/
 /dist/server/
 www/js/*.build.js
 www/css/*.build.css

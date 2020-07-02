@@ -1,8 +1,9 @@
 MVP:
+    rename docker kanjimi-server to server
+    containers: replace /app with /kanjimi like in production
     test and debug the installation script
-    check the unattended-upgrades defaults ( https://wiki.debian.org/UnattendedUpgrades )
+    check that unattended-upgrades works (wait for friday~saturday)
     check with systemctl that the logs are preserved properly
-    openssl generation should be done in a container?
     need to clear cloudflare cache after deploy?
     digitalocean:
         - which distribution? -> debian
@@ -36,7 +37,6 @@ MVP:
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
 
 After:
-    containers: replace /app with /kanjimi like in production
     2FA for cloudflare
     investigate the slow starting time of Jasmine
     reenable the docker_image test (fails because the healthcheck does not have a database)
@@ -75,6 +75,7 @@ After:
     only apply conjugations to the words with verb tags
     conjugations that depends on the verb tags
     Iframe browser:
+        - Can use a custom protocol handler to hide the in-app url bar?
         - Reenable the server route, client route and layout menu link
         - Handle errors appearing in the console
         - Need to remove the loader before the load event. Check for any appropriate time

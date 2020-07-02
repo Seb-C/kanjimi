@@ -2,10 +2,13 @@
 
 set -e
 
-SERVER=$1
+SERVER_HOSTNAME=$1
 
-# Installing rsync on the server if necessary
-ssh -i ./production/ssh_key root@$SERVER apt-get install -y rsync
+# Installing dependencies on the server if necessary
+ssh -i ./production/ssh_key root@$SERVER_HOSTNAME apt-get install -y \
+    rsync \
+    docker.io \
+    unattended-upgrades
 
 # Uploading files
 docker run -v ${PWD}:/app -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /app -it --rm instrumentisto/rsync-ssh \
@@ -23,24 +26,19 @@ docker run -v ${PWD}:/app -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /app -
     -urv \
     -e 'ssh -i /app/production/ssh_key' \
     ./ \
-    root@$SERVER:/kanjimi
+    root@$SERVER_HOSTNAME:/kanjimi
 
-ssh -i ./ssh_key root@$SERVER /bin/bash << EOF
+ssh -i ./production/ssh_key root@$SERVER_HOSTNAME /bin/bash << EOF
     cd /kanjimi
 
-    apt-get install -y unattended-upgrades
-
-    mkdir -p ./kanjimi-server-certificate
-    openssl req -nodes \
-        -newkey rsa:2048 \
-        -keyout ./kanjimi-server-certificate/kanjimi.key \
-        -out ./kanjimi-server-certificate/kanjimi.crt \
-        -subj "/C=JP/ST=Tokyo/L=Tokyo/O=Kanjimi/OU=Kanjimi/CN=$SERVER"
-
-    docker build -t kanjimi-server -f ./production/Dockerfile .
+    docker build \
+        -t kanjimi-server \
+        -f /kanjimi/production/Dockerfile \
+        --build-arg SERVER_HOSTNAME=$SERVER_HOSTNAME \
+        .
 
     docker run \
-        --env-file ./kanjimi-server.env \
+        --env-file /kanjimi/production/kanjimi-server.env \
         --init \
         --interactive \
         --rm \
@@ -51,11 +49,10 @@ ssh -i ./ssh_key root@$SERVER /bin/bash << EOF
     docker rm kanjimi-server
     docker create \
         --name kanjimi-server \
-        --env-file ./kanjimi-server.env \
+        --env-file /kanjimi/production/kanjimi-server.env \
         --restart always \
         --publish 443:3000 \
         --log-driver journald \
-        --volume ./kanjimi-server-certificate:./kanjimi-server-certificate:ro \
         kanjimi-server
     docker start kanjimi-server
 

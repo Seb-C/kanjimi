@@ -1,5 +1,4 @@
 MVP:
-    containers: replace /app with /kanjimi like in production
     test and debug the installation script
     check that unattended-upgrades works (wait for friday~saturday)
     check with systemctl that the logs are preserved properly

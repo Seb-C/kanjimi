@@ -5,13 +5,13 @@ ARG SERVER_HOSTNAME
 
 USER root
 
-COPY --chown=root:root ./src /app/src
-COPY --chown=root:root ./www /app/www
-COPY --chown=root:root ./package.json /app/package.json
-COPY --chown=root:root ./package-lock.json /app/package-lock.json
-COPY --chown=root:root ./tsconfig.json /app/tsconfig.json
-RUN chmod a+r-w -R /app
-WORKDIR /app
+COPY --chown=root:root ./src /kanjimi/src
+COPY --chown=root:root ./www /kanjimi/www
+COPY --chown=root:root ./package.json /kanjimi/package.json
+COPY --chown=root:root ./package-lock.json /kanjimi/package-lock.json
+COPY --chown=root:root ./tsconfig.json /kanjimi/tsconfig.json
+RUN chmod a+r-w -R /kanjimi
+WORKDIR /kanjimi
 
 RUN apk add --no-cache openssh
 RUN mkdir -p ./production/server-certificate

@@ -11,7 +11,7 @@ ssh -i ./production/ssh_key root@$SERVER_HOSTNAME apt-get install -y \
     unattended-upgrades
 
 # Uploading files
-docker run -v ${PWD}:/app -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /app -it --rm instrumentisto/rsync-ssh \
+docker run -v ${PWD}:/kanjimi -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /kanjimi -it --rm instrumentisto/rsync-ssh \
     rsync \
     --delete \
     --progress \
@@ -24,7 +24,7 @@ docker run -v ${PWD}:/app -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /app -
     --exclude production/ssh_key \
     --exclude production/ssh_key.pub \
     -urv \
-    -e 'ssh -i /app/production/ssh_key' \
+    -e 'ssh -i /kanjimi/production/ssh_key' \
     ./ \
     root@$SERVER_HOSTNAME:/kanjimi
 

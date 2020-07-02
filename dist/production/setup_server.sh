@@ -5,7 +5,7 @@ set -e
 SERVER_HOSTNAME=$1
 
 # Installing dependencies on the server if necessary
-ssh -i ./production/ssh_key root@$SERVER_HOSTNAME apt-get install -y \
+ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME apt-get install -y \
     rsync \
     docker.io \
     unattended-upgrades
@@ -23,25 +23,25 @@ docker run -v ${PWD}:/kanjimi -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /k
     --exclude cypress \
     --exclude Dictionary \
     --exclude node_modules \
-    --exclude production/ssh_key \
-    --exclude production/ssh_key.pub \
+    --exclude dist/production/ssh_key \
+    --exclude dist/production/ssh_key.pub \
     -rv \
-    -e 'ssh -i /kanjimi/production/ssh_key' \
+    -e 'ssh -i /kanjimi/dist/production/ssh_key' \
     ./ \
     root@$SERVER_HOSTNAME:/kanjimi
 
-ssh -i ./production/ssh_key root@$SERVER_HOSTNAME /bin/bash << EOF
+ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME /bin/bash << EOF
     cd /kanjimi
 
     docker build \
         -t server \
         --build-arg SERVER_HOSTNAME=$SERVER_HOSTNAME \
-        -f /kanjimi/production/Dockerfile \
+        -f /kanjimi/dist/production/Dockerfile \
         .
 
     docker run \
         --name migrate \
-        --env-file /kanjimi/production/server.env \
+        --env-file /kanjimi/dist/production/server.env \
         --init \
         --interactive \
         --rm \
@@ -62,7 +62,7 @@ ssh -i ./production/ssh_key root@$SERVER_HOSTNAME /bin/bash << EOF
 
     docker create \
         --name server \
-        --env-file /kanjimi/production/server.env \
+        --env-file /kanjimi/dist/production/server.env \
         --restart always \
         --publish 443:3000 \
         --log-driver journald \

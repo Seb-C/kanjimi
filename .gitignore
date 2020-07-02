@@ -9,6 +9,6 @@ www/js/*.build.js
 www/css/*.build.css
 /cypress/screenshots/
 /cypress/videos/
-/production/kanjimi-server.env
+/production/server.env
 /production/ssh_key
 /production/ssh_key.pub

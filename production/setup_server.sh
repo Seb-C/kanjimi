@@ -32,29 +32,29 @@ ssh -i ./production/ssh_key root@$SERVER_HOSTNAME /bin/bash << EOF
     cd /kanjimi
 
     docker build \
-        -t kanjimi-server \
+        -t server \
         -f /kanjimi/production/Dockerfile \
         --build-arg SERVER_HOSTNAME=$SERVER_HOSTNAME \
         .
 
     docker run \
-        --env-file /kanjimi/production/kanjimi-server.env \
+        --env-file /kanjimi/production/server.env \
         --init \
         --interactive \
         --rm \
-        kanjimi-server \
+        server \
         node server/Server/migrate.js
 
-    docker stop kanjimi-server --time 30
-    docker rm kanjimi-server
+    docker stop server --time 30
+    docker rm server
     docker create \
-        --name kanjimi-server \
-        --env-file /kanjimi/production/kanjimi-server.env \
+        --name server \
+        --env-file /kanjimi/production/server.env \
         --restart always \
         --publish 443:3000 \
         --log-driver journald \
-        kanjimi-server
-    docker start kanjimi-server
+        server
+    docker start server
 
     until [[ "$(docker ps --filter health=starting -q | wc -l)" == "0" ]]; do
         sleep 1

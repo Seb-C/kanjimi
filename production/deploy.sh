@@ -2,8 +2,8 @@
 
 set -e
 
-if [ ! -f ./production/kanjimi-server.env ]; then
-    echo 'Missing kanjimi-server.env file'
+if [ ! -f ./production/server.env ]; then
+    echo 'Missing server.env file'
     exit 1
 fi
 

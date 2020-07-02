@@ -14,7 +14,7 @@ RUN chmod a+r-w -R /app
 WORKDIR /app
 
 RUN apk add --no-cache openssh
-RUN mkdir -p ./production/kanjimi-server-certificate
+RUN mkdir -p ./production/server-certificate
 
 RUN openssl req -nodes \
     -newkey rsa:2048 \

@@ -1,40 +1,29 @@
 MVP:
-    test and debug the installation script
+    script to generate a directory to upload for the extension review process
+    get and install servers
+    get and install database
+    setup smtp
+    check the database backups
     check that unattended-upgrades works (wait for friday~saturday)
-    check with systemctl that the logs are preserved properly
+    cloudflare: setup load balancer
+    cloudflare: cache www
+    check cache bursting in case of update (js/css)
     need to clear cloudflare cache after deploy?
-    digitalocean:
-        - which distribution? -> debian
-        - get two instances
-        - get the database
-        - set the db backups?
-        - add ssh keys
-    cloudflare config
-        - api endpoints
-        - www endpoints
-        - cache www
-        - rate limiting api
-        - load balancing
-        - need cache bursting for js/css?
     CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
     test charge
     need to register a copyright?! trademark?
-    script to generate a directory to upload for the extension review process
     post on producthunt
     post on hackernews
     post on reddit
     post on linkedin
     post on twitter
-    infra:
-        - Cloudflare: reverse proxy, load balancing, cdn
-        - digitalocean: VPS instances
-        - db: digitalocean (+ add backups?) with read-only nodes
-        - better emails (ovh spam filter sucks...)?
     business address?
-    bank OK?
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
 
 After:
+    cloudflare: rate limiting for the API
+    end of Beta: bank OK?
+    better emails (ovh spam filter sucks...)?
     2FA for cloudflare
     investigate the slow starting time of Jasmine
     reenable the docker_image test (fails because the healthcheck does not have a database)

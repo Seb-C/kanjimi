@@ -12,4 +12,4 @@ if [ ! -f ./production/ssh_key ]; then
     exit 1
 fi
 
-./production/setup_server.sh s1.kanjimi.com
+./production/setup_server.sh 167.71.146.98

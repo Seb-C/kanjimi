@@ -13,17 +13,19 @@ ssh -i ./production/ssh_key root@$SERVER_HOSTNAME apt-get install -y \
 # Uploading files
 docker run -v ${PWD}:/kanjimi -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /kanjimi -it --rm instrumentisto/rsync-ssh \
     rsync \
+    --checksum \
     --delete \
     --progress \
     --info=progress2 \
     --exclude .git \
     --exclude .github \
+    --exclude cypress \
     --exclude Dictionary \
     --exclude firefox-profile \
     --exclude node_modules \
     --exclude production/ssh_key \
     --exclude production/ssh_key.pub \
-    -urv \
+    -rv \
     -e 'ssh -i /kanjimi/production/ssh_key' \
     ./ \
     root@$SERVER_HOSTNAME:/kanjimi
@@ -33,11 +35,12 @@ ssh -i ./production/ssh_key root@$SERVER_HOSTNAME /bin/bash << EOF
 
     docker build \
         -t server \
-        -f /kanjimi/production/Dockerfile \
         --build-arg SERVER_HOSTNAME=$SERVER_HOSTNAME \
+        -f /kanjimi/production/Dockerfile \
         .
 
     docker run \
+        --name migrate \
         --env-file /kanjimi/production/server.env \
         --init \
         --interactive \
@@ -45,8 +48,18 @@ ssh -i ./production/ssh_key root@$SERVER_HOSTNAME /bin/bash << EOF
         server \
         node server/Server/migrate.js
 
-    docker stop server --time 30
-    docker rm server
+    if [[ "$(docker ps --filter name=server -q | wc -l)" == "1" ]]; then
+        docker stop server --time 30
+    else
+        echo "Server not already running"
+    fi
+
+    if [[ "$(docker ps -a --filter name=server -q | wc -l)" == "1" ]]; then
+        docker rm server
+    else
+        echo "Server container does not already exists"
+    fi
+
     docker create \
         --name server \
         --env-file /kanjimi/production/server.env \

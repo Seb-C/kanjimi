@@ -21,7 +21,6 @@ MVP:
     business address?
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
     reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
-    remove the landing-page directory
     change homepage wording ("we are building")
 
 After:

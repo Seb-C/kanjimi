@@ -1,6 +1,4 @@
 MVP:
-    disable links from the homepage temporarily
-    change homepage wording ("we are building")
     get and install servers
     get and install database
     setup smtp
@@ -22,6 +20,9 @@ MVP:
     post on twitter
     business address?
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
+    reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
+    remove the landing-page directory
+    change homepage wording ("we are building")
 
 After:
     cloudflare: rate limiting for the API
@@ -87,6 +88,7 @@ After:
         - Test the Page endpoint
         - Test the Page client method
         - Test the browser with Cypress
+        - Change homepage info (browsers) + review wording
     Dictionary: split definitions and reading/tags?
     dependency-injection for all the browser.xxx APIs from the main script
     bookmarklet that redirects to the site?

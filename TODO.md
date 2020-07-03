@@ -1,12 +1,13 @@
 MVP:
+    business address?
     get and install servers
     get and install database
     setup smtp
-    wait for the load balancer before updating the next server
+    check redirection to www
     check the database backups
     check that unattended-upgrades works (wait for friday~saturday)
-    firewall: filter on cloudflare ips?
-    cloudflare: setup load balancer
+    firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ )
+    cloudflare: setup load balancer (healthcheck delay = 30s)
     cloudflare: cache www
     check cache bursting in case of update (js/css)
     need to clear cloudflare cache after deploy?
@@ -18,7 +19,6 @@ MVP:
     post on reddit
     post on linkedin
     post on twitter
-    business address?
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
     reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
     change homepage wording ("we are building")

@@ -73,3 +73,6 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME /bin/bash << EOF
         sleep 1
     done
 EOF
+
+echo "Waiting one minute for the load balancer checks"
+sleep 60

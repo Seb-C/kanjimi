@@ -1,4 +1,5 @@
 MVP:
+    twitter link in-app
     script to generate a directory to upload for the extension review process
     disable links from the homepage temporarily
     change homepage wording ("we are building")
@@ -8,6 +9,7 @@ MVP:
     wait for the load balancer before updating the next server
     check the database backups
     check that unattended-upgrades works (wait for friday~saturday)
+    firewall: filter on cloudflare ips?
     cloudflare: setup load balancer
     cloudflare: cache www
     check cache bursting in case of update (js/css)
@@ -65,6 +67,7 @@ After:
     only apply conjugations to the words with verb tags
     conjugations that depends on the verb tags
     Iframe browser:
+        - Test webapps like twitter
         - Can use a custom protocol handler to hide the in-app url bar?
         - Reenable the server route, client route and layout menu link
         - Handle errors appearing in the console

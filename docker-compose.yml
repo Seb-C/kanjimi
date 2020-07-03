@@ -34,7 +34,7 @@ services:
           echo 'Waiting for the server source files...'
           sleep 1
         done;
-        ./node_modules/.bin/nodemon -w ./server --expose-gc dist/server/Server/server.js
+        ./node_modules/.bin/nodemon -w ./dist/server --expose-gc dist/server/Server/server.js
       "
     #command: ./node_modules/.bin/nodemon -w ./server --inspect=0.0.0.0:9229 --expose-gc dist/server/Server/server.js
     healthcheck:

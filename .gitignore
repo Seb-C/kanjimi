@@ -10,6 +10,7 @@ www/css/*.build.css
 /dist/*.zip
 /dist/extension-prod
 /dist/extension-review
+/dist/extension-review.*
 /dist/production/server.env
 /dist/production/ssh_key
 /dist/production/ssh_key.pub

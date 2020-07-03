@@ -1,5 +1,4 @@
 MVP:
-    review process: add command  to archive as a tarfile (with docker)
     disable links from the homepage temporarily
     change homepage wording ("we are building")
     get and install servers

@@ -41,7 +41,23 @@ find ./dist/extension-review/src -type f -name "*.test.ts" -delete
 find ./dist/extension-review/src -type f -name "*.e2e.ts" -delete
 echo '#!/bin/bash
 set -e
-docker run -v ${PWD}:/kanjimi:delegated -w /kanjimi -it --init --rm node:14-alpine npm install --ignore-scripts
+docker run \
+    -v ${PWD}:/kanjimi:delegated \
+    -w /kanjimi \
+    --interactive \
+    --tty \
+    --init \
+    --rm node:14-alpine \
+    npm install --ignore-scripts
 ./src/Extension/build.sh
 ' > ./dist/extension-review/build.sh
 chmod +x ./dist/extension-review/build.sh
+docker run \
+    -v ${PWD}:/kanjimi:delegated \
+    -w /kanjimi \
+    --interactive \
+    --tty \
+    --init \
+    --rm \
+    alpine \
+    tar -czvf ./dist/extension-review.tar.gz ./dist/extension-review

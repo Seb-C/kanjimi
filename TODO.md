@@ -1,8 +1,11 @@
 MVP:
-    business address?
+    setup smtp -> copy config with password to mac
+    smtp -> waiting for AWS answer to have production mode
+    business address? -> use home?
     get and install servers
     get and install database
-    setup smtp
+    how to keep accounting?
+    update servers manually after install (and reboot?)
     check redirection to www
     check the database backups
     check that unattended-upgrades works (wait for friday~saturday)

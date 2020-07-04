@@ -5,15 +5,13 @@ MVP:
     get and install servers
     get and install database
     update servers manually before install (and reboot?)
-    check redirection to www
+    check redirection to www (NodeJS side)
     check the database backups
-    firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ )
     cloudflare: setup load balancer (healthcheck delay = 30s)
     cloudflare: cache www
     check cache bursting in case of update (js/css)
     need to clear cloudflare cache after deploy?
     CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
-    test charge
     need to register a copyright?! trademark?
     post on producthunt
     post on hackernews
@@ -25,6 +23,8 @@ MVP:
     change homepage wording ("we are building")
 
 After:
+    test charge
+    firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ )
     improve the visibility of error messages in the subscription page (too small)
     set docker-compose stop_grace_period to make stop faster
     manually rate-limit the user creation route (save ip in db?)

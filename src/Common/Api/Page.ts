@@ -20,11 +20,14 @@ export const get = async (key: string, url: string): Promise<{
 		throw new ValidationError(await response.json());
 	}
 	if (response.status >= 500 && response.status < 600) {
+		let error: string|null;
 		try {
-			throw new ServerError(await response.json());
+			error = await response.json();
 		} catch (jsonError) {
-			throw new ServerError(null);
+			error = null;
 		}
+
+		throw new ServerError(error);
 	}
 
 	const contentType = response.headers.get('Content-Type');

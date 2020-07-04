@@ -12,22 +12,24 @@ export const create = async (attributes: {
 		body: JSON.stringify(attributes),
 	});
 
+	let responseData: any;
 	try {
-		const responseData = await response.json();
-		if (response.status === 422) {
-			throw new ValidationError(responseData);
-		}
-		if (response.status === 403) {
-			throw new AuthenticationError(responseData);
-		}
-		if (response.status >= 500 && response.status < 600) {
-			throw new ServerError(responseData);
-		}
-
-		return ApiKey.fromApi(responseData);
+		responseData = await response.json();
 	} catch (jsonError) {
 		throw new ServerError(null);
 	}
+
+	if (response.status === 422) {
+		throw new ValidationError(responseData);
+	}
+	if (response.status === 403) {
+		throw new AuthenticationError(responseData);
+	}
+	if (response.status >= 500 && response.status < 600) {
+		throw new ServerError(responseData);
+	}
+
+	return ApiKey.fromApi(responseData);
 };
 
 export const get = async (key: string): Promise<ApiKey> => {
@@ -38,17 +40,19 @@ export const get = async (key: string): Promise<ApiKey> => {
 		},
 	});
 
+	let responseData: any;
 	try {
-		const responseData = await response.json();
-		if (response.status === 403) {
-			throw new AuthenticationError(responseData);
-		}
-		if (response.status >= 500 && response.status < 600) {
-			throw new ServerError(responseData);
-		}
-
-		return ApiKey.fromApi(responseData);
+		responseData = await response.json();
 	} catch (jsonError) {
 		throw new ServerError(null);
 	}
+
+	if (response.status === 403) {
+		throw new AuthenticationError(responseData);
+	}
+	if (response.status >= 500 && response.status < 600) {
+		throw new ServerError(responseData);
+	}
+
+	return ApiKey.fromApi(responseData);
 };

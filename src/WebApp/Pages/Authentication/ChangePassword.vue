@@ -150,7 +150,7 @@
 					} else if (error instanceof NotFoundError) {
 						this.errors = { bottom: 'We were unable to find this account. Please try to refresh the page.' };
 					} else if (error instanceof ServerError) {
-						console.error('Server error during the change password request. Response body: ', error.body);
+						console.error('Server error during the change password request. Response body: ', error.error);
 						this.errors = { bottom: 'There have been an unknown error. Please try again in a little while' };
 					} else {
 						throw error;

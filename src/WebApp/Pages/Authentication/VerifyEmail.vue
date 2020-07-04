@@ -70,7 +70,7 @@
 				} else if (error instanceof ConflictError) {
 					this.error = null; // Show it as a success
 				} else if (error instanceof ServerError) {
-					console.error('Server error during the email verification. Response body: ', error.body);
+					console.error('Server error during the email verification. Response body: ', error.error);
 					this.error = 'There have been an unknown error. Please try again in a little while';
 				} else {
 					throw error;

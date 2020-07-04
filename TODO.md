@@ -4,11 +4,9 @@ MVP:
     business address? -> use home?
     get and install servers
     get and install database
-    how to keep accounting?
-    update servers manually after install (and reboot?)
+    update servers manually before install (and reboot?)
     check redirection to www
     check the database backups
-    check that unattended-upgrades works (wait for friday~saturday)
     firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ )
     cloudflare: setup load balancer (healthcheck delay = 30s)
     cloudflare: cache www
@@ -27,7 +25,12 @@ MVP:
     change homepage wording ("we are building")
 
 After:
-    cloudflare: rate limiting for the API
+    improve the visibility of error messages in the subscription page (too small)
+    set docker-compose stop_grace_period to make stop faster
+    manually rate-limit the user creation route (save ip in db?)
+    how to keep accounting?
+    aws -> double factor authentication?
+    add manual backups of the db, done on the servers to complete the 7 days provided?
     end of Beta: bank OK?
     better emails (ovh spam filter sucks...)?
     2FA for cloudflare

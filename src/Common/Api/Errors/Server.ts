@@ -1,7 +1,7 @@
 export default class Server {
-	public readonly body: string;
+	public readonly error: string|null;
 
-	constructor(body: string) {
-		this.body = body;
+	constructor(error: string|null) {
+		this.error = error;
 	}
 }

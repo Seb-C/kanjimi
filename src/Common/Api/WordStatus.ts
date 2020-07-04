@@ -11,19 +11,23 @@ export const search = async (key: string, strings: string[]): Promise<WordStatus
 			Authorization: `Bearer ${key}`,
 		},
 	});
-	const responseData = await response.json();
 
-	if (response.status === 422) {
-		throw new ValidationError(responseData);
-	}
-	if (response.status === 403) {
-		throw new AuthenticationError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 422) {
+			throw new ValidationError(responseData);
+		}
+		if (response.status === 403) {
+			throw new AuthenticationError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return responseData.map((wordStatusData: any) => WordStatus.fromApi(wordStatusData));
+		return responseData.map((wordStatusData: any) => WordStatus.fromApi(wordStatusData));
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };
 
 export const createOrUpdate = async (key: string, wordStatus: WordStatus): Promise<WordStatus> => {
@@ -39,17 +43,21 @@ export const createOrUpdate = async (key: string, wordStatus: WordStatus): Promi
 			showTranslation: wordStatus.showTranslation,
 		}),
 	});
-	const responseData = await response.json();
 
-	if (response.status === 422) {
-		throw new ValidationError(responseData);
-	}
-	if (response.status === 403) {
-		throw new AuthenticationError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 422) {
+			throw new ValidationError(responseData);
+		}
+		if (response.status === 403) {
+			throw new AuthenticationError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return WordStatus.fromApi(responseData);
+		return WordStatus.fromApi(responseData);
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };

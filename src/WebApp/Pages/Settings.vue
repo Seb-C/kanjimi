@@ -199,7 +199,7 @@
 					} else if (error instanceof NotFoundError) {
 						this.errors = { top: 'We were unable to find your account. Please try to refresh the page.' };
 					} else if (error instanceof ServerError) {
-						console.error('Server error during user settings change. Response body: ', error.body);
+						console.error('Server error during user settings change. Response body: ', error.error);
 						this.errors = { top: 'There have been an unknown error. Please try again in a little while' };
 					} else {
 						throw error;

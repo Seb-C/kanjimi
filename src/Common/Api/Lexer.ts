@@ -22,22 +22,25 @@ export const analyze = async (
 		body: JSON.stringify(data),
 	});
 
-	const responseData = await response.json();
+	try {
+		const responseData = await response.json();
+		if (response.status === 422) {
+			throw new ValidationError(responseData);
+		}
+		if (response.status === 403) {
+			throw new AuthenticationError(responseData);
+		}
+		if (response.status === 402) {
+			throw new PaymentRequiredError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	if (response.status === 422) {
-		throw new ValidationError(responseData);
+		return responseData.map((tokenList: any) => {
+			return tokenList.map((tokenData: any) => Token.fromApi(tokenData));
+		});
+	} catch (jsonError) {
+		throw new ServerError(null);
 	}
-	if (response.status === 403) {
-		throw new AuthenticationError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
-	if (response.status === 402) {
-		throw new PaymentRequiredError(responseData);
-	}
-
-	return responseData.map((tokenList: any) => {
-		return tokenList.map((tokenData: any) => Token.fromApi(tokenData));
-	});
 };

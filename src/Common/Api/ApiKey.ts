@@ -11,19 +11,23 @@ export const create = async (attributes: {
 		method: 'POST',
 		body: JSON.stringify(attributes),
 	});
-	const responseData = await response.json();
 
-	if (response.status === 422) {
-		throw new ValidationError(responseData);
-	}
-	if (response.status === 403) {
-		throw new AuthenticationError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 422) {
+			throw new ValidationError(responseData);
+		}
+		if (response.status === 403) {
+			throw new AuthenticationError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return ApiKey.fromApi(responseData);
+		return ApiKey.fromApi(responseData);
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };
 
 export const get = async (key: string): Promise<ApiKey> => {
@@ -33,14 +37,18 @@ export const get = async (key: string): Promise<ApiKey> => {
 			Authorization: `Bearer ${key}`,
 		},
 	});
-	const responseData = await response.json();
 
-	if (response.status === 403) {
-		throw new AuthenticationError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 403) {
+			throw new AuthenticationError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return ApiKey.fromApi(responseData);
+		return ApiKey.fromApi(responseData);
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };

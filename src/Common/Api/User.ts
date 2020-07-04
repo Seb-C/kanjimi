@@ -13,16 +13,20 @@ export const get = async (key: string, userId: string): Promise<User> => {
 			Authorization: `Bearer ${key}`,
 		},
 	});
-	const responseData = await response.json();
 
-	if (response.status === 403) {
-		throw new AuthenticationError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 403) {
+			throw new AuthenticationError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return User.fromApi(responseData);
+		return User.fromApi(responseData);
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };
 
 export const create = async (attributes: {
@@ -36,19 +40,23 @@ export const create = async (attributes: {
 		method: 'POST',
 		body: JSON.stringify(attributes),
 	});
-	const responseData = await response.json();
 
-	if (response.status === 422) {
-		throw new ValidationError(responseData);
-	}
-	if (response.status === 409) {
-		throw new ConflictError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 422) {
+			throw new ValidationError(responseData);
+		}
+		if (response.status === 409) {
+			throw new ConflictError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return User.fromApi(responseData);
+		return User.fromApi(responseData);
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };
 
 export const verifyEmail = async (userId: string, emailVerificationKey: string): Promise<User> => {
@@ -58,25 +66,29 @@ export const verifyEmail = async (userId: string, emailVerificationKey: string):
 			emailVerificationKey,
 		}),
 	});
-	const responseData = await response.json();
 
-	if (response.status === 422) {
-		throw new ValidationError(responseData);
-	}
-	if (response.status === 409) {
-		throw new ConflictError(responseData);
-	}
-	if (response.status === 403) {
-		throw new AuthenticationError(responseData);
-	}
-	if (response.status === 404) {
-		throw new NotFoundError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 422) {
+			throw new ValidationError(responseData);
+		}
+		if (response.status === 409) {
+			throw new ConflictError(responseData);
+		}
+		if (response.status === 403) {
+			throw new AuthenticationError(responseData);
+		}
+		if (response.status === 404) {
+			throw new NotFoundError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return User.fromApi(responseData);
+		return User.fromApi(responseData);
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };
 
 export const update = async (key: string, userId: string, attributes: {
@@ -93,22 +105,26 @@ export const update = async (key: string, userId: string, attributes: {
 		},
 		body: JSON.stringify(attributes),
 	});
-	const responseData = await response.json();
 
-	if (response.status === 422) {
-		throw new ValidationError(responseData);
-	}
-	if (response.status === 403) {
-		throw new AuthenticationError(responseData);
-	}
-	if (response.status === 404) {
-		throw new NotFoundError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 422) {
+			throw new ValidationError(responseData);
+		}
+		if (response.status === 403) {
+			throw new AuthenticationError(responseData);
+		}
+		if (response.status === 404) {
+			throw new NotFoundError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return User.fromApi(responseData);
+		return User.fromApi(responseData);
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };
 
 export const requestResetPassword = async (email: string) => {
@@ -116,16 +132,20 @@ export const requestResetPassword = async (email: string) => {
 		method: 'POST',
 		body: JSON.stringify({ email }),
 	});
-	const responseData = await response.json();
 
-	if (response.status === 422) {
-		throw new ValidationError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 422) {
+			throw new ValidationError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return <string>responseData;
+		return <string>responseData;
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };
 
 export const resetPassword = async (userId: string, attributes: {
@@ -136,20 +156,24 @@ export const resetPassword = async (userId: string, attributes: {
 		method: 'PATCH',
 		body: JSON.stringify(attributes),
 	});
-	const responseData = await response.json();
 
-	if (response.status === 422) {
-		throw new ValidationError(responseData);
-	}
-	if (response.status === 403) {
-		throw new AuthenticationError(responseData);
-	}
-	if (response.status === 404) {
-		throw new NotFoundError(responseData);
-	}
-	if (response.status >= 500 && response.status < 600) {
-		throw new ServerError(await response.text());
-	}
+	try {
+		const responseData = await response.json();
+		if (response.status === 422) {
+			throw new ValidationError(responseData);
+		}
+		if (response.status === 403) {
+			throw new AuthenticationError(responseData);
+		}
+		if (response.status === 404) {
+			throw new NotFoundError(responseData);
+		}
+		if (response.status >= 500 && response.status < 600) {
+			throw new ServerError(responseData);
+		}
 
-	return User.fromApi(responseData);
+		return User.fromApi(responseData);
+	} catch (jsonError) {
+		throw new ServerError(null);
+	}
 };

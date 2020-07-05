@@ -1,6 +1,10 @@
 MVP:
     setup smtp -> copy config with password to mac
-    smtp -> waiting for AWS answer to have production mode
+    smtp SES
+        -> setup DKIM ( https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication-dkim.html )
+        -> setup SPF ( https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication-spf.html )
+        -> setup altert for high usage or limit almost reached
+        -> bounces and complaints ( https://aws.amazon.com/fr/blogs/messaging-and-targeting/handling-bounces-and-complaints/ )
     business address? -> use home?
     get and install servers
     get and install database
@@ -23,6 +27,7 @@ MVP:
     change homepage wording ("we are building")
 
 After:
+    update domain whois with kanjimi business address?
     test charge
     firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ )
     improve the visibility of error messages in the subscription page (too small)

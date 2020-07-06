@@ -1,11 +1,7 @@
 MVP:
-    setup smtp -> copy config with password to mac
-    smtp SES
-        -> setup DKIM ( https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication-dkim.html )
-        -> setup SPF ( https://docs.aws.amazon.com/ses/latest/DeveloperGuide/send-email-authentication-spf.html )
-        -> setup altert for high usage or limit almost reached
-        -> bounces and complaints ( https://aws.amazon.com/fr/blogs/messaging-and-targeting/handling-bounces-and-complaints/ )
     business address? -> use home?
+    check immigration
+    declare activity
     get and install servers
     get and install database
     update servers manually before install (and reboot?)
@@ -16,7 +12,6 @@ MVP:
     check cache bursting in case of update (js/css)
     need to clear cloudflare cache after deploy?
     CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
-    need to register a copyright?! trademark?
     post on producthunt
     post on hackernews
     post on reddit
@@ -27,6 +22,8 @@ MVP:
     change homepage wording ("we are building")
 
 After:
+    setup SES alert when quota reached?
+    mass emails = must handle bounces and complaints ( https://aws.amazon.com/fr/blogs/messaging-and-targeting/handling-bounces-and-complaints/ )
     update domain whois with kanjimi business address?
     test charge
     firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ )

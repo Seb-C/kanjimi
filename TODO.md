@@ -1,11 +1,11 @@
 MVP:
-    business address? -> use home?
-    check immigration
-    declare activity
+    business address? -> use home? -> waiting for permission1
+    check immigration -> waiting for mail answer
+    declare activity -> if permissions OK
     get and install servers
     get and install database
     update servers manually before install (and reboot?)
-    check redirection to www (NodeJS side)
+    cloudflare: always redirect to HTTPS?
     check the database backups
     cloudflare: setup load balancer (healthcheck delay = 30s)
     cloudflare: cache www
@@ -22,11 +22,13 @@ MVP:
     change homepage wording ("we are building")
 
 After:
+    refactor the server.ts file to be more readable
+    test NHK easy
     setup SES alert when quota reached?
     mass emails = must handle bounces and complaints ( https://aws.amazon.com/fr/blogs/messaging-and-targeting/handling-bounces-and-complaints/ )
     update domain whois with kanjimi business address?
     test charge
-    firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ )
+    firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ ) -> is it enough to redirect to the origin?
     improve the visibility of error messages in the subscription page (too small)
     set docker-compose stop_grace_period to make stop faster
     manually rate-limit the user creation route (save ip in db?)

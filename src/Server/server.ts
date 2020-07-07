@@ -94,6 +94,19 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 		auth: smtpAuth.user ? smtpAuth : undefined,
 	}, { from: '"Kanjimi" <contact@kanjimi.com>' });
 
+	// This one must not be redirected to the right origin
+	application.get('/api/health-check', HealthCheckController.get(db, mailer));
+
+	// Redirecting to origin if the domain or protocol are wrong
+	application.all('/*', function (request: Request, response: Response, next: Function) {
+		const requestOrigin = request.protocol + '://' + request.headers.host;
+		if (!requestOrigin.startsWith(<string>process.env.KANJIMI_WWW_URL)) {
+			return response.redirect(301, process.env.KANJIMI_WWW_URL + request.url);
+		} else {
+			return next();
+		}
+	});
+
 	application.all('/test-pages/*', (request: Request, response: Response, next: Function) => {
 		if (process.env.KANJIMI_ALLOW_TEST_PAGES === 'true') {
 			return next();
@@ -108,8 +121,6 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 		response.set('Access-Control-Allow-Origin', '*');
 		return next();
 	});
-
-	application.get('/api/health-check', HealthCheckController.get(db, mailer));
 
 	application.post('/api/lexer/analyze', LexerController.analyze(db, lexer));
 

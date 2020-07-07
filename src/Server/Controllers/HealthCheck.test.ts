@@ -17,4 +17,16 @@ describe('HealthCheckController', async function() {
 			.withContext(JSON.stringify(healthCheckResponseValidator.errors))
 			.toBe(true);
 	});
+
+	it('get (not redirected with a different origin)', async function() {
+		const response = await fetch('https://127.0.0.1:3000/api/health-check', {
+			redirect: 'error',
+		});
+		expect(response.status).toBe(200);
+		const responseData = await response.json();
+
+		expect(healthCheckResponseValidator(responseData))
+			.withContext(JSON.stringify(healthCheckResponseValidator.errors))
+			.toBe(true);
+	});
 });

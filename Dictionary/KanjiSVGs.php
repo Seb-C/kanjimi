@@ -13,8 +13,15 @@ $recursivelyFindData = function (DOMNode $node, array $inheritedAttributes = [])
 
 			if ($node->hasAttribute('kvg:position')) {
 				$attributes['position'] = $node->getAttribute('kvg:position');
-			} elseif (!empty($attributes['element']) && !empty($inheritedAttributes['position'])) {
+			} elseif ($node->hasAttribute('kvg:element') && !empty($inheritedAttributes['position'])) {
 				$attributes['position'] = $inheritedAttributes['position'];
+			}
+
+			if ($node->hasAttribute('kvg:type')) {
+				$attributes['stroke'] = $node->getAttribute('kvg:type');
+
+				// Removing superfluous characters
+				$attributes['stroke'] = mb_substr($attributes['stroke'], 0, 1);
 			}
 		}
 
@@ -23,9 +30,13 @@ $recursivelyFindData = function (DOMNode $node, array $inheritedAttributes = [])
 			$components = $recursivelyFindData($node->firstChild, $attributes);
 		}
 
-		if (!empty($attributes) && !empty($attributes['element'])) {
+		if (!empty($attributes['stroke'])) {
+			$data[] = $attributes['stroke'];
+		} elseif (!empty($attributes['element'])) {
 			$nodeData = $attributes;
-			$nodeData['components'] = $components;
+			if (!empty($components)) {
+				$nodeData['components'] = $components;
+			}
 			$data[] = $nodeData;
 		} elseif (!empty($components)) {
 			array_push($data, ...$components);

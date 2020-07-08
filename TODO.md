@@ -22,7 +22,6 @@ MVP:
     change homepage wording ("we are building")
 
 After:
-    refactor the server.ts file to be more readable
     test NHK easy
     setup SES alert when quota reached?
     mass emails = must handle bounces and complaints ( https://aws.amazon.com/fr/blogs/messaging-and-targeting/handling-bounces-and-complaints/ )

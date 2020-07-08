@@ -18,16 +18,10 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 //import * as PageController from 'Server/Controllers/Page';
 
 (async () => {
-	const startupWaiters: Function[] = [];
-	let started = false;
-	const waitForStartupMiddleware = (request: Request, response: Response, next: Function) => {
-		if (started) {
-			next();
-		} else {
-			startupWaiters.push(next);
-		}
-	};
-	const logRequestMiddleware = (request: Request, response: Response, next: Function) => {
+	const application = Express();
+	application.disable('etag'); // Disable caching
+	application.use((request: Request, response: Response, next: Function) => {
+		// Logging requests
 		const startTime = +new Date();
 		response.on('finish', () => {
 			const responseTime = +new Date() - startTime;
@@ -40,12 +34,7 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 			console.log(`HTTP ${request.method} ${url} = ${response.statusCode} (${responseTime}ms)`);
 		});
 		next();
-	};
-
-	const application = Express();
-	application.disable('etag'); // Disable caching
-	application.use(logRequestMiddleware);
-	application.use(waitForStartupMiddleware);
+	});
 	application.use(BodyParser.json({ type: () => true }));
 	application.use(function (error: any, request: Request, response: Response, next: Function) {
 		if (error.type === 'entity.parse.failed' && request.url.startsWith('/api/')) {
@@ -55,21 +44,6 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 			}]);
 		} else {
 			return next(error);
-		}
-	});
-
-	const serverClosed = new Promise((resolve, reject) => {
-		try {
-			const server = Https.createServer({
-				key: FileSystem.readFileSync(Path.join(process.cwd(), <string>process.env.KANJIMI_SERVER_CERTIFICATE_KEY)).toString(),
-				cert: FileSystem.readFileSync(Path.join(process.cwd(), <string>process.env.KANJIMI_SERVER_CERTIFICATE_CRT)).toString(),
-			}, application);
-
-			server.listen(parseInt(<string>process.env.KANJIMI_SERVER_PORT));
-
-			server.on('close', resolve);
-		} catch (error) {
-			reject(error);
 		}
 	});
 
@@ -141,15 +115,16 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 
 	await dictionary.load();
 
-	if (global.gc) {
-		global.gc();
-	}
+	const server = Https.createServer({
+		key: FileSystem.readFileSync(Path.join(process.cwd(), <string>process.env.KANJIMI_SERVER_CERTIFICATE_KEY)).toString(),
+		cert: FileSystem.readFileSync(Path.join(process.cwd(), <string>process.env.KANJIMI_SERVER_CERTIFICATE_CRT)).toString(),
+	}, application);
 
-	// Ready, processing pending requests
-	started = true;
-	startupWaiters.forEach(f => f());
+	server.listen(parseInt(<string>process.env.KANJIMI_SERVER_PORT));
 	console.log('Server started');
 
-	await serverClosed;
+	await new Promise((resolve) => {
+		server.on('close', resolve);
+	});
 	await db.$pool.end();
 })().catch(console.error);

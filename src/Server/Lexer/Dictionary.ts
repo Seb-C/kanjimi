@@ -119,6 +119,10 @@ export default class Dictionary {
 				resolve();
 			});
 		});
+
+		if (global.gc) {
+			global.gc();
+		}
 	}
 
 	parseCsvLine (line: string): string[] {

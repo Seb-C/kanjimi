@@ -1,4 +1,4 @@
-.PHONY: test e2e cypress dictionary kanjis names browser db extension deploy
+.PHONY: test e2e cypress dictionary kanjis kanjisvgs names browser db extension deploy
 
 test:
 	docker-compose exec -T --env NODE_TLS_REJECT_UNAUTHORIZED="0" server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
@@ -15,6 +15,8 @@ dictionary:
 	docker run -v ${PWD}:/kanjimi:delegated -w /kanjimi -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Dictionary.php
 kanjis:
 	docker run -v ${PWD}:/kanjimi:delegated -w /kanjimi -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Kanjis.php
+kanjisvgs:
+	docker run -v ${PWD}:/kanjimi:delegated -w /kanjimi -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/KanjiSVGs.php
 names:
 	docker run -v ${PWD}:/kanjimi:delegated -w /kanjimi -it --init --rm --network=host $$(docker build -q ./Dictionary) php ./Dictionary/Names.php
 

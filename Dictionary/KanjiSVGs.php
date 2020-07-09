@@ -46,9 +46,10 @@ $recursivelyFindData = function (DOMNode $node, array $inheritedAttributes = [])
 	return $data;
 };
 
+$outputFile = fopen(__DIR__ . "/../src/Server/Lexer/data/kanjis-structure.jsonl", "w");
+
 $count = 0;
-$total = 6743;
-$kanjis = [];
+$total = 6422;
 foreach (new DirectoryIterator(realpath(__DIR__ . '/../www/img/KanjiVG')) as $file) {
 	if (!$file->isDot() && preg_match('/^[^-]+\.svg$/', $file->getFilename())) {
 		echo "$count / $total (now starting {$file->getFilename()})\n";
@@ -61,10 +62,9 @@ foreach (new DirectoryIterator(realpath(__DIR__ . '/../www/img/KanjiVG')) as $fi
 			continue; // No useful data in this file
 		}
 
-		$kanjis[$data[0]['element']] = $data[0];
+		fwrite($outputFile, json_encode($data[0]));
+		fwrite($outputFile, "\n");
 
 		$count++;
 	}
 }
-
-print_r($kanjis);

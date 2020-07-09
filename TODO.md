@@ -1,7 +1,5 @@
 MVP:
     kanjis:
-        add the kanji url in the generated structure
-        save the generated structure in a file
         parse the generated structure on the server, along with readings and meanings
         animate kanjis drawing
         generate a list of element positions for an enum
@@ -33,6 +31,7 @@ MVP:
     change homepage wording ("we are building")
 
 After:
+    alternative KanjiVG files = better?
     test NHK easy
     setup SES alert when quota reached?
     mass emails = must handle bounces and complaints ( https://aws.amazon.com/fr/blogs/messaging-and-targeting/handling-bounces-and-complaints/ )

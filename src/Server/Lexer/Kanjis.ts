@@ -93,7 +93,7 @@ export default class Kanjis {
 		this.structures.set(structure.element, structure);
 	}
 
-	private filterAndSortLangs(meanings: Meaning[], langs: Language[]|null): Meaning[] {
+	private filterAndSortLangs(meanings: Meaning[], langs: ReadonlyArray<Language>|null): Meaning[] {
 		if (langs === null) {
 			return meanings;
 		} else {
@@ -111,7 +111,7 @@ export default class Kanjis {
 		}
 	}
 
-	get (kanji: string, langs: Language[]|null): Kanji|null {
+	get (kanji: string, langs: ReadonlyArray<Language>|null): Kanji|null {
 		if (!this.has(kanji)) {
 			return null;
 		}

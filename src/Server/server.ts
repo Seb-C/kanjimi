@@ -99,6 +99,7 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	});
 
 	application.post('/api/lexer/analyze', LexerController.analyze(db, lexer));
+	application.get('/api/lexer/kanji/:kanji', LexerController.getKanji(db, kanjis));
 
 	application.post('/api/user', UserController.create(db, mailer));
 	application.post('/api/user/request-reset-password', UserController.requestResetPassword(db, mailer));

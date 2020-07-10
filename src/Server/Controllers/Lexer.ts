@@ -1,9 +1,13 @@
 import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
+import Kanji from 'Common/Models/Kanjis/Kanji';
+import Structure from 'Common/Models/Kanjis/Structure';
 import Token from 'Common/Models/Token';
 import Lexer from 'Server/Lexer/Lexer';
 import Language from 'Common/Types/Language';
+import Kanjis from 'Server/Lexer/Kanjis';
+import CharType from 'Common/Types/CharType';
 import * as PgPromise from 'pg-promise';
 import UserRepository from 'Server/Repositories/User';
 import UserActivityRepository from 'Server/Repositories/UserActivity';
@@ -87,5 +91,51 @@ export const analyze = (db: PgPromise.IDatabase<void>, lexer: Lexer) => (
 		}
 
 		return response.json(result);
+	}
+);
+
+export const getKanji = (db: PgPromise.IDatabase<void>, kanjis: Kanjis) => (
+	async (request: Request, response: Response) => {
+		const user = await (new UserRepository(db)).getFromRequest(request);
+		if (user === null) {
+			return response.status(403).json('Invalid api key');
+		}
+
+		const kanji: string = request.params.kanji;
+		if (typeof kanji !== 'string' || kanji.length !== 1 || CharType.of(kanji) !== CharType.KANJI) {
+			return response.status(422).json([{
+				keyword: 'type',
+				message: 'This is not a valid Kanji',
+			}]);
+		}
+
+		if (!kanjis.has(kanji)) {
+			return response.status(404).json('Unknown Kanji');
+		}
+
+		const outputKanjis: Kanji[] = [];
+		const recursivelyFindSubComponents = (structure: Structure) => {
+			structure.components.forEach((component: Structure|string) => {
+				if (typeof component === 'string') {
+					if (kanjis.has(component)) {
+						outputKanjis.push(<Kanji>kanjis.get(component, user.languages));
+					}
+				} else {
+					if (kanjis.has(component.element)) {
+						outputKanjis.push(<Kanji>kanjis.get(component.element, user.languages));
+					}
+					recursivelyFindSubComponents(component);
+				}
+			});
+		};
+		const requestedKanji = <Kanji>kanjis.get(kanji, user.languages);
+		outputKanjis.push(requestedKanji);
+		recursivelyFindSubComponents(requestedKanji.structure);
+
+		const outputKanjisObject: { [key: string]: object } = {};
+		outputKanjis.forEach((kanji) => {
+			outputKanjisObject[kanji.kanji] = kanji.toApi();
+		});
+		return response.json(outputKanjisObject);
 	}
 );

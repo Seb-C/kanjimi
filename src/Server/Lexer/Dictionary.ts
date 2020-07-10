@@ -4,6 +4,7 @@ import Language from 'Common/Types/Language';
 import * as FileSystem from 'fs';
 import * as Path from 'path';
 import * as ReadLine from 'readline';
+import parseCsvLine from 'Server/Lexer/Utils/parseCsvLine';
 
 class LinkedListWord extends Word {
 	public next: LinkedListWord|null = null;
@@ -38,7 +39,7 @@ export default class Dictionary {
 				input: dictionaryFileReadStream,
 			});
 			dictionaryFileIterator.on('line', (line) => {
-				const col = this.parseCsvLine(line);
+				const col = parseCsvLine(line);
 				const key = col[0];
 				const value: TempWord = [col[1], getSplittedTagArray(col[2])];
 
@@ -72,7 +73,7 @@ export default class Dictionary {
 				});
 
 				dictionaryFileIterator.on('line', (line) => {
-					const col = this.parseCsvLine(line);
+					const col = parseCsvLine(line);
 					const wordWithoutDefinition = wordsWithoutDefinitions.get(col[0]);
 					if (!wordWithoutDefinition) {
 						throw new Error(`Word ${col[0]} (${file.lang}) has a definition but does not exists.`);
@@ -105,7 +106,7 @@ export default class Dictionary {
 				input: dictionaryFileReadStream,
 			});
 			dictionaryFileIterator.on('line', (line) => {
-				const col = this.parseCsvLine(line);
+				const col = parseCsvLine(line);
 				this.add(
 					col[0],
 					col[1],
@@ -119,40 +120,6 @@ export default class Dictionary {
 				resolve();
 			});
 		});
-
-		if (global.gc) {
-			global.gc();
-		}
-	}
-
-	parseCsvLine (line: string): string[] {
-		const columns = [];
-
-		let colValue = '';
-		let index = 0;
-		const length = line.length;
-		do {
-			if (line[index] === ',' || index === length) {
-				if (colValue[0] === '"' && colValue[colValue.length - 1] === '"') {
-					// Removing quotes
-					colValue = colValue.substring(1, colValue.length - 1);
-
-					// Unescaping quotes
-					colValue = colValue.replace(/""/g, '"');
-				}
-
-				columns.push(colValue);
-
-				// Going to the next column
-				colValue = '';
-			} else {
-				colValue += line[index];
-			}
-
-			index++;
-		} while (index <= length);
-
-		return columns;
 	}
 
 	add (

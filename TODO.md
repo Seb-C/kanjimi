@@ -1,6 +1,5 @@
 MVP:
     kanjis:
-        parse the generated structure on the server, along with readings and meanings
         animate kanjis drawing
         generate a list of element positions for an enum
         show the kanji components (clickable?)

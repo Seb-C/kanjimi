@@ -3,6 +3,7 @@ import * as FileSystem from 'fs';
 import * as Path from 'path';
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
+import Kanjis from 'Server/Lexer/Kanjis';
 import * as PgPromise from 'pg-promise';
 import * as Express from 'express';
 import { Response } from 'express';
@@ -54,6 +55,7 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 		user: <string>process.env.KANJIMI_DATABASE_USER,
 		password: <string>process.env.KANJIMI_DATABASE_PASSWORD,
 	});
+	const kanjis = new Kanjis();
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
 
@@ -113,7 +115,12 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 
 	//application.get('/api/page', PageController.get(db));
 
+	await kanjis.load();
 	await dictionary.load();
+
+	if (global.gc) {
+		global.gc();
+	}
 
 	const server = Https.createServer({
 		key: FileSystem.readFileSync(Path.join(process.cwd(), <string>process.env.KANJIMI_SERVER_CERTIFICATE_KEY)).toString(),

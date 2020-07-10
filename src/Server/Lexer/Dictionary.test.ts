@@ -3,20 +3,6 @@ import Dictionary from 'Server/Lexer/Dictionary';
 import Language from 'Common/Types/Language';
 
 describe('Dictionary', async function() {
-	it('parseCsvLine method', async function() {
-		const dictionary = new Dictionary();
-		const columns = dictionary.parseCsvLine(
-			'あいうえお,aiueo,"""definition""","tag1/tag2/"""""',
-		);
-
-		expect(columns).toEqual([
-			'あいうえお',
-			'aiueo',
-			'"definition"',
-			'tag1/tag2/""',
-		]);
-	});
-
 	it('Get specific langs', async function() {
 		const dictionary = new Dictionary();
 		dictionary.add('ア', 'あ', Language.ENGLISH, 'translation en', []);

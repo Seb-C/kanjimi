@@ -100,6 +100,83 @@ const lexerResponseValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
+const getKanjiResponseValidator = new Ajv({ allErrors: true }).compile({
+	type: 'object',
+	additionalProperties: {
+		type: 'object',
+		additionalProperties: false,
+		required: [
+			'kanji',
+			'meanings',
+			'readings',
+			'structure',
+			'fileUrl',
+		],
+		properties: {
+			kanji: {
+				type: 'string',
+				minLength: 1,
+				maxLength: 1,
+			},
+			meanings: {
+				type: 'array',
+				items: {
+					type: 'object',
+					additionalProperties: false,
+					properties: {
+						kanji: {
+							type: 'string',
+						},
+						meaning: {
+							type: 'string',
+						},
+						meaningLang: {
+							type: 'string',
+						},
+					},
+				},
+			},
+			readings: {
+				type: 'array',
+				items: {
+					type: 'object',
+					additionalProperties: false,
+					properties: {
+						kanji: {
+							type: 'string',
+						},
+						reading: {
+							type: 'string',
+						},
+					},
+				},
+			},
+			structure: {
+				type: 'object',
+				additionalProperties: false,
+				properties: {
+					element: {
+						type: 'string',
+					},
+					position: {
+						type: ['string', 'null'],
+					},
+					components: {
+						type: 'array',
+						items: {
+							type: ['string', 'object'],
+						},
+					},
+				},
+			},
+			fileUrl: {
+				type: 'string',
+				format: 'uri',
+			},
+		},
+	},
+});
+
 let user: User;
 let apiKey: ApiKey;
 
@@ -221,5 +298,55 @@ describe('LexerController', async function() {
 		expect(this.validationErrorResponseValidator(responseData))
 			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
 			.toBe(true);
+	});
+
+	it('getKanji (normal case)', async function() {
+		const response = await fetch('https://localhost:3000/api/lexer/kanji/' + encodeURIComponent('恐'), {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+		});
+		expect(response.status).toBe(200);
+		const responseData = await response.json();
+
+		expect(getKanjiResponseValidator(responseData))
+			.withContext(JSON.stringify(getKanjiResponseValidator.errors))
+			.toBe(true);
+		expect(response.status).toBe(200);
+		expect(Object.keys(responseData)).toContain('恐');
+		expect(Object.keys(responseData)).toContain('心');
+		expect(Object.keys(responseData)).toContain('工');
+		expect(Object.keys(responseData)).toContain('凡');
+	});
+
+	it('getKanji (not a kanji error case)', async function() {
+		const response = await fetch('https://localhost:3000/api/lexer/kanji/X', {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+		});
+		expect(response.status).toBe(422);
+	});
+
+	it('getKanji (more than one character error case)', async function() {
+		const response = await fetch('https://localhost:3000/api/lexer/kanji/test', {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+		});
+		expect(response.status).toBe(422);
+	});
+
+	it('getKanji (unknown Kanji error case)', async function() {
+		const response = await fetch('https://localhost:3000/api/lexer/kanji/' + encodeURIComponent('龯'), {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+		});
+		expect(response.status).toBe(404);
 	});
 });

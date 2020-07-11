@@ -1094,25 +1094,34 @@
 
 		<footer class="bg-dark text-white">
 			<div class="container p-3">
-				<div class="row">
-					<div
-						class="col-12 col-md-6 text-center text-md-left"
-						data-aos="slide-right"
-						data-aos-anchor="#twitter"
-						data-aos-anchor-placement="top-center"
-					>
+				<div class="row text-center">
+					<div class="col-12 col-sm-4 text-sm-right">
 						<!--
-						<a href="./app/about" class="text-white">About Kanjimi - Contact</a>
+						<a
+							href="./app/about"
+							v-on:click="aboutLinkClickHandler($event)"
+							class="text-white text-nowrap"
+						>About Kanjimi - Contact</a>
 						-->
 					</div>
-					<div
-						class="col-12 col-md-6 text-center text-md-right mt-3 mt-md-0"
-						data-aos="slide-left"
-						data-aos-anchor="#twitter"
-						data-aos-anchor-placement="top-center"
-					>
-						Copyright &copy; 2020 Sébastien Caparros - All rights reserved
+					<div class="col-12 col-sm-4">
+						<a
+							href="https://www.iubenda.com/privacy-policy/14085238"
+							target="_blank"
+							class="text-white text-nowrap"
+						>Privacy Policy</a>
 					</div>
+					<div class="col-12 col-sm-4 text-sm-left">
+						<a
+							href="https://www.iubenda.com/terms-and-conditions/14085238"
+							target="_blank"
+							class="text-white text-nowrap"
+						>Terms and Conditions</a>
+					</div>
+				</div>
+
+				<div class="text-center mt-0">
+					Copyright &copy; 2020 Sébastien Caparros - All rights reserved
 				</div>
 			</div>
 		</footer>

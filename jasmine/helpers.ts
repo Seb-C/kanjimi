@@ -20,9 +20,10 @@ beforeEach(async function() {
 	this.databaseConfiguration = {
 		host: process.env.KANJIMI_DATABASE_HOST,
 		port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
-		database: process.env.KANJIMI_DATABASE_DATA,
+		database: process.env.KANJIMI_DATABASE_DATABASE,
 		user: process.env.KANJIMI_DATABASE_USER,
 		password: process.env.KANJIMI_DATABASE_PASSWORD,
+		ssl: (process.env.KANJIMI_DATABASE_USE_SSL === 'true' ? { rejectUnauthorized: false } : false),
 	};
 
 	// Deleting data from previous runs if necessary)

@@ -1,17 +1,8 @@
 MVP:
-    business address? -> use home? -> waiting for permission1
-    check immigration -> waiting for mail answer
-    declare activity -> if permissions OK
-    get and install servers
-    get and install database
-    update servers manually before install (and reboot?)
-    cloudflare: always redirect to HTTPS?
-    check the database backups
-    cloudflare: setup load balancer (healthcheck delay = 30s)
-    cloudflare: cache www
-    check cache bursting in case of update (js/css)
-    need to clear cloudflare cache after deploy?
     CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
+    build, test and publish extension
+    get and install second server
+    cloudflare: setup load balancer (healthcheck delay = 30s)
     post on producthunt
     post on hackernews
     post on reddit
@@ -20,8 +11,16 @@ MVP:
     add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
     reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
     change homepage wording ("we are building")
+    business address? -> use home + commercial name? -> waiting for answer
+    check immigration -> waiting for mail answer
+    declare activity -> if permissions OK
+    check the database backups
+    need to clear cloudflare cache after deploy? -> should be ok with the 2 hours cache
+    update servers manually before install (and reboot?)
 
 After:
+    remove OVH start10M?
+    database config: use the proper certificate instead of ignoring ssl self-signed
     kanjis:
         API to describe Kanjis
             -> create the client function

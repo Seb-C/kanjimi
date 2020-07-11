@@ -2,6 +2,8 @@ FROM node:14-alpine
 LABEL Description="Kanjimi server"
 
 ARG SERVER_HOSTNAME
+ARG KANJIMI_API_URL
+ARG KANJIMI_WWW_URL
 
 USER root
 

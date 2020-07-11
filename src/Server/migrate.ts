@@ -30,9 +30,10 @@ const getMigrationScript = (migration: string): Promise<string> => {
 const db = PgPromise()({
 	host: <string>process.env.KANJIMI_DATABASE_HOST,
 	port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
-	database: <string>process.env.KANJIMI_DATABASE_DATA,
+	database: <string>process.env.KANJIMI_DATABASE_DATABASE,
 	user: <string>process.env.KANJIMI_DATABASE_USER,
 	password: <string>process.env.KANJIMI_DATABASE_PASSWORD,
+	ssl: (process.env.KANJIMI_DATABASE_USE_SSL === 'true' ? { rejectUnauthorized: false } : false),
 });
 
 const runMigration = async (migration: string): Promise<void> => {

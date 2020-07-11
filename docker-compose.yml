@@ -2,7 +2,7 @@ version: '3.8'
 
 services:
   database:
-    image: postgres:11
+    image: postgres:12
     restart: on-failure
     environment:
       POSTGRES_USER: test

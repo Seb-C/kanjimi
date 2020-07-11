@@ -1,6 +1,6 @@
 MVP:
-    CGU / RGPD (privacy policy + terms) = Iubenda (need business address)
     build, test and publish extension
+    iubenda: need a checkbox at subscription? OptOut not OK?
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
     post on producthunt

@@ -172,6 +172,21 @@
 					</div>
 
 					<div class="col-12 mt-3">
+						<p>
+							By signing-up, you agree with our
+							<a
+								href="https://www.iubenda.com/terms-and-conditions/14085238"
+								target="_blank"
+							>Terms and Conditions</a>
+							and our
+							<a
+								href="https://www.iubenda.com/privacy-policy/14085238"
+								target="_blank"
+							>Privacy Policy</a>
+						</p>
+					</div>
+
+					<div class="col-12 mt-3">
 						<button
 							type="submit"
 							class="btn btn-secondary btn-lg w-100"

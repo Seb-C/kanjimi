@@ -1,0 +1,6 @@
+To build: ./build.sh
+
+To use the extension:
+- Visit https://www.kanjimi.com/app/ and login
+- Username: extension-review@kanjimi.com
+- Password: efGq34vmCae3ZDz

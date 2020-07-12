@@ -1,5 +1,9 @@
 MVP:
-    build, test and publish extension
+    subscription email url is invalid?
+    remove credit card from google payments from Kanjimi once the 5$ is paid
+    new tab = logged-out?!
+    waiting publication for Opera and Chrome
+        -> then switch the 3 to public
     iubenda: need a checkbox at subscription? OptOut not OK?
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
@@ -8,7 +12,10 @@ MVP:
     post on reddit
     post on linkedin
     post on twitter
-    add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test
+    add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test + test the cache updating when deploying
+        - Firefox: https://addons.mozilla.org/fr/firefox/addon/kanjimi/
+        - Remove the hidden flag on the firefox store ( https://addons.mozilla.org/fr/developers/addon/kanjimi/edit )
+    e2e test for the iubenda links (footer + subscription form)
     reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
     change homepage wording ("we are building")
     business address? -> use home + commercial name? -> waiting for answer
@@ -20,7 +27,6 @@ MVP:
 
 After:
     remove OVH start10M?
-    database config: use the proper certificate instead of ignoring ssl self-signed
     kanjis:
         API to describe Kanjis
             -> create the client function

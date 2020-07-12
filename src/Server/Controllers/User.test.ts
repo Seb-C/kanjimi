@@ -156,7 +156,7 @@ describe('UserController', async function() {
 		);
 		expect(mail).toContain('To: unittest@example.com');
 		expect(mail).toContain(
-			`https://localhost:3000/app/verify-email?userId=${dbUser.id}&emailVerificationKey=${dbUser.emailVerificationKey}`
+			`https://localhost:3000/app/verify-email?userId=${dbUser.id}&emailVerificationKey=${encodeURIComponent(<string>dbUser.emailVerificationKey)}`
 		);
 
 		// Trying again (it should fail)
@@ -549,6 +549,16 @@ describe('UserController', async function() {
 
 		expect(user.passwordResetKeyExpiresAt).not.toBe(null);
 		expect(<Date>(user.passwordResetKeyExpiresAt) > new Date()).toBe(true);
+
+		const mails = await FileSystem.readdir('/tmp/mails');
+		expect(mails.length).toEqual(1);
+		const mail = QuotedPrintable.decode(
+			await FileSystem.readFile('/tmp/mails/' + mails[0], { encoding: 'utf-8' })
+		);
+		expect(mail).toContain('To: unittest@example.com');
+		expect(mail).toContain(
+			`https://localhost:3000/app/reset-password?userId=${user.id}&passwordResetKey=${encodeURIComponent(<string>user.passwordResetKey)}`
+		);
 	});
 
 	it('requestResetPassword (validation error)', async function() {

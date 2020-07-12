@@ -1,31 +1,38 @@
 MVP:
-    subscription email url is invalid?
-    remove credit card from google payments from Kanjimi once the 5$ is paid
-    new tab = logged-out?!
-    waiting publication for Opera and Chrome
-        -> then switch the 3 to public
     iubenda: need a checkbox at subscription? OptOut not OK?
+        -> waiting for answer (as well as for the cookie consent stuff)
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
+    add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test + test the cache updating when deploying
+        - Firefox: https://addons.mozilla.org/fr/firefox/addon/kanjimi/
+        - Remove the hidden flag on the firefox store ( https://addons.mozilla.org/fr/developers/addon/kanjimi/edit )
+        - Waiting for Chrome publication
+        - Made the Chrome extension public
+        - Add link to the Chrome store
+        - Waiting for Opera publication
+        - Made the Opera extension public
+        - Add link to the Opera store
+    change homepage wording ("we are building")
+    reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
     post on producthunt
     post on hackernews
     post on reddit
     post on linkedin
     post on twitter
-    add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test + test the cache updating when deploying
-        - Firefox: https://addons.mozilla.org/fr/firefox/addon/kanjimi/
-        - Remove the hidden flag on the firefox store ( https://addons.mozilla.org/fr/developers/addon/kanjimi/edit )
-    e2e test for the iubenda links (footer + subscription form)
-    reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
-    change homepage wording ("we are building")
-    business address? -> use home + commercial name? -> waiting for answer
     check immigration -> waiting for mail answer
     declare activity -> if permissions OK
     check the database backups
     need to clear cloudflare cache after deploy? -> should be ok with the 2 hours cache
     update servers manually before install (and reboot?)
+    remove credit card from google payments from Kanjimi once the 5$ is paid
 
 After:
+    business address? -> use home + commercial name? -> waiting for answer
+    e2e test for the iubenda links (footer + subscription form)
+    improve performance when clicking words
+    update homepage previews
+    optin mode for the extension?
+    への recognized as word (name) rather than particles
     remove OVH start10M?
     kanjis:
         API to describe Kanjis

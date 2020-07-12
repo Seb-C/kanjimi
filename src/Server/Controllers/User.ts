@@ -81,7 +81,7 @@ export const create = (db: PgPromise.IDatabase<void>, mailer: NodeMailer.Transpo
 						+ "Your new account has successfully been created.\r\n"
 						+ "To confirm your email address, please click on the following link:\r\n"
 						+ "\r\n"
-						+ `${process.env.KANJIMI_WWW_URL}/app/verify-email?userId=${user.id}&emailVerificationKey=${emailVerificationKey}\r\n`
+						+ `${process.env.KANJIMI_WWW_URL}/app/verify-email?userId=${user.id}&emailVerificationKey=${encodeURIComponent(emailVerificationKey)}\r\n`
 						+ "\r\n"
 						+ "If you did not request this or if this is a mistake, please ignore this message.\r\n"
 						+ "\r\n"
@@ -280,7 +280,7 @@ export const requestResetPassword = (db: PgPromise.IDatabase<void>, mailer: Node
 						+ "We received a request to reset the password of your Kanjimi account.\r\n"
 						+ "To do so, please click on the following link and set the new password:\r\n"
 						+ "\r\n"
-						+ `${process.env.KANJIMI_WWW_URL}/app/reset-password?userId=${user.id}&passwordResetKey=${passwordResetKey}\r\n`
+						+ `${process.env.KANJIMI_WWW_URL}/app/reset-password?userId=${user.id}&passwordResetKey=${encodeURIComponent(passwordResetKey)}\r\n`
 						+ "\r\n"
 						+ "This link will expire in 1 hour. If you did not request this, please ignore this message.\r\n"
 						+ "\r\n"

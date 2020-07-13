@@ -176,7 +176,7 @@
 				} else {
 					this.menuLinks = [
 						{ url: './app', title: 'Home' },
-						//{ url: './app/browser', title: 'Browser' },
+						{ url: './app/browser', title: 'Browser' },
 						{ url: './app/settings', title: 'Settings' },
 						{ url: './app/logout', title: 'Logout', 'classes': { 'd-md-none': true } },
 					];

@@ -16,7 +16,7 @@ import * as LexerController from 'Server/Controllers/Lexer';
 import * as UserController from 'Server/Controllers/User';
 import * as ApiKeyController from 'Server/Controllers/ApiKey';
 import * as WordStatusController from 'Server/Controllers/WordStatus';
-//import * as PageController from 'Server/Controllers/Page';
+import * as PageController from 'Server/Controllers/Page';
 
 (async () => {
 	const application = Express();
@@ -115,7 +115,7 @@ import * as WordStatusController from 'Server/Controllers/WordStatus';
 	application.post('/api/word-status/search', WordStatusController.search(db, dictionary));
 	application.put('/api/word-status', WordStatusController.createOrUpdate(db, dictionary));
 
-	//application.get('/api/page', PageController.get(db));
+	application.get('/api/page', PageController.get(db));
 
 	await kanjis.load();
 	await dictionary.load();

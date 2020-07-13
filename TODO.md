@@ -1,17 +1,36 @@
 MVP:
+    Iframe browser:
+        - Debug webapps like twitter?
+        - Change real browser url when switching page of the in-app browser
+        - Handle errors appearing in the console
+        - Need to remove the loader before the load event. Check for any appropriate time
+        - Inject the Kanjimi script
+        - Handle the GET forms
+        - Handle the error case (iframe blocked, for example link to store from google home)
+        - save the url stats from the page get url instead of the analyze url
+        - Check the security (can the iframe script access the token?!)
+        - Buttons to go back and forth?
+        - Security for browsers without sandbox
+        - Improve the interface (and move the container div in the pages)
+        - Test all
+        - Move that to a proper page
+        - Have the url in the query string to use it later (mobile share, bookmarklet...)
+        - Allowed redirects (server side), but need a max amount
+        - Handle malformed URLs
+        - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
+        - Properly handle the exceptions
+        - Fix remaining JS and path errors (= those that are in sub-resources?)
+        - Test the Page endpoint
+        - Test the Page client method
+        - Test the browser with Cypress
+        - Change homepage info (browsers) + review wording
     iubenda: need a checkbox at subscription? OptOut not OK?
         -> waiting for answer (as well as for the cookie consent stuff)
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
-    add the extension links ("coming soon") in the logged-in homepage + test it in the homepage e2e test + test the cache updating when deploying
-        - Firefox: https://addons.mozilla.org/fr/firefox/addon/kanjimi/
-        - Remove the hidden flag on the firefox store ( https://addons.mozilla.org/fr/developers/addon/kanjimi/edit )
-        - Waiting for Chrome publication
-        - Made the Chrome extension public
-        - Add link to the Chrome store
-        - Waiting for Opera publication
-        - Made the Opera extension public
-        - Add link to the Opera store
+    remove credit card from google payments from Kanjimi once the 5$ is paid
+    remove extension from stores and disable related accounts
+    change homepage browsers compatibility
     change homepage wording ("we are building")
     reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
     post on producthunt
@@ -24,7 +43,6 @@ MVP:
     check the database backups
     need to clear cloudflare cache after deploy? -> should be ok with the 2 hours cache
     update servers manually before install (and reboot?)
-    remove credit card from google payments from Kanjimi once the 5$ is paid
 
 After:
     business address? -> use home + commercial name? -> waiting for answer
@@ -95,30 +113,6 @@ After:
     save all words and sentences to show up later?
     only apply conjugations to the words with verb tags
     conjugations that depends on the verb tags
-    Iframe browser:
-        - Test webapps like twitter
-        - Can use a custom protocol handler to hide the in-app url bar?
-        - Reenable the server route, client route and layout menu link
-        - Handle errors appearing in the console
-        - Need to remove the loader before the load event. Check for any appropriate time
-        - Inject the Kanjimi script
-        - Handle the GET forms
-        - Handle the error case (iframe blocked, for example link to store from google home)
-        - Buttons to go back and forth?
-        - Security for browsers without sandbox
-        - Improve the interface (and move the container div in the pages)
-        - Test all
-        - Move that to a proper page
-        - Have the url in the query string to use it later (mobile share, bookmarklet...)
-        - Allowed redirects (server side), but need a max amount
-        - Handle malformed URLs
-        - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
-        - Properly handle the exceptions
-        - Fix remaining JS and path errors (= those that are in sub-resources?)
-        - Test the Page endpoint
-        - Test the Page client method
-        - Test the browser with Cypress
-        - Change homepage info (browsers) + review wording
     Dictionary: split definitions and reading/tags?
     dependency-injection for all the browser.xxx APIs from the main script
     bookmarklet that redirects to the site?

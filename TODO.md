@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - Change real browser url when switching page of the in-app browser
         - auto complete urls with https:// and www...
         - Handle errors appearing in the console
         - Handle HTTP errors (404...)
@@ -13,7 +12,6 @@ MVP:
         - Security for browsers without sandbox
         - Improve the interface (and move the container div in the pages)
         - Test all
-        - Have the url in the query string to use it later (mobile share, bookmarklet...)
         - Allowed redirects (server side), but need a max amount
         - Handle malformed URLs
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)

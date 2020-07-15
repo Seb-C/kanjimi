@@ -104,18 +104,20 @@
 				event.preventDefault();
 				await this.changeUrl(this.url);
 			},
-			async changeUrl(url: string) {
+			async changeUrl(requestedUrl: string) {
+				this.loading = true;
+
+				const response = await getPage(this.$root.apiKey.key, requestedUrl);
+				const page = response.content;
+				const url = response.realUrl || requestedUrl;
+				let charset = response.charset;
+
 				const { origin, pathname } = window.location;
 				window.history.pushState(
 					null,
 					document.title,
 					`${origin}${pathname}?url=${encodeURIComponent(url)}`,
 				);
-
-				this.loading = true;
-				const response = await getPage(this.$root.apiKey.key, url);
-				const page = response.content;
-				let charset = response.charset
 
 				const domParser = new DOMParser();
 				const doc = domParser.parseFromString(page, 'text/html');

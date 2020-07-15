@@ -4,6 +4,7 @@ import ServerError from 'Common/Api/Errors/Server';
 
 export const get = async (key: string, url: string): Promise<{
 	content: string,
+	realUrl: string|null,
 	charset: string|null,
 }> => {
 	const response = await fetch(`${process.env.KANJIMI_API_URL}/page?url=${escape(url)}`, {
@@ -37,6 +38,7 @@ export const get = async (key: string, url: string): Promise<{
 	}
 
 	const content = await response.text();
+	const realUrl = response.headers.get('Content-Location');
 
-	return { content, charset };
+	return { content, charset, realUrl };
 };

@@ -12,7 +12,7 @@ MVP:
         - Security for browsers without sandbox
         - Improve the interface (and move the container div in the pages)
         - Test all
-        - Allowed redirects (server side), but need a max amount
+        - Limit the max amount of redirections server-side when loading a page
         - Handle malformed URLs
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions
@@ -26,16 +26,21 @@ MVP:
             X-Forwarded headers
             error if not html page
             forwards content properly
+            the proper url is returned after any redirects
         - Test the Page client method
             auth error
             uri format validation error
             charset from header
             charset from content
+            content-location is properly transmitted
         - Test the browser with Cypress
             shows the loader when changing the url
             hides the initial content when changing the url
             sample links are opened normally if installed
             if no extension, the sample links are opened in the in-page browser
+            when changing page, the real query string is updated
+            when loading a page with an url in the query string, the proper page is loaded
+            the url is updated is there was any redirect when loading server side
     optin mode for the extension, with activeTab
     iubenda: need a checkbox at subscription? OptOut not OK?
         -> waiting for answer (as well as for the cookie consent stuff)

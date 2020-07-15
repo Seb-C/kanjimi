@@ -1,9 +1,9 @@
 MVP:
     Iframe browser:
-        - make the idea links work in the in-page browser
         - Change real browser url when switching page of the in-app browser
-        - auto complete urls with hrrps:// and www...
+        - auto complete urls with https:// and www...
         - Handle errors appearing in the console
+        - Handle HTTP errors (404...)
         - Inject the Kanjimi script
         - Handle the GET forms
         - Handle the error case (iframe blocked, for example link to store from google home)
@@ -36,6 +36,8 @@ MVP:
         - Test the browser with Cypress
             shows the loader when changing the url
             hides the initial content when changing the url
+            sample links are opened normally if installed
+            if no extension, the sample links are opened in the in-page browser
     optin mode for the extension, with activeTab
     iubenda: need a checkbox at subscription? OptOut not OK?
         -> waiting for answer (as well as for the cookie consent stuff)

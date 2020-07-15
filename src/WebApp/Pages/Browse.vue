@@ -40,17 +40,24 @@
 								<i class="far fa-check-circle text-success"></i>
 								Kanjimi is installed and ready to be used.
 							</p>
-							<p class="samples text-left">
-								<i class="far fa-question-circle text-primary"></i>
-								If you don't know where to start, what about reading
-								<a href="https://ja.wikipedia.org/wiki/Special:Random">a random Wikipedia article</a>
-								or <a href="https://news.yahoo.co.jp/">the news</a>?
-							</p>
 						</template>
 						<template v-else>
-							<p class="mt-4">To get started, please install our browser extension:</p>
+							<p class="mt-4">For a better experience, please install our browser extension:</p>
 							<p>(Links coming soon)</p>
 						</template>
+
+						<p class="samples text-left">
+							<i class="far fa-question-circle text-primary"></i>
+							If you don't know where to start, what about reading
+							<a
+								href="https://ja.wikipedia.org/wiki/Special:Random"
+								v-on:click="onClickSampleLink"
+							>a random Wikipedia article</a>
+							or <a
+								href="https://news.yahoo.co.jp/"
+								v-on:click="onClickSampleLink"
+							>the news</a>?
+						</p>
 					</div>
 				</div>
 			</div>
@@ -149,6 +156,12 @@
 				const modifiedPage = `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
 				this.url = url;
 				this.page = `data:text/html;charset=${charset || 'utf-8'},` + encodeURIComponent(modifiedPage);
+			},
+			async onClickSampleLink(event: Event) {
+				if (!this.installed) {
+					event.preventDefault();
+					await this.changeUrl(event.target.href);
+				}
 			},
 		},
 	});

@@ -118,7 +118,7 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
-	import Browser from 'WebApp/Pages/Browser.vue';
+	import Browse from 'WebApp/Pages/Browse.vue';
 
 	type MenuLink = {
 		url: string,
@@ -175,8 +175,7 @@
 					];
 				} else {
 					this.menuLinks = [
-						{ url: './app', title: 'Home' },
-						{ url: './app/browser', title: 'Browser' },
+						{ url: './app', title: 'Browse' },
 						{ url: './app/settings', title: 'Settings' },
 						{ url: './app/logout', title: 'Logout', 'classes': { 'd-md-none': true } },
 					];
@@ -244,7 +243,7 @@
 				return this.$root.user.email;
 			},
 			showFooter() {
-				return this.$root.router.component !== Browser;
+				return this.$root.router.component !== Browse;
 			},
 		},
 	});

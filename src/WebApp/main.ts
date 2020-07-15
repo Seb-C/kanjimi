@@ -11,9 +11,8 @@ import ResetPassword from 'WebApp/Pages/Authentication/ResetPassword.vue';
 import ChangePassword from 'WebApp/Pages/Authentication/ChangePassword.vue';
 import Logout from 'WebApp/Pages/Authentication/Logout.vue';
 import Settings from 'WebApp/Pages/Settings.vue';
-import Home from 'WebApp/Pages/Home.vue';
 import About from 'WebApp/Pages/About.vue';
-import Browser from 'WebApp/Pages/Browser.vue';
+import Browse from 'WebApp/Pages/Browse.vue';
 
 window.addEventListener('load', async function () {
 	const router = new Router([
@@ -26,8 +25,7 @@ window.addEventListener('load', async function () {
 		{ url: 'app/change-password', component: ChangePassword, title: 'Change my password' },
 		{ url: 'app/logout', component: Logout, title: 'Logout' },
 		{ url: 'app/settings', component: Settings, title: 'Settings' },
-		{ url: 'app/browser', component: Browser, title: 'Browser' },
-		{ url: 'app', component: Home, title: 'Home' },
+		{ url: 'app', component: Browse, title: 'Browse' },
 	]);
 	window.addEventListener('popstate', function () {
 		router.setRouteWithoutPushState(window.location.href);

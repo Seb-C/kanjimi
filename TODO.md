@@ -1,9 +1,9 @@
 MVP:
     Iframe browser:
-        - Debug webapps like twitter?
+        - make the idea links work in the in-page browser
         - Change real browser url when switching page of the in-app browser
+        - auto complete urls with hrrps:// and www...
         - Handle errors appearing in the console
-        - Need to remove the loader before the load event. Check for any appropriate time
         - Inject the Kanjimi script
         - Handle the GET forms
         - Handle the error case (iframe blocked, for example link to store from google home)
@@ -13,17 +13,30 @@ MVP:
         - Security for browsers without sandbox
         - Improve the interface (and move the container div in the pages)
         - Test all
-        - Move that to a proper page
         - Have the url in the query string to use it later (mobile share, bookmarklet...)
         - Allowed redirects (server side), but need a max amount
         - Handle malformed URLs
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions
         - Fix remaining JS and path errors (= those that are in sub-resources?)
-        - Test the Page endpoint
-        - Test the Page client method
-        - Test the browser with Cypress
         - Change homepage info (browsers) + review wording
+        - Test the Page endpoint
+            uri validator
+            auth required
+            only GET
+            forward codes properly (testable?)
+            X-Forwarded headers
+            error if not html page
+            forwards content properly
+        - Test the Page client method
+            auth error
+            uri format validation error
+            charset from header
+            charset from content
+        - Test the browser with Cypress
+            shows the loader when changing the url
+            hides the initial content when changing the url
+    optin mode for the extension, with activeTab
     iubenda: need a checkbox at subscription? OptOut not OK?
         -> waiting for answer (as well as for the cookie consent stuff)
     get and install second server
@@ -49,7 +62,6 @@ After:
     e2e test for the iubenda links (footer + subscription form)
     improve performance when clicking words
     update homepage previews
-    optin mode for the extension?
     への recognized as word (name) rather than particles
     remove OVH start10M?
     kanjis:

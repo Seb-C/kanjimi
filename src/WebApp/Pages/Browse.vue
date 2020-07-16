@@ -86,6 +86,10 @@
 			if (this.url !== null) {
 				await this.changeUrl(this.url);
 			}
+			window.addEventListener('popstate', this.onBrowserPopState);
+		},
+		beforeDestroy() {
+			window.removeEventListener('popstate', this.onBrowserPopState);
 		},
 		methods: {
 			iframeLoaded(event: Event) {
@@ -96,15 +100,25 @@
 						payload: any,
 					}>event.data;
 					if (action === 'navigate' && typeof(payload) === 'string') {
-						this.changeUrl(payload);
+						this.changeUrl(payload, true);
 					}
 				});
 			},
+			async onBrowserPopState(event: Event) {
+				const query = new URLSearchParams(window.location.search);
+				if (query.has('url')) {
+					await this.changeUrl(query.get('url'), false);
+				} else {
+					this.url = null;
+					this.page = null;
+					this.loading = false;
+				}
+			},
 			async onFormSubmit(event: Event) {
 				event.preventDefault();
-				await this.changeUrl(this.url);
+				await this.changeUrl(this.url, true);
 			},
-			async changeUrl(requestedUrl: string) {
+			async changeUrl(requestedUrl: string, setPopState: boolean) {
 				this.loading = true;
 
 				const response = await getPage(this.$root.apiKey.key, requestedUrl);
@@ -112,12 +126,14 @@
 				const url = response.realUrl || requestedUrl;
 				let charset = response.charset;
 
-				const { origin, pathname } = window.location;
-				window.history.pushState(
-					null,
-					document.title,
-					`${origin}${pathname}?url=${encodeURIComponent(url)}`,
-				);
+				if (setPopState) {
+					const { origin, pathname } = window.location;
+					window.history.pushState(
+						null,
+						document.title,
+						`${origin}${pathname}?url=${encodeURIComponent(url)}`,
+					);
+				}
 
 				const domParser = new DOMParser();
 				const doc = domParser.parseFromString(page, 'text/html');
@@ -168,8 +184,15 @@
 				}
 
 				const modifiedPage = `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
+				const newPage = `data:text/html;charset=${charset || 'utf-8'},` + encodeURIComponent(modifiedPage);
+
+				if (newPage === this.page) {
+					// Workaround because there is no reload in this case
+					this.loading = false;
+				}
+
 				this.url = url;
-				this.page = `data:text/html;charset=${charset || 'utf-8'},` + encodeURIComponent(modifiedPage);
+				this.page = newPage;
 			},
 			async onClickSampleLink(event: Event) {
 				if (!this.installed) {

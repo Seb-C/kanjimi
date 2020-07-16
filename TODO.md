@@ -1,7 +1,5 @@
 MVP:
     Iframe browser:
-        - Handle errors appearing in the console
-        - Handle HTTP errors (404...)
         - Inject the Kanjimi script
         - Handle the GET forms
         - Handle the error case (iframe blocked, for example link to store from google home)
@@ -16,6 +14,7 @@ MVP:
         - Properly handle the exceptions
         - Fix remaining JS and path errors (= those that are in sub-resources?)
         - Change homepage info (browsers) + review wording
+        - Set title of the page with the real content title?
         - Test the Page client method
             auth error
             uri format validation error
@@ -23,7 +22,9 @@ MVP:
             charset from content
             content-location is properly transmitted
         - Test the browser with Cypress
+            previous and next pages with browser = properly updated in the iframe
             shows the loader when changing the url
+            hides the loader after loading (including when the url did not change)
             hides the initial content when changing the url
             sample links are opened normally if installed
             if no extension, the sample links are opened in the in-page browser

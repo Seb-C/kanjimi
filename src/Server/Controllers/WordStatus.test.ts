@@ -42,7 +42,7 @@ const wordStatusArrayValidator = new Ajv({ allErrors: true }).compile({
 	items: wordStatusSchema,
 });
 
-describe('WordStatus', async function() {
+describe('WordStatusController', async function() {
 	beforeEach(async function() {
 		const userRepository = new UserRepository(this.getDatabase());
 		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());

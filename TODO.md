@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - auto complete urls with https:// and www...
         - Handle errors appearing in the console
         - Handle HTTP errors (404...)
         - Inject the Kanjimi script
@@ -11,22 +10,12 @@ MVP:
         - Buttons to go back and forth?
         - Security for browsers without sandbox
         - Improve the interface (and move the container div in the pages)
-        - Test all
         - Limit the max amount of redirections server-side when loading a page
         - Handle malformed URLs
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions
         - Fix remaining JS and path errors (= those that are in sub-resources?)
         - Change homepage info (browsers) + review wording
-        - Test the Page endpoint
-            uri validator
-            auth required
-            only GET
-            forward codes properly (testable?)
-            X-Forwarded headers
-            error if not html page
-            forwards content properly
-            the proper url is returned after any redirects
         - Test the Page client method
             auth error
             uri format validation error
@@ -63,6 +52,7 @@ MVP:
     update servers manually before install (and reboot?)
 
 After:
+    in-page browser: better completion of urls? (auto-complete http://?)
     business address? -> use home + commercial name? -> waiting for answer
     e2e test for the iubenda links (footer + subscription form)
     improve performance when clicking words

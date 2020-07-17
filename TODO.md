@@ -1,8 +1,6 @@
 MVP:
     Iframe browser:
-        - Inject the Kanjimi script
-        - Handle the error case (iframe blocked, for example link to store from google home)
-        - save the url stats from the page get url instead of the analyze url
+        - Inject the Kanjimi script (+ properly inject everything including the real page url for stats)
         - Check the security (can the iframe script access the token?!)
         - Buttons to go back and forth?
         - Security for browsers without sandbox

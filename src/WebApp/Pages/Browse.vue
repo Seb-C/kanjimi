@@ -160,17 +160,18 @@
 				// Injecting some scripts to make the browser work
 				const script = doc.createElement('script');
 				script.appendChild(doc.createTextNode(`
-					window.addEventListener('load', function () {
-						document.body.addEventListener('click', function (event) {
-							if (event.target.tagName === 'A') {
-								window.parent.postMessage({
-									action: 'navigate',
-									payload: event.target.href,
-								}, '${process.env.KANJIMI_WWW_URL}');
-							}
+					document.querySelectorAll('a').forEach(function (link) {
+						link.addEventListener('click', function (event) {
+							event.preventDefault();
+							window.parent.postMessage({
+								action: 'navigate',
+								payload: link.href,
+							}, '${process.env.KANJIMI_WWW_URL}');
 						});
-						document.body.addEventListener('submit', function (event) {
-							var form = event.target;
+					});
+					document.querySelectorAll('form').forEach(function (form) {
+						form.addEventListener('submit', function (event) {
+							event.preventDefault();
 							if (!form.method || form.method.toUpperCase() === 'GET') {
 								// Building the query string for this form
 								var queryStringPairs = [];
@@ -194,7 +195,7 @@
 						});
 					});
 				`));
-				doc.head.prepend(script);
+				doc.body.append(script);
 
 				if (!charset) {
 					const metaTags = doc.head.getElementsByTagName('meta');

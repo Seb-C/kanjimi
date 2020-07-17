@@ -1,7 +1,6 @@
 MVP:
     Iframe browser:
         - Inject the Kanjimi script
-        - Handle the GET forms
         - Handle the error case (iframe blocked, for example link to store from google home)
         - save the url stats from the page get url instead of the analyze url
         - Check the security (can the iframe script access the token?!)
@@ -31,6 +30,7 @@ MVP:
             when changing page, the real query string is updated
             when loading a page with an url in the query string, the proper page is loaded
             the url is updated is there was any redirect when loading server side
+            can send the GET forms successfully
     optin mode for the extension, with activeTab
     iubenda: need a checkbox at subscription? OptOut not OK?
         -> waiting for answer (as well as for the cookie consent stuff)

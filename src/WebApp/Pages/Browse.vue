@@ -13,7 +13,7 @@
 		<template v-if="page !== null">
 			<iframe
 				class="iframe-page flex-fill border-0"
-				sandbox="allow-scripts"
+				sandbox="allow-scripts allow-forms"
 				v-bind:src="page"
 				@load="iframeLoaded"
 				v-bind:class="{
@@ -166,6 +166,29 @@
 								window.parent.postMessage({
 									action: 'navigate',
 									payload: event.target.href,
+								}, '${process.env.KANJIMI_WWW_URL}');
+							}
+						});
+						document.body.addEventListener('submit', function (event) {
+							var form = event.target;
+							if (!form.method || form.method.toUpperCase() === 'GET') {
+								// Building the query string for this form
+								var queryStringPairs = [];
+								for (var entry of (new FormData(form)).entries()) {
+									queryStringPairs.push(entry[0] + '=' + encodeURIComponent(entry[1]));
+								}
+								if (event.submitter && event.submitter.type === 'submit') {
+									queryStringPairs.push(event.submitter.name[0] + '=' + encodeURIComponent(event.submitter.value[1]));
+								}
+
+								// Building the absolute url and going to it
+								var url = new URL(
+									form.action + '?' + queryStringPairs.join('&'),
+									'${url.replace(/'/g, "\\'")}',
+								);
+								window.parent.postMessage({
+									action: 'navigate',
+									payload: url.href,
 								}, '${process.env.KANJIMI_WWW_URL}');
 							}
 						});

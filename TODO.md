@@ -2,9 +2,8 @@ MVP:
     Iframe browser:
         - Inject the Kanjimi script (+ properly inject everything including the real page url for stats)
         - Check the security (can the iframe script access the token?!)
-        - Buttons to go back and forth?
         - Security for browsers without sandbox
-        - Improve the interface (and move the container div in the pages)
+        - Improve the interface (lacking feedback for the input?)
         - Limit the max amount of redirections server-side when loading a page
         - Handle malformed URLs
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
@@ -29,6 +28,8 @@ MVP:
             when loading a page with an url in the query string, the proper page is loaded
             the url is updated is there was any redirect when loading server side
             can send the GET forms successfully
+            links with an existing event handler are working properly
+            showing the loading spinner when using popstate
     optin mode for the extension, with activeTab
     iubenda: need a checkbox at subscription? OptOut not OK?
         -> waiting for answer (as well as for the cookie consent stuff)
@@ -51,6 +52,7 @@ MVP:
     update servers manually before install (and reboot?)
 
 After:
+    in-page browser: make dynamically created/loaded links work (+ test)
     in-page browser: better completion of urls? (auto-complete http://?)
     business address? -> use home + commercial name? -> waiting for answer
     e2e test for the iubenda links (footer + subscription form)

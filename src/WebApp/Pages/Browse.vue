@@ -120,6 +120,7 @@
 			},
 			async changeUrl(requestedUrl: string, setPopState: boolean) {
 				this.loading = true;
+				this.page = null;
 
 				const response = await getPage(this.$root.apiKey.key, requestedUrl);
 				const page = response.content;

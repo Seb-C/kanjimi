@@ -85,6 +85,9 @@ module.exports = {
 				}, {
 					from: path.resolve('./src/Extension/images'),
 					to: path.resolve(destPath + '/images'),
+				}, {
+					from: path.resolve('./src/Extension/background.js'),
+					to: path.resolve(destPath + '/background.js'),
 				},
 			],
 		}),

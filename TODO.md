@@ -1,4 +1,12 @@
 MVP:
+    Re-deploy extension on 3 stores
+    If fast:
+        Disable browser again
+        Add TODO to reenable the browser + move out of the MVP in the TODOlist
+        change version to 0.2
+        Re-build extension
+        Re-deploy extension on the 3 stores
+        Properly deploy...
     Iframe browser:
         - Inject the Kanjimi script (+ properly inject everything including the real page url for stats)
         - Check the security (can the iframe script access the token?!)
@@ -30,7 +38,6 @@ MVP:
             can send the GET forms successfully
             links with an existing event handler are working properly
             showing the loading spinner when using popstate
-    optin mode for the extension, with activeTab
     iubenda: need a checkbox at subscription? OptOut not OK?
         -> waiting for answer (as well as for the cookie consent stuff)
     get and install second server
@@ -52,6 +59,7 @@ MVP:
     update servers manually before install (and reboot?)
 
 After:
+    disable the browser action on localhost and kanjimi domains
     in-page browser: make dynamically created/loaded links work (+ test)
     in-page browser: better completion of urls? (auto-complete http://?)
     business address? -> use home + commercial name? -> waiting for answer

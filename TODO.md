@@ -1,12 +1,10 @@
 MVP:
-    Re-deploy extension on 3 stores
+    login the right private account for private use
     If fast:
         Disable browser again
         Add TODO to reenable the browser + move out of the MVP in the TODOlist
-        change version to 0.2
-        Re-build extension
-        Re-deploy extension on the 3 stores
         Properly deploy...
+        reenable and fix all tests
     Iframe browser:
         - Inject the Kanjimi script (+ properly inject everything including the real page url for stats)
         - Check the security (can the iframe script access the token?!)
@@ -38,8 +36,7 @@ MVP:
             can send the GET forms successfully
             links with an existing event handler are working properly
             showing the loading spinner when using popstate
-    iubenda: need a checkbox at subscription? OptOut not OK?
-        -> waiting for answer (as well as for the cookie consent stuff)
+    iubenda: add an optin checkbox at subscription for terms and conditions
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
     remove credit card from google payments from Kanjimi once the 5$ is paid
@@ -105,6 +102,8 @@ After:
     pool is set to max 10 connections, will it work with digitalocean (max 22 per node)?
     is console.log blocking when used in a docker with file logging option?
     changelog page
+        - 0.1 / july 11 : initial publication / setup production servers
+        - 0.2 / july 20 : changed the extension permissions, now have to use a button
     presentation video? show it on the homepage?
     cypress: try to use the --experimentalFetchPolyfill option
     tsconfig: split client/server? Or extend only what is different (--> need to create sub-files and extract existing stuff)

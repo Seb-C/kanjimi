@@ -4,28 +4,27 @@
   "author": "Sébastien Caparros",
   "homepage_url": "{{ KANJIMI_WWW_URL }}",
   "incognito": "spanning",
-  "version": "0.1",
+  "version": "0.2",
   "description": "Service helping you to learn Japanese by allowing you to read real content on internet",
   "icons": {
-    "48": "./images/logo.png"
+    "48": "./images/logo.png",
+    "128": "images/logo-128.png"
   },
   "content_scripts": [
     {
       "all_frames": true,
       "run_at": "document_end",
       "matches": [
-        "*://localhost/*",
-        "*://kanjimi.com/*",
-        "*://*.kanjimi.com/*"
+        "*://{{ KANJIMI_EXTENSION_HOST }}/*",
+        "*://*.{{ KANJIMI_EXTENSION_HOST }}/*"
       ],
       "js": ["/content.build.js"],
       "css": ["/content.build.css"]
     }
   ],
   "permissions": [
-    "*://localhost/*",
-    "*://kanjimi.com/*",
-    "*://*.kanjimi.com/*",
+    "*://{{ KANJIMI_EXTENSION_HOST }}/*",
+    "*://*.{{ KANJIMI_EXTENSION_HOST }}/*",
     "activeTab",
     "storage"
   ],
@@ -33,7 +32,8 @@
     "scripts": ["./background.js"]
   },
   "browser_action": {
-    "default_title": "Enable Kanjimi on this page"
+    "default_title": "Enable Kanjimi on this page",
+    "default_icon": "./images/logo.png"
   },
   "web_accessible_resources": [
     "*"

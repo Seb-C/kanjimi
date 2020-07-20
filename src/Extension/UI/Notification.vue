@@ -39,7 +39,7 @@
 		},
 		data() {
 			return {
-				iconUrl: browser.runtime.getURL('/images/logo.svg'),
+				iconUrl: `${process.env.KANJIMI_WWW_URL}/img/logo.svg`,
 			};
 		},
 		methods: {

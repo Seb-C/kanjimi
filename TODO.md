@@ -1,22 +1,15 @@
 MVP:
-    login the right private account for private use
-    If fast:
-        Disable browser again
-        Add TODO to reenable the browser + move out of the MVP in the TODOlist
-        Properly deploy...
-        reenable and fix all tests
     Iframe browser:
+        - Abstraction layer for the get and set api from storage used by the Store (defined in main)
+        - Move the extension classes to Common?
+        - Secure the token handling since it will be injected on random sites
         - Inject the Kanjimi script (+ properly inject everything including the real page url for stats)
         - Check the security (can the iframe script access the token?!)
         - Security for browsers without sandbox
-        - Improve the interface (lacking feedback for the input?)
         - Limit the max amount of redirections server-side when loading a page
-        - Handle malformed URLs
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions
-        - Fix remaining JS and path errors (= those that are in sub-resources?)
         - Change homepage info (browsers) + review wording
-        - Set title of the page with the real content title?
         - Test the Page client method
             auth error
             uri format validation error
@@ -44,19 +37,26 @@ MVP:
     change homepage browsers compatibility
     change homepage wording ("we are building")
     reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
+    check immigration -> waiting for mail answer
+    declare activity -> if permissions OK
+    check the database backups
+
+After:
+    Reorganize this TODOList
+    update servers manually before install (and reboot?)
+    need to clear cloudflare cache after deploy? -> should be ok with the 2 hours cache
     post on producthunt
     post on hackernews
     post on reddit
     post on linkedin
     post on twitter
-    check immigration -> waiting for mail answer
-    declare activity -> if permissions OK
-    check the database backups
-    need to clear cloudflare cache after deploy? -> should be ok with the 2 hours cache
-    update servers manually before install (and reboot?)
-
-After:
-    disable the browser action on localhost and kanjimi domains
+    login the right private account for private use
+    Iframe browser:
+        - Improve the interface (lacking feedback for the input?)
+        - Handle malformed URLs
+        - Fix remaining JS and path errors (= those that are in sub-resources?)
+        - Set title of the page with the real content title?
+    extension: disable the browser action on localhost and kanjimi domains
     in-page browser: make dynamically created/loaded links work (+ test)
     in-page browser: better completion of urls? (auto-complete http://?)
     business address? -> use home + commercial name? -> waiting for answer

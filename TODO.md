@@ -1,9 +1,9 @@
 MVP:
     Iframe browser:
-        - Secure the token handling since it will be injected on random sites
+        - click menu = removes the url from the query string, but page does not change
+        - url not updated when clicking a link (+test)
+        - Dependency-inject window and document for all the extension stuff
         - Inject the Kanjimi script (+ properly inject everything including the real page url for stats)
-        - Check the security (can the iframe script access the token?!)
-        - Security for browsers without sandbox
         - Limit the max amount of redirections server-side when loading a page
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions

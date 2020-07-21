@@ -13,8 +13,8 @@
 		<template v-if="page !== null">
 			<iframe
 				class="iframe-page flex-fill border-0"
-				sandbox="allow-scripts allow-forms"
-				v-bind:src="page"
+				sandbox="allow-forms allow-same-origin"
+				v-bind:srcdoc="page"
 				@load="iframeLoaded"
 				v-bind:class="{
 					'loading': loading,
@@ -103,6 +103,42 @@
 						this.changeUrl(payload, true);
 					}
 				});
+
+				const win = event.target.contentWindow;
+				win.document.querySelectorAll('a').forEach(function (link) {
+					link.addEventListener('click', function (event) {
+						event.preventDefault();
+						win.parent.postMessage({
+							action: 'navigate',
+							payload: link.href,
+						}, process.env.KANJIMI_WWW_URL);
+					});
+				});
+				win.document.querySelectorAll('form').forEach(function (form) {
+					form.addEventListener('submit', function (event) {
+						event.preventDefault();
+						if (!form.method || form.method.toUpperCase() === 'GET') {
+							// Building the query string for this form
+							var queryStringPairs = [];
+							for (var entry of (new FormData(form)).entries()) {
+								queryStringPairs.push(entry[0] + '=' + encodeURIComponent(entry[1]));
+							}
+							if (event.submitter && event.submitter.type === 'submit') {
+								queryStringPairs.push(event.submitter.name[0] + '=' + encodeURIComponent(event.submitter.value[1]));
+							}
+
+							// Building the absolute url and going to it
+							var url = new URL(
+								form.action + '?' + queryStringPairs.join('&'),
+								url.replace(/'/g, "\\'"),
+							);
+							win.parent.postMessage({
+								action: 'navigate',
+								payload: url.href,
+							}, process.env.KANJIMI_WWW_URL);
+						}
+					});
+				});
 			},
 			async onBrowserPopState(event: Event) {
 				const query = new URLSearchParams(window.location.search);
@@ -125,7 +161,7 @@
 				const response = await getPage(this.$root.apiKey.key, requestedUrl);
 				const page = response.content;
 				const url = response.realUrl || requestedUrl;
-				let charset = response.charset;
+				let charset = response.charset || 'utf-8';
 
 				if (setPopState) {
 					const { origin, pathname } = window.location;
@@ -158,61 +194,17 @@
 					}
 				});
 
-				// Injecting some scripts to make the browser work
-				const script = doc.createElement('script');
-				script.appendChild(doc.createTextNode(`
-					document.querySelectorAll('a').forEach(function (link) {
-						link.addEventListener('click', function (event) {
-							event.preventDefault();
-							window.parent.postMessage({
-								action: 'navigate',
-								payload: link.href,
-							}, '${process.env.KANJIMI_WWW_URL}');
-						});
-					});
-					document.querySelectorAll('form').forEach(function (form) {
-						form.addEventListener('submit', function (event) {
-							event.preventDefault();
-							if (!form.method || form.method.toUpperCase() === 'GET') {
-								// Building the query string for this form
-								var queryStringPairs = [];
-								for (var entry of (new FormData(form)).entries()) {
-									queryStringPairs.push(entry[0] + '=' + encodeURIComponent(entry[1]));
-								}
-								if (event.submitter && event.submitter.type === 'submit') {
-									queryStringPairs.push(event.submitter.name[0] + '=' + encodeURIComponent(event.submitter.value[1]));
-								}
-
-								// Building the absolute url and going to it
-								var url = new URL(
-									form.action + '?' + queryStringPairs.join('&'),
-									'${url.replace(/'/g, "\\'")}',
-								);
-								window.parent.postMessage({
-									action: 'navigate',
-									payload: url.href,
-								}, '${process.env.KANJIMI_WWW_URL}');
-							}
-						});
-					});
-				`));
-				doc.body.append(script);
-
-				if (!charset) {
-					const metaTags = doc.head.getElementsByTagName('meta');
-					for (let i = 0; i < metaTags.length; i++) {
-						if (metaTags[i].hasAttribute('charset')) {
-							charset = metaTags[i].getAttribute('charset');
-							break;
-						}
-					}
+				const charsetMetaTags = doc.head.querySelectorAll('head meta[charset]');
+				if (charset && charsetMetaTags.length) {
+					const metaTag = doc.createElement('meta');
+					metaTag.setAttribute('charset', charset);
+					doc.head.appendChild(metaTag);
 				}
 
-				const modifiedPage = `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
-				const newPage = `data:text/html;charset=${charset || 'utf-8'},` + encodeURIComponent(modifiedPage);
+				const newPage = `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
 
 				if (newPage === this.page) {
-					// Workaround because there is no reload in this case
+					// Workaround because there is no load event in this case
 					this.loading = false;
 				}
 

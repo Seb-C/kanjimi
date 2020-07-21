@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - Abstraction layer for the get and set api from storage used by the Store (defined in main)
         - Move the extension classes to Common?
         - Secure the token handling since it will be injected on random sites
         - Inject the Kanjimi script (+ properly inject everything including the real page url for stats)

@@ -25,12 +25,23 @@ type NotificationData = {
 // access the properties and triggers a cross-origin error.
 let openedLoginWindow: Window|null = null;
 
+interface Storage {
+	get(keys: string[]): Promise<{ [key: string]: any }>;
+	set(data: { [key: string]: any }): Promise<void>;
+}
+
 export default class Store {
 	public apiKey: ApiKey|null = null;
 	public user: User|null = null;
 	public tooltip: TooltipData|null = null;
 	public wordStatuses: { [key: string]: WordStatus } = {};
 	public notification: NotificationData|null = null;
+
+	private storage: Storage;
+
+	constructor(storage: Storage) {
+		this.storage = storage;
+	}
 
 	public notifyIfLoggedOut = () => {
 		if (this.apiKey === null) {
@@ -50,12 +61,12 @@ export default class Store {
 	}
 
 	public setApiKey = async (key: string|null) => {
-		await browser.storage.local.set({ key });
+		await this.storage.set({ key });
 		await this.loadApiDataAfterApiKeyChange(key);
 	}
 
 	public getApiKeyFromStorage = async (): Promise<string|null> => {
-		return (await browser.storage.local.get('key')).key || null;
+		return (await this.storage.get(['key'])).key || null;
 	}
 
 	public loadApiKeyFromStorage = async (notifyLogin: boolean = true) => {
@@ -148,7 +159,7 @@ export default class Store {
 		let {
 			sessionId,
 			sessionIdExpiresAt,
-		} = await browser.storage.local.get([
+		} = await this.storage.get([
 			'sessionId',
 			'sessionIdExpiresAt',
 		]);
@@ -161,12 +172,12 @@ export default class Store {
 
 			sessionId = uuidv4();
 			sessionIdExpiresAt = newExpiresAt.getTime();
-			await browser.storage.local.set({ sessionId, sessionIdExpiresAt });
+			await this.storage.set({ sessionId, sessionIdExpiresAt });
 
 			return sessionId;
 		} else {
 			// Active session -> refreshing the expiry date
-			await browser.storage.local.set({
+			await this.storage.set({
 				sessionIdExpiresAt: newExpiresAt.getTime(),
 			});
 

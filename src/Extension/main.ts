@@ -8,7 +8,16 @@ if (typeof browser === 'undefined') {
 	window.browser = require('webextension-polyfill');
 }
 
-const store = new Store();
+const storage = {
+	get: async (keys: string[]): Promise<{ [key: string]: any }> => {
+		return browser.storage.local.get(keys);
+	},
+	set: async (data: { [key: string]: any }): Promise<void> => {
+		return browser.storage.local.set(data);
+	},
+};
+
+const store = new Store(storage);
 
 const isWebsite = window.location.href.startsWith(
 	<string>process.env.KANJIMI_WWW_URL + '/',

@@ -192,7 +192,7 @@ export default class PageHandler {
 						link: null,
 					});
 				} else {
-					console.error('Exception: ', error.toString());
+					console.error(error);
 				}
 
 				for (let i = 0; i < nodes.length; i++) {

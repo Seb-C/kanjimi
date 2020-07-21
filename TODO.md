@@ -1,8 +1,10 @@
 MVP:
     Iframe browser:
+        - Fix Tooltip creating horizontal scrolling -> wrong window size may be used?
+        - fix build errors
         - click menu = removes the url from the query string, but page does not change
         - url not updated when clicking a link (+ test)
-        - Inject the Kanjimi script (+ properly inject everything including the real page url for stats)
+        - Properly inject the real URL for the stats (currently handled by PageHandler)
         - Limit the max amount of redirections server-side when loading a page
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions
@@ -14,6 +16,10 @@ MVP:
             charset from content
             content-location is properly transmitted
         - Test the browser with Cypress
+            the script is properly injected
+            the style is properly injected
+            the main frame can access the contents of the child frame
+            the javascript is disabled inside the iframe
             previous and next pages with browser = properly updated in the iframe
             shows the loader when changing the url
             hides the loader after loading (including when the url did not change)
@@ -39,6 +45,7 @@ MVP:
     check the database backups
 
 After:
+    Do not generate browser.build.js in the WebApp -> not necessary
     Reorganize this TODOList
     update servers manually before install (and reboot?)
     need to clear cloudflare cache after deploy? -> should be ok with the 2 hours cache

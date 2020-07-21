@@ -3,10 +3,10 @@ import Store from 'Common/Store';
 
 const storage = {
 	data: <{ [key: string]: any }>{},
-	async get(keys: string[]): Promise<{ [key: string]: any }> {
+	async get(keys: string[]): Promise<{ [key: string]: string|null }> {
 		return this.data;
 	},
-	async set(data: { [key: string]: string|null|number }): Promise<void> {
+	async set(data: { [key: string]: string|null }): Promise<void> {
 		this.data = {
 			...this.data,
 			...data,

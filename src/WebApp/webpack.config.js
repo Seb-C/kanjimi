@@ -51,16 +51,17 @@ module.exports = {
 		],
 	},
 	entry: {
-		main: './src/WebApp/main.ts',
+		app: './src/WebApp/main.ts',
+		browser: './src/Common/PageHandler.ts',
 	},
 	output: {
 		path: path.resolve('./www'),
-		filename: 'js/app.build.js',
+		filename: 'js/[name].build.js',
 	},
 	plugins: [
 		new VueLoaderPlugin(),
 		new MiniCssExtractPlugin({
-			filename: 'css/app.build.css',
+			filename: 'css/[name].build.css',
 		}),
 		new webpack.DefinePlugin(
 			Object.fromEntries(

@@ -26,8 +26,8 @@ type NotificationData = {
 let openedLoginWindow: Window|null = null;
 
 interface Storage {
-	get(keys: string[]): Promise<{ [key: string]: any }>;
-	set(data: { [key: string]: any }): Promise<void>;
+	get(keys: string[]): Promise<{ [key: string]: string|null }>;
+	set(data: { [key: string]: string|null }): Promise<void>;
 }
 
 export default class Store {
@@ -172,18 +172,18 @@ export default class Store {
 		const newExpiresAt = new Date();
 		newExpiresAt.setMinutes(newExpiresAt.getMinutes() + 30);
 
-		if (!sessionId || (sessionIdExpiresAt && parseInt(sessionIdExpiresAt) < (new Date()).getTime())) {
+		if (!sessionId || (sessionIdExpiresAt && parseInt(sessionIdExpiresAt, 10) < (new Date()).getTime())) {
 			// No session or it has expired -> creating one
 
 			sessionId = uuidv4();
-			sessionIdExpiresAt = newExpiresAt.getTime();
+			sessionIdExpiresAt = newExpiresAt.getTime().toString(10);
 			await this.storage.set({ sessionId, sessionIdExpiresAt });
 
 			return sessionId;
 		} else {
 			// Active session -> refreshing the expiry date
 			await this.storage.set({
-				sessionIdExpiresAt: newExpiresAt.getTime(),
+				sessionIdExpiresAt: newExpiresAt.getTime().toString(10),
 			});
 
 			return sessionId;

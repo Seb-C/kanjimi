@@ -66,6 +66,8 @@
 </template>
 <script lang="ts">
 	import Vue from 'vue';
+	import PageHandler from 'Common/PageHandler';
+	import Store from 'Common/Store';
 	import { get as getPage } from 'Common/Api/Page';
 
 	export default Vue.extend({
@@ -104,14 +106,14 @@
 					}
 				});
 
-				const win = event.target.contentWindow;
+				const win = <Window>(<HTMLIFrameElement>event.target).contentWindow;
 				win.document.querySelectorAll('a').forEach(function (link) {
 					link.addEventListener('click', function (event) {
 						event.preventDefault();
 						win.parent.postMessage({
 							action: 'navigate',
 							payload: link.href,
-						}, process.env.KANJIMI_WWW_URL);
+						}, <string>process.env.KANJIMI_WWW_URL);
 					});
 				});
 				win.document.querySelectorAll('form').forEach(function (form) {
@@ -139,6 +141,40 @@
 						}
 					});
 				});
+
+				const storage = {
+					get: async (keys: string[]): Promise<{ [key: string]: string|null }> => {
+						const result: any = {};
+						keys.forEach((key) => {
+							result[key] = localStorage.getItem(key) || null;
+						});
+						return result;
+					},
+					set: async (data: { [key: string]: string|null }): Promise<void> => {
+						Object.keys(data).forEach((key) => {
+							localStorage.setItem(key, data[key]);
+						});
+					},
+				};
+
+				const store = new Store(win, storage);
+				const pageHandler = new PageHandler(win, store);
+
+				(async () => {
+					try {
+						await store.loadApiKeyFromStorage(false);
+						store.notifyIfLoggedOut();
+						if (store.apiKey !== null && win.document.visibilityState === 'visible') {
+							await pageHandler.convertSentences();
+						}
+					} catch (error) {
+						console.error(error);
+					}
+				})();
+
+				pageHandler.injectUIContainer();
+				pageHandler.injectLoaderCss();
+				pageHandler.bindPageEvents();
 			},
 			async onBrowserPopState(event: Event) {
 				const query = new URLSearchParams(window.location.search);
@@ -200,6 +236,11 @@
 					metaTag.setAttribute('charset', charset);
 					doc.head.appendChild(metaTag);
 				}
+
+				const cssTag = doc.createElement('link');
+				cssTag.setAttribute('rel', 'stylesheet');
+				cssTag.setAttribute('href', `${process.env.KANJIMI_WWW_URL}/css/browser.build.css`);
+				doc.head.appendChild(cssTag);
 
 				const newPage = `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
 

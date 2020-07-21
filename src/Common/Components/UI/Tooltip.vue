@@ -37,32 +37,35 @@
 			tokenElement: { type: HTMLElement },
 		},
 		data() {
+			const win = this.$root.window;
+
 			return {
+				window: win,
 				targetPos: {},
 
 				// Values that only should not be affected by future dom changes
-				windowScrollY: window.scrollY,
-				windowWidth: window.innerWidth,
-				windowHeight: window.innerHeight,
+				windowScrollY: win.scrollY,
+				windowWidth: win.innerWidth,
+				windowHeight: win.innerHeight,
 			};
 		},
 		created() {
 			this.updateTargetPos();
-			window.addEventListener('resize', this.updateTargetPos);
-			window.addEventListener('kanjimi-converted-sentences', this.updateTargetPos);
-			document.addEventListener('keyup', this.keyPressHandler);
-			document.body.addEventListener('click', this.onBodyClick);
-			document.body.addEventListener('keyup', this.onBodyKeyPress);
+			this.window.addEventListener('resize', this.updateTargetPos);
+			this.window.addEventListener('kanjimi-converted-sentences', this.updateTargetPos);
+			this.window.document.addEventListener('keyup', this.keyPressHandler);
+			this.window.document.body.addEventListener('click', this.onBodyClick);
+			this.window.document.body.addEventListener('keyup', this.onBodyKeyPress);
 		},
 		beforeUpdate() {
 			this.updateTargetPos();
 		},
 		beforeDestroy() {
-			window.removeEventListener('resize', this.updateTargetPos);
-			window.removeEventListener('kanjimi-converted-sentences', this.updateTargetPos);
-			document.removeEventListener('keyup', this.keyPressHandler);
-			document.body.removeEventListener('click', this.onBodyClick);
-			document.body.removeEventListener('keyup', this.onBodyKeyPress);
+			this.window.removeEventListener('resize', this.updateTargetPos);
+			this.window.removeEventListener('kanjimi-converted-sentences', this.updateTargetPos);
+			this.window.document.removeEventListener('keyup', this.keyPressHandler);
+			this.window.document.body.removeEventListener('click', this.onBodyClick);
+			this.window.document.body.removeEventListener('keyup', this.onBodyKeyPress);
 		},
 		methods: {
 			onTooltipRootElementClick(event: Event) {
@@ -90,8 +93,8 @@
 			},
 			updateTargetPos() {
 				const rect = this.tokenElement.getBoundingClientRect();
-				const left = window.scrollX + rect.left;
-				const top = window.scrollY + rect.top;
+				const left = this.window.scrollX + rect.left;
+				const top = this.window.scrollY + rect.top;
 
 				this.targetPos = {
 					left: left,

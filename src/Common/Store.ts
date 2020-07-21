@@ -37,9 +37,14 @@ export default class Store {
 	public wordStatuses: { [key: string]: WordStatus } = {};
 	public notification: NotificationData|null = null;
 
-	private storage: Storage;
+	public readonly window: Window;
+	private readonly storage: Storage;
 
-	constructor(storage: Storage) {
+	constructor(
+		window: Window,
+		storage: Storage,
+	) {
+		this.window = window;
 		this.storage = storage;
 	}
 
@@ -50,7 +55,7 @@ export default class Store {
 				link: {
 					text: 'Click here to connect it.',
 					onClick: () => {
-						openedLoginWindow = window.open(
+						openedLoginWindow = this.window.open(
 							`${process.env.KANJIMI_WWW_URL}/app/login`,
 							'kanjimi-login-window',
 						);
@@ -87,7 +92,7 @@ export default class Store {
 				link: {
 					text: 'Click here to reconnect it.',
 					onClick: () => {
-						openedLoginWindow = window.open(
+						openedLoginWindow = this.window.open(
 							`${process.env.KANJIMI_WWW_URL}/app/login`,
 							'kanjimi-login-window',
 						);

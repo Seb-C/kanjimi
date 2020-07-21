@@ -14,15 +14,20 @@ import { debounce } from 'ts-debounce';
 
 export default class PageHandler {
 	private processing: boolean = false;
+	private window: Window;
 	private store: Store;
 
-	constructor (store: Store) {
+	constructor (
+		window: Window,
+		store: Store,
+	) {
+		this.window = window;
 		this.store = store;
 	}
 
 	injectUIContainer() {
-		const elementToReplace = document.createElement('div');
-		document.body.appendChild(elementToReplace);
+		const elementToReplace = this.window.document.createElement('div');
+		this.window.document.body.appendChild(elementToReplace);
 		new Vue({
 			el: elementToReplace,
 			render: createElement => createElement(UIContainer),
@@ -31,8 +36,8 @@ export default class PageHandler {
 	}
 
 	*getSentencesToConvert(): Iterable<Text> {
-		const walker = document.createTreeWalker(
-			document.body,
+		const walker = this.window.document.createTreeWalker(
+			this.window.document.body,
 			NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
 			{ acceptNode: (node: Node): number => {
 				if (node instanceof Element) {
@@ -63,9 +68,9 @@ export default class PageHandler {
 
 					const boundingBox = (<HTMLElement>node).getBoundingClientRect();
 					if (
-						boundingBox.top > window.innerHeight
+						boundingBox.top > this.window.innerHeight
 						|| boundingBox.bottom < 0
-						|| boundingBox.left > window.innerWidth
+						|| boundingBox.left > this.window.innerWidth
 						|| boundingBox.right < 0
 					) {
 						if (boundingBox.width === 0 || boundingBox.height === 0) {
@@ -139,8 +144,8 @@ export default class PageHandler {
 
 		if (strings.length > 0) {
 			try {
-				const canonicalTag = document.querySelector('link[rel="canonical"]');
-				const pageUrl = canonicalTag ? (<any>canonicalTag).href : document.location.href;
+				const canonicalTag = this.window.document.querySelector('link[rel="canonical"]');
+				const pageUrl = canonicalTag ? (<any>canonicalTag).href : this.window.document.location.href;
 				const sessionId = await this.store.getSessionId();
 
 				const data = await analyze(
@@ -179,7 +184,7 @@ export default class PageHandler {
 					this.convertSentence(nodes[i], data[i]);
 				}
 
-				window.dispatchEvent(new Event('kanjimi-converted-sentences'));
+				this.window.dispatchEvent(new Event('kanjimi-converted-sentences'));
 			} catch (error) {
 				if (error instanceof PaymentRequiredError) {
 					this.store.setNotification({
@@ -200,7 +205,7 @@ export default class PageHandler {
 	}
 
 	convertSentence(node: Text, tokens: Token[]) {
-		const container = document.createElement('span');
+		const container = this.window.document.createElement('span');
 		(<Node>node.parentNode).replaceChild(container, node);
 
 		new Vue({
@@ -215,7 +220,7 @@ export default class PageHandler {
 	}
 
 	injectLoaderCss() {
-		const style = document.createElement('style');
+		const style = this.window.document.createElement('style');
 		style.textContent = `
 			.kanjimi-loader {
 				opacity: 0.3;
@@ -248,7 +253,7 @@ export default class PageHandler {
 				}
 			}
 		`;
-		document.getElementsByTagName('head')[0].appendChild(style);
+		this.window.document.getElementsByTagName('head')[0].appendChild(style);
 	}
 
 	bindPageEvents() {
@@ -259,18 +264,18 @@ export default class PageHandler {
 				console.error(error);
 			}
 		};
-		window.addEventListener('load', convertSentencesAsynchronously);
+		this.window.addEventListener('load', convertSentencesAsynchronously);
 
-		document.addEventListener('visibilitychange', () => {
-			if (document.visibilityState === 'visible') {
+		this.window.document.addEventListener('visibilitychange', () => {
+			if (this.window.document.visibilityState === 'visible') {
 				convertSentencesAsynchronously();
 			}
 		});
 
 		// Scrolling the body
-		window.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300));
+		this.window.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300));
 
 		// Scrolling any other element (and use capture, necessary for many web apps)
-		document.body.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300), true);
+		this.window.document.body.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300), true);
 	}
 }

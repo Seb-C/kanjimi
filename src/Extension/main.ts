@@ -16,7 +16,7 @@ const storage = {
 	},
 };
 
-const store = new Store(storage);
+const store = new Store(window, storage);
 
 const isWebsite = window.location.href.startsWith(
 	<string>process.env.KANJIMI_WWW_URL + '/',
@@ -52,7 +52,7 @@ if (isWebsite) {
 }
 
 if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {
-	const pageHandler = new PageHandler(store);
+	const pageHandler = new PageHandler(window, store);
 
 	(async () => {
 		try {

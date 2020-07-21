@@ -17,7 +17,7 @@ const storage = {
 describe('Store', async function() {
 	it('getSessionId (empty storage case)', async function() {
 		storage.data = {};
-		const store = new Store(storage);
+		const store = new Store(<Window><any>null, storage);
 		const sessionId = await store.getSessionId();
 
 		expect(sessionId).not.toEqual('');
@@ -29,7 +29,7 @@ describe('Store', async function() {
 			sessionId: 'test session id',
 			sessionIdExpiresAt: (new Date()).getTime() - 1,
 		};
-		const store = new Store(storage);
+		const store = new Store(<Window><any>null, storage);
 		const sessionId = await store.getSessionId();
 
 		expect(sessionId).not.toEqual('');
@@ -44,7 +44,7 @@ describe('Store', async function() {
 			sessionId: 'test session id',
 			sessionIdExpiresAt: originalExpiresAt,
 		};
-		const store = new Store(storage);
+		const store = new Store(<Window><any>null, storage);
 		const sessionId = await store.getSessionId();
 
 		expect(sessionId).toEqual('test session id');

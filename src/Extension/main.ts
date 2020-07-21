@@ -1,5 +1,5 @@
-import PageHandler from 'Extension/PageHandler';
-import Store from 'Extension/Store';
+import PageHandler from 'Common/PageHandler';
+import Store from 'Common/Store';
 import { debounce } from 'ts-debounce';
 
 // Fix for chrome and blink browsers

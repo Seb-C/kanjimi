@@ -1,14 +1,14 @@
 import CharType from 'Common/Types/CharType';
 import Token from 'Common/Models/Token';
 import User from 'Common/Models/User';
-import Store from 'Extension/Store';
+import Store from 'Common/Store';
 import { analyze } from 'Common/Api/Lexer';
 import {
 	search as searchWordStatuses,
 } from 'Common/Api/WordStatus';
 import Vue from 'vue';
-import UIContainer from 'Extension/UI/Container.vue';
-import Sentence from 'Extension/PageTexts/Sentence.vue';
+import UIContainer from 'Common/Components/UI/Container.vue';
+import Sentence from 'Common/Components/PageTexts/Sentence.vue';
 import PaymentRequiredError from 'Common/Api/Errors/PaymentRequired';
 
 export default class PageHandler {

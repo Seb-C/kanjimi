@@ -27,7 +27,7 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import Token from 'Common/Models/Token';
-	import Tabs from 'Extension/UI/Tabs.vue';
+	import Tabs from 'Common/Components/UI/Tabs.vue';
 
 	const TIP_SIZE = 15;
 

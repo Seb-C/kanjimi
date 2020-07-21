@@ -1,5 +1,5 @@
 import 'jasmine';
-import Store from 'Extension/Store';
+import Store from 'Common/Store';
 
 const storage = {
 	data: <{ [key: string]: any }>{},

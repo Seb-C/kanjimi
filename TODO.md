@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - Move the extension classes to Common?
         - Secure the token handling since it will be injected on random sites
         - Inject the Kanjimi script (+ properly inject everything including the real page url for stats)
         - Check the security (can the iframe script access the token?!)

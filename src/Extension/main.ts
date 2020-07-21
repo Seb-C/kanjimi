@@ -1,6 +1,5 @@
 import PageHandler from 'Common/PageHandler';
 import Store from 'Common/Store';
-import { debounce } from 'ts-debounce';
 
 // Fix for chrome and blink browsers
 if (typeof browser === 'undefined') {
@@ -82,24 +81,5 @@ if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {
 		}
 	});
 
-	const convertSentencesAsynchronously = async () => {
-		try {
-			await pageHandler.convertSentences();
-		} catch (error) {
-			console.error(error);
-		}
-	};
-	window.addEventListener('load', convertSentencesAsynchronously);
-
-	document.addEventListener('visibilitychange', () => {
-		if (document.visibilityState === 'visible') {
-			convertSentencesAsynchronously();
-		}
-	});
-
-	// Scrolling the body
-	window.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300));
-
-	// Scrolling any other element (and use capture, necessary for many web apps)
-	document.body.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300), true);
+	pageHandler.bindPageEvents();
 }

@@ -10,6 +10,7 @@ import Vue from 'vue';
 import UIContainer from 'Common/Components/UI/Container.vue';
 import Sentence from 'Common/Components/PageTexts/Sentence.vue';
 import PaymentRequiredError from 'Common/Api/Errors/PaymentRequired';
+import { debounce } from 'ts-debounce';
 
 export default class PageHandler {
 	private processing: boolean = false;
@@ -248,5 +249,28 @@ export default class PageHandler {
 			}
 		`;
 		document.getElementsByTagName('head')[0].appendChild(style);
+	}
+
+	bindPageEvents() {
+		const convertSentencesAsynchronously = async () => {
+			try {
+				await this.convertSentences();
+			} catch (error) {
+				console.error(error);
+			}
+		};
+		window.addEventListener('load', convertSentencesAsynchronously);
+
+		document.addEventListener('visibilitychange', () => {
+			if (document.visibilityState === 'visible') {
+				convertSentencesAsynchronously();
+			}
+		});
+
+		// Scrolling the body
+		window.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300));
+
+		// Scrolling any other element (and use capture, necessary for many web apps)
+		document.body.addEventListener('scroll', debounce(convertSentencesAsynchronously, 300), true);
 	}
 }

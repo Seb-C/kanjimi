@@ -22,7 +22,7 @@
 			/>
 		</template>
 		<div v-if="loading" class="d-flex flex-fill justify-content-center">
-			<span class="spinner-border iframe-loading-spinner" role="status" aria-hidden="true"></span>
+			<span class="spinner-border iframe-loading-spinner align-self-center" role="status" aria-hidden="true"></span>
 			<span class="sr-only">Loading...</span>
 		</div>
 		<template v-if="page === null && !loading">
@@ -282,6 +282,7 @@
 	.iframe-page.loading {
 		visibility: hidden;
 		height: 0;
+		flex: revert !important;
 	}
 
 	.iframe-loading-spinner {

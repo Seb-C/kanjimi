@@ -1,8 +1,7 @@
 MVP:
     Iframe browser:
+        - add the url to the title for the browser
         - fix build errors
-        - click menu = removes the url from the query string, but page does not change
-        - url not updated when clicking a link (+ test)
         - Properly inject the real URL for the stats (currently handled by PageHandler)
         - Limit the max amount of redirections server-side when loading a page
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
@@ -27,6 +26,9 @@ MVP:
             if no extension, the sample links are opened in the in-page browser
             when changing page, the real query string is updated
             when loading a page with an url in the query string, the proper page is loaded
+            when changing page from inside the iframe, it works
+            when changing page from a form inside the iframe, it works
+            when changing from a page to the default home (click on the menu), it works
             the url is updated is there was any redirect when loading server side
             can send the GET forms successfully
             links with an existing event handler are working properly

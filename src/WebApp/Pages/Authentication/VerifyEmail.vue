@@ -48,13 +48,11 @@
 
 	export default Vue.extend({
 		data() {
-			const query = new URLSearchParams(window.location.search);
-
 			return {
 				loading: true,
 				error: <string|null>null,
-				userId: query.get('userId'),
-				emailVerificationKey: query.get('emailVerificationKey'),
+				userId: this.$root.router.params.userId || null,
+				emailVerificationKey: this.$root.router.params.emailVerificationKey || null,
 			};
 		},
 		async mounted() {

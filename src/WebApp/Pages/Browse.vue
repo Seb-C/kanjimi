@@ -4,8 +4,8 @@
 			<form v-on:submit="onFormSubmit">
 				<input
 					type="url"
-					v-model="url"
-					placeholder="URL"
+					v-model="inputUrl"
+					placeholder="Enter an URL to use Kanjimi on it"
 					class="input-url"
 				/>
 			</form>
@@ -72,11 +72,9 @@
 
 	export default Vue.extend({
 		data() {
-			const query = new URLSearchParams(window.location.search);
-
 			return {
 				installed: document.body.hasAttribute('data-extension-installed'),
-				url: <string|null>query.get('url'),
+				inputUrl: this.$root.router.params.url || null,
 				page: <string|null>null,
 				loading: false,
 			};
@@ -85,13 +83,18 @@
 			if (this.$root.apiKey === null) {
 				this.$root.router.changeRoute('./app/login');
 			}
-			if (this.url !== null) {
-				await this.changeUrl(this.url);
-			}
-			window.addEventListener('popstate', this.onBrowserPopState);
+
+			await this.loadUrl(this.inputUrl);
 		},
-		beforeDestroy() {
-			window.removeEventListener('popstate', this.onBrowserPopState);
+		watch: {
+			async '$root.router.params'(newParams, oldParams) {
+				this.inputUrl = newParams.url || null;
+
+				if (!this.loading) {
+					await this.loadUrl(this.inputUrl);
+				}
+				// else: triggered because the url was a recirection
+			},
 		},
 		methods: {
 			iframeLoaded(event: Event) {
@@ -102,7 +105,7 @@
 						payload: any,
 					}>event.data;
 					if (action === 'navigate' && typeof(payload) === 'string') {
-						this.changeUrl(payload, true);
+						this.$root.router.changeRoute(`./app?url=${encodeURIComponent(payload)}`);
 					}
 				});
 
@@ -176,21 +179,16 @@
 				pageHandler.injectLoaderCss();
 				pageHandler.bindPageEvents();
 			},
-			async onBrowserPopState(event: Event) {
-				const query = new URLSearchParams(window.location.search);
-				if (query.has('url')) {
-					await this.changeUrl(query.get('url'), false);
-				} else {
-					this.url = null;
-					this.page = null;
-					this.loading = false;
-				}
-			},
-			async onFormSubmit(event: Event) {
+			onFormSubmit(event: Event) {
 				event.preventDefault();
-				await this.changeUrl(this.url, true);
+				this.$root.router.changeRoute(`./app?url=${encodeURIComponent(this.inputUrl)}`);
 			},
-			async changeUrl(requestedUrl: string, setPopState: boolean) {
+			async loadUrl(requestedUrl: string|null) {
+				if (requestedUrl === null) {
+					this.page = null;
+					return;
+				}
+
 				this.loading = true;
 				this.page = null;
 
@@ -199,13 +197,8 @@
 				const url = response.realUrl || requestedUrl;
 				let charset = response.charset || 'utf-8';
 
-				if (setPopState) {
-					const { origin, pathname } = window.location;
-					window.history.pushState(
-						null,
-						document.title,
-						`${origin}${pathname}?url=${encodeURIComponent(url)}`,
-					);
+				if (url !== requestedUrl) {
+					this.$root.router.changeRoute(`./app?url=${encodeURIComponent(url)}`);
 				}
 
 				const domParser = new DOMParser();
@@ -249,14 +242,14 @@
 					this.loading = false;
 				}
 
-				this.url = url;
 				this.page = newPage;
 			},
-			async onClickSampleLink(event: Event) {
+			onClickSampleLink(event: Event) {
 				if (!this.installed) {
 					event.preventDefault();
-					await this.changeUrl(event.target.href);
+					this.$root.router.changeRoute(`./app?url=${encodeURIComponent(event.target.href)}`);
 				}
+				// else: default link behaviour
 			},
 		},
 	});

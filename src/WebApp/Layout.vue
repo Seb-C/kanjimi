@@ -187,7 +187,7 @@
 						active: (
 							this.$refs['menu-link-' + index]
 							&& this.$refs['menu-link-' + index][0]
-							&& this.$root.router.url == this.$root.router.normalizeUrl(this.$refs['menu-link-' + index][0].href)
+							&& this.$root.router.url == this.$root.router.normalizeUrl(this.$refs['menu-link-' + index][0].href).url
 						),
 					};
 				});
@@ -208,7 +208,7 @@
 						active: (
 							this.$refs['user-link-' + index]
 							&& this.$refs['user-link-' + index][0]
-							&& this.$root.router.url == this.$root.router.normalizeUrl(this.$refs['user-link-' + index][0].href)
+							&& this.$root.router.url == this.$root.router.normalizeUrl(this.$refs['user-link-' + index][0].href).url
 						),
 					};
 				});

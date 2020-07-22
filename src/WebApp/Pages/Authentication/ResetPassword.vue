@@ -86,15 +86,13 @@
 
 	export default Vue.extend({
 		data() {
-			const query = new URLSearchParams(window.location.search);
-
 			return {
 				password: '',
 				passwordConfirmation: '',
 				errors: {},
 				loading: false,
-				userId: query.get('userId'),
-				passwordResetKey: query.get('passwordResetKey'),
+				userId: this.$root.router.params.userId || null,
+				passwordResetKey: this.$root.router.params.passwordResetKey || null,
 				done: false,
 			};
 		},

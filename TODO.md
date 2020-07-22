@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - add the url to the title for the browser
         - fix build errors
         - Properly inject the real URL for the stats (currently handled by PageHandler)
         - Limit the max amount of redirections server-side when loading a page

@@ -145,6 +145,8 @@
 					});
 				});
 
+				this.$root.router.addTitleSuffix(win.document.title);
+
 				const storage = {
 					get: async (keys: string[]): Promise<{ [key: string]: string|null }> => {
 						const result: any = {};

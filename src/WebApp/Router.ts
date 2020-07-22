@@ -58,12 +58,20 @@ export default class Router {
 		}
 	};
 
-	getTitle (url: string): string {
+	getDefaultTitle (url: string): string {
 		if (this.routes[url]) {
 			return 'Kanjimi - ' + this.routes[url].title;
 		} else {
 			return 'Kanjimi';
 		}
+	};
+
+	setTitle (title: string) {
+		document.title = title;
+	};
+
+	addTitleSuffix (suffix: string) {
+		this.setTitle(this.getDefaultTitle(this.url) + ` (${suffix})`);
 	};
 
 	changeRoute(object: string|Event) {
@@ -82,7 +90,7 @@ export default class Router {
 	setRouteWithoutPushState(url: string) {
 		const { url: currentUrl, params } = this.normalizeUrl(url);
 
-		document.title = this.getTitle(currentUrl);
+		this.setTitle(this.getDefaultTitle(currentUrl));
 		this.url = currentUrl;
 		Vue.set(this, 'component', this.getComponent(currentUrl));
 

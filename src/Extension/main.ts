@@ -52,7 +52,11 @@ if (isWebsite) {
 }
 
 if ((isMainWindow || isCypressInterface) && (!isWebsite || isTestPage)) {
-	const pageHandler = new PageHandler(window, store);
+	const pageHandler = new PageHandler(
+		window,
+		store,
+		window.document.location.href,
+	);
 
 	(async () => {
 		try {

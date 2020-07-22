@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - Properly inject the real URL for the stats (currently handled by PageHandler)
         - Limit the max amount of redirections server-side when loading a page
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions
@@ -12,6 +11,7 @@ MVP:
             charset from content
             content-location is properly transmitted
         - Test the browser with Cypress
+            copy tests from the extension? Duplicate it for the browser?
             the script is properly injected
             the style is properly injected
             the main frame can access the contents of the child frame

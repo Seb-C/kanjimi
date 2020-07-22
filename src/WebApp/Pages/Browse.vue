@@ -170,7 +170,11 @@
 				};
 
 				const store = new ExtensionStore(win, storage);
-				const pageHandler = new PageHandler(win, store);
+				const pageHandler = new PageHandler(
+					win,
+					store,
+					this.$root.router.params.url,
+				);
 
 				(async () => {
 					try {

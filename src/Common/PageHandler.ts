@@ -16,13 +16,16 @@ export default class PageHandler {
 	private processing: boolean = false;
 	private window: Window;
 	private store: Store;
+	private documentLocation: string;
 
 	constructor (
 		window: Window,
 		store: Store,
+		documentLocation: string,
 	) {
 		this.window = window;
 		this.store = store;
+		this.documentLocation = documentLocation;
 	}
 
 	injectUIContainer() {

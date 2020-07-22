@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - Fix Tooltip creating horizontal scrolling -> wrong window size may be used?
         - fix build errors
         - click menu = removes the url from the query string, but page does not change
         - url not updated when clicking a link (+ test)

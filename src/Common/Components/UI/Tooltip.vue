@@ -45,8 +45,8 @@
 
 				// Values that only should not be affected by future dom changes
 				windowScrollY: win.scrollY,
-				windowWidth: win.innerWidth,
-				windowHeight: win.innerHeight,
+				windowWidth: win.document.body.offsetWidth,
+				windowHeight: win.document.body.offsetHeight,
 			};
 		},
 		created() {

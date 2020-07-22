@@ -46,7 +46,6 @@ export const get = (db: PgPromise.IDatabase<void>) => async (request: Request, r
 
 		response.writeHead(200, {
 			'Content-Type': <string>contentType,
-			'Cache-Control': 'max-age=3600',
 			'Content-Location': data.url,
 		});
 

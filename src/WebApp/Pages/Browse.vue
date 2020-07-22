@@ -67,14 +67,16 @@
 <script lang="ts">
 	import Vue from 'vue';
 	import PageHandler from 'Common/PageHandler';
-	import Store from 'Common/Store';
+	import ExtensionStore from 'Common/Store';
+	import WebAppStore from 'WebApp/Store';
 	import { get as getPage } from 'Common/Api/Page';
 
 	export default Vue.extend({
 		data() {
+
 			return {
 				installed: document.body.hasAttribute('data-extension-installed'),
-				inputUrl: this.$root.router.params.url || null,
+				inputUrl: (<WebAppStore><any>this.$root).router.params.url || null,
 				page: <string|null>null,
 				loading: false,
 			};
@@ -120,27 +122,28 @@
 					});
 				});
 				win.document.querySelectorAll('form').forEach(function (form) {
-					form.addEventListener('submit', function (event) {
+					form.addEventListener('submit', function (event: Event) {
 						event.preventDefault();
+						const submitter = <HTMLInputElement>(<any>event).submitter;
 						if (!form.method || form.method.toUpperCase() === 'GET') {
 							// Building the query string for this form
 							var queryStringPairs = [];
 							for (var entry of (new FormData(form)).entries()) {
-								queryStringPairs.push(entry[0] + '=' + encodeURIComponent(entry[1]));
+								queryStringPairs.push(entry[0] + '=' + encodeURIComponent(<string>entry[1]));
 							}
-							if (event.submitter && event.submitter.type === 'submit') {
-								queryStringPairs.push(event.submitter.name[0] + '=' + encodeURIComponent(event.submitter.value[1]));
+							if (submitter && submitter.type === 'submit') {
+								queryStringPairs.push(submitter.name[0] + '=' + encodeURIComponent(submitter.value[1]));
 							}
 
 							// Building the absolute url and going to it
-							var url = new URL(
+							let url = new URL(
 								form.action + '?' + queryStringPairs.join('&'),
-								url.replace(/'/g, "\\'"),
+								this.$root.router.params.url,
 							);
 							win.parent.postMessage({
 								action: 'navigate',
 								payload: url.href,
-							}, process.env.KANJIMI_WWW_URL);
+							}, <string>process.env.KANJIMI_WWW_URL);
 						}
 					});
 				});
@@ -157,12 +160,16 @@
 					},
 					set: async (data: { [key: string]: string|null }): Promise<void> => {
 						Object.keys(data).forEach((key) => {
-							localStorage.setItem(key, data[key]);
+							if (data[key] === null) {
+								localStorage.removeItem(key);
+							} else {
+								localStorage.setItem(key, <string>data[key]);
+							}
 						});
 					},
 				};
 
-				const store = new Store(win, storage);
+				const store = new ExtensionStore(win, storage);
 				const pageHandler = new PageHandler(win, store);
 
 				(async () => {
@@ -249,7 +256,9 @@
 			onClickSampleLink(event: Event) {
 				if (!this.installed) {
 					event.preventDefault();
-					this.$root.router.changeRoute(`./app?url=${encodeURIComponent(event.target.href)}`);
+					this.$root.router.changeRoute(
+						`./app?url=${encodeURIComponent((<HTMLAnchorElement>event.target).href)}`,
+					);
 				}
 				// else: default link behaviour
 			},

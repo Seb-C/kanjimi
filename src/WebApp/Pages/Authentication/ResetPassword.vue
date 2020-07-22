@@ -83,6 +83,7 @@
 	import NotFoundError from 'Common/Api/Errors/NotFound';
 	import ServerError from 'Common/Api/Errors/Server';
 	import RoundLogo from 'WebApp/Components/RoundLogo.vue';
+	import Store from 'WebApp/Store';
 
 	export default Vue.extend({
 		data() {
@@ -91,8 +92,8 @@
 				passwordConfirmation: '',
 				errors: {},
 				loading: false,
-				userId: this.$root.router.params.userId || null,
-				passwordResetKey: this.$root.router.params.passwordResetKey || null,
+				userId: (<Store><any>this.$root).router.params.userId || null,
+				passwordResetKey: (<Store><any>this.$root).router.params.passwordResetKey || null,
 				done: false,
 			};
 		},

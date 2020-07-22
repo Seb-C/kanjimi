@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - fix build errors
         - Properly inject the real URL for the stats (currently handled by PageHandler)
         - Limit the max amount of redirections server-side when loading a page
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)

@@ -28,6 +28,7 @@
 	import Vue from 'vue';
 	import Token from 'Common/Models/Token';
 	import Tabs from 'Common/Components/UI/Tabs.vue';
+	import Store from 'Common/Store';
 
 	const TIP_SIZE = 15;
 
@@ -37,7 +38,7 @@
 			tokenElement: { type: HTMLElement },
 		},
 		data() {
-			const win = this.$root.window;
+			const win = (<Store><any>this.$root).window;
 
 			return {
 				window: win,

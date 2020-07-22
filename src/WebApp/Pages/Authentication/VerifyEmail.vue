@@ -45,14 +45,15 @@
 	import NotFoundError from 'Common/Api/Errors/NotFound';
 	import ConflictError from 'Common/Api/Errors/Conflict';
 	import ServerError from 'Common/Api/Errors/Server';
+	import Store from 'WebApp/Store';
 
 	export default Vue.extend({
 		data() {
 			return {
 				loading: true,
 				error: <string|null>null,
-				userId: this.$root.router.params.userId || null,
-				emailVerificationKey: this.$root.router.params.emailVerificationKey || null,
+				userId: (<Store><any>this.$root).router.params.userId || null,
+				emailVerificationKey: (<Store><any>this.$root).router.params.emailVerificationKey || null,
 			};
 		},
 		async mounted() {

@@ -33,6 +33,7 @@ context('SignUp', () => {
 		cy.get('input[name="email"]').type('test-' + random + '@kanjimi.com');
 		cy.get('input[name="password"]').type('123456');
 		cy.get('input[name="passwordConfirmation"]').type('123456');
+		cy.get('input[name="termsAndConditions"]').click();
 		cy.get('.languages-available ul div:has(> li:contains(English))').click();
 		cy.get('.languages-available ul div:has(> li:contains(Spanish))').click();
 
@@ -57,6 +58,7 @@ context('SignUp', () => {
 		cy.setLoggedOut();
 		cy.visit('/app/sign-up');
 		cy.get('input[name="email"]').its('value').should('be', '');
+		cy.get('input[name="termsAndConditions"]').click();
 		cy.get('button[type="submit"]').click();
 		// cy.get('button[type="submit"]').should('be.disabled');
 		// cy.get('input[name="email"]').should('be.disabled');
@@ -67,6 +69,7 @@ context('SignUp', () => {
 		cy.setLoggedOut();
 		cy.visit('/app/sign-up');
 		cy.get('input[name="email"]').type('not an email');
+		cy.get('input[name="termsAndConditions"]').click();
 		cy.get('button[type="submit"]').click();
 		// cy.get('button[type="submit"]').should('be.disabled');
 		// cy.get('input[name="email"]').should('be.disabled');
@@ -80,6 +83,7 @@ context('SignUp', () => {
 		cy.get('input[name="email"]').type('contact@kanjimi.com');
 		cy.get('input[name="password"]').type('123456');
 		cy.get('input[name="passwordConfirmation"]').type('123456');
+		cy.get('input[name="termsAndConditions"]').click();
 		cy.get('.languages-available ul div:has(> li:contains(English))').click();
 		cy.get('.languages-available ul div:has(> li:contains(Spanish))').click();
 
@@ -113,6 +117,7 @@ context('SignUp', () => {
 		cy.visit('/app/sign-up');
 		cy.get('input[name="password"]').its('value').should('be', '');
 		cy.get('input[name="passwordConfirmation"]').its('value').should('be', '');
+		cy.get('input[name="termsAndConditions"]').click();
 		cy.get('button[type="submit"]').click();
 		// cy.get('button[type="submit"]').should('be.disabled');
 		// cy.get('input[type="password"]').should('be.disabled');
@@ -125,6 +130,7 @@ context('SignUp', () => {
 		cy.visit('/app/sign-up');
 		cy.get('input[name="password"]').its('value').should('be', '');
 		cy.get('input[name="passwordConfirmation"]').type('123456');
+		cy.get('input[name="termsAndConditions"]').click();
 		cy.get('button[type="submit"]').click();
 		// cy.get('button[type="submit"]').should('be.disabled');
 		// cy.get('input[type="password"]').should('be.disabled');
@@ -137,6 +143,7 @@ context('SignUp', () => {
 		cy.visit('/app/sign-up');
 		cy.get('input[name="password"]').type('123456');
 		cy.get('input[name="passwordConfirmation"]').its('value').should('be', '');
+		cy.get('input[name="termsAndConditions"]').click();
 		cy.get('button[type="submit"]').click();
 		// cy.get('button[type="submit"]').should('be.disabled');
 		// cy.get('input[type="password"]').should('be.disabled');
@@ -149,6 +156,7 @@ context('SignUp', () => {
 		cy.visit('/app/sign-up');
 		cy.get('input[name="password"]').type('123456');
 		cy.get('input[name="passwordConfirmation"]').type('456789');
+		cy.get('input[name="termsAndConditions"]').click();
 		cy.get('button[type="submit"]').click();
 		// cy.get('button[type="submit"]').should('be.disabled');
 		// cy.get('input[type="password"]').should('be.disabled');
@@ -220,6 +228,7 @@ context('SignUp', () => {
 		// Nothing should be selected already
 		cy.get('.languages-selected .smooth-dnd-container li:not(.list-group-item-light)').should('not.exist');
 
+		cy.get('input[name="termsAndConditions"]').click();
 		cy.get('button[type="submit"]').click();
 		// cy.get('button[type="submit"]').should('be.disabled');
 		// cy.wait('@createUserRequest');

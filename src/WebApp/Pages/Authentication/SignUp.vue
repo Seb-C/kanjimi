@@ -172,18 +172,34 @@
 					</div>
 
 					<div class="col-12 mt-3">
-						<p>
-							By signing-up, you agree with our
-							<a
-								href="https://www.iubenda.com/terms-and-conditions/14085238"
-								target="_blank"
-							>Terms and Conditions</a>
-							and our
-							<a
-								href="https://www.iubenda.com/privacy-policy/14085238"
-								target="_blank"
-							>Privacy Policy</a>
-						</p>
+						<label class="mb-0 ml-4">
+							<input
+								type="checkbox"
+								name="termsAndConditions"
+								v-bind:class="{
+									'form-check-input': true,
+									'is-invalid': !!errors.romanReading,
+								}"
+								v-model="termsAndConditions"
+								:disabled="loading"
+							/>
+							<span>
+								I have read and accept the
+								<a
+									href="https://www.iubenda.com/terms-and-conditions/14085238"
+									target="_blank"
+								>Terms and Conditions</a>
+								and the
+								<a
+									href="https://www.iubenda.com/privacy-policy/14085238"
+									target="_blank"
+								>Privacy Policy</a>
+							</span>
+						</label>
+
+						<div v-if="!!errors.termsAndConditions" class="invalid-feedback error-termsAndConditions d-block pl-4 mb-2">
+							{{ errors.termsAndConditions }}
+						</div>
 					</div>
 
 					<div class="col-12 mt-3">
@@ -231,6 +247,7 @@
 				languages: [],
 				romanReading: false,
 				jlpt: null,
+				termsAndConditions: false,
 
 				errors: {},
 
@@ -244,6 +261,11 @@
 
 				if (this.password !== this.passwordConfirmation) {
 					this.errors = { password: 'The two passwords does not match' };
+					return;
+				}
+
+				if (!this.termsAndConditions) {
+					this.errors = { termsAndConditions: 'Please accept our terms, conditions and privacy policy' };
 					return;
 				}
 

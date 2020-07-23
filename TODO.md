@@ -1,5 +1,4 @@
 MVP:
-    iubenda: add an optin checkbox at subscription for terms and conditions
     fix all tests
     Iframe browser:
         - Server tests: test the redirection limit

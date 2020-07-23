@@ -1,4 +1,6 @@
 MVP:
+    iubenda: add an optin checkbox at subscription for terms and conditions
+    fix all tests
     Iframe browser:
         - Server tests: test the redirection limit
         - Server tests: test the max body size
@@ -30,8 +32,8 @@ MVP:
             can send the GET forms successfully
             links with an existing event handler are working properly
             showing the loading spinner when using popstate
-    add links to the extnesion in stores
-    iubenda: add an optin checkbox at subscription for terms and conditions
+    add link to the chrome extension
+    publish extensions
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
     remove credit card from google payments from Kanjimi once the 5$ is paid
@@ -40,6 +42,7 @@ MVP:
     check the database backups
 
 After:
+    add link to the opera extension
     DB accesses slow server-side?
     prod error when trying to run a command (including healthcheck)? -> need to install ping in the image?
     improve server logging (+ dates)

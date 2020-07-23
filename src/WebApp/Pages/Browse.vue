@@ -43,15 +43,58 @@
 							You must use the browser extension for this.
 						</p>
 
-						<template v-if="!installed">
+						<template v-if="installed">
 							<p class="mt-2 mb-3 text-left">
 								<i class="far fa-check-circle text-success"></i>
 								Kanjimi is installed and ready to be used. Click on the toolbar button on any page to use it.
 							</p>
 						</template>
 						<template v-else>
-							<p class="mt-2">For a better experience, please install our browser extension:</p>
-							<p>(Links coming soon)</p>
+							<p class="mt-2 mb-1">For a better experience, please install our browser extension:</p>
+							<div class="row mb-3 mt-2">
+								<div class="col-12 col-md-6">
+									<a
+										href=""
+										class="border d-block h-100 text-decoration-none text-reset"
+									>
+										<div class="row">
+											<div class="col-4">
+												<img
+													src="/img/stores/chrome.svg"
+													alt="Chrome Web Store logo"
+													class="w-100"
+												/>
+											</div>
+											<div class="col-8 text-left store-logo-text d-flex">
+												<div class="align-self-center">
+													Chrome Web Store
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+								<div class="col-12 col-md-6">
+									<a
+										href="https://addons.mozilla.org/fr/firefox/addon/kanjimi/"
+										class="border d-block h-100 text-decoration-none text-reset"
+									>
+										<div class="row">
+											<div class="col-4">
+												<img
+													src="/img/stores/firefox.svg"
+													alt="Firefox logo"
+													class="w-100"
+												/>
+											</div>
+											<div class="col-8 text-left store-logo-text d-flex">
+												<div class="align-self-center">
+													Firefox Add-ons
+												</div>
+											</div>
+										</div>
+									</a>
+								</div>
+							</div>
 						</template>
 
 						<p class="samples text-left">
@@ -335,5 +378,9 @@
 	}
 	.samples a {
 		font-weight: bold;
+	}
+
+	.store-logo-text {
+		font-size: 1.5em;
 	}
 </style>

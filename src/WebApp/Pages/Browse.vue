@@ -33,19 +33,24 @@
 				<h1 class="mt-4 mb-4">Welcome, and thank you for using Kanjimi</h1>
 				<div class="row">
 					<div class="col col-lg-8 offset-lg-2">
-						<div class="alert alert-primary p-3" role="alert">
+						<div class="alert alert-primary p-3 mb-2" role="alert">
 							<p>Kanjimi is currently free to use because it is a beta version.</p>
 							<p class="mb-0">If you notice any problems or bugs, please contact us at <a href="contact@kanjimi.com">contact@kanjimi.com</a>.</p>
 						</div>
 
-						<template v-if="installed">
+						<p class="mt-4 text-left">
+							Note: websites relying on Javascript (like web-applications) does not work here.<br />
+							You must use the browser extension for this.
+						</p>
+
+						<template v-if="!installed">
 							<p class="mt-2 mb-3 text-left">
 								<i class="far fa-check-circle text-success"></i>
-								Kanjimi is installed and ready to be used.
+								Kanjimi is installed and ready to be used. Click on the toolbar button on any page to use it.
 							</p>
 						</template>
 						<template v-else>
-							<p class="mt-4">For a better experience, please install our browser extension:</p>
+							<p class="mt-2">For a better experience, please install our browser extension:</p>
 							<p>(Links coming soon)</p>
 						</template>
 

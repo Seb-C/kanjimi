@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - Change homepage info (browsers) + review wording
         - Server tests: test the redirection limit
         - Server tests: test the max body size
         - Test the Page client method
@@ -31,22 +30,19 @@ MVP:
             can send the GET forms successfully
             links with an existing event handler are working properly
             showing the loading spinner when using popstate
-    prod error when trying to run a command (including healthcheck)? -> need to install ping in the image?
-    improve server logging (+ dates)
-    DB accesses slow server-side?
+    add links to the extnesion in stores
     iubenda: add an optin checkbox at subscription for terms and conditions
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
     remove credit card from google payments from Kanjimi once the 5$ is paid
-    remove extension from stores and disable related accounts
-    change homepage browsers compatibility
-    change homepage wording ("we are building")
-    reenable the home page links to the app (after everything is ready) (header + footer, www/index.html)
     check immigration -> waiting for mail answer
     declare activity -> if permissions OK
     check the database backups
 
 After:
+    DB accesses slow server-side?
+    prod error when trying to run a command (including healthcheck)? -> need to install ping in the image?
+    improve server logging (+ dates)
     Page API endpoint: use the outgoing network interface?
     Do not generate browser.build.js in the WebApp -> not necessary
     Reorganize this TODOList

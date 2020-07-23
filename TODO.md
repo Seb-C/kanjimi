@@ -1,9 +1,10 @@
 MVP:
     Iframe browser:
-        - Limit the max amount of redirections server-side when loading a page
         - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
         - Properly handle the exceptions
         - Change homepage info (browsers) + review wording
+        - Server tests: test the redirection limit
+        - Server tests: test the max body size
         - Test the Page client method
             auth error
             uri format validation error

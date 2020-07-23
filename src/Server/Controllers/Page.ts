@@ -32,6 +32,8 @@ export const get = (db: PgPromise.IDatabase<void>) => async (request: Request, r
 	try {
 		const data = await fetch(request.query.url, {
 			method: 'GET',
+			follow: 3,
+			size: 1000000,
 			headers: {
 				'User-Agent': <string>(request.get('User-Agent')),
 				'X-Forwarded-For': request.ip,

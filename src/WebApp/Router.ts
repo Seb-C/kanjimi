@@ -71,7 +71,9 @@ export default class Router {
 	};
 
 	addTitleSuffix (suffix: string) {
-		this.setTitle(this.getDefaultTitle(this.url) + ` (${suffix})`);
+		if (suffix !== '') {
+			this.setTitle(this.getDefaultTitle(this.url) + ` (${suffix})`);
+		}
 	};
 
 	changeRoute(object: string|Event) {

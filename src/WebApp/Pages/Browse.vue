@@ -6,7 +6,10 @@
 					type="url"
 					v-model="inputUrl"
 					placeholder="Enter an URL to use Kanjimi on it"
-					class="input-url"
+					v-bind:class="{
+						'input-url': true,
+						'is-invalid': inputUrlError,
+					}"
 				/>
 			</form>
 		</div>
@@ -70,6 +73,9 @@
 	import ExtensionStore from 'Common/Store';
 	import WebAppStore from 'WebApp/Store';
 	import { get as getPage } from 'Common/Api/Page';
+	import ValidationError from 'Common/Api/Errors/Validation';
+	import AuthenticationError from 'Common/Api/Errors/Authentication';
+	import ServerError from 'Common/Api/Errors/Server';
 
 	export default Vue.extend({
 		data() {
@@ -77,6 +83,7 @@
 			return {
 				installed: document.body.hasAttribute('data-extension-installed'),
 				inputUrl: (<WebAppStore><any>this.$root).router.params.url || null,
+				inputUrlError: false,
 				page: <string|null>null,
 				loading: false,
 			};
@@ -205,7 +212,32 @@
 				this.loading = true;
 				this.page = null;
 
-				const response = await getPage(this.$root.apiKey.key, requestedUrl);
+				try {
+					const response = await getPage(this.$root.apiKey.key, requestedUrl);
+				} catch (error) {
+					this.loading = false;
+
+					if (error instanceof ValidationError) {
+						this.inputUrlError = true;
+					} else if (error instanceof AuthenticationError) {
+						this.inputUrlError = true;
+					} else if (error instanceof ServerError) {
+						this.page = `
+							<html style="height: 100%;">
+								<body style="height: 100%; display: flex; align-items: center; justify-content: center;">
+									<div>
+										Sorry, we could not load this page.
+									</div>
+								</body>
+							</html>
+						`;
+					} else {
+						throw error;
+					}
+
+					return;
+				}
+
 				const page = response.content;
 				const url = response.realUrl || requestedUrl;
 				let charset = response.charset || 'utf-8';

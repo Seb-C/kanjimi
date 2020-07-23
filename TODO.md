@@ -1,7 +1,5 @@
 MVP:
     Iframe browser:
-        - Prevent some private domains or IPs (ex: accessing internal Kanjimi network)
-        - Properly handle the exceptions
         - Change homepage info (browsers) + review wording
         - Server tests: test the redirection limit
         - Server tests: test the max body size
@@ -12,6 +10,7 @@ MVP:
             charset from content
             content-location is properly transmitted
         - Test the browser with Cypress
+            Proper error display if server side error
             copy tests from the extension? Duplicate it for the browser?
             the script is properly injected
             the style is properly injected
@@ -32,6 +31,9 @@ MVP:
             can send the GET forms successfully
             links with an existing event handler are working properly
             showing the loading spinner when using popstate
+    prod error when trying to run a command (including healthcheck)? -> need to install ping in the image?
+    improve server logging (+ dates)
+    DB accesses slow server-side?
     iubenda: add an optin checkbox at subscription for terms and conditions
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
@@ -45,6 +47,7 @@ MVP:
     check the database backups
 
 After:
+    Page API endpoint: use the outgoing network interface?
     Do not generate browser.build.js in the WebApp -> not necessary
     Reorganize this TODOList
     update servers manually before install (and reboot?)

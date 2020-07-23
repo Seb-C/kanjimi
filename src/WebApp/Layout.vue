@@ -243,7 +243,10 @@
 				return this.$root.user.email;
 			},
 			showFooter() {
-				return this.$root.router.component !== Browse;
+				return !(
+					this.$root.router.component === Browse
+					&& this.$root.router.params.url
+				);
 			},
 		},
 	});

@@ -27,8 +27,8 @@ context('Layout', () => {
 		cy.setLoggedIn();
 		cy.visit('/app/settings')
 		cy.get('nav a:contains(Settings)').should('have.class', 'active');
-		cy.get('nav a:contains(Home)').click();
-		cy.get('nav a:contains(Home)').should('have.class', 'active');
+		cy.get('nav a:contains(Browse)').click();
+		cy.get('nav a:contains(Browse)').should('have.class', 'active');
 		cy.get('nav a:contains(Settings)').click();
 		cy.get('nav a:contains(Settings)').should('have.class', 'active');
 	});

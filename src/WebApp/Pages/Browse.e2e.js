@@ -34,7 +34,7 @@ context('Home', () => {
 			win.document.body.removeAttribute('data-extension-installed');
 		});
 		cy.get('.navbar a:contains(Settings)').click();
-		cy.get('.navbar a:contains(Home)').click();
+		cy.get('.navbar a:contains(Browse)').click();
 
 		cy.get('.page-home').should('contain', 'browser extension');
 		// TODO test for the links to the stores

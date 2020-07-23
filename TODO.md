@@ -1,5 +1,4 @@
 MVP:
-    fix all tests
     Iframe browser:
         - Server tests: test the redirection limit
         - Server tests: test the max body size

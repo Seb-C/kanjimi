@@ -1,7 +1,7 @@
 .PHONY: test e2e cypress dictionary kanjis kanjisvgs names browser db extension deploy
 
 test:
-	docker-compose exec -T --env NODE_TLS_REJECT_UNAUTHORIZED="0" server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
+	docker-compose exec -T server ./node_modules/.bin/ts-node -r tsconfig-paths/register ./node_modules/jasmine/bin/jasmine --config=jasmine.json
 
 e2e:
 	./node_modules/.bin/cypress run --browser=firefox --headless

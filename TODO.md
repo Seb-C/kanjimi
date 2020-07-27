@@ -1,10 +1,7 @@
 MVP:
     Iframe browser:
-        - Server tests: test the redirection limit
         - Server tests: test the max body size
         - Test the Page client method
-            auth error
-            uri format validation error
             charset from header
             charset from content
             content-location is properly transmitted

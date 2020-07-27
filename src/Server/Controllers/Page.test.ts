@@ -116,4 +116,20 @@ describe('PageController', async function() {
 		});
 		expect(response.status).toBe(403);
 	});
+
+	it('get (error if too many redirections)', async function() {
+		const timeBefore = +new Date();
+		const response = await fetch((
+			'https://localhost:3000/api/page?url='
+			+ encodeURIComponent('https://localhost:3000/test-pages/infinite-redirect-loop')
+		), {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+		});
+		const timeAfter = +new Date();
+		expect(response.status).toBe(500);
+		expect(timeAfter - timeBefore).toBeLessThan(500);
+	});
 });

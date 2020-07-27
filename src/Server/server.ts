@@ -91,6 +91,12 @@ import * as PageController from 'Server/Controllers/Page';
 			return response.status(403).end();
 		}
 	});
+	if (process.env.KANJIMI_ALLOW_TEST_PAGES === 'true') {
+		application.get('/test-pages/infinite-redirect-loop', function (request: Request, response: Response) {
+			return response.redirect(301, process.env.KANJIMI_WWW_URL + '/test-pages/infinite-redirect-loop');
+		});
+	}
+
 	application.use('', Express.static('www'));
 	application.use('/app/*', Express.static('www/app/index.html'));
 

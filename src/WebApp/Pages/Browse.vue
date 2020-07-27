@@ -167,17 +167,17 @@
 				});
 
 				const win = <Window>(<HTMLIFrameElement>event.target).contentWindow;
-				win.document.querySelectorAll('a').forEach(function (link) {
-					link.addEventListener('click', function (event) {
+				win.document.querySelectorAll('a').forEach((link) => {
+					link.addEventListener('click', (event) => {
 						event.preventDefault();
 						win.parent.postMessage({
 							action: 'navigate',
-							payload: link.href,
+							payload: this.iframeUrlToAbsolute(win, link.getAttribute('href')),
 						}, <string>process.env.KANJIMI_WWW_URL);
 					});
 				});
-				win.document.querySelectorAll('form').forEach(function (form) {
-					form.addEventListener('submit', function (event: Event) {
+				win.document.querySelectorAll('form').forEach((form) => {
+					form.addEventListener('submit', (event: Event) => {
 						event.preventDefault();
 						const submitter = <HTMLInputElement>(<any>event).submitter;
 						if (!form.method || form.method.toUpperCase() === 'GET') {
@@ -191,13 +191,11 @@
 							}
 
 							// Building the absolute url and going to it
-							let url = new URL(
-								form.action + '?' + queryStringPairs.join('&'),
-								this.$root.router.params.url,
-							);
 							win.parent.postMessage({
 								action: 'navigate',
-								payload: url.href,
+								payload: this.iframeUrlToAbsolute(win, 
+									form.action + '?' + queryStringPairs.join('&'),
+								),
 							}, <string>process.env.KANJIMI_WWW_URL);
 						}
 					});
@@ -246,6 +244,17 @@
 				pageHandler.injectUIContainer();
 				pageHandler.injectLoaderCss();
 				pageHandler.bindPageEvents();
+			},
+			iframeUrlToAbsolute(win: Window, url: string): string {
+				const baseElement = win.document.querySelector('base[href]');
+				let base: string = this.$root.router.params.url;
+				if (baseElement !== null) {
+					base = baseElement.href;
+				}
+
+				let absoluteUrl = new URL(url, base);
+
+				return absoluteUrl.href;
 			},
 			onFormSubmit(event: Event) {
 				event.preventDefault();

@@ -1,27 +1,4 @@
 MVP:
-    Iframe browser:
-        - Test the browser with Cypress
-            Proper error display if server side error
-            copy tests from the extension? Duplicate it for the browser?
-            the script is properly injected
-            the style is properly injected
-            the main frame can access the contents of the child frame
-            the javascript is disabled inside the iframe
-            previous and next pages with browser = properly updated in the iframe
-            shows the loader when changing the url
-            hides the loader after loading (including when the url did not change)
-            hides the initial content when changing the url
-            sample links are opened normally if installed
-            if no extension, the sample links are opened in the in-page browser
-            when changing page, the real query string is updated
-            when loading a page with an url in the query string, the proper page is loaded
-            when changing page from inside the iframe, it works
-            when changing page from a form inside the iframe, it works
-            when changing from a page to the default home (click on the menu), it works
-            the url is updated is there was any redirect when loading server side
-            can send the GET forms successfully
-            links with an existing event handler are working properly
-            showing the loading spinner when using popstate
     add link to the chrome extension
     publish extensions
     get and install second server
@@ -32,6 +9,11 @@ MVP:
     check the database backups
 
 After:
+    browser e2e test: fix the commented test (which have a TODO)
+    add e2e test: the sample links are opened normally if we have the extension, in-page if not
+    add e2e test: links with an existing event handler are properly working in the in-page browser
+    test and debug the browser with safari (image links, extension not starting)
+    copy tests from the extension to test the in-app browser?
     add link to the opera extension
     DB accesses slow server-side?
     prod error when trying to run a command (including healthcheck)? -> need to install ping in the image?

@@ -1,9 +1,5 @@
 MVP:
     Iframe browser:
-        - Test the Page client method
-            charset from header
-            charset from content
-            content-location is properly transmitted
         - Test the browser with Cypress
             Proper error display if server side error
             copy tests from the extension? Duplicate it for the browser?

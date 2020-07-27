@@ -7,7 +7,7 @@ export const get = async (key: string, url: string): Promise<{
 	realUrl: string|null,
 	charset: string|null,
 }> => {
-	const response = await fetch(`${process.env.KANJIMI_API_URL}/page?url=${escape(url)}`, {
+	const response = await fetch(`${process.env.KANJIMI_API_URL}/page?url=${encodeURIComponent(url)}`, {
 		method: 'GET',
 		headers: {
 			Authorization: `Bearer ${key}`,

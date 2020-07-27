@@ -95,6 +95,13 @@ import * as PageController from 'Server/Controllers/Page';
 		application.get('/test-pages/infinite-redirect-loop', function (request: Request, response: Response) {
 			return response.redirect(301, process.env.KANJIMI_WWW_URL + '/test-pages/infinite-redirect-loop');
 		});
+		application.get('/test-pages/redirect-to-landing-page-examples', function (request: Request, response: Response) {
+			return response.redirect(301, process.env.KANJIMI_WWW_URL + '/test-pages/landing-page-examples.html');
+		});
+		application.get('/test-pages/', function (request: Request, response: Response, next: Function) {
+			response.set('Content-Type', 'text/html; charset=ascii')
+			return next();
+		});
 	}
 
 	application.use('', Express.static('www'));

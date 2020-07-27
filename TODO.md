@@ -1,6 +1,5 @@
 MVP:
     Iframe browser:
-        - Server tests: test the max body size
         - Test the Page client method
             charset from header
             charset from content

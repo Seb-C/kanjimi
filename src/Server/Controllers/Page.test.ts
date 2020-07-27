@@ -132,4 +132,24 @@ describe('PageController', async function() {
 		expect(response.status).toBe(500);
 		expect(timeAfter - timeBefore).toBeLessThan(500);
 	});
+
+	it('get (error if page > 1Mo)', async function() {
+		const timeBefore = +new Date();
+		const response = await fetch((
+			'https://localhost:3000/api/page?url='
+			+ encodeURIComponent('https://localhost:3000/test-pages/big-file.html')
+		), {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer ${apiKey.key}`,
+			},
+		});
+		const responseText = await response.text();
+		const timeAfter = +new Date();
+		expect(timeAfter - timeBefore).toBeLessThan(500);
+
+		// The node-fetch behaviour is to truncate the response
+		expect(response.status).toBe(200);
+		expect(responseText.length).toBeLessThan(1200000);
+	});
 });

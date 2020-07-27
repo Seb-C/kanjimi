@@ -60,7 +60,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.get('.page-home a:contains(Wikipedia)').should('not.be.visible');
 		cy.get('.page-home a:contains(Chrome Web Store)').should('not.be.visible');
@@ -78,7 +78,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).should('contain', 'landing-page-examples');
 	});
@@ -90,14 +90,14 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('a:contains(landing-page-examples)').click();
 
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.url().should('contain', '?url=');
 		cy.url().should('contain', 'landing-page-examples');
@@ -110,7 +110,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('noscript *').should('be.visible');
 	});
@@ -122,7 +122,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.get('iframe').its('0.contentDocument.body').should('contain', 'Sorry, we could not');
 	});
@@ -134,14 +134,14 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('a:contains(landing-page-examples)').click();
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
 
-		cy.wait(300);
+		cy.wait(500);
 		cy.url().should('contain', '?url=');
 		cy.url().should('contain', 'landing-page-examples');
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('*:contains(アプリ)').should('exist');
@@ -150,7 +150,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 		cy.url().should('contain', '?url=');
 		cy.url().should('not.contain', 'landing-page-examples');
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('a:contains(landing-page-examples)').should('exist');
@@ -159,7 +159,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 		cy.url().should('contain', '?url=');
 		cy.url().should('contain', 'landing-page-examples');
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('*:contains(アプリ)').should('exist');
@@ -171,13 +171,13 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.get('a:contains(Browse)').should('be.visible').click();
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 		cy.url().should('not.contain', '?url=');
 
 		// TODO find why this test is broken
@@ -194,7 +194,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.url().should('contain', '?url=');
 		cy.url().should('not.contain', 'redirect-to-landing-page-examples');
@@ -211,7 +211,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('h1:contains(GET form)').should('exist');
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('input[type="search"]').type('search_string');
@@ -220,7 +220,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
-		cy.wait(300);
+		cy.wait(500);
 
 		cy.url().should('contain', '?url=');
 		cy.url().should('contain', 'index.html%3Fsearch%3Dsearch_string');

@@ -1,6 +1,4 @@
 MVP:
-    add link to the chrome extension
-    publish extensions
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
     remove credit card from google payments from Kanjimi once the 5$ is paid
@@ -9,6 +7,7 @@ MVP:
     check the database backups
 
 After:
+    auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)
     browser e2e test: fix the commented test (which have a TODO)
     add e2e test: the sample links are opened normally if we have the extension, in-page if not
     add e2e test: links with an existing event handler are properly working in the in-page browser

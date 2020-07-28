@@ -54,7 +54,7 @@
 							<div class="row mb-3 mt-2">
 								<div class="col-12 col-md-6">
 									<a
-										href=""
+										href="https://chrome.google.com/webstore/detail/kanjimi/njiekbgikloggkcloencdnjmdcdhkani"
 										class="border d-block h-100 text-decoration-none text-reset"
 									>
 										<div class="row">

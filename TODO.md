@@ -1,4 +1,5 @@
 MVP:
+    install on PC & mac + remove old extensions
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
     remove credit card from google payments from Kanjimi once the 5$ is paid
@@ -7,6 +8,10 @@ MVP:
     check the database backups
 
 After:
+    replace TODO list with GitHub issues (so I can create it from anywhere)
+    loader display bug if click the second kanji tab at first on smartphone
+    center the login button in the mobile menu (home only?)
+    fail if not healthy after startup
     auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)
     browser e2e test: fix the commented test (which have a TODO)
     add e2e test: the sample links are opened normally if we have the extension, in-page if not
@@ -36,7 +41,6 @@ After:
     extension: disable the browser action on localhost and kanjimi domains
     in-page browser: make dynamically created/loaded links work (+ test)
     in-page browser: better completion of urls? (auto-complete http://?)
-    business address? -> use home + commercial name? -> waiting for answer
     e2e test for the iubenda links (footer + subscription form)
     improve performance when clicking words
     update homepage previews
@@ -58,7 +62,6 @@ After:
     test NHK easy
     setup SES alert when quota reached?
     mass emails = must handle bounces and complaints ( https://aws.amazon.com/fr/blogs/messaging-and-targeting/handling-bounces-and-complaints/ )
-    update domain whois with kanjimi business address?
     test charge
     firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ ) -> is it enough to redirect to the origin?
     improve the visibility of error messages in the subscription page (too small)

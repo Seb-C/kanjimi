@@ -148,7 +148,7 @@ export default class PageHandler {
 		if (strings.length > 0) {
 			try {
 				const canonicalTag = this.window.document.querySelector('link[rel="canonical"]');
-				const pageUrl = canonicalTag ? (<any>canonicalTag).href : this.window.document.location.href;
+				const pageUrl = canonicalTag ? (<any>canonicalTag).href : this.documentLocation;
 				const sessionId = await this.store.getSessionId();
 
 				const data = await analyze(

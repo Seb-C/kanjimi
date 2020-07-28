@@ -249,7 +249,7 @@
 				const baseElement = win.document.querySelector('base[href]');
 				let base: string = this.$root.router.params.url;
 				if (baseElement !== null) {
-					base = baseElement.href;
+					base = (<any>baseElement).href;
 				}
 
 				let absoluteUrl = new URL(url, base);
@@ -269,8 +269,15 @@
 				this.loading = true;
 				this.page = null;
 
+				let page: string;
+				let url: string;
+				let charset: string;
 				try {
 					const response = await getPage(this.$root.apiKey.key, requestedUrl);
+
+					page = response.content;
+					url = response.realUrl || requestedUrl;
+					charset = response.charset || 'utf-8';
 				} catch (error) {
 					this.loading = false;
 
@@ -294,10 +301,6 @@
 
 					return;
 				}
-
-				const page = response.content;
-				const url = response.realUrl || requestedUrl;
-				let charset = response.charset || 'utf-8';
 
 				if (url !== requestedUrl) {
 					this.$root.router.changeRoute(`./app?url=${encodeURIComponent(url)}`);

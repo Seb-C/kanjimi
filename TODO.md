@@ -1,5 +1,4 @@
 MVP:
-    install on PC & mac + remove old extensions
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
     remove credit card from google payments from Kanjimi once the 5$ is paid
@@ -8,8 +7,6 @@ MVP:
     check the database backups
 
 After:
-    replace TODO list with GitHub issues (so I can create it from anywhere)
-    loader display bug if click the second kanji tab at first on smartphone
     center the login button in the mobile menu (home only?)
     fail if not healthy after startup
     auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)
@@ -20,11 +17,10 @@ After:
     copy tests from the extension to test the in-app browser?
     add link to the opera extension
     DB accesses slow server-side?
-    prod error when trying to run a command (including healthcheck)? -> need to install ping in the image?
+    test all browsers including safari
     improve server logging (+ dates)
     Page API endpoint: use the outgoing network interface?
     Do not generate browser.build.js in the WebApp -> not necessary
-    Reorganize this TODOList
     update servers manually before install (and reboot?)
     need to clear cloudflare cache after deploy? -> should be ok with the 2 hours cache
     post on producthunt
@@ -32,7 +28,6 @@ After:
     post on reddit
     post on linkedin
     post on twitter
-    login the right private account for private use
     Iframe browser:
         - Improve the interface (lacking feedback for the input?)
         - Handle malformed URLs
@@ -84,6 +79,9 @@ After:
     changelog page
         - 0.1 / july 11 : initial publication / setup production servers
         - 0.2 / july 20 : changed the extension permissions, now have to use a button
+        - july 28: initial release with the in-app browser
+        - from july 29:
+            Fixed a visual bug when inspecting a Kanji
     presentation video? show it on the homepage?
     cypress: try to use the --experimentalFetchPolyfill option
     tsconfig: split client/server? Or extend only what is different (--> need to create sub-files and extract existing stuff)

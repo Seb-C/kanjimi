@@ -74,6 +74,9 @@
 		animation: kanjimi-loader-animation 0.75s linear infinite;
 		transform-origin: center;
 	}
+	.kanjimi-ui-container >>> .kanjimi-loader:after {
+		content: none;
+	}
 	@keyframes kanjimi-loader-animation {
 		from {
 			transform: rotate(0deg);

@@ -7,7 +7,6 @@ MVP:
     check the database backups
 
 After:
-    center the login button in the mobile menu (home only?)
     fail if not healthy after startup
     auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)
     browser e2e test: fix the commented test (which have a TODO)
@@ -82,6 +81,7 @@ After:
         - july 28: initial release with the in-app browser
         - from july 29:
             Fixed a visual bug when inspecting a Kanji
+            Fixed a mis-aligned login button on mobile
     presentation video? show it on the homepage?
     cypress: try to use the --experimentalFetchPolyfill option
     tsconfig: split client/server? Or extend only what is different (--> need to create sub-files and extract existing stuff)

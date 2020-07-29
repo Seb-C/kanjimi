@@ -7,7 +7,13 @@ MVP:
     check the database backups
 
 After:
-    fail if not healthy after startup
+    changelog page
+        - 0.1 / july 11 : initial publication / setup production servers
+        - 0.2 / july 20 : changed the extension permissions, now have to use a button
+        - july 28: initial release with the in-app browser
+        - from july 29:
+            Fixed a visual bug when inspecting a Kanji
+            Fixed a mis-aligned login button on mobile
     auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)
     browser e2e test: fix the commented test (which have a TODO)
     add e2e test: the sample links are opened normally if we have the extension, in-page if not
@@ -75,13 +81,6 @@ After:
     don't create repository objects at every request?
     pool is set to max 10 connections, will it work with digitalocean (max 22 per node)?
     is console.log blocking when used in a docker with file logging option?
-    changelog page
-        - 0.1 / july 11 : initial publication / setup production servers
-        - 0.2 / july 20 : changed the extension permissions, now have to use a button
-        - july 28: initial release with the in-app browser
-        - from july 29:
-            Fixed a visual bug when inspecting a Kanji
-            Fixed a mis-aligned login button on mobile
     presentation video? show it on the homepage?
     cypress: try to use the --experimentalFetchPolyfill option
     tsconfig: split client/server? Or extend only what is different (--> need to create sub-files and extract existing stuff)

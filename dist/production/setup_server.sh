@@ -83,6 +83,12 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
     until [[ \"\$(docker ps --filter health=starting -q | wc -l)\" == \"0\" ]]; do
         sleep 1
     done
+
+    echo 'Failing if not healthy'
+    if [[ \"\$(docker ps --filter health=unhealthy -q | wc -l)\" -gt \"0\" ]]; then
+        echo 'Container not healthy. Aborting'
+        exit 1
+    done
 "
 
 echo "Waiting one minute for the load balancer checks"

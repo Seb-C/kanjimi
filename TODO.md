@@ -1,9 +1,9 @@
 Before posting to producthunt (next release):
+    use it more to test more efficiently
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     test charge
     check the database backups
     remove credit card from google payments from Kanjimi once the 5$ is paid
-    declare activity -> if permissions OK -> do when I start the paid subscriptions
     browser e2e test: fix the commented test (which have a TODO)
     add e2e test: the sample links are opened normally if we have the extension, in-page if not
     add e2e test: links with an existing event handler are properly working in the in-page browser
@@ -15,8 +15,7 @@ Before posting to producthunt (next release):
         - Handle malformed URLs
         - Fix remaining JS and path errors (= those that are in sub-resources?)
         - Set title of the page with the real content title?
-    in-page browser: make dynamically created/loaded links work (+ test)
-    in-page browser: better completion of urls? (auto-complete http://?)
+        - Better completion of urls? (auto-complete http://?)
     e2e test for the iubenda links (footer + subscription form)
     kanjis:
         API to describe Kanjis
@@ -38,6 +37,7 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    declare activity -> if permissions OK -> do when I start the paid subscriptions
     check immigration -> waiting for mail answer
     auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)
     improve server logging (+ dates)
@@ -80,7 +80,6 @@ After:
     tsconfig: split client/server? Or extend only what is different (--> need to create sub-files and extract existing stuff)
     add a specific type (subset of string) to identify the ids used in the repository methods
     ping endpoint to use for healthcheck (also tests the db)
-    ask for all urls permission, if refused, switch to an optIn using a page action and activeTab
     cypress in docker to remove the randomness of failure?
     create a model class for UserActivity
     create a model class for AnalyzeLog

@@ -6,6 +6,8 @@
 		<ul>
 			<li>Fixed a visual bug when inspecting a Kanji</li>
 			<li>Fixed a mis-aligned login button on mobile</li>
+			<li>Fixed a bug on some pages where the tooltip was too small to be usable</li>
+			<li>Reduced the visual latency when showing or hiding a definition or furigana</li>
 		</ul>
 
 		<h2>2020年07月28日</h2>

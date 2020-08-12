@@ -1,19 +1,16 @@
+Next release:
+    update the changelog
+    update the changelog date
+
 MVP:
     get and install second server
     cloudflare: setup load balancer (healthcheck delay = 30s)
     remove credit card from google payments from Kanjimi once the 5$ is paid
     check immigration -> waiting for mail answer
-    declare activity -> if permissions OK
+    declare activity -> if permissions OK -> do when I start the paid subscriptions
     check the database backups
 
 After:
-    changelog page
-        - 0.1 / july 11 : initial publication / setup production servers
-        - 0.2 / july 20 : changed the extension permissions, now have to use a button
-        - july 28: initial release with the in-app browser
-        - from july 29:
-            Fixed a visual bug when inspecting a Kanji
-            Fixed a mis-aligned login button on mobile
     auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)
     browser e2e test: fix the commented test (which have a TODO)
     add e2e test: the sample links are opened normally if we have the extension, in-page if not

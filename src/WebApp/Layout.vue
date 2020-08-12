@@ -170,6 +170,7 @@
 			updateActiveMenuLinks() {
 				if (this.$root.apiKey === null) {
 					this.menuLinks = [
+						{ url: './app/changelog', title: 'Changelog' },
 						{ url: './app/sign-up', title: 'Sign Up' },
 						{ url: './app/login', title: 'Login' },
 					];
@@ -197,6 +198,7 @@
 					this.userLinks = [];
 				} else {
 					this.userLinks = [
+						{ url: './app/changelog', title: 'Changelog' },
 						{ url: './app/change-password', title: 'Change my password' },
 						{ url: './app/logout', title: 'Logout' },
 					];

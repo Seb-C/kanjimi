@@ -121,7 +121,12 @@
 				}
 			},
 			getTooltipHeight(): number {
-				return Math.round(this.windowHeight / 2);
+				let height = Math.round(this.windowHeight / 2);
+				if (height < 150) {
+					height = 150;
+				}
+
+				return height;
 			},
 			handleCloseButtonClick() {
 				this.$root.setTooltip(null);

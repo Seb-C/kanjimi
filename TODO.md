@@ -1,5 +1,4 @@
 Before posting to producthunt (next release):
-    improve performance (feedback) when clicking words
     test charge
     check the database backups
     remove credit card from google payments from Kanjimi once the 5$ is paid

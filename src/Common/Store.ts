@@ -153,6 +153,12 @@ export default class Store {
 			return;
 		}
 
+		// Changing the status locally so that the interface does not lag too much
+		Vue.set(this.wordStatuses, wordStatus.word, new WordStatus({
+			...wordStatus,
+			attributes,
+		}));
+
 		const newWordStatus = await putWordStatus(this.apiKey.key, new WordStatus({
 			...wordStatus,
 			...attributes,

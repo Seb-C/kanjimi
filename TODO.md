@@ -1,5 +1,8 @@
 Before posting to producthunt (next release):
-    use it more to test more efficiently
+    use kiss-orm in Kanjimi, remove pg-promise (+ migrations process)
+    share kiss-orm on HN after using and testing it
+    add tags to kiss-orm, link it properly locally and on 2 PCs
+    use Kanjimi more to test more efficiently
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     test charge
     check the database backups

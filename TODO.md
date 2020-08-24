@@ -1,5 +1,5 @@
 Before posting to producthunt (next release):
-    use the new ORM in Kanjimi, remove pg-promise
+    use the new ORM in Kanjimi, remove pg-promise (+ migrations process)
     use it more to test more efficiently
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     test charge

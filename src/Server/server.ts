@@ -4,6 +4,7 @@ import * as Path from 'path';
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Kanjis from 'Server/Lexer/Kanjis';
+import migrations from 'Server/migrations';
 import { PgSqlDatabase } from 'kiss-orm';
 import * as Express from 'express';
 import { Response } from 'express';
@@ -57,6 +58,8 @@ import * as PageController from 'Server/Controllers/Page';
 		ssl: (process.env.KANJIMI_DATABASE_USE_SSL === 'true' ? { rejectUnauthorized: false } : false),
 	});
 	await db.connect();
+
+	await db.migrate(migrations);
 
 	const kanjis = new Kanjis();
 	const dictionary = new Dictionary();

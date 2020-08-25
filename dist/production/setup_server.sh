@@ -43,16 +43,6 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
         -f /kanjimi/dist/production/Dockerfile \
         .
 
-    echo 'Running the migrations'
-    docker run \
-        --name migrate \
-        --env-file /kanjimi/dist/production/server.env \
-        --init \
-        --interactive \
-        --rm \
-        server \
-        node dist/server/Server/migrate.js
-
     if [[ \"\$(docker ps --filter name=server -q | wc -l)\" == \"1\" ]]; then
         echo 'Stopping the server'
         docker stop server --time 30

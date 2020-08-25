@@ -1,5 +1,4 @@
 Before posting to producthunt (next release):
-    migrations with kiss-orm
     simplify the database models (typescript 4 syntax)
     use the kiss-orm repositories
     check that db auto reconnects, so that the server does not fail
@@ -43,6 +42,7 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    rename the old migrations from XXX_Name.sql to Name (js file + db + production)?
     declare activity -> if permissions OK -> do when I start the paid subscriptions
     check immigration -> waiting for mail answer
     auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)

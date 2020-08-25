@@ -49,25 +49,6 @@ services:
     volumes:
       - $PWD:/kanjimi
       - mails:/tmp/mails
-  migrate:
-    image: node:14-alpine
-    restart: on-failure
-    working_dir: /kanjimi
-    depends_on:
-      - database
-      - watch
-    env_file:
-      - docker-compose.env
-    command: >
-      sh -c "
-        while [ ! -f ./dist/server/Server/migrate.js ]; do
-          echo 'Waiting for the migrate source files...'
-          sleep 1
-        done;
-        node dist/server/Server/migrate.js
-      "
-    volumes:
-      - $PWD:/kanjimi
   extension:
     image: node:14-alpine
     restart: on-failure

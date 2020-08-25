@@ -1,8 +1,8 @@
 Before posting to producthunt (next release):
-    check that db auto reconnects, so that the server does not fail
     migrations with kiss-orm
     simplify the database models (typescript 4 syntax)
     use the kiss-orm repositories
+    check that db auto reconnects, so that the server does not fail
     share kiss-orm on HN after using and testing it
     add tags to kiss-orm, link it properly locally and on 2 PCs
     use Kanjimi more to test more efficiently

@@ -191,9 +191,9 @@ describe('UserRepository', async function() {
 			jlpt: 1,
 		});
 		const dbUser = new User(
-			await this.db.query(sql`
+			(await this.db.query(sql`
 				SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
-			`)[0]
+			`))[0]
 		);
 
 		expect(dbUser).toEqual(user);
@@ -254,7 +254,7 @@ describe('UserRepository', async function() {
 		const uuid = uuidv4();
 		const password = userRepository.hashPassword(uuid, '123456');
 		const date = new Date();
-		await this.db.query(`
+		await this.db.query(sql`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -292,9 +292,9 @@ describe('UserRepository', async function() {
 			jlpt: null,
 		});
 		const dbUser = new User(
-			await this.db.query(sql`
+			(await this.db.query(sql`
 				SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
-			`)[0]
+			`))[0]
 		);
 
 		expect(user).toBeInstanceOf(User);

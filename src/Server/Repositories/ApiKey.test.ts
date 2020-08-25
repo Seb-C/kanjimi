@@ -71,9 +71,9 @@ describe('ApiKeyRepository', async function() {
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.create(user.id);
 		const dbApiKey = new ApiKey(
-			await this.db.query(sql`
+			(await this.db.query(sql`
 				SELECT * FROM "ApiKey" WHERE "userId" = ${user.id};
-			`)
+			`))[0]
 		);
 
 		expect(apiKey.expiresAt > apiKey.createdAt).toEqual(true);

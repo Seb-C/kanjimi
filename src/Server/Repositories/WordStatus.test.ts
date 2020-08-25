@@ -67,12 +67,12 @@ describe('WordStatusRepository', async function() {
 
 		// Create case
 		let wordStatus = await wordStatusRepository.createOrUpdate(user, 'word', false, true);
-		let dbWordStatus = new WordStatus(await this.db.query(sql`
+		let dbWordStatus = new WordStatus((await this.db.query(sql`
 			SELECT *
 			FROM "WordStatus"
 			WHERE "userId" = ${user.id}
 			AND "word" = 'word';
-		`)[0]);
+		`))[0]);
 		expect(wordStatus).toBeInstanceOf(WordStatus);
 		expect(dbWordStatus).toEqual(wordStatus);
 		expect(wordStatus.userId).toBe(user.id);
@@ -81,12 +81,12 @@ describe('WordStatusRepository', async function() {
 		expect(wordStatus.showTranslation).toBe(true);
 
 		wordStatus = await wordStatusRepository.createOrUpdate(user, 'word', true, false);
-		dbWordStatus = new WordStatus(await this.db.query(sql`
+		dbWordStatus = new WordStatus((await this.db.query(sql`
 			SELECT *
 			FROM "WordStatus"
 			WHERE "userId" = ${user.id}
 			AND "word" = 'word';
-		`)[0]);
+		`))[0]);
 		expect(wordStatus).toBeInstanceOf(WordStatus);
 		expect(dbWordStatus).toEqual(wordStatus);
 		expect(wordStatus.userId).toBe(user.id);
@@ -100,12 +100,12 @@ describe('WordStatusRepository', async function() {
 		const wordStatusRepository = new WordStatusRepository(this.db, dictionary);
 
 		const wordStatus = await wordStatusRepository.createOrUpdate(user, 'word', false, true);
-		const dbWordStatus = new WordStatus(await this.db.query(sql`
+		const dbWordStatus = new WordStatus((await this.db.query(sql`
 			SELECT *
 			FROM "WordStatus"
 			WHERE "userId" = ${user.id}
 			AND "word" = 'word';
-		`)[0]);
+		`))[0]);
 
 		expect(wordStatus).toBeInstanceOf(WordStatus);
 		expect(dbWordStatus).toEqual(wordStatus);

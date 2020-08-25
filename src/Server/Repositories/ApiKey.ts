@@ -16,7 +16,7 @@ export default class ApiKey {
 		if (result.length === 0) {
 			return null;
 		} else {
-			return new ApiKeyModel(result);
+			return new ApiKeyModel(result[0]);
 		}
 	}
 
@@ -25,7 +25,7 @@ export default class ApiKey {
 		if (result.length === 0) {
 			return null;
 		} else {
-			return new ApiKeyModel(result);
+			return new ApiKeyModel(result[0]);
 		}
 	}
 

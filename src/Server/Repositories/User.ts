@@ -1,6 +1,6 @@
 import Language from 'Common/Types/Language';
 import { Request } from 'express';
-import { sql, sqlJoin, PgSqlDatabase } from 'kiss-orm';
+import { sql, sqlJoin, PgSqlDatabase, QueryIdentifier } from 'kiss-orm';
 import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
@@ -21,7 +21,7 @@ export default class User {
 		if (result.length === 0) {
 			return null;
 		} else {
-			return new UserModel(result);
+			return new UserModel(result[0]);
 		}
 	}
 
@@ -34,7 +34,7 @@ export default class User {
 		if (result.length === 0) {
 			return null;
 		} else {
-			return new UserModel(result);
+			return new UserModel(result[0]);
 		}
 	}
 
@@ -48,7 +48,7 @@ export default class User {
 		if (result.length === 0) {
 			return null;
 		} else {
-			return new UserModel(result);
+			return new UserModel(result[0]);
 		}
 	}
 
@@ -162,13 +162,13 @@ export default class User {
 			SET ${sqlJoin((
 				allowedFieldsInSqlQuery
 					.filter(fieldName => attributes.hasOwnProperty(fieldName))
-					.map(fieldName => sql`"${fieldName}" = ${fieldName}`)
+					.map(fieldName => sql`${new QueryIdentifier(fieldName)} = ${(<any>params)[fieldName]}`)
 			), sql`, `)}
 			WHERE "id" = ${uuid}
 			RETURNING *;
 		`);
 
-		return new UserModel(result);
+		return new UserModel(result[0]);
 	}
 
 	async deleteByEmail (email: string): Promise<void> {

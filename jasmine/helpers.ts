@@ -5,13 +5,14 @@ import { promises as FileSystem } from 'fs';
 import Language from 'Common/Types/Language';
 import * as Ajv from 'ajv';
 
-let database: PgSqlDatabase|null = null;
+let db: PgSqlDatabase;
 
 beforeEach(async function() {
 	(<any>global).fetch = fetch;
 
-	if (database === null) {
-		database = new PgSqlDatabase({
+	if (!db) {
+		console.log('connect');
+		db = new PgSqlDatabase({
 			host: process.env.KANJIMI_DATABASE_HOST,
 			port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
 			database: process.env.KANJIMI_DATABASE_DATABASE,
@@ -19,20 +20,17 @@ beforeEach(async function() {
 			password: process.env.KANJIMI_DATABASE_PASSWORD,
 			ssl: (process.env.KANJIMI_DATABASE_USE_SSL === 'true' ? { rejectUnauthorized: false } : false),
 		});
-		await database.connect();
+		await db.connect();
 	}
+	this.db = db;
 
 	// Deleting data from previous runs if necessary
-	await database.query(sql`DELETE FROM "User" WHERE "email" <> 'contact@kanjimi.com'`);
+	await this.db.query(sql`DELETE FROM "User" WHERE "email" <> 'contact@kanjimi.com'`);
 
 	const existingMails = await FileSystem.readdir('/tmp/mails');
 	await Promise.all(existingMails.map(async (mail) => {
 		return FileSystem.unlink('/tmp/mails/' + mail);
 	}));
-
-	this.getDatabase = async (): Promise<PgSqlDatabase> => {
-		return <PgSqlDatabase>database;
-	};
 
 	this.testUser = {
 		email: 'unittest@example.com',

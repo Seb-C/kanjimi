@@ -10,7 +10,7 @@ import { v4 as uuidv4 } from 'uuid';
 describe('UserRepository', async function() {
 	it('getById', async function() {
 		const uuid = uuidv4();
-		await (await this.getDatabase()).query(sql`
+		await this.db.query(sql`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -37,7 +37,7 @@ describe('UserRepository', async function() {
 				CURRENT_TIMESTAMP
 			);
 		`);
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		const user = await userRepository.getById(uuid);
 
 		expect(user).not.toBe(null);
@@ -50,7 +50,7 @@ describe('UserRepository', async function() {
 
 	it('getByEmail', async function() {
 		const uuid = uuidv4();
-		await (await this.getDatabase()).query(sql`
+		await this.db.query(sql`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -77,7 +77,7 @@ describe('UserRepository', async function() {
 				CURRENT_TIMESTAMP
 			);
 		`);
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		const user = await userRepository.getByEmail('unittest@example.com');
 
 		expect(user).not.toBe(null);
@@ -90,7 +90,7 @@ describe('UserRepository', async function() {
 
 	it('getByApiKey', async function() {
 		const uuid = uuidv4();
-		await (await this.getDatabase()).query(sql`
+		await this.db.query(sql`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -117,9 +117,9 @@ describe('UserRepository', async function() {
 				CURRENT_TIMESTAMP
 			);
 		`);
-		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.create(uuid);
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		const user = await userRepository.getByApiKey(apiKey.key);
 
 		expect(user).not.toBe(null);
@@ -132,7 +132,7 @@ describe('UserRepository', async function() {
 
 	it('getFromRequest', async function() {
 		const uuid = uuidv4();
-		await (await this.getDatabase()).query(sql`
+		await this.db.query(sql`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -159,9 +159,9 @@ describe('UserRepository', async function() {
 				CURRENT_TIMESTAMP
 			);
 		`);
-		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.create(uuid);
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		const user = await userRepository.getFromRequest(<Request><any>{
 			headers: {
 				authorization: 'Bearer ' + apiKey.key,
@@ -177,7 +177,7 @@ describe('UserRepository', async function() {
 	});
 
 	it('create', async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		const date = new Date();
 		const user = await userRepository.create({
 			email: 'unittest@example.com',
@@ -191,7 +191,7 @@ describe('UserRepository', async function() {
 			jlpt: 1,
 		});
 		const dbUser = new User(
-			await (await this.getDatabase()).query(sql`
+			await this.db.query(sql`
 				SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
 			`)[0]
 		);
@@ -213,19 +213,19 @@ describe('UserRepository', async function() {
 	});
 
 	it('create with a successfull callback', async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		const user = await userRepository.create({ ...this.testUser }, async (user: User) => {
 			expect(user).toBeInstanceOf(User);
 		});
 
-		const dbUsers = await (await this.getDatabase()).query(sql`
+		const dbUsers = await this.db.query(sql`
 			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
 		`);
 		expect(dbUsers.length).not.toBe(0);
 		expect(dbUsers[0].id).toEqual(user.id);
 	});
 	it('create with a failed callback', async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		try {
 			await userRepository.create({ ...this.testUser }, async (user: User) => {
 				expect(user).toBeInstanceOf(User);
@@ -233,13 +233,13 @@ describe('UserRepository', async function() {
 			});
 		} catch (e) {}
 
-		const dbUsers = await (await this.getDatabase()).query(sql`
+		const dbUsers = await this.db.query(sql`
 			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
 		`);
 		expect(dbUsers.length).toBe(0);
 	});
 	it('create does not callback if failed', async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		await userRepository.create({ ...this.testUser });
 		const callback = jasmine.createSpy('callback');
 		try {
@@ -250,11 +250,11 @@ describe('UserRepository', async function() {
 	});
 
 	it('updateById', async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		const uuid = uuidv4();
 		const password = userRepository.hashPassword(uuid, '123456');
 		const date = new Date();
-		await (await this.getDatabase()).query(`
+		await this.db.query(`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -292,7 +292,7 @@ describe('UserRepository', async function() {
 			jlpt: null,
 		});
 		const dbUser = new User(
-			await (await this.getDatabase()).query(sql`
+			await this.db.query(sql`
 				SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
 			`)[0]
 		);
@@ -312,7 +312,7 @@ describe('UserRepository', async function() {
 
 	it('deleteByEmail', async function() {
 		const uuid = uuidv4();
-		await (await this.getDatabase()).query(sql`
+		await this.db.query(sql`
 			INSERT INTO "User" (
 				"id",
 				"email",
@@ -339,9 +339,9 @@ describe('UserRepository', async function() {
 				CURRENT_TIMESTAMP
 			);
 		`);
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		await userRepository.deleteByEmail('unittest@example.com');
-		const dbUsers = await (await this.getDatabase()).query(sql`
+		const dbUsers = await this.db.query(sql`
 			SELECT * FROM "User" WHERE "email" = 'unittest@example.com';
 		`);
 
@@ -349,21 +349,21 @@ describe('UserRepository', async function() {
 	});
 
 	it('hashPassword', async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		expect(userRepository.hashPassword('a', 'a')).toEqual(userRepository.hashPassword('a', 'a'));
 		expect(userRepository.hashPassword('a', 'a')).not.toEqual(userRepository.hashPassword('b', 'a'));
 		expect(userRepository.hashPassword('a', 'a')).not.toEqual(userRepository.hashPassword('a', 'b'));
 	});
 
 	it('generateEmailVerificationKey', async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		expect(userRepository.generateEmailVerificationKey()).not.toEqual(userRepository.generateEmailVerificationKey());
 		expect(userRepository.generateEmailVerificationKey()).not.toBeNull();
 		expect(userRepository.generateEmailVerificationKey().length).not.toEqual(0);
 	});
 
 	it('generatePasswordRenewalKey', async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		expect(userRepository.generatePasswordRenewalKey().passwordResetKey).not.toEqual(
 			userRepository.generatePasswordRenewalKey().passwordResetKey,
 		);

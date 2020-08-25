@@ -11,7 +11,7 @@ let user: User;
 
 describe('Client ApiKey', async function() {
 	beforeEach(async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		user = await userRepository.create({
 			...this.testUser,
 			emailVerified: true,
@@ -57,7 +57,7 @@ describe('Client ApiKey', async function() {
 	});
 
 	it('get (normal case)', async function() {
-		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.create(user.id);
 
 		const resultApiKey = await get(apiKey.key);

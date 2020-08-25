@@ -5,20 +5,20 @@ import { v4 as uuidv4 } from 'uuid';
 
 describe('AnalyzeLogRepository', async function() {
 	beforeEach(async function() {
-		await (await this.getDatabase()).query(sql`TRUNCATE "AnalyzeLog";`);
+		await this.db.query(sql`TRUNCATE "AnalyzeLog";`);
 	});
 
 	it('create', async function() {
 		const sessionId = uuidv4();
 		const date = new Date();
-		const analyzeLogRepository = new AnalyzeLogRepository(await this.getDatabase());
+		const analyzeLogRepository = new AnalyzeLogRepository(this.db);
 		await analyzeLogRepository.create(
 			sessionId,
 			'https://example.com/japanesePage',
 			42,
 			date,
 		);
-		const analyzeLogs = await (await this.getDatabase()).query(sql`
+		const analyzeLogs = await this.db.query(sql`
 			SELECT * FROM "AnalyzeLog" WHERE "sessionId" = ${sessionId};
 		`);
 

@@ -8,15 +8,15 @@ let user: User;
 
 describe('UserActivityRepository', async function() {
 	beforeEach(async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		user = await userRepository.create({ ...this.testUser });
 	});
 
 	it('createOrIncrement (create case)', async function() {
 		const date = new Date();
-		const userActivityRepository = new UserActivityRepository(await this.getDatabase());
+		const userActivityRepository = new UserActivityRepository(this.db);
 		await userActivityRepository.createOrIncrement(user.id, date, 2);
-		const userActivities = await (await this.getDatabase()).query(sql`
+		const userActivities = await this.db.query(sql`
 			SELECT *
 			FROM "UserActivity"
 			WHERE "userId" = ${user.id}
@@ -31,19 +31,19 @@ describe('UserActivityRepository', async function() {
 		const date = new Date();
 		const date2 = new Date();
 		date2.setDate(date2.getDate() + 1);
-		const userActivityRepository = new UserActivityRepository(await this.getDatabase());
-		await (await this.getDatabase()).query(sql`
+		const userActivityRepository = new UserActivityRepository(this.db);
+		await this.db.query(sql`
 			INSERT INTO "UserActivity" ("userId", "date", "characters")
 			VALUES (${user.id}, ${date}, 2);
 		`);
-		await (await this.getDatabase()).query(sql`
+		await this.db.query(sql`
 			INSERT INTO "UserActivity" ("userId", "date", "characters")
 			VALUES (${user.id}, ${date2}, 2);
 		`);
 
 		await userActivityRepository.createOrIncrement(user.id, date, 3);
 
-		const userActivities = await (await this.getDatabase()).query(sql`
+		const userActivities = await this.db.query(sql`
 			SELECT *
 			FROM "UserActivity"
 			WHERE "userId" = ${user.id}
@@ -52,7 +52,7 @@ describe('UserActivityRepository', async function() {
 		expect(userActivities.length).not.toEqual(0);
 		expect(userActivities[0].characters).toEqual(5);
 
-		const userActivities2 = await (await this.getDatabase()).query(sql`
+		const userActivities2 = await this.db.query(sql`
 			SELECT *
 			FROM "UserActivity"
 			WHERE "userId" = ${user.id}
@@ -65,9 +65,9 @@ describe('UserActivityRepository', async function() {
 
 	it('createOrIncrement (checking timezone)', async function() {
 		const date = new Date('Fri Jun 26 2020 23:00:00 GMT-0900');
-		const userActivityRepository = new UserActivityRepository(await this.getDatabase());
+		const userActivityRepository = new UserActivityRepository(this.db);
 		await userActivityRepository.createOrIncrement(user.id, date, 2);
-		const userActivities = await (await this.getDatabase()).query(sql`
+		const userActivities = await this.db.query(sql`
 			SELECT *
 			FROM "UserActivity"
 			WHERE "userId" = ${user.id};
@@ -79,8 +79,8 @@ describe('UserActivityRepository', async function() {
 
 	it('get (row exists case)', async function() {
 		const date = new Date();
-		const userActivityRepository = new UserActivityRepository(await this.getDatabase());
-		await (await this.getDatabase()).query(sql`
+		const userActivityRepository = new UserActivityRepository(this.db);
+		await this.db.query(sql`
 			INSERT INTO "UserActivity" ("userId", "date", "characters")
 			VALUES (${user.id}, ${date}, 2);
 		`);
@@ -92,7 +92,7 @@ describe('UserActivityRepository', async function() {
 
 	it('get (empty case)', async function() {
 		const date = new Date();
-		const userActivityRepository = new UserActivityRepository(await this.getDatabase());
+		const userActivityRepository = new UserActivityRepository(this.db);
 		const activity = await userActivityRepository.get(user.id, date);
 
 		expect(activity).toEqual({ characters: 0 });

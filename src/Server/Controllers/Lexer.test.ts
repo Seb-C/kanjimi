@@ -183,8 +183,8 @@ let apiKey: ApiKey;
 
 describe('LexerController', async function() {
 	beforeEach(async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
-		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
+		const apiKeyRepository = new ApiKeyRepository(this.db);
 		user = await userRepository.create({ ...this.testUser });
 		apiKey = await apiKeyRepository.create(user.id);
 	});
@@ -224,7 +224,7 @@ describe('LexerController', async function() {
 			}),
 		});
 
-		const userActivityRepository = new UserActivityRepository(await this.getDatabase());
+		const userActivityRepository = new UserActivityRepository(this.db);
 		const activity = await userActivityRepository.get(user.id, new Date());
 		expect(activity.characters).toBe(7);
 	});
@@ -244,7 +244,7 @@ describe('LexerController', async function() {
 			}),
 		});
 
-		const analyzeLogs = await (await this.getDatabase()).query(sql`
+		const analyzeLogs = await this.db.query(sql`
 			SELECT * FROM "AnalyzeLog" WHERE "sessionId" = ${sessionId};
 		`);
 		expect(analyzeLogs.length).not.toBe(0);

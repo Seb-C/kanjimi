@@ -1,4 +1,5 @@
 Before posting to producthunt (next release):
+    check that db auto reconnects, so that the server does not fail
     migrations with kiss-orm
     simplify the database models (typescript 4 syntax)
     use the kiss-orm repositories

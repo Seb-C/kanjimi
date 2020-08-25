@@ -11,17 +11,17 @@ let user: User;
 
 describe('ApiKeyRepository', async function() {
 	beforeEach(async function() {
-		const userRepository = new UserRepository(await this.getDatabase());
+		const userRepository = new UserRepository(this.db);
 		user = await userRepository.create({ ...this.testUser });
 	});
 
 	it('getById', async function() {
 		const uuid = uuidv4();
-		await (await this.getDatabase()).query(sql`
+		await this.db.query(sql`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
 			VALUES (${uuid}, 'fakeapikey', ${user.id}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		`);
-		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.getById(uuid);
 
 		expect(apiKey).not.toBe(null);
@@ -33,11 +33,11 @@ describe('ApiKeyRepository', async function() {
 
 	it('getByKey', async function() {
 		const uuid = uuidv4();
-		await (await this.getDatabase()).query(sql`
+		await this.db.query(sql`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
 			VALUES (${uuid}, 'fakeapikey', ${user.id}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		`);
-		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.getByKey('fakeapikey');
 
 		expect(apiKey).not.toBe(null);
@@ -49,11 +49,11 @@ describe('ApiKeyRepository', async function() {
 
 	it('getFromRequest', async function() {
 		const uuid = uuidv4();
-		await (await this.getDatabase()).query(sql`
+		await this.db.query(sql`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
 			VALUES (${uuid}, 'fakeapikey', ${user.id}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		`);
-		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.getFromRequest(<Request><any>{
 			headers: {
 				authorization: 'Bearer fakeapikey',
@@ -68,10 +68,10 @@ describe('ApiKeyRepository', async function() {
 	});
 
 	it('create', async function() {
-		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.create(user.id);
 		const dbApiKey = new ApiKey(
-			await (await this.getDatabase()).query(sql`
+			await this.db.query(sql`
 				SELECT * FROM "ApiKey" WHERE "userId" = ${user.id};
 			`)
 		);

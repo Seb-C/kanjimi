@@ -18,8 +18,8 @@ import ApiKeyRepository from 'Server/Repositories/ApiKey';
 
 describe('Client User', async function() {
 	it('get (normal case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.create(user.id);
 
@@ -87,7 +87,7 @@ describe('Client User', async function() {
 	});
 
 	it('verifyEmail (normal case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		const user = await userRepository.create({
 			...this.testUser,
 			emailVerified: false,
@@ -101,7 +101,7 @@ describe('Client User', async function() {
 	});
 
 	it('verifyEmail (authentication error case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		const user = await userRepository.create({
 			...this.testUser,
 			emailVerified: false,
@@ -119,7 +119,7 @@ describe('Client User', async function() {
 	});
 
 	it('verifyEmail (validation error case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		const user = await userRepository.create({
 			...this.testUser,
 			emailVerified: false,
@@ -137,7 +137,7 @@ describe('Client User', async function() {
 	});
 
 	it('verifyEmail (already done error case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		const user = await userRepository.create({
 			...this.testUser,
 			emailVerified: true,
@@ -166,8 +166,8 @@ describe('Client User', async function() {
 	});
 
 	it('update (normal case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
 		const user = await userRepository.create({
 			...this.testUser,
 			languages: [Language.FRENCH],
@@ -201,8 +201,8 @@ describe('Client User', async function() {
 	});
 
 	it('update (validation error case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.create(user.id);
 
@@ -217,8 +217,8 @@ describe('Client User', async function() {
 	});
 
 	it('update (not found error case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.create(user.id);
 
@@ -237,7 +237,7 @@ describe('Client User', async function() {
 	});
 
 	it('requestResetPassword (normal case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		await userRepository.create({
 			...this.testUser,
 			email: 'unittest@example.com',
@@ -266,7 +266,7 @@ describe('Client User', async function() {
 		const expiresAt = new Date();
 		expiresAt.setHours(expiresAt.getHours() + 24);
 
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		const user = await userRepository.create({
 			...this.testUser,
 			password: '123456',
@@ -283,7 +283,7 @@ describe('Client User', async function() {
 	});
 
 	it('resetPassword (authentication error case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		const user = await userRepository.create({
 			...this.testUser,
 			password: '123456',
@@ -305,7 +305,7 @@ describe('Client User', async function() {
 	});
 
 	it('resetPassword (validation error case)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		const user = await userRepository.create({ ...this.testUser });
 
 		let error;

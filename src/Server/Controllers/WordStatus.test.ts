@@ -44,8 +44,8 @@ const wordStatusArrayValidator = new Ajv({ allErrors: true }).compile({
 
 describe('WordStatusController', async function() {
 	beforeEach(async function() {
-		const userRepository = new UserRepository(this.getDatabase());
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
 		user = await userRepository.create({ ...this.testUser });
 		apiKey = await apiKeyRepository.create(user.id);
 	});
@@ -76,7 +76,7 @@ describe('WordStatusController', async function() {
 
 		// Checking the db contents
 		const dictionary = new Dictionary();
-		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
+		const wordStatusRepository = new WordStatusRepository(await this.getDatabase(), dictionary);
 		const dbWordStatus = await wordStatusRepository.get(user, '日本');
 
 		expect(dbWordStatus).not.toBe(null);
@@ -86,7 +86,7 @@ describe('WordStatusController', async function() {
 
 	it('createOrUpdate (update case)', async function() {
 		const dictionary = new Dictionary();
-		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
+		const wordStatusRepository = new WordStatusRepository(await this.getDatabase(), dictionary);
 		await wordStatusRepository.create(user, '日本', false, true);
 
 		const response = await fetch('https://localhost:3000/api/word-status', {
@@ -186,7 +186,7 @@ describe('WordStatusController', async function() {
 
 	it('search (normal case)', async function() {
 		const dictionary = new Dictionary();
-		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
+		const wordStatusRepository = new WordStatusRepository(await this.getDatabase(), dictionary);
 		await wordStatusRepository.create(user, '食べる', true, false);
 
 		const response = await fetch('https://localhost:3000/api/word-status/search', {

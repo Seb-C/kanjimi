@@ -10,8 +10,8 @@ let apiKey: ApiKey;
 
 describe('PageController', async function() {
 	beforeEach(async function() {
-		const userRepository = new UserRepository(this.getDatabase());
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
 		user = await userRepository.create({ ...this.testUser });
 		apiKey = await apiKeyRepository.create(user.id);
 	});

@@ -1,9 +1,9 @@
-import * as PgPromise from 'pg-promise';
+import { sql, PgSqlDatabase } from 'kiss-orm';
 
 export default class AnalyzeLog {
-	private db: PgPromise.IDatabase<void>;
+	private db: PgSqlDatabase;
 
-	constructor (db: PgPromise.IDatabase<void>) {
+	constructor (db: PgSqlDatabase) {
 		this.db = db;
 	}
 
@@ -13,14 +13,9 @@ export default class AnalyzeLog {
 		characters: number,
 		requestedAt: Date,
 	) {
-		await this.db.none(`
+		await this.db.query(sql`
 			INSERT INTO "AnalyzeLog" ("id", "sessionId", "url", "characters", "requestedAt")
-			VALUES (DEFAULT, \${sessionId}, \${url}, \${characters}, \${requestedAt});
-		`, {
-			sessionId,
-			url,
-			characters,
-			requestedAt,
-		});
+			VALUES (DEFAULT, ${sessionId}, ${url}, ${characters}, ${requestedAt});
+		`);
 	}
 }

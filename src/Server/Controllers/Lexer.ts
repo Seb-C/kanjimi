@@ -8,7 +8,7 @@ import Lexer from 'Server/Lexer/Lexer';
 import Language from 'Common/Types/Language';
 import Kanjis from 'Server/Lexer/Kanjis';
 import CharType from 'Common/Types/CharType';
-import * as PgPromise from 'pg-promise';
+import { PgSqlDatabase } from 'kiss-orm';
 import UserRepository from 'Server/Repositories/User';
 import UserActivityRepository from 'Server/Repositories/UserActivity';
 import AnalyzeLogRepository from 'Server/Repositories/AnalyzeLog';
@@ -50,7 +50,7 @@ const analyzeRequestValidator = new Ajv({ allErrors: true }).compile({
 	},
 });
 
-export const analyze = (db: PgPromise.IDatabase<void>, lexer: Lexer) => (
+export const analyze = (db: PgSqlDatabase, lexer: Lexer) => (
 	async (request: Request, response: Response) => {
 		const user = await (new UserRepository(db)).getFromRequest(request);
 		if (user === null) {
@@ -94,7 +94,7 @@ export const analyze = (db: PgPromise.IDatabase<void>, lexer: Lexer) => (
 	}
 );
 
-export const getKanji = (db: PgPromise.IDatabase<void>, kanjis: Kanjis) => (
+export const getKanji = (db: PgSqlDatabase, kanjis: Kanjis) => (
 	async (request: Request, response: Response) => {
 		const user = await (new UserRepository(db)).getFromRequest(request);
 		if (user === null) {

@@ -41,7 +41,7 @@ let user: User;
 
 describe('ApiKeyController', async function() {
 	beforeEach(async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		user = await userRepository.create({
 			...this.testUser,
 			emailVerified: true,
@@ -64,7 +64,7 @@ describe('ApiKeyController', async function() {
 			.toBe(true);
 
 		// Checking the db contents
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
 		const dbApiKey = await apiKeyRepository.getById(responseData.id);
 
 		expect(dbApiKey).not.toBe(null);
@@ -107,7 +107,7 @@ describe('ApiKeyController', async function() {
 	});
 
 	it('create (email not yet verified)', async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		user = await userRepository.updateById(user.id, { emailVerified: false });
 
 		const response = await fetch('https://localhost:3000/api/api-key', {
@@ -121,7 +121,7 @@ describe('ApiKeyController', async function() {
 	});
 
 	it('get the api key object from the credentials', async function() {
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
 		const apiKey = await apiKeyRepository.create(user.id);
 
 		const response = await fetch('https://localhost:3000/api/api-key', {

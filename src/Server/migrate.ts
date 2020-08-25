@@ -1,4 +1,4 @@
-import * as PgPromise from 'pg-promise';
+import { sql, PgSqlDatabase } from 'kiss-orm';
 import * as fs from 'fs';
 
 const getMigrations = (): Promise<string[]> => {
@@ -27,7 +27,7 @@ const getMigrationScript = (migration: string): Promise<string> => {
 	});
 };
 
-const db = PgPromise()({
+const db = new PgSqlDatabase({
 	host: <string>process.env.KANJIMI_DATABASE_HOST,
 	port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
 	database: <string>process.env.KANJIMI_DATABASE_DATABASE,
@@ -39,26 +39,26 @@ const db = PgPromise()({
 const runMigration = async (migration: string): Promise<void> => {
 	console.log(`Starting migration "${migration}"`);
 	const migrationScript = await getMigrationScript(migration);
-	await db.none(`
+	await db.query(sql`
 		BEGIN;
 		${migrationScript}
-		INSERT INTO "Migrations" VALUES (\${name});
+		INSERT INTO "Migrations" VALUES (${migration});
 		COMMIT;
-	`, {
-		name: migration,
-	});
+	`);
 	console.log(`Finished migration "${migration}"`);
 };
 
 (async () => {
-	await db.none(`
+	await db.connect();
+
+	await db.query(sql`
 		CREATE TABLE IF NOT EXISTS "Migrations" (
 			"name" TEXT PRIMARY KEY NOT NULL
 		);
 	`);
 
 	const migrations = (await getMigrations()).sort();
-	const migrationsDone = (await db.manyOrNone(`
+	const migrationsDone = (await db.query(sql`
 		SELECT "name"
 		FROM "Migrations"
 		ORDER BY "name";
@@ -74,7 +74,7 @@ const runMigration = async (migration: string): Promise<void> => {
 		await runMigration(migrationsToDo[i]);
 	}
 
-	await db.$pool.end();
+	await db.disconnect();
 })().catch((error: Error) => {
 	console.error(error);
 	process.exit(1);

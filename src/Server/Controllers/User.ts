@@ -2,12 +2,12 @@ import Language from 'Common/Types/Language';
 import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
-import * as PgPromise from 'pg-promise';
+import { PgSqlDatabase } from 'kiss-orm';
 import UserRepository from 'Server/Repositories/User';
 import User from 'Common/Models/User';
 import * as NodeMailer from 'nodemailer';
 
-export const get = (db: PgPromise.IDatabase<void>) => async (request: Request, response: Response) => {
+export const get = (db: PgSqlDatabase) => async (request: Request, response: Response) => {
 	const userRepository = new UserRepository(db);
 
 	const user = await userRepository.getFromRequest(request);
@@ -54,7 +54,7 @@ const createUserValidator = new Ajv({ allErrors: true }).compile({
 		},
 	},
 });
-export const create = (db: PgPromise.IDatabase<void>, mailer: NodeMailer.Transporter) => async (request: Request, response: Response, next: Function) => {
+export const create = (db: PgSqlDatabase, mailer: NodeMailer.Transporter) => async (request: Request, response: Response, next: Function) => {
 	if (!createUserValidator(request.body)) {
 		return response.status(422).json(createUserValidator.errors);
 	}
@@ -122,7 +122,7 @@ const createEmailVerificationRequestValidator = new Ajv({ allErrors: true }).com
 		},
 	},
 });
-export const verifyEmail = (db: PgPromise.IDatabase<void>) => async (request: Request, response: Response, next: Function) => {
+export const verifyEmail = (db: PgSqlDatabase) => async (request: Request, response: Response, next: Function) => {
 	if (!createEmailVerificationRequestValidator(request.body)) {
 		return response.status(422).json(createEmailVerificationRequestValidator.errors);
 	}
@@ -191,7 +191,7 @@ const updateUserValidator = new Ajv({ allErrors: true }).compile({
 		},
 	},
 });
-export const update = (db: PgPromise.IDatabase<void>) => async (request: Request, response: Response, next: Function) => {
+export const update = (db: PgSqlDatabase) => async (request: Request, response: Response, next: Function) => {
 	if (!updateUserValidator(request.body)) {
 		return response.status(422).json(updateUserValidator.errors);
 	}
@@ -249,7 +249,7 @@ const requestResetPasswordRequestValidator = new Ajv({ allErrors: true }).compil
 		},
 	},
 });
-export const requestResetPassword = (db: PgPromise.IDatabase<void>, mailer: NodeMailer.Transporter) => async (request: Request, response: Response, next: Function) => {
+export const requestResetPassword = (db: PgSqlDatabase, mailer: NodeMailer.Transporter) => async (request: Request, response: Response, next: Function) => {
 	if (!requestResetPasswordRequestValidator(request.body)) {
 		return response.status(422).json(requestResetPasswordRequestValidator.errors);
 	}
@@ -323,7 +323,7 @@ const resetPasswordValidator = new Ajv({ allErrors: true }).compile({
 		},
 	},
 });
-export const resetPassword = (db: PgPromise.IDatabase<void>) => async (request: Request, response: Response, next: Function) => {
+export const resetPassword = (db: PgSqlDatabase) => async (request: Request, response: Response, next: Function) => {
 	if (!resetPasswordValidator(request.body)) {
 		return response.status(422).json(resetPasswordValidator.errors);
 	}

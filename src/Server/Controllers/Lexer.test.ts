@@ -6,6 +6,7 @@ import UserRepository from 'Server/Repositories/User';
 import UserActivityRepository from 'Server/Repositories/UserActivity';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
 import Language from 'Common/Types/Language';
+import { sql } from 'kiss-orm';
 import * as Ajv from 'ajv';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -182,8 +183,8 @@ let apiKey: ApiKey;
 
 describe('LexerController', async function() {
 	beforeEach(async function() {
-		const userRepository = new UserRepository(this.getDatabase());
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
 		user = await userRepository.create({ ...this.testUser });
 		apiKey = await apiKeyRepository.create(user.id);
 	});
@@ -223,7 +224,7 @@ describe('LexerController', async function() {
 			}),
 		});
 
-		const userActivityRepository = new UserActivityRepository(this.getDatabase());
+		const userActivityRepository = new UserActivityRepository(await this.getDatabase());
 		const activity = await userActivityRepository.get(user.id, new Date());
 		expect(activity.characters).toBe(7);
 	});
@@ -243,12 +244,13 @@ describe('LexerController', async function() {
 			}),
 		});
 
-		const analyzeLog = await this.getDatabase().oneOrNone(`
-			SELECT * FROM "AnalyzeLog" WHERE "sessionId" = \${sessionId};
-		`, { sessionId });
-		expect(analyzeLog.url).toBe('https://kanjimi.com/fake-url');
-		expect(analyzeLog.characters).toBe(7);
-		expect(analyzeLog.requestedAt).not.toBe(null);
+		const analyzeLogs = await (await this.getDatabase()).query(sql`
+			SELECT * FROM "AnalyzeLog" WHERE "sessionId" = ${sessionId};
+		`);
+		expect(analyzeLogs.length).not.toBe(0);
+		expect(analyzeLogs[0].url).toBe('https://kanjimi.com/fake-url');
+		expect(analyzeLogs[0].characters).toBe(7);
+		expect(analyzeLogs[0].requestedAt).not.toBe(null);
 	});
 
 	it('analyze (validation errors)', async function() {

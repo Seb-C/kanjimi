@@ -1,24 +1,24 @@
 import Language from 'Common/Types/Language';
 import { Request } from 'express';
-import * as PgPromise from 'pg-promise';
+import { sql, sqlJoin, PgSqlDatabase } from 'kiss-orm';
 import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
 export default class User {
-	private db: PgPromise.IDatabase<void>;
+	private db: PgSqlDatabase;
 
-	constructor (db: PgPromise.IDatabase<void>) {
+	constructor (db: PgSqlDatabase) {
 		this.db = db;
 	}
 
 	async getById (id: string): Promise<UserModel|null> {
-		const result = await this.db.oneOrNone(`
+		const result = await this.db.query(sql`
 			SELECT *
 			FROM "User"
-			WHERE "id" = \${id};
-		`, { id });
-		if (!result) {
+			WHERE "id" = ${id};
+		`);
+		if (result.length === 0) {
 			return null;
 		} else {
 			return new UserModel(result);
@@ -26,12 +26,12 @@ export default class User {
 	}
 
 	async getByEmail (email: string): Promise<UserModel|null> {
-		const result = await this.db.oneOrNone(`
+		const result = await this.db.query(sql`
 			SELECT *
 			FROM "User"
-			WHERE "email" = \${email};
-		`, { email });
-		if (!result) {
+			WHERE "email" = ${email};
+		`);
+		if (result.length === 0) {
 			return null;
 		} else {
 			return new UserModel(result);
@@ -39,13 +39,13 @@ export default class User {
 	}
 
 	async getByApiKey (key: string): Promise<UserModel|null> {
-		const result = await this.db.oneOrNone(`
+		const result = await this.db.query(sql`
 			SELECT "User".*
 			FROM "ApiKey"
 			INNER JOIN "User" ON "User"."id" = "ApiKey"."userId"
-			WHERE "ApiKey"."key" = \${key};
-		`, { key });
-		if (!result) {
+			WHERE "ApiKey"."key" = ${key};
+		`);
+		if (result.length === 0) {
 			return null;
 		} else {
 			return new UserModel(result);
@@ -81,9 +81,11 @@ export default class User {
 		},
 		transactionCallback: ((user: UserModel) => Promise<void>)|null = null,
 	): Promise<UserModel> {
-		return this.db.tx(async (transaction: PgPromise.ITask<void>) => {
+		await this.db.query(sql`BEGIN;`);
+
+		try {
 			const uuid = uuidv4();
-			const result = await transaction.oneOrNone(`
+			const result = await this.db.query(sql`
 				INSERT INTO "User" (
 					"id",
 					"email",
@@ -97,34 +99,34 @@ export default class User {
 					"jlpt",
 					"createdAt"
 				) VALUES (
-					\${id},
-					\${email},
-					\${emailVerified},
-					\${emailVerificationKey},
-					\${password},
-					\${passwordResetKey},
-					\${passwordResetKeyExpiresAt},
-					\${languages},
-					\${romanReading},
-					\${jlpt},
-					\${createdAt}
+					${uuid},
+					${attributes.email},
+					${attributes.emailVerified},
+					${attributes.emailVerificationKey},
+					${this.hashPassword(uuid, attributes.password)},
+					${attributes.passwordResetKey},
+					${attributes.passwordResetKeyExpiresAt},
+					${attributes.languages},
+					${attributes.romanReading},
+					${attributes.jlpt},
+					${new Date()}
 				)
 				RETURNING *;
-			`, {
-				...attributes,
-				id: uuid,
-				password: this.hashPassword(uuid, attributes.password),
-				createdAt: new Date(),
-			});
+			`);
 
-			const user = new UserModel(result);
+			const user = new UserModel(result[0]);
 
 			if (transactionCallback !== null) {
 				await transactionCallback(user);
 			}
 
+			await this.db.query(sql`COMMIT;`);
+
 			return user;
-		});
+		} catch (error) {
+			await this.db.query(sql`ROLLBACK;`);
+			throw error;
+		}
 	}
 
 	async updateById (uuid: string, attributes: {
@@ -139,7 +141,6 @@ export default class User {
 	}): Promise<UserModel> {
 		const params = {
 			...attributes,
-			id: uuid,
 		};
 		if (params.password) {
 			params.password = this.hashPassword(uuid, params.password);
@@ -156,23 +157,22 @@ export default class User {
 			'jlpt',
 		];
 
-		const result = await this.db.oneOrNone(`
+		const result = await this.db.query(sql`
 			UPDATE "User"
-			SET ${
+			SET ${sqlJoin((
 				allowedFieldsInSqlQuery
 					.filter(fieldName => attributes.hasOwnProperty(fieldName))
-					.map(fieldName => `"${fieldName}" = \${${fieldName}}`)
-					.join(',')
-			}
-			WHERE "id" = \${id}
+					.map(fieldName => sql`"${fieldName}" = ${fieldName}`)
+			), sql`, `)}
+			WHERE "id" = ${uuid}
 			RETURNING *;
-		`, params);
+		`);
 
 		return new UserModel(result);
 	}
 
 	async deleteByEmail (email: string): Promise<void> {
-		await this.db.none('DELETE FROM "User" WHERE "email" = ${email};', { email });
+		await this.db.query(sql`DELETE FROM "User" WHERE "email" = ${email};`);
 	}
 
 	hashPassword (uuid: string, password: string): string {

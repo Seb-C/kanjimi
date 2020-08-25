@@ -6,26 +6,27 @@ import User from 'Common/Models/User';
 import WordStatus from 'Common/Models/WordStatus';
 import Language from 'Common/Types/Language';
 import WordTag from 'Common/Types/WordTag';
+import { sql } from 'kiss-orm';
 
 let user: User;
 
 describe('WordStatusRepository', async function() {
 	beforeEach(async function() {
-		const userRepository = new UserRepository(this.getDatabase());
+		const userRepository = new UserRepository(await this.getDatabase());
 		user = await userRepository.create({ ...this.testUser });
 	});
 
 	it('getList', async function() {
 		const dictionary = new Dictionary();
-		await this.getDatabase().none(`
+		await (await this.getDatabase()).query(sql`
 			INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
-			VALUES (\${userId}, 'word1', TRUE, FALSE);
-		`, { userId: user.id });
-		await this.getDatabase().none(`
+			VALUES (${user.id}, 'word1', TRUE, FALSE);
+		`);
+		await (await this.getDatabase()).query(sql`
 			INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
-			VALUES (\${userId}, 'word3', FALSE, TRUE);
-		`, { userId: user.id });
-		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
+			VALUES (${user.id}, 'word3', FALSE, TRUE);
+		`);
+		const wordStatusRepository = new WordStatusRepository(await this.getDatabase(), dictionary);
 		const wordStatuses = await wordStatusRepository.getList(user, ['word1', 'word2', 'word3']);
 
 		expect(wordStatuses.length).toBe(2);
@@ -45,11 +46,11 @@ describe('WordStatusRepository', async function() {
 
 	it('get', async function() {
 		const dictionary = new Dictionary();
-		await this.getDatabase().none(`
+		await (await this.getDatabase()).query(sql`
 			INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
-			VALUES (\${userId}, 'word', TRUE, FALSE);
-		`, { userId: user.id });
-		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
+			VALUES (${user.id}, 'word', TRUE, FALSE);
+		`);
+		const wordStatusRepository = new WordStatusRepository(await this.getDatabase(), dictionary);
 		const wordStatus = await wordStatusRepository.get(user, 'word');
 
 		expect(wordStatus).not.toBe(null);
@@ -62,16 +63,16 @@ describe('WordStatusRepository', async function() {
 
 	it('createOrUpdate', async function() {
 		const dictionary = new Dictionary();
-		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
+		const wordStatusRepository = new WordStatusRepository(await this.getDatabase(), dictionary);
 
 		// Create case
 		let wordStatus = await wordStatusRepository.createOrUpdate(user, 'word', false, true);
-		let dbWordStatus = new WordStatus(await this.getDatabase().oneOrNone(`
+		let dbWordStatus = new WordStatus(await (await this.getDatabase()).query(sql`
 			SELECT *
 			FROM "WordStatus"
-			WHERE "userId" = \${userId}
+			WHERE "userId" = ${user.id}
 			AND "word" = 'word';
-		`, { userId: user.id }));
+		`)[0]);
 		expect(wordStatus).toBeInstanceOf(WordStatus);
 		expect(dbWordStatus).toEqual(wordStatus);
 		expect(wordStatus.userId).toBe(user.id);
@@ -80,12 +81,12 @@ describe('WordStatusRepository', async function() {
 		expect(wordStatus.showTranslation).toBe(true);
 
 		wordStatus = await wordStatusRepository.createOrUpdate(user, 'word', true, false);
-		dbWordStatus = new WordStatus(await this.getDatabase().oneOrNone(`
+		dbWordStatus = new WordStatus(await (await this.getDatabase()).query(sql`
 			SELECT *
 			FROM "WordStatus"
-			WHERE "userId" = \${userId}
+			WHERE "userId" = ${user.id}
 			AND "word" = 'word';
-		`, { userId: user.id }));
+		`)[0]);
 		expect(wordStatus).toBeInstanceOf(WordStatus);
 		expect(dbWordStatus).toEqual(wordStatus);
 		expect(wordStatus.userId).toBe(user.id);
@@ -96,15 +97,15 @@ describe('WordStatusRepository', async function() {
 
 	it('create', async function() {
 		const dictionary = new Dictionary();
-		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
+		const wordStatusRepository = new WordStatusRepository(await this.getDatabase(), dictionary);
 
 		const wordStatus = await wordStatusRepository.createOrUpdate(user, 'word', false, true);
-		const dbWordStatus = new WordStatus(await this.getDatabase().oneOrNone(`
+		const dbWordStatus = new WordStatus(await (await this.getDatabase()).query(sql`
 			SELECT *
 			FROM "WordStatus"
-			WHERE "userId" = \${userId}
+			WHERE "userId" = ${user.id}
 			AND "word" = 'word';
-		`, { userId: user.id }));
+		`)[0]);
 
 		expect(wordStatus).toBeInstanceOf(WordStatus);
 		expect(dbWordStatus).toEqual(wordStatus);
@@ -116,8 +117,8 @@ describe('WordStatusRepository', async function() {
 
 	it('getDefaultWordStatus', async function() {
 		const dictionary = new Dictionary();
-		const userRepository = new UserRepository(this.getDatabase());
-		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
+		const userRepository = new UserRepository(await this.getDatabase());
+		const wordStatusRepository = new WordStatusRepository(await this.getDatabase(), dictionary);
 		let wordStatus: WordStatus;
 
 		// User does not have a JLPT level

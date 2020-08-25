@@ -1,5 +1,7 @@
 Before posting to producthunt (next release):
-    use kiss-orm in Kanjimi, remove pg-promise (+ migrations process)
+    migrations with kiss-orm
+    simplify the database models (typescript 4 syntax)
+    use the kiss-orm repositories
     share kiss-orm on HN after using and testing it
     add tags to kiss-orm, link it properly locally and on 2 PCs
     use Kanjimi more to test more efficiently

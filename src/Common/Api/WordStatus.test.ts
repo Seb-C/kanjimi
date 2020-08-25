@@ -17,9 +17,9 @@ let wordStatus: WordStatus;
 describe('Client WordStatus', async function() {
 	beforeEach(async function() {
 		const dictionary = new Dictionary();
-		const userRepository = new UserRepository(this.getDatabase());
-		const apiKeyRepository = new ApiKeyRepository(this.getDatabase());
-		const wordStatusRepository = new WordStatusRepository(this.getDatabase(), dictionary);
+		const userRepository = new UserRepository(await this.getDatabase());
+		const apiKeyRepository = new ApiKeyRepository(await this.getDatabase());
+		const wordStatusRepository = new WordStatusRepository(await this.getDatabase(), dictionary);
 		user = await userRepository.create({ ...this.testUser });
 		apiKey = await apiKeyRepository.create(user.id);
 		wordStatus = await wordStatusRepository.create(user, '日本', true, false);

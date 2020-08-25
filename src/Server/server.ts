@@ -4,7 +4,7 @@ import * as Path from 'path';
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Kanjis from 'Server/Lexer/Kanjis';
-import * as PgPromise from 'pg-promise';
+import { PgSqlDatabase } from 'kiss-orm';
 import * as Express from 'express';
 import { Response } from 'express';
 import { Request } from 'Server/Request';
@@ -48,7 +48,7 @@ import * as PageController from 'Server/Controllers/Page';
 		}
 	});
 
-	const db = <PgPromise.IDatabase<void>>PgPromise()({
+	const db = new PgSqlDatabase({
 		host: <string>process.env.KANJIMI_DATABASE_HOST,
 		port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),
 		database: <string>process.env.KANJIMI_DATABASE_DATABASE,
@@ -56,6 +56,8 @@ import * as PageController from 'Server/Controllers/Page';
 		password: <string>process.env.KANJIMI_DATABASE_PASSWORD,
 		ssl: (process.env.KANJIMI_DATABASE_USE_SSL === 'true' ? { rejectUnauthorized: false } : false),
 	});
+	await db.connect();
+
 	const kanjis = new Kanjis();
 	const dictionary = new Dictionary();
 	const lexer = new Lexer(dictionary);
@@ -148,5 +150,5 @@ import * as PageController from 'Server/Controllers/Page';
 	await new Promise((resolve) => {
 		server.on('close', resolve);
 	});
-	await db.$pool.end();
+	await db.disconnect();
 })().catch(console.error);

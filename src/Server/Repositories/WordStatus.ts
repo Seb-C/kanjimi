@@ -1,43 +1,37 @@
 import WordStatusModel from 'Common/Models/WordStatus';
 import User from 'Common/Models/User';
 import Dictionary from 'Server/Lexer/Dictionary';
-import * as PgPromise from 'pg-promise';
+import { sql, PgSqlDatabase } from 'kiss-orm';
 
 export default class WordStatus {
-	private db: PgPromise.IDatabase<void>;
+	private db: PgSqlDatabase;
 	private dictionary: Dictionary;
 
-	constructor (db: PgPromise.IDatabase<void>, dictionary: Dictionary) {
+	constructor (db: PgSqlDatabase, dictionary: Dictionary) {
 		this.db = db;
 		this.dictionary = dictionary;
 	}
 
 	async getList(user: User, words: string[]): Promise<WordStatusModel[]> {
-		return (await this.db.manyOrNone(`
+		return (await this.db.query(sql`
 			SELECT *
 			FROM "WordStatus"
-			WHERE "userId" = \${userId}
-			AND "word" = ANY(\${words});
-		`, {
-			userId: user.id,
-			words,
-		})).map((row: any) => new WordStatusModel(row));
+			WHERE "userId" = ${user.id}
+			AND "word" = ANY(${words});
+		`)).map((row: any) => new WordStatusModel(row));
 	}
 
 	async get(user: User, word: string): Promise<WordStatusModel|null> {
-		const result = await this.db.oneOrNone(`
+		const result = await this.db.query(sql`
 			SELECT *
 			FROM "WordStatus"
-			WHERE "userId" = \${userId}
-			AND "word" = \${word};
-		`, {
-			userId: user.id,
-			word,
-		});
-		if (!result) {
+			WHERE "userId" = ${user.id}
+			AND "word" = ${word};
+		`);
+		if (result.length === 0) {
 			return null;
 		} else {
-			return new WordStatusModel(result);
+			return new WordStatusModel(result[0]);
 		}
 	}
 
@@ -47,29 +41,28 @@ export default class WordStatus {
 		showFurigana: boolean,
 		showTranslation: boolean,
 	): Promise<WordStatusModel> {
-		const result = await this.db.tx(async (transaction: PgPromise.ITask<void>) => {
-			await transaction.none(`
+		await this.db.query(sql`BEGIN;`);
+
+		try {
+			await this.db.query(sql`
 				DELETE FROM "WordStatus"
-				WHERE "userId" = \${userId}
-				AND "word" = \${word};
-			`, {
-				userId: user.id,
-				word,
-			});
+				WHERE "userId" = ${user.id}
+				AND "word" = ${word};
+			`);
 
-			return transaction.oneOrNone(`
+			const result = await this.db.query(sql`
 				INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
-				VALUES (\${userId}, \${word}, \${showFurigana}, \${showTranslation})
+				VALUES (${user.id}, ${word}, ${showFurigana}, ${showTranslation})
 				RETURNING *;
-			`, {
-				userId: user.id,
-				word,
-				showFurigana,
-				showTranslation,
-			});
-		});
+			`);
 
-		return new WordStatusModel(result);
+			await this.db.query(sql`COMMIT;`);
+
+			return new WordStatusModel(result[0]);
+		} catch (error) {
+			await this.db.query(sql`ROLLBACK;`);
+			throw error;
+		}
 	}
 
 	async create (
@@ -78,18 +71,13 @@ export default class WordStatus {
 		showFurigana: boolean,
 		showTranslation: boolean,
 	): Promise<WordStatusModel> {
-		const result = await this.db.oneOrNone(`
+		const result = await this.db.query(sql`
 			INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
-			VALUES (\${userId}, \${word}, \${showFurigana}, \${showTranslation})
+			VALUES (${user.id}, ${word}, ${showFurigana}, ${showTranslation})
 			RETURNING *;
-		`, {
-			userId: user.id,
-			word,
-			showFurigana,
-			showTranslation,
-		});
+		`);
 
-		return new WordStatusModel(result);
+		return new WordStatusModel(result[0]);
 	}
 
 	getDefaultWordStatus(user: User, word: string): WordStatusModel {

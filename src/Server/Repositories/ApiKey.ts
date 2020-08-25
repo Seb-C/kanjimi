@@ -1,19 +1,19 @@
 import { Request } from 'express';
-import * as PgPromise from 'pg-promise';
+import { sql, PgSqlDatabase } from 'kiss-orm';
 import ApiKeyModel from 'Common/Models/ApiKey';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
 export default class ApiKey {
-	private db: PgPromise.IDatabase<void>;
+	private db: PgSqlDatabase;
 
-	constructor (db: PgPromise.IDatabase<void>) {
+	constructor (db: PgSqlDatabase) {
 		this.db = db;
 	}
 
 	async getById (id: string): Promise<ApiKeyModel|null> {
-		const result = await this.db.oneOrNone('SELECT * FROM "ApiKey" WHERE id = ${id};', { id });
-		if (!result) {
+		const result = await this.db.query(sql`SELECT * FROM "ApiKey" WHERE id = ${id};`);
+		if (result.length === 0) {
 			return null;
 		} else {
 			return new ApiKeyModel(result);
@@ -21,8 +21,8 @@ export default class ApiKey {
 	}
 
 	async getByKey (key: string): Promise<ApiKeyModel|null> {
-		const result = await this.db.oneOrNone('SELECT * FROM "ApiKey" WHERE key = ${key};', { key });
-		if (!result) {
+		const result = await this.db.query(sql`SELECT * FROM "ApiKey" WHERE key = ${key};`);
+		if (result.length === 0) {
 			return null;
 		} else {
 			return new ApiKeyModel(result);
@@ -48,18 +48,13 @@ export default class ApiKey {
 		const expiresAt = new Date();
 		expiresAt.setDate(expiresAt.getDate() + 365);
 
-		const result = await this.db.oneOrNone(`
+		const key = Crypto.randomBytes(64).toString('base64');
+		const result = await this.db.query(sql`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
-			VALUES (\${id}, \${key}, \${userId}, \${createdAt}, \${expiresAt})
+			VALUES (${uuidv4()}, ${key}, ${userId}, ${new Date()}, ${expiresAt})
 			RETURNING *;
-		`, {
-			id: uuidv4(),
-			key: Crypto.randomBytes(64).toString('base64'),
-			userId,
-			createdAt: new Date(),
-			expiresAt,
-		});
+		`);
 
-		return new ApiKeyModel(result);
+		return new ApiKeyModel(result[0]);
 	}
 }

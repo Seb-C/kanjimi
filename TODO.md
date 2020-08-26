@@ -1,5 +1,4 @@
 Before posting to producthunt (next release):
-    simplify the database models (typescript 4 syntax)
     use the kiss-orm repositories
     check that db auto reconnects, so that the server does not fail
     share kiss-orm on HN after using and testing it
@@ -42,6 +41,8 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    tests Cypress on mobile resolution
+    Tag words by specific domain vocabulary (community based)
     rename the old migrations from XXX_Name.sql to Name (js file + db + production)?
     declare activity -> if permissions OK -> do when I start the paid subscriptions
     check immigration -> waiting for mail answer

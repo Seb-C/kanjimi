@@ -11,7 +11,6 @@ beforeEach(async function() {
 	(<any>global).fetch = fetch;
 
 	if (!db) {
-		console.log('connect');
 		db = new PgSqlDatabase({
 			host: process.env.KANJIMI_DATABASE_HOST,
 			port: parseInt(<string>process.env.KANJIMI_DATABASE_PORT),

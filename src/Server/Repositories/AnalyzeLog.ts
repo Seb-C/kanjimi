@@ -1,21 +1,20 @@
-import { sql, PgSqlDatabase } from 'kiss-orm';
+import AnalyzeLogModel from 'Common/Models/AnalyzeLog';
+import { PgSqlDatabase, CrudRepository } from 'kiss-orm';
 
-export default class AnalyzeLog {
-	private db: PgSqlDatabase;
+type Params = {
+	sessionId: string,
+	url: string,
+	characters: number,
+	requestedAt: Date,
+};
 
-	constructor (db: PgSqlDatabase) {
-		this.db = db;
-	}
-
-	async create (
-		sessionId: string,
-		url: string,
-		characters: number,
-		requestedAt: Date,
-	) {
-		await this.db.query(sql`
-			INSERT INTO "AnalyzeLog" ("id", "sessionId", "url", "characters", "requestedAt")
-			VALUES (DEFAULT, ${sessionId}, ${url}, ${characters}, ${requestedAt});
-		`);
+export default class AnalyzeLog extends CrudRepository<AnalyzeLogModel, Params, number> {
+	constructor (database: PgSqlDatabase) {
+		super({
+			database,
+			table: 'AnalyzeLog',
+			primaryKey: 'id',
+			model: AnalyzeLogModel,
+		});
 	}
 }

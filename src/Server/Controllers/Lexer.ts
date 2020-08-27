@@ -82,12 +82,12 @@ export const analyze = (db: PgSqlDatabase, lexer: Lexer) => (
 		const pageUrl = request.body.pageUrl || null;
 		const sessionId = request.body.sessionId || null;
 		if (pageUrl !== null && sessionId !== null) {
-			await (new AnalyzeLogRepository(db)).create(
+			await (new AnalyzeLogRepository(db)).create({
 				sessionId,
-				pageUrl,
+				url: pageUrl,
 				characters,
-				new Date(),
-			);
+				requestedAt: new Date(),
+			});
 		}
 
 		return response.json(result);

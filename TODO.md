@@ -1,5 +1,16 @@
 Before posting to producthunt (next release):
     use the kiss-orm repositories
+        ApiKey:
+            - getById: rename to get
+            - getByKey: use search
+            - create: change arg + call parent
+            - make it use the normal repository
+        User: 
+            - rename getById to get
+            - getByEmail: use this.search
+            - create: use common arg type + use super for insert
+            - updateById: rename to update, use super, use common arg type
+            - make it use the normal repository
     check that db auto reconnects, so that the server does not fail
     share kiss-orm on HN after using and testing it
     add tags to kiss-orm, link it properly locally and on 2 PCs
@@ -89,7 +100,6 @@ After:
     ping endpoint to use for healthcheck (also tests the db)
     cypress in docker to remove the randomness of failure?
     create a model class for UserActivity
-    create a model class for AnalyzeLog
     unit tests: replace loose variables with this.xxx
     unit test all store methods by injecting required global stuff
     show similar words with shared kanjis to explain better the meaning

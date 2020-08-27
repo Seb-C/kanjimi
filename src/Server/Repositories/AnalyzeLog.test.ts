@@ -12,12 +12,12 @@ describe('AnalyzeLogRepository', async function() {
 		const sessionId = uuidv4();
 		const date = new Date();
 		const analyzeLogRepository = new AnalyzeLogRepository(this.db);
-		await analyzeLogRepository.create(
+		await analyzeLogRepository.create({
 			sessionId,
-			'https://example.com/japanesePage',
-			42,
-			date,
-		);
+			url: 'https://example.com/japanesePage',
+			characters: 42,
+			requestedAt: date,
+		});
 		const analyzeLogs = await this.db.query(sql`
 			SELECT * FROM "AnalyzeLog" WHERE "sessionId" = ${sessionId};
 		`);

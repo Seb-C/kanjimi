@@ -21,7 +21,7 @@ describe('Client WordStatus', async function() {
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const wordStatusRepository = new WordStatusRepository(this.db, dictionary);
 		user = await userRepository.create({ ...this.testUser });
-		apiKey = await apiKeyRepository.create(user.id);
+		apiKey = await apiKeyRepository.createFromUser(user);
 		wordStatus = await wordStatusRepository.create(user, '日本', true, false);
 	});
 

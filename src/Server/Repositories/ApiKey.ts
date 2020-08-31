@@ -1,6 +1,7 @@
 import { Request } from 'express';
 import { sql, PgSqlDatabase } from 'kiss-orm';
 import ApiKeyModel from 'Common/Models/ApiKey';
+import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
@@ -44,14 +45,14 @@ export default class ApiKey {
 		return this.getByKey(key);
 	}
 
-	async create (userId: string): Promise<ApiKeyModel> {
+	async createFromUser (user: UserModel): Promise<ApiKeyModel> {
 		const expiresAt = new Date();
 		expiresAt.setDate(expiresAt.getDate() + 365);
 
 		const key = Crypto.randomBytes(64).toString('base64');
 		const result = await this.db.query(sql`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
-			VALUES (${uuidv4()}, ${key}, ${userId}, ${new Date()}, ${expiresAt})
+			VALUES (${uuidv4()}, ${key}, ${user.id}, ${new Date()}, ${expiresAt})
 			RETURNING *;
 		`);
 

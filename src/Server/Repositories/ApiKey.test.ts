@@ -67,9 +67,9 @@ describe('ApiKeyRepository', async function() {
 		expect((<ApiKey>apiKey).key).toBe('fakeapikey');
 	});
 
-	it('create', async function() {
+	it('createFromUser', async function() {
 		const apiKeyRepository = new ApiKeyRepository(this.db);
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 		const dbApiKey = new ApiKey(
 			(await this.db.query(sql`
 				SELECT * FROM "ApiKey" WHERE "userId" = ${user.id};
@@ -85,7 +85,7 @@ describe('ApiKeyRepository', async function() {
 		expect(apiKey.userId).toBe(user.id);
 
 		// Testing the uniqueness of the generated key
-		const apiKey2 = await apiKeyRepository.create(user.id);
+		const apiKey2 = await apiKeyRepository.createFromUser(user);
 		expect(apiKey2.key).not.toEqual(apiKey.key);
 	});
 });

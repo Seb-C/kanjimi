@@ -2,7 +2,7 @@ Before posting to producthunt (next release):
     use the kiss-orm repositories
         ApiKey:
             - getByKey: use search
-            - create: change arg + call parent
+            - createByUser: make it use the parent method
             - make it use the normal repository
         User: 
             - rename getById to get

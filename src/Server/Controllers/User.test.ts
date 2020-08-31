@@ -66,7 +66,7 @@ describe('UserController', async function() {
 			languages: [Language.ENGLISH, Language.SPANISH],
 			jlpt: 2,
 		});
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
 			method: 'GET',
@@ -94,7 +94,7 @@ describe('UserController', async function() {
 			...this.testUser,
 			email: 'unittest2@example.com',
 		});
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/${user2.id}`, {
 			method: 'GET',
@@ -202,7 +202,7 @@ describe('UserController', async function() {
 			jlpt: 1,
 			password: '123456',
 		});
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
 			method: 'PATCH',
@@ -241,7 +241,7 @@ describe('UserController', async function() {
 		const userRepository = new UserRepository(this.db);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
 			method: 'PATCH',
@@ -271,7 +271,7 @@ describe('UserController', async function() {
 			...this.testUser,
 			password: '123456',
 		});
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
 			method: 'PATCH',
@@ -297,7 +297,7 @@ describe('UserController', async function() {
 			...this.testUser,
 			password: '123456',
 		});
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
 			method: 'PATCH',
@@ -316,7 +316,7 @@ describe('UserController', async function() {
 		const userRepository = new UserRepository(this.db);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/00000000-0000-0000-0000-000000000000`, {
 			method: 'PATCH',
@@ -333,7 +333,7 @@ describe('UserController', async function() {
 		const userRepository = new UserRepository(this.db);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/wrong_id`, {
 			method: 'PATCH',
@@ -350,7 +350,7 @@ describe('UserController', async function() {
 		const userRepository = new UserRepository(this.db);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const user = await userRepository.create({ ...this.testUser });
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/`, {
 			method: 'PATCH',
@@ -377,7 +377,7 @@ describe('UserController', async function() {
 			password: '234567',
 			languages: [Language.ENGLISH],
 		});
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch(`https://localhost:3000/api/user/${user2.id}`, {
 			method: 'PATCH',

@@ -118,8 +118,8 @@ describe('UserRepository', async function() {
 			);
 		`);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
-		const apiKey = await apiKeyRepository.create(uuid);
 		const userRepository = new UserRepository(this.db);
+		const apiKey = await apiKeyRepository.createFromUser(await userRepository.get(uuid));
 		const user = await userRepository.getByApiKey(apiKey.key);
 
 		expect(user).not.toBe(null);
@@ -159,9 +159,9 @@ describe('UserRepository', async function() {
 				CURRENT_TIMESTAMP
 			);
 		`);
-		const apiKeyRepository = new ApiKeyRepository(this.db);
-		const apiKey = await apiKeyRepository.create(uuid);
 		const userRepository = new UserRepository(this.db);
+		const apiKeyRepository = new ApiKeyRepository(this.db);
+		const apiKey = await apiKeyRepository.createFromUser(await userRepository.get(uuid));
 		const user = await userRepository.getFromRequest(<Request><any>{
 			headers: {
 				authorization: 'Bearer ' + apiKey.key,

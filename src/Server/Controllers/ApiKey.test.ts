@@ -122,7 +122,7 @@ describe('ApiKeyController', async function() {
 
 	it('get the api key object from the credentials', async function() {
 		const apiKeyRepository = new ApiKeyRepository(this.db);
-		const apiKey = await apiKeyRepository.create(user.id);
+		const apiKey = await apiKeyRepository.createFromUser(user);
 
 		const response = await fetch('https://localhost:3000/api/api-key', {
 			method: 'GET',

@@ -17,7 +17,7 @@ describe('Client Lexer', async function() {
 		const userRepository = new UserRepository(this.db);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		user = await userRepository.create({ ...this.testUser });
-		apiKey = await apiKeyRepository.create(user.id);
+		apiKey = await apiKeyRepository.createFromUser(user);
 	});
 
 	it('analyze (normal case)', async function() {

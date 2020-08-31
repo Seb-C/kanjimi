@@ -45,7 +45,7 @@ export const create = (db: PgSqlDatabase) => async (request: Request, response: 
 
 	try {
 		const apiKeyRepository = new ApiKeyRepository(db);
-		const apiKey = await apiKeyRepository.create((<User>user).id);
+		const apiKey = await apiKeyRepository.createFromUser(<User>user);
 
 		return response.json(apiKey.toApi());
 	} catch (exception) {

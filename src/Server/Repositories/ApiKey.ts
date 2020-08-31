@@ -1,44 +1,48 @@
 import { Request } from 'express';
-import { sql, PgSqlDatabase } from 'kiss-orm';
+import { sql, PgSqlDatabase, CrudRepository, NotFoundError } from 'kiss-orm';
 import ApiKeyModel from 'Common/Models/ApiKey';
 import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
-export default class ApiKey {
-	private db: PgSqlDatabase;
+type Params = {
+	id: string,
+	key: string,
+	userId: string,
+	createdAt: Date,
+	expiresAt: Date,
+};
 
-	constructor (db: PgSqlDatabase) {
-		this.db = db;
+export default class ApiKey extends CrudRepository<ApiKeyModel, Params, string> {
+	constructor (database: PgSqlDatabase) {
+		super({
+			database,
+			table: 'ApiKey',
+			primaryKey: 'id',
+			model: ApiKeyModel,
+		});
 	}
 
-	async get (id: string): Promise<ApiKeyModel|null> {
-		const result = await this.db.query(sql`SELECT * FROM "ApiKey" WHERE id = ${id};`);
+	async getByKey (key: string): Promise<ApiKeyModel> {
+		const result = await this.search(sql`"key" = ${key}`);
 		if (result.length === 0) {
-			return null;
+			throw new NotFoundError(`Did not find an ApiKey record for the key "${key}".`);
 		} else {
-			return new ApiKeyModel(result[0]);
+			return result[0];
 		}
 	}
 
-	async getByKey (key: string): Promise<ApiKeyModel|null> {
-		const result = await this.db.query(sql`SELECT * FROM "ApiKey" WHERE key = ${key};`);
-		if (result.length === 0) {
-			return null;
-		} else {
-			return new ApiKeyModel(result[0]);
-		}
-	}
-
-	async getFromRequest (request: Request): Promise<ApiKeyModel|null> {
+	async getFromRequest (request: Request): Promise<ApiKeyModel> {
 		if (!request.headers['authorization']) {
-			return null;
+			// TODO use a specific validation error type intead of NotFoundError?
+			throw new NotFoundError('Please specify the Authorization header');
 		}
 
 		const authHeaderPrefix = 'Bearer ';
 		const header = request.headers['authorization'];
 		if (header.substring(0, authHeaderPrefix.length) !== authHeaderPrefix) {
-			return null;
+			// TODO use a specific validation error type intead of NotFoundError?
+			throw new NotFoundError('The Authorization header only supports a Bearer token.');
 		}
 
 		const key = header.substring(authHeaderPrefix.length);
@@ -50,12 +54,13 @@ export default class ApiKey {
 		expiresAt.setDate(expiresAt.getDate() + 365);
 
 		const key = Crypto.randomBytes(64).toString('base64');
-		const result = await this.db.query(sql`
-			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
-			VALUES (${uuidv4()}, ${key}, ${user.id}, ${new Date()}, ${expiresAt})
-			RETURNING *;
-		`);
 
-		return new ApiKeyModel(result[0]);
+		return this.create({
+			id: uuidv4(),
+			userId: user.id,
+			createdAt: new Date(),
+			key,
+			expiresAt,
+		});
 	}
 }

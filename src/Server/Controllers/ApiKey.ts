@@ -1,7 +1,7 @@
 import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
-import { PgSqlDatabase } from 'kiss-orm';
+import { PgSqlDatabase, NotFoundError } from 'kiss-orm';
 import User from 'Common/Models/User';
 import UserRepository from 'Server/Repositories/User';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
@@ -58,10 +58,15 @@ export const create = (db: PgSqlDatabase) => async (request: Request, response: 
 };
 
 export const get = (db: PgSqlDatabase) => async (request: Request, response: Response) => {
-	const apiKey = await (new ApiKeyRepository(db)).getFromRequest(request);
-	if (apiKey === null) {
-		return response.status(403).json('Invalid api key');
-	}
+	try {
+		const apiKey = await (new ApiKeyRepository(db)).getFromRequest(request);
 
-	return response.json(apiKey.toApi());
+		return response.json(apiKey.toApi());
+	} catch (error) {
+		if (error instanceof NotFoundError) {
+			return response.status(403).json('Invalid api key');
+		} else {
+			throw error;
+		}
+	}
 };

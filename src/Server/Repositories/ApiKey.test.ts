@@ -23,12 +23,10 @@ describe('ApiKeyRepository', async function() {
 		`);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.get(uuid);
-
-		expect(apiKey).not.toBe(null);
-		expect((<ApiKey>apiKey)).toBeInstanceOf(ApiKey);
-		expect((<ApiKey>apiKey).id).toBe(uuid);
-		expect((<ApiKey>apiKey).userId).toBe(user.id);
-		expect((<ApiKey>apiKey).key).toBe('fakeapikey');
+		expect(apiKey).toBeInstanceOf(ApiKey);
+		expect(apiKey.id).toBe(uuid);
+		expect(apiKey.userId).toBe(user.id);
+		expect(apiKey.key).toBe('fakeapikey');
 	});
 
 	it('getByKey', async function() {
@@ -39,12 +37,21 @@ describe('ApiKeyRepository', async function() {
 		`);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.getByKey('fakeapikey');
+		expect(apiKey).toBeInstanceOf(ApiKey);
+		expect(apiKey.id).toBe(uuid);
+		expect(apiKey.userId).toBe(user.id);
+		expect(apiKey.key).toBe('fakeapikey');
+	});
+	it('getByKey - not found', async function() {
+		let error = null;
+		try {
+			const apiKeyRepository = new ApiKeyRepository(this.db);
+			await apiKeyRepository.getByKey('wrongapikey');
+		} catch (e) {
+			error = e;
+		}
 
-		expect(apiKey).not.toBe(null);
-		expect((<ApiKey>apiKey)).toBeInstanceOf(ApiKey);
-		expect((<ApiKey>apiKey).id).toBe(uuid);
-		expect((<ApiKey>apiKey).userId).toBe(user.id);
-		expect((<ApiKey>apiKey).key).toBe('fakeapikey');
+		expect(error).not.toBeNull();
 	});
 
 	it('getFromRequest', async function() {
@@ -60,11 +67,25 @@ describe('ApiKeyRepository', async function() {
 			},
 		});
 
-		expect(apiKey).not.toBe(null);
-		expect((<ApiKey>apiKey)).toBeInstanceOf(ApiKey);
-		expect((<ApiKey>apiKey).id).toBe(uuid);
-		expect((<ApiKey>apiKey).userId).toBe(user.id);
-		expect((<ApiKey>apiKey).key).toBe('fakeapikey');
+		expect(apiKey).toBeInstanceOf(ApiKey);
+		expect(apiKey.id).toBe(uuid);
+		expect(apiKey.userId).toBe(user.id);
+		expect(apiKey.key).toBe('fakeapikey');
+	});
+	it('getFromRequest - not found', async function() {
+		let error = null;
+		try {
+			const apiKeyRepository = new ApiKeyRepository(this.db);
+			await apiKeyRepository.getFromRequest(<Request><any>{
+				headers: {
+					authorization: 'Bearer wrongapikey',
+				},
+			});
+		} catch (e) {
+			error = e;
+		}
+
+		expect(error).not.toBeNull();
 	});
 
 	it('createFromUser', async function() {

@@ -119,7 +119,7 @@ describe('UserRepository', async function() {
 		`);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const userRepository = new UserRepository(this.db);
-		const apiKey = await apiKeyRepository.createFromUser(await userRepository.get(uuid));
+		const apiKey = await apiKeyRepository.createFromUser(<User>await userRepository.getById(uuid));
 		const user = await userRepository.getByApiKey(apiKey.key);
 
 		expect(user).not.toBe(null);
@@ -161,7 +161,7 @@ describe('UserRepository', async function() {
 		`);
 		const userRepository = new UserRepository(this.db);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
-		const apiKey = await apiKeyRepository.createFromUser(await userRepository.get(uuid));
+		const apiKey = await apiKeyRepository.createFromUser(<User>await userRepository.getById(uuid));
 		const user = await userRepository.getFromRequest(<Request><any>{
 			headers: {
 				authorization: 'Bearer ' + apiKey.key,

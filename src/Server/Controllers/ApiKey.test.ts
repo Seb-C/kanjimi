@@ -2,7 +2,6 @@ import 'jasmine';
 import fetch from 'node-fetch';
 import * as Ajv from 'ajv';
 import User from 'Common/Models/User';
-import ApiKey from 'Common/Models/ApiKey';
 import UserRepository from 'Server/Repositories/User';
 import ApiKeyRepository from 'Server/Repositories/ApiKey';
 
@@ -67,8 +66,7 @@ describe('ApiKeyController', async function() {
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const dbApiKey = await apiKeyRepository.get(responseData.id);
 
-		expect(dbApiKey).not.toBe(null);
-		expect((<ApiKey>dbApiKey).key).not.toBe('');
+		expect(dbApiKey.key).not.toBe('');
 	});
 
 	it('create (validation errors)', async function() {

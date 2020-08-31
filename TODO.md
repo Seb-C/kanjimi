@@ -1,9 +1,7 @@
 Before posting to producthunt (next release):
+    exceptions in jasmione: use the proper pattern?
+    typescript: declare exceptions?
     use the kiss-orm repositories
-        ApiKey:
-            - getByKey: use search
-            - createByUser: make it use the parent method
-            - make it use the normal repository
         User: 
             - rename getById to get
             - getByEmail: use this.search

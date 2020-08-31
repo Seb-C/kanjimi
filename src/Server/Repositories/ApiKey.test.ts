@@ -15,14 +15,14 @@ describe('ApiKeyRepository', async function() {
 		user = await userRepository.create({ ...this.testUser });
 	});
 
-	it('getById', async function() {
+	it('get', async function() {
 		const uuid = uuidv4();
 		await this.db.query(sql`
 			INSERT INTO "ApiKey" ("id", "key", "userId", "createdAt", "expiresAt")
 			VALUES (${uuid}, 'fakeapikey', ${user.id}, CURRENT_TIMESTAMP, CURRENT_TIMESTAMP);
 		`);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
-		const apiKey = await apiKeyRepository.getById(uuid);
+		const apiKey = await apiKeyRepository.get(uuid);
 
 		expect(apiKey).not.toBe(null);
 		expect((<ApiKey>apiKey)).toBeInstanceOf(ApiKey);

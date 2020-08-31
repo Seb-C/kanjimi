@@ -11,7 +11,7 @@ export default class ApiKey {
 		this.db = db;
 	}
 
-	async getById (id: string): Promise<ApiKeyModel|null> {
+	async get (id: string): Promise<ApiKeyModel|null> {
 		const result = await this.db.query(sql`SELECT * FROM "ApiKey" WHERE id = ${id};`);
 		if (result.length === 0) {
 			return null;

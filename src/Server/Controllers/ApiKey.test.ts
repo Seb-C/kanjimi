@@ -65,7 +65,7 @@ describe('ApiKeyController', async function() {
 
 		// Checking the db contents
 		const apiKeyRepository = new ApiKeyRepository(this.db);
-		const dbApiKey = await apiKeyRepository.getById(responseData.id);
+		const dbApiKey = await apiKeyRepository.get(responseData.id);
 
 		expect(dbApiKey).not.toBe(null);
 		expect((<ApiKey>dbApiKey).key).not.toBe('');

@@ -218,10 +218,9 @@ export const update = (db: PgSqlDatabase) => async (request: Request, response: 
 			return response.status(403).json('The old password is invalid');
 		}
 
-		const updatedUser = await userRepository.update(requestedUser, {
-			...request.body,
-			oldPassword: undefined,
-		});
+		const paramsToUpdate = { ...request.body };
+		delete paramsToUpdate.oldPassword;
+		const updatedUser = await userRepository.update(requestedUser, paramsToUpdate);
 
 		return response.json(updatedUser.toApi());
 	} catch (error) {

@@ -1,5 +1,10 @@
 import { Request } from 'express';
-import { sql, PgSqlDatabase, CrudRepository, NotFoundError } from 'kiss-orm';
+import {
+	sql,
+	PgSqlDatabase,
+	CrudRepository,
+	NotFoundError,
+} from 'kiss-orm';
 import ApiKeyModel from 'Common/Models/ApiKey';
 import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';

@@ -1,36 +1,43 @@
 import Language from 'Common/Types/Language';
 import { Request } from 'express';
-import { sql, sqlJoin, PgSqlDatabase, QueryIdentifier, NotFoundError } from 'kiss-orm';
+import {
+	sql,
+	PgSqlDatabase,
+	CrudRepository,
+	NotFoundError,
+} from 'kiss-orm';
 import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
 
-export default class User {
-	private db: PgSqlDatabase;
+type Params = {
+	id: string,
+	email: string,
+	emailVerified: boolean,
+	emailVerificationKey: string|null,
+	password: string,
+	passwordResetKey: string|null,
+	passwordResetKeyExpiresAt: Date|null,
+	languages: Language[],
+	romanReading: boolean,
+	jlpt: number|null,
+	createdAt: Date,
+};
 
-	constructor (db: PgSqlDatabase) {
-		this.db = db;
-	}
+type AllowedParams = Omit<Params, 'id' | 'createdAt'>;
 
-	async get (id: string): Promise<UserModel> {
-		const result = await this.db.query(sql`
-			SELECT *
-			FROM "User"
-			WHERE "id" = ${id};
-		`);
-		if (result.length === 0) {
-			throw new NotFoundError('TODO');
-		} else {
-			return new UserModel(result[0]);
-		}
+export default class User extends CrudRepository<UserModel, Params, string> {
+	constructor (database: PgSqlDatabase) {
+		super({
+			database,
+			table: 'User',
+			primaryKey: 'id',
+			model: UserModel,
+		});
 	}
 
 	async getByEmail (email: string): Promise<UserModel> {
-		const result = await this.db.query(sql`
-			SELECT *
-			FROM "User"
-			WHERE "email" = ${email};
-		`);
+		const result = await this.search(sql`"email" = ${email}`);
 		if (result.length === 0) {
 			throw new NotFoundError(`Did not find a User record for the email "${email}".`);
 		} else {
@@ -39,7 +46,7 @@ export default class User {
 	}
 
 	async getByApiKey (key: string): Promise<UserModel> {
-		const result = await this.db.query(sql`
+		const result = await this.database.query(sql`
 			SELECT "User".*
 			FROM "ApiKey"
 			INNER JOIN "User" ON "User"."id" = "ApiKey"."userId"
@@ -79,77 +86,34 @@ export default class User {
 	}
 
 	async create (
-		attributes: {
-			email: string,
-			emailVerified: boolean,
-			emailVerificationKey: string|null,
-			password: string,
-			passwordResetKey: string|null,
-			passwordResetKeyExpiresAt: Date|null,
-			languages: Language[],
-			romanReading: boolean,
-			jlpt: number|null,
-		},
+		attributes: AllowedParams,
 		transactionCallback: ((user: UserModel) => Promise<void>)|null = null,
 	): Promise<UserModel> {
-		await this.db.query(sql`BEGIN;`);
+		await this.database.query(sql`BEGIN;`);
 
 		try {
 			const uuid = uuidv4();
-			const result = await this.db.query(sql`
-				INSERT INTO "User" (
-					"id",
-					"email",
-					"emailVerified",
-					"emailVerificationKey",
-					"password",
-					"passwordResetKey",
-					"passwordResetKeyExpiresAt",
-					"languages",
-					"romanReading",
-					"jlpt",
-					"createdAt"
-				) VALUES (
-					${uuid},
-					${attributes.email},
-					${attributes.emailVerified},
-					${attributes.emailVerificationKey},
-					${this.hashPassword(uuid, attributes.password)},
-					${attributes.passwordResetKey},
-					${attributes.passwordResetKeyExpiresAt},
-					${attributes.languages},
-					${attributes.romanReading},
-					${attributes.jlpt},
-					${new Date()}
-				)
-				RETURNING *;
-			`);
-
-			const user = new UserModel(result[0]);
+			const user = await super.create({
+				...attributes,
+				id: uuid,
+				createdAt: new Date(),
+				password: this.hashPassword(uuid, attributes.password),
+			});
 
 			if (transactionCallback !== null) {
 				await transactionCallback(user);
 			}
 
-			await this.db.query(sql`COMMIT;`);
+			await this.database.query(sql`COMMIT;`);
 
 			return user;
 		} catch (error) {
-			await this.db.query(sql`ROLLBACK;`);
+			await this.database.query(sql`ROLLBACK;`);
 			throw error;
 		}
 	}
 
-	async update(user: UserModel, attributes: {
-		password?: string,
-		passwordResetKey?: string|null,
-		passwordResetKeyExpiresAt?: Date|null,
-		emailVerified?: boolean,
-		emailVerificationKey?: string|null,
-		languages?: Language[],
-		romanReading?: boolean,
-		jlpt?: number|null,
-	}): Promise<UserModel> {
+	async update(user: UserModel, attributes: Partial<AllowedParams>): Promise<UserModel> {
 		const params = {
 			...attributes,
 		};
@@ -157,33 +121,11 @@ export default class User {
 			params.password = this.hashPassword(user.id, params.password);
 		}
 
-		const allowedFieldsInSqlQuery = [
-			'password',
-			'passwordResetKey',
-			'passwordResetKeyExpiresAt',
-			'emailVerified',
-			'emailVerificationKey',
-			'languages',
-			'romanReading',
-			'jlpt',
-		];
-
-		const result = await this.db.query(sql`
-			UPDATE "User"
-			SET ${sqlJoin((
-				allowedFieldsInSqlQuery
-					.filter(fieldName => attributes.hasOwnProperty(fieldName))
-					.map(fieldName => sql`${new QueryIdentifier(fieldName)} = ${(<any>params)[fieldName]}`)
-			), sql`, `)}
-			WHERE "id" = ${user.id}
-			RETURNING *;
-		`);
-
-		return new UserModel(result[0]);
+		return super.update(user, params);
 	}
 
 	async deleteByEmail (email: string): Promise<void> {
-		await this.db.query(sql`DELETE FROM "User" WHERE "email" = ${email};`);
+		await this.database.query(sql`DELETE FROM "User" WHERE "email" = ${email};`);
 	}
 
 	hashPassword (uuid: string, password: string): string {

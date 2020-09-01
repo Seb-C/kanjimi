@@ -1,13 +1,6 @@
 Before posting to producthunt (next release):
-    use the kiss-orm repositories
-        User: 
-            - getByEmail: use this.search
-            - make it use the normal repository
-            - update: use super, use common arg type
-            - create: use common arg type + use super for insert
+    share kiss-orm on HN
     check that db auto reconnects, so that the server does not fail
-    share kiss-orm on HN after using and testing it
-    add tags to kiss-orm, link it properly locally and on 2 PCs
     use Kanjimi more to test more efficiently
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     test charge

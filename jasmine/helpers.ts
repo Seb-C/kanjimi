@@ -10,6 +10,8 @@ let db: PgSqlDatabase;
 beforeEach(async function() {
 	(<any>global).fetch = fetch;
 
+	jasmine.DEFAULT_TIMEOUT_INTERVAL = 1000;
+
 	if (!db) {
 		db = new PgSqlDatabase({
 			host: process.env.KANJIMI_DATABASE_HOST,

@@ -28,31 +28,30 @@ export const create = (db: PgSqlDatabase) => async (request: Request, response: 
 		return response.status(422).json(createApiKeyValidator.errors);
 	}
 
-	const userRepository = new UserRepository(db);
-	const user = await userRepository.getByEmail(request.body.email);
-	if (
-		user === null
-		|| user.password !== userRepository.hashPassword(
+	try {
+		const userRepository = new UserRepository(db);
+		const user = await userRepository.getByEmail(request.body.email);
+		if (user.password !== userRepository.hashPassword(
 			user.id,
 			request.body.password,
-		)
-	) {
-		return response.status(403).json('Invalid email or password');
-	}
-	if (!user.emailVerified) {
-		return response.status(403).json('The account has not been verified yet. Please check your emails.');
-	}
+		)) {
+			return response.status(403).json('Invalid email or password');
+		}
+		if (!user.emailVerified) {
+			return response.status(403).json('The account has not been verified yet. Please check your emails.');
+		}
 
-	try {
 		const apiKeyRepository = new ApiKeyRepository(db);
 		const apiKey = await apiKeyRepository.createFromUser(<User>user);
 
 		return response.json(apiKey.toApi());
-	} catch (exception) {
-		if (exception.constraint === 'ApiKey_key_unique') {
+	} catch (error) {
+		if (error instanceof NotFoundError) {
+			return response.status(403).json('Invalid email or password');
+		} else if (error.constraint === 'ApiKey_key_unique') {
 			return response.status(500).json('Duplicated key');
 		} else {
-			return next(exception);
+			return next(error);
 		}
 	}
 };

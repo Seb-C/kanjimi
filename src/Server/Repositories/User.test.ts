@@ -79,7 +79,6 @@ describe('UserRepository', async function() {
 		const userRepository = new UserRepository(this.db);
 		const user = await userRepository.getByEmail('unittest@example.com');
 
-		expect(user).not.toBe(null);
 		expect((<User>user)).toBeInstanceOf(User);
 		expect((<User>user).id).toBe(uuid);
 		expect((<User>user).email).toBe('unittest@example.com');
@@ -121,7 +120,6 @@ describe('UserRepository', async function() {
 		const apiKey = await apiKeyRepository.createFromUser(await userRepository.get(uuid));
 		const user = await userRepository.getByApiKey(apiKey.key);
 
-		expect(user).not.toBe(null);
 		expect((<User>user)).toBeInstanceOf(User);
 		expect((<User>user).id).toBe(uuid);
 		expect((<User>user).email).toBe('unittest@example.com');

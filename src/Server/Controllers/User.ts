@@ -256,14 +256,10 @@ export const requestResetPassword = (db: PgSqlDatabase, mailer: NodeMailer.Trans
 
 	try {
 		const user = await userRepository.getByEmail(request.body.email);
-		if (
-			user !== null
-			&& user.emailVerified
-			&& (
-				user.passwordResetKeyExpiresAt === null
-				|| new Date() > user.passwordResetKeyExpiresAt
-			)
-		) {
+		if (user.emailVerified && (
+			user.passwordResetKeyExpiresAt === null
+			|| new Date() > user.passwordResetKeyExpiresAt
+		)) {
 			const {
 				passwordResetKey,
 				passwordResetKeyExpiresAt,
@@ -297,12 +293,16 @@ export const requestResetPassword = (db: PgSqlDatabase, mailer: NodeMailer.Trans
 				passwordResetKeyExpiresAt,
 			});
 		}
-
-		// Sending the same neutral response in every case for security
-		return response.json('If this address exist, it will receive an email with instructions to set a new password.');
 	} catch (error) {
-		return next(error);
+		if (error instanceof NotFoundError) {
+			// Let it return the normal response message
+		} else {
+			return next(error);
+		}
 	}
+
+	// Sending the same neutral response in every case for security
+	return response.json('If this address exist, it will receive an email with instructions to set a new password.');
 };
 
 const resetPasswordValidator = new Ajv({ allErrors: true }).compile({

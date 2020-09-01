@@ -25,20 +25,20 @@ export default class User {
 		}
 	}
 
-	async getByEmail (email: string): Promise<UserModel|null> {
+	async getByEmail (email: string): Promise<UserModel> {
 		const result = await this.db.query(sql`
 			SELECT *
 			FROM "User"
 			WHERE "email" = ${email};
 		`);
 		if (result.length === 0) {
-			return null;
+			throw new NotFoundError(`Did not find a User record for the email "${email}".`);
 		} else {
 			return new UserModel(result[0]);
 		}
 	}
 
-	async getByApiKey (key: string): Promise<UserModel|null> {
+	async getByApiKey (key: string): Promise<UserModel> {
 		const result = await this.db.query(sql`
 			SELECT "User".*
 			FROM "ApiKey"
@@ -46,12 +46,13 @@ export default class User {
 			WHERE "ApiKey"."key" = ${key};
 		`);
 		if (result.length === 0) {
-			return null;
+			throw new NotFoundError(`Did not find a User record for the api key "${key}".`);
 		} else {
 			return new UserModel(result[0]);
 		}
 	}
 
+	// TODO replace the null return with a proper exception handling?
 	async getFromRequest (request: Request): Promise<UserModel|null> {
 		if (!request.headers['authorization']) {
 			return null;
@@ -64,7 +65,17 @@ export default class User {
 		}
 
 		const key = header.substring(authHeaderPrefix.length);
-		return this.getByApiKey(key);
+
+		try {
+			const user = await this.getByApiKey(key);
+			return user;
+		} catch (error) {
+			if (error instanceof NotFoundError) {
+				return null;
+			} else {
+				throw error;
+			}
+		}
 	}
 
 	async create (

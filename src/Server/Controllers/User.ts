@@ -2,7 +2,7 @@ import Language from 'Common/Types/Language';
 import { Response } from 'express';
 import { Request } from 'Server/Request';
 import * as Ajv from 'ajv';
-import { PgSqlDatabase } from 'kiss-orm';
+import { PgSqlDatabase, NotFoundError } from 'kiss-orm';
 import UserRepository from 'Server/Repositories/User';
 import User from 'Common/Models/User';
 import * as NodeMailer from 'nodemailer';
@@ -130,10 +130,7 @@ export const verifyEmail = (db: PgSqlDatabase) => async (request: Request, respo
 	const userRepository = new UserRepository(db);
 
 	try {
-		const user = await userRepository.getById(request.params.userId);
-		if (user === null) {
-			return response.status(404).json('User not found');
-		}
+		const user = await userRepository.get(request.params.userId);
 		if (user.emailVerified) {
 			return response.status(409).json('This email have already been verified.');
 		}
@@ -148,7 +145,9 @@ export const verifyEmail = (db: PgSqlDatabase) => async (request: Request, respo
 
 		return response.json(updatedUser.toApi());
 	} catch (error) {
-		if (error.routine === 'string_to_uuid') {
+		if (error instanceof NotFoundError) {
+			return response.status(404).json('User not found');
+		} else if (error.routine === 'string_to_uuid') {
 			return response.status(404).json('Invalid id');
 		} else {
 			return next(error);
@@ -204,10 +203,7 @@ export const update = (db: PgSqlDatabase) => async (request: Request, response: 
 	}
 
 	try {
-		const requestedUser = await userRepository.getById(request.params.userId);
-		if (requestedUser === null) {
-			return response.status(404).json('User not found');
-		}
+		const requestedUser = await userRepository.get(request.params.userId);
 		if (requestedUser.id !== authenticatedUser.id) {
 			return response.status(403).json('You are not allowed access to this object');
 		}
@@ -229,7 +225,9 @@ export const update = (db: PgSqlDatabase) => async (request: Request, response: 
 
 		return response.json(updatedUser.toApi());
 	} catch (error) {
-		if (error.routine === 'string_to_uuid') {
+		if (error instanceof NotFoundError) {
+			return response.status(404).json('User not found');
+		} else if (error.routine === 'string_to_uuid') {
 			return response.status(404).json('Invalid id');
 		} else {
 			return next(error);
@@ -331,10 +329,8 @@ export const resetPassword = (db: PgSqlDatabase) => async (request: Request, res
 	const userRepository = new UserRepository(db);
 
 	try {
-		const requestedUser = await userRepository.getById(request.params.userId);
-		if (requestedUser === null) {
-			return response.status(404).json('User not found');
-		}
+		const requestedUser = await userRepository.get(request.params.userId);
+
 		if (request.body.passwordResetKey !== requestedUser.passwordResetKey) {
 			return response.status(403).json('The key is invalid');
 		}
@@ -353,7 +349,9 @@ export const resetPassword = (db: PgSqlDatabase) => async (request: Request, res
 
 		return response.json(updatedUser.toApi());
 	} catch (error) {
-		if (error.routine === 'string_to_uuid') {
+		if (error instanceof NotFoundError) {
+			return response.status(404).json('User not found');
+		} else if (error.routine === 'string_to_uuid') {
 			return response.status(404).json('Invalid id');
 		} else {
 			return next(error);

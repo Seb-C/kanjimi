@@ -1,6 +1,6 @@
 import Language from 'Common/Types/Language';
 import { Request } from 'express';
-import { sql, sqlJoin, PgSqlDatabase, QueryIdentifier } from 'kiss-orm';
+import { sql, sqlJoin, PgSqlDatabase, QueryIdentifier, NotFoundError } from 'kiss-orm';
 import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
 import { v4 as uuidv4 } from 'uuid';
@@ -12,14 +12,14 @@ export default class User {
 		this.db = db;
 	}
 
-	async getById (id: string): Promise<UserModel|null> {
+	async get (id: string): Promise<UserModel> {
 		const result = await this.db.query(sql`
 			SELECT *
 			FROM "User"
 			WHERE "id" = ${id};
 		`);
 		if (result.length === 0) {
-			return null;
+			throw new NotFoundError('TODO');
 		} else {
 			return new UserModel(result[0]);
 		}

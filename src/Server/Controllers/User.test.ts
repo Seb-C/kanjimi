@@ -137,7 +137,7 @@ describe('UserController', async function() {
 
 		// Checking the db contents
 		const userRepository = new UserRepository(this.db);
-		const dbUser = <User>(await userRepository.getById(responseData.id));
+		const dbUser = await userRepository.get(responseData.id);
 
 		expect(<User|null>dbUser).not.toBe(null);
 		expect(dbUser.id).toBe(responseData.id);
@@ -228,7 +228,7 @@ describe('UserController', async function() {
 		expect(responseData.jlpt).toBe(2);
 
 		// Checking the db contents
-		const dbUser = <User>(await userRepository.getById(responseData.id));
+		const dbUser = await userRepository.get(responseData.id);
 
 		expect(<User|null>dbUser).not.toBe(null);
 		expect(dbUser.languages).toEqual([Language.ENGLISH, Language.SPANISH]);
@@ -391,9 +391,8 @@ describe('UserController', async function() {
 		expect(response.status).toBe(403);
 
 		// Reloading the user from the database
-		const dbUser2 = await userRepository.getById(user2.id);
+		const dbUser2 = await userRepository.get(user2.id);
 
-		expect(dbUser2).not.toBe(null);
 		expect((<User>dbUser2).languages).not.toEqual([Language.ENGLISH, Language.SPANISH]);
 
 		// Should also fail with a wrong key
@@ -432,9 +431,8 @@ describe('UserController', async function() {
 		expect(responseData.id).toBe(user.id);
 
 		// Checking the db contents
-		const dbUser = await userRepository.getById(responseData.id);
+		const dbUser = await userRepository.get(responseData.id);
 
-		expect(dbUser).not.toBe(null);
 		expect((<User>dbUser).emailVerified).toBe(true);
 		expect((<User>dbUser).emailVerificationKey).toBe(null);
 	});
@@ -542,7 +540,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(200);
 
 		// Reloading data from the DB
-		user = <User>(await userRepository.getById(user.id));
+		user = await userRepository.get(user.id);
 
 		expect(user.passwordResetKey).not.toBe(null);
 		expect((<string>(user.passwordResetKey)).length > 0).toBe(true);
@@ -603,7 +601,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(200);
 
 		// Reloading data from the DB
-		user = <User>(await userRepository.getById(user.id));
+		user = await userRepository.get(user.id);
 
 		expect(user.passwordResetKey).toBe(null);
 		expect(user.passwordResetKeyExpiresAt).toBe(null);
@@ -631,7 +629,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(200);
 
 		// Reloading data from the DB
-		user = <User>(await userRepository.getById(user.id));
+		user = <User>(await userRepository.get(user.id));
 
 		expect(user.passwordResetKey).toBe('test');
 		expect(user.passwordResetKeyExpiresAt).toEqual(expiresAt);
@@ -665,7 +663,7 @@ describe('UserController', async function() {
 		expect(responseData.id).toBe(user.id);
 
 		// Checking the db contents
-		const dbUser = await userRepository.getById(responseData.id);
+		const dbUser = await userRepository.get(responseData.id);
 
 		expect((<User>dbUser).password).toEqual(userRepository.hashPassword(user.id, 'qwerty'));
 		expect((<User>dbUser).passwordResetKey).toBe(null);
@@ -741,7 +739,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(403);
 
 		// Reloading the user from the database
-		const user2 = await userRepository.getById(user.id);
+		const user2 = await userRepository.get(user.id);
 
 		expect(user2).toEqual(user);
 	});
@@ -768,7 +766,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(403);
 
 		// Reloading the user from the database
-		const user2 = await userRepository.getById(user.id);
+		const user2 = await userRepository.get(user.id);
 
 		expect(user2).toEqual(user);
 	});

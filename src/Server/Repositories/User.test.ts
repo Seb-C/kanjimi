@@ -8,7 +8,7 @@ import { Request } from 'express';
 import { v4 as uuidv4 } from 'uuid';
 
 describe('UserRepository', async function() {
-	it('getById', async function() {
+	it('get', async function() {
 		const uuid = uuidv4();
 		await this.db.query(sql`
 			INSERT INTO "User" (
@@ -38,9 +38,8 @@ describe('UserRepository', async function() {
 			);
 		`);
 		const userRepository = new UserRepository(this.db);
-		const user = await userRepository.getById(uuid);
+		const user = await userRepository.get(uuid);
 
-		expect(user).not.toBe(null);
 		expect((<User>user)).toBeInstanceOf(User);
 		expect((<User>user).id).toBe(uuid);
 		expect((<User>user).email).toBe('unittest@example.com');
@@ -119,7 +118,7 @@ describe('UserRepository', async function() {
 		`);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const userRepository = new UserRepository(this.db);
-		const apiKey = await apiKeyRepository.createFromUser(<User>await userRepository.getById(uuid));
+		const apiKey = await apiKeyRepository.createFromUser(await userRepository.get(uuid));
 		const user = await userRepository.getByApiKey(apiKey.key);
 
 		expect(user).not.toBe(null);
@@ -161,7 +160,7 @@ describe('UserRepository', async function() {
 		`);
 		const userRepository = new UserRepository(this.db);
 		const apiKeyRepository = new ApiKeyRepository(this.db);
-		const apiKey = await apiKeyRepository.createFromUser(<User>await userRepository.getById(uuid));
+		const apiKey = await apiKeyRepository.createFromUser(await userRepository.get(uuid));
 		const user = await userRepository.getFromRequest(<Request><any>{
 			headers: {
 				authorization: 'Bearer ' + apiKey.key,

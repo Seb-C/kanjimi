@@ -1,7 +1,6 @@
 Before posting to producthunt (next release):
     use the kiss-orm repositories
         User: 
-            - rename getById to get
             - getByEmail: use this.search
             - create: use common arg type + use super for insert
             - updateById: rename to update, use super, use common arg type

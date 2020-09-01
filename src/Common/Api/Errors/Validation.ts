@@ -8,10 +8,13 @@ type FieldError = {
 	},
 };
 
-export default class Validation {
+export default class Validation extends Error {
 	public readonly data: FieldError[];
 
 	constructor(data: FieldError[]) {
+		super();
+		this.name = 'ValidationError';
+		Object.setPrototypeOf(this, new.target.prototype);
 		this.data = data;
 	}
 

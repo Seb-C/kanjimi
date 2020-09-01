@@ -43,15 +43,11 @@ describe('ApiKeyRepository', async function() {
 		expect(apiKey.key).toBe('fakeapikey');
 	});
 	it('getByKey - not found', async function() {
-		let error = null;
-		try {
-			const apiKeyRepository = new ApiKeyRepository(this.db);
-			await apiKeyRepository.getByKey('wrongapikey');
-		} catch (e) {
-			error = e;
-		}
+		const apiKeyRepository = new ApiKeyRepository(this.db);
 
-		expect(error).not.toBeNull();
+		await expectAsync(
+			apiKeyRepository.getByKey('wrongapikey')
+		).toBeRejected();
 	});
 
 	it('getFromRequest', async function() {
@@ -73,19 +69,15 @@ describe('ApiKeyRepository', async function() {
 		expect(apiKey.key).toBe('fakeapikey');
 	});
 	it('getFromRequest - not found', async function() {
-		let error = null;
-		try {
-			const apiKeyRepository = new ApiKeyRepository(this.db);
-			await apiKeyRepository.getFromRequest(<Request><any>{
+		const apiKeyRepository = new ApiKeyRepository(this.db);
+
+		await expectAsync(
+			apiKeyRepository.getFromRequest(<Request><any>{
 				headers: {
 					authorization: 'Bearer wrongapikey',
 				},
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).not.toBeNull();
+			})
+		).toBeRejected();
 	});
 
 	it('createFromUser', async function() {

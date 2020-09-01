@@ -30,14 +30,9 @@ describe('Client User', async function() {
 	});
 
 	it('get (authentication error case)', async function() {
-		let error;
-		try {
-			await get('wrongtoken', 'any id should fail');
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(AuthenticationError);
+		await expectAsync(
+			get('wrongtoken', 'any id should fail')
+		).toBeRejectedWithError(AuthenticationError);
 	});
 
 	it('create (normal and duplicate error cases)', async function() {
@@ -53,37 +48,27 @@ describe('Client User', async function() {
 		expect(result.email).toBe('unittest@example.com');
 		// No need to test further this response because it is already done in the models and API tests
 
-		let error;
-		try {
-			await create({
+		await expectAsync(
+			create({
 				email: 'unittest@example.com',
 				password: '123456',
 				languages: [Language.ENGLISH],
 				romanReading: false,
 				jlpt: null,
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ConflictError);
+			})
+		).toBeRejectedWithError(ConflictError);
 	});
 
 	it('create (validation error case)', async function() {
-		let error;
-		try {
-			await create({
+		await expectAsync(
+			create({
 				email: 'not an email',
 				password: '123456',
 				languages: [Language.ENGLISH],
 				romanReading: false,
 				jlpt: null,
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+			})
+		).toBeRejectedWithError(ValidationError);
 	});
 
 	it('verifyEmail (normal case)', async function() {
@@ -108,14 +93,9 @@ describe('Client User', async function() {
 			emailVerificationKey: 'verification_key',
 		});
 
-		let error;
-		try {
-			await verifyEmail(user.id, 'wrong_verification_key');
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(AuthenticationError);
+		await expectAsync(
+			verifyEmail(user.id, 'wrong_verification_key')
+		).toBeRejectedWithError(AuthenticationError);
 	});
 
 	it('verifyEmail (validation error case)', async function() {
@@ -126,14 +106,9 @@ describe('Client User', async function() {
 			emailVerificationKey: 'verification_key',
 		});
 
-		let error;
-		try {
-			await verifyEmail(user.id, <string><any>null);
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+		await expectAsync(
+			verifyEmail(user.id, <string><any>null)
+		).toBeRejectedWithError(ValidationError);
 	});
 
 	it('verifyEmail (already done error case)', async function() {
@@ -144,25 +119,15 @@ describe('Client User', async function() {
 			emailVerificationKey: null,
 		});
 
-		let error;
-		try {
-			await verifyEmail(user.id, 'verification_key');
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ConflictError);
+		await expectAsync(
+			verifyEmail(user.id, 'verification_key')
+		).toBeRejectedWithError(ConflictError);
 	});
 
 	it('verifyEmail (not found error case)', async function() {
-		let error;
-		try {
-			await verifyEmail('00000000-0000-0000-0000-000000000000', 'verification_key');
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(NotFoundError);
+		await expectAsync(
+			verifyEmail('00000000-0000-0000-0000-000000000000', 'verification_key')
+		).toBeRejectedWithError(NotFoundError);
 	});
 
 	it('update (normal case)', async function() {
@@ -190,14 +155,9 @@ describe('Client User', async function() {
 	});
 
 	it('update (authentication error case)', async function() {
-		let error;
-		try {
-			await update('wrongtoken', 'any id should fail', { languages: [Language.FRENCH] });
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(AuthenticationError);
+		await expectAsync(
+			update('wrongtoken', 'any id should fail', { languages: [Language.FRENCH] })
+		).toBeRejectedWithError(AuthenticationError);
 	});
 
 	it('update (validation error case)', async function() {
@@ -206,14 +166,7 @@ describe('Client User', async function() {
 		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		let error;
-		try {
-			await update(apiKey.key, user.id, {});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+		await expectAsync(update(apiKey.key, user.id, {})).toBeRejectedWithError(ValidationError);
 	});
 
 	it('update (not found error case)', async function() {
@@ -222,18 +175,13 @@ describe('Client User', async function() {
 		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		let error;
-		try {
-			await update(apiKey.key, '00000000-0000-0000-0000-000000000000', {
+		await expectAsync(
+			update(apiKey.key, '00000000-0000-0000-0000-000000000000', {
 				languages: [Language.ENGLISH, Language.FRENCH],
 				romanReading: false,
 				jlpt: null,
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(NotFoundError);
+			})
+		).toBeRejectedWithError(NotFoundError);
 	});
 
 	it('requestResetPassword (normal case)', async function() {
@@ -252,14 +200,9 @@ describe('Client User', async function() {
 	});
 
 	it('requestResetPassword (validation error case)', async function() {
-		let error;
-		try {
-			await requestResetPassword(<string><any>null);
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+		await expectAsync(
+			requestResetPassword(<string><any>null)
+		).toBeRejectedWithError(ValidationError);
 	});
 
 	it('resetPassword (normal case)', async function() {
@@ -291,44 +234,29 @@ describe('Client User', async function() {
 			passwordResetKeyExpiresAt: new Date(),
 		});
 
-		let error;
-		try {
-			await resetPassword(user.id, {
+		await expectAsync(
+			resetPassword(user.id, {
 				password: 'qwerty',
 				passwordResetKey: 'wrong_key',
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(AuthenticationError);
+			})
+		).toBeRejectedWithError(AuthenticationError);
 	});
 
 	it('resetPassword (validation error case)', async function() {
 		const userRepository = new UserRepository(this.db);
 		const user = await userRepository.create({ ...this.testUser });
 
-		let error;
-		try {
-			await resetPassword(user.id, <any>{});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+		await expectAsync(
+			resetPassword(user.id, <any>{})
+		).toBeRejectedWithError(ValidationError);
 	});
 
 	it('resetPassword (not found error case)', async function() {
-		let error;
-		try {
-			await resetPassword('wrong id', {
+		await expectAsync(
+			resetPassword('wrong id', {
 				password: 'qwerty',
 				passwordResetKey: 'wrong_key',
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(NotFoundError);
+			})
+		).toBeRejectedWithError(NotFoundError);
 	});
 });

@@ -36,25 +36,11 @@ describe('Client WordStatus', async function() {
 	});
 
 	it('search (validation error case)', async function() {
-		let error;
-		try {
-			await search(apiKey.key, []);
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+		await expectAsync(search(apiKey.key, [])).toBeRejectedWithError(ValidationError);
 	});
 
 	it('search (authentication error case)', async function() {
-		let error;
-		try {
-			await search('wrongtoken', ['日本']);
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(AuthenticationError);
+		await expectAsync(search('wrongtoken', ['日本'])).toBeRejectedWithError(AuthenticationError);
 	});
 
 	it('createOrUpdate (normal case)', async function() {
@@ -71,47 +57,34 @@ describe('Client WordStatus', async function() {
 	});
 
 	it('createOrUpdate (validation error case)', async function() {
-		let error;
-		try {
-			await createOrUpdate(apiKey.key, new WordStatus({}));
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+		await expectAsync(
+			createOrUpdate(apiKey.key, new WordStatus({}))
+		).toBeRejectedWithError(ValidationError);
 	});
 
 	it('createOrUpdate (authentication error case)', async function() {
-		let error;
-		try {
-			const newWordStatusData = new WordStatus({
-				userId: user.id,
-				word: '日本',
-				showFurigana: true,
-				showTranslation: true,
-			});
-			await createOrUpdate('wrongtoken', newWordStatusData);
-		} catch (e) {
-			error = e;
-		}
+		const newWordStatusData = new WordStatus({
+			userId: user.id,
+			word: '日本',
+			showFurigana: true,
+			showTranslation: true,
+		});
 
-		expect(error).toBeInstanceOf(AuthenticationError);
+		await expectAsync(
+			createOrUpdate('wrongtoken', newWordStatusData)
+		).toBeRejectedWithError(AuthenticationError);
 	});
 
 	it('createOrUpdate (authentication error because of wrong userId case)', async function() {
-		let error;
-		try {
-			const newWordStatusData = new WordStatus({
-				userId: '00000000-0000-0000-0000-000000000000',
-				word: '日本',
-				showFurigana: true,
-				showTranslation: true,
-			});
-			await createOrUpdate(apiKey.key, newWordStatusData);
-		} catch (e) {
-			error = e;
-		}
+		const newWordStatusData = new WordStatus({
+			userId: '00000000-0000-0000-0000-000000000000',
+			word: '日本',
+			showFurigana: true,
+			showTranslation: true,
+		});
 
-		expect(error).toBeInstanceOf(AuthenticationError);
+		await expectAsync(
+			createOrUpdate(apiKey.key, newWordStatusData)
+		).toBeRejectedWithError(AuthenticationError);
 	});
 });

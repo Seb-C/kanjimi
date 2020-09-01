@@ -1,6 +1,4 @@
 Before posting to producthunt (next release):
-    exceptions in jasmione: use the proper pattern?
-    typescript: declare exceptions?
     use the kiss-orm repositories
         User: 
             - rename getById to get

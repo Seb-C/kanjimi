@@ -36,30 +36,20 @@ describe('Client Lexer', async function() {
 	});
 
 	it('analyze (validation error case)', async function() {
-		let error;
-		try {
-			await analyze(apiKey.key, {
+		await expectAsync(
+			analyze(apiKey.key, {
 				languages: [],
 				strings: [],
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+			})
+		).toBeRejectedWithError(ValidationError);
 	});
 
 	it('analyze (authentication error case)', async function() {
-		let error;
-		try {
-			await analyze('wrongtoken', {
+		await expectAsync(
+			analyze('wrongtoken', {
 				languages: [Language.FRENCH],
 				strings: ['first sentence', 'second sentence'],
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(AuthenticationError);
+			})
+		).toBeRejectedWithError(AuthenticationError);
 	});
 });

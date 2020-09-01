@@ -51,35 +51,18 @@ describe('Client Page', async function() {
 	});
 
 	it('get (validation error case)', async function() {
-		let error;
-		try {
-			await get(apiKey.key, 'not an url');
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+		await expectAsync(get(apiKey.key, 'not an url')).toBeRejectedWithError(ValidationError);
 	});
 
 	it('get (authentication error case)', async function() {
-		let error;
-		try {
-			await get('wrongkey', 'https://localhost:3000/');
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(AuthenticationError);
+		await expectAsync(
+			get('wrongkey', 'https://localhost:3000/')
+		).toBeRejectedWithError(AuthenticationError);
 	});
 
 	it('get (connection error case)', async function() {
-		let error;
-		try {
-			await get(apiKey.key, 'https://not.a.valid.domain/');
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ServerError);
+		await expectAsync(
+			get(apiKey.key, 'https://not.a.valid.domain/')
+		).toBeRejectedWithError(ServerError);
 	});
 });

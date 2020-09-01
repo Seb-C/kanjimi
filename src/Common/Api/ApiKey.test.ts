@@ -29,31 +29,21 @@ describe('Client ApiKey', async function() {
 	});
 
 	it('create (validation error case)', async function() {
-		let error;
-		try {
-			await create({
+		await expectAsync(
+			create({
 				email: 'not an email',
 				password: '123456',
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(ValidationError);
+			})
+		).toBeRejectedWithError(ValidationError);
 	});
 
 	it('create (invalid credentials case)', async function() {
-		let error;
-		try {
-			await create({
+		await expectAsync(
+			create({
 				email: 'invalidemail@example.com',
 				password: '123456',
-			});
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(AuthenticationError);
+			})
+		).toBeRejectedWithError(AuthenticationError);
 	});
 
 	it('get (normal case)', async function() {
@@ -66,13 +56,6 @@ describe('Client ApiKey', async function() {
 	});
 
 	it('get (invalid token case)', async function() {
-		let error;
-		try {
-			await get('invalidtoken');
-		} catch (e) {
-			error = e;
-		}
-
-		expect(error).toBeInstanceOf(AuthenticationError);
+		await expectAsync(get('invalidtoken')).toBeRejectedWithError(AuthenticationError);
 	});
 });

@@ -129,7 +129,7 @@ describe('WordStatusRepository', async function() {
 		expect(wordStatus.showTranslation).toBe(true);
 
 		// Word not in dictionary
-		user = await userRepository.updateById(user.id, { jlpt: 3 });
+		user = await userRepository.update(user, { jlpt: 3 });
 		wordStatus = wordStatusRepository.getDefaultWordStatus(user, 'word');
 		expect(wordStatus.userId).toBe(user.id);
 		expect(wordStatus.word).toBe('word');

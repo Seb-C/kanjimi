@@ -106,7 +106,7 @@ describe('ApiKeyController', async function() {
 
 	it('create (email not yet verified)', async function() {
 		const userRepository = new UserRepository(this.db);
-		user = await userRepository.updateById(user.id, { emailVerified: false });
+		user = await userRepository.update(user, { emailVerified: false });
 
 		const response = await fetch('https://localhost:3000/api/api-key', {
 			method: 'POST',

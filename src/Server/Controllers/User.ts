@@ -138,7 +138,7 @@ export const verifyEmail = (db: PgSqlDatabase) => async (request: Request, respo
 			return response.status(403).json('The verification key is invalid.');
 		}
 
-		const updatedUser = await userRepository.updateById(user.id, {
+		const updatedUser = await userRepository.update(user, {
 			emailVerified: true,
 			emailVerificationKey: null,
 		});
@@ -218,7 +218,7 @@ export const update = (db: PgSqlDatabase) => async (request: Request, response: 
 			return response.status(403).json('The old password is invalid');
 		}
 
-		const updatedUser = await userRepository.updateById(requestedUser.id, {
+		const updatedUser = await userRepository.update(requestedUser, {
 			...request.body,
 			oldPassword: undefined,
 		});
@@ -292,7 +292,7 @@ export const requestResetPassword = (db: PgSqlDatabase, mailer: NodeMailer.Trans
 				return response.status(500).json('Error while sending the reset password email.');
 			}
 
-			await userRepository.updateById(user.id, {
+			await userRepository.update(user, {
 				passwordResetKey,
 				passwordResetKeyExpiresAt,
 			});
@@ -341,7 +341,7 @@ export const resetPassword = (db: PgSqlDatabase) => async (request: Request, res
 			return response.status(403).json('This key has expired');
 		}
 
-		const updatedUser = await userRepository.updateById(requestedUser.id, {
+		const updatedUser = await userRepository.update(requestedUser, {
 			password: request.body.password,
 			passwordResetKey: null,
 			passwordResetKeyExpiresAt: null,

@@ -248,7 +248,7 @@ describe('UserRepository', async function() {
 		expect(callback).not.toHaveBeenCalled();
 	});
 
-	it('updateById', async function() {
+	it('update', async function() {
 		const userRepository = new UserRepository(this.db);
 		const uuid = uuidv4();
 		const password = userRepository.hashPassword(uuid, '123456');
@@ -280,7 +280,7 @@ describe('UserRepository', async function() {
 				CURRENT_TIMESTAMP
 			);
 		`);
-		const user = await userRepository.updateById(uuid, {
+		const user = await userRepository.update(await userRepository.get(uuid), {
 			emailVerified: true,
 			emailVerificationKey: 'test email key',
 			password: 'qwerty',

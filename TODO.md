@@ -2,9 +2,9 @@ Before posting to producthunt (next release):
     use the kiss-orm repositories
         User: 
             - getByEmail: use this.search
-            - create: use common arg type + use super for insert
-            - updateById: rename to update, use super, use common arg type
             - make it use the normal repository
+            - update: use super, use common arg type
+            - create: use common arg type + use super for insert
     check that db auto reconnects, so that the server does not fail
     share kiss-orm on HN after using and testing it
     add tags to kiss-orm, link it properly locally and on 2 PCs

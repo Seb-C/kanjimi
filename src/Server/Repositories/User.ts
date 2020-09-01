@@ -129,7 +129,7 @@ export default class User {
 		}
 	}
 
-	async updateById (uuid: string, attributes: {
+	async update(user: UserModel, attributes: {
 		password?: string,
 		passwordResetKey?: string|null,
 		passwordResetKeyExpiresAt?: Date|null,
@@ -143,7 +143,7 @@ export default class User {
 			...attributes,
 		};
 		if (params.password) {
-			params.password = this.hashPassword(uuid, params.password);
+			params.password = this.hashPassword(user.id, params.password);
 		}
 
 		const allowedFieldsInSqlQuery = [
@@ -164,7 +164,7 @@ export default class User {
 					.filter(fieldName => attributes.hasOwnProperty(fieldName))
 					.map(fieldName => sql`${new QueryIdentifier(fieldName)} = ${(<any>params)[fieldName]}`)
 			), sql`, `)}
-			WHERE "id" = ${uuid}
+			WHERE "id" = ${user.id}
 			RETURNING *;
 		`);
 

@@ -57,7 +57,7 @@ import * as PageController from 'Server/Controllers/Page';
 		password: <string>process.env.KANJIMI_DATABASE_PASSWORD,
 		ssl: (process.env.KANJIMI_DATABASE_USE_SSL === 'true' ? { rejectUnauthorized: false } : false),
 	});
-	await db.connect();
+	await db.connect(1000);
 
 	await db.migrate(migrations);
 

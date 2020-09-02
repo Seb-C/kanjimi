@@ -1,10 +1,6 @@
 Before posting to producthunt (next release):
-    node-pg transactiions async conflict?
-    bug example missing CRYPT()
-    check xxx = TRUE is not required on pgsql?
-    fetchRelationship vs loadRelationship
+    node-pg transactions async conflict?
     share kiss-orm on HN
-    check that db auto reconnects, so that the server does not fail
     remove cloudflare
         - load balancer
         - cache www (except api)

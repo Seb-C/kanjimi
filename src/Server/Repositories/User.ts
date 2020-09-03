@@ -2,9 +2,11 @@ import Language from 'Common/Types/Language';
 import { Request } from 'express';
 import {
 	sql,
+	sqlJoin,
 	PgSqlDatabase,
 	CrudRepository,
 	NotFoundError,
+	QueryIdentifier,
 } from 'kiss-orm';
 import UserModel from 'Common/Models/User';
 import * as Crypto from 'crypto';
@@ -41,7 +43,7 @@ export default class User extends CrudRepository<UserModel, Params, string> {
 		if (result.length === 0) {
 			throw new NotFoundError(`Did not find a User record for the email "${email}".`);
 		} else {
-			return new UserModel(result[0]);
+			return this.createModelFromAttributes(result[0]);
 		}
 	}
 
@@ -55,7 +57,7 @@ export default class User extends CrudRepository<UserModel, Params, string> {
 		if (result.length === 0) {
 			throw new NotFoundError(`Did not find a User record for the api key "${key}".`);
 		} else {
-			return new UserModel(result[0]);
+			return this.createModelFromAttributes(result[0]);
 		}
 	}
 
@@ -89,28 +91,41 @@ export default class User extends CrudRepository<UserModel, Params, string> {
 		attributes: AllowedParams,
 		transactionCallback: ((user: UserModel) => Promise<void>)|null = null,
 	): Promise<UserModel> {
-		await this.database.query(sql`BEGIN;`);
+		return this.database.sequence(async query => {
+			await query(sql`BEGIN;`);
 
-		try {
-			const uuid = uuidv4();
-			const user = await super.create({
-				...attributes,
-				id: uuid,
-				createdAt: new Date(),
-				password: this.hashPassword(uuid, attributes.password),
-			});
+			try {
+				const uuid = uuidv4();
 
-			if (transactionCallback !== null) {
-				await transactionCallback(user);
+				const entries = Object.entries({
+					...attributes,
+					id: uuid,
+					createdAt: new Date(),
+					password: this.hashPassword(uuid, attributes.password),
+				});
+				const fields = entries.map(([key, _]: [string, any]) => sql`${new QueryIdentifier(key)}`);
+				const values = entries.map(([_, val]: [string, any]) => sql`${val}`);
+
+				const results = await query(sql`
+					INSERT INTO "User" (${sqlJoin(fields, sql`, `)})
+					VALUES (${sqlJoin(values, sql`, `)})
+					RETURNING *;
+				`);
+
+				const user = await this.createModelFromAttributes(results[0]);
+
+				if (transactionCallback !== null) {
+					await transactionCallback(user);
+				}
+
+				await query(sql`COMMIT;`);
+
+				return user;
+			} catch (error) {
+				await query(sql`ROLLBACK;`);
+				throw error;
 			}
-
-			await this.database.query(sql`COMMIT;`);
-
-			return user;
-		} catch (error) {
-			await this.database.query(sql`ROLLBACK;`);
-			throw error;
-		}
+		});
 	}
 
 	async update(user: UserModel, attributes: Partial<AllowedParams>): Promise<UserModel> {

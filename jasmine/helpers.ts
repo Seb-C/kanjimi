@@ -21,7 +21,6 @@ beforeEach(async function() {
 			password: process.env.KANJIMI_DATABASE_PASSWORD,
 			ssl: (process.env.KANJIMI_DATABASE_USE_SSL === 'true' ? { rejectUnauthorized: false } : false),
 		});
-		await db.connect();
 	}
 	this.db = db;
 

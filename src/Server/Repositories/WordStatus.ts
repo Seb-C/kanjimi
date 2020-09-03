@@ -41,28 +41,30 @@ export default class WordStatus {
 		showFurigana: boolean,
 		showTranslation: boolean,
 	): Promise<WordStatusModel> {
-		await this.db.query(sql`BEGIN;`);
+		return this.db.sequence(async query => {
+			await query(sql`BEGIN;`);
 
-		try {
-			await this.db.query(sql`
-				DELETE FROM "WordStatus"
-				WHERE "userId" = ${user.id}
-				AND "word" = ${word};
-			`);
+			try {
+				await query(sql`
+					DELETE FROM "WordStatus"
+					WHERE "userId" = ${user.id}
+					AND "word" = ${word};
+				`);
 
-			const result = await this.db.query(sql`
-				INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
-				VALUES (${user.id}, ${word}, ${showFurigana}, ${showTranslation})
-				RETURNING *;
-			`);
+				const result = await query(sql`
+					INSERT INTO "WordStatus" ("userId", "word", "showFurigana", "showTranslation")
+					VALUES (${user.id}, ${word}, ${showFurigana}, ${showTranslation})
+					RETURNING *;
+				`);
 
-			await this.db.query(sql`COMMIT;`);
+				await query(sql`COMMIT;`);
 
-			return new WordStatusModel(result[0]);
-		} catch (error) {
-			await this.db.query(sql`ROLLBACK;`);
-			throw error;
-		}
+				return new WordStatusModel(result[0]);
+			} catch (error) {
+				await query(sql`ROLLBACK;`);
+				throw error;
+			}
+		});
 	}
 
 	async create (

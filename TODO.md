@@ -1,5 +1,4 @@
 Before posting to producthunt (next release):
-    node-pg transactions async conflict?
     share kiss-orm on HN
     remove cloudflare
         - load balancer

@@ -22,6 +22,7 @@ import * as PageController from 'Server/Controllers/Page';
 (async () => {
 	const application = Express();
 	application.disable('etag'); // Disable caching
+	application.disable('x-powered-by');
 	application.use(BodyParser.json({ type: () => true }));
 	application.use(function (error: any, request: Request, response: Response, next: Function) {
 		if (error.type === 'entity.parse.failed' && request.url.startsWith('/api/')) {

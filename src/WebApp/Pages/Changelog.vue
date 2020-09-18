@@ -2,8 +2,9 @@
 	<div class="container flex-fill py-2 page-changelog">
 		<h1>Changelog</h1>
 
-		<h2>2020年07月29日+</h2>
+		<h2>2020年09月18日+</h2>
 		<ul>
+			<li>Dropping Cloudflare to improve the performance</li>
 			<li>Fixed a visual bug when inspecting a Kanji</li>
 			<li>Fixed a mis-aligned login button on mobile</li>
 			<li>Fixed a bug on some pages where the tooltip was too small to be usable</li>

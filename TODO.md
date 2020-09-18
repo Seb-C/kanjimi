@@ -1,22 +1,18 @@
 Before posting to producthunt (next release):
-    share kiss-orm on HN
     remove cloudflare
+        - https creation and auto renewal with let's encrypt
         - load balancer
-        - cache www (except api)
-        - https
-        - https auto renewal
         - deploy and update automatically
         - empty cache when necessary
         - manage load balancer list when deploying
         - healthcheck for load balancer
         - alerts if down?
-        - manage logs (save it properly in the vm)
-        - remove access logs from the server itself
-        - add nginx to the local docker config as well
+        - manage nginx logs (save it properly in the vm)
         - log analysis tool?
         - add commands to easily connect to the servers?
         - use docker swarm?
     use Kanjimi more to test more efficiently
+    progressive web app (+ TODO list features to integrate)
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     test charge
     check the database backups
@@ -52,13 +48,13 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    config: use default https port (443) instead of 3000 locally
     tests Cypress on mobile resolution
     Tag words by specific domain vocabulary (community based)
     rename the old migrations from XXX_Name.sql to Name (js file + db + production)?
     declare activity -> if permissions OK -> do when I start the paid subscriptions
     check immigration -> waiting for mail answer
     auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)
-    improve server logging (+ dates)
     Page API endpoint: use the outgoing network interface?
     Do not generate browser.build.js in the WebApp -> not necessary
     update servers manually before install (and reboot?)
@@ -93,7 +89,6 @@ After:
     use the omnibox option to allow translating a string ( https://developer.mozilla.org/en-US/docs/Mozilla/Add-ons/WebExtensions/manifest.json/omnibox )
     don't create repository objects at every request?
     pool is set to max 10 connections, will it work with digitalocean (max 22 per node)?
-    is console.log blocking when used in a docker with file logging option?
     presentation video? show it on the homepage?
     cypress: try to use the --experimentalFetchPolyfill option
     tsconfig: split client/server? Or extend only what is different (--> need to create sub-files and extract existing stuff)

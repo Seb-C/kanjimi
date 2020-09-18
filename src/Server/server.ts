@@ -22,21 +22,6 @@ import * as PageController from 'Server/Controllers/Page';
 (async () => {
 	const application = Express();
 	application.disable('etag'); // Disable caching
-	application.use((request: Request, response: Response, next: Function) => {
-		// Logging requests
-		const startTime = +new Date();
-		response.on('finish', () => {
-			const responseTime = +new Date() - startTime;
-			let url = request.originalUrl;
-			const queryStringStart = url.indexOf('?');
-			if (queryStringStart >= 0) {
-				url = url.substring(0, queryStringStart) + '?[...]';
-			}
-
-			console.log(`HTTP ${request.method} ${url} = ${response.statusCode} (${responseTime}ms)`);
-		});
-		next();
-	});
 	application.use(BodyParser.json({ type: () => true }));
 	application.use(function (error: any, request: Request, response: Response, next: Function) {
 		if (error.type === 'entity.parse.failed' && request.url.startsWith('/api/')) {

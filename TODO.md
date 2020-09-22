@@ -1,12 +1,10 @@
 Before posting to producthunt (next release):
+    DROP opera support
     remove cloudflare
         - https creation and auto renewal with let's encrypt
-        - load balancer
         - deploy and update automatically
         - empty cache when necessary
-        - manage load balancer list when deploying
-        - healthcheck for load balancer
-        - alerts if down?
+        - alerts if down (use healthcheck)
         - manage nginx logs (save it properly in the vm)
         - log analysis tool?
         - add commands to easily connect to the servers?
@@ -52,7 +50,11 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
-    API throttling with nginx
+    strategy / gamification / city builder with unlocks inside the app?
+    migrate to VueJS 3
+    manage load balancer list when deploying
+    healthcheck for load balancer
+    API rate limiting with nginx (except for local client ips)
     config: use default https port (443) instead of 3000 locally
     tests Cypress on mobile resolution
     Tag words by specific domain vocabulary (community based)

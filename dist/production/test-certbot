@@ -1,0 +1,15 @@
+#!/bin/sh
+
+docker run \
+    -v ${PWD}:/kanjimi \
+    -w /kanjimi \
+    -it \
+    --rm certbot/certbot:v1.8.0 \
+    certonly \
+    --manual \
+    -m contact@kanjimi.com \
+    --agree-tos \
+    --no-eff-email \
+    --manual-public-ip-logging-ok \
+    -d kanjimi.com \
+    --staging

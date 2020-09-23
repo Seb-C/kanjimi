@@ -6,31 +6,8 @@ SERVER_HOSTNAME=$1
 
 source ./dist/production/server.env
 
-# Installing dependencies on the server if necessary
-ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME apt-get install -y \
-    rsync \
-    docker.io \
-    unattended-upgrades
-
-# Uploading files
-docker run -v ${PWD}:/kanjimi -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /kanjimi -it --rm instrumentisto/rsync-ssh \
-    rsync \
-    --checksum \
-    --delete \
-    --progress \
-    --info=progress2 \
-    --exclude .firefox-profile \
-    --exclude .git \
-    --exclude .github \
-    --exclude cypress \
-    --exclude Dictionary \
-    --exclude node_modules \
-    --exclude dist/production/ssh_key \
-    --exclude dist/production/ssh_key.pub \
-    -rv \
-    -e 'ssh -i /kanjimi/dist/production/ssh_key' \
-    ./ \
-    root@$SERVER_HOSTNAME:/kanjimi
+./dist/production/functions/install_dependencies.sh $SERVER_HOSTNAME
+./dist/production/functions/upload_source.sh $SERVER_HOSTNAME
 
 ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
     cd /kanjimi
@@ -81,5 +58,5 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
     done
 "
 
-echo "Waiting one minute for the load balancer checks"
-sleep 60
+echo "Waiting for the load balancer checks"
+sleep 10

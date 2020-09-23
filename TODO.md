@@ -1,19 +1,27 @@
 Before posting to producthunt (next release):
-    DROP opera support
+    DROP opera support + info changelog
     remove cloudflare
-        - https creation and auto renewal with let's encrypt
-        - deploy and update automatically
-        - empty cache when necessary
+        - update server.env on PC (copy certificates path)
+        - test the nginx and deploy scripts
+        - Check that the logs are saved properly using syslog
+        - certbot in a cron?
         - alerts if down (use healthcheck)
-        - manage nginx logs (save it properly in the vm)
-        - log analysis tool?
-        - add commands to easily connect to the servers?
-        - use docker swarm?
-    remove cloudflare from iubenda
+        - log analysis tool? Goaccess?
+        - add commands to easily connect to the servers
+            - simple connections
+            - database?
+        - update docker nginx sometimes? + pull nodejs container up-to-date at deploy time
+        - test with a domain forced locally
+        - if works, switch production domain
+        - assign the same domain entries in OVH
+        - cancel cloudflare as the domain manager
+        - delete cloudflare account
+        - remove cloudflare from iubenda
+    way to force browser cache update?
     test charge
     check the database backups
     update the changelog + date
-    deploy
+    try to move the server instance to the same datacenter than the database
 
     use Kanjimi more to test more efficiently
     improve visibility of suggestion links, always open it in-page, add external open link
@@ -65,7 +73,6 @@ After:
     Page API endpoint: use the outgoing network interface?
     Do not generate browser.build.js in the WebApp -> not necessary
     update servers manually before install (and reboot?)
-    need to clear cloudflare cache after deploy? -> should be ok with the 2 hours cache
     post on hackernews
     post on reddit
     post on linkedin
@@ -78,7 +85,6 @@ After:
     alternative KanjiVG files = better?
     setup SES alert when quota reached?
     mass emails = must handle bounces and complaints ( https://aws.amazon.com/fr/blogs/messaging-and-targeting/handling-bounces-and-complaints/ )
-    firewall: filter on cloudflare ips? ( https://www.cloudflare.com/ips/ ) -> is it enough to redirect to the origin?
     improve the visibility of error messages in the subscription page (too small)
     set docker-compose stop_grace_period to make stop faster
     manually rate-limit the user creation route (save ip in db?)
@@ -87,7 +93,6 @@ After:
     add manual backups of the db, done on the servers to complete the 7 days provided?
     end of Beta: bank OK?
     better emails (ovh spam filter sucks...)?
-    2FA for cloudflare
     investigate the slow starting time of Jasmine
     reenable the docker_image test (fails because the healthcheck does not have a database)
     test other browsers

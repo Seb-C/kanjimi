@@ -13,21 +13,23 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
     cd /kanjimi
 
     INITIALIZE_CERTIFICATE=\"0\"
-    if [[ ! -f /kanjimi/dist/nginx/production.crt || ! -f /kanjimi/dist/nginx/production.key ]]; then
+    if [[ ! -f /etc/letsencrypt/live/kanjimi.com/fullchain.pem || ! -f /etc/letsencrypt/live/kanjimi.com/privkey.pem ]]; then
         INITIALIZE_CERTIFICATE=\"1\"
     fi
 
     if [[ \"\$INITIALIZE_CERTIFICATE\" == \"1\" ]] ; then
         echo 'No certificate: using the self-signed one to allow the server start'
-        cp -f /kanjimi/dist/server/localhost.crt /kanjimi/dist/nginx/production.crt
-        cp -f /kanjimi/dist/server/localhost.key /kanjimi/dist/nginx/production.key
+        mkdir -p /etc/letsencrypt/live/kanjimi.com
+        cp -f /kanjimi/dist/server/localhost.crt /etc/letsencrypt/live/kanjimi.com/fullchain.pem
+        cp -f /kanjimi/dist/server/localhost.key /etc/letsencrypt/live/kanjimi.com/privkey.pem
     fi
 
     if [[ \"\$(docker ps -a --filter name=nginx -q | wc -l)\" == \"0\" ]]; then
         echo 'Server not created yet. Creating it.'
         docker create \
-            -v /kanjimi:/kanjimi:ro \
-            -v /kanjimi/dist/nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template:ro \
+            -v /kanjimi:/kanjimi \
+            -v /etc/letsencrypt:/etc/letsencrypt \
+            -v /kanjimi/dist/nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template \
             --name nginx \
             --env-file /kanjimi/dist/production/server.env \
             --restart always \
@@ -41,10 +43,18 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
         docker start nginx
     fi
 
+    echo 'Waiting for the server to be ready'
+    until [[ \"\$(docker ps --filter health=starting -q | wc -l)\" == \"0\" ]]; do
+        sleep 1
+    done
+
     if [[ \"\$INITIALIZE_CERTIFICATE\" = \"1\" ]] ; then
-        echo 'Creating the proper certificate'
+        echo 'Removing the temp certificate and creating the proper one'
+        rm /etc/letsencrypt/live/kanjimi.com/fullchain.pem
+        rm /etc/letsencrypt/live/kanjimi.com/privkey.pem
         docker run \
             -v /kanjimi:/kanjimi \
+            -v /etc/letsencrypt:/etc/letsencrypt \
             -w /kanjimi \
             -it \
             --rm certbot/certbot:v1.8.0 \
@@ -57,9 +67,8 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
             --manual-public-ip-logging-ok \
             --manual-auth-hook /kanjimi/dist/production/functions/certbot_auth_hook.sh \
             --manual-cleanup-hook /kanjimi/dist/production/functions/certbot_cleanup_hook.sh \
-            --fullchain-path /kanjimi/dist/nginx/production.crt \
-            --key-path /kanjimi/dist/nginx/production.key \
-            -d kanjimi.com
+            -d kanjimi.com \
+            -d www.kanjimi.com
     fi
 
     echo 'Clearing nginx cache'

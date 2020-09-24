@@ -35,8 +35,8 @@ RUN npm prune --production --loglevel=error
 
 ENV NODE_ENV=production
 ENV NODE_PATH=dist/server/
-ENV KANJIMI_SERVER_CERTIFICATE_KEY=./dist/server/certificate.key
-ENV KANJIMI_SERVER_CERTIFICATE_CRT=./dist/server/certificate.crt
+ENV KANJIMI_SERVER_CERTIFICATE_KEY=/kanjimi/dist/server/certificate.key
+ENV KANJIMI_SERVER_CERTIFICATE_CRT=/kanjimi/dist/server/certificate.crt
 ENV KANJIMI_ALLOW_TEST_PAGES=false
 
 USER kanjimi

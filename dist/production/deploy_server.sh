@@ -55,7 +55,7 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
     if [[ \"\$(docker ps --filter health=unhealthy -q | wc -l)\" -gt \"0\" ]]; then
         echo 'Container not healthy. Aborting'
         exit 1
-    done
+    fi
 "
 
 echo "Waiting for the load balancer checks"

@@ -15,5 +15,3 @@ www/css/*.build.css
 /dist/production/server.env
 /dist/production/ssh_key
 /dist/production/ssh_key.pub
-/dist/nginx/production.crt
-/dist/nginx/production.key

@@ -1,6 +1,5 @@
 import * as Https from 'https';
 import * as FileSystem from 'fs';
-import * as Path from 'path';
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Kanjis from 'Server/Lexer/Kanjis';
@@ -128,8 +127,8 @@ import * as PageController from 'Server/Controllers/Page';
 	}
 
 	const server = Https.createServer({
-		key: FileSystem.readFileSync(Path.join(process.cwd(), <string>process.env.KANJIMI_SERVER_CERTIFICATE_KEY)).toString(),
-		cert: FileSystem.readFileSync(Path.join(process.cwd(), <string>process.env.KANJIMI_SERVER_CERTIFICATE_CRT)).toString(),
+		key: FileSystem.readFileSync(<string>process.env.KANJIMI_SERVER_CERTIFICATE_KEY).toString(),
+		cert: FileSystem.readFileSync(<string>process.env.KANJIMI_SERVER_CERTIFICATE_CRT).toString(),
 	}, application);
 
 	server.listen(parseInt(<string>process.env.KANJIMI_SERVER_PORT));

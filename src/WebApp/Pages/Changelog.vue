@@ -2,9 +2,11 @@
 	<div class="container flex-fill py-2 page-changelog">
 		<h1>Changelog</h1>
 
-		<h2>2020年09月18日+</h2>
+		<h2>2020年09月24日</h2>
 		<ul>
-			<li>Dropping Cloudflare to improve the performance</li>
+			<li>Created the Changelog page</li>
+			<li>Dropped Cloudflare to improve the performance</li>
+			<li>Abandoned the attempt to publish Kanjimi on the Opera addons store</li>
 			<li>Fixed a visual bug when inspecting a Kanji</li>
 			<li>Fixed a mis-aligned login button on mobile</li>
 			<li>Fixed a bug on some pages where the tooltip was too small to be usable</li>

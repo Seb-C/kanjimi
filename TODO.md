@@ -1,16 +1,20 @@
 Before posting to producthunt (next release):
-    DROP opera support + info changelog
-    remove cloudflare
-        - generate first certificate
-        - switch production domain
-        - assign the same domain entries in OVH
-        - cancel cloudflare as the domain manager
-        - delete cloudflare account
-        - remove cloudflare from iubenda
-        - certbot in a cron?
-    check the database backups
-    update the changelog + date
-    try to move the server instance to the same datacenter than the database
+    create new server instance in SFO2
+        - change the deploy script
+        - deploy
+        - make sure it works
+        - move nginx to it
+        - check that nginx uses it and the cache got refreshed
+        - check that the old server does not receive the requests anymore
+        - backup the connection string from the old server
+        - delete the old server
+    update server env file on mac (certificate files + upstream IP)
+    make nginx redirect from http to https
+    wait for DNS update
+    check that all the DNS and the site still works properly
+    delete cloudflare account
+    certbot in a cron?
+    check the database backups -> also do some manually?
 
     use Kanjimi more to test more efficiently
     improve visibility of suggestion links, always open it in-page, add external open link

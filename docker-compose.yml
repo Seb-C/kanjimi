@@ -59,7 +59,7 @@ services:
       - "3000:3000"
     volumes:
       - $PWD:/kanjimi
-      - $PWD/dist/nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template:ro
+      - $PWD/dist/nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template
   extension:
     image: node:14-alpine
     restart: on-failure

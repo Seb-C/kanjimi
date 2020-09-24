@@ -12,18 +12,18 @@ source ./dist/production/server.env
 ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
     cd /kanjimi
 
-    INITIALIZE_CERTIFICATE=false
-    if [[ -f /kanjimi/dist/nginx/production.crt && -f /kanjimi/dist/nginx/production.key ]]; then
-        INITIALIZE_CERTIFICATE=true
+    INITIALIZE_CERTIFICATE=\"0\"
+    if [[ ! -f /kanjimi/dist/nginx/production.crt || ! -f /kanjimi/dist/nginx/production.key ]]; then
+        INITIALIZE_CERTIFICATE=\"1\"
     fi
 
-    if [ \"\$INITIALIZE_CERTIFICATE\" = true ] ; then
+    if [[ \"\$INITIALIZE_CERTIFICATE\" == \"1\" ]] ; then
         echo 'No certificate: using the self-signed one to allow the server start'
         cp -f /kanjimi/dist/server/localhost.crt /kanjimi/dist/nginx/production.crt
         cp -f /kanjimi/dist/server/localhost.key /kanjimi/dist/nginx/production.key
     fi
 
-    if [[ \"\$(docker ps -a --filter name=server -q | wc -l)\" == \"0\" ]]; then
+    if [[ \"\$(docker ps -a --filter name=nginx -q | wc -l)\" == \"0\" ]]; then
         echo 'Server not created yet. Creating it.'
         docker create \
             -v /kanjimi:/kanjimi:ro \
@@ -36,12 +36,12 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
             nginx:1
     fi
 
-    if [[ \"\$(docker ps --filter name=server -q | wc -l)\" == \"0\" ]]; then
+    if [[ \"\$(docker ps --filter name=nginx -q | wc -l)\" == \"0\" ]]; then
         echo 'Server not started yet. Starting it.'
         docker start nginx
     fi
 
-    if [ \"\$INITIALIZE_CERTIFICATE\" = true ] ; then
+    if [[ \"\$INITIALIZE_CERTIFICATE\" = \"1\" ]] ; then
         echo 'Creating the proper certificate'
         docker run \
             -v /kanjimi:/kanjimi \
@@ -63,8 +63,9 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
     fi
 
     echo 'Clearing nginx cache'
-    docker exec nginx rm -Rf '/var/cache/nginx/*'
+    docker exec -t nginx rm -Rf '/var/cache/nginx/*'
 
-    echo 'Reloading nginx configuration'
-    docker exec nginx nginx -s reload
+    echo 'Rebuilding and reloading nginx configuration'
+    docker exec nginx bash -c \"source /kanjimi/dist/production/server.env && exec 3>&1 && /docker-entrypoint.d/20-envsubst-on-templates.sh\"
+    docker exec -t nginx nginx -s reload
 "

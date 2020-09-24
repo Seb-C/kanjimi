@@ -15,4 +15,4 @@ fi
 ./dist/production/deploy_server.sh 167.71.146.98
 
 # Doing nginx at the end so we can clear the cache
-./dist/production/deploy_nginx.sh TODO
+./dist/production/deploy_nginx.sh 178.128.180.114

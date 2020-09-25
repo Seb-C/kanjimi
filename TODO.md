@@ -8,10 +8,7 @@ Before posting to producthunt (next release):
         - check that the old server does not receive the requests anymore
         - backup the connection string from the old server
         - delete the old server
-    update server env file on mac (certificate files + upstream IP)
-    make nginx redirect from http to https
-    wait for DNS update
-    check that all the DNS and the site still works properly
+    update server env file on mac (certificate files + upstream IP + force domain)
     delete cloudflare account
     certbot in a cron?
     check the database backups -> also do some manually?
@@ -52,6 +49,7 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    postgresql 13
     alerts if down (use healthcheck)
     log analysis tool? Goaccess?
     add commands to easily connect to the servers

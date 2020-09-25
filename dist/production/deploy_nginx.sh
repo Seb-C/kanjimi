@@ -29,10 +29,11 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
         docker create \
             -v /kanjimi:/kanjimi \
             -v /etc/letsencrypt:/etc/letsencrypt \
-            -v /kanjimi/dist/nginx/nginx.conf:/etc/nginx/templates/nginx.conf.template \
+            -v /kanjimi/dist/nginx/nginx.conf:/etc/nginx/templates/default.conf.template \
             --name nginx \
             --env-file /kanjimi/dist/production/server.env \
             --restart always \
+            --publish 80:80 \
             --publish 443:3000 \
             --log-driver journald \
             nginx:1

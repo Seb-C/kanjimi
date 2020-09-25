@@ -8,7 +8,6 @@ Before posting to producthunt (next release):
         - check that the old server does not receive the requests anymore
         - backup the connection string from the old server
         - delete the old server
-    update server env file on mac (certificate files + upstream IP + force domain)
     delete cloudflare account
     certbot in a cron?
     check the database backups -> also do some manually?

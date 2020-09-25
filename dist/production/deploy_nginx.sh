@@ -36,6 +36,7 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
             --publish 80:80 \
             --publish 443:3000 \
             --log-driver journald \
+            --log-opt tag=nginx \
             nginx:1
     fi
 

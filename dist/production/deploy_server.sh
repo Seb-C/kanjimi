@@ -41,6 +41,7 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
         --restart always \
         --publish 443:3000 \
         --log-driver journald \
+        --log-opt tag=server \
         server
 
     echo 'Starting the container'

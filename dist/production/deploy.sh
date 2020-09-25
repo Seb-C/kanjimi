@@ -12,7 +12,7 @@ if [ ! -f ./dist/production/ssh_key ]; then
     exit 1
 fi
 
-./dist/production/deploy_server.sh 167.71.146.98
+./dist/production/deploy_server.sh 178.128.181.32
 
 # Doing nginx at the end so we can clear the cache
 ./dist/production/deploy_nginx.sh 178.128.180.114

@@ -1,12 +1,9 @@
 Before posting to producthunt (next release):
-    add external open link
-    Link to open the URL in an external site
     add commands to easily connect to the servers
         - simple connections with a ./ssh script
         - database? ./db script? ./ssh db?
     certbot in a cron
     use Kanjimi more to test more efficiently
-    progressive web app (+ TODO list features to integrate)
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     remove credit card from google payments from Kanjimi once the 5$ is paid
     browser e2e test: fix the commented test (which have a TODO)
@@ -18,7 +15,7 @@ Before posting to producthunt (next release):
         - Improve the interface (lacking feedback for the input?)
         - Handle malformed URLs
         - Fix remaining JS and path errors (= those that are in sub-resources?)
-        - Set title of the page with the real content title?
+        - Set title of the page with the real content title (+ favicon)?
         - Better completion of urls? (auto-complete http://?)
     e2e test for the iubenda links (footer + subscription form)
     kanjis:
@@ -40,7 +37,9 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    progressive web app (+ TODO list features to integrate)
     dictionary page
+    Browse.e2e.ts failing locally but not in the CI -> local url detection not working?
     recognize suffixes to hide soe definitions (...shi (city), kun, yama...)?
     do some database backups manually
     nginx restart after failure may take the original configuration env file rather than the latest hot-updated one

@@ -1,7 +1,10 @@
 <template>
 	<div class="flex-fill p-0 m-0 page-browser d-flex flex-column">
 		<div class="pb-2 px-2 bg-dark">
-			<form v-on:submit="onFormSubmit">
+			<form
+				v-on:submit="onFormSubmit"
+				class="position-relative"
+			>
 				<input
 					type="url"
 					v-model="inputUrl"
@@ -11,6 +14,27 @@
 						'is-invalid': inputUrlError,
 					}"
 				/>
+				<div class="url-buttons-container">
+					<template v-if="realUrl !== null && inputUrl === realUrl">
+						<a
+							v-bind:href="realUrl"
+							class="text-dark"
+							title="Open this page in a normal browser tab"
+							target="_blank"
+						>
+							<i class="fas fa-external-link-alt"></i>
+						</a>
+					</template>
+					<template v-else-if="inputUrl !== realUrl">
+						<button
+							type="submit"
+							class="btn btn-link cursor-pointer p-0 text-dark"
+							title="Open this URL with Kanjimi"
+						>
+							<i class="fas fa-arrow-right"></i>
+						</button>
+					</template>
+				</div>
 			</form>
 		</div>
 		<template v-if="page !== null">
@@ -35,7 +59,7 @@
 					<div class="col col-lg-8 offset-lg-2">
 						<div class="alert alert-primary p-3 mb-2" role="alert">
 							<p>Kanjimi is currently free to use because it is a beta version.</p>
-							<p class="mb-0">If you notice any problems or bugs, please contact us at <a href="contact@kanjimi.com">contact@kanjimi.com</a>.</p>
+							<p class="mb-0">If you notice any problems or bugs, please contact us at <a href="mailto:contact@kanjimi.com">contact@kanjimi.com</a>.</p>
 						</div>
 
 						<p class="mt-4 text-left">
@@ -158,10 +182,12 @@
 
 	export default Vue.extend({
 		data() {
+			const url = (<WebAppStore><any>this.$root).router.params.url || null;
 
 			return {
 				installed: document.body.hasAttribute('data-extension-installed'),
-				inputUrl: (<WebAppStore><any>this.$root).router.params.url || null,
+				inputUrl: url,
+				realUrl: url,
 				inputUrlError: false,
 				page: <string|null>null,
 				loading: false,
@@ -172,14 +198,15 @@
 				this.$root.router.changeRoute('./app/login');
 			}
 
-			await this.loadUrl(this.inputUrl);
+			await this.loadUrl(this.realUrl);
 		},
 		watch: {
 			async '$root.router.params'(newParams, oldParams) {
-				this.inputUrl = newParams.url || null;
+				this.realUrl = newParams.url || null;
+				this.inputUrl = this.realUrl;
 
 				if (!this.loading) {
-					await this.loadUrl(this.inputUrl);
+					await this.loadUrl(this.realUrl);
 				}
 				// else: triggered because the url was a redirection
 			},
@@ -422,5 +449,12 @@
 
 	.store-logo-text {
 		font-size: 1.5em;
+	}
+
+	.url-buttons-container {
+		position: absolute;
+		right: 0.3em;
+		top: 1px;
+		bottom: 0;
 	}
 </style>

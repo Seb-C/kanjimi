@@ -71,6 +71,26 @@ context('Browse', () => {
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).should('contain', 'landing-page-examples');
 	});
 
+	it('Normal browser usage using the submit button', () => {
+		cy.setLoggedIn();
+		cy.visit('/app');
+
+		cy.get('input.input-url').type('https://localhost:3000/test-pages/');
+		cy.get('form:has(input.input-url) button[type="submit"]').click();
+		// cy.get('.iframe-loading-spinner').should('be.visible');
+		// cy.wait('@getPage');
+		// cy.get('.iframe-loading-spinner').should('not.be.visible');
+		cy.wait(500);
+
+		cy.get('.page-home a:contains(Wikipedia)').should('not.be.visible');
+		cy.get('.page-home a:contains(Chrome Web Store)').should('not.be.visible');
+
+		cy.url().should('contain', '?url=');
+		cy.url().should('contain', 'test-pages');
+
+		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).should('contain', 'landing-page-examples');
+	});
+
 	it('Specific page set in the url opens properly', () => {
 		cy.setLoggedIn();
 		cy.visit('/app?url=https%3A%2F%2Flocalhost%3A3000%2Ftest-pages%2F');
@@ -81,6 +101,18 @@ context('Browse', () => {
 		cy.wait(500);
 
 		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).should('contain', 'landing-page-examples');
+	});
+
+	it('The link to open a page externally works', () => {
+		cy.setLoggedIn();
+		cy.visit('/app?url=https%3A%2F%2Flocalhost%3A3000%2Ftest-pages%2F');
+
+		// cy.get('.iframe-loading-spinner').should('be.visible');
+		// cy.wait('@getPage');
+		// cy.get('.iframe-loading-spinner').should('not.be.visible');
+		cy.wait(500);
+
+		cy.get('a[target="_blank"][href="https://localhost:3000/test-pages/"]').should('be.visible')
 	});
 
 	it('Links clicked inside the iframe opens properly', () => {

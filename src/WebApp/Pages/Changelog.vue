@@ -5,6 +5,7 @@
 		<h2>????年??月??日</h2>
 		<ul>
 			<li>Made the sample sites more visible on the homepage (after login)</li>
+			<li>Added a button to open an URL externally from the in-app browser</li>
 		</ul>
 
 		<h2>2020年09月24日</h2>

@@ -1,5 +1,4 @@
 Before posting to producthunt (next release):
-    some images have a 404 error inside the in-app browser (not getting an absolute path?)
     certbot in a cron
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     remove credit card from google payments from Kanjimi once the 5$ is paid

@@ -386,6 +386,11 @@
 					}
 				});
 
+				// Removing the srcset just because I am too lazy to parse and modify it
+				doc.querySelectorAll('[srcset]').forEach((element) => {
+					element.removeAttribute('srcset');
+				});
+
 				const charsetMetaTags = doc.head.querySelectorAll('head meta[charset]');
 				if (charset && charsetMetaTags.length) {
 					const metaTag = doc.createElement('meta');

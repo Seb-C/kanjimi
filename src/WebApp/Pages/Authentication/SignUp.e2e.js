@@ -234,4 +234,20 @@ context('SignUp', () => {
 		// cy.wait('@createUserRequest');
 		cy.get('.error-languages').should('be.visible');
 	});
+
+	it('The privacy policy link is valid', () => {
+		cy.setLoggedOut();
+		cy.visit('/app/sign-up');
+
+		// Note: cannot test the target link because it is a cross-origin resource
+		cy.get('form a:contains(Privacy Policy)').should('be.visible');
+	});
+
+	it('The terms and conditions link is valid', () => {
+		cy.setLoggedOut();
+		cy.visit('/app/sign-up');
+
+		// Note: cannot test the target link because it is a cross-origin resource
+		cy.get('form a:contains(Terms and Conditions)').should('be.visible');
+	});
 });

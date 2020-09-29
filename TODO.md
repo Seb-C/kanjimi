@@ -1,9 +1,8 @@
 Before posting to producthunt (next release):
+    some images have a 404 error inside the in-app browser (not getting an absolute path?)
     certbot in a cron
-    use Kanjimi more to test more efficiently
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     remove credit card from google payments from Kanjimi once the 5$ is paid
-    copy tests from the extension to test the in-app browser?
     test all browsers including debugging safari (image links, extension not starting)
     Iframe browser:
         - Improve the interface (lacking feedback for the input?)
@@ -11,7 +10,7 @@ Before posting to producthunt (next release):
         - Fix remaining JS and path errors (= those that are in sub-resources?)
         - Set title of the page with the real content title (+ favicon)?
         - Better completion of urls? (auto-complete http://?)
-    e2e test for the iubenda links (footer + subscription form)
+    copy tests from the extension to test the in-app browser?
     kanjis:
         API to describe Kanjis
             -> create the client function
@@ -31,7 +30,9 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    use Kanjimi more (set a daily planning?)
     add commands to easily connect to the servers
+        - list of server ips with a map?
         - simple connections with a ./ssh script
         - database? ./db script? ./ssh db?
     progressive web app (+ TODO list features to integrate)

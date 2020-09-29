@@ -10,6 +10,7 @@
 					v-model="inputUrl"
 					placeholder="Enter an URL to use Kanjimi on it"
 					v-bind:class="{
+						'form-control': true,
 						'input-url': true,
 						'is-invalid': inputUrlError,
 					}"
@@ -425,6 +426,10 @@
 	.input-url {
 		display: block;
 		width: 100%;
+		background: var(--white);
+		border: 0;
+		padding: 0 0.3em;
+		height: auto;
 	}
 
 	.iframe-page {
@@ -459,7 +464,17 @@
 	.url-buttons-container {
 		position: absolute;
 		right: 0.3em;
-		top: 1px;
+		padding-left: 0.3em;
+		top: 0;
 		bottom: 0;
+		background: var(--white);
+	}
+
+	.url-buttons-container > * {
+		font-size: 1em;
+		line-height: 1em;
+		padding: 0;
+		margin: 0;
+		border: 0;
 	}
 </style>

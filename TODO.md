@@ -1,5 +1,7 @@
 Before posting to producthunt (next release):
-    test and debug on safari (image links, extension not starting)
+    test and debug on safari (events blocked inside iframe: scroll, click... : cannot do even from the parent?)
+        -> need a buffer iframe with scripts enabled, then get source withouth scripts?
+            - need to secure manually the html, see here? https://owasp.org/www-community/xss-filter-evasion-cheatsheet
     Iframe browser:
         - Improve the interface (lacking feedback for the input?)
         - Handle malformed URLs
@@ -26,6 +28,7 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    properly handle the srcdoc attribute instead of removing it (relative to absolute conversion)
     use Kanjimi more (set a daily planning?)
     add commands to easily connect to the servers
         - list of server ips with a map?

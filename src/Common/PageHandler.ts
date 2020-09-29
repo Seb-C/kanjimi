@@ -87,7 +87,6 @@ export default class PageHandler {
 
 					return NodeFilter.FILTER_SKIP;
 				} else if (node.nodeType === Node.TEXT_NODE) {
-					console.log(node.nodeType);
 					const text = (<Text>node).data.trim();
 
 					if (text.length === 0) {

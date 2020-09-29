@@ -43,7 +43,7 @@ export default class PageHandler {
 			this.window.document.body,
 			NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
 			{ acceptNode: (node: Node): number => {
-				if (node instanceof Element) {
+				if (node.nodeType === Node.ELEMENT_NODE) {
 					if (
 						node.tagName === 'SCRIPT'
 						|| node.tagName === 'STYLE'
@@ -86,7 +86,8 @@ export default class PageHandler {
 					}
 
 					return NodeFilter.FILTER_SKIP;
-				} else if (node instanceof Text) {
+				} else if (node.nodeType === Node.TEXT_NODE) {
+					console.log(node.nodeType);
 					const text = (<Text>node).data.trim();
 
 					if (text.length === 0) {
@@ -98,6 +99,10 @@ export default class PageHandler {
 					}
 
 					return NodeFilter.FILTER_ACCEPT;
+				} else if (node.nodeType === Node.DOCUMENT_NODE) {
+					return NodeFilter.FILTER_SKIP;
+				} else {
+					return NodeFilter.FILTER_REJECT;
 				}
 			}},
 		);
@@ -111,7 +116,7 @@ export default class PageHandler {
 			yield previous;
 			previous = <Text>walker.currentNode;
 		}
-		if (previous !== null && previous instanceof Text) {
+		if (previous !== null && previous.nodeType === Node.TEXT_NODE) {
 			yield previous;
 		}
 	}

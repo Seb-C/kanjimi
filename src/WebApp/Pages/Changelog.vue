@@ -6,6 +6,7 @@
 		<ul>
 			<li>Made the sample sites more visible on the homepage (after login)</li>
 			<li>Added a button to open an URL externally from the in-app browser</li>
+			<li>Fixed bugs related to the in-app browser not always working</li>
 		</ul>
 
 		<h2>2020年09月24日</h2>

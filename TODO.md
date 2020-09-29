@@ -1,5 +1,4 @@
 Before posting to producthunt (next release):
-    instanceof Node or Element may not work inside the iframe (not the same reference)
     test and debug on safari (image links, extension not starting)
     Iframe browser:
         - Improve the interface (lacking feedback for the input?)

@@ -212,9 +212,7 @@ context('Browse', () => {
 		cy.wait(500);
 		cy.url().should('not.contain', '?url=');
 
-		// TODO find why this test is broken
-		// cy.get('.page-home a:contains(Wikipedia)').should('exist');
-		// cy.get('.page-home a:contains(Chrome Web Store)').should('exist');
+		cy.get('.page-home a:contains(Wikipedia)').should('exist');
 	});
 
 	it('Redirections updates properly the browser\'s url', () => {

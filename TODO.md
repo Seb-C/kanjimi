@@ -1,14 +1,8 @@
 Before posting to producthunt (next release):
-    add commands to easily connect to the servers
-        - simple connections with a ./ssh script
-        - database? ./db script? ./ssh db?
     certbot in a cron
     use Kanjimi more to test more efficiently
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     remove credit card from google payments from Kanjimi once the 5$ is paid
-    browser e2e test: fix the commented test (which have a TODO)
-    add e2e test: the sample links are opened normally if we have the extension, in-page if not
-    add e2e test: links with an existing event handler are properly working in the in-page browser
     copy tests from the extension to test the in-app browser?
     test all browsers including debugging safari (image links, extension not starting)
     Iframe browser:
@@ -37,6 +31,9 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    add commands to easily connect to the servers
+        - simple connections with a ./ssh script
+        - database? ./db script? ./ssh db?
     progressive web app (+ TODO list features to integrate)
     dictionary page
     Browse.e2e.ts failing locally but not in the CI -> local url detection not working?

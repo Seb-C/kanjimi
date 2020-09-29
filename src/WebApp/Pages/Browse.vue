@@ -43,14 +43,58 @@
 							You must use the browser extension for this.
 						</p>
 
+						<hr />
+
+						<h2 class="h4 mt-4 mb-3">If you don't know where to start, we recommend those sites:</h2>
+						<div class="row mb-3">
+							<div class="col-12 col-md-6">
+								<a
+									href="https://ja.wikipedia.org/wiki/Special:Random"
+									class="border d-block h-100 text-decoration-none text-reset"
+									v-on:click="onClickSampleLink($event, 'https://ja.wikipedia.org/wiki/Special:Random')"
+								>
+									<div>
+										<img
+											src="/img/sample-sites/wikipedia.svg"
+											alt="Wikipedia"
+											class="w-100"
+										/>
+									</div>
+									<div class="text-center">
+										A random Wikipedia article
+									</div>
+								</a>
+							</div>
+							<div class="col-12 col-md-6">
+								<a
+									href="https://news.yahoo.co.jp/"
+									class="border d-block h-100 text-decoration-none text-reset"
+									v-on:click="onClickSampleLink($event, 'https://news.yahoo.co.jp/')"
+								>
+									<div class="p-3">
+										<img
+											src="/img/sample-sites/yahoo-news.png"
+											alt="Yahoo News"
+											class="w-100"
+										/>
+									</div>
+									<div class="text-center">
+										Reading the news
+									</div>
+								</a>
+							</div>
+						</div>
+
+						<hr />
+
 						<template v-if="installed">
 							<p class="mt-2 mb-3 text-left">
 								<i class="far fa-check-circle text-success"></i>
-								Kanjimi is installed and ready to be used. Click on the toolbar button on any page to use it.
+								The Kanjimi extension is installed and ready to be used. Click on the toolbar button on any page to use it.
 							</p>
 						</template>
 						<template v-else>
-							<p class="mt-2 mb-1">For a better experience, please install our browser extension:</p>
+							<h2 class="h4 mt-4 mb-3">For a better experience, please install our browser extension:</h2>
 							<div class="row mb-3 mt-2">
 								<div class="col-12 col-md-6">
 									<a
@@ -96,19 +140,6 @@
 								</div>
 							</div>
 						</template>
-
-						<p class="samples text-left">
-							<i class="far fa-question-circle text-primary"></i>
-							If you don't know where to start, what about reading
-							<a
-								href="https://ja.wikipedia.org/wiki/Special:Random"
-								v-on:click="onClickSampleLink"
-							>a random Wikipedia article</a>
-							or <a
-								href="https://news.yahoo.co.jp/"
-								v-on:click="onClickSampleLink"
-							>the news</a>?
-						</p>
 					</div>
 				</div>
 			</div>
@@ -150,7 +181,7 @@
 				if (!this.loading) {
 					await this.loadUrl(this.inputUrl);
 				}
-				// else: triggered because the url was a recirection
+				// else: triggered because the url was a redirection
 			},
 		},
 		methods: {
@@ -349,14 +380,11 @@
 
 				this.page = newPage;
 			},
-			onClickSampleLink(event: Event) {
-				if (!this.installed) {
-					event.preventDefault();
-					this.$root.router.changeRoute(
-						`./app?url=${encodeURIComponent((<HTMLAnchorElement>event.target).href)}`,
-					);
-				}
-				// else: default link behaviour
+			onClickSampleLink(event: Event, url: string) {
+				event.preventDefault();
+				this.$root.router.changeRoute(
+					`./app?url=${encodeURIComponent(url)}`,
+				);
 			},
 		},
 	});

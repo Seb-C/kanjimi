@@ -1,10 +1,11 @@
 Before posting to producthunt (next release):
+    add external open link
+    Link to open the URL in an external site
     add commands to easily connect to the servers
         - simple connections with a ./ssh script
         - database? ./db script? ./ssh db?
     certbot in a cron
     use Kanjimi more to test more efficiently
-    improve visibility of suggestion links, always open it in-page, add external open link
     progressive web app (+ TODO list features to integrate)
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     remove credit card from google payments from Kanjimi once the 5$ is paid
@@ -12,7 +13,6 @@ Before posting to producthunt (next release):
     add e2e test: the sample links are opened normally if we have the extension, in-page if not
     add e2e test: links with an existing event handler are properly working in the in-page browser
     copy tests from the extension to test the in-app browser?
-    add link to the opera extension
     test all browsers including debugging safari (image links, extension not starting)
     Iframe browser:
         - Improve the interface (lacking feedback for the input?)
@@ -40,6 +40,8 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    dictionary page
+    recognize suffixes to hide soe definitions (...shi (city), kun, yama...)?
     do some database backups manually
     nginx restart after failure may take the original configuration env file rather than the latest hot-updated one
     postgresql 13

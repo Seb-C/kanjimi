@@ -41,7 +41,7 @@
 		<template v-if="page !== null">
 			<iframe
 				class="iframe-page flex-fill border-0"
-				sandbox="allow-forms allow-same-origin"
+				sandbox="allow-forms allow-same-origin allow-scripts"
 				v-bind:srcdoc="page"
 				@load="iframeLoaded"
 				v-bind:class="{
@@ -180,6 +180,7 @@
 	import ValidationError from 'Common/Api/Errors/Validation';
 	import AuthenticationError from 'Common/Api/Errors/Authentication';
 	import ServerError from 'Common/Api/Errors/Server';
+	import * as DomPurify from 'dompurify';
 
 	export default Vue.extend({
 		data() {
@@ -403,6 +404,14 @@
 				cssTag.setAttribute('rel', 'stylesheet');
 				cssTag.setAttribute('href', `${process.env.KANJIMI_WWW_URL}/css/browser.build.css`);
 				doc.head.appendChild(cssTag);
+
+				// Removing all scripts
+				DomPurify.sanitize(doc.documentElement, {
+					WHOLE_DOCUMENT: true,
+					RETURN_DOM: true,
+					IN_PLACE: true,
+					ADD_TAGS: ['base', 'link', 'meta'],
+				});
 
 				const newPage = `<!DOCTYPE html>${doc.documentElement.outerHTML}`;
 

@@ -44,32 +44,33 @@ export default class PageHandler {
 			NodeFilter.SHOW_TEXT | NodeFilter.SHOW_ELEMENT,
 			{ acceptNode: (node: Node): number => {
 				if (node.nodeType === Node.ELEMENT_NODE) {
+					const nodeElement = <HTMLElement>node;
 					if (
-						node.tagName === 'SCRIPT'
-						|| node.tagName === 'STYLE'
-						|| node.tagName === 'TEXTAREA'
-						|| node.tagName === 'BUTTON'
-						|| node.tagName === 'SELECT'
+						nodeElement.tagName === 'SCRIPT'
+						|| nodeElement.tagName === 'STYLE'
+						|| nodeElement.tagName === 'TEXTAREA'
+						|| nodeElement.tagName === 'BUTTON'
+						|| nodeElement.tagName === 'SELECT'
 					) {
 						return NodeFilter.FILTER_REJECT;
 					}
 
 					if (
-						typeof node.className === 'string'
-						&& node.className.includes('kanjimi')
+						typeof nodeElement.className === 'string'
+						&& nodeElement.className.includes('kanjimi')
 					) {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					if ((<HTMLElement>node).contentEditable === 'true') {
+					if (nodeElement.contentEditable === 'true') {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					if (!this.isElementVisible(<HTMLElement>node)) {
+					if (!this.isElementVisible(nodeElement)) {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					const boundingBox = (<HTMLElement>node).getBoundingClientRect();
+					const boundingBox = (nodeElement).getBoundingClientRect();
 					if (
 						boundingBox.top > this.window.innerHeight
 						|| boundingBox.bottom < 0

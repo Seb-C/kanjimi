@@ -1,6 +1,5 @@
 Before posting to producthunt (next release):
     kanjis:
-        generate a list of element positions for an enum
         animate kanjis drawing
         show the kanji components (clickable?)
             -> make sure the strokes have a proper supported font?

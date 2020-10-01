@@ -1,11 +1,12 @@
 import 'jasmine';
 import Structure from 'Common/Models/Kanjis/Structure';
+import KanjiPartPosition from 'Common/Types/KanjiPartPosition';
 
 describe('Structure', function() {
 	it('API formatting methods', function() {
-		const input = new Structure('kanji', 'top', [
+		const input = new Structure('kanji', KanjiPartPosition.TOP, [
 			'stroke',
-			new Structure('kanji2', 'bottom', []),
+			new Structure('kanji2', KanjiPartPosition.BOTTOM, []),
 			'stroke2',
 		]);
 		const output = Structure.fromApi(JSON.parse(JSON.stringify(input.toApi())));

@@ -24,7 +24,7 @@ describe('Client Page', async function() {
 
 		expect(result).toBeInstanceOf(Object);
 		expect(typeof result.content).toBe('string');
-		expect(result.content).toContain('<html>');
+		expect(result.content).toContain('<html');
 		expect(result.content).toContain('</html>');
 		expect(result.charset).not.toBeUndefined();
 		expect(result.realUrl).toBe('https://localhost:3000/test-pages/landing-page-examples.html');

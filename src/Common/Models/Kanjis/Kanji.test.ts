@@ -4,6 +4,7 @@ import Meaning from 'Common/Models/Kanjis/Meaning';
 import Reading from 'Common/Models/Kanjis/Reading';
 import Structure from 'Common/Models/Kanjis/Structure';
 import Language from 'Common/Types/Language';
+import KanjiPartPosition from 'Common/Types/KanjiPartPosition';
 
 describe('Kanji', function() {
 	it('API formatting methods', function() {
@@ -11,7 +12,7 @@ describe('Kanji', function() {
 			'kanji',
 			[new Meaning('kanji of meaning', 'meaning', Language.ENGLISH)],
 			[new Reading('kanji of reading', 'reading')],
-			new Structure('element', 'left', []),
+			new Structure('element', KanjiPartPosition.LEFT, []),
 			'http://www.kanjimi.com/img/KanjiVG/foo.svg',
 		);
 		const output = Kanji.fromApi(JSON.parse(JSON.stringify(input.toApi())));

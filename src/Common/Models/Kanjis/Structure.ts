@@ -1,13 +1,15 @@
+import KanjiPartPosition from 'Common/Types/KanjiPartPosition';
+
 type Stroke = string;
 
 export default class Structure {
 	public readonly element: string;
-	public readonly position: string|null;
+	public readonly position: KanjiPartPosition|null;
 	public readonly components: ReadonlyArray<Structure|Stroke>;
 
 	constructor(
 		element: string,
-		position: string|null,
+		position: KanjiPartPosition|null,
 		components: ReadonlyArray<Structure|Stroke>,
 	) {
 		this.element = element;

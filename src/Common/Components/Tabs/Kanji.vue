@@ -33,12 +33,13 @@
 				console.log(await getKanji(this.$root.apiKey.key, this.kanji));
 
 				const mainKanji = <Kanji>this.kanjiData[this.kanji];
-				const svg = await (await fetch(mainKanji.fileUrl)).text();
 
+				const svg = await (await fetch(mainKanji.fileUrl)).text();
 				const domParser = new DOMParser();
 				const svgDocument = domParser.parseFromString(svg, 'image/svg+xml');
-
 				this.svg = svgDocument.documentElement.outerHTML;
+
+				mainKanji.structure.components
 
 				this.loading = false;
 			},

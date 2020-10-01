@@ -1,9 +1,11 @@
 <template>
-	<div v-if="svg === null" class="kanjimi-loader" />
+	<div v-if="loading" class="kanjimi-loader" />
 	<div v-else class="kanji" v-html="svg" />
 </template>
 <script lang="ts">
 	import Vue from 'vue';
+	import { getKanji } from 'Common/Api/Lexer';
+	import Kanji from 'Common/Models/Kanjis/Kanji';
 
 	export default Vue.extend({
 		props: {
@@ -11,27 +13,34 @@
 		},
 		data() {
 			return {
+				loading: true,
 				svg: <string|null>null,
+				kanjiData: <{ [key: string]: Kanji}|null>null,
 			};
 		},
 		created() {
-			this.loadSvg();
+			this.loadData();
 		},
 		watch: {
 			kanji(newVal, oldVal) {
-				this.loadSvg();
+				this.loadData();
 			}
 		},
 		methods: {
-			async loadSvg() {
-				const url = `${process.env.KANJIMI_WWW_URL}/img/KanjiVG/0${this.kanji.charCodeAt(0).toString(16)}.svg`;
-				const response = await fetch(url);
-				const svg = await response.text();
+			async loadData() {
+				this.loading = true;
+				this.kanjiData = await getKanji(this.$root.apiKey.key, this.kanji);
+				console.log(await getKanji(this.$root.apiKey.key, this.kanji));
+
+				const mainKanji = <Kanji>this.kanjiData[this.kanji];
+				const svg = await (await fetch(mainKanji.fileUrl)).text();
 
 				const domParser = new DOMParser();
 				const svgDocument = domParser.parseFromString(svg, 'image/svg+xml');
 
 				this.svg = svgDocument.documentElement.outerHTML;
+
+				this.loading = false;
 			},
 		},
 	});

@@ -132,6 +132,10 @@ export default class Kanjis {
 		return new Kanji(kanji, meanings, readings, structure, fileUrl);
 	}
 
+	/**
+	 * This method does not take the langs argument since not having meanings
+	 * does not mean that we do not have other data about the kanji.
+	 */
 	has (kanji: string): boolean {
 		return (
 			this.meanings.has(kanji)

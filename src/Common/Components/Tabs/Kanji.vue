@@ -1,6 +1,9 @@
 <template>
 	<div v-if="loading" class="kanjimi-loader" />
-	<div v-else class="kanji" v-html="svg" ref="svg" />
+	<div v-else class="kanji-data-container">
+		<div class="kanji-svg-container" v-html="mainSvg" ref="mainSvg" />
+		<div class="kanji-svg-container" v-html="subSvg" ref="subSvg" />
+	</div>
 </template>
 <script lang="ts">
 	import Vue from 'vue';
@@ -15,8 +18,10 @@
 		data() {
 			return {
 				loading: true,
-				svg: <string|null>null,
+				mainSvg: <string|null>null,
 				kanjiData: <{ [key: string]: Kanji}|null>null,
+				subKanji: <string|null>null,
+				subSvg: <string|null>null,
 			};
 		},
 		created() {
@@ -24,7 +29,28 @@
 		},
 		updated() {
 			if (!this.loading) {
-				this.makeSvgInteractive();
+				const subKanjiClickHandler = async (subKanji: string) => {
+					this.subKanji = subKanji;
+					if (this.kanjiData[subKanji]) {
+						this.subSvg = await this.getSvg(<Kanji>this.kanjiData[subKanji]);
+					} else {
+						this.subSvg = null;
+					}
+				};
+
+				this.makeSvgInteractive(
+					this.$refs.mainSvg.querySelector('svg'),
+					this.getDirectSubKanjis(this.kanji),
+					subKanjiClickHandler,
+				);
+
+				if (this.subSvg !== null) {
+					this.makeSvgInteractive(
+						this.$refs.subSvg.querySelector('svg'),
+						this.getDirectSubKanjis(this.subKanji),
+						subKanjiClickHandler,
+					);
+				}
 			}
 		},
 		watch: {
@@ -33,17 +59,24 @@
 			}
 		},
 		methods: {
+			getDirectSubKanjis(kanji: string): string {
+				return (<Kanji>this.kanjiData[kanji])
+					.structure
+					.getDirectSubStructures()
+					.map(s => s.element);
+			},
+			async getSvg(kanji: Kanji): Promise<string> {
+				const svg = await (await fetch(kanji.fileUrl)).text();
+				const domParser = new DOMParser();
+				const svgDocument = domParser.parseFromString(svg, 'image/svg+xml');
+				return svgDocument.documentElement.outerHTML;
+			}
 			async loadData() {
 				this.loading = true;
 				this.kanjiData = await getKanji(this.$root.apiKey.key, this.kanji);
-
-				const mainKanji = <Kanji>this.kanjiData[this.kanji];
-
-				const svg = await (await fetch(mainKanji.fileUrl)).text();
-				const domParser = new DOMParser();
-				const svgDocument = domParser.parseFromString(svg, 'image/svg+xml');
-
-				this.svg = svgDocument.documentElement.outerHTML;
+				this.mainSvg = await this.getSvg(<Kanji>this.kanjiData[this.kanji]);
+				this.subKanji = null;
+				this.subSvg = null;
 				this.loading = false;
 			},
 
@@ -51,24 +84,27 @@
 			 * We need to make this once the svg is displayed, otherwise some things
 			 * like the bounding box have not been calculated.
 			 */
-			makeSvgInteractive() {
-				const svg = this.$refs.svg.querySelector('svg');
-				const mainKanji = <Kanji>this.kanjiData[this.kanji];
-				const subKanjis = new Set(
-					// Using a set to remove duplicates
-					mainKanji.structure.getDirectSubStructures().map(s => s.element)
-				);
-				const elements = svg.querySelectorAll('*');
+			makeSvgInteractive(
+				svg: SVGSVGElement,
+				subKanjis: string[],
+				onClick: (kanji: string) => Promise<void>,
+			) {
+				if (svg.getAttribute('data-hasBeenMadeInteractive')) {
+					return;
+				} else {
+					svg.setAttribute('data-hasBeenMadeInteractive', true);
+				}
 
 				// Moving the stroke numbers at first so it does not cover the bounding boxes
 				const strokeNumbers = svg.querySelector('[id^="kvg:StrokeNumbers_"]');
-				if (strokeNumbers) {
+				if (strokeNumbers !== null) {
 					strokeNumbers.parentNode.insertBefore(strokeNumbers, strokeNumbers.parentNode.firstChild);
 				}
 
 				// Adding the interactivity to all components of the Kanji
-				subKanjis.forEach((subKanji) => {
-					elements.forEach((element) => {
+				// The Set is used to remove duplicates
+				(new Set(subKanjis)).forEach((subKanji) => {
+					svg.querySelectorAll('*').forEach((element) => {
 						if (element.getAttribute('kvg:element') === subKanji) {
 							const containerBox = element.getBBox();
 
@@ -87,9 +123,7 @@
 
 							element.appendChild(box);
 
-							element.addEventListener('click', () => {
-								console.log(element);
-							});
+							element.addEventListener('click', () => onClick(subKanji));
 						}
 					});
 				});
@@ -98,29 +132,36 @@
 	});
 </script>
 <style scoped>
-	.kanji {
+	.kanji-data-container {
+		display: grid;
+		grid-auto-flow: column;
+		min-height: 100%;
+		height: 100%;
+	}
+
+	.kanji-svg-container {
 		display: block;
 		min-height: 100%;
 		height: 100%;
 		text-align: center;
 	}
 
-	.kanji >>> svg {
+	.kanji-svg-container >>> svg {
 		width: auto;
 		height: 100%;
 	}
 
-	.kanji >>> svg text {
+	.kanji-svg-container >>> svg text {
 		font-size: 0.5em;
 	}
 
-	.kanji >>> svg .kanji-component:hover {
-		cursor: pointer;
+	.kanji-svg-container >>> svg .kanji-component:hover {
+		cursor: zoom-in;
 	}
-	.kanji >>> svg .kanji-component:hover * {
+	.kanji-svg-container >>> svg .kanji-component:hover * {
 		stroke: var(--red);
 	}
-	.kanji >>> svg .kanji-component:hover .bounding-box {
+	.kanji-svg-container >>> svg .kanji-component:hover .bounding-box {
 		stroke: var(--red);
 		stroke-width: 1px;
 		stroke-dasharray: 1, 2;

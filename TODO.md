@@ -1,9 +1,15 @@
 Before posting to producthunt (next release):
     kanjis:
+        add the meanings and readings
+        readings: add the romaji as a furigana if needed?
         animate kanjis drawing
+        split the kanji part in a sub component
+        recursive view instead of fixed two levels?
+        test the responsive for this
         show the kanji components (clickable?)
+            -> should also detail the strokes?
             -> make sure the strokes have a proper supported font?
-        can we also show the meaning of every radical and sub-kanji?
+        e2e test for the whole feature
     Iframe browser: fix responsive of the contained site
     copy tests from the extension to test the in-app browser?
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent

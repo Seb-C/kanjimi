@@ -322,6 +322,16 @@ describe('LexerController', async function() {
 		expect(Object.keys(responseData)).toContain('凡');
 	});
 
+	it('getKanji (wrong authentication case)', async function() {
+		const response = await fetch('https://localhost:3000/api/lexer/kanji/' + encodeURIComponent('食'), {
+			method: 'GET',
+			headers: {
+				Authorization: `Bearer wrongtoken`,
+			},
+		});
+		expect(response.status).toBe(403);
+	});
+
 	it('getKanji (not a kanji error case)', async function() {
 		const response = await fetch('https://localhost:3000/api/lexer/kanji/X', {
 			method: 'GET',

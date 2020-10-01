@@ -1,8 +1,5 @@
 Before posting to producthunt (next release):
     kanjis:
-        API to describe Kanjis
-            -> create the client function
-            -> test the client function
         should the Kanjis.has function also take languages? Could cause inconsistency with GET otherwise
         animate kanjis drawing
         generate a list of element positions for an enum

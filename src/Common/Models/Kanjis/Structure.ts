@@ -17,6 +17,17 @@ export default class Structure {
 		this.components = components;
 	}
 
+	getDirectSubStructures(): Structure[] {
+		const structures: Structure[] = [];
+		this.components.forEach((component: Structure|Stroke) => {
+			if (component instanceof Structure) {
+				structures.push(component);
+			}
+		});
+
+		return structures;
+	}
+
 	toApi(): object {
 		return {
 			element: this.element,

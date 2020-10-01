@@ -26,4 +26,19 @@ describe('Structure', function() {
 		expect(output.position).toBe(null);
 		expect(output.components).toEqual([]);
 	});
+
+	it('getDirectSubStructures', function() {
+		const structure = new Structure('kanji', KanjiPartPosition.TOP, [
+			'stroke',
+			new Structure('kanji2', KanjiPartPosition.BOTTOM, []),
+			'stroke2',
+			new Structure('kanji3', KanjiPartPosition.BOTTOM, [
+				'stroke3',
+				new Structure('kanji4', KanjiPartPosition.BOTTOM, []),
+			]),
+		]);
+
+		const result = structure.getDirectSubStructures();
+		expect(result.map(s => s.element)).toEqual(['kanji2', 'kanji3']);
+	});
 });

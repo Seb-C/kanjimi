@@ -1,6 +1,5 @@
 Before posting to producthunt (next release):
     kanjis:
-        let the selected kanji part stay coloured and visually selected
         add the meanings and readings
         readings: add the romaji as a furigana if needed?
         test the responsive for this

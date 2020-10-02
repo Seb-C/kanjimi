@@ -40,6 +40,9 @@
 			kanji(newVal, oldVal) {
 				this.loadSvg();
 			},
+			selected(newVal, oldVal) {
+				this.updateSvgActiveSelection();
+			},
 		},
 		methods: {
 			async loadSvg() {
@@ -100,6 +103,21 @@
 					});
 				});
 			},
+
+			updateSvgActiveSelection() {
+				var svg = this.$refs.svg.querySelector('svg');
+				svg.querySelectorAll('.kanji-component-selected').forEach((element: SVGGraphicsElement) => {
+					element.classList.remove('kanji-component-selected');
+				});
+
+				if (this.selected !== null) {
+					svg.querySelectorAll('*').forEach((element: SVGGraphicsElement) => {
+						if (element.getAttribute('kvg:element') === this.selected.kanji) {
+							element.classList.add('kanji-component-selected');
+						}
+					});
+				}
+			},
 		},
 	});
 </script>
@@ -135,6 +153,15 @@
 	}
 	.kanji-svg-container >>> svg .kanji-component:hover .bounding-box {
 		stroke: var(--red);
+		stroke-width: 1px;
+		stroke-dasharray: 1, 2;
+	}
+
+	.kanji-svg-container >>> svg .kanji-component-selected * {
+		stroke: var(--secondary) !important;
+	}
+	.kanji-svg-container >>> svg .kanji-component-selected .bounding-box {
+		stroke: var(--secondary);
 		stroke-width: 1px;
 		stroke-dasharray: 1, 2;
 	}

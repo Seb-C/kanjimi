@@ -36,7 +36,9 @@
 		},
 		methods: {
 			onKanjiClick (kanji: string, index: number) {
-				if (this.kanjiData[kanji]) {
+				if (this.kanjis[index + 1] && this.kanjis[index + 1].kanji === kanji) {
+					this.kanjis.splice(index + 1);
+				} else if (this.kanjiData[kanji]) {
 					this.kanjis.splice(index + 1);
 					this.kanjis.push(this.kanjiData[kanji]);
 				}

@@ -11,12 +11,36 @@
 		}"
 	>
 		<div v-html="svg" ref="svg" class="kanji-svg-container" />
+		<div class="kanji-meanings">
+			<div
+				v-for="(meanings, lang) in meaningsGroupedByLang"
+				class="kanji-meanings-lang-group"
+			>
+				<div class="kanji-meanings-lang">
+					{{ lang === null ? '' : Language.toUnicodeFlag(lang) }}
+				</div>
+				<div class="kanji-meanings-list">
+					<ol>
+						<li v-for="meaning in meanings">
+							{{ meaning }}
+						</li>
+					</ol>
+				</div>
+			</div>
+		</div>
+		<div class="kanji-readings">
+			<div
+				v-for="reading in kanji.readings"
+			>{{ reading.reading }}</div>
+		</div>
 	</div>
 </template>
 <script lang="ts">
-	import Vue, { PropType } from 'vue';
+	import Vue from 'vue';
 	import Kanji from 'Common/Models/Kanjis/Kanji';
+	import Meaning from 'Common/Models/Kanjis/Meaning';
 	import Structure from 'Common/Models/Kanjis/Structure';
+	import Language from 'Common/Types/Language';
 
 	export default Vue.extend({
 		props: {
@@ -25,6 +49,7 @@
 		},
 		data() {
 			return {
+				Language,
 				svg: <string|null>null,
 			};
 		},
@@ -42,6 +67,19 @@
 			},
 			selected(newVal, oldVal) {
 				this.updateSvgActiveSelection();
+			},
+		},
+		computed: {
+			meaningsGroupedByLang(): { [key: string]: string[] } {
+				const result: { [key: string]: string[] } = {};
+				this.kanji.meanings.forEach((meaning: Meaning) => {
+					if (result[meaning.meaningLang]) {
+						result[meaning.meaningLang].push(meaning.meaning);
+					} else {
+						result[meaning.meaningLang] = [meaning.meaning];
+					}
+				});
+				return result;
 			},
 		},
 		methods: {
@@ -125,6 +163,25 @@
 	.kanji-container {
 		min-height: 100%;
 		height: 100%;
+		display: grid;
+		grid-template-columns: auto auto auto;
+		column-gap: 0.5em;
+	}
+
+	.kanji-meanings-lang-group {
+		display: grid;
+		grid-template-columns: min-content auto;
+		column-gap: 0.5em;
+		margin-bottom: 0.5em;
+	}
+	.kanji-meanings-list ol {
+		margin: 0;
+		padding: 0;
+	}
+	.kanji-meanings-list ol li {
+		list-style-type: decimal;
+		list-style-position: inside;
+		display: list-item;
 	}
 
 	.kanji-svg-container {
@@ -169,10 +226,36 @@
 	.kanji-container.zooming {
 		position: relative;
 		padding-right: 1.5em;
+		grid-template-columns: auto;
+		grid-template-rows: auto auto;
+		row-gap: 0;
 	}
 	.kanji-container.zooming >>> svg {
 		width: auto;
 		height: auto;
+	}
+
+	.kanji-container.zooming .kanji-readings {
+		display: none;
+	}
+	.kanji-container.zooming .kanji-meanings-lang-group {
+		grid-template-columns: auto;
+	}
+	.kanji-container.zooming .kanji-meanings-lang-group:nth-child(n+2) {
+		display: none;
+	}
+	.kanji-container.zooming .kanji-meanings-lang {
+		display: none;
+	}
+	.kanji-container.zooming .kanji-meanings-list {
+	}
+	.kanji-container.zooming .kanji-meanings-list ol li:nth-child(n+2) {
+		display: none;
+	}
+	.kanji-container.zooming .kanji-meanings-list ol li {
+		list-style-type: none;
+		display: block;
+		text-align: center;
 	}
 
 	.kanji-container.zooming::before,

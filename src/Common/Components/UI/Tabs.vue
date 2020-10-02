@@ -38,9 +38,12 @@
 		},
 		data() {
 			return {
-				tabs: this.getDefaultTabs(),
+				tabs: [],
 				selectedTabIndex: 0,
 			};
+		},
+		created() {
+			this.tabs = this.getDefaultTabs();
 		},
 		watch: {
 			token(newVal, oldVal) {

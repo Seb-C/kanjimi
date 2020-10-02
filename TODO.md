@@ -1,12 +1,10 @@
 Before posting to producthunt (next release):
     kanjis:
-        add the meanings and readings
         readings: add the romaji as a furigana if needed?
-        test the responsive for this
-        show the kanji components (clickable?)
-            -> should also detail the strokes?
-            -> make sure the strokes have a proper supported font?
-        part container in another -> change the order?
+            + improve the explanation kunyoumi / onyoumi
+        add the accessibility tags to the clickable parts of the svg
+        test the responsive for this and improve the overall layout / UX
+        part contained in another -> change the order to make it actually clickable?
         e2e test for the whole feature
     Iframe browser: fix responsive of the contained site
     copy tests from the extension to test the in-app browser?

@@ -1,6 +1,17 @@
 <template>
-	<div v-if="svg === null" class="kanjimi-loader" />
-	<div v-else class="kanji-svg-container" v-html="svg" ref="svg" />
+	<div
+		v-if="svg === null"
+		class="kanjimi-loader"
+	/>
+	<div
+		v-else
+		v-bind:class="{
+			'kanji-container': true,
+			'zooming': selected !== null,
+		}"
+	>
+		<div v-html="svg" ref="svg" class="kanji-svg-container" />
+	</div>
 </template>
 <script lang="ts">
 	import Vue, { PropType } from 'vue';
@@ -10,7 +21,7 @@
 	export default Vue.extend({
 		props: {
 			kanji: { type: Kanji },
-			onClickSubKanji: { type: Function as PropType<(kanji: string) => void> },
+			selected: { type: Kanji },
 		},
 		data() {
 			return {
@@ -84,7 +95,7 @@
 
 							element.appendChild(box);
 
-							element.addEventListener('click', () => this.onClickSubKanji(subKanji));
+							element.addEventListener('click', () => this.$emit('click', subKanji));
 						}
 					});
 				});
@@ -93,11 +104,18 @@
 	});
 </script>
 <style scoped>
+	.kanji-container {
+		min-height: 100%;
+		height: 100%;
+	}
+
 	.kanji-svg-container {
-		display: block;
 		min-height: 100%;
 		height: 100%;
 		text-align: center;
+		display: flex;
+		align-items: center;
+		justify-content: center;
 	}
 
 	.kanji-svg-container >>> svg {
@@ -119,5 +137,37 @@
 		stroke: var(--red);
 		stroke-width: 1px;
 		stroke-dasharray: 1, 2;
+	}
+
+	.kanji-container.zooming {
+		position: relative;
+		padding-right: 1.5em;
+	}
+	.kanji-container.zooming >>> svg {
+		width: auto;
+		height: auto;
+	}
+
+	.kanji-container.zooming::before,
+	.kanji-container.zooming::after {
+		content: "";
+		position: absolute;
+		display: block;
+		top: 50%;
+		width: 0.3em;
+		height: 1.5em;
+		background: var(--dark);
+		transform-origin: top center;
+		box-sizing: border-box;
+	}
+	.kanji-container.zooming::before {
+		right: 0;
+		transform: rotate(135deg);
+		margin-top: 0.075em;
+	}
+	.kanji-container.zooming::after {
+		right: 0;
+		transform: rotate(45deg);
+		margin-top: -0.075em;
 	}
 </style>

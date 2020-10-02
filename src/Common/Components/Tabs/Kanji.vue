@@ -2,13 +2,10 @@
 	<div v-if="loading" class="kanjimi-loader" />
 	<div v-else class="kanji-data-container">
 		<KanjiComponent
-			v-bind:kanji="kanjiData[kanji]"
-			v-bind:onClickSubKanji="subKanjiClickHandler"
-		/>
-		<KanjiComponent
-			v-if="subKanji !== null"
-			v-bind:kanji="kanjiData[subKanji]"
-			v-bind:onClickSubKanji="subKanjiClickHandler"
+			v-for="(kanji, index) in kanjis"
+			v-bind:kanji="kanji"
+			v-on:click="(kanji) => onKanjiClick(kanji, index)"
+			v-bind:selected="kanjis[index + 1] || null"
 		/>
 	</div>
 </template>
@@ -26,7 +23,7 @@
 			return {
 				loading: true,
 				kanjiData: <{ [key: string]: Kanji}|null>null,
-				subKanji: <string|null>null,
+				kanjis: <string[]>[],
 			};
 		},
 		created() {
@@ -38,16 +35,18 @@
 			}
 		},
 		methods: {
-			subKanjiClickHandler (subKanji: string) {
-				if (this.kanjiData[subKanji]) {
-					this.subKanji = subKanji;
+			onKanjiClick (kanji: string, index: number) {
+				if (this.kanjiData[kanji]) {
+					this.kanjis.splice(index + 1);
+					this.kanjis.push(this.kanjiData[kanji]);
 				}
 			},
 			async loadData() {
 				this.kanjiData = null;
-				this.subKanji = null;
+				this.kanjis = [];
 				this.loading = true;
 				this.kanjiData = await getKanji(this.$root.apiKey.key, this.kanji);
+				this.kanjis.push(this.kanjiData[this.kanji]);
 				this.loading = false;
 			},
 		},
@@ -58,8 +57,9 @@
 </script>
 <style scoped>
 	.kanji-data-container {
-		display: grid;
-		grid-auto-flow: column;
+		display: flex;
+		flex-direction: row;
+		flex-wrap: nowrap;
 		min-height: 100%;
 		height: 100%;
 	}

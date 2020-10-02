@@ -37,30 +37,39 @@
 			token: { type: Token },
 		},
 		data() {
-			const tabs = [];
-			tabs.push({ label: 'Definitions', component: Readings });
-			if (this.token.type === TokenType.VERB) {
-				tabs.push({ label: 'Conjugations', component: Conjugations });
-			}
-
-			this.token.text.split('').forEach((char: string) => {
-				if (CharType.of(char) === CharType.KANJI) {
-					tabs.push({
-						label: char,
-						component: Kanji,
-						props: {
-							kanji: char,
-						},
-					});
-				}
-			});
-
 			return {
-				tabs,
+				tabs: this.getDefaultTabs(),
 				selectedTabIndex: 0,
 			};
 		},
+		watch: {
+			token(newVal, oldVal) {
+				this.selectedTabIndex = 0;
+				this.tabs = this.getDefaultTabs();
+			}
+		},
 		methods: {
+			getDefaultTabs() {
+				const tabs = [];
+				tabs.push({ label: 'Definitions', component: Readings });
+				if (this.token.type === TokenType.VERB) {
+					tabs.push({ label: 'Conjugations', component: Conjugations });
+				}
+
+				this.token.text.split('').forEach((char: string) => {
+					if (CharType.of(char) === CharType.KANJI) {
+						tabs.push({
+							label: char,
+							component: Kanji,
+							props: {
+								kanji: char,
+							},
+						});
+					}
+				});
+
+				return tabs;
+			},
 			onTabClick(event: Event, tabIndex: number) {
 				this.selectedTabIndex = tabIndex;
 			},

@@ -32,6 +32,7 @@
 		},
 		methods: {
 			async loadSvg() {
+				this.svg = null;
 				const svg = await (await fetch(this.kanji.fileUrl)).text();
 				const domParser = new DOMParser();
 				const svgDocument = domParser.parseFromString(svg, 'image/svg+xml');

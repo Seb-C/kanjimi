@@ -39,12 +39,15 @@
 		},
 		methods: {
 			subKanjiClickHandler (subKanji: string) {
-				this.subKanji = subKanji;
+				if (this.kanjiData[subKanji]) {
+					this.subKanji = subKanji;
+				}
 			},
 			async loadData() {
+				this.kanjiData = null;
+				this.subKanji = null;
 				this.loading = true;
 				this.kanjiData = await getKanji(this.$root.apiKey.key, this.kanji);
-				this.subKanji = null;
 				this.loading = false;
 			},
 		},

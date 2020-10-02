@@ -1,13 +1,14 @@
 Before posting to producthunt (next release):
     kanjis:
+        recursive view instead of fixed two levels?
+        let the selected kanji part stay coloured and visually selected
         add the meanings and readings
         readings: add the romaji as a furigana if needed?
-        animate kanjis drawing
-        recursive view instead of fixed two levels?
         test the responsive for this
         show the kanji components (clickable?)
             -> should also detail the strokes?
             -> make sure the strokes have a proper supported font?
+        part container in another -> change the order?
         e2e test for the whole feature
     Iframe browser: fix responsive of the contained site
     copy tests from the extension to test the in-app browser?
@@ -42,6 +43,7 @@ After:
     migrate to VueJS 3
     manage load balancer list when deploying
     healthcheck for load balancer
+    animate the Kanji drawings?
     API rate limiting with nginx (except for local client ips)
     config: use default https port (443) instead of 3000 locally
     tests Cypress on mobile resolution

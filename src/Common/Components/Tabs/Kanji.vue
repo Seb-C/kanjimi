@@ -64,5 +64,10 @@
 		flex-wrap: nowrap;
 		min-height: 100%;
 		height: 100%;
+		width: 100%;
+	}
+
+	.kanji-data-container > *:last-child {
+		flex-grow: 1;
 	}
 </style>

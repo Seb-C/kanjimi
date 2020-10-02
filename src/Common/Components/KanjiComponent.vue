@@ -166,6 +166,19 @@
 		display: grid;
 		grid-template-columns: auto auto auto;
 		column-gap: 0.5em;
+		border: 1px dotted var(--dark);
+		padding: 0.5em;
+		box-sizing: border-box;
+	}
+
+	.kanji-meanings {
+		height: 100%;
+		overflow-y: auto;
+	}
+
+	.kanji-readings {
+		height: 100%;
+		overflow-y: auto;
 	}
 
 	.kanji-meanings-lang-group {
@@ -225,7 +238,7 @@
 
 	.kanji-container.zooming {
 		position: relative;
-		padding-right: 1.5em;
+		margin-right: 1.5em;
 		grid-template-columns: auto;
 		grid-template-rows: auto auto;
 		row-gap: 0;
@@ -247,8 +260,6 @@
 	.kanji-container.zooming .kanji-meanings-lang {
 		display: none;
 	}
-	.kanji-container.zooming .kanji-meanings-list {
-	}
 	.kanji-container.zooming .kanji-meanings-list ol li:nth-child(n+2) {
 		display: none;
 	}
@@ -256,6 +267,7 @@
 		list-style-type: none;
 		display: block;
 		text-align: center;
+		font-size: 0.8em;
 	}
 
 	.kanji-container.zooming::before,
@@ -271,12 +283,12 @@
 		box-sizing: border-box;
 	}
 	.kanji-container.zooming::before {
-		right: 0;
+		right: -1.5em;
 		transform: rotate(135deg);
 		margin-top: 0.075em;
 	}
 	.kanji-container.zooming::after {
-		right: 0;
+		right: -1.5em;
 		transform: rotate(45deg);
 		margin-top: -0.075em;
 	}

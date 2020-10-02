@@ -3,7 +3,6 @@ Before posting to producthunt (next release):
         add the meanings and readings
         readings: add the romaji as a furigana if needed?
         animate kanjis drawing
-        split the kanji part in a sub component
         recursive view instead of fixed two levels?
         test the responsive for this
         show the kanji components (clickable?)

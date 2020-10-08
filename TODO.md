@@ -1,5 +1,8 @@
 Before posting to producthunt (next release):
+    fails with hvc website?
     kanjis:
+        sometimes errors with unknown kanjis?
+        ancient writing for the kanjis
         readings: add the romaji as a furigana if needed?
             + improve the explanation kunyoumi / onyoumi
         add the accessibility tags to the clickable parts of the svg
@@ -18,6 +21,7 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    have kanjimi on the product list on the KanjiVG web page
     properly handle the srcdoc attribute instead of removing it (relative to absolute conversion)
     use Kanjimi more (set a daily planning?)
     add commands to easily connect to the servers
@@ -48,6 +52,7 @@ After:
     declare activity -> if permissions OK -> do when I start the paid subscriptions
     check immigration -> waiting for mail answer
     auto restart docker engine sometimes? Seems to become unavailable... (service docker restart)
+    make nginx serve the static assets?
     Page API endpoint: use the outgoing network interface?
     Do not generate browser.build.js in the WebApp -> not necessary
     update servers manually before install (and reboot?)

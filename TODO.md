@@ -1,14 +1,13 @@
 Before posting to producthunt (next release):
-    fails with hvc website?
     kanjis:
         sometimes errors with unknown kanjis?
         ancient writing for the kanjis
         readings: add the romaji as a furigana if needed?
             + improve the explanation kunyoumi / onyoumi
         add the accessibility tags to the clickable parts of the svg
-        test the responsive for this and improve the overall layout / UX
         part contained in another -> change the order to make it actually clickable?
         e2e test for the whole feature
+        test the result in the extension, not only the webapp
     Iframe browser: fix responsive of the contained site
     copy tests from the extension to test the in-app browser?
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent

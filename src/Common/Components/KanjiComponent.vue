@@ -14,6 +14,7 @@
 		<div class="kanji-meanings">
 			<div
 				v-for="(meanings, lang) in meaningsGroupedByLang"
+				:key="lang"
 				class="kanji-meanings-lang-group"
 			>
 				<div class="kanji-meanings-lang">
@@ -21,7 +22,10 @@
 				</div>
 				<div class="kanji-meanings-list">
 					<ol>
-						<li v-for="meaning in meanings">
+						<li
+							v-for="(meaning, index) in meanings"
+							:key="index"
+						>
 							{{ meaning }}
 						</li>
 					</ol>
@@ -30,7 +34,8 @@
 		</div>
 		<div class="kanji-readings">
 			<div
-				v-for="reading in kanji.readings"
+				v-for="(reading, index) in kanji.readings"
+				:key="index"
 			>{{ reading.reading }}</div>
 		</div>
 	</div>
@@ -164,21 +169,27 @@
 		min-height: 100%;
 		height: 100%;
 		display: grid;
-		grid-template-columns: auto auto auto;
+		grid-template-columns: min-content auto auto;
 		column-gap: 0.5em;
 		border: 1px dotted var(--dark);
 		padding: 0.5em;
 		box-sizing: border-box;
+		flex-basis: 100%;
+		flex-shrink: 1;
 	}
 
 	.kanji-meanings {
 		height: 100%;
 		overflow-y: auto;
+		overflow-x: hidden;
+		min-width: 8em;
 	}
 
 	.kanji-readings {
 		height: 100%;
 		overflow-y: auto;
+		overflow-x: hidden;
+		min-width: 4em;
 	}
 
 	.kanji-meanings-lang-group {
@@ -198,7 +209,8 @@
 	}
 
 	.kanji-svg-container {
-		min-height: 100%;
+		min-width: 10em;
+		width: auto;
 		height: 100%;
 		text-align: center;
 		display: flex;
@@ -207,8 +219,8 @@
 	}
 
 	.kanji-svg-container >>> svg {
-		width: auto;
-		height: 100%;
+		width: 100%;
+		height: auto;
 	}
 
 	.kanji-svg-container >>> svg text {
@@ -238,16 +250,22 @@
 
 	.kanji-container.zooming {
 		position: relative;
-		margin-right: 1.5em;
+		margin-right: 1em;
+
 		grid-template-columns: auto;
 		grid-template-rows: auto auto;
 		row-gap: 0;
+		flex-shrink: 3;
+		padding: 2px;
 	}
 	.kanji-container.zooming >>> svg {
 		width: auto;
 		height: auto;
 	}
 
+	.kanji-container.zooming .kanji-meanings {
+		min-width: auto;
+	}
 	.kanji-container.zooming .kanji-readings {
 		display: none;
 	}
@@ -268,6 +286,11 @@
 		display: block;
 		text-align: center;
 		font-size: 0.8em;
+		word-break: break-all;
+	}
+
+	.kanji-container.zooming .kanji-svg-container {
+		min-width: 1.5em;
 	}
 
 	.kanji-container.zooming::before,
@@ -277,18 +300,18 @@
 		display: block;
 		top: 50%;
 		width: 0.3em;
-		height: 1.5em;
+		height: 1em;
 		background: var(--dark);
 		transform-origin: top center;
 		box-sizing: border-box;
 	}
 	.kanji-container.zooming::before {
-		right: -1.5em;
+		right: -1em;
 		transform: rotate(135deg);
 		margin-top: 0.075em;
 	}
 	.kanji-container.zooming::after {
-		right: -1.5em;
+		right: -1em;
 		transform: rotate(45deg);
 		margin-top: -0.075em;
 	}

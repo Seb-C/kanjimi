@@ -5,6 +5,7 @@
 		<h2>????年??月??日</h2>
 		<ul>
 			<li>Made the sample sites more visible on the homepage (after login)</li>
+			<li>Added more information about the individual Kanjis, along with the possibility to click and see the details of it's components</li>
 			<li>Added a button to open an URL externally from the in-app browser</li>
 			<li>Fixed bugs related to the in-app browser (including problems with Safari)</li>
 		</ul>

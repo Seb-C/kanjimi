@@ -1,11 +1,18 @@
 Before posting to producthunt (next release):
-    kanjis:
-        part contained in another -> change the order to make it actually clickable?
-        e2e test for the whole feature
-        test the result in the extension, not only the webapp
+    e2e test for the whole kanji feature (with the extension that still needs to be tested)
+        displays the readings (onyomi and kunyomi)
+        displays the meanings depending on the language
+        displays the svg
+        can click on a svg part
+        only shows the first meaning of the zoomed-in kanjis
+        shows the svg of the zoomed-in kanjis
+        shows the readings of the zoomed-in kanjis
+        shows the meanings of the zoomed-in kanjis
+        can zoom on a zoomed-in kanji
     Iframe browser: fix responsive of the contained site
     copy tests from the extension to test the in-app browser?
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
+    Re-test on Safari
     update the changelog + date
     certbot in a cron
     deploy
@@ -15,6 +22,7 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    Some parts of the Kanjis are contained in another and thus not clickable -> change the order to make it actually clickable?
     ancient writing for the kanjis? -> https://commons.wikimedia.org/wiki/Commons:Ancient_Chinese_characters_project
     Improve the explanation kunyoumi / onyoumi in the kanji details?
     handle sub-element scrolling in the PageHandler detection (example site hvc)

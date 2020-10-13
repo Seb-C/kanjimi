@@ -1,16 +1,20 @@
 <template>
 	<div
-		v-if="svg === null"
-		class="kanjimi-loader"
-	/>
-	<div
-		v-else
 		v-bind:class="{
 			'kanji-container': true,
 			'zooming': selected !== null,
 		}"
 	>
-		<div v-html="svg" ref="svg" class="kanji-svg-container" />
+		<div v-if="svg === null" class="kanji-svg-container">
+			<div class="kanjimi-loader" />
+		</div>
+		<div
+			v-else
+			v-html="svg"
+			ref="svg"
+			class="kanji-svg-container"
+		/>
+
 		<div class="kanji-meanings">
 			<div
 				v-for="(meanings, lang) in meaningsGroupedByLang"
@@ -67,8 +71,12 @@
 			}
 		},
 		watch: {
-			kanji(newVal, oldVal) {
-				this.loadSvg();
+			async kanji(newVal, oldVal) {
+				try {
+					await this.loadSvg();
+				} catch (error) {
+					console.error(error);
+				}
 			},
 			selected(newVal, oldVal) {
 				this.updateSvgActiveSelection();

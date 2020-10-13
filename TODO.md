@@ -1,6 +1,5 @@
 Before posting to producthunt (next release):
     kanjis:
-        sometimes errors with unknown kanjis?
         ancient writing for the kanjis
         readings: add the romaji as a furigana if needed?
             + improve the explanation kunyoumi / onyoumi
@@ -20,6 +19,7 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    handle sub-element scrolling in the PageHandler detection (example site hvc)
     have kanjimi on the product list on the KanjiVG web page
     properly handle the srcdoc attribute instead of removing it (relative to absolute conversion)
     use Kanjimi more (set a daily planning?)

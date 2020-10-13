@@ -1,7 +1,5 @@
 Before posting to producthunt (next release):
     kanjis:
-        ancient writing for the kanjis
-        improve the explanation kunyoumi / onyoumi
         add the accessibility tags to the clickable parts of the svg
         part contained in another -> change the order to make it actually clickable?
         e2e test for the whole feature
@@ -18,6 +16,8 @@ Before posting to producthunt (next release):
     post on producthunt
 
 After:
+    ancient writing for the kanjis? -> https://commons.wikimedia.org/wiki/Commons:Ancient_Chinese_characters_project
+    Improve the explanation kunyoumi / onyoumi in the kanji details?
     handle sub-element scrolling in the PageHandler detection (example site hvc)
     have kanjimi on the product list on the KanjiVG web page
     properly handle the srcdoc attribute instead of removing it (relative to absolute conversion)

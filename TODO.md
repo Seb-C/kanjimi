@@ -1,6 +1,5 @@
 Before posting to producthunt (next release):
     kanjis:
-        add the accessibility tags to the clickable parts of the svg
         part contained in another -> change the order to make it actually clickable?
         e2e test for the whole feature
         test the result in the extension, not only the webapp

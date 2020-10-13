@@ -141,6 +141,7 @@
 
 							element.classList.add('kanji-component');
 							element.setAttribute('pointer-events', 'all');
+							element.setAttribute('role', 'button');
 
 							// Creating a bounding box to handle the mouse
 							const box = document.createElementNS('http://www.w3.org/2000/svg', 'rect');

@@ -1,8 +1,7 @@
 Before posting to producthunt (next release):
     kanjis:
         ancient writing for the kanjis
-        readings: add the romaji as a furigana if needed?
-            + improve the explanation kunyoumi / onyoumi
+        improve the explanation kunyoumi / onyoumi
         add the accessibility tags to the clickable parts of the svg
         part contained in another -> change the order to make it actually clickable?
         e2e test for the whole feature

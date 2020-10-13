@@ -40,7 +40,11 @@
 			<div
 				v-for="(reading, index) in kanji.readings"
 				:key="index"
-			>{{ reading.reading }}</div>
+				class="kanji-reading"
+			>
+				<div class="kanji-reading-furigana">{{ getFurigana(reading.reading) }}</div>
+				{{ reading.reading }}
+			</div>
 		</div>
 	</div>
 </template>
@@ -50,6 +54,7 @@
 	import Meaning from 'Common/Models/Kanjis/Meaning';
 	import Structure from 'Common/Models/Kanjis/Structure';
 	import Language from 'Common/Types/Language';
+	import CharType from 'Common/Types/CharType';
 
 	export default Vue.extend({
 		props: {
@@ -169,6 +174,18 @@
 					});
 				}
 			},
+
+			getFurigana(reading: string): string {
+				if (this.$root.user.romanReading) {
+					return CharType.hiraganaToRoman(
+						CharType.katakanaToHiragana(
+							reading,
+						),
+					);
+				}
+
+				return '';
+			},
 		},
 	});
 </script>
@@ -193,13 +210,6 @@
 		min-width: 8em;
 	}
 
-	.kanji-readings {
-		height: 100%;
-		overflow-y: auto;
-		overflow-x: hidden;
-		min-width: 4em;
-	}
-
 	.kanji-meanings-lang-group {
 		display: grid;
 		grid-template-columns: min-content auto;
@@ -214,6 +224,27 @@
 		list-style-type: decimal;
 		list-style-position: inside;
 		display: list-item;
+	}
+
+	.kanji-readings {
+		height: 100%;
+		overflow-y: auto;
+		overflow-x: hidden;
+		min-width: 4em;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+	}
+	.kanji-reading {
+		line-height: 100%;
+		margin-bottom: 0.3em;
+		white-space: nowrap;
+	}
+	.kanji-reading-furigana {
+		font-size: 0.5em;
+		line-height: 150%;
+		margin: 0 2px;
+		text-align: center;
 	}
 
 	.kanji-svg-container {

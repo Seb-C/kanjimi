@@ -66,4 +66,30 @@ context('KanjiComponent', () => {
 		cy.get('.kanjimi-ui-container .kanji-svg-container svg:last .kanji-component:last').click();
 		cy.get('.kanjimi-ui-container .tab-content-scrollable-area').should('contain', 'selfish');
 	});
+	it('Can show the roman reading on the readings', () => {
+		// Disabled because Cypress cannot capture fetch queries
+		// However it seems to work anyway ?!
+		// cy.server();
+		// cy.route('PATCH', '**/user/**').as('updateUserRequest');
+
+		cy.setLoggedIn();
+
+		// Should be in hiragana only for now
+		cy.visit('/test-pages/wikipedia.html')
+		cy.get('.word:contains(記事):first').click();
+		cy.get('.kanjimi-ui-container .tab:contains(事)').click();
+		cy.get('.kanjimi-ui-container .kanji-reading:contains(こと)').should('not.contain', 'koto');
+
+		// Switching to romaji
+		cy.visit('/app/settings');
+		cy.get('.roman-reading-switch').find('input').should('not.be.checked');
+		cy.get('.roman-reading-switch').click();
+		// cy.wait('@updateUserRequest');
+
+		// Should have a romaji furigana now
+		cy.visit('/test-pages/wikipedia.html');
+		cy.get('.word:contains(記事):first').click();
+		cy.get('.kanjimi-ui-container .tab:contains(事)').click();
+		cy.get('.kanjimi-ui-container .kanji-reading:contains(こと)').should('contain', 'koto');
+	});
 });

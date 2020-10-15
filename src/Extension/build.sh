@@ -39,7 +39,9 @@ cp ./src/*.d.ts ./dist/extension-review/src/
 cp -R ./src/Common ./dist/extension-review/src/Common
 cp -R ./src/Extension ./dist/extension-review/src/Extension
 find ./dist/extension-review/src -type f -name "*.test.ts" -delete
+find ./dist/extension-review/src -type f -name "*.test.js" -delete
 find ./dist/extension-review/src -type f -name "*.e2e.ts" -delete
+find ./dist/extension-review/src -type f -name "*.e2e.js" -delete
 echo '#!/bin/bash
 set -e
 docker run \

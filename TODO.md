@@ -1,9 +1,6 @@
-Before posting to producthunt (next release):
-    deploy
-    publish extension
-    test charge
-    get and install second server
-    post on producthunt
+test charge
+get and install second server
+post on producthunt
 
 next release:
     progressive web app (+ TODO list features to integrate + better interface)
@@ -16,6 +13,7 @@ next release:
     certbot in a cron
 
 After:
+    fix clearing cache of nginx that breaks things and require restart
     copy tests from the extension to test the in-app browser?
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     Arabic and Hindi dictionaries?

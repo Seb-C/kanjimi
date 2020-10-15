@@ -74,7 +74,8 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
     fi
 
     echo 'Clearing nginx cache'
-    docker exec -t nginx rm -Rf '/var/cache/nginx/*'
+    docker exec -t nginx bash -c 'rm -Rf /var/cache/nginx/*'
+    docker restart nginx
 
     echo 'Rebuilding and reloading nginx configuration'
     docker exec nginx bash -c \"source /kanjimi/dist/production/server.env && exec 3>&1 && /docker-entrypoint.d/20-envsubst-on-templates.sh\"

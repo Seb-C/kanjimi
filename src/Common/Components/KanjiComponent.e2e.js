@@ -3,8 +3,8 @@ context('KanjiComponent', () => {
 		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
-		cy.get('.word:contains(可能):first').click();
-		cy.get('.kanjimi-ui-container .tab:contains(能)').click();
+		cy.get('.word:contains(導入):first').click();
+		cy.get('.kanjimi-ui-container .tab:contains(導)').click();
 
 		cy.get('.kanjimi-ui-container .tooltip .kanji-svg-container svg').should('be.visible');
 	});
@@ -12,12 +12,12 @@ context('KanjiComponent', () => {
 		cy.setLoggedIn();
 		cy.visit('/test-pages/wikipedia.html')
 
-		cy.get('.word:contains(可能):first').click();
-		cy.get('.kanjimi-ui-container .tab:contains(能)').click();
+		cy.get('.word:contains(導入):first').click();
+		cy.get('.kanjimi-ui-container .tab:contains(導)').click();
 
 		cy.get('.kanjimi-ui-container .tab-content-scrollable-area')
-			.should('contain', 'ability')
-			.should('contain', 'capacité');
+			.should('contain', 'mener')
+			.should('contain', 'leading');
 	});
 	it('Displays the readings', () => {
 		cy.setLoggedIn();

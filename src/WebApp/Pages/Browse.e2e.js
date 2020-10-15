@@ -27,9 +27,7 @@ context('Browse', () => {
 	it('Properly detects installed extension', () => {
 		cy.setLoggedIn();
 		cy.visit('/app');
-		cy.get('.page-home').should('contain', 'Kanjimi is installed');
-		cy.get('.page-home a:contains(Wikipedia)').should('exist');
-		cy.get('.page-home a:contains(news)').should('exist');
+		cy.get('.page-home').should('contain', 'Kanjimi extension is installed');
 	});
 	it('Properly shows links if the extension is uninstalled', () => {
 		cy.setLoggedIn();
@@ -144,7 +142,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
 		cy.wait(500);
 
-		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('noscript *').should('be.visible');
+		cy.get('iframe').its('0.contentDocument.body').then(cy.wrap).find('script').should('not.exist');
 	});
 
 	it('Displaying properly the 500 errors', () => {

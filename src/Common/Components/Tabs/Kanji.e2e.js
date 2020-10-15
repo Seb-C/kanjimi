@@ -22,7 +22,7 @@ context('Kanjis', () => {
 
 		cy.get('.kanjimi-ui-container .tab:contains(日)').click();
 
-		cy.get('.kanjimi-ui-container .tooltip .kanji').should('be.visible');
-		cy.get('.kanjimi-ui-container .tooltip .kanji svg').should('be.visible');
+		cy.get('.kanjimi-ui-container .tooltip .kanji-svg-container').should('be.visible');
+		cy.get('.kanjimi-ui-container .tooltip .kanji-svg-container svg').should('be.visible');
 	});
 });

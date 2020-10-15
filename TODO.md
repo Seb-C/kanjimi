@@ -1,14 +1,22 @@
 Before posting to producthunt (next release):
-    copy tests from the extension to test the in-app browser?
-    update the changelog + date
-    certbot in a cron
     deploy
     publish extension
     test charge
     get and install second server
     post on producthunt
 
+next release:
+    progressive web app (+ TODO list features to integrate + better interface)
+    text translate page
+    improve the browser page to look like an actual browser on the PWA
+    dictionary page (+ kanjis?)
+    update the changelog + date
+    do some database backups manually
+    log analysis tool? Goaccess?
+    certbot in a cron
+
 After:
+    copy tests from the extension to test the in-app browser?
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent
     Arabic and Hindi dictionaries?
     Some parts of the Kanjis are contained in another and thus not clickable -> change the order to make it actually clickable?
@@ -22,22 +30,16 @@ After:
         - list of server ips with a map?
         - simple connections with a ./ssh script
         - database? ./db script? ./ssh db?
-    progressive web app (+ TODO list features to integrate + better interface)
-    text translate page
-    dictionary page
     Browse.e2e.ts failing locally but not in the CI -> local url detection not working?
-    recognize suffixes to hide soe definitions (...shi (city), kun, yama...)?
-    do some database backups manually
+    recognize suffixes to hide some definitions (...shi (city), kun, yama...)?
     nginx restart after failure may take the original configuration env file rather than the latest hot-updated one
     postgresql 13
     alerts if down (use healthcheck)
-    log analysis tool? Goaccess?
     update docker nginx sometimes? + pull nodejs container up-to-date at deploy time
     strategy / gamification / city builder with unlocks inside the app?
     migrate to VueJS 3
     manage load balancer list when deploying
     healthcheck for load balancer
-    animate the Kanji drawings?
     API rate limiting with nginx (except for local client ips)
     config: use default https port (443) instead of 3000 locally
     tests Cypress on mobile resolution
@@ -53,11 +55,9 @@ After:
     post on hackernews
     post on reddit
     post on linkedin
-    post on twitter
     extension: disable the browser action on localhost and kanjimi domains
     update homepage previews
     への recognized as word (name) rather than particles
-    remove OVH start10M?
     inconsistency: GET lexer/kanji takes languages from the profile, not POST lexer/analyze
     alternative KanjiVG files = better?
     setup SES alert when quota reached?
@@ -103,7 +103,6 @@ After:
     Dictionary: split definitions and reading/tags?
     dependency-injection for all the browser.xxx APIs from the main script
     bookmarklet that redirects to the site?
-    url that takes text in the url (like the browser but only with text)
     possible to test the Firefox for Android version on CI? (it works but need to forward the 3000 port from the emulator)
     aria attributes on tooltip (modal dialog attributes?)
     keyboard navigation for tokens and tooltip (token only + keystrokes explained in the tooltip?)
@@ -132,7 +131,6 @@ After:
     search and fix remaining TODOs
     cypress tests in typescript
     server side fetching of a page to be independent from the extension
-    copy/paste functionality on the website (can use the tool on any text, independently from the extension)
     share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
     Should saved word preferences be different for each reading?
     improve order of the returned words (the top one should be right in the context)

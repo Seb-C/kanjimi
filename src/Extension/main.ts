@@ -1,5 +1,6 @@
 import PageHandler from 'Common/PageHandler';
 import Store from 'Common/Store';
+import ExtensionStorage from 'Common/Storage/ExtensionStorage';
 
 // Fix for chrome and blink browsers
 if (typeof browser === 'undefined') {
@@ -7,16 +8,7 @@ if (typeof browser === 'undefined') {
 	window.browser = require('webextension-polyfill');
 }
 
-const storage = {
-	get: async (keys: string[]): Promise<{ [key: string]: string|null }> => {
-		return browser.storage.local.get(keys);
-	},
-	set: async (data: { [key: string]: string|null }): Promise<void> => {
-		return browser.storage.local.set(data);
-	},
-};
-
-const store = new Store(window, storage);
+const store = new Store(window, ExtensionStorage);
 
 const isWebsite = window.location.href.startsWith(
 	<string>process.env.KANJIMI_WWW_URL + '/',

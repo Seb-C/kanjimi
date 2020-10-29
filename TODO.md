@@ -1,18 +1,24 @@
-test charge
-get and install second server
-post on producthunt
-
 next release:
-    progressive web app (+ TODO list features to integrate + better interface)
     text translate page
+    unit tests for the Common/Storage classes
     improve the browser page to look like an actual browser on the PWA
-    dictionary page (+ kanjis?)
+    progressive web app (+ TODO list features to integrate + better interface)
     update the changelog + date
     do some database backups manually
+
+important to do soon:
     log analysis tool? Goaccess?
     certbot in a cron
+    test charge
+    get and install second server
+    post on producthunt
 
 After:
+    dictionary page (+ kanjis?)
+    Rename master branch to production
+    Make a development branch
+    Automatic deployment when the production branch is deployed?
+    More languages for the Kanjis (Should have the same than the main dictionaries)
     fix clearing cache of nginx that breaks things and require restart
     copy tests from the extension to test the in-app browser?
     test NHK easy -> need to remove the ruby tags in a page, replace with root text + normalize parent

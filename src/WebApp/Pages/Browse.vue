@@ -181,6 +181,7 @@
 	import AuthenticationError from 'Common/Api/Errors/Authentication';
 	import ServerError from 'Common/Api/Errors/Server';
 	import * as DomPurify from 'dompurify';
+	import BrowserStorage from 'Common/Storage/BrowserStorage';
 
 	export default Vue.extend({
 		data() {
@@ -263,26 +264,7 @@
 
 				this.$root.router.addTitleSuffix(win.document.title);
 
-				const storage = {
-					get: async (keys: string[]): Promise<{ [key: string]: string|null }> => {
-						const result: any = {};
-						keys.forEach((key) => {
-							result[key] = localStorage.getItem(key) || null;
-						});
-						return result;
-					},
-					set: async (data: { [key: string]: string|null }): Promise<void> => {
-						Object.keys(data).forEach((key) => {
-							if (data[key] === null) {
-								localStorage.removeItem(key);
-							} else {
-								localStorage.setItem(key, <string>data[key]);
-							}
-						});
-					},
-				};
-
-				const store = new ExtensionStore(win, storage);
+				const store = new ExtensionStore(win, BrowserStorage);
 				const pageHandler = new PageHandler(
 					win,
 					store,

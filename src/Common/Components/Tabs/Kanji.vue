@@ -3,6 +3,7 @@
 	<div v-else class="kanji-data-container">
 		<KanjiComponent
 			v-for="(kanji, index) in kanjis"
+			:key="index"
 			v-bind:kanji="kanji"
 			v-on:click="(kanji) => onKanjiClick(kanji, index)"
 			v-bind:selected="kanjis[index + 1] || null"

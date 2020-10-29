@@ -177,6 +177,7 @@
 				} else {
 					this.menuLinks = [
 						{ url: './app', title: 'Browse' },
+						{ url: './app/read', title: 'Read' },
 						{ url: './app/settings', title: 'Settings' },
 						{ url: './app/logout', title: 'Logout', 'classes': { 'd-md-none': true } },
 					];

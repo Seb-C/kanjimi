@@ -1,6 +1,14 @@
 next release:
     text translate page
-    unit tests for the Common/Storage classes
+        split the text into paragraphs
+        secure (escape) properly the text against XSS
+        show inputs for the text if text === null
+        design this page inputs, and button to go back / change text
+        handle the scrolling if the text is long
+        check for any maximum length of the text
+        e2e test for the feature
+            + test when the url params changes without reloading the page
+        unit tests for the Common/Storage classes
     improve the browser page to look like an actual browser on the PWA
     progressive web app (+ TODO list features to integrate + better interface)
     update the changelog + date

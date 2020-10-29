@@ -13,6 +13,7 @@ import Logout from 'WebApp/Pages/Authentication/Logout.vue';
 import Settings from 'WebApp/Pages/Settings.vue';
 import About from 'WebApp/Pages/About.vue';
 import Changelog from 'WebApp/Pages/Changelog.vue';
+import Read from 'WebApp/Pages/Read.vue';
 import Browse from 'WebApp/Pages/Browse.vue';
 
 window.addEventListener('load', async function () {
@@ -27,6 +28,7 @@ window.addEventListener('load', async function () {
 		{ url: 'app/change-password', component: ChangePassword, title: 'Change my password' },
 		{ url: 'app/logout', component: Logout, title: 'Logout' },
 		{ url: 'app/settings', component: Settings, title: 'Settings' },
+		{ url: 'app/read', component: Read, title: 'Read' },
 		{ url: 'app', component: Browse, title: 'Browse' },
 	]);
 	window.addEventListener('popstate', function () {

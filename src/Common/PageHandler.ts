@@ -16,12 +16,12 @@ export default class PageHandler {
 	private processing: boolean = false;
 	private window: Window;
 	private store: Store;
-	private documentLocation: string;
+	private documentLocation: string|null;
 
 	constructor (
 		window: Window,
 		store: Store,
-		documentLocation: string,
+		documentLocation: string|null,
 	) {
 		this.window = window;
 		this.store = store;
@@ -152,17 +152,24 @@ export default class PageHandler {
 
 		if (strings.length > 0) {
 			try {
+				const optionalAnalyzeArguments = <{
+					pageUrl?: string,
+					sessionId?: string,
+				}>{};
+
 				const canonicalTag = this.window.document.querySelector('link[rel="canonical"]');
 				const pageUrl = canonicalTag ? (<any>canonicalTag).href : this.documentLocation;
-				const sessionId = await this.store.getSessionId();
+				if (pageUrl !== null) {
+					optionalAnalyzeArguments.pageUrl = pageUrl;
+					optionalAnalyzeArguments.sessionId = await this.store.getSessionId();
+				}
 
 				const data = await analyze(
 					this.store.apiKey.key,
 					{
 						languages: [...(<User>this.store.user).languages],
 						strings,
-						pageUrl,
-						sessionId,
+						...optionalAnalyzeArguments,
 					},
 				);
 

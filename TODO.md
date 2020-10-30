@@ -1,12 +1,11 @@
 next release:
     text translate page
-        split the text into paragraphs
-        secure (escape) properly the text against XSS
         handle the scrolling if the text is long
         check for any maximum length of the text
         e2e test for the feature
             + test when the url params changes without reloading the page
             + test going back (copy tests from the browser?)
+            + test XSS
         unit tests for the Common/Storage classes
     improve the browser page to look like an actual browser on the PWA
     progressive web app (+ TODO list features to integrate + better interface)

@@ -87,7 +87,17 @@
 							<link rel="stylesheet" href="${process.env.KANJIMI_WWW_URL}/css/browser.build.css" />
 						</head>
 						<body>
-							${text}
+							${
+								text
+									.split(/\r?\n/)
+									.map((text) => {
+										const textNode = document.createTextNode(text);
+										var textNodeContainer = document.createElement('p');
+										textNodeContainer.appendChild(textNode);
+										return textNodeContainer.innerHTML;
+									})
+									.join('<br />')
+							}
 						</body>
 					</html>
 				`;

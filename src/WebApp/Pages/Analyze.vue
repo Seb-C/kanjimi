@@ -1,9 +1,27 @@
 <template>
-	<div class="flex-fill p-0 m-0 page-read d-flex flex-column">
+	<div class="container flex-fill py-2 page-analyze">
+		<div class="form-container row">
+			<div class="col-9 col-md-10 textarea-container">
+				<textarea
+					class="form-control"
+					placeholder="You can write or paste any Japanese text here to analyze and read it using Kanjimi."
+					title="You can write or paste any Japanese text here to analyze and read it using Kanjimi."
+					v-model="inputText"
+				></textarea>
+			</div>
+			<div class="col-3 col-md-2 button-container">
+				<button
+					class="form-control btn btn-primary h-100"
+					@click="onAnalyzeTextClick"
+				>Analyze this text</button>
+			</div>
+		</div>
+		<hr />
 		<iframe
-			class="iframe-read flex-fill border-0"
+			v-if="analyzedText !== null"
+			class="iframe-analyze flex-fill border-0"
 			sandbox="allow-same-origin allow-scripts"
-			v-bind:srcdoc="makeDocumentFromText(text)"
+			v-bind:srcdoc="makeDocumentFromText(analyzedText)"
 			@load="iframeLoaded"
 		/>
 	</div>
@@ -17,8 +35,11 @@
 
 	export default Vue.extend({
 		data() {
+			const text: string|null = (<WebAppStore><any>this.$root).router.params.text || null;
+
 			return {
-				text: <string|null>((<WebAppStore><any>this.$root).router.params.text || null),
+				inputText: text,
+				analyzedText: text,
 			};
 		},
 		async created() {
@@ -28,10 +49,14 @@
 		},
 		watch: {
 			async '$root.router.params'(newParams, oldParams) {
-				this.text = newParams.text;
+				this.inputText = newParams.text || null;
+				this.analyzedText = newParams.text || null;
 			},
 		},
 		methods: {
+			onAnalyzeTextClick() {
+				this.$root.router.changeRoute(`./app/analyze?text=${encodeURIComponent(this.inputText)}`);
+			},
 			iframeLoaded(event: Event) {
 				const win = <Window>(<HTMLIFrameElement>event.target).contentWindow;
 
@@ -71,7 +96,20 @@
 	});
 </script>
 <style scoped>
-	.iframe-read {
+	.textarea-container {
+		padding-right: 0;
+	}
+
+	.textarea-container textarea {
+		resize: none;
+		height: 7rem;
+	}
+
+	hr {
+		margin: 0.5rem 0 0.5rem 0;
+	}
+
+	.iframe-analyze {
 		width: 100%;
 	}
 </style>

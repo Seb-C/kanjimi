@@ -1,5 +1,5 @@
 <template>
-	<div class="container flex-fill py-2 page-analyze">
+	<div class="container flex-fill py-2 page-analyze d-flex flex-column">
 		<div class="form-container row">
 			<div class="col-9 col-md-10 textarea-container">
 				<textarea

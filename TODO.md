@@ -1,7 +1,5 @@
 next release:
     text translate page
-        handle the scrolling if the text is long
-        check for any maximum length of the text
         e2e test for the feature
             + test when the url params changes without reloading the page
             + test going back (copy tests from the browser?)

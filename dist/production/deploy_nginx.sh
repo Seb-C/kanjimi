@@ -69,6 +69,7 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
             --manual-public-ip-logging-ok \
             --manual-auth-hook /kanjimi/dist/production/functions/certbot_auth_hook.sh \
             --manual-cleanup-hook /kanjimi/dist/production/functions/certbot_cleanup_hook.sh \
+            --force-renewal \
             -d kanjimi.com \
             -d www.kanjimi.com
     fi

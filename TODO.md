@@ -1,4 +1,7 @@
 next release:
+    bug with the extension:
+        cannot click on words like omoimasu and tsukutta
+        popup too tall on the extension (svg becomes not visible because out of screen)
     text translate page
         e2e test for the feature
             + test when the url params changes without reloading the page
@@ -13,6 +16,8 @@ next release:
 important to do soon:
     log analysis tool? Goaccess?
     certbot in a cron
+        - run automatically certbot with the arguments found in the nginx deployment file
+        - make nginx reload it's configuration automatically once a day (currently done with this command: docker exec -t nginx nginx -s reload)
     test charge
     get and install second server
     post on producthunt

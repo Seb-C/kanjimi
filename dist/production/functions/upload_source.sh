@@ -22,3 +22,5 @@ docker run -v ${PWD}:/kanjimi -v ~/.ssh/known_hosts:/root/.ssh/known_hosts -w /k
     -e 'ssh -i /kanjimi/dist/production/ssh_key' \
     ./ \
     root@$SERVER_HOSTNAME:/kanjimi
+
+ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME chmod a+rx /kanjimi

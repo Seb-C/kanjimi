@@ -63,7 +63,7 @@
 		display: flex;
 		flex-direction: row;
 		flex-wrap: nowrap;
-		min-height: 100%;
+		max-height: 50vh;
 		height: 100%;
 		width: 100%;
 	}

@@ -1,7 +1,8 @@
 next release:
     bug with the extension:
         cannot click on words like omoimasu and tsukutta
-        popup too tall on the extension (svg becomes not visible because out of screen)
+    fix test in CI failing
+        https://github.com/Seb-C/kanjimi/runs/1390228308?check_suite_focus=true
     text translate page
         e2e test for the feature
             + test when the url params changes without reloading the page

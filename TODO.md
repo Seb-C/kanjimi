@@ -12,6 +12,7 @@ next release:
     improve the browser page to look like an actual browser on the PWA
     progressive web app (+ TODO list features to integrate + better interface)
     update the changelog + date
+    change the version and publish the extension
     do some database backups manually
 
 important to do soon:

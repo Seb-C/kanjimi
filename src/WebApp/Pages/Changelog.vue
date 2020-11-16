@@ -2,6 +2,13 @@
 	<div class="container flex-fill py-2 page-changelog">
 		<h1>Changelog</h1>
 
+		<h2>?年?月?日</h2>
+		<ul>
+			<li>Adding a feature allowing to use Kanjimi on a raw text (website only)</li>
+			<li>Fixing some minor layout bugs</li>
+			<li>Fixing the Kanji being invisible on some pages, due to the tooltip being too tall</li>
+		</ul>
+
 		<h2>2020年10月15日</h2>
 		<ul>
 			<li>Made the sample sites more visible on the homepage (after login)</li>

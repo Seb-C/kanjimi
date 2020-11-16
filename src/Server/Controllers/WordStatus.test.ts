@@ -152,7 +152,7 @@ describe('WordStatusController', async function() {
 			.toBe(true);
 	});
 
-	it('createOrUpdate (word not in dictionaty)', async function() {
+	it('createOrUpdate (conjugated word not in dictionary should work)', async function() {
 		const response = await fetch('https://localhost:3000/api/word-status', {
 			method: 'PUT',
 			headers: {
@@ -160,17 +160,12 @@ describe('WordStatusController', async function() {
 			},
 			body: JSON.stringify({
 				userId: user.id,
-				word: 'word that cannot be in the dictionary',
+				word: '思いました',
 				showFurigana: true,
 				showTranslation: false,
 			}),
 		});
-		expect(response.status).toBe(422);
-		const responseData = await response.json();
-
-		expect(this.validationErrorResponseValidator(responseData))
-			.withContext(JSON.stringify(this.validationErrorResponseValidator.errors))
-			.toBe(true);
+		expect(response.status).toBe(200);
 	});
 
 	it('createOrUpdate (authentication error)', async function() {

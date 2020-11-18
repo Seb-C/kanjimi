@@ -1,5 +1,4 @@
 next release:
-    unit tests for the Common/ExtensionStorage class
     text translate page
         e2e test for the feature
             + test when the url params changes without reloading the page

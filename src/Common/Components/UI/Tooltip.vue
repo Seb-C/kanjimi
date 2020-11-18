@@ -259,7 +259,7 @@
 		position: absolute;
 		top: 1px;
 		right: 1px;
-		padding: 0.8em;
+		padding: 4px;
 		line-height: 1em;
 		background: var(--primary);
 		color: var(--red);

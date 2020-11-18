@@ -1,10 +1,10 @@
 next release:
+    unit tests for the Common/ExtensionStorage class
     text translate page
         e2e test for the feature
             + test when the url params changes without reloading the page
             + test going back (copy tests from the browser?)
             + test XSS
-        unit tests for the Common/Storage classes
     improve the browser page to look like an actual browser on the PWA
     progressive web app (+ TODO list features to integrate + better interface)
     update the changelog + date

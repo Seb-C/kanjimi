@@ -61,9 +61,11 @@ context('KanjiComponent', () => {
 		cy.get('.kanjimi-ui-container .tab-content-scrollable-area').should('contain', 'deliberation');
 
 		cy.get('.kanjimi-ui-container .kanji-svg-container svg .kanji-component:last').click();
+		cy.wait(200);
 		cy.get('.kanjimi-ui-container .tab-content-scrollable-area').should('contain', 'justice');
 
 		cy.get('.kanjimi-ui-container .kanji-svg-container svg:last .kanji-component:last').click();
+		cy.wait(200);
 		cy.get('.kanjimi-ui-container .tab-content-scrollable-area').should('contain', 'selfish');
 	});
 	it('Can show the roman reading on the readings', () => {

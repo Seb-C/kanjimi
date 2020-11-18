@@ -1,16 +1,17 @@
 next release:
-    text translate page
-        e2e test for the feature
-            + test when the url params changes without reloading the page
-            + test going back (copy tests from the browser?)
-            + test XSS
-    improve the browser page to look like an actual browser on the PWA
     progressive web app (+ TODO list features to integrate + better interface)
+        need to fix the origin redirect to work on the local network
+        share integration
+        improve the browser page to look like an actual browser
+        define proper caching for the client-side?
+        button / interface to install the PWA smoothly
     update the changelog + date
     change the version and publish the extension
     do some database backups manually
 
 important to do soon:
+    security alerts from github
+    kubernetes + load balancer + automated certificates
     log analysis tool? Goaccess?
     certbot in a cron
         - run automatically certbot with the arguments found in the nginx deployment file

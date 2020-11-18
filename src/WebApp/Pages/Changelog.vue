@@ -4,7 +4,7 @@
 
 		<h2>?年?月?日</h2>
 		<ul>
-			<li>Adding a feature allowing to use Kanjimi on a raw text (website only)</li>
+			<li>Adding a feature (not available in the extension) allowing to use Kanjimi on any text (not only websites)</li>
 			<li>Fixing a bug preventing any conjugated verbs or adjectives from being hidden</li>
 			<li>Fixing some minor layout bugs</li>
 			<li>Fixing the Kanji being invisible on some pages, due to the tooltip being too tall</li>

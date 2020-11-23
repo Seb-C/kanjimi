@@ -17,6 +17,15 @@ import Analyze from 'WebApp/Pages/Analyze.vue';
 import Browse from 'WebApp/Pages/Browse.vue';
 
 window.addEventListener('load', async function () {
+	if (navigator.serviceWorker) {
+		try {
+			const registration = await navigator.serviceWorker.register('/app/service-worker.js');
+			console.log(registration);
+		} catch (error) {
+			console.error('Service worker registration error', error);
+		}
+	}
+
 	const router = new Router([
 		{ url: 'app/about', component: About, title: 'About Kanjimi - Contact' },
 		{ url: 'app/changelog', component: Changelog, title: 'About Kanjimi - Changelog' },

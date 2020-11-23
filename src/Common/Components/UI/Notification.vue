@@ -39,7 +39,7 @@
 		},
 		data() {
 			return {
-				iconUrl: `${process.env.KANJIMI_WWW_URL}/img/logo.svg`,
+				iconUrl: `${process.env.KANJIMI_WWW_URL}/img/logo/any.svg`,
 			};
 		},
 		methods: {

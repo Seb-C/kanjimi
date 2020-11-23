@@ -1,0 +1,54 @@
+{
+  "background_color": "white",
+  "description": "Online service helping to learn Japanese by making authentic Japanese websites accessible.",
+  "display": "standalone",
+  "icons": [
+    {
+      "src": "../img/logo/48.png",
+      "sizes": "48x48",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../img/logo/72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../img/logo/96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../img/logo/128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../img/logo/256.png",
+      "sizes": "256x256",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../img/logo/512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "../img/logo/any.svg",
+      "sizes": "any",
+      "type": "image/svg",
+      "purpose": "any"
+    }
+  ],
+  "name": "Kanjimi - Learn Japanese with native content",
+  "short_name": "Kanjimi",
+  "start_url": "./",
+  "scope": "../",
+  "categories": ["education", "travel", "utilities"]
+}

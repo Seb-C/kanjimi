@@ -1,10 +1,15 @@
 next release:
     progressive web app (+ TODO list features to integrate + better interface)
-        need to fix the origin redirect to work on the local network
-        share integration
+        share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
         improve the browser page to look like an actual browser
         define proper caching for the client-side?
         button / interface to install the PWA smoothly
+        test on chrome mobile
+        test on firefox mobile
+        test on Safari on mac
+        check cache emptying
+        need to fix the origin redirect to work on the local network
+        improve the icon by adding borders
     update the changelog + date
     change the version and publish the extension
     do some database backups manually
@@ -142,7 +147,6 @@ After:
     search and fix remaining TODOs
     cypress tests in typescript
     server side fetching of a page to be independent from the extension
-    share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
     Should saved word preferences be different for each reading?
     improve order of the returned words (the top one should be right in the context)
     Possible to have unit tests for new root classes: stores and router?

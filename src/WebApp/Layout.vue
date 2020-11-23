@@ -4,7 +4,7 @@
 			<div class="navbar-brand h1 my-0 text-white">
 				<a href="/" class="text-white">
 					<img
-						src="./img/logo.svg"
+						src="./img/logo/any.svg"
 						width="30"
 						height="30"
 						class="d-inline-block align-top bg-white rounded mr-2"

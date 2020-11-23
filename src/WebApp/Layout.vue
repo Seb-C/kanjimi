@@ -98,6 +98,7 @@
 							href="https://www.iubenda.com/privacy-policy/14085238"
 							target="_blank"
 							class="text-white text-nowrap"
+							rel="noopener"
 						>Privacy Policy</a>
 					</div>
 					<div class="col-12 col-sm-4 text-sm-left">
@@ -105,6 +106,7 @@
 							href="https://www.iubenda.com/terms-and-conditions/14085238"
 							target="_blank"
 							class="text-white text-nowrap"
+							rel="noopener"
 						>Terms and Conditions</a>
 					</div>
 				</div>

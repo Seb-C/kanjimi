@@ -1,11 +1,9 @@
 next release:
     progressive web app (+ TODO list features to integrate + better interface)
-        share option for mobile, using the website: https://chodounsky.com/2019/03/24/progressive-web-application-as-a-share-option-in-android/
         improve the browser page to look like an actual browser
-        define proper caching for the client-side?
-        button / interface to install the PWA smoothly
-        test on chrome mobile
-        test on firefox mobile
+        button / interface to install the PWA smoothly?
+        completely test on chrome mobile
+        test on firefox mobile (badge + share option?)
         test on Safari on mac
         check cache emptying
         need to fix the origin redirect to work on the local network
@@ -26,6 +24,7 @@ important to do soon:
     post on producthunt
 
 After:
+    automate the file list in the PWA's service worker
     dictionary page (+ kanjis?)
     Rename master branch to production
     Make a development branch

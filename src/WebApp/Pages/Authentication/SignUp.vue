@@ -188,11 +188,13 @@
 								<a
 									href="https://www.iubenda.com/terms-and-conditions/14085238"
 									target="_blank"
+									rel="noopener"
 								>Terms and Conditions</a>
 								and the
 								<a
 									href="https://www.iubenda.com/privacy-policy/14085238"
 									target="_blank"
+									rel="noopener"
 								>Privacy Policy</a>
 							</span>
 						</label>

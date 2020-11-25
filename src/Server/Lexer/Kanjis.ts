@@ -17,7 +17,7 @@ export default class Kanjis {
 				{ lang: Language.ENGLISH, path: Path.join(process.cwd(), './src/Server/Lexer/data/kanjis-meanings-en.csv') },
 				{ lang: Language.SPANISH, path: Path.join(process.cwd(), './src/Server/Lexer/data/kanjis-meanings-es.csv') },
 				{ lang: Language.FRENCH, path: Path.join(process.cwd(), './src/Server/Lexer/data/kanjis-meanings-fr.csv') },
-			].map((file) => new Promise((resolve) => {
+			].map((file) => new Promise<void>((resolve) => {
 				const meaningsFileReadStream = FileSystem.createReadStream(file.path);
 				const meaningsFileIterator = ReadLine.createInterface({
 					input: meaningsFileReadStream,
@@ -35,7 +35,7 @@ export default class Kanjis {
 			}))
 		);
 
-		await new Promise((resolve) => {
+		await new Promise<void>((resolve) => {
 			const readingsFileReadStream = FileSystem.createReadStream(
 				Path.join(process.cwd(), './src/Server/Lexer/data/kanjis-readings.csv')
 			);
@@ -54,7 +54,7 @@ export default class Kanjis {
 			});
 		});
 
-		await new Promise((resolve) => {
+		await new Promise<void>((resolve) => {
 			const structuresFileReadStream = FileSystem.createReadStream(
 				Path.join(process.cwd(), './src/Server/Lexer/data/kanjis-structure.jsonl')
 			);

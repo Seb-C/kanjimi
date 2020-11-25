@@ -31,7 +31,7 @@ export default class Dictionary {
 		// Loading words (word => [reading, tag[]])
 		type TempWord = [string, ReadonlyArray<WordTag>];
 		const wordsWithoutDefinitions: Map<string, TempWord[]> = new Map();
-		await new Promise((resolve) => {
+		await new Promise<void>((resolve) => {
 			const dictionaryFileReadStream = FileSystem.createReadStream(
 				Path.join(process.cwd(), './src/Server/Lexer/data/words.csv'),
 			);
@@ -66,7 +66,7 @@ export default class Dictionary {
 				{ lang: Language.RUSSIAN, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-ru.csv') },
 				{ lang: Language.SLOVENIAN, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-sl.csv') },
 				{ lang: Language.SWEDISH, path: Path.join(process.cwd(), './src/Server/Lexer/data/definitions-sv.csv') },
-			].map((file) => new Promise((resolve) => {
+			].map((file) => new Promise<void>((resolve) => {
 				const dictionaryFileReadStream = FileSystem.createReadStream(file.path);
 				const dictionaryFileIterator = ReadLine.createInterface({
 					input: dictionaryFileReadStream,
@@ -98,7 +98,7 @@ export default class Dictionary {
 		);
 
 		// Loading names
-		await new Promise((resolve) => {
+		await new Promise<void>((resolve) => {
 			const dictionaryFileReadStream = FileSystem.createReadStream(
 				Path.join(process.cwd(), './src/Server/Lexer/data/names.csv'),
 			);

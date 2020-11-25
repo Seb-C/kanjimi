@@ -10,6 +10,9 @@ next release:
         check cache emptying
         need to fix the origin redirect to work on the local network
         improve the icon by adding borders
+        any e2e tests possible?
+    broken CI tests?
+    check the privacy info now required in the chrome web store (mail received)
     update the changelog + date
     change the version and publish the extension
     do some database backups manually

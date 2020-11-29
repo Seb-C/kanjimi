@@ -2,7 +2,7 @@
 	<div class="d-flex flex-column bg-white" style="min-height: 100vh">
 		<nav class="navbar navbar-expand-md navbar-dark bg-dark sticky-top">
 			<div class="navbar-brand h1 my-0 text-white">
-				<a href="/" class="text-white">
+				<a href="/app/" class="text-white">
 					<img
 						src="./img/logo/any.svg"
 						width="30"
@@ -16,7 +16,7 @@
 			</div>
 
 			<div class="d-none d-sm-block d-md-none text-gray mr-3 ml-auto">
-				<i class="fas fa-user mr-2"></i>
+				<i class="fas fa-user"></i>
 				{{ userName }}
 			</div>
 			<button
@@ -48,7 +48,8 @@
 							v-bind:href="link.url"
 							v-on:click="navLinkClickHandler($event)"
 							:ref="'menu-link-' + index"
-						>{{ link.title }}</a>
+							v-html="link.title"
+						/>
 					</li>
 					<li
 						v-if="userLinks.length > 0"
@@ -172,16 +173,16 @@
 			updateActiveMenuLinks() {
 				if (this.$root.apiKey === null) {
 					this.menuLinks = [
-						{ url: './app/changelog', title: 'Changelog' },
-						{ url: './app/sign-up', title: 'Sign Up' },
-						{ url: './app/login', title: 'Login' },
+						{ url: './app/changelog', title: '<i class="fas fa-newspaper"></i> Changelog' },
+						{ url: './app/sign-up', title: '<i class="fas fa-user-plus"></i> Sign Up' },
+						{ url: './app/login', title: '<i class="fas fa-sign-in-alt"></i> Login' },
 					];
 				} else {
 					this.menuLinks = [
-						{ url: './app', title: 'Browse' },
-						{ url: './app/analyze', title: 'Analyze' },
-						{ url: './app/settings', title: 'Settings' },
-						{ url: './app/logout', title: 'Logout', 'classes': { 'd-md-none': true } },
+						{ url: './app', title: '<i class="fas fa-book-reader"></i> Browse' },
+						{ url: './app/analyze', title: '<i class="fas fa-glasses"></i> Analyze' },
+						{ url: './app/settings', title: '<i class="fas fa-cog"></i> Settings' },
+						{ url: './app/logout', title: '<i class="fas fa-sign-out-alt"></i> Logout', 'classes': { 'd-md-none': true } },
 					];
 				}
 
@@ -259,5 +260,16 @@
 <style scoped>
 	.user-menu-toggler {
 		cursor: pointer;
+	}
+
+	#main-menu >>> .nav-link i {
+		margin-right: 0.5em;
+		margin-left: 0.25em;
+	}
+
+	@media (display-mode: standalone) {
+		footer {
+			display: none;
+		}
 	}
 </style>

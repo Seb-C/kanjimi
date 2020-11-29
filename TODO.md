@@ -2,15 +2,15 @@ Test the size-optimized app image for docker
 
 next release:
     progressive web app (+ TODO list features to integrate + better interface)
-        improve the browser page to look like an actual browser
-        button / interface to install the PWA smoothly?
+        test navigation
         completely test on chrome mobile
-        test on firefox mobile (badge + share option?)
         test on Safari on mac
-        check cache emptying
+        check cache emptying (wpa assets)
+        explanation page to install it?
         need to fix the origin redirect to work on the local network
         improve the icon by adding borders
         any e2e tests possible?
+    deduplicate the docker-compose.env host names
     broken CI tests?
     check the privacy info now required in the chrome web store (mail received)
     update the changelog + date
@@ -19,7 +19,7 @@ next release:
 
 important to do soon:
     security alerts from github
-    kubernetes + load balancer + automated certificates
+    kubernetes + load balancer + automated certificates + auto scaler
     log analysis tool? Goaccess?
     certbot in a cron
         - run automatically certbot with the arguments found in the nginx deployment file
@@ -29,6 +29,10 @@ important to do soon:
     post on producthunt
 
 After:
+    improve the main menu?
+        make the Kanjimi and beta subtitles on two lines in the same column on mobile
+        tab buttons on mobile for analyze and browse?
+        tablet -> don't show the username? Show the buttons instead
     automate the file list in the PWA's service worker
     dictionary page (+ kanjis?)
     Rename master branch to production

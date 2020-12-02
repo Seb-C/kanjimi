@@ -190,7 +190,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (checking results)', async function() {
-		const response = await fetch('https://localhost:3000/api/lexer/analyze', {
+		const response = await fetch('https://localhost/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -213,7 +213,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (increments the UserActivity table)', async function() {
-		await fetch('https://localhost:3000/api/lexer/analyze', {
+		await fetch('https://localhost/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -231,7 +231,7 @@ describe('LexerController', async function() {
 
 	it('analyze (inserts into the AnalyzeLog table)', async function() {
 		const sessionId = uuidv4();
-		await fetch('https://localhost:3000/api/lexer/analyze', {
+		await fetch('https://localhost/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -254,7 +254,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (validation errors)', async function() {
-		const response = await fetch('https://localhost:3000/api/lexer/analyze', {
+		const response = await fetch('https://localhost/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -270,7 +270,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (authentication error)', async function() {
-		const response = await fetch('https://localhost:3000/api/lexer/analyze', {
+		const response = await fetch('https://localhost/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: 'Bearer wrongtoken',
@@ -287,7 +287,7 @@ describe('LexerController', async function() {
 	});
 
 	it('analyze (invalid JSON should get a proper error)', async function() {
-		const response = await fetch('https://localhost:3000/api/lexer/analyze', {
+		const response = await fetch('https://localhost/api/lexer/analyze', {
 			method: 'POST',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -303,7 +303,7 @@ describe('LexerController', async function() {
 	});
 
 	it('getKanji (normal case)', async function() {
-		const response = await fetch('https://localhost:3000/api/lexer/kanji/' + encodeURIComponent('恐'), {
+		const response = await fetch('https://localhost/api/lexer/kanji/' + encodeURIComponent('恐'), {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -323,7 +323,7 @@ describe('LexerController', async function() {
 	});
 
 	it('getKanji (wrong authentication case)', async function() {
-		const response = await fetch('https://localhost:3000/api/lexer/kanji/' + encodeURIComponent('食'), {
+		const response = await fetch('https://localhost/api/lexer/kanji/' + encodeURIComponent('食'), {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer wrongtoken`,
@@ -333,7 +333,7 @@ describe('LexerController', async function() {
 	});
 
 	it('getKanji (not a kanji error case)', async function() {
-		const response = await fetch('https://localhost:3000/api/lexer/kanji/X', {
+		const response = await fetch('https://localhost/api/lexer/kanji/X', {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -343,7 +343,7 @@ describe('LexerController', async function() {
 	});
 
 	it('getKanji (more than one character error case)', async function() {
-		const response = await fetch('https://localhost:3000/api/lexer/kanji/test', {
+		const response = await fetch('https://localhost/api/lexer/kanji/test', {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -353,7 +353,7 @@ describe('LexerController', async function() {
 	});
 
 	it('getKanji (unknown Kanji error case)', async function() {
-		const response = await fetch('https://localhost:3000/api/lexer/kanji/' + encodeURIComponent('龯'), {
+		const response = await fetch('https://localhost/api/lexer/kanji/' + encodeURIComponent('龯'), {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,

@@ -18,8 +18,8 @@ describe('PageController', async function() {
 
 	it('get (checking results)', async function() {
 		const response = await fetch((
-			'https://localhost:3000/api/page?url='
-			+ encodeURIComponent('https://localhost:3000/test-pages/landing-page-examples.html')
+			'https://localhost/api/page?url='
+			+ encodeURIComponent('https://localhost/test-pages/landing-page-examples.html')
 		), {
 			method: 'GET',
 			headers: {
@@ -35,8 +35,8 @@ describe('PageController', async function() {
 
 	it('get (error if not html)', async function() {
 		const response = await fetch((
-			'https://localhost:3000/api/page?url='
-			+ encodeURIComponent('https://localhost:3000/api/health-check')
+			'https://localhost/api/page?url='
+			+ encodeURIComponent('https://localhost/api/health-check')
 		), {
 			method: 'GET',
 			headers: {
@@ -48,8 +48,8 @@ describe('PageController', async function() {
 
 	it('get (error if not GET)', async function() {
 		const response = await fetch((
-			'https://localhost:3000/api/page?url='
-			+ encodeURIComponent('https://localhost:3000/test-pages/landing-page-examples.html')
+			'https://localhost/api/page?url='
+			+ encodeURIComponent('https://localhost/test-pages/landing-page-examples.html')
 		), {
 			method: 'POST',
 			headers: {
@@ -61,8 +61,8 @@ describe('PageController', async function() {
 
 	it('get (does not forward error codes)', async function() {
 		const response = await fetch((
-			'https://localhost:3000/api/page?url='
-			+ encodeURIComponent('https://localhost:3000/test-pages/non-existing.html')
+			'https://localhost/api/page?url='
+			+ encodeURIComponent('https://localhost/test-pages/non-existing.html')
 		), {
 			method: 'GET',
 			headers: {
@@ -74,7 +74,7 @@ describe('PageController', async function() {
 
 	it('get (validation errors)', async function() {
 		const response = await fetch((
-			'https://localhost:3000/api/page?url='
+			'https://localhost/api/page?url='
 			+ encodeURIComponent('not-an-url.html')
 		), {
 			method: 'GET',
@@ -92,8 +92,8 @@ describe('PageController', async function() {
 
 	it('get (follows redirection)', async function() {
 		const response = await fetch((
-			'https://localhost:3000/api/page?url='
-			+ encodeURIComponent('https://127.0.0.1:3000/')
+			'https://localhost/api/page?url='
+			+ encodeURIComponent('https://127.0.0.1/')
 		), {
 			method: 'GET',
 			headers: {
@@ -106,8 +106,8 @@ describe('PageController', async function() {
 
 	it('get (authentication error)', async function() {
 		const response = await fetch((
-			'https://localhost:3000/api/page?url='
-			+ encodeURIComponent('https://localhost:3000/test-pages/landing-page-examples.html')
+			'https://localhost/api/page?url='
+			+ encodeURIComponent('https://localhost/test-pages/landing-page-examples.html')
 		), {
 			method: 'GET',
 			headers: {
@@ -120,8 +120,8 @@ describe('PageController', async function() {
 	it('get (error if too many redirections)', async function() {
 		const timeBefore = +new Date();
 		const response = await fetch((
-			'https://localhost:3000/api/page?url='
-			+ encodeURIComponent('https://localhost:3000/test-pages/infinite-redirect-loop')
+			'https://localhost/api/page?url='
+			+ encodeURIComponent('https://localhost/test-pages/infinite-redirect-loop')
 		), {
 			method: 'GET',
 			headers: {
@@ -136,8 +136,8 @@ describe('PageController', async function() {
 	it('get (error if page > 1Mo)', async function() {
 		const timeBefore = +new Date();
 		const response = await fetch((
-			'https://localhost:3000/api/page?url='
-			+ encodeURIComponent('https://localhost:3000/test-pages/big-file.html')
+			'https://localhost/api/page?url='
+			+ encodeURIComponent('https://localhost/test-pages/big-file.html')
 		), {
 			method: 'GET',
 			headers: {

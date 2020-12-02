@@ -1,21 +1,23 @@
 Test the size-optimized app image for docker
 
 next release:
-    progressive web app (+ TODO list features to integrate + better interface)
+    make optional the redirection set with the force_domain variable in nginx?
+    progressive web app
         test navigation
         completely test on chrome mobile
         test on Safari on mac
         check cache emptying (wpa assets)
         explanation page to install it?
-        need to fix the origin redirect to work on the local network
         improve the icon by adding borders
         any e2e tests possible?
-    deduplicate the docker-compose.env host names
+        change log -> explain better
     broken CI tests?
     check the privacy info now required in the chrome web store (mail received)
+    on deployment, be careful to the change of port in the containers configs
     update the changelog + date
     change the version and publish the extension
     do some database backups manually
+    twitter about the PWA
 
 important to do soon:
     security alerts from github
@@ -29,6 +31,7 @@ important to do soon:
     post on producthunt
 
 After:
+    rss for the changelog
     improve the main menu?
         make the Kanjimi and beta subtitles on two lines in the same column on mobile
         tab buttons on mobile for analyze and browse?
@@ -65,7 +68,6 @@ After:
     manage load balancer list when deploying
     healthcheck for load balancer
     API rate limiting with nginx (except for local client ips)
-    config: use default https port (443) instead of 3000 locally
     tests Cypress on mobile resolution
     Tag words by specific domain vocabulary (community based)
     rename the old migrations from XXX_Name.sql to Name (js file + db + production)?
@@ -127,7 +129,7 @@ After:
     Dictionary: split definitions and reading/tags?
     dependency-injection for all the browser.xxx APIs from the main script
     bookmarklet that redirects to the site?
-    possible to test the Firefox for Android version on CI? (it works but need to forward the 3000 port from the emulator)
+    possible to test the Firefox for Android version on CI? (it works but need to forward the 443 port from the emulator)
     aria attributes on tooltip (modal dialog attributes?)
     keyboard navigation for tokens and tooltip (token only + keystrokes explained in the tooltip?)
     underline and overline (text-decoration) for sentence parts / grammar?

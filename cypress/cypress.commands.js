@@ -1,5 +1,5 @@
 Cypress.Commands.add('setLoggedIn', () => {
-	cy.visit('https://localhost:3000/app/');
+	cy.visit('https://localhost/app/');
 
 	const apiKey = 'PQKXFg4puvIsoY0/iwVDCNtt6K+iPj7PiK4LlayMOHddJErCcZl2lx8cnB7kT28+MqZX+FTu3efwrqXVqE2dbQ==';
 	localStorage.setItem('key', apiKey);
@@ -10,7 +10,7 @@ Cypress.Commands.add('setLoggedIn', () => {
 	// Restoring the default preferences
 	cy.request({
 		method: 'PATCH',
-		url: 'https://localhost:3000/api/user/cef830cb-6e75-43ab-91d3-ae13c82bd836',
+		url: 'https://localhost/api/user/cef830cb-6e75-43ab-91d3-ae13c82bd836',
 		headers: {
 			Authorization: `Bearer ${apiKey}`,
 		},
@@ -23,7 +23,7 @@ Cypress.Commands.add('setLoggedIn', () => {
 });
 
 Cypress.Commands.add('setLoggedOut', () => {
-	cy.visit('https://localhost:3000/app/');
+	cy.visit('https://localhost/app/');
 
 	// Disconnecting from the website
 	localStorage.removeItem('key');

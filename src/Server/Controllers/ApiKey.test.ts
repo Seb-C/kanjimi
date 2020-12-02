@@ -48,7 +48,7 @@ describe('ApiKeyController', async function() {
 	});
 
 	it('create (normal and duplicate case)', async function() {
-		const response = await fetch('https://localhost:3000/api/api-key', {
+		const response = await fetch('https://localhost/api/api-key', {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'unittest@example.com',
@@ -70,7 +70,7 @@ describe('ApiKeyController', async function() {
 	});
 
 	it('create (validation errors)', async function() {
-		const response = await fetch('https://localhost:3000/api/api-key', {
+		const response = await fetch('https://localhost/api/api-key', {
 			method: 'POST',
 			body: JSON.stringify({}),
 		});
@@ -83,7 +83,7 @@ describe('ApiKeyController', async function() {
 	});
 
 	it('create (incorrect email)', async function() {
-		const response = await fetch('https://localhost:3000/api/api-key', {
+		const response = await fetch('https://localhost/api/api-key', {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'wrongemail@example.com',
@@ -94,7 +94,7 @@ describe('ApiKeyController', async function() {
 	});
 
 	it('create (incorrect password)', async function() {
-		const response = await fetch('https://localhost:3000/api/api-key', {
+		const response = await fetch('https://localhost/api/api-key', {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'unittest@example.com',
@@ -108,7 +108,7 @@ describe('ApiKeyController', async function() {
 		const userRepository = new UserRepository(this.db);
 		user = await userRepository.update(user, { emailVerified: false });
 
-		const response = await fetch('https://localhost:3000/api/api-key', {
+		const response = await fetch('https://localhost/api/api-key', {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'unittest@example.com',
@@ -122,7 +122,7 @@ describe('ApiKeyController', async function() {
 		const apiKeyRepository = new ApiKeyRepository(this.db);
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch('https://localhost:3000/api/api-key', {
+		const response = await fetch('https://localhost/api/api-key', {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,

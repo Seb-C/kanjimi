@@ -34,7 +34,7 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
             --env-file /kanjimi/dist/production/server.env \
             --restart always \
             --publish 80:80 \
-            --publish 443:3000 \
+            --publish 443:443 \
             --log-driver journald \
             --log-opt tag=nginx \
             nginx:1

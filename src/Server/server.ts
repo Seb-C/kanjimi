@@ -63,16 +63,6 @@ import * as PageController from 'Server/Controllers/Page';
 	// This one must not be redirected to the right origin
 	application.get('/api/health-check', HealthCheckController.get(db, mailer));
 
-	// Redirecting to origin if the domain or protocol are wrong
-	application.all('/*', function (request: Request, response: Response, next: Function) {
-		const requestOrigin = request.protocol + '://' + request.headers.host;
-		if (!requestOrigin.startsWith(<string>process.env.KANJIMI_WWW_URL)) {
-			return response.redirect(301, process.env.KANJIMI_WWW_URL + request.url);
-		} else {
-			return next();
-		}
-	});
-
 	application.all('/test-pages/*', (request: Request, response: Response, next: Function) => {
 		if (process.env.KANJIMI_ALLOW_TEST_PAGES === 'true') {
 			return next();
@@ -131,7 +121,7 @@ import * as PageController from 'Server/Controllers/Page';
 		cert: FileSystem.readFileSync(<string>process.env.KANJIMI_SERVER_CERTIFICATE_CRT).toString(),
 	}, application);
 
-	server.listen(parseInt(<string>process.env.KANJIMI_SERVER_PORT));
+	server.listen(443);
 	console.log('Server started');
 
 	await new Promise((resolve) => {

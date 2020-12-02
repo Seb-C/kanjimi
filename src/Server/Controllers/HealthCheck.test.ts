@@ -9,7 +9,7 @@ const healthCheckResponseValidator = new Ajv({ allErrors: true }).compile({
 
 describe('HealthCheckController', async function() {
 	it('get', async function() {
-		const response = await fetch('https://localhost:3000/api/health-check');
+		const response = await fetch('https://localhost/api/health-check');
 		expect(response.status).toBe(200);
 		const responseData = await response.json();
 
@@ -19,7 +19,7 @@ describe('HealthCheckController', async function() {
 	});
 
 	it('get (not redirected with a different origin)', async function() {
-		const response = await fetch('https://127.0.0.1:3000/api/health-check', {
+		const response = await fetch('https://127.0.0.1/api/health-check', {
 			redirect: 'error',
 		});
 		expect(response.status).toBe(200);

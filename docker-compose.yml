@@ -38,7 +38,7 @@ services:
       "
     #command: ./node_modules/.bin/nodemon -w ./server --inspect=0.0.0.0:9229 --expose-gc dist/server/Server/server.js
     healthcheck:
-      test: wget -q https://localhost:3000/api/health-check/ -O /dev/null --no-check-certificate
+      test: wget -q https://localhost/api/health-check/ -O /dev/null --no-check-certificate
       interval: 15s
       timeout: 3s
       retries: 3
@@ -57,7 +57,7 @@ services:
       - server
     ports:
       - "80:80"
-      - "3000:3000"
+      - "443:443"
     volumes:
       - $PWD:/kanjimi
       - $PWD/dist/nginx/nginx.conf:/etc/nginx/templates/default.conf.template

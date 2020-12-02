@@ -45,5 +45,5 @@ ENV KANJIMI_ALLOW_TEST_PAGES=false
 
 USER kanjimi
 CMD node --expose-gc dist/server/Server/server.js
-HEALTHCHECK --interval=15s --timeout=3s --retries=3 --start-period=2m CMD wget -q https://localhost:3000/api/health-check/ -O /dev/null --no-check-certificate
-EXPOSE 3000
+HEALTHCHECK --interval=15s --timeout=3s --retries=3 --start-period=2m CMD wget -q https://localhost/api/health-check/ -O /dev/null --no-check-certificate
+EXPOSE 443

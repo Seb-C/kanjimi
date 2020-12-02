@@ -20,31 +20,31 @@ describe('Client Page', async function() {
 	});
 
 	it('get (normal case)', async function() {
-		const result = await get(apiKey.key, 'https://localhost:3000/test-pages/landing-page-examples.html');
+		const result = await get(apiKey.key, 'https://localhost/test-pages/landing-page-examples.html');
 
 		expect(result).toBeInstanceOf(Object);
 		expect(typeof result.content).toBe('string');
 		expect(result.content).toContain('<html');
 		expect(result.content).toContain('</html>');
 		expect(result.charset).not.toBeUndefined();
-		expect(result.realUrl).toBe('https://localhost:3000/test-pages/landing-page-examples.html');
+		expect(result.realUrl).toBe('https://localhost/test-pages/landing-page-examples.html');
 	});
 
 	it('get (redirection case)', async function() {
-		const result = await get(apiKey.key, 'https://localhost:3000/test-pages/redirect-to-landing-page-examples');
+		const result = await get(apiKey.key, 'https://localhost/test-pages/redirect-to-landing-page-examples');
 
 		expect(result).toBeInstanceOf(Object);
 		expect(result.content).toContain('</html>');
-		expect(result.realUrl).toBe('https://localhost:3000/test-pages/landing-page-examples.html');
+		expect(result.realUrl).toBe('https://localhost/test-pages/landing-page-examples.html');
 	});
 
 	it('get (error page called case)', async function() {
-		await get(apiKey.key, 'https://localhost:3000/wrong-url');
+		await get(apiKey.key, 'https://localhost/wrong-url');
 		// Should not throw an exception -> the code returned should be 200 anyway
 	});
 
 	it('get (explicit charset case)', async function() {
-		const result = await get(apiKey.key, 'https://localhost:3000/test-pages/');
+		const result = await get(apiKey.key, 'https://localhost/test-pages/');
 
 		expect(result).toBeInstanceOf(Object);
 		expect(result.charset).toBe('ascii');
@@ -56,7 +56,7 @@ describe('Client Page', async function() {
 
 	it('get (authentication error case)', async function() {
 		await expectAsync(
-			get('wrongkey', 'https://localhost:3000/')
+			get('wrongkey', 'https://localhost/')
 		).toBeRejectedWithError(AuthenticationError);
 	});
 

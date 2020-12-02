@@ -68,7 +68,7 @@ describe('UserController', async function() {
 		});
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}`, {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -96,7 +96,7 @@ describe('UserController', async function() {
 		});
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/${user2.id}`, {
+		const response = await fetch(`https://localhost/api/user/${user2.id}`, {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -105,7 +105,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(403);
 
 		// Should also fail with a wrong key
-		const response2 = await fetch(`https://localhost:3000/api/user/${user2.id}`, {
+		const response2 = await fetch(`https://localhost/api/user/${user2.id}`, {
 			method: 'GET',
 			headers: {
 				Authorization: `Bearer wrongkey`,
@@ -115,7 +115,7 @@ describe('UserController', async function() {
 	});
 
 	it('create (normal and duplicate case)', async function() {
-		const response = await fetch('https://localhost:3000/api/user', {
+		const response = await fetch('https://localhost/api/user', {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'unittest@example.com',
@@ -156,11 +156,11 @@ describe('UserController', async function() {
 		);
 		expect(mail).toContain('To: unittest@example.com');
 		expect(mail).toContain(
-			`https://localhost:3000/app/verify-email?userId=${dbUser.id}&emailVerificationKey=${encodeURIComponent(<string>dbUser.emailVerificationKey)}`
+			`https://localhost/app/verify-email?userId=${dbUser.id}&emailVerificationKey=${encodeURIComponent(<string>dbUser.emailVerificationKey)}`
 		);
 
 		// Trying again (it should fail)
-		const response2 = await fetch('https://localhost:3000/api/user', {
+		const response2 = await fetch('https://localhost/api/user', {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'unittest@example.com',
@@ -174,7 +174,7 @@ describe('UserController', async function() {
 	});
 
 	it('create (validation errors)', async function() {
-		const response = await fetch('https://localhost:3000/api/user', {
+		const response = await fetch('https://localhost/api/user', {
 			method: 'POST',
 			body: JSON.stringify({
 				emailVerified: true,
@@ -204,7 +204,7 @@ describe('UserController', async function() {
 		});
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -243,7 +243,7 @@ describe('UserController', async function() {
 		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -273,7 +273,7 @@ describe('UserController', async function() {
 		});
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -299,7 +299,7 @@ describe('UserController', async function() {
 		});
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -318,7 +318,7 @@ describe('UserController', async function() {
 		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/00000000-0000-0000-0000-000000000000`, {
+		const response = await fetch(`https://localhost/api/user/00000000-0000-0000-0000-000000000000`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -335,7 +335,7 @@ describe('UserController', async function() {
 		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/wrong_id`, {
+		const response = await fetch(`https://localhost/api/user/wrong_id`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -352,7 +352,7 @@ describe('UserController', async function() {
 		const user = await userRepository.create({ ...this.testUser });
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/`, {
+		const response = await fetch(`https://localhost/api/user/`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -379,7 +379,7 @@ describe('UserController', async function() {
 		});
 		const apiKey = await apiKeyRepository.createFromUser(user);
 
-		const response = await fetch(`https://localhost:3000/api/user/${user2.id}`, {
+		const response = await fetch(`https://localhost/api/user/${user2.id}`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer ${apiKey.key}`,
@@ -396,7 +396,7 @@ describe('UserController', async function() {
 		expect((<User>dbUser2).languages).not.toEqual([Language.ENGLISH, Language.SPANISH]);
 
 		// Should also fail with a wrong key
-		const response2 = await fetch(`https://localhost:3000/api/user/${user2.id}`, {
+		const response2 = await fetch(`https://localhost/api/user/${user2.id}`, {
 			method: 'PATCH',
 			headers: {
 				Authorization: `Bearer wrongkey`,
@@ -416,7 +416,7 @@ describe('UserController', async function() {
 			emailVerificationKey: 'qwerty',
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}/verify-email`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}/verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: 'qwerty',
@@ -445,7 +445,7 @@ describe('UserController', async function() {
 			emailVerificationKey: 'qwerty',
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}/verify-email`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}/verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: null,
@@ -460,7 +460,7 @@ describe('UserController', async function() {
 	});
 
 	it('verifyEmail (not found error)', async function() {
-		const response = await fetch(`https://localhost:3000/api/user/00000000-0000-0000-0000-000000000000/verify-email`, {
+		const response = await fetch(`https://localhost/api/user/00000000-0000-0000-0000-000000000000/verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: '123456',
@@ -469,7 +469,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(404);
 	});
 	it('verifyEmail (not found + not a uuid)', async function() {
-		const response = await fetch(`https://localhost:3000/api/user/wrong_id/verify-email`, {
+		const response = await fetch(`https://localhost/api/user/wrong_id/verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: '123456',
@@ -478,7 +478,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(404);
 	});
 	it('verifyEmail (empty id)', async function() {
-		const response = await fetch(`https://localhost:3000/api/user//verify-email`, {
+		const response = await fetch(`https://localhost/api/user//verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: '123456',
@@ -495,7 +495,7 @@ describe('UserController', async function() {
 			emailVerificationKey: 'qwerty',
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}/verify-email`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}/verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: 'qwerty',
@@ -512,7 +512,7 @@ describe('UserController', async function() {
 			emailVerificationKey: 'qwerty',
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}/verify-email`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}/verify-email`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				emailVerificationKey: 'not qwerty',
@@ -531,7 +531,7 @@ describe('UserController', async function() {
 			passwordResetKeyExpiresAt: null,
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/request-reset-password`, {
+		const response = await fetch(`https://localhost/api/user/request-reset-password`, {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'unittest@example.com',
@@ -555,12 +555,12 @@ describe('UserController', async function() {
 		);
 		expect(mail).toContain('To: unittest@example.com');
 		expect(mail).toContain(
-			`https://localhost:3000/app/reset-password?userId=${user.id}&passwordResetKey=${encodeURIComponent(<string>user.passwordResetKey)}`
+			`https://localhost/app/reset-password?userId=${user.id}&passwordResetKey=${encodeURIComponent(<string>user.passwordResetKey)}`
 		);
 	});
 
 	it('requestResetPassword (validation error)', async function() {
-		const response = await fetch(`https://localhost:3000/api/user/request-reset-password`, {
+		const response = await fetch(`https://localhost/api/user/request-reset-password`, {
 			method: 'POST',
 			body: JSON.stringify({}),
 		});
@@ -573,7 +573,7 @@ describe('UserController', async function() {
 	});
 
 	it('requestResetPassword (unknown user)', async function() {
-		const response = await fetch(`https://localhost:3000/api/user/request-reset-password`, {
+		const response = await fetch(`https://localhost/api/user/request-reset-password`, {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'nobody@example.com',
@@ -592,7 +592,7 @@ describe('UserController', async function() {
 			passwordResetKeyExpiresAt: null,
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/request-reset-password`, {
+		const response = await fetch(`https://localhost/api/user/request-reset-password`, {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'nobody@example.com',
@@ -620,7 +620,7 @@ describe('UserController', async function() {
 			passwordResetKeyExpiresAt: expiresAt,
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/request-reset-password`, {
+		const response = await fetch(`https://localhost/api/user/request-reset-password`, {
 			method: 'POST',
 			body: JSON.stringify({
 				email: 'unittest@example.com',
@@ -647,7 +647,7 @@ describe('UserController', async function() {
 			passwordResetKeyExpiresAt: expiresAt,
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}/reset-password`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}/reset-password`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				password: 'qwerty',
@@ -674,7 +674,7 @@ describe('UserController', async function() {
 		const userRepository = new UserRepository(this.db);
 		const user = await userRepository.create({ ...this.testUser });
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}/reset-password`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}/reset-password`, {
 			method: 'PATCH',
 			body: JSON.stringify({}),
 		});
@@ -687,7 +687,7 @@ describe('UserController', async function() {
 	});
 
 	it('resetPassword (not found error)', async function() {
-		const response = await fetch(`https://localhost:3000/api/user/00000000-0000-0000-0000-000000000000/reset-password`, {
+		const response = await fetch(`https://localhost/api/user/00000000-0000-0000-0000-000000000000/reset-password`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				password: 'qwerty',
@@ -697,7 +697,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(404);
 	});
 	it('resetPassword (not found + not a uuid)', async function() {
-		const response = await fetch(`https://localhost:3000/api/user/wrong_id/reset-password`, {
+		const response = await fetch(`https://localhost/api/user/wrong_id/reset-password`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				password: 'qwerty',
@@ -707,7 +707,7 @@ describe('UserController', async function() {
 		expect(response.status).toBe(404);
 	});
 	it('resetPassword (empty id)', async function() {
-		const response = await fetch(`https://localhost:3000/api/user//reset-password`, {
+		const response = await fetch(`https://localhost/api/user//reset-password`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				password: 'qwerty',
@@ -729,7 +729,7 @@ describe('UserController', async function() {
 			passwordResetKeyExpiresAt: expiresAt,
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}/reset-password`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}/reset-password`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				password: 'qwerty',
@@ -756,7 +756,7 @@ describe('UserController', async function() {
 			passwordResetKeyExpiresAt: expiresAt,
 		});
 
-		const response = await fetch(`https://localhost:3000/api/user/${user.id}/reset-password`, {
+		const response = await fetch(`https://localhost/api/user/${user.id}/reset-password`, {
 			method: 'PATCH',
 			body: JSON.stringify({
 				password: 'qwerty',

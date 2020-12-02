@@ -24,7 +24,7 @@ describe('Kanjis', async function() {
 		expect((<Kanji>kanji).meanings).toEqual([meaning]);
 		expect((<Kanji>kanji).readings).toEqual([reading]);
 		expect((<Kanji>kanji).structure).toEqual(structure);
-		expect((<Kanji>kanji).fileUrl).toBe('https://localhost:3000/img/KanjiVG/098df.svg');
+		expect((<Kanji>kanji).fileUrl).toBe('https://localhost/img/KanjiVG/098df.svg');
 	});
 
 	it('get (no meanings case)', async function() {

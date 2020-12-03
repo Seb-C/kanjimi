@@ -1,7 +1,4 @@
-Test the size-optimized app image for docker
-
 next release:
-    make optional the redirection set with the force_domain variable in nginx?
     progressive web app
         test navigation
         completely test on chrome mobile
@@ -11,9 +8,11 @@ next release:
         improve the icon by adding borders
         any e2e tests possible?
         change log -> explain better
+    fix the broken tests (need to remove it now that it is useless?)
     broken CI tests?
     check the privacy info now required in the chrome web store (mail received)
     on deployment, be careful to the change of port in the containers configs
+    Test the size-optimized app image for docker
     update the changelog + date
     change the version and publish the extension
     do some database backups manually
@@ -31,6 +30,7 @@ important to do soon:
     post on producthunt
 
 After:
+    make nginx serve the assets directly from disk?
     rss for the changelog
     improve the main menu?
         make the Kanjimi and beta subtitles on two lines in the same column on mobile

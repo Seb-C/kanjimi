@@ -1,12 +1,20 @@
 next release:
     progressive web app
-        test navigation
-        completely test on chrome mobile
-        test on Safari on mac
+        debug the login
+            -> have an e2e test to avoid this bug?
+        remove the link on the logo
+            e2e test on standalone mode
+        check external links (should open external browser)
+            -> impossible to e2e test?
+        add the footer information in the about page as well (for the app)
+            -> e2e test this
+        e2e test the footer is hidden on standalone
+        manually completely test on chrome mobile (ngrok)
+            -> + test things requiring assets like the kanji svgs...
+            -> + test pages assets are properly loaded
+        test on Safari on iOS
         check cache emptying (wpa assets)
         explanation page to install it?
-        improve the icon by adding borders
-        any e2e tests possible?
         change log -> explain better
     fix the broken tests (need to remove it now that it is useless?)
     broken CI tests?

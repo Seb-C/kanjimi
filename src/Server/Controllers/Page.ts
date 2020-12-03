@@ -51,7 +51,7 @@ export const get = (db: PgSqlDatabase) => async (request: Request, response: Res
 			'Content-Location': data.url,
 		});
 
-		const streamingResponse = new Promise((resolve) => {
+		const streamingResponse = new Promise<void>((resolve) => {
 			let sentBytes = 0;
 			data.body.on('data', function(buffer) {
 				response.write(buffer);

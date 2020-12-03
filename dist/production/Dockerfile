@@ -14,24 +14,28 @@ COPY --chown=root:root ./package.json /kanjimi/package.json
 COPY --chown=root:root ./package-lock.json /kanjimi/package-lock.json
 COPY --chown=root:root ./tsconfig.json /kanjimi/tsconfig.json
 
-RUN apk add --no-cache openssl
-RUN mkdir -p /kanjimi/dist/server/
-RUN openssl req \
-    -x509 \
-    -nodes \
-    -newkey rsa:2048 \
-    -keyout /kanjimi/dist/server/certificate.key \
-    -out /kanjimi/dist/server/certificate.crt \
-    -subj "/C=JP/ST=Tokyo/L=Tokyo/O=Kanjimi/OU=Kanjimi/CN=$SERVER_HOSTNAME"
-
-RUN adduser --disabled-password --gecos '' kanjimi
-RUN chmod a+r-w -R /kanjimi
 WORKDIR /kanjimi
 
-RUN npm install --ignore-scripts --loglevel=error
-RUN NODE_ENV=production ./node_modules/.bin/webpack --config=src/WebApp/webpack.config.js --hide-modules --build
-RUN NODE_ENV=production ./node_modules/.bin/tsc --incremental -p ./src/Server/tsconfig.json
-RUN npm prune --production --loglevel=error
+RUN mkdir -p /kanjimi/dist/server/ \
+    && apk add --no-cache openssl \
+    && openssl req \
+        -x509 \
+        -nodes \
+        -newkey rsa:2048 \
+        -keyout /kanjimi/dist/server/certificate.key \
+        -out /kanjimi/dist/server/certificate.crt \
+        -subj "/C=JP/ST=Tokyo/L=Tokyo/O=Kanjimi/OU=Kanjimi/CN=$SERVER_HOSTNAME" \
+    && apk del --no-cache openssl \
+    && adduser --disabled-password --gecos '' kanjimi \
+    && npm install --ignore-scripts --loglevel=error \
+    && NODE_ENV=production ./node_modules/.bin/webpack \
+        --config=src/WebApp/webpack.config.js \
+        --hide-modules \
+        --build \
+    && NODE_ENV=production ./node_modules/.bin/tsc \
+        --incremental \
+        -p ./src/Server/tsconfig.json \
+    && npm prune --production --loglevel=error
 
 ENV NODE_ENV=production
 ENV NODE_PATH=dist/server/

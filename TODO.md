@@ -1,3 +1,5 @@
+Test the size-optimized app image for docker
+
 next release:
     progressive web app (+ TODO list features to integrate + better interface)
         improve the browser page to look like an actual browser

@@ -53,6 +53,13 @@
 			<li><a href="https://www.postgresql.org/">PostgreSQL</a></li>
 			<li><a href="https://vuejs.org/">VueJS</a></li>
 		</ul>
+
+		<h1>Legal information</h1>
+
+		<ul>
+			<li><a href="https://www.iubenda.com/privacy-policy/14085238">Privacy Policy</a></li>
+			<li><a href="https://www.iubenda.com/terms-and-conditions/14085238">Terms and Conditions</a></li>
+		</ul>
 	</div>
 </template>
 <script lang="ts">

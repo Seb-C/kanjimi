@@ -175,6 +175,7 @@
 					this.menuLinks = [
 						{ url: './app/changelog', title: '<i class="fas fa-newspaper"></i> Changelog' },
 						{ url: './app/sign-up', title: '<i class="fas fa-user-plus"></i> Sign Up' },
+						{ url: './app/about', title: '<i class="fas fa-info-circle"></i> About Kanjimi' },
 						{ url: './app/login', title: '<i class="fas fa-sign-in-alt"></i> Login' },
 					];
 				} else {
@@ -182,6 +183,7 @@
 						{ url: './app', title: '<i class="fas fa-book-reader"></i> Browse' },
 						{ url: './app/analyze', title: '<i class="fas fa-glasses"></i> Analyze' },
 						{ url: './app/settings', title: '<i class="fas fa-cog"></i> Settings' },
+						{ url: './app/about', title: '<i class="fas fa-info-circle"></i> About Kanjimi' },
 						{ url: './app/logout', title: '<i class="fas fa-sign-out-alt"></i> Logout', 'classes': { 'd-md-none': true } },
 					];
 				}

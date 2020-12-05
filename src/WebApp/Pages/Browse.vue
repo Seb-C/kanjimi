@@ -21,7 +21,6 @@
 							v-bind:href="realUrl"
 							class="text-dark"
 							title="Open this page in a normal browser tab"
-							target="_blank"
 						>
 							<i class="fas fa-external-link-alt"></i>
 						</a>

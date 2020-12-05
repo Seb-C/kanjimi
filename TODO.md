@@ -1,9 +1,6 @@
 next release:
     progressive web app
-        check external links (should open external browser)
-            -> impossible to e2e test?
-        add the footer information in the about page as well (for the app)
-            -> e2e test this
+        refreshing te service workers causes white page randomly?
         if can e2e test standalone
             test that the footer is hidden
             test that the logo has no link
@@ -33,6 +30,7 @@ important to do soon:
     post on producthunt
 
 After:
+    contact page -> rel=noopener?
     make nginx serve the assets directly from disk?
     rss for the changelog
     improve the main menu?

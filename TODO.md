@@ -1,15 +1,18 @@
 next release:
     progressive web app
         test on Safari on iOS
-        explanation page to install it (forefox / chrome / safari)?
-    change log pwa -> explain better
-    icons homepage menu
+            + take screenshot of the installation process (in English)
+        explanation page to install it (firefox / chrome / safari)?
+            -> put it on the about page?
+            -> add info for the share target
+            -> add link from the changelog to the explanation (with anchor)
+    add icons to the homepage menu
     fix the broken tests (need to remove it now that it is useless?)
     broken CI tests?
     check the privacy info now required in the chrome web store (mail received)
+    update the changelog + date
     on deployment, be careful to the change of port in the containers configs
     Test the size-optimized app image for docker
-    update the changelog + date
     change the version and publish the extension
     do some database backups manually
     twitter about the PWA

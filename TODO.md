@@ -1,6 +1,7 @@
 next release:
     progressive web app
         test url share in the PWA
+        non-blocking service worker update
         remove the link on the logo
             e2e test on standalone mode
         check external links (should open external browser)

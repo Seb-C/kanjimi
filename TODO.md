@@ -1,11 +1,7 @@
 next release:
     progressive web app
-        refreshing te service workers causes white page randomly?
-        if can e2e test standalone
-            test that the footer is hidden
-            test that the logo has no link
         test on Safari on iOS
-        explanation page to install it?
+        explanation page to install it (forefox / chrome / safari)?
     change log pwa -> explain better
     icons homepage menu
     fix the broken tests (need to remove it now that it is useless?)
@@ -30,6 +26,9 @@ important to do soon:
     post on producthunt
 
 After:
+    if can e2e test standalone (for the PWA)
+        test that the footer is hidden
+        test that the logo has no link
     contact page -> rel=noopener?
     make nginx serve the assets directly from disk?
     rss for the changelog

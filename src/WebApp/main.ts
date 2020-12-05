@@ -21,15 +21,10 @@ window.addEventListener('load', async function () {
 		// Updating the service worker in background (not awaiting)
 		(async () => {
 			try {
-				const serviceWorkers = await navigator.serviceWorker.getRegistrations();
-				await Promise.all(serviceWorkers.map(serviceWorker => serviceWorker.unregister()));
-
-				const cacheBuster = Math.ceil(
-					(new Date()).getTime() / (
-						process.env.NODE_ENV === 'development' ? 1 : 1800000
-					)
-				);
-				await navigator.serviceWorker.register('/app/service-worker.js?' + cacheBuster);
+				await navigator.serviceWorker.register('/app/service-worker.js');
+				if (navigator.serviceWorker.controller) {
+					navigator.serviceWorker.controller.postMessage({ event: 'pageLoaded' });
+				}
 			} catch (error) {
 				console.error('Service worker registration error', error);
 			}

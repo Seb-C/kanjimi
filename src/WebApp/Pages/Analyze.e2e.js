@@ -12,6 +12,13 @@ context('Analyze', () => {
 		cy.get('.page-analyze').should('be.visible');
 	});
 
+	it('Redirects to the browser if an URL is typed', () => {
+		cy.setLoggedIn();
+		cy.visit('/app/analyze?text=https%3A%2F%2Flocalhost%2Ffoo-bar');
+		cy.url().should('contain', 'app?url=https%3A%2F%2Flocalhost%2Ffoo-bar');
+		cy.get('.page-browser').should('be.visible');
+	});
+
 	it('Can analyze a text using the form', () => {
 		cy.setLoggedIn();
 		cy.visit('/app/analyze');

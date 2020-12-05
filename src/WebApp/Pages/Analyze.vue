@@ -46,6 +46,15 @@
 			if (this.$root.apiKey === null) {
 				this.$root.router.changeRoute('./app/login');
 			}
+
+			try {
+				// If the text is a valid URL, go to the browser page instead
+				// This is useful for the share target of the PWA
+				new URL(this.inputText); // Throws if it is not an URL
+				this.$root.router.changeRoute(`./app?url=${encodeURIComponent(this.inputText)}`);
+			} catch (error) {
+				// The text is not an URL, proceeding normally
+			}
 		},
 		watch: {
 			async '$root.router.params'(newParams, oldParams) {

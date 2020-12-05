@@ -1,15 +1,12 @@
 next release:
     progressive web app
-        remove the link on the logo
-            e2e test on standalone mode
         check external links (should open external browser)
             -> impossible to e2e test?
         add the footer information in the about page as well (for the app)
             -> e2e test this
-        e2e test the footer is hidden on standalone
-        manually completely test on chrome mobile (ngrok)
-            -> + test things requiring assets like the kanji svgs...
-            -> + test pages assets are properly loaded
+        if can e2e test standalone
+            test that the footer is hidden
+            test that the logo has no link
         test on Safari on iOS
         explanation page to install it?
     change log pwa -> explain better

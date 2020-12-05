@@ -268,6 +268,10 @@
 	}
 
 	@media (display-mode: standalone) {
+		.navbar-brand * {
+			pointer-events: none;
+		}
+
 		footer {
 			display: none;
 		}

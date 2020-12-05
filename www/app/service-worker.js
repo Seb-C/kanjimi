@@ -1,7 +1,7 @@
 self.addEventListener('install', function(event) {
 	event.waitUntil(
 		caches.open('pwa-www-cache').then(function (cache) {
-			return cache.addAll([
+			return Promise.all([
 				'/app/',
 
 				'/css/app.build.css',
@@ -34,14 +34,25 @@ self.addEventListener('install', function(event) {
 
 				'/js/app.build.js',
 				'/js/browser.build.js',
-			]);
+			].map(function (url) {
+				const cacheUpdateHeaders = new Headers();
+				cacheUpdateHeaders.append('pragma', 'no-cache');
+				cacheUpdateHeaders.append('cache-control', 'no-cache');
+
+				return fetch(url, {
+					method: 'GET',
+					headers: cacheUpdateHeaders,
+				}).then(function(response) {
+					return cache.put(url, response);
+				});
+			}));
 		})
 	);
 });
 
 self.addEventListener('fetch', function(event) {
 	event.respondWith(
-		caches.match(event.request).then(function(response) {
+		caches.open('pwa-www-cache').match(event.request).then(function(response) {
 			if (response) {
 				return response;
 			} else {

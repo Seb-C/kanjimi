@@ -1,7 +1,6 @@
 next release:
     progressive web app
-        debug the login
-            -> have an e2e test to avoid this bug?
+        test url share in the PWA
         remove the link on the logo
             e2e test on standalone mode
         check external links (should open external browser)
@@ -13,9 +12,9 @@ next release:
             -> + test things requiring assets like the kanji svgs...
             -> + test pages assets are properly loaded
         test on Safari on iOS
-        check cache emptying (wpa assets)
         explanation page to install it?
-        change log -> explain better
+    change log pwa -> explain better
+    icons homepage menu
     fix the broken tests (need to remove it now that it is useless?)
     broken CI tests?
     check the privacy info now required in the chrome web store (mail received)

@@ -19,7 +19,15 @@ import Browse from 'WebApp/Pages/Browse.vue';
 window.addEventListener('load', async function () {
 	if (navigator.serviceWorker) {
 		try {
-			await navigator.serviceWorker.register('/app/service-worker.js');
+			const serviceWorkers = await navigator.serviceWorker.getRegistrations();
+			await Promise.all(serviceWorkers.map(serviceWorker => serviceWorker.unregister()));
+
+			const cacheBuster = Math.ceil(
+				(new Date()).getTime() / (
+					process.env.NODE_ENV === 'development' ? 1 : 1800000
+				)
+			);
+			await navigator.serviceWorker.register('/app/service-worker.js?' + cacheBuster);
 		} catch (error) {
 			console.error('Service worker registration error', error);
 		}

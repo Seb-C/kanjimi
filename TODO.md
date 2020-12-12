@@ -1,12 +1,5 @@
 next release:
-    progressive web app
-        explanation page to install it (firefox / chrome / safari)?
-            -> put it on the about page?
-            -> add info for the share target
-            -> add link from the changelog to the explanation (with anchor)
-    fix the broken tests (need to remove it now that it is useless?)
-    broken CI tests?
-    check the privacy info now required in the chrome web store (mail received)
+    fix the broken CI tests (need to remove it now that it is useless?)
     update the changelog + date
     on deployment, be careful to the change of port in the containers configs
     Test the size-optimized app image for docker
@@ -27,6 +20,7 @@ important to do soon:
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    update screenshots on the extension as well as the homepage samples (kanji details...)
     tests Cypress on mobile resolution as well
     if can e2e test standalone (for the PWA)
         test that the footer is hidden

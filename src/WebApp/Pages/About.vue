@@ -33,6 +33,46 @@
 			are not automated yet, so please also contact us by email.
 		</p>
 
+		<h1>Application</h1>
+
+		<p>Kanjimi is also available as a Progressive Web Application. It is not available in the application stores, but you can install it this way.</p>
+
+		<div class="row border pt-3 pb-3 mb-3">
+			<div class="col-12 col-md-4">
+				<img
+					src="/img/install-pwa/android-google-chrome.png"
+					alt="Screenshot of the installation on Google Chrome for Android"
+					class="w-100"
+				/>
+				<hr />
+				<p class="text-center mb-4 mb-md-0">
+					With Google Chrome for Android, a "Add Kanjimi to Home screen" button will show-up on the botton of your screen.
+				</p>
+			</div>
+			<div class="col-12 col-md-4">
+				<img
+					src="/img/install-pwa/ios-safari.png"
+					alt="Screenshot of the installation on Safari for iOS"
+					class="w-100"
+				/>
+				<hr />
+				<p class="text-center mb-4 mb-md-0">
+					With Safari for iOS, open the menu and click on the "Add to Home Screen" button.
+				</p>
+			</div>
+			<div class="col-12 col-md-4">
+				<img
+					src="/img/install-pwa/android-firefox.png"
+					alt="Screenshot of the installation on Firefox for Android"
+					class="w-100"
+				/>
+				<hr />
+				<p class="text-center mb-4 mb-md-0">
+					With Firefox for Android, open the menu and click on the "Install" button.
+				</p>
+			</div>
+		</div>
+
 		<h1>Credits</h1>
 
 		<p>Kanjimi would not be possible without the amazing work of other people, so they deserve to be credited here:</p>

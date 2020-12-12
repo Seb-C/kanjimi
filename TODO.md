@@ -1,7 +1,5 @@
 next release:
     progressive web app
-        test on Safari on iOS
-            + take screenshot of the installation process (in English)
         explanation page to install it (firefox / chrome / safari)?
             -> put it on the about page?
             -> add info for the share target

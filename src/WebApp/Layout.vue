@@ -15,7 +15,10 @@
 				<small>Free Beta</small>
 			</div>
 
-			<div class="d-none d-sm-block d-md-none text-gray mr-3 ml-auto">
+			<div
+				v-if="userName !== null"
+				class="d-none d-sm-block d-md-none text-gray mr-3 ml-auto"
+			>
 				<i class="fas fa-user"></i>
 				{{ userName }}
 			</div>
@@ -75,7 +78,8 @@
 								v-bind:href="link.url"
 								v-on:click="navLinkClickHandler($event)"
 								:ref="'user-link-' + index"
-							>{{ link.title }}</a>
+								v-html="link.title"
+							/>
 						</div>
 					</li>
 				</ul>
@@ -173,18 +177,48 @@
 			updateActiveMenuLinks() {
 				if (this.$root.apiKey === null) {
 					this.menuLinks = [
-						{ url: './app/changelog', title: '<i class="fas fa-newspaper"></i> Changelog' },
-						{ url: './app/sign-up', title: '<i class="fas fa-user-plus"></i> Sign Up' },
-						{ url: './app/about', title: '<i class="fas fa-info-circle"></i> About Kanjimi' },
-						{ url: './app/login', title: '<i class="fas fa-sign-in-alt"></i> Login' },
+						{
+							url: './app/about',
+							title: '<i class="fas fa-info-circle"></i> About Kanjimi',
+						}, {
+							url: './app/changelog',
+							title: '<i class="fas fa-newspaper"></i> Changelog',
+						}, {
+							url: './app/sign-up',
+							title: '<i class="fas fa-user-plus"></i> Sign Up',
+						}, {
+							url: './app/login',
+							title: '<i class="fas fa-sign-in-alt"></i> Login',
+						},
 					];
 				} else {
 					this.menuLinks = [
-						{ url: './app', title: '<i class="fas fa-book-reader"></i> Browse' },
-						{ url: './app/analyze', title: '<i class="fas fa-glasses"></i> Analyze' },
-						{ url: './app/settings', title: '<i class="fas fa-cog"></i> Settings' },
-						{ url: './app/about', title: '<i class="fas fa-info-circle"></i> About Kanjimi' },
-						{ url: './app/logout', title: '<i class="fas fa-sign-out-alt"></i> Logout', 'classes': { 'd-md-none': true } },
+						{
+							url: './app',
+							title: '<i class="fas fa-book-reader"></i> Browse',
+						}, {
+							url: './app/analyze',
+							title: '<i class="fas fa-glasses"></i> Analyze',
+						}, {
+							url: './app/settings',
+							title: '<i class="fas fa-cog"></i> Settings',
+						}, {
+							url: './app/about',
+							title: '<i class="fas fa-info-circle"></i> About Kanjimi',
+							classes: { 'd-md-none': true },
+						}, {
+							url: './app/changelog',
+							title: '<i class="fas fa-newspaper"></i> Changelog',
+							classes: { 'd-md-none': true },
+						}, {
+							url: './app/change-password',
+							title: '<i class="fas fa-key"></i> Change my password',
+							classes: { 'd-md-none': true },
+						}, {
+							url: './app/logout',
+							title: '<i class="fas fa-sign-out-alt"></i> Logout',
+							classes: { 'd-md-none': true },
+						},
 					];
 				}
 
@@ -204,9 +238,19 @@
 					this.userLinks = [];
 				} else {
 					this.userLinks = [
-						{ url: './app/changelog', title: 'Changelog' },
-						{ url: './app/change-password', title: 'Change my password' },
-						{ url: './app/logout', title: 'Logout' },
+						{
+							url: './app/about',
+							title: '<i class="fas fa-info-circle"></i> About Kanjimi',
+						}, {
+							url: './app/changelog',
+							title: '<i class="fas fa-newspaper"></i> Changelog',
+						}, {
+							url: './app/change-password',
+							title: '<i class="fas fa-key"></i> Change my password',
+						}, {
+							url: './app/logout',
+							title: '<i class="fas fa-sign-out-alt"></i> Logout',
+						},
 					];
 				}
 
@@ -264,7 +308,16 @@
 		cursor: pointer;
 	}
 
-	#main-menu >>> .nav-link i {
+	nav .navbar-nav >>> .nav-link i {
+		margin-right: 0.5em;
+		margin-left: 0.25em;
+	}
+
+	nav .dropdown-menu >>> .dropdown-item {
+		padding-left: 1em;
+		padding-right: 1em;
+	}
+	nav .dropdown-menu >>> .dropdown-item i {
 		margin-right: 0.5em;
 		margin-left: 0.25em;
 	}

@@ -4,7 +4,6 @@ next release:
             -> put it on the about page?
             -> add info for the share target
             -> add link from the changelog to the explanation (with anchor)
-    add icons to the homepage menu
     fix the broken tests (need to remove it now that it is useless?)
     broken CI tests?
     check the privacy info now required in the chrome web store (mail received)

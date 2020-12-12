@@ -19,7 +19,7 @@ next release:
 
 important to do soon:
     security alerts from github
-    kubernetes + load balancer + automated certificates + auto scaler
+    kubernetes + load balancer + automated certificates + auto scaler + storage for logs and backups
     log analysis tool? Goaccess?
     certbot in a cron
         - run automatically certbot with the arguments found in the nginx deployment file
@@ -27,8 +27,10 @@ important to do soon:
     test charge
     get and install second server
     post on producthunt
+    kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    tests Cypress on mobile resolution as well
     if can e2e test standalone (for the PWA)
         test that the footer is hidden
         test that the logo has no link
@@ -71,7 +73,6 @@ After:
     manage load balancer list when deploying
     healthcheck for load balancer
     API rate limiting with nginx (except for local client ips)
-    tests Cypress on mobile resolution
     Tag words by specific domain vocabulary (community based)
     rename the old migrations from XXX_Name.sql to Name (js file + db + production)?
     declare activity -> if permissions OK -> do when I start the paid subscriptions

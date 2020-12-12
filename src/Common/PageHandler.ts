@@ -70,12 +70,15 @@ export default class PageHandler {
 						return NodeFilter.FILTER_REJECT;
 					}
 
-					const boundingBox = (nodeElement).getBoundingClientRect();
+					// Need to use scrollHeight and scrollWidth because the
+					// size of the element may be constrained while the content
+					// is still displayed (overflowing out of the box)
+					const boundingBox = nodeElement.getBoundingClientRect();
 					if (
 						boundingBox.top > this.window.innerHeight
-						|| boundingBox.bottom < 0
+						|| (boundingBox.top + nodeElement.scrollHeight) < 0
 						|| boundingBox.left > this.window.innerWidth
-						|| boundingBox.right < 0
+						|| (boundingBox.left + nodeElement.scrollWidth) < 0
 					) {
 						if (boundingBox.width === 0 || boundingBox.height === 0) {
 							// Rejecting would include absolute elements being

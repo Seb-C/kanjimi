@@ -1,5 +1,4 @@
 next release:
-    fix the broken CI tests (need to remove it now that it is useless?)
     update the changelog + date
     on deployment, be careful to the change of port in the containers configs
     Test the size-optimized app image for docker
@@ -8,7 +7,7 @@ next release:
     twitter about the PWA
 
 important to do soon:
-    security alerts from github
+    security alerts from github (update packages)
     kubernetes + load balancer + automated certificates + auto scaler + storage for logs and backups
     log analysis tool? Goaccess?
     certbot in a cron
@@ -20,6 +19,7 @@ important to do soon:
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    cypress fetch handler
     update screenshots on the extension as well as the homepage samples (kanji details...)
     tests Cypress on mobile resolution as well
     if can e2e test standalone (for the PWA)

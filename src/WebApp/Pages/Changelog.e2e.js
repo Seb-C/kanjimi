@@ -16,7 +16,7 @@ context('Changelog', () => {
 		cy.visit('/app')
 		cy.get('nav a:contains(Changelog)').should('not.be.visible');
 		cy.get('nav .dropdown-toggle').should('be.visible').click();
-		cy.get('nav a:contains(Changelog)').should('be.visible').click();
+		cy.get('nav .dropdown a:contains(Changelog)').should('be.visible').click();
 		cy.get('.page-changelog').should('be.visible');
 	});
 	it('Access from the logged-out menu', () => {

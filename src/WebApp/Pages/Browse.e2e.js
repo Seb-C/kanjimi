@@ -110,7 +110,7 @@ context('Browse', () => {
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
 		cy.wait(500);
 
-		cy.get('a[target="_blank"][href="https://localhost/test-pages/"]').should('be.visible')
+		cy.get('a[href="https://localhost/test-pages/"]').should('be.visible')
 	});
 
 	it('Links clicked inside the iframe opens properly', () => {

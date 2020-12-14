@@ -20,7 +20,7 @@ context('About', () => {
 	});
 	it('Access from the app', () => {
 		cy.visit('/app');
-		cy.get('a:contains(About Kanjimi)').should('be.visible').click();
+		cy.get('a:contains(About Kanjimi):visible:first').should('be.visible').click();
 		cy.url().should('contain', 'app/about');
 		cy.get('.page-about').should('be.visible');
 	});

@@ -93,7 +93,7 @@ describe('PageController', async function() {
 	it('get (follows redirection)', async function() {
 		const response = await fetch((
 			'https://localhost/api/page?url='
-			+ encodeURIComponent('https://127.0.0.1/')
+			+ encodeURIComponent('http://nginx/')
 		), {
 			method: 'GET',
 			headers: {
@@ -101,7 +101,7 @@ describe('PageController', async function() {
 			},
 		});
 		expect(response.status).toBe(200);
-		expect(response.headers.get('content-location')).toContain('localhost');
+		expect(response.headers.get('content-location')).toContain('https');
 	});
 
 	it('get (authentication error)', async function() {

@@ -2,9 +2,9 @@
 	<div class="container flex-fill py-2 page-changelog">
 		<h1>Changelog</h1>
 
-		<h2>?年?月?日</h2>
+		<h2>2020年12月15日</h2>
 		<ul>
-			<li>Adding a feature (not available in the extension) allowing to use Kanjimi on any text (not only websites)</li>
+			<li>Adding a feature (not available in the extension) allowing to use Kanjimi on any Japanese text (not only websites)</li>
 			<li>Kanjimi is now installable as a Progressive Web Application. Go to the <a href="/app/about">About Kanjimi</a> page to see how you can install it.</li>
 			<li>Fixing a bug preventing any conjugated verbs or adjectives from being hidden</li>
 			<li>Fixing some minor layout bugs</li>

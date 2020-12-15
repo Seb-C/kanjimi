@@ -4,7 +4,7 @@
   "author": "Sébastien Caparros",
   "homepage_url": "{{ KANJIMI_WWW_URL }}",
   "incognito": "spanning",
-  "version": "0.3",
+  "version": "0.4",
   "description": "Service helping you to learn Japanese by allowing you to read real content on internet",
   "icons": {
     "48": "./images/logo.png",

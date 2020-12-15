@@ -1,5 +1,4 @@
 next release:
-    change the version and publish the extension
     Test the size-optimized app image for docker
     on deployment, be careful to the change of port in the containers configs
     do some database backups manually

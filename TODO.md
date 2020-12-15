@@ -1,13 +1,12 @@
 next release:
     update the changelog + date
-    on deployment, be careful to the change of port in the containers configs
-    Test the size-optimized app image for docker
     change the version and publish the extension
+    Test the size-optimized app image for docker
+    on deployment, be careful to the change of port in the containers configs
     do some database backups manually
     twitter about the PWA
 
 important to do soon:
-    security alerts from github (update packages)
     kubernetes + load balancer + automated certificates + auto scaler + storage for logs and backups
     log analysis tool? Goaccess?
     certbot in a cron

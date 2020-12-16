@@ -121,7 +121,7 @@ import * as PageController from 'Server/Controllers/Page';
 		cert: FileSystem.readFileSync(<string>process.env.KANJIMI_SERVER_CERTIFICATE_CRT).toString(),
 	}, application);
 
-	server.listen(443);
+	server.listen(parseInt(<string>process.env.KANJIMI_SERVER_PORT));
 	console.log('Server started');
 
 	await new Promise((resolve) => {

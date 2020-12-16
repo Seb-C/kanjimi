@@ -39,7 +39,7 @@ ssh -i ./dist/production/ssh_key root@$SERVER_HOSTNAME "
         --name server \
         --env-file /kanjimi/dist/production/server.env \
         --restart always \
-        --publish 443:443 \
+        --publish 443:3443 \
         --log-driver journald \
         --log-opt tag=server \
         server

@@ -1,11 +1,12 @@
 important to do soon:
-    update changelog and publish fixes
+    optimize the docker image build time while keeping the optimized size (use the as/from alias system?)
     do some database backups manually
     kubernetes + load balancer + automated certificates + auto scaler + storage for logs and backups
     log analysis tool? Goaccess?
     certbot in a cron
         - run automatically certbot with the arguments found in the nginx deployment file
         - make nginx reload it's configuration automatically once a day (currently done with this command: docker exec -t nginx nginx -s reload)
+    republish extension with last bugfixes from december 17
     test charge
     get and install second server
     post on producthunt

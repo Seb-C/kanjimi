@@ -2,7 +2,7 @@
 	<div class="container flex-fill py-2 page-changelog">
 		<h1>Changelog</h1>
 
-		<h2>?年?月?日</h2>
+		<h2>2020年12月17日</h2>
 		<ul>
 			<li>Fixing a bug where there was too much space between a word and it's definitions</li>
 			<li>Fixing a bug where words were not vertically aligned and some definitions were invisible</li>

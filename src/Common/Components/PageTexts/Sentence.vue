@@ -41,6 +41,7 @@
 		clear: both;
 		display: inline;
 		text-shadow: none;
+		white-space: normal;
 	}
 
 	a .kanjimi-sentence:after {

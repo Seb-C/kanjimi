@@ -2,7 +2,12 @@
 	<div class="container flex-fill py-2 page-changelog">
 		<h1>Changelog</h1>
 
-		<h2>2020年12月15日</h2>
+		<h2>?年?月?日</h2>
+		<ul>
+			<li>Fixing a bug where there was too much space between a word and it's definitions</li>
+		</ul>
+
+		<h2>2020年12月16日</h2>
 		<ul>
 			<li>Adding a feature (not available in the extension) allowing to use Kanjimi on any Japanese text (not only websites)</li>
 			<li>Kanjimi is now installable as a Progressive Web Application. Go to the <a href="/app/about">About Kanjimi</a> page to see how you can install it.</li>

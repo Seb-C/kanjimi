@@ -128,6 +128,7 @@
 		width: auto;
 		text-align: center;
 		position: relative;
+		white-space: normal;
 
 		/** Required to disallow click on the sentence between tokens */
 		padding: 0;

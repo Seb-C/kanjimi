@@ -158,9 +158,9 @@
 	}
 
 	.token .furigana.hidden {
-		display: block;
-		visibility: visible;
-		opacity: 100%;
+		display: block !important;
+		visibility: visible !important;
+		opacity: 100% !important;
 
 		/* Hide it but keep the pointer reactivity and bounding-box */
 		background-color: currentColor;
@@ -183,8 +183,8 @@
 		 * Hide it, disable pointer reactivity and bounding-box
 		 * (but we need to keep the height)
 		 */
-		visibility: hidden;
-		width: 1px;
+		visibility: hidden !important;
+		width: 1px !important;
 	}
 
 	.token .word {
@@ -222,9 +222,9 @@
 	}
 
 	.token .translation.hidden {
-		display: block;
-		visibility: visible;
-		opacity: 100%;
+		display: block !important;
+		visibility: visible !important;
+		opacity: 100% !important;
 
 		/* Hide it but keep the pointer reactivity and bounding-box */
 		background-color: currentColor;
@@ -243,7 +243,7 @@
 		 * Hide it, disable pointer reactivity and bounding-box
 		 * (but we need to keep the height)
 		 */
-		visibility: hidden;
-		width: 1px;
+		visibility: hidden !important;
+		width: 1px !important;
 	}
 </style>

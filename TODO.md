@@ -1,4 +1,5 @@
 important to do soon:
+    update changelog and publish fixes
     do some database backups manually
     kubernetes + load balancer + automated certificates + auto scaler + storage for logs and backups
     log analysis tool? Goaccess?
@@ -11,6 +12,8 @@ important to do soon:
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    stop storing URLS: Privacy problem (gdrive, discord, google meet, slack channels...)
+    pwa: button to navigate back or go home
     cypress fetch handler
     update screenshots on the extension as well as the homepage samples (kanji details...)
     tests Cypress on mobile resolution as well

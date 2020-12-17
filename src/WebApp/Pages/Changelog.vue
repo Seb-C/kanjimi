@@ -5,6 +5,7 @@
 		<h2>?年?月?日</h2>
 		<ul>
 			<li>Fixing a bug where there was too much space between a word and it's definitions</li>
+			<li>Fixing a bug where words were not vertically aligned and some definitions were invisible</li>
 		</ul>
 
 		<h2>2020年12月16日</h2>

@@ -6,6 +6,7 @@ www/js/*.build.js
 www/css/*.build.css
 /cypress/screenshots/
 /cypress/videos/
+/dist/kubernetes/config.yaml
 /dist/extension
 /dist/*.zip
 /dist/*.tar.gz

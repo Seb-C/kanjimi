@@ -1,9 +1,8 @@
 important to do soon:
-    optimize the docker image build time while keeping the optimized size (use the as/from alias system?)
+    kubernetes + load balancer + automated certificates + auto scaler + storage for logs and backups
     test for the invisible black boxes bug (page had a hidden class with display none important)
     fix test failing
     do some database backups manually
-    kubernetes + load balancer + automated certificates + auto scaler + storage for logs and backups
     log analysis tool? Goaccess?
     certbot in a cron
         - run automatically certbot with the arguments found in the nginx deployment file

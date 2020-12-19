@@ -14,4 +14,17 @@ docker build \
 
 docker push registry.digitalocean.com/kanjimi/server:latest
 
+kubectl apply \
+    --filename ./dist/kubernetes/namespace.yaml \
+    --filename ./dist/kubernetes/config.yaml \
+    --filename ./dist/kubernetes/server-deployment.yaml \
+    --filename ./dist/kubernetes/server-service.yaml \
+    --filename ./dist/kubernetes/server-hpa.yaml \
+    --prune \
+    --all
+
+kubectl rollout restart deployment server-deployment --namespace=kanjimi
+
+# TODO handle the configs and environment variables
 # TODO remove certificate from the node server since will be the same pod
+# TODO simplify and optimize the image build time by using the aliases

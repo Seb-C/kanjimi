@@ -91,3 +91,36 @@ spec:
               value: "https://www.kanjimi.com/api"
             - name: KANJIMI_WWW_URL
               value: "https://www.kanjimi.com"
+        - name: nginx
+          image: registry.digitalocean.com/kanjimi/nginx:latest
+          env:
+            - name: KANJIMI_NGINX_UPSTREAM
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_nginx_upstream
+            - name: KANJIMI_NGINX_FORCE_DOMAIN
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_nginx_force_domain
+            - name: KANJIMI_NGINX_FORCE_DOMAIN_COMMENT
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_nginx_force_domain_comment
+            - name: KANJIMI_NGINX_CACHE_DURATION
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_nginx_cache_duration
+            - name: KANJIMI_NGINX_CERTIFICATE_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_nginx_certificate_key
+            - name: KANJIMI_NGINX_CERTIFICATE_CRT
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_nginx_certificate_crt

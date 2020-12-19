@@ -1,5 +1,7 @@
 important to do soon:
     optimize the docker image build time while keeping the optimized size (use the as/from alias system?)
+    test for the invisible black boxes bug (page had a hidden class with display none important)
+    fix test failing
     do some database backups manually
     kubernetes + load balancer + automated certificates + auto scaler + storage for logs and backups
     log analysis tool? Goaccess?
@@ -13,6 +15,7 @@ important to do soon:
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    Fix pull-to-refresh on Google Chrome?
     stop storing URLS: Privacy problem (gdrive, discord, google meet, slack channels...)
     pwa: button to navigate back or go home
     cypress fetch handler

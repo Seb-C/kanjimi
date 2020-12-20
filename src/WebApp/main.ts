@@ -21,7 +21,7 @@ window.addEventListener('load', async function () {
 		// Updating the service worker in background (not awaiting)
 		(async () => {
 			try {
-				await navigator.serviceWorker.register('/app/service-worker.js');
+				await navigator.serviceWorker.register('/js/service-worker.js');
 				if (navigator.serviceWorker.controller) {
 					navigator.serviceWorker.controller.postMessage({ event: 'pageLoaded' });
 				}

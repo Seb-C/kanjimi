@@ -23,6 +23,10 @@ services:
     build:
       context: .
       dockerfile: ./dist/docker/server.Dockerfile
+      args:
+        - KANJIMI_API_URL=https://localhost/api
+        - KANJIMI_WWW_URL=https://localhost
+        - NODE_ENV=development
     restart: on-failure
     depends_on:
       - database
@@ -38,11 +42,16 @@ services:
     build:
       context: .
       dockerfile: ./dist/docker/nginx.Dockerfile
+      args:
+        - KANJIMI_NGINX_REMOVE_TEST_PAGES=false
+        - KANJIMI_NGINX_DOMAIN=localhost
     restart: on-failure
     env_file:
       - docker-compose.env
     depends_on:
       - server
+    volumes:
+      - $PWD/www:/kanjimi/www
     ports:
       - "80:80"
       - "443:443"

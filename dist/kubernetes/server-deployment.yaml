@@ -20,7 +20,7 @@ spec:
       restartPolicy: Always
       containers:
         - name: server
-          image: registry.digitalocean.com/kanjimi/server:latest
+          image: registry.digitalocean.com/kanjimi/kanjimi:server
           imagePullPolicy: Always
           ports:
             - containerPort: 3443
@@ -91,12 +91,14 @@ spec:
               value: "https://www.kanjimi.com/api"
             - name: KANJIMI_WWW_URL
               value: "https://www.kanjimi.com"
-            - name: KANJIMI_ALLOW_TEST_PAGES
-              value: "false"
+            - name: KANJIMI_NGINX_COMMENT_TEST_PAGES
+              value: "#"
+            - name: KANJIMI_NGINX_REMOVE_TEST_PAGES
+              value: "true"
             - name: NODE_ENV
               value: "production"
         - name: nginx
-          image: registry.digitalocean.com/kanjimi/nginx:latest
+          image: registry.digitalocean.com/kanjimi/kanjimi:nginx
           env:
             - name: KANJIMI_NGINX_UPSTREAM
               valueFrom:

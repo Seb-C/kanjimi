@@ -6,15 +6,17 @@ doctl registry login
 
 docker build \
     -t registry.digitalocean.com/kanjimi/kanjimi:server \
+    --build-arg NODE_ENV=production \
     --build-arg KANJIMI_API_URL=https://www.kanjimi.com/api \
     --build-arg KANJIMI_WWW_URL=https://www.kanjimi.com \
-    --build-arg NODE_ENV=production \
     -f ./dist/docker/server.Dockerfile \
     .
 docker build \
     -t registry.digitalocean.com/kanjimi/kanjimi:nginx \
     --build-arg KANJIMI_NGINX_REMOVE_TEST_PAGES=true \
-    --build-arg KANJIMI_NGINX_DOMAIN=www.kanjimi.com \
+    --build-arg KANJIMI_NGINX_CERTIFICATE_DOMAIN=www.kanjimi.com \
+    --build-arg KANJIMI_API_URL=https://www.kanjimi.com/api \
+    --build-arg KANJIMI_WWW_URL=https://www.kanjimi.com \
     -f ./dist/docker/nginx.Dockerfile \
     .
 
@@ -32,7 +34,6 @@ kubectl apply \
 
 kubectl rollout restart deployment server-deployment --namespace=kanjimi
 
-# TODO Remove useless configs
 # TODO load balancer
 # TODO logging
 # TODO fix ports

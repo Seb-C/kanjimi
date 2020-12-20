@@ -100,23 +100,13 @@ spec:
         - name: nginx
           image: registry.digitalocean.com/kanjimi/kanjimi:nginx
           env:
+            - name: KANJIMI_NGINX_COMMENT_TEST_PAGES
+              value: "#"
             - name: KANJIMI_NGINX_UPSTREAM
-              valueFrom:
-                configMapKeyRef:
-                  name: config
-                  key: kanjimi_nginx_upstream
+              value: "server:3000"
             - name: KANJIMI_NGINX_DOMAIN
-              valueFrom:
-                configMapKeyRef:
-                  name: config
-                  key: kanjimi_nginx_domain
-            - name: KANJIMI_NGINX_FORCE_DOMAIN_COMMENT
-              valueFrom:
-                configMapKeyRef:
-                  name: config
-                  key: kanjimi_nginx_force_domain_comment
+              value: "www.kanjimi.com"
+            - name: KANJIMI_NGINX_COMMENT_FORCE_DOMAIN
+              value: ""
             - name: KANJIMI_NGINX_CACHE_DURATION
-              valueFrom:
-                configMapKeyRef:
-                  name: config
-                  key: kanjimi_nginx_cache_duration
+              value: "30m"

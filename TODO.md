@@ -14,6 +14,8 @@ important to do soon:
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    clean this TODO-list
+    custom 404 page instead of the default one from nginx
     Fix pull-to-refresh on Google Chrome?
     stop storing URLS: Privacy problem (gdrive, discord, google meet, slack channels...)
     pwa: button to navigate back or go home

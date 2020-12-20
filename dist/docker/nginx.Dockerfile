@@ -1,7 +1,9 @@
 FROM node:14-alpine as builder
 
 ARG KANJIMI_NGINX_REMOVE_TEST_PAGES
-ARG KANJIMI_NGINX_DOMAIN
+ARG KANJIMI_NGINX_CERTIFICATE_DOMAIN
+ARG KANJIMI_API_URL
+ARG KANJIMI_WWW_URL
 
 COPY --chown=root:root ./src /kanjimi/src
 COPY --chown=root:root ./www /kanjimi/www
@@ -29,7 +31,7 @@ RUN openssl req \
     -newkey rsa:2048 \
     -keyout /etc/ssl/certs/kanjimi.key \
     -out /etc/ssl/certs/kanjimi.crt \
-    -subj "/C=JP/ST=Tokyo/L=Tokyo/O=Kanjimi/OU=Kanjimi/CN=$KANJIMI_NGINX_DOMAIN"
+    -subj "/C=JP/ST=Tokyo/L=Tokyo/O=Kanjimi/OU=Kanjimi/CN=$KANJIMI_NGINX_CERTIFICATE_DOMAIN"
 RUN chmod a+r-w -R /etc/ssl/certs/kanjimi.*
 
 FROM nginx:1-alpine

@@ -49,7 +49,9 @@ services:
       - $PWD:/kanjimi
       - mails:/tmp/mails
   nginx:
-    image: nginx:1
+    build:
+      context: .
+      dockerfile: dist/docker/nginx.Dockerfile
     restart: on-failure
     env_file:
       - docker-compose.env
@@ -58,9 +60,6 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - $PWD:/kanjimi
-      - $PWD/dist/nginx/nginx.conf:/etc/nginx/templates/default.conf.template
   extension:
     image: node:14-alpine
     restart: on-failure

@@ -99,11 +99,11 @@ spec:
                 configMapKeyRef:
                   name: config
                   key: kanjimi_nginx_upstream
-            - name: KANJIMI_NGINX_FORCE_DOMAIN
+            - name: KANJIMI_NGINX_DOMAIN
               valueFrom:
                 configMapKeyRef:
                   name: config
-                  key: kanjimi_nginx_force_domain
+                  key: kanjimi_nginx_domain
             - name: KANJIMI_NGINX_FORCE_DOMAIN_COMMENT
               valueFrom:
                 configMapKeyRef:
@@ -114,13 +114,3 @@ spec:
                 configMapKeyRef:
                   name: config
                   key: kanjimi_nginx_cache_duration
-            - name: KANJIMI_NGINX_CERTIFICATE_KEY
-              valueFrom:
-                configMapKeyRef:
-                  name: config
-                  key: kanjimi_nginx_certificate_key
-            - name: KANJIMI_NGINX_CERTIFICATE_CRT
-              valueFrom:
-                configMapKeyRef:
-                  name: config
-                  key: kanjimi_nginx_certificate_crt

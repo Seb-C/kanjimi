@@ -1,5 +1,3 @@
-import * as Https from 'https';
-import * as FileSystem from 'fs';
 import Lexer from 'Server/Lexer/Lexer';
 import Dictionary from 'Server/Lexer/Dictionary';
 import Kanjis from 'Server/Lexer/Kanjis';
@@ -116,12 +114,7 @@ import * as PageController from 'Server/Controllers/Page';
 		global.gc();
 	}
 
-	const server = Https.createServer({
-		key: FileSystem.readFileSync(<string>process.env.KANJIMI_SERVER_CERTIFICATE_KEY).toString(),
-		cert: FileSystem.readFileSync(<string>process.env.KANJIMI_SERVER_CERTIFICATE_CRT).toString(),
-	}, application);
-
-	server.listen(parseInt(<string>process.env.KANJIMI_SERVER_PORT));
+	const server = application.listen(parseInt(<string>process.env.KANJIMI_SERVER_PORT));
 	console.log('Server started');
 
 	await new Promise((resolve) => {

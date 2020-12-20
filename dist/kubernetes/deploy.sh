@@ -30,9 +30,8 @@ kubectl apply \
 
 kubectl rollout restart deployment server-deployment --namespace=kanjimi
 
-# TODO simplify and optimize the image build time by using the aliases
-# TODO Remove useless configs
 # TODO nginx: serve www files directly
+# TODO Remove useless configs
 # TODO load balancer
 # TODO logging
 # TODO fix ports

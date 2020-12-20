@@ -91,6 +91,10 @@ spec:
               value: "https://www.kanjimi.com/api"
             - name: KANJIMI_WWW_URL
               value: "https://www.kanjimi.com"
+            - name: KANJIMI_ALLOW_TEST_PAGES
+              value: "false"
+            - name: NODE_ENV
+              value: "production"
         - name: nginx
           image: registry.digitalocean.com/kanjimi/nginx:latest
           env:

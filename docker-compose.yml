@@ -20,38 +20,24 @@ services:
     volumes:
       - $PWD:/kanjimi
   server:
-    image: node:14-alpine
+    build:
+      context: .
+      dockerfile: ./dist/docker/server.Dockerfile
     restart: on-failure
-    working_dir: /kanjimi
     depends_on:
       - database
       - watch
     env_file:
       - docker-compose.env
-    command: >
-      sh -c "
-        while [ ! -f ./dist/server/Server/server.js ]; do
-          echo 'Waiting for the server source files...'
-          sleep 1
-        done;
-        ./node_modules/.bin/nodemon -w ./dist/server --expose-gc dist/server/Server/server.js
-      "
-    #command: ./node_modules/.bin/nodemon -w ./server --inspect=0.0.0.0:9229 --expose-gc dist/server/Server/server.js
-    healthcheck:
-      test: wget -q https://localhost/api/health-check/ -O /dev/null --no-check-certificate
-      interval: 15s
-      timeout: 3s
-      retries: 3
-      start_period: 2m
-    #ports:
-      #- "9229:9229"
+    user: root
+    command: ./node_modules/.bin/nodemon -w ./dist/server --expose-gc dist/server/Server/server.js
     volumes:
       - $PWD:/kanjimi
       - mails:/tmp/mails
   nginx:
     build:
       context: .
-      dockerfile: dist/docker/nginx.Dockerfile
+      dockerfile: ./dist/docker/nginx.Dockerfile
     restart: on-failure
     env_file:
       - docker-compose.env

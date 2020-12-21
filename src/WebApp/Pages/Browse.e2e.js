@@ -53,7 +53,7 @@ context('Browse', () => {
 		cy.setLoggedIn();
 		cy.visit('/app');
 
-		cy.get('input.input-url').type('https://localhost/test-pages/');
+		cy.get('input.input-url').type('https://nginx/test-pages/');
 		cy.get('form:has(input.input-url)').submit();
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
@@ -73,7 +73,7 @@ context('Browse', () => {
 		cy.setLoggedIn();
 		cy.visit('/app');
 
-		cy.get('input.input-url').type('https://localhost/test-pages/');
+		cy.get('input.input-url').type('https://nginx/test-pages/');
 		cy.get('form:has(input.input-url) button[type="submit"]').click();
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
@@ -91,7 +91,7 @@ context('Browse', () => {
 
 	it('Specific page set in the url opens properly', () => {
 		cy.setLoggedIn();
-		cy.visit('/app?url=https%3A%2F%2Flocalhost%2Ftest-pages%2F');
+		cy.visit('/app?url=https%3A%2F%2Fnginx%2Ftest-pages%2F');
 
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
@@ -103,19 +103,19 @@ context('Browse', () => {
 
 	it('The link to open a page externally works', () => {
 		cy.setLoggedIn();
-		cy.visit('/app?url=https%3A%2F%2Flocalhost%2Ftest-pages%2F');
+		cy.visit('/app?url=https%3A%2F%2Fnginx%2Ftest-pages%2F');
 
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
 		cy.wait(500);
 
-		cy.get('a[href="https://localhost/test-pages/"]').should('be.visible')
+		cy.get('a[href="https://nginx/test-pages/"]').should('be.visible')
 	});
 
 	it('Links clicked inside the iframe opens properly', () => {
 		cy.setLoggedIn();
-		cy.visit('/app?url=https%3A%2F%2Flocalhost%2Ftest-pages%2F');
+		cy.visit('/app?url=https%3A%2F%2Fnginx%2Ftest-pages%2F');
 
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
@@ -135,7 +135,7 @@ context('Browse', () => {
 
 	it('No scripts allowed inside the iframe', () => {
 		cy.setLoggedIn();
-		cy.visit('/app?url=https%3A%2F%2Flocalhost%2Ftest-pages%2F');
+		cy.visit('/app?url=https%3A%2F%2Fnginx%2Ftest-pages%2F');
 
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
@@ -160,7 +160,7 @@ context('Browse', () => {
 	it('Can go back and forth with the browser history', () => {
 		cy.setLoggedIn();
 
-		cy.visit('/app?url=https%3A%2F%2Flocalhost%2Ftest-pages%2F');
+		cy.visit('/app?url=https%3A%2F%2Fnginx%2Ftest-pages%2F');
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
@@ -197,7 +197,7 @@ context('Browse', () => {
 
 	it('Going back home from a specific page', () => {
 		cy.setLoggedIn();
-		cy.visit('/app?url=https%3A%2F%2Flocalhost%2Ftest-pages%2F');
+		cy.visit('/app?url=https%3A%2F%2Fnginx%2Ftest-pages%2F');
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
 		// cy.get('.iframe-loading-spinner').should('not.be.visible');
@@ -217,7 +217,7 @@ context('Browse', () => {
 		cy.setLoggedIn();
 		cy.visit('/app');
 
-		cy.get('input.input-url').type('https://localhost/test-pages/redirect-to-landing-page-examples');
+		cy.get('input.input-url').type('https://nginx/test-pages/redirect-to-landing-page-examples');
 		cy.get('form:has(input.input-url)').submit();
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');
@@ -234,7 +234,7 @@ context('Browse', () => {
 
 	it('GET forms used inside the iframe opens properly', () => {
 		cy.setLoggedIn();
-		cy.visit('/app?url=https%3A%2F%2Flocalhost%2Ftest-pages%2Fget-form.html');
+		cy.visit('/app?url=https%3A%2F%2Fnginx%2Ftest-pages%2Fget-form.html');
 
 		// cy.get('.iframe-loading-spinner').should('be.visible');
 		// cy.wait('@getPage');

@@ -14,8 +14,8 @@ context('Analyze', () => {
 
 	it('Redirects to the browser if an URL is typed', () => {
 		cy.setLoggedIn();
-		cy.visit('/app/analyze?text=https%3A%2F%2Flocalhost%2Ffoo-bar');
-		cy.url().should('contain', 'app?url=https%3A%2F%2Flocalhost%2Ffoo-bar');
+		cy.visit('/app/analyze?text=http%3A%2F%2Flocalhost%3A3000%2Ffoo-bar');
+		cy.url().should('contain', 'app?url=http%3A%2F%2Flocalhost%3A3000%2Ffoo-bar');
 		cy.get('.page-browser').should('be.visible');
 	});
 

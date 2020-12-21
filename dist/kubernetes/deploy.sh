@@ -34,6 +34,7 @@ kubectl apply \
 
 kubectl rollout restart deployment server-deployment --namespace=kanjimi
 
-# TODO load balancer
+# TODO check the nameservers move to DO
+# TODO load balancer with do
 # TODO logging
-# TODO fix ports
+# TODO db backup

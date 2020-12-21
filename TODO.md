@@ -14,6 +14,7 @@ important to do soon:
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    CI tests -> run on the raw docker images (without the development-related stuff?)
     clean this TODO-list
     custom 404 page instead of the default one from nginx
     Fix pull-to-refresh on Google Chrome?

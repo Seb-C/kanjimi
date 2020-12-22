@@ -26,6 +26,11 @@ docker push registry.digitalocean.com/kanjimi/kanjimi:nginx
 kubectl apply \
     --filename ./dist/kubernetes/namespace.yaml \
     --filename ./dist/kubernetes/config.yaml \
+    --filename ./dist/kubernetes/logs-volume.yaml \
+    --filename ./dist/kubernetes/config-fluentbit-nginx.yaml \
+    --filename ./dist/kubernetes/config-fluentbit-storage.yaml \
+    --filename ./dist/kubernetes/fluentbit-storage-deployment.yaml \
+    --filename ./dist/kubernetes/fluentbit-storage-service.yaml \
     --filename ./dist/kubernetes/server-deployment.yaml \
     --filename ./dist/kubernetes/server-service.yaml \
     --filename ./dist/kubernetes/server-hpa.yaml \
@@ -33,8 +38,3 @@ kubectl apply \
     --all
 
 kubectl rollout restart deployment server-deployment --namespace=kanjimi
-
-# TODO check the nameservers move to DO
-# TODO load balancer with do
-# TODO logging
-# TODO db backup

@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: PersistentVolumeClaim
+namespace: kanjimi
+metadata:
+  name: logs
+  labels:
+    app: logs
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 1G
+  storageClassName: do-block-storage

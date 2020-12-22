@@ -1,12 +1,12 @@
 important to do soon:
-    kubernetes + load balancer + automated certificates + auto scaler + storage for logs and backups
+    test logging and check output
+    load balancer with do
+    db backup
+    fluentbit log transfer: use tls
     test for the invisible black boxes bug (page had a hidden class with display none important)
     fix test failing
     do some database backups manually
     log analysis tool? Goaccess?
-    certbot in a cron
-        - run automatically certbot with the arguments found in the nginx deployment file
-        - make nginx reload it's configuration automatically once a day (currently done with this command: docker exec -t nginx nginx -s reload)
     republish extension with last bugfixes from december 17
     test charge
     get and install second server

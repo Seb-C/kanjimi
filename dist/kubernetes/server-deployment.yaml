@@ -110,3 +110,29 @@ spec:
               value: ""
             - name: KANJIMI_NGINX_CACHE_DURATION
               value: "30m"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          volumeMounts:
+            - mountPath: "/var/log/nginx"
+              name: logs-local
+              subPath: "$(POD_NAME)/nginx"
+        - name: fluentbit
+          image: fluent/fluent-bit:1
+          volumeMounts:
+            - name: config-fluentbit
+              mountPath: /fluent-bit/etc/fluent-bit.conf
+              subPath: config.yaml
+            - mountPath: "/var/log/nginx"
+              name: logs-local
+              subPath: "$(POD_NAME)/nginx"
+  volumes:
+    - name: logs-local
+      hostPath:
+        path: /kanjimi/logs
+        type: DirectoryOrCreate
+    - name: config-fluentbit
+      configMap:
+        name: config-fluentbit-nginx

@@ -1,0 +1,25 @@
+apiVersion: v1
+kind: ConfigMap
+namespace: kanjimi
+metadata:
+  name: config-fluentbit-nginx
+data:
+  fluent-bit.conf: |
+    [INPUT]
+        Name tail
+        Tag nginx_access
+        DB /var/log/nginx/access.fluentbit.db
+        Read_from_Head On
+        Path /var/log/nginx/access.log
+
+    [INPUT]
+        Name tail
+        Tag nginx_error
+        DB /var/log/nginx/error.fluentbit.db
+        Read_from_Head On
+        Path /var/log/nginx/error.log
+
+    [OUTPUT]
+        Name tcp
+        Host fluentbit-storage-service
+        Port 5170

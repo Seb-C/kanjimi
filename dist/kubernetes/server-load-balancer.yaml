@@ -1,0 +1,28 @@
+annotations:
+    service.beta.kubernetes.io/do-loadbalancer-name: "kanjimi"
+    service.beta.kubernetes.io/do-loadbalancer-protocol: "https"
+    service.beta.kubernetes.io/do-loadbalancer-tls-ports: "443"
+    service.beta.kubernetes.io/do-loadbalancer-redirect-http-to-https: "true"
+    service.beta.kubernetes.io/do-loadbalancer-certificate-id: "4fde21c2-7bc7-4929-8370-620f638c2e7c"
+    service.beta.kubernetes.io/do-loadbalancer-algorithm: "least_connections"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-port: "443"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-protocol: "https"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-path: "/api/health-check"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-check-interval-seconds: "5"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-response-timeout-seconds: "5"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-unhealthy-threshold: "3"
+    service.beta.kubernetes.io/do-loadbalancer-healthcheck-healthy-threshold: "2"
+    service.beta.kubernetes.io/do-loadbalancer-size-slug: "lb-small"
+spec:
+  type: LoadBalancer
+  selector:
+    app: server-deployment
+  ports:
+    - name: http
+      protocol: TCP
+      port: 80
+      targetPort: 80
+    - name: https
+      protocol: TCP
+      port: 443
+      targetPort: 443

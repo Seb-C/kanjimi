@@ -1,6 +1,5 @@
 apiVersion: apps/v1
 kind: Deployment
-namespace: kanjimi
 metadata:
   name: server-deployment
   labels:
@@ -23,14 +22,11 @@ spec:
           image: registry.digitalocean.com/kanjimi/kanjimi:server
           imagePullPolicy: Always
           ports:
-            - containerPort: 3443
+            - containerPort: 3000
           resources:
-            limits:
-              cpu: 1
-              memory: "1.5G"
             requests:
-              cpu: 0.5
-              memory: "600M"
+              cpu: 0.2
+              memory: "650M"
           env:
             - name: KANJIMI_DATABASE_HOST
               valueFrom:
@@ -99,11 +95,14 @@ spec:
               value: "production"
         - name: nginx
           image: registry.digitalocean.com/kanjimi/kanjimi:nginx
+          ports:
+            - containerPort: 80
+            - containerPort: 443
           env:
             - name: KANJIMI_NGINX_COMMENT_TEST_PAGES
               value: "#"
             - name: KANJIMI_NGINX_UPSTREAM
-              value: "server:3000"
+              value: "localhost:3000"
             - name: KANJIMI_NGINX_DOMAIN
               value: "www.kanjimi.com"
             - name: KANJIMI_NGINX_COMMENT_FORCE_DOMAIN
@@ -120,19 +119,19 @@ spec:
               name: logs-local
               subPath: "$(POD_NAME)/nginx"
         - name: fluentbit
-          image: fluent/fluent-bit:1
+          image: fluent/fluent-bit:1.6
           volumeMounts:
             - name: config-fluentbit
               mountPath: /fluent-bit/etc/fluent-bit.conf
-              subPath: config.yaml
+              subPath: fluent-bit.conf
             - mountPath: "/var/log/nginx"
               name: logs-local
               subPath: "$(POD_NAME)/nginx"
-  volumes:
-    - name: logs-local
-      hostPath:
-        path: /kanjimi/logs
-        type: DirectoryOrCreate
-    - name: config-fluentbit
-      configMap:
-        name: config-fluentbit-nginx
+      volumes:
+        - name: logs-local
+          hostPath:
+            path: /kanjimi/logs
+            type: DirectoryOrCreate
+        - name: config-fluentbit
+          configMap:
+            name: config-fluentbit-nginx

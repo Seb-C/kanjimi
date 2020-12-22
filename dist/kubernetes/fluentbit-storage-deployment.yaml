@@ -1,6 +1,5 @@
 apiVersion: apps/v1
 kind: Deployment
-namespace: kanjimi
 metadata:
   name: fluentbit-storage-deployment
   labels:
@@ -20,17 +19,17 @@ spec:
       restartPolicy: Always
       containers:
         - name: fluentbit
-          image: fluent/fluent-bit:1
+          image: fluent/fluent-bit:1.6
           volumeMounts:
             - name: config-fluentbit
               mountPath: /fluent-bit/etc/fluent-bit.conf
-              subPath: config.yaml
+              subPath: fluent-bit.conf
             - mountPath: "/kanjimi/logs"
               name: logs-storage
-  volumes:
-    - name: logs-storage
-      persistentVolumeClaim:
-        claimName: logs
-    - name: config-fluentbit
-      configMap:
-        name: config-fluentbit-storage
+      volumes:
+        - name: logs-storage
+          persistentVolumeClaim:
+            claimName: logs
+        - name: config-fluentbit
+          configMap:
+            name: config-fluentbit-storage

@@ -1,13 +1,14 @@
 apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
-namespace: kanjimi
 metadata:
   labels:
     app: server-hpa
   name: server-hpa
 spec:
-  minReplicas: 2
-  maxReplicas: 10
+  #minReplicas: 2
+  #maxReplicas: 10
+  minReplicas: 1
+  maxReplicas: 1
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment

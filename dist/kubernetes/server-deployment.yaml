@@ -134,4 +134,4 @@ spec:
             type: DirectoryOrCreate
         - name: config-fluentbit
           configMap:
-            name: config-fluentbit-nginx
+            name: config-fluentbit

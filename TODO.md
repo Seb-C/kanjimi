@@ -1,4 +1,6 @@
 important to do soon:
+    LB: Need to fix the port routing and make it work
+    Logs: check that it works and fix the s3 connection...
     test logging and check output
     load balancer with do
     db backup
@@ -8,6 +10,8 @@ important to do soon:
     do some database backups manually
     log analysis tool? Goaccess?
     republish extension with last bugfixes from december 17
+    backup logs from the old infrastructure
+    set autoscale after removing old droplets
     test charge
     get and install second server
     post on producthunt

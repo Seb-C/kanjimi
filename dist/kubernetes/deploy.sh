@@ -23,11 +23,7 @@ set -e
 
 kubectl apply \
     --filename ./dist/kubernetes/config.yaml \
-    --filename ./dist/kubernetes/logs-volume.yaml \
-    --filename ./dist/kubernetes/config-fluentbit-nginx.yaml \
-    --filename ./dist/kubernetes/config-fluentbit-storage.yaml \
-    --filename ./dist/kubernetes/fluentbit-storage-deployment.yaml \
-    --filename ./dist/kubernetes/fluentbit-storage-service.yaml \
+    --filename ./dist/kubernetes/config-fluentbit.yaml \
     --filename ./dist/kubernetes/server-deployment.yaml \
     --filename ./dist/kubernetes/server-hpa.yaml \
     --filename ./dist/kubernetes/server-load-balancer.yaml \

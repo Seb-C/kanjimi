@@ -2,8 +2,8 @@ apiVersion: autoscaling/v2beta2
 kind: HorizontalPodAutoscaler
 metadata:
   labels:
-    app: server-hpa
-  name: server-hpa
+    app: server
+  name: server
 spec:
   #minReplicas: 2
   #maxReplicas: 10
@@ -12,7 +12,7 @@ spec:
   scaleTargetRef:
     apiVersion: apps/v1
     kind: Deployment
-    name: server-deployment
+    name: server
   metrics:
   - type: Resource
     resource:

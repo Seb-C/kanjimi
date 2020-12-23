@@ -26,7 +26,7 @@ kubectl apply \
     --filename ./dist/kubernetes/config-fluentbit.yaml \
     --filename ./dist/kubernetes/server-deployment.yaml \
     --filename ./dist/kubernetes/server-hpa.yaml \
-    --filename ./dist/kubernetes/server-load-balancer.yaml \
+    #--filename ./dist/kubernetes/server-service.yaml \
     --namespace default \
     --prune \
     --all

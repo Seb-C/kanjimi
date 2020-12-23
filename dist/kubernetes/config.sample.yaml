@@ -16,3 +16,5 @@ data:
   kanjimi_smtp_secure: "true"
   kanjimi_smtp_user: "AKIAZHXPP6JUYZZQMEMY"
   kanjimi_smtp_pass: ""
+  s3_storage_key: ""
+  s3_storage_secret: ""

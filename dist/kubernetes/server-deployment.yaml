@@ -1,9 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: server-deployment
-  labels:
-    app: server-deployment
+  name: server
 spec:
   replicas: 1
   selector:
@@ -120,6 +118,17 @@ spec:
               subPath: "$(POD_NAME)/nginx"
         - name: fluentbit
           image: fluent/fluent-bit:1.6
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: s3_storage_key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: s3_storage_secret
           volumeMounts:
             - name: config-fluentbit
               mountPath: /fluent-bit/etc/fluent-bit.conf

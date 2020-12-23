@@ -1,8 +1,7 @@
 important to do soon:
-    LB: Need to fix the port routing and make it work
-    Logs: check that it works and fix the s3 connection...
-    test logging and check output
-    load balancer with do
+    Load-balancer: can fix with DO or must do it myself?
+    remove the health checks from the logs
+    check output of the logs and tune it if necessary
     db backup
     fluentbit log transfer: use tls
     test for the invisible black boxes bug (page had a hidden class with display none important)

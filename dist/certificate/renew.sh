@@ -14,4 +14,8 @@ docker run \
     --manual-public-ip-logging-ok \
     --force-renewal \
     -d kanjimi.com \
-    -d www.kanjimi.com
+    -d www.kanjimi.com \
+    || true
+
+sudo chmod -R a+X ./dist/letsencrypt
+sudo chmod -R a+r ./dist/letsencrypt

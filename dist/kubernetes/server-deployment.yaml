@@ -25,18 +25,19 @@ spec:
             requests:
               cpu: 0.2
               memory: "650M"
-          startupProbe:
-            httpGet:
-              path: /health-check
-              port: 3000
-            periodSeconds: 5
-            failureThreshold: 120
-          livenessProbe:
-            httpGet:
-              path: /health-check
-              port: 3000
-            failureThreshold: 2
-            periodSeconds: 5
+          #startupProbe:
+          #  httpGet:
+          #    path: /health-check
+          #    port: 3000
+          #  periodSeconds: 1
+          #  failureThreshold: 60
+          #readinessProbe:
+          #  httpGet:
+          #    path: /health-check
+          #    port: 3000
+          #  initialDelaySeconds: 60
+          #  failureThreshold: 2
+          #  periodSeconds: 5
           env:
             - name: KANJIMI_DATABASE_HOST
               valueFrom:
@@ -97,34 +98,26 @@ spec:
               value: "https://www.kanjimi.com/api"
             - name: KANJIMI_WWW_URL
               value: "https://www.kanjimi.com"
-            - name: KANJIMI_NGINX_COMMENT_TEST_PAGES
-              value: "#"
-            - name: KANJIMI_NGINX_REMOVE_TEST_PAGES
-              value: "true"
             - name: NODE_ENV
               value: "production"
         - name: nginx
           image: registry.digitalocean.com/kanjimi/kanjimi:nginx
+          imagePullPolicy: Always
           ports:
             - containerPort: 80
             - containerPort: 443
-          startupProbe:
+          readinessProbe:
             httpGet:
               path: /health-check
               port: 443
-            periodSeconds: 1
-            failureThreshold: 15
-          livenessProbe:
-            httpGet:
-              path: /health-check
-              port: 443
-            failureThreshold: 2
-            periodSeconds: 5
+              scheme: HTTPS
+            failureThreshold: 3
+            periodSeconds: 3
           env:
             - name: KANJIMI_NGINX_COMMENT_TEST_PAGES
               value: "#"
             - name: KANJIMI_NGINX_UPSTREAM
-              value: "localhost:3000"
+              value: "127.0.0.1:3000"
             - name: KANJIMI_NGINX_DOMAIN
               value: "www.kanjimi.com"
             - name: KANJIMI_NGINX_COMMENT_FORCE_DOMAIN
@@ -148,26 +141,27 @@ spec:
               mountPath: /etc/ssl/certs/kanjimi.crt
               subPath: fullchain.pem
               readOnly: true
-        - name: fluentbit
-          image: fluent/fluent-bit:1.6
-          env:
-            - name: AWS_ACCESS_KEY_ID
-              valueFrom:
-                configMapKeyRef:
-                  name: config
-                  key: s3_storage_key
-            - name: AWS_SECRET_ACCESS_KEY
-              valueFrom:
-                configMapKeyRef:
-                  name: config
-                  key: s3_storage_secret
-          volumeMounts:
-            - name: config-fluentbit
-              mountPath: /fluent-bit/etc/fluent-bit.conf
-              subPath: fluent-bit.conf
-            - mountPath: "/var/log/nginx"
-              name: logs-local
-              subPath: "$(POD_NAME)/nginx"
+        #- name: fluentbit
+        #  image: fluent/fluent-bit:1.6
+        #  imagePullPolicy: Always
+        #  env:
+        #    - name: AWS_ACCESS_KEY_ID
+        #      valueFrom:
+        #        configMapKeyRef:
+        #          name: config
+        #          key: s3_storage_key
+        #    - name: AWS_SECRET_ACCESS_KEY
+        #      valueFrom:
+        #        configMapKeyRef:
+        #          name: config
+        #          key: s3_storage_secret
+        #  volumeMounts:
+        #    - name: config-fluentbit
+        #      mountPath: /fluent-bit/etc/fluent-bit.conf
+        #      subPath: fluent-bit.conf
+        #    - mountPath: "/var/log/nginx"
+        #      name: logs-local
+        #      subPath: "$(POD_NAME)/nginx"
       volumes:
         - name: logs-local
           hostPath:
@@ -177,5 +171,5 @@ spec:
           configMap:
             name: config-fluentbit
         - name: secret-https-certificate
-          configMap:
-            name: secret-https-certificate
+          secret:
+            secretName: secret-https-certificate

@@ -1,12 +1,15 @@
 important to do soon:
-    Tets the certificate scripts
-    expose the service in kubernetes
+    uncomment the server probes and debug it (does it maybe need a service? Why port not opened?)
+    uncomment the fluentbit container and fix it (maybe because no log file?)
+    nginx logs for each pod should be separated properly with the pod's name -> check directly on the host
+    manually remove the buggy nginx logs from s3
+    Test with another node if the load balancing is properly done this way
+    use a dynamic IP in case the main node fails?
+    move the command that uses kubectl in a docker container to avoid having a dependency on this command
     check output of the logs and tune it if necessary
-    db backup
-    fluentbit log transfer: use tls
+    db backup automatically every day
     test for the invisible black boxes bug (page had a hidden class with display none important)
     fix test failing
-    do some database backups manually
     log analysis tool? Goaccess?
     republish extension with last bugfixes from december 17
     backup logs from the old infrastructure

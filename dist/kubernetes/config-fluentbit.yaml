@@ -25,6 +25,6 @@ data:
         Match *
         endpoint sfo2.digitaloceanspaces.com
         bucket kanjimi-storage
+        upload_timeout 60m
         store_dir /var/log/nginx/fluentbit_tmp_s3
         s3_key_format /logs/$TAG/%Y-%m/%Y-%m-%d_%H-%M-%S.log
-

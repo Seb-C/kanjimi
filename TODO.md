@@ -1,6 +1,7 @@
 important to do soon:
-    Load-balancer: can fix with DO or must do it myself?
+    Tets the certificate scripts
     remove the health checks from the logs
+    expose the service in kubernetes
     check output of the logs and tune it if necessary
     db backup
     fluentbit log transfer: use tls

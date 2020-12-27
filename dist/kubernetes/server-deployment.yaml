@@ -25,6 +25,18 @@ spec:
             requests:
               cpu: 0.2
               memory: "650M"
+          startupProbe:
+            httpGet:
+              path: /health-check
+              port: 3000
+            periodSeconds: 5
+            failureThreshold: 120
+          livenessProbe:
+            httpGet:
+              path: /health-check
+              port: 3000
+            failureThreshold: 2
+            periodSeconds: 5
           env:
             - name: KANJIMI_DATABASE_HOST
               valueFrom:
@@ -96,6 +108,18 @@ spec:
           ports:
             - containerPort: 80
             - containerPort: 443
+          startupProbe:
+            httpGet:
+              path: /health-check
+              port: 443
+            periodSeconds: 1
+            failureThreshold: 15
+          livenessProbe:
+            httpGet:
+              path: /health-check
+              port: 443
+            failureThreshold: 2
+            periodSeconds: 5
           env:
             - name: KANJIMI_NGINX_COMMENT_TEST_PAGES
               value: "#"

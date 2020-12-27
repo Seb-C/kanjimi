@@ -116,6 +116,14 @@ spec:
             - mountPath: "/var/log/nginx"
               name: logs-local
               subPath: "$(POD_NAME)/nginx"
+            - name: secret-https-certificate
+              mountPath: /etc/ssl/certs/kanjimi.key
+              subPath: privkey.pem
+              readOnly: true
+            - name: secret-https-certificate
+              mountPath: /etc/ssl/certs/kanjimi.crt
+              subPath: fullchain.pem
+              readOnly: true
         - name: fluentbit
           image: fluent/fluent-bit:1.6
           env:
@@ -144,3 +152,6 @@ spec:
         - name: config-fluentbit
           configMap:
             name: config-fluentbit
+        - name: secret-https-certificate
+          configMap:
+            name: secret-https-certificate

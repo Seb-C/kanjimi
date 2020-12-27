@@ -6,6 +6,7 @@ www/js/*.build.js
 www/css/*.build.css
 /cypress/screenshots/
 /cypress/videos/
+/dist/kubernetes/generated/
 /dist/kubernetes/config.yaml
 /dist/extension
 /dist/*.zip
@@ -13,6 +14,8 @@ www/css/*.build.css
 /dist/extension-prod
 /dist/extension-review
 /dist/extension-review.*
+/dist/certificate/config.ini
+/dist/letsencrypt/
 /dist/production/server.env
 /dist/production/ssh_key
 /dist/production/ssh_key.pub

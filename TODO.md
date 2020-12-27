@@ -1,6 +1,5 @@
 important to do soon:
     Tets the certificate scripts
-    remove the health checks from the logs
     expose the service in kubernetes
     check output of the logs and tune it if necessary
     db backup

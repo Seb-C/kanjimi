@@ -16,6 +16,3 @@ www/css/*.build.css
 /dist/extension-review.*
 /dist/certificate/config.ini
 /dist/letsencrypt/
-/dist/production/server.env
-/dist/production/ssh_key
-/dist/production/ssh_key.pub

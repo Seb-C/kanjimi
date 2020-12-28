@@ -5,9 +5,9 @@ services:
     image: postgres:12
     restart: on-failure
     environment:
-      POSTGRES_USER: test
-      POSTGRES_PASSWORD: test
-      POSTGRES_DB: test
+      - POSTGRES_USER=test
+      - POSTGRES_PASSWORD=test
+      - POSTGRES_DB=test
     ports:
       - "5432:5432"
     volumes:
@@ -20,51 +20,63 @@ services:
     volumes:
       - $PWD:/kanjimi
   server:
-    image: node:14-alpine
+    build:
+      context: .
+      dockerfile: ./dist/docker/server.Dockerfile
+      args:
+        - NODE_ENV=development
+        - KANJIMI_API_URL=https://localhost/api
+        - KANJIMI_WWW_URL=https://localhost
     restart: on-failure
-    working_dir: /kanjimi
     depends_on:
       - database
       - watch
+    environment:
+      - KANJIMI_DATABASE_HOST=database
+      - KANJIMI_DATABASE_PORT=5432
+      - KANJIMI_DATABASE_DATABASE=test
+      - KANJIMI_DATABASE_USER=test
+      - KANJIMI_DATABASE_PASSWORD=test
+      - KANJIMI_DATABASE_USE_SSL=false
+      - KANJIMI_SMTP_HOST=smtp
+      - KANJIMI_SMTP_PORT=25
+      - KANJIMI_SMTP_SECURE=false
     env_file:
       - docker-compose.env
-    command: >
-      sh -c "
-        while [ ! -f ./dist/server/Server/server.js ]; do
-          echo 'Waiting for the server source files...'
-          sleep 1
-        done;
-        ./node_modules/.bin/nodemon -w ./dist/server --expose-gc dist/server/Server/server.js
-      "
-    #command: ./node_modules/.bin/nodemon -w ./server --inspect=0.0.0.0:9229 --expose-gc dist/server/Server/server.js
-    healthcheck:
-      test: wget -q https://localhost/api/health-check/ -O /dev/null --no-check-certificate
-      interval: 15s
-      timeout: 3s
-      retries: 3
-      start_period: 2m
-    #ports:
-      #- "9229:9229"
+    user: root
+    command: ./node_modules/.bin/nodemon -w ./dist/server --expose-gc dist/server/Server/server.js
     volumes:
       - $PWD:/kanjimi
       - mails:/tmp/mails
   nginx:
-    image: nginx:1
+    build:
+      context: .
+      dockerfile: ./dist/docker/nginx.Dockerfile
+      args:
+        - KANJIMI_NGINX_REMOVE_TEST_PAGES=false
+        - KANJIMI_NGINX_CERTIFICATE_DOMAIN=localhost
+        - KANJIMI_API_URL=https://localhost/api
+        - KANJIMI_WWW_URL=https://localhost
     restart: on-failure
-    env_file:
-      - docker-compose.env
+    environment:
+      - KANJIMI_NGINX_UPSTREAM=server:3000
+      - KANJIMI_NGINX_DOMAIN=localhost
+      - KANJIMI_NGINX_CACHE_DURATION=0
+      - KANJIMI_NGINX_COMMENT_TEST_PAGES=
+      - KANJIMI_NGINX_COMMENT_FORCE_DOMAIN=#
     depends_on:
       - server
+    volumes:
+      - $PWD/www:/kanjimi/www
     ports:
       - "80:80"
       - "443:443"
-    volumes:
-      - $PWD:/kanjimi
-      - $PWD/dist/nginx/nginx.conf:/etc/nginx/templates/default.conf.template
   extension:
     image: node:14-alpine
     restart: on-failure
     working_dir: /kanjimi
+    environment:
+      - KANJIMI_EXTENSION_HOST=localhost
     env_file:
       - docker-compose.env
     command: >
@@ -74,25 +86,6 @@ services:
       "
     healthcheck:
       test: cat ./dist/extension/content.build.js
-      interval: 3s
-      timeout: 1s
-      retries: 3
-      start_period: 30s
-    volumes:
-      - $PWD:/kanjimi
-  webapp:
-    image: node:14-alpine
-    restart: on-failure
-    working_dir: /kanjimi
-    env_file:
-      - docker-compose.env
-    command: >
-      sh -c "
-        ./node_modules/.bin/webpack --color --config=src/WebApp/webpack.config.js --build;
-        ./node_modules/.bin/webpack --color --config=src/WebApp/webpack.config.js --watch
-      "
-    healthcheck:
-      test: cat ./www/js/app.build.js
       interval: 3s
       timeout: 1s
       retries: 3

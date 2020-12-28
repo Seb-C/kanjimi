@@ -9,19 +9,7 @@ const healthCheckResponseValidator = new Ajv({ allErrors: true }).compile({
 
 describe('HealthCheckController', async function() {
 	it('get', async function() {
-		const response = await fetch('https://localhost/api/health-check');
-		expect(response.status).toBe(200);
-		const responseData = await response.json();
-
-		expect(healthCheckResponseValidator(responseData))
-			.withContext(JSON.stringify(healthCheckResponseValidator.errors))
-			.toBe(true);
-	});
-
-	it('get (not redirected with a different origin)', async function() {
-		const response = await fetch('https://127.0.0.1/api/health-check', {
-			redirect: 'error',
-		});
+		const response = await fetch(process.env.KANJIMI_API_URL + '/health-check');
 		expect(response.status).toBe(200);
 		const responseData = await response.json();
 

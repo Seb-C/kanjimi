@@ -18,8 +18,8 @@ describe('PageController', async function() {
 
 	it('get (checking results)', async function() {
 		const response = await fetch((
-			'https://localhost/api/page?url='
-			+ encodeURIComponent('https://localhost/test-pages/landing-page-examples.html')
+			process.env.KANJIMI_API_URL + '/page?url='
+			+ encodeURIComponent('https://nginx/test-pages/landing-page-examples.html')
 		), {
 			method: 'GET',
 			headers: {
@@ -35,8 +35,8 @@ describe('PageController', async function() {
 
 	it('get (error if not html)', async function() {
 		const response = await fetch((
-			'https://localhost/api/page?url='
-			+ encodeURIComponent('https://localhost/api/health-check')
+			process.env.KANJIMI_API_URL + '/page?url='
+			+ encodeURIComponent('https://nginx/api/health-check')
 		), {
 			method: 'GET',
 			headers: {
@@ -48,8 +48,8 @@ describe('PageController', async function() {
 
 	it('get (error if not GET)', async function() {
 		const response = await fetch((
-			'https://localhost/api/page?url='
-			+ encodeURIComponent('https://localhost/test-pages/landing-page-examples.html')
+			process.env.KANJIMI_API_URL + '/page?url='
+			+ encodeURIComponent('https://nginx/test-pages/landing-page-examples.html')
 		), {
 			method: 'POST',
 			headers: {
@@ -61,8 +61,8 @@ describe('PageController', async function() {
 
 	it('get (does not forward error codes)', async function() {
 		const response = await fetch((
-			'https://localhost/api/page?url='
-			+ encodeURIComponent('https://localhost/test-pages/non-existing.html')
+			process.env.KANJIMI_API_URL + '/page?url='
+			+ encodeURIComponent('https://nginx/test-pages/non-existing.html')
 		), {
 			method: 'GET',
 			headers: {
@@ -74,7 +74,7 @@ describe('PageController', async function() {
 
 	it('get (validation errors)', async function() {
 		const response = await fetch((
-			'https://localhost/api/page?url='
+			process.env.KANJIMI_API_URL + '/page?url='
 			+ encodeURIComponent('not-an-url.html')
 		), {
 			method: 'GET',
@@ -92,7 +92,7 @@ describe('PageController', async function() {
 
 	it('get (follows redirection)', async function() {
 		const response = await fetch((
-			'https://localhost/api/page?url='
+			process.env.KANJIMI_API_URL + '/page?url='
 			+ encodeURIComponent('http://nginx/')
 		), {
 			method: 'GET',
@@ -106,8 +106,8 @@ describe('PageController', async function() {
 
 	it('get (authentication error)', async function() {
 		const response = await fetch((
-			'https://localhost/api/page?url='
-			+ encodeURIComponent('https://localhost/test-pages/landing-page-examples.html')
+			process.env.KANJIMI_API_URL + '/page?url='
+			+ encodeURIComponent('https://nginx/test-pages/landing-page-examples.html')
 		), {
 			method: 'GET',
 			headers: {
@@ -120,8 +120,8 @@ describe('PageController', async function() {
 	it('get (error if too many redirections)', async function() {
 		const timeBefore = +new Date();
 		const response = await fetch((
-			'https://localhost/api/page?url='
-			+ encodeURIComponent('https://localhost/test-pages/infinite-redirect-loop')
+			process.env.KANJIMI_API_URL + '/page?url='
+			+ encodeURIComponent('https://nginx/test-pages/infinite-redirect-loop')
 		), {
 			method: 'GET',
 			headers: {
@@ -136,8 +136,8 @@ describe('PageController', async function() {
 	it('get (error if page > 1Mo)', async function() {
 		const timeBefore = +new Date();
 		const response = await fetch((
-			'https://localhost/api/page?url='
-			+ encodeURIComponent('https://localhost/test-pages/big-file.html')
+			process.env.KANJIMI_API_URL + '/page?url='
+			+ encodeURIComponent('https://nginx/test-pages/big-file.html')
 		), {
 			method: 'GET',
 			headers: {

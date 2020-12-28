@@ -1,0 +1,20 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  labels:
+    app: config
+  name: config
+data:
+  kanjimi_database_host: "kanjimi-db-do-user-7697140-0.a.db.ondigitalocean.com"
+  kanjimi_database_port: "25060"
+  kanjimi_database_database: "kanjimi"
+  kanjimi_database_user: "doadmin"
+  kanjimi_database_password: ""
+  kanjimi_database_use_ssl: "true"
+  kanjimi_smtp_host: "email-smtp.us-west-2.amazonaws.com"
+  kanjimi_smtp_port: "465"
+  kanjimi_smtp_secure: "true"
+  kanjimi_smtp_user: "AKIAZHXPP6JUYZZQMEMY"
+  kanjimi_smtp_pass: ""
+  s3_storage_key: ""
+  s3_storage_secret: ""

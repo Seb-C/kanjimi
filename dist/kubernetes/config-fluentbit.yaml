@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: config-fluentbit
+data:
+  fluent-bit.conf: |
+    [SERVICE]
+        Flush 5
+        Parsers_File parsers.conf
+        Log_Level info
+        HTTP_Server On
+        HTTP_Listen 0.0.0.0
+        HTTP_Port 8081
+
+    [INPUT]
+        Name tail
+        Parser nginx
+        Tag nginx_access
+        DB /kanjimi/logs/nginx-access.fluentbit.db
+        Read_from_Head On
+        Path /kanjimi/logs/*/nginx/access.log
+
+    [INPUT]
+        Name tail
+        Parser nginx
+        Tag nginx_error
+        DB /kanjimi/logs/nginx-error.fluentbit.db
+        Read_from_Head On
+        Path /kanjimi/logs/*/nginx/error.log
+
+    [OUTPUT]
+        Name s3
+        Match *
+        endpoint sfo2.digitaloceanspaces.com
+        bucket kanjimi-storage
+        upload_timeout 60m
+        store_dir /kanjimi/logs/fluentbit_tmp_s3
+        s3_key_format /logs/$TAG/%Y-%m/%Y-%m-%d_%H-%M-%S.log

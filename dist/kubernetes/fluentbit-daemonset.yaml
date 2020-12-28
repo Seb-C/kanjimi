@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: fluentbit
+spec:
+  selector:
+    matchLabels:
+      app: fluentbit
+  template:
+    metadata:
+      labels:
+        app: fluentbit
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: fluentbit
+          image: fluent/fluent-bit:1.6
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 8081
+          readinessProbe:
+            httpGet:
+              path: /api/v1/uptime
+              port: 8081
+            failureThreshold: 2
+            periodSeconds: 5
+          env:
+            - name: AWS_ACCESS_KEY_ID
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: s3_storage_key
+            - name: AWS_SECRET_ACCESS_KEY
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: s3_storage_secret
+          volumeMounts:
+            - name: config-fluentbit
+              mountPath: /fluent-bit/etc/fluent-bit.conf
+              subPath: fluent-bit.conf
+            - mountPath: "/kanjimi/logs"
+              name: logs-local
+      volumes:
+        - name: logs-local
+          hostPath:
+            path: /kanjimi/logs
+            type: DirectoryOrCreate
+        - name: config-fluentbit
+          configMap:
+            name: config-fluentbit

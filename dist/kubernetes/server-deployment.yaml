@@ -1,0 +1,144 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: server
+spec:
+  selector:
+    matchLabels:
+      app: server
+  strategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        app: server
+    spec:
+      restartPolicy: Always
+      containers:
+        - name: server
+          image: registry.digitalocean.com/kanjimi/kanjimi:server
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 3000
+          resources:
+            requests:
+              cpu: 0.2
+              memory: "650M"
+          readinessProbe:
+            httpGet:
+              path: /health-check
+              port: 3000
+              scheme: HTTP
+            failureThreshold: 2
+            periodSeconds: 5
+          env:
+            - name: KANJIMI_DATABASE_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_database_host
+            - name: KANJIMI_DATABASE_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_database_port
+            - name: KANJIMI_DATABASE_DATABASE
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_database_database
+            - name: KANJIMI_DATABASE_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_database_user
+            - name: KANJIMI_DATABASE_PASSWORD
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_database_password
+            - name: KANJIMI_DATABASE_USE_SSL
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_database_use_ssl
+            - name: KANJIMI_SMTP_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_smtp_host
+            - name: KANJIMI_SMTP_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_smtp_port
+            - name: KANJIMI_SMTP_SECURE
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_smtp_secure
+            - name: KANJIMI_SMTP_USER
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_smtp_user
+            - name: KANJIMI_SMTP_PASS
+              valueFrom:
+                configMapKeyRef:
+                  name: config
+                  key: kanjimi_smtp_pass
+            - name: KANJIMI_API_URL
+              value: "https://www.kanjimi.com/api"
+            - name: KANJIMI_WWW_URL
+              value: "https://www.kanjimi.com"
+            - name: NODE_ENV
+              value: "production"
+        - name: nginx
+          image: registry.digitalocean.com/kanjimi/kanjimi:nginx
+          imagePullPolicy: Always
+          ports:
+            - containerPort: 80
+            - containerPort: 443
+          readinessProbe:
+            httpGet:
+              path: /health-check
+              port: 443
+              scheme: HTTPS
+            failureThreshold: 3
+            periodSeconds: 3
+          env:
+            - name: KANJIMI_NGINX_COMMENT_TEST_PAGES
+              value: "#"
+            - name: KANJIMI_NGINX_UPSTREAM
+              value: "127.0.0.1:3000"
+            - name: KANJIMI_NGINX_DOMAIN
+              value: "www.kanjimi.com"
+            - name: KANJIMI_NGINX_COMMENT_FORCE_DOMAIN
+              value: ""
+            - name: KANJIMI_NGINX_CACHE_DURATION
+              value: "30m"
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+          volumeMounts:
+            - mountPath: "/var/log/nginx"
+              name: logs-local
+              subPathExpr: "$(POD_NAME)/nginx"
+            - name: secret-https-certificate
+              mountPath: /etc/ssl/certs/kanjimi.key
+              subPath: privkey.pem
+              readOnly: true
+            - name: secret-https-certificate
+              mountPath: /etc/ssl/certs/kanjimi.crt
+              subPath: fullchain.pem
+              readOnly: true
+      volumes:
+        - name: logs-local
+          hostPath:
+            path: /kanjimi/logs
+            type: DirectoryOrCreate
+        - name: secret-https-certificate
+          secret:
+            secretName: secret-https-certificate

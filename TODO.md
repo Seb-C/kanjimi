@@ -1,7 +1,8 @@
 important to do soon:
-    nginx logs for each pod should be separated properly with the pod's name -> check directly on the host
-        -> should be right on s# as well
+    manually remove the buggy nginx logs and db files from the node
     manually remove the buggy nginx logs from s3
+    configure ssh access to the nodes?
+    remove ssh from the firewall
     Test with another node if the load balancing is properly done this way
     use a dynamic IP in case the main node fails?
     move the command that uses kubectl in a docker container to avoid having a dependency on this command

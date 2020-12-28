@@ -38,6 +38,7 @@ kubectl apply \
     --filename ./dist/kubernetes/generated/secret-https-certificate.yaml \
     --filename ./dist/kubernetes/config.yaml \
     --filename ./dist/kubernetes/config-fluentbit.yaml \
+    --filename ./dist/kubernetes/fluentbit-daemonset.yaml \
     --filename ./dist/kubernetes/server-deployment.yaml \
     --filename ./dist/kubernetes/server-hpa.yaml \
     --filename ./dist/kubernetes/server-service.yaml \

@@ -16,17 +16,17 @@ data:
         Name tail
         Parser nginx
         Tag nginx_access
-        DB /var/log/nginx/access.fluentbit.db
+        DB /kanjimi/logs/nginx-access.fluentbit.db
         Read_from_Head On
-        Path /var/log/nginx/access.log
+        Path /kanjimi/logs/*/nginx/access.log
 
     [INPUT]
         Name tail
         Parser nginx
         Tag nginx_error
-        DB /var/log/nginx/error.fluentbit.db
+        DB /kanjimi/logs/nginx-error.fluentbit.db
         Read_from_Head On
-        Path /var/log/nginx/error.log
+        Path /kanjimi/logs/*/nginx/error.log
 
     [OUTPUT]
         Name s3
@@ -34,5 +34,5 @@ data:
         endpoint sfo2.digitaloceanspaces.com
         bucket kanjimi-storage
         upload_timeout 60m
-        store_dir /var/log/nginx/fluentbit_tmp_s3
+        store_dir /kanjimi/logs/fluentbit_tmp_s3
         s3_key_format /logs/$TAG/%Y-%m/%Y-%m-%d_%H-%M-%S.log

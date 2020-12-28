@@ -1,5 +1,4 @@
 important to do soon:
-    uncomment the server probes and debug it (does it maybe need a service? Why port not opened?)
     uncomment the fluentbit container and fix it (maybe because no log file?)
     nginx logs for each pod should be separated properly with the pod's name -> check directly on the host
     manually remove the buggy nginx logs from s3

@@ -25,19 +25,12 @@ spec:
             requests:
               cpu: 0.2
               memory: "650M"
-          #startupProbe:
-          #  httpGet:
-          #    path: /health-check
-          #    port: 3000
-          #  periodSeconds: 1
-          #  failureThreshold: 60
-          #readinessProbe:
-          #  httpGet:
-          #    path: /health-check
-          #    port: 3000
-          #  initialDelaySeconds: 60
-          #  failureThreshold: 2
-          #  periodSeconds: 5
+          readinessProbe:
+            httpGet:
+              path: /health-check
+              port: 3000
+            failureThreshold: 2
+            periodSeconds: 5
           env:
             - name: KANJIMI_DATABASE_HOST
               valueFrom:

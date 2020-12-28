@@ -4,9 +4,17 @@ metadata:
   name: config-fluentbit
 data:
   fluent-bit.conf: |
+    [SERVICE]
+        Flush 5
+        Parsers_File parsers.conf
+        Log_Level info
+        HTTP_Server On
+        HTTP_Listen 0.0.0.0
+        HTTP_Port 8081
+
     [INPUT]
         Name tail
-        Format nginx
+        Parser nginx
         Tag nginx_access
         DB /var/log/nginx/access.fluentbit.db
         Read_from_Head On
@@ -14,7 +22,7 @@ data:
 
     [INPUT]
         Name tail
-        Format nginx
+        Parser nginx
         Tag nginx_error
         DB /var/log/nginx/error.fluentbit.db
         Read_from_Head On

@@ -1,6 +1,6 @@
 important to do soon:
-    uncomment the fluentbit container and fix it (maybe because no log file?)
     nginx logs for each pod should be separated properly with the pod's name -> check directly on the host
+        -> should be right on s# as well
     manually remove the buggy nginx logs from s3
     Test with another node if the load balancing is properly done this way
     use a dynamic IP in case the main node fails?

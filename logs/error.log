@@ -1,3 +1,0 @@
-2020/12/22 12:24:12 [error] 38#38: *6 connect() failed (111: Connection refused) while connecting to upstream, client: 172.18.0.1, server: , request: "GET /api/api-key HTTP/1.1", upstream: "http://172.18.0.7:3000/api-key", host: "localhost", referrer: "https://localhost/app/"
-2020/12/22 12:24:16 [error] 38#38: *6 open() "/kanjimi/www/sadfghjklkjhf" failed (2: No such file or directory), client: 172.18.0.1, server: , request: "GET /sadfghjklkjhf HTTP/1.1", host: "localhost"
-2020/12/22 12:24:16 [error] 38#38: *6 open() "/kanjimi/www/favicon.ico" failed (2: No such file or directory), client: 172.18.0.1, server: , request: "GET /favicon.ico HTTP/1.1", host: "localhost", referrer: "https://localhost/sadfghjklkjhf"

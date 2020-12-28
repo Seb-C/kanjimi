@@ -1,25 +1,24 @@
 important to do soon:
-    manually remove the buggy nginx logs and db files from the node
-    manually remove the buggy nginx logs from s3
-    configure ssh access to the nodes?
-    remove ssh from the firewall
-    Test with another node if the load balancing is properly done this way
-    use a dynamic IP in case the main node fails?
-    move the command that uses kubectl in a docker container to avoid having a dependency on this command
-    check output of the logs and tune it if necessary
     db backup automatically every day
+    test the new infrastructure with the domain in the local hosts file
+    migrate the domain
+    remove ssh from the firewall
+    backup logs from the old infrastructure
+    set autoscale after removing old droplets
+    get and install second server
+    check logs one last time
+    transfer logs form the old server
+    move the command that uses kubectl in a docker container to avoid having a dependency on this command
     test for the invisible black boxes bug (page had a hidden class with display none important)
     fix test failing
     log analysis tool? Goaccess?
     republish extension with last bugfixes from december 17
-    backup logs from the old infrastructure
-    set autoscale after removing old droplets
     test charge
-    get and install second server
     post on producthunt
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    in-cluster registry?
     CI tests -> run on the raw docker images (without the development-related stuff?)
     clean this TODO-list
     custom 404 page instead of the default one from nginx

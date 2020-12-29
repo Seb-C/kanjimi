@@ -1,5 +1,5 @@
 important to do soon:
-    db backup automatically every day
+    check that the daily backup actually worked
     test for the invisible black boxes bug (page had a hidden class with display none important)
     fix test failing
     republish extension with last bugfixes from december 17
@@ -8,6 +8,8 @@ important to do soon:
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    self-host the images registry
+    CI became slow because it has to build the docker images
     use Kanjimi more (set a daily planning?)
     move the command that uses kubectl in a docker container to avoid having a dependency on this command
     log analysis tool? Goaccess?
@@ -34,6 +36,7 @@ After:
         tablet -> don't show the username? Show the buttons instead
     automate the file list in the PWA's service worker
     dictionary page (+ kanjis?)
+    trademark? copyright?
     Rename master branch to production
     Make a development branch
     Automatic deployment when the production branch is deployed?

@@ -15,6 +15,10 @@ data:
   fullchain.pem: $(cat ./dist/letsencrypt/live/kanjimi.com/fullchain.pem | base64 -w 0)
 " > ./dist/kubernetes/generated/secret-https-certificate.yaml
 
+#docker build \
+#    -t registry.digitalocean.com/kanjimi/kanjimi:backup \
+#    -f ./dist/docker/backup.Dockerfile \
+#    .
 docker build \
     -t registry.digitalocean.com/kanjimi/kanjimi:server \
     --build-arg NODE_ENV=production \
@@ -31,6 +35,7 @@ docker build \
     -f ./dist/docker/nginx.Dockerfile \
     .
 
+#docker push registry.digitalocean.com/kanjimi/kanjimi:backup
 docker push registry.digitalocean.com/kanjimi/kanjimi:server
 docker push registry.digitalocean.com/kanjimi/kanjimi:nginx
 
@@ -39,6 +44,7 @@ kubectl apply \
     --filename ./dist/kubernetes/generated/secret-https-certificate.yaml \
     --filename ./dist/kubernetes/config.yaml \
     --filename ./dist/kubernetes/config-fluentbit.yaml \
+    --filename ./dist/kubernetes/backup-cronjob.yaml \
     --filename ./dist/kubernetes/fluentbit-daemonset.yaml \
     --filename ./dist/kubernetes/server-deployment.yaml \
     --filename ./dist/kubernetes/server-hpa.yaml \

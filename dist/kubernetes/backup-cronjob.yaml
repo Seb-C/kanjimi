@@ -1,0 +1,68 @@
+apiVersion: batch/v1beta1
+kind: CronJob
+metadata:
+  name: backup
+spec:
+  schedule: "@daily"
+  concurrencyPolicy: Replace
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 3
+  jobTemplate:
+    spec:
+      template:
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: backup
+              image: registry.digitalocean.com/kanjimi/kanjimi:backup
+              imagePullPolicy: Always
+              command: ["/bin/sh", "-c"]
+              args:
+                - |
+                  pg_dump > /tmp/kanjimi_dump;
+                  export S3_UPLOAD_PATH=s3://kanjimi-storage/backups/pgsql/$(date +%Y-%m)/$(date -Is).sql;
+                  export S3_HOST_BUCKET="%(bucket)s.$S3_HOST"
+                  s3cmd --host $S3_HOST --host-bucket $S3_HOST_BUCKET put /tmp/kanjimi_dump $S3_UPLOAD_PATH
+              env:
+                - name: PGHOST
+                  valueFrom:
+                    configMapKeyRef:
+                      name: config
+                      key: kanjimi_database_host
+                - name: PGPORT
+                  valueFrom:
+                    configMapKeyRef:
+                      name: config
+                      key: kanjimi_database_port
+                - name: PGUSER
+                  valueFrom:
+                    configMapKeyRef:
+                      name: config
+                      key: kanjimi_database_user
+                - name: PGPASSWORD
+                  valueFrom:
+                    configMapKeyRef:
+                      name: config
+                      key: kanjimi_database_password
+                - name: PGDATABASE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: config
+                      key: kanjimi_database_database
+                - name: PGSSLMODE
+                  valueFrom:
+                    configMapKeyRef:
+                      name: config
+                      key: kanjimi_database_cli_sslmode
+                - name: AWS_ACCESS_KEY_ID
+                  valueFrom:
+                    configMapKeyRef:
+                      name: config
+                      key: s3_storage_key
+                - name: S3_HOST
+                  value: sfo2.digitaloceanspaces.com
+                - name: AWS_SECRET_ACCESS_KEY
+                  valueFrom:
+                    configMapKeyRef:
+                      name: config
+                      key: s3_storage_secret

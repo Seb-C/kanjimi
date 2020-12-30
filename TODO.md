@@ -1,8 +1,9 @@
 important to do soon:
-    post on producthunt
+    view th eproducthunt results and take care of the feedbacks
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
+    tooltip's cross is buggy again
     self-host the images registry
     CI became slow because it has to build the docker images
         + fix test failing in CI

@@ -26,4 +26,4 @@ db:
 extension:
 	./src/Extension/build.sh
 deploy:
-	./dist/production/deploy.sh
+	./dist/kubernetes/deploy.sh

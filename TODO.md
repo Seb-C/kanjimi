@@ -1,15 +1,11 @@
 important to do soon:
-    check that the daily backup actually worked
-    test for the invisible black boxes bug (page had a hidden class with display none important)
-    fix test failing
-    republish extension with last bugfixes from december 17
-    test charge
     post on producthunt
     kiss-orm: v2 + get referenced in some sites or indexes of ORMs
 
 After:
     self-host the images registry
     CI became slow because it has to build the docker images
+        + fix test failing in CI
     use Kanjimi more (set a daily planning?)
     move the command that uses kubectl in a docker container to avoid having a dependency on this command
     log analysis tool? Goaccess?

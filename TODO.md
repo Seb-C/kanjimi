@@ -1,6 +1,5 @@
 important to do soon:
-    view th eproducthunt results and take care of the feedbacks
-    kiss-orm: v2 + get referenced in some sites or indexes of ORMs
+    kiss-orm: get referenced in some sites or indexes of ORMs
 
 After:
     tooltip's cross is buggy again

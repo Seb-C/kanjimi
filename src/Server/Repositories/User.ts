@@ -91,8 +91,8 @@ export default class User extends CrudRepository<UserModel, Params, string> {
 		attributes: AllowedParams,
 		transactionCallback: ((user: UserModel) => Promise<void>)|null = null,
 	): Promise<UserModel> {
-		return this.database.sequence(async query => {
-			await query(sql`BEGIN;`);
+		return this.database.sequence(async sequenceDb => {
+			await sequenceDb.query(sql`BEGIN;`);
 
 			try {
 				const uuid = uuidv4();
@@ -106,7 +106,7 @@ export default class User extends CrudRepository<UserModel, Params, string> {
 				const fields = entries.map(([key, _]: [string, any]) => sql`${new QueryIdentifier(key)}`);
 				const values = entries.map(([_, val]: [string, any]) => sql`${val}`);
 
-				const results = await query(sql`
+				const results = await sequenceDb.query(sql`
 					INSERT INTO "User" (${sqlJoin(fields, sql`, `)})
 					VALUES (${sqlJoin(values, sql`, `)})
 					RETURNING *;
@@ -118,11 +118,11 @@ export default class User extends CrudRepository<UserModel, Params, string> {
 					await transactionCallback(user);
 				}
 
-				await query(sql`COMMIT;`);
+				await sequenceDb.query(sql`COMMIT;`);
 
 				return user;
 			} catch (error) {
-				await query(sql`ROLLBACK;`);
+				await sequenceDb.query(sql`ROLLBACK;`);
 				throw error;
 			}
 		});

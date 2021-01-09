@@ -65,4 +65,24 @@ export default class Word {
 
 		return null;
 	}
+
+	canBeConjugated(): boolean {
+		return !this.tags.some(tag => {
+			return [
+				WordTag.NAME,
+				WordTag.NAME_ARTWORK,
+				WordTag.NAME_COMPANY,
+				WordTag.NAME_FEMALE,
+				WordTag.NAME_GIVEN,
+				WordTag.NAME_MALE,
+				WordTag.NAME_OLD,
+				WordTag.NAME_ORGANIZATION,
+				WordTag.NAME_PERSON,
+				WordTag.NAME_PLACE,
+				WordTag.NAME_PRODUCT,
+				WordTag.NAME_STATION,
+				WordTag.NAME_UNCLASSIFIED,
+			].includes(tag);
+		});
+	}
 }

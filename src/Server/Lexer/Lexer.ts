@@ -2,6 +2,7 @@ import Conjugations from 'Server/Lexer/Conjugations';
 import Conjugation from 'Common/Models/Conjugation';
 import Token from 'Common/Models/Token';
 import CharType from 'Common/Types/CharType';
+import WordTag from 'Common/Types/WordTag';
 import TokenType from 'Common/Types/TokenType';
 import Language from 'Common/Types/Language';
 import Dictionary from 'Server/Lexer/Dictionary';
@@ -164,7 +165,11 @@ export default class Lexer {
 				const words: Word[] = [];
 				const matchingForms: Conjugation[] = [];
 				forms.forEach((form: Conjugation) => {
-					const wordsFound = this.dictionary.get(prefix + form.dictionaryForm, langs);
+					let wordsFound = this.dictionary.get(prefix + form.dictionaryForm, langs);
+					wordsFound = wordsFound.filter(word => {
+						return word.canBeConjugated();
+					});
+
 					words.push(...wordsFound);
 					if (wordsFound.length > 0) {
 						matchingForms.push(form);

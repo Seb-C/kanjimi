@@ -7,6 +7,7 @@
 			<li>Fixing some punctuation that had invisible definitions are were interactive</li>
 			<li>Trying to show short alternative definitions below words rather than long ones that breaks the flow of the text</li>
 			<li>Minor improvements about words recognition</li>
+			<li>Fixed some names looking like verbs being mis-identified</li>
 		</ul>
 
 		<h2>2020年12月17日</h2>

@@ -1,4 +1,3 @@
-fix があります
 check order of names (should come after words)
 join sentences splitted in divs?
 post kanjimi on linkedin

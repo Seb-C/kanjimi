@@ -64,4 +64,12 @@ describe('Word', function() {
 		word = new Word('', '', Language.FRENCH, '', [WordTag.JLPT_4, WordTag.JLPT_3]);
 		expect(word.getJlptLevel()).toBe(4);
 	});
+
+	it('canBeConjugated', function() {
+		const word = new Word('', '', Language.FRENCH, '', [WordTag.NAME_FEMALE]);
+		expect(word.canBeConjugated()).toEqual(false);
+
+		const word2 = new Word('', '', Language.FRENCH, '', [WordTag.VERB_AUXILIARY]);
+		expect(word2.canBeConjugated()).toEqual(true);
+	});
 });

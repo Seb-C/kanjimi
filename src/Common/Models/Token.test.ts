@@ -51,6 +51,15 @@ describe('Token', function() {
 
 		expect(token.getTranslation()).toBe('test translation');
 	});
+	it('getTranslation - length should not be too long', async function() {
+		const token = new Token('ああ', TokenType.WORD, [
+			new Word('', '', Language.FRENCH, 'lorem ipsum dolor sit amet', []),
+			new Word('', '', Language.FRENCH, 'lorem ipsum dolor sit amet', []),
+			new Word('', '', Language.FRENCH, 'aa', []),
+		]);
+
+		expect(token.getTranslation()).toBe('aa');
+	});
 	it('getFurigana', async function() {
 		const token = new Token('text', TokenType.PARTICLE, [
 			new Word('', 'test reading', Language.FRENCH, '', []),

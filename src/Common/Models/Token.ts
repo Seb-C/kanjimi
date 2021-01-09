@@ -46,7 +46,21 @@ export default class Token {
 			return null;
 		}
 
-		return this.words[0].getShortTranslation();
+		// Trying to roughly estimate the displayed length
+		const maxAcceptableLength = (this.text.length * 6);
+
+		let translation = this.words[0].getShortTranslation();
+		if (translation.length > maxAcceptableLength) {
+			for (let i = 1; i < this.words.length; i++) {
+				const currentTranslation = this.words[i].getShortTranslation();
+				if (currentTranslation.length <= maxAcceptableLength) {
+					translation = currentTranslation;
+					break;
+				}
+			}
+		}
+
+		return translation;
 	}
 
 	public toApi(): Object {

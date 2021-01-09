@@ -98,7 +98,11 @@
 		},
 		computed: {
 			hasFurigana() {
-				return this.getFurigana() !== this.token.text;
+				const furigana = this.getFurigana();
+				return (
+					furigana !== this.token.text
+					&& furigana !== null
+				);
 			},
 			showFurigana() {
 				if (!this.$root.wordStatuses[this.token.text]) {
@@ -109,7 +113,11 @@
 			},
 
 			hasTranslation() {
-				return this.token.type !== TokenType.PARTICLE;
+				const translation = this.getTranslation();
+				return (
+					this.token.type !== TokenType.PARTICLE
+					&& translation !== null
+				);
 			},
 			showTranslation() {
 				if (!this.$root.wordStatuses[this.token.text]) {

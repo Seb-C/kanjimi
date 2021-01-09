@@ -98,4 +98,12 @@ context('Token', () => {
 		cy.visit('/test-pages/wikipedia.html');
 		cy.get('#firstHeading .kanjimi-sentence .token .furigana:contains(にほん)').should('exist');
 	});
+
+	it('Brackets have no furigana or translation', () => {
+		cy.setLoggedIn();
+		cy.visit('/test-pages/specific-tests.html');
+
+		cy.get('.brackets .token .furigana.none').should('exist');
+		cy.get('.brackets .token .translation.none').should('exist');
+	});
 });

@@ -26,7 +26,7 @@ export default class Token {
 		this.forms = [...forms];
 	}
 
-	public getFurigana(): string {
+	public getFurigana(): string|null {
 		let reading = '';
 		if (this.words.length > 0) {
 			reading = this.words[0].reading;
@@ -38,12 +38,12 @@ export default class Token {
 			reading = reading + this.forms[0].conjugation;
 		}
 
-		return reading;
+		return reading === '' ? null : reading;
 	}
 
-	public getTranslation(): string {
+	public getTranslation(): string|null {
 		if (this.words.length === 0) {
-			return '';
+			return null;
 		}
 
 		return this.words[0].getShortTranslation();

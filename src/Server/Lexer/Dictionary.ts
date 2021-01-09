@@ -5,6 +5,8 @@ import * as FileSystem from 'fs';
 import * as Path from 'path';
 import * as ReadLine from 'readline';
 import parseCsvLine from 'Server/Lexer/Utils/parseCsvLine';
+import filteredWords from 'Server/Lexer/data/filteredWords';
+import forceIndexByReading from 'Server/Lexer/data/forceIndexByReading';
 
 class LinkedListWord extends Word {
 	public next: LinkedListWord|null = null;
@@ -120,6 +122,10 @@ export default class Dictionary {
 				resolve();
 			});
 		});
+
+		filteredWords.forEach((word: string) => {
+			this.words.delete(word);
+		});
 	}
 
 	add (
@@ -142,10 +148,13 @@ export default class Dictionary {
 
 		if (
 			wordString !== reading
-			&& tags.some(tag => (
-				tag === WordTag.ONLY_KANA
-				|| tag === WordTag.ONLY_KANA_WRITING
-			))
+			&& (
+				tags.some(tag => (
+					tag === WordTag.ONLY_KANA
+					|| tag === WordTag.ONLY_KANA_WRITING
+				))
+				|| forceIndexByReading.has(wordString)
+			)
 		) {
 			// Indexing by reading
 			if (this.words.has(reading)) {

@@ -1,19 +1,16 @@
-check order of names (should come after words)
+publish latest changes
 join sentences splitted in divs?
 post kanjimi on linkedin
 post kiss-orm on the orm list on github
 post kiss-orm in the most upvoted post about nodejs orms
 easy way to google translate sentence
-self-host the images registry
 CI became slow because it has to build the docker images
     + fix test failing in CI
-use Kanjimi more (set a daily planning?)
 move the command that uses kubectl in a docker container to avoid having a dependency on this command
 log analysis tool? Goaccess?
 auto update of the cluster? -> service would be down randomly (domain entrypoint = main node + it is more powerful than the other nodes)
-in-cluster registry?
+self-host the registry in the cluster?
 CI tests -> run on the raw docker images (without the development-related stuff?)
-clean this TODO-list
 custom 404 page instead of the default one from nginx
 Fix pull-to-refresh on Google Chrome?
 stop storing URLS: Privacy problem (gdrive, discord, google meet, slack channels...)

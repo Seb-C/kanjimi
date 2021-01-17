@@ -16,3 +16,4 @@ www/css/*.build.css
 /dist/extension-review.*
 /dist/certificate/config.ini
 /dist/letsencrypt/
+/dist/backup/

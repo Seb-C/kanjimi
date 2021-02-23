@@ -2,4 +2,4 @@
 
 set -e
 
-s3cmd sync s3://kanjimi-storage ./dist/backup
+s3cmd sync --no-preserve --skip-existing s3://kanjimi-storage/ ./dist/backup/

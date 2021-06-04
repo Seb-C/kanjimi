@@ -2,6 +2,8 @@
 
 set -e
 
+export DOCKER_BUILDKIT=0
+
 echo "
 apiVersion: v1
 kind: Secret
@@ -15,10 +17,10 @@ data:
   fullchain.pem: $(cat ./dist/letsencrypt/live/kanjimi.com/fullchain.pem | base64 -w 0)
 " > ./dist/kubernetes/generated/secret-https-certificate.yaml
 
-#docker build \
-#    -t registry.digitalocean.com/kanjimi/kanjimi:backup \
-#    -f ./dist/docker/backup.Dockerfile \
-#    .
+docker build \
+    -t registry.digitalocean.com/kanjimi/kanjimi:backup \
+    -f ./dist/docker/backup.Dockerfile \
+    .
 docker build \
     -t registry.digitalocean.com/kanjimi/kanjimi:server \
     --build-arg NODE_ENV=production \
@@ -35,6 +37,9 @@ docker build \
     -f ./dist/docker/nginx.Dockerfile \
     .
 
+doctl registry login
+
+# Commented because strangely, it causes a quota error by DO (even if it does not actually changes anything)
 #docker push registry.digitalocean.com/kanjimi/kanjimi:backup
 docker push registry.digitalocean.com/kanjimi/kanjimi:server
 docker push registry.digitalocean.com/kanjimi/kanjimi:nginx

@@ -11,7 +11,6 @@ docker run \
     -m contact@kanjimi.com \
     --agree-tos \
     --no-eff-email \
-    --manual-public-ip-logging-ok \
     --force-renewal \
     -d kanjimi.com \
     -d www.kanjimi.com \

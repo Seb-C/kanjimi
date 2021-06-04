@@ -1,3 +1,5 @@
+Fix certificate renewal script adding -000X suffixes
+Debug Kanjimi on Vivaldi
 publish latest changes
 join sentences splitted in divs?
 post kanjimi on linkedin
